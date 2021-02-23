@@ -89,6 +89,52 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
+	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter must be number
+	/// To get font color based on brightness of background color use ! as parameter
+	/// </summary>
+	public class conv_Color : MarkupExtension, IValueConverter
+	{
+		private static conv_Color _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_Color();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			Color color = ColorTranslator.FromHtml(value.ToString());
+
+			if (parameter.ToString() == "!")
+				return color.GetBrightness() < 0.5 ? Color.White : Color.Black;
+
+			int r = color.R, g = color.G, b = color.B;
+			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+			r += System.Convert.ToInt32((param > 0 ? 255 - r : r) * param);
+			g += System.Convert.ToInt32((param > 0 ? 255 - g : g) * param);
+			b += System.Convert.ToInt32((param > 0 ? 255 - b : b) * param);
+
+			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			Color color = ColorTranslator.FromHtml(value.ToString());
+
+			if (parameter.ToString() == "!")
+				return value;
+
+			byte r = color.R, g = color.G, b = color.B;
+			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+			r = System.Convert.ToByte((-255 * param + r) / (1 - param));
+			g = System.Convert.ToByte((-255 * param + g) / (1 - param));
+			b = System.Convert.ToByte((-255 * param + b) / (1 - param));
+			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
+		}
+	}
+
+	/// <summary>
 	/// Compare string to string : parameter must be string
 	/// </summary>
 	public class conv_CompareStrings : MarkupExtension, IValueConverter
@@ -194,48 +240,27 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter must be number
-	/// To get font color based on brightness of background color use ! as parameter
+	/// Convert string -> bool : parameter must be string
+	/// If value == parameter then true else false
 	/// </summary>
-	public class conv_Color : MarkupExtension, IValueConverter
+	public class conv_StringToBool : MarkupExtension, IValueConverter
 	{
-		private static conv_Color _conv = null;
+		private static conv_StringToBool _conv = null;
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			if (_conv == null)
-				_conv = new conv_Color();
+				_conv = new conv_StringToBool();
 			return _conv;
 		}
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			Color color = ColorTranslator.FromHtml(value.ToString());
-
-			if (parameter.ToString() == "!")
-				return color.GetBrightness() < 0.5 ? Color.White : Color.Black;
-
-			int r = color.R, g = color.G, b = color.B;
-			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
-			r += System.Convert.ToInt32((param > 0 ? 255 - r : r) * param);
-			g += System.Convert.ToInt32((param > 0 ? 255 - g : g) * param);
-			b += System.Convert.ToInt32((param > 0 ? 255 - b : b) * param);
-
-			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
+			return value?.ToString() == parameter?.ToString();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			Color color = ColorTranslator.FromHtml(value.ToString());
-
-			if (parameter.ToString() == "!")
-				return value;
-
-			byte r = color.R, g = color.G, b = color.B;
-			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
-			r = System.Convert.ToByte((-255 * param + r) / (1 - param));
-			g = System.Convert.ToByte((-255 * param + g) / (1 - param));
-			b = System.Convert.ToByte((-255 * param + b) / (1 - param));
-			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
+			return value?.ToString() == parameter?.ToString();
 		}
 	}
 }
