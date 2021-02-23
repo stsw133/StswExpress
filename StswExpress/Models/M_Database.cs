@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace StswExpress.Models
 {
@@ -71,7 +72,7 @@ namespace StswExpress.Models
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Błąd wczytywania listy baz danych: {ex.Message}");
+				Console.WriteLine($"{MethodBase.GetCurrentMethod().Name}{Environment.NewLine}Błąd wczytywania listy baz danych:{Environment.NewLine}{ex.Message}");
 			}
 
 			return result;
@@ -100,7 +101,7 @@ namespace StswExpress.Models
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Błąd zapisywania listy baz danych: {ex.Message}");
+				Console.WriteLine($"{MethodBase.GetCurrentMethod().Name}{Environment.NewLine}Błąd zapisywania listy baz danych:{Environment.NewLine}{ex.Message}");
 			}
 		}
 	}
