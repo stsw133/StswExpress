@@ -1,0 +1,16 @@
+﻿<StackPanel x:Class="StswExpress.Controls.Header"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:g="clr-namespace:StswExpress.Globals"
+            mc:Ignorable="d" d:DesignWidth="100"
+            Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
+            Orientation="Horizontal">
+    <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.5}"
+           Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
+           Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+    <TextBlock Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
+               Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+               VerticalAlignment="Center"/>
+</StackPanel>
