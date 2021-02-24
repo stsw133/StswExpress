@@ -9,7 +9,7 @@ using System.Windows.Markup;
 namespace StswExpress.Globals
 {
 	/// <summary>
-	/// Convert bool -> !bool , bool -> !Visibility : parameter must be bool
+	/// Convert bool -> !bool , bool -> !Visibility : parameter must be a bool
 	/// </summary>
 	public class conv_BoolInverted : MarkupExtension, IValueConverter
 	{
@@ -40,7 +40,7 @@ namespace StswExpress.Globals
 
 	/// <summary>
 	/// Convert bool -> string : parameter must be like 'string~string'
-	/// If true then string is on left side of ~ else on right side
+	/// If true then get string on left side of ~ else get string on right side
 	/// </summary>
 	public class conv_BoolToString : MarkupExtension, IValueConverter
 	{
@@ -89,112 +89,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Compare string to string : parameter must be string
-	/// </summary>
-	public class conv_CompareStrings : MarkupExtension, IValueConverter
-	{
-		private static conv_CompareStrings _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_CompareStrings();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value?.ToString() == (parameter?.ToString() ?? string.Empty))
-			{
-				if (targetType == typeof(Visibility))
-					return Visibility.Visible;
-				else
-					return true;
-			}
-			else
-			{
-				if (targetType == typeof(Visibility))
-					return Visibility.Collapsed;
-				else
-					return false;
-			}
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (targetType == typeof(Visibility))
-				return Visibility.Collapsed;
-			else
-				return false;
-		}
-	}
-
-	/// <summary>
-	/// Convert list.contains(string) : parameter must be string
-	/// If true then returns true or Visibility.Visible else returns false or Visibility.Collapsed
-	/// </summary>
-	public class conv_ListContains : MarkupExtension, IValueConverter
-	{
-		private static conv_ListContains _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_ListContains();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if ((value as List<string>).Contains(parameter.ToString().TrimStart('!')))
-			{
-				if (targetType == typeof(Visibility))
-					return parameter.ToString()[0] != '!' ? Visibility.Visible : Visibility.Collapsed;
-				else
-					return parameter.ToString()[0] != '!' ? true : false;
-			}
-			else
-			{
-				if (targetType == typeof(Visibility))
-					return parameter.ToString()[0] != '!' ? Visibility.Collapsed : Visibility.Visible;
-				else
-					return parameter.ToString()[0] != '!' ? false : true;
-			}
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (targetType == typeof(Visibility))
-				return Visibility.Collapsed;
-			else
-				return false;
-		}
-	}
-
-	/// <summary>
-	/// Convert double -> double * double : parameter must be number
-	/// </summary>
-	public class conv_Size : MarkupExtension, IValueConverter
-	{
-		private static conv_Size _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_Size();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return System.Convert.ToDouble(value, CultureInfo.InvariantCulture) * System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return System.Convert.ToDouble(value, CultureInfo.InvariantCulture) / System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
-		}
-	}
-
-	/// <summary>
-	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter must be number
+	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter must be a number
 	/// To get font color based on brightness of background color use ! as parameter
 	/// </summary>
 	public class conv_Color : MarkupExtension, IValueConverter
@@ -236,6 +131,154 @@ namespace StswExpress.Globals
 			g = System.Convert.ToByte((-255 * param + g) / (1 - param));
 			b = System.Convert.ToByte((-255 * param + b) / (1 - param));
 			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
+		}
+	}
+
+	/// <summary>
+	/// Compare value to parameter
+	/// </summary>
+	public class conv_Compare : MarkupExtension, IValueConverter
+	{
+		private static conv_Compare _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_Compare();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value?.ToString() == (parameter?.ToString() ?? string.Empty))
+			{
+				if (targetType == typeof(Visibility))
+					return Visibility.Visible;
+				else
+					return true;
+			}
+			else
+			{
+				if (targetType == typeof(Visibility))
+					return Visibility.Collapsed;
+				else
+					return false;
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType == typeof(Visibility))
+				return Visibility.Collapsed;
+			else
+				return false;
+		}
+	}
+
+	/// <summary>
+	/// Convert List.Contains(string) : parameter must be a string
+	/// If true then returns true or Visibility.Visible else returns false or Visibility.Collapsed
+	/// </summary>
+	public class conv_ListContains : MarkupExtension, IValueConverter
+	{
+		private static conv_ListContains _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_ListContains();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if ((value as List<string>).Contains(parameter.ToString().TrimStart('!')))
+			{
+				if (targetType == typeof(Visibility))
+					return parameter.ToString()[0] != '!' ? Visibility.Visible : Visibility.Collapsed;
+				else
+					return parameter.ToString()[0] != '!' ? true : false;
+			}
+			else
+			{
+				if (targetType == typeof(Visibility))
+					return parameter.ToString()[0] != '!' ? Visibility.Collapsed : Visibility.Visible;
+				else
+					return parameter.ToString()[0] != '!' ? false : true;
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType == typeof(Visibility))
+				return Visibility.Collapsed;
+			else
+				return false;
+		}
+	}
+
+	/// <summary>
+	/// Convert double -> value * parameter
+	/// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter)
+	/// </summary>
+	public class conv_Size : MarkupExtension, IValueConverter
+	{
+		private static conv_Size _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_Size();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var val = System.Convert.ToDouble(value, CultureInfo.InvariantCulture);
+			if (targetType == typeof(Thickness))
+			{
+				var paramList = Array.ConvertAll(parameter.ToString().Split(';'), i => System.Convert.ToDouble(i, CultureInfo.InvariantCulture));
+				if (paramList.Length == 4)
+					return new Thickness(val * paramList[0],
+										 val * paramList[1],
+										 val * paramList[2],
+										 val * paramList[3]);
+				else if (paramList.Length == 2)
+					return new Thickness(val * paramList[0],
+										 val * paramList[1],
+										 val * paramList[0],
+										 val * paramList[1]);
+				else
+					return new Thickness(val * paramList[0]);
+			}
+			else
+			{
+				var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+				return param == 0 ? 0 : val * param;
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var val = System.Convert.ToDouble(value, CultureInfo.InvariantCulture);
+			if (targetType == typeof(Thickness))
+			{
+				var paramList = Array.ConvertAll(parameter.ToString().Split(';'), i => System.Convert.ToDouble(i, CultureInfo.InvariantCulture));
+				if (paramList.Length == 4)
+					return new Thickness(paramList[0] == 0 ? 0 : val / paramList[0],
+										 paramList[1] == 0 ? 0 : val / paramList[1],
+										 paramList[2] == 0 ? 0 : val / paramList[2],
+										 paramList[3] == 0 ? 0 : val / paramList[3]);
+				else if (paramList.Length == 2)
+					return new Thickness(paramList[0] == 0 ? 0 : val / paramList[0],
+										 paramList[1] == 0 ? 0 : val / paramList[1],
+										 paramList[0] == 0 ? 0 : val / paramList[0],
+										 paramList[1] == 0 ? 0 : val / paramList[1]);
+				else
+					return new Thickness(paramList[0] == 0 ? 0 : val / paramList[0]);
+			}
+			else
+			{
+				var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+				return param == 0 ? 0 : val / param;
+			}
 		}
 	}
 }

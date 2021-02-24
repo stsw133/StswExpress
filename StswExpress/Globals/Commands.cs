@@ -34,7 +34,11 @@ namespace StswExpress.Globals
 		(
 			Enum.GetName(typeof(Type), Type.ADD),
 			Enum.GetName(typeof(Type), Type.ADD),
-			typeof(Commands)
+			typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.OemPlus, ModifierKeys.Control)
+			}
 		);
 		/// <summary>
 		/// Archive
@@ -208,7 +212,11 @@ namespace StswExpress.Globals
 		(
 			Enum.GetName(typeof(Type), Type.REMOVE),
 			Enum.GetName(typeof(Type), Type.REMOVE),
-			typeof(Commands)
+			typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.OemMinus, ModifierKeys.Control)
+			}
 		);
 		/// <summary>
 		/// Save
