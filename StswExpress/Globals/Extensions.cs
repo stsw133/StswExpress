@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace StswExpress.Globals
 {
-    internal static class Extensions
+    public static class Extensions
     {
         /// <summary>
         /// Is value in list of given values

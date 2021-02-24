@@ -4,21 +4,21 @@ using System.Data.SqlClient;
 
 namespace StswExpress
 {
-    internal static class SQL
+    public static class SQL
     {
-		internal enum Type
+		public enum Type
         {
 			MSSQL, MySQL, Postgres
         }
-		internal static Type SqlType = Type.MSSQL;
+		public static Type SqlType = Type.MSSQL;
 
 		/// <summary>
 		/// Default connection string
 		/// </summary>
-		internal static string connDef = null;
-		internal static SqlConnection opconnDef => (SqlConnection)OpenConnection(new SqlConnection(connDef));
-		internal static MySqlConnection opmyconnDef => (MySqlConnection)OpenConnection(new MySqlConnection(connDef));
-		internal static NpgsqlConnection opnpgconnDef => (NpgsqlConnection)OpenConnection(new NpgsqlConnection(connDef));
+		public static string connDef = null;
+		public static SqlConnection opconnDef => (SqlConnection)OpenConnection(new SqlConnection(connDef));
+		public static MySqlConnection opmyconnDef => (MySqlConnection)OpenConnection(new MySqlConnection(connDef));
+		public static NpgsqlConnection opnpgconnDef => (NpgsqlConnection)OpenConnection(new NpgsqlConnection(connDef));
 
 		/// <summary>
 		/// Set SQL connection.
@@ -28,7 +28,7 @@ namespace StswExpress
 		/// <param name="database">Database</param>
 		/// <param name="username">Username</param>
 		/// <param name="password">Password</param>
-		internal static string MakeConnString(string server, int port, string database, string username, string password)
+		public static string MakeConnString(string server, int port, string database, string username, string password)
 		{
 			return $"Server={server};Port={port};Database={database};User Id={username};Password={password};";
 		}
@@ -38,7 +38,7 @@ namespace StswExpress
 		/// </summary>
 		/// <param name="sqlConn">Connection to open.</param>
 		/// <returns>Opened connection.</returns>
-		internal static object OpenConnection(object sqlConn)
+		public static object OpenConnection(object sqlConn)
 		{
 			if (SqlType == Type.MSSQL)
 				(sqlConn as SqlConnection).Open();

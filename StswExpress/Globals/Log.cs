@@ -97,7 +97,7 @@ namespace StswExpress.Globals
             catch { }
         }
 
-        internal static void FileLogDateCheck()
+        public static void FileLogDateCheck()
         {
             if (File.Exists(LogFileName))
             {
@@ -117,7 +117,7 @@ namespace StswExpress.Globals
         /// </summary>
         /// <param name="tb">Tekstowe okno logu.</param>
         /// <returns>Kod błędu lub 0 gdy poprawny.</returns>
-        internal static void InitializeLogs()
+        public static void InitializeLogs()
         {
             process = Process.GetCurrentProcess();
             InitializeTextFileLog();
@@ -127,19 +127,10 @@ namespace StswExpress.Globals
         /// Wstawia informację końcową i zamyka logowanie.
         /// </summary>
         /// <returns>Kod błędu lub 0 gdy poprawny.</returns>
-        internal static void CloseLogs()
-        {
-            CloseTextFileLog();
-            process.Dispose();
-        }
-
-        /// <summary>
-        /// Wstawia informację końcową i zamyka logowanie do pliku tekstowego.
-        /// </summary>
-        /// <returns>Kod błędu lub 0 gdy poprawny.</returns>
-        private static void CloseTextFileLog()
+        public static void CloseLogs()
         {
             WriteTextFileEntry($"{DateTime.Now:yyyy-MM-dd | HH:mm:ss} | Koniec pracy.{Environment.NewLine}");
+            process.Dispose();
         }
 
         /// <summary>
@@ -147,7 +138,7 @@ namespace StswExpress.Globals
         /// </summary>
         /// <param name="text">Zadany tekst.</param>
         /// <returns>Kod błędu lub 0 gdu poprawny.</returns>
-        internal static void WriteLogEntry(string text)
+        public static void WriteLogEntry(string text)
         {
             WriteLogEntry(text, 0, false);
         }
@@ -158,7 +149,7 @@ namespace StswExpress.Globals
         /// <param name="text">Zadany tekst.</param>
         /// <param name="addfunccallername">Czy dodawać informację o funkcji.</param>
         /// <returns>Kod błędu lub 0 jeżeli poprawny.</returns>
-        internal static void WriteLogEntry(string text, bool addfunccallername)
+        public static void WriteLogEntry(string text, bool addfunccallername)
         {
             WriteLogEntry(text, 0, addfunccallername);
         }
@@ -169,7 +160,7 @@ namespace StswExpress.Globals
         /// <param name="text">Zadany tekst.</param>
         /// <param name="log">Wybrany log. 1 - pole tekstowe logu, 2- plik logu, inna liczba - wszystkie logi.</param>
         /// <returns>Kod błedu lub 0 gdy poprawny.</returns>
-        internal static void WriteLogEntry(string text, int log)
+        public static void WriteLogEntry(string text, int log)
         {
             WriteLogEntry(text, log, false);
         }
@@ -181,7 +172,7 @@ namespace StswExpress.Globals
         /// <param name="log">Wybrny log. 1 - pole tekstowe logu, 2- plik logu, inna liczba - wszystkie logi.</param>
         /// <param name="addfunccallername">Czy dodawać informację o funkcji.</param>
         /// <returns>od błędu lub 0 gdy poprawny.</returns>
-        internal static void WriteLogEntry(string text, int log, bool addfunccallername)
+        public static void WriteLogEntry(string text, int log, bool addfunccallername)
         {
             /// Dodaje informację o funkcji wywołuącej wstawiany komunikat
             if (addfunccallername == true || EnforceShowCallerFunction == true)

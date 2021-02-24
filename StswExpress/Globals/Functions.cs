@@ -3,14 +3,14 @@ using System.Windows.Media.Imaging;
 
 namespace StswExpress.Globals
 {
-	internal static class Functions
+	public static class Functions
 	{
 		/// <summary>
 		/// Load image from byte[] to BitmapImage
 		/// </summary>
 		/// <param name="imageData"></param>
 		/// <returns></returns>
-		internal static BitmapImage LoadImage(byte[] imageData)
+		public static BitmapImage LoadImage(byte[] imageData)
 		{
 			if (imageData == null || imageData.Length == 0) return null;
 			var image = new BitmapImage();

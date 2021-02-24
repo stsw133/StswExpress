@@ -5,17 +5,17 @@ using System.Reflection;
 
 namespace StswExpress.Globals
 {
-	internal class Mail
+	public class Mail
 	{
-		internal static string Host { get; set; }
-		internal static int Port { get; set; }
-		internal static string Email { get; set; }
-		internal static string Password { get; set; }
+		public static string Host { get; set; }
+		public static int Port { get; set; }
+		public static string Email { get; set; }
+		public static string Password { get; set; }
 
 		/// <summary>
 		/// SendMail
 		/// </summary>
-		internal static bool SendMail(string from, string[] to, string subject, string body, string[] attachments = null, string[] bbc = null, string[] reply = null)
+		public static bool SendMail(string from, string[] to, string subject, string body, string[] attachments = null, string[] bbc = null, string[] reply = null)
 		{
 			try
 			{
