@@ -39,7 +39,7 @@ namespace StswExpress.Globals
         public static M_User AppUser { get; set; } = new M_User();
 
         #region Crypto
-        internal static string Encrypt(string inputString)
+        public static string Encrypt(string inputString)
         {
             if (inputString.Length == 0)
                 return string.Empty;
@@ -76,7 +76,7 @@ namespace StswExpress.Globals
             }
         }
 
-        internal static string Decrypt(string inputString)
+        public static string Decrypt(string inputString)
         {
             if (inputString.Length == 0)
                 return string.Empty;
