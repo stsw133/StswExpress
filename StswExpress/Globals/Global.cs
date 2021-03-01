@@ -16,13 +16,13 @@ namespace StswExpress.Globals
         {
             int major = Assembly.GetEntryAssembly().GetName().Version.Major,
                 minor = Assembly.GetEntryAssembly().GetName().Version.Minor,
-                revis = Assembly.GetEntryAssembly().GetName().Version.Revision,
-                build = Assembly.GetEntryAssembly().GetName().Version.Build;
+                build = Assembly.GetEntryAssembly().GetName().Version.Build,
+                revis = Assembly.GetEntryAssembly().GetName().Version.Revision;
 
             if (build > 0)
-                return $"{major}.{minor}.{revis}.{build}";
+                return $"{major}.{minor}.{build}.{revis}";
             else if (revis > 0)
-                return $"{major}.{minor}.{revis}";
+                return $"{major}.{minor}.{build}";
             else if (minor > 0)
                 return $"{major}.{minor}";
             else

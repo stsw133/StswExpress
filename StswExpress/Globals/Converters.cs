@@ -149,7 +149,10 @@ namespace StswExpress.Globals
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value?.ToString() == (parameter?.ToString() ?? string.Empty))
+			var rev = parameter?.ToString()?.StartsWith("!") ?? false;
+			var param = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
+
+			if ((value?.ToString() == param && !rev) || (value?.ToString() != param && rev))
 			{
 				if (targetType == typeof(Visibility))
 					return Visibility.Visible;
@@ -279,6 +282,37 @@ namespace StswExpress.Globals
 				var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
 				return param == 0 ? 0 : val / param;
 			}
+		}
+	}
+
+	/// <summary>
+	/// Convert string -> string : parameter must be like 'string~string~string'
+	/// If value=parameter[0] then get string on left side of second ~ else get string on right side
+	/// </summary>
+	public class conv_StringToString : MarkupExtension, IValueConverter
+	{
+		private static conv_StringToString _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_StringToString();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var rev = parameter.ToString().StartsWith("!");
+			var param = parameter.ToString().TrimStart('!').Split('~');
+
+			if ((value.ToString() == param[0] && !rev) || (value.ToString() != param[0] && rev))
+				return parameter.ToString().Split('~')[1];
+			else
+				return parameter.ToString().Split('~')[2];
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return parameter.ToString().Split('~')[2];
 		}
 	}
 }

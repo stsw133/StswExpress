@@ -6,13 +6,263 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\icon32_accept.ico" />
+    <None Remove="Resources\icon32_add.ico" />
+    <None Remove="Resources\icon32_admin.ico" />
+    <None Remove="Resources\icon32_attributes.ico" />
+    <None Remove="Resources\icon32_books.ico" />
+    <None Remove="Resources\icon32_calendar.ico" />
+    <None Remove="Resources\icon32_camfile.ico" />
+    <None Remove="Resources\icon32_cancel.ico" />
+    <None Remove="Resources\icon32_clear.ico" />
+    <None Remove="Resources\icon32_close.ico" />
+    <None Remove="Resources\icon32_code.ico" />
+    <None Remove="Resources\icon32_color.ico" />
+    <None Remove="Resources\icon32_community.ico" />
+    <None Remove="Resources\icon32_database.ico" />
+    <None Remove="Resources\icon32_delete.ico" />
+    <None Remove="Resources\icon32_descending.ico" />
+    <None Remove="Resources\icon32_documents.ico" />
+    <None Remove="Resources\icon32_download.ico" />
+    <None Remove="Resources\icon32_duplicate.ico" />
+    <None Remove="Resources\icon32_edit.ico" />
+    <None Remove="Resources\icon32_filter.ico" />
+    <None Remove="Resources\icon32_folder.ico" />
+    <None Remove="Resources\icon32_font.ico" />
+    <None Remove="Resources\icon32_gallery.ico" />
+    <None Remove="Resources\icon32_global.ico" />
+    <None Remove="Resources\icon32_groups.ico" />
+    <None Remove="Resources\icon32_list.ico" />
+    <None Remove="Resources\icon32_locked.ico" />
+    <None Remove="Resources\icon32_login.ico" />
+    <None Remove="Resources\icon32_logs.ico" />
+    <None Remove="Resources\icon32_mail.ico" />
+    <None Remove="Resources\icon32_maximize.ico" />
+    <None Remove="Resources\icon32_minimize.ico" />
+    <None Remove="Resources\icon32_notifications.ico" />
+    <None Remove="Resources\icon32_photos.ico" />
+    <None Remove="Resources\icon32_printer.ico" />
+    <None Remove="Resources\icon32_profile.ico" />
+    <None Remove="Resources\icon32_random.ico" />
+    <None Remove="Resources\icon32_refresh.ico" />
+    <None Remove="Resources\icon32_remove.ico" />
+    <None Remove="Resources\icon32_restoredown.ico" />
+    <None Remove="Resources\icon32_return.ico" />
+    <None Remove="Resources\icon32_save.ico" />
+    <None Remove="Resources\icon32_scanner.ico" />
+    <None Remove="Resources\icon32_search.ico" />
+    <None Remove="Resources\icon32_select.ico" />
+    <None Remove="Resources\icon32_settings.ico" />
+    <None Remove="Resources\icon32_show.ico" />
+    <None Remove="Resources\icon32_source.ico" />
+    <None Remove="Resources\icon32_stats.ico" />
+    <None Remove="Resources\icon32_test.ico" />
+    <None Remove="Resources\icon32_tools.ico" />
+    <None Remove="Resources\icon32_unlocked.ico" />
+    <None Remove="Resources\icon32_user.ico" />
+    <None Remove="Resources\icon32_users.ico" />
+    <None Remove="Resources\icon32_versions.ico" />
+    <None Remove="Resources\icon32_web.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon32_accept.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_add.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_admin.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_attributes.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_books.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_calendar.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_camfile.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_cancel.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_clear.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_close.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_code.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_color.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_community.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_database.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_delete.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_descending.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_documents.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_download.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_duplicate.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_edit.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_folder.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_font.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_gallery.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_global.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_groups.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_list.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_locked.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_login.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_logs.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_mail.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_maximize.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_minimize.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_notifications.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_photos.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_printer.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_profile.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_random.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_refresh.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_remove.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_restoredown.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_return.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_save.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_scanner.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_search.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_select.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_settings.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_show.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_source.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_stats.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_test.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_tools.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_unlocked.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_user.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_users.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_versions.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_web.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="1.2.1" />
     <PackageReference Include="Npgsql" Version="5.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
