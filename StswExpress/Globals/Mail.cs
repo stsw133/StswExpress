@@ -42,7 +42,7 @@ namespace StswExpress.Globals
 
 					var smtp = new SmtpClient(Host, Port)
 					{
-						Credentials = new NetworkCredential(Email, Global.Decrypt(Password)),
+						Credentials = new NetworkCredential(Email, Security.Decrypt(Password)),
 						EnableSsl = true
 					};
 

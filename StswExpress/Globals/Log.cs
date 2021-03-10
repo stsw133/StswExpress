@@ -23,7 +23,7 @@ namespace StswExpress.Globals
         /// <summary>
         /// Długość pliku przeznaczonego do archiwizacji.
         /// </summary>
-        private const long ArchivizationFileLenght = 40 * 1024 * 1024; /// 40 MB
+        private const long ArchivizationFileLenght = 20 * 1024 * 1024; /// 20 MB
         /// <summary>
         /// Kodowanie pliku tektowego logu.
         /// </summary>
@@ -36,10 +36,6 @@ namespace StswExpress.Globals
         /// Wymuszanie pokazywania nazw funkcji wywołujących w komunikatach logów
         /// </summary>
         private const bool EnforceShowCallerFunction = true;
-        /// <summary>
-        /// Dopisywanie do logu obecnego użycia pamięci
-        /// </summary>
-        private const bool ShowMemoryUsage = false;
         /// <summary>
         /// Obecny proces - do wyciągania informacji o pamięci
         /// </summary>
@@ -184,13 +180,6 @@ namespace StswExpress.Globals
 
             /// Tworzy tekst wstawiany do logu
             string entrytext = $"{DateTime.Now:yyyy-MM-dd | HH:mm:ss.fff} | {text}{Environment.NewLine}";
-            /*
-            if (ShowMemoryUsage)
-            {
-                process.Refresh();
-                entrytext += $"{DateTime.Now:yyyy-MM-dd | HH:mm:ss.fff} | Zestaw roboczy: {string.Format("{0:n0}", process.WorkingSet64 / 1024)} K   Pamięć prywatna: {string.Format("{0:n0}", process.PrivateMemorySize64 / 1024)} K{Environment.NewLine}";
-            }
-            */
             WriteTextFileEntry(entrytext);
         }
     }

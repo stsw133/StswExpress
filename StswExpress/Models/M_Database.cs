@@ -52,19 +52,19 @@ namespace StswExpress.Models
 						if (property == "Name")
 						{
 							db = new M_Database();
-							db.Name =  Global.Decrypt(line.Substring(property.Length + 1));
+							db.Name =  Security.Decrypt(line.Substring(property.Length + 1));
 						}
 						else if (property == "Server")
-							db.Server = Global.Decrypt(line.Substring(property.Length + 1));
+							db.Server = Security.Decrypt(line.Substring(property.Length + 1));
 						else if (property == "Port")
-							db.Port = Convert.ToInt32(Global.Decrypt(line.Substring(property.Length + 1)));
+							db.Port = Convert.ToInt32(Security.Decrypt(line.Substring(property.Length + 1)));
 						else if (property == "Database")
-							db.Database = Global.Decrypt(line.Substring(property.Length + 1));
+							db.Database = Security.Decrypt(line.Substring(property.Length + 1));
 						else if (property == "Username")
-							db.Username = Global.Decrypt(line.Substring(property.Length + 1));
+							db.Username = Security.Decrypt(line.Substring(property.Length + 1));
 						else if (property == "Password")
 						{
-							db.Password = Global.Decrypt(line.Substring(property.Length + 1));
+							db.Password = Security.Decrypt(line.Substring(property.Length + 1));
 							result.Add(db);
 						}
 					}
@@ -89,12 +89,12 @@ namespace StswExpress.Models
 				{
 					foreach (M_Database db in databases)
 					{
-						stream.WriteLine($"Name={Global.Encrypt(db.Name)}");
-						stream.WriteLine($"Server={Global.Encrypt(db.Server)}");
-						stream.WriteLine($"Port={Global.Encrypt(db.Port.ToString())}");
-						stream.WriteLine($"Database={Global.Encrypt(db.Database)}");
-						stream.WriteLine($"Username={Global.Encrypt(db.Username)}");
-						stream.WriteLine($"Password={Global.Encrypt(db.Password)}");
+						stream.WriteLine($"Name={Security.Encrypt(db.Name)}");
+						stream.WriteLine($"Server={Security.Encrypt(db.Server)}");
+						stream.WriteLine($"Port={Security.Encrypt(db.Port.ToString())}");
+						stream.WriteLine($"Database={Security.Encrypt(db.Database)}");
+						stream.WriteLine($"Username={Security.Encrypt(db.Username)}");
+						stream.WriteLine($"Password={Security.Encrypt(db.Password)}");
 						stream.WriteLine(string.Empty);
 					}
 				}

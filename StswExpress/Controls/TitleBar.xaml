@@ -7,7 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="300"
              Loaded="UserControl_Loaded">
     <!-- titleBar -->
-    <DockPanel x:Name="titleBar" Background="{Binding Source={x:Static g:Properties.ThemeColor}}" MouseDown="titleBar_MouseDown" WindowChrome.IsHitTestVisibleInChrome="True">
+    <DockPanel x:Name="titleBar"
+               Background="{Binding Source={x:Static g:Properties.ThemeColor}}"
+               MouseDown="titleBar_MouseDown"
+               WindowChrome.IsHitTestVisibleInChrome="True">
+        <!-- buttons -->
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
             <Button x:Name="btnMinimize"
                     Background="{Binding Source={x:Static g:Properties.ThemeColor}, Converter={g:conv_Color}, ConverterParameter=-0.25}"
@@ -16,7 +20,9 @@
                     Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=!NoResize}"
                     Width="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                     Click="miMinimize_Click">
-                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}" Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}" Source="/Resources/icon32_minimize.ico"/>
+                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                       Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+                       Source="/Resources/icon32_minimize.ico"/>
             </Button>
             <Button x:Name="btnResize"
                     Background="{Binding Source={x:Static g:Properties.ThemeColor}, Converter={g:conv_Color}, ConverterParameter=-0.25}"
@@ -25,21 +31,31 @@
                     Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=CanResize}"
                     Width="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                     Click="miResize_Click">
-                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}" Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}" Source="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_StringToString}, ConverterParameter=Maximized~/Resources/icon32_restoredown.ico~/Resources/icon32_maximize.ico}"/>
+                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                       Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+                       Source="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_StringToString}, ConverterParameter=Maximized~/Resources/icon32_restoredown.ico~/Resources/icon32_maximize.ico}"/>
             </Button>
             <Button x:Name="btnClose"
                     Background="{Binding Source={x:Static g:Properties.ThemeColor}, Converter={g:conv_Color}, ConverterParameter=-0.25}"
                     BorderThickness="0"
                     Width="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                     Click="miClose_Click">
-                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}" Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}" Source="/Resources/icon32_close.ico"/>
+                <Image Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                       Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+                       Source="/Resources/icon32_close.ico"/>
             </Button>
         </StackPanel>
+        <!-- title -->
         <Grid Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}">
-            <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}" Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
-            <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.85}" Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+            <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+                   Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+            <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.85}"
+                   Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
         </Grid>
-        <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" VerticalContentAlignment="Center" Foreground="White"/>
+        <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+               VerticalContentAlignment="Center"
+               Foreground="White"/>
     </DockPanel>
     <UserControl.ContextMenu>
         <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">

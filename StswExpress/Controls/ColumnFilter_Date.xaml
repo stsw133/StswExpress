@@ -15,13 +15,20 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DatePicker Grid.Column="0" Background="White" SelectedDate="{Binding Value1, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
+        <DatePicker Grid.Column="0"
+                    Background="White"
+                    SelectedDate="{Binding Value1, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <DatePicker.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
             </DatePicker.InputBindings>
         </DatePicker>
-        <TextBlock Grid.Column="1" Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}" Text="/" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <DatePicker Grid.Column="2" Background="White" SelectedDate="{Binding Value2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
+        <TextBlock Grid.Column="1"
+                   Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                   Text="/"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DatePicker Grid.Column="2"
+                    Background="White"
+                    SelectedDate="{Binding Value2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <DatePicker.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
             </DatePicker.InputBindings>
