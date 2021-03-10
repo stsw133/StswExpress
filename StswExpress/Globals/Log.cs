@@ -52,7 +52,6 @@ namespace StswExpress.Globals
             {
                 /// Tworzymy wpis informacji startowej              
                 WriteTextFileEntry($"{DateTime.Now:yyyy-MM-dd | HH:mm:ss} |   v{Global.AppVersion()}{Environment.NewLine}");
-                WriteLogEntry($"ConnStr: {SQL.connDef}");
             }
         }
 
