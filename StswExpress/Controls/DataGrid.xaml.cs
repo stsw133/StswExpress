@@ -17,7 +17,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string HeaderBackground
         {
-            get { return (string)GetValue(pHeaderBackground); }
+            get => (string)GetValue(pHeaderBackground);
             set { SetValue(pHeaderBackground, value); }
         }
         public static readonly DependencyProperty pHeaderBackground

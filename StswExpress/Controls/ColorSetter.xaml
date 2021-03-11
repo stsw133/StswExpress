@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="StswExpress.Controls.ColorSetter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:g="clr-namespace:StswExpress.Globals"
+             mc:Ignorable="d" d:DesignWidth="200">
+    <DockPanel Margin="5">
+        <Border BorderBrush="Gray" BorderThickness="1"
+                Margin="5"
+                Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=2}" Width="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=2}">
+            <Rectangle Fill="{Binding Fill, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+        </Border>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="R" FontWeight="Heavy" Foreground="Red" VerticalAlignment="Center"/>
+                <Label DockPanel.Dock="Right" Content="{Binding R, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium" VerticalAlignment="Center"/>
+                <Slider Value="{Binding R, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255" VerticalAlignment="Center"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="G" FontWeight="Heavy" Foreground="Green" VerticalAlignment="Center"/>
+                <Label DockPanel.Dock="Right" Content="{Binding G, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium" VerticalAlignment="Center"/>
+                <Slider Value="{Binding G, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255" VerticalAlignment="Center"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="B" FontWeight="Heavy" Foreground="Blue" VerticalAlignment="Center"/>
+                <Label DockPanel.Dock="Right" Content="{Binding B, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium" VerticalAlignment="Center"/>
+                <Slider Value="{Binding B, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255" VerticalAlignment="Center"/>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

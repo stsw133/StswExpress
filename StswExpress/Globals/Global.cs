@@ -36,14 +36,11 @@ namespace StswExpress.Globals
         #region Proxy
         public class BindingProxy : Freezable
         {
-            protected override Freezable CreateInstanceCore()
-            {
-                return new BindingProxy();
-            }
+            protected override Freezable CreateInstanceCore() => new BindingProxy();
 
             public object Data
             {
-                get { return (object)GetValue(DataProperty); }
+                get => GetValue(DataProperty);
                 set { SetValue(DataProperty, value); }
             }
 

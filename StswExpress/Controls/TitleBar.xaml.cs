@@ -1,9 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress.Controls
 {
@@ -25,7 +23,7 @@ namespace StswExpress.Controls
 		/// </summary>
 		public ImageSource SubIcon
 		{
-			get { return (ImageSource)GetValue(pSubIcon); }
+			get => (ImageSource)GetValue(pSubIcon);
 			set { SetValue(pSubIcon, value); }
 		}
 		public static readonly DependencyProperty pSubIcon
@@ -44,6 +42,20 @@ namespace StswExpress.Controls
 			win = Window.GetWindow(this);
 			height = win?.Height ?? 450;
 			width = win?.Width ?? 700;
+			if (win != null)
+			{
+				if (win.MinHeight == 0)
+					win.MinHeight = height * 0.4;
+				if (win.MinWidth == 0)
+					win.MinWidth = width * 0.4;
+				if (win.BorderThickness.Top == 0)
+				{
+					win.BorderThickness = win.ResizeMode == ResizeMode.CanResize ? new Thickness(6) : new Thickness(3);
+					var col = (Color)ColorConverter.ConvertFromString(Globals.Properties.ThemeColor);
+					win.BorderBrush = new SolidColorBrush(new Color { R = (byte)(col.R * 0.75), G = (byte)(col.G * 0.75), B = (byte)(col.B * 0.75), A = byte.MaxValue });
+				}
+				win.WindowStyle = WindowStyle.None;
+			}
 		}
 
 		/// <summary>

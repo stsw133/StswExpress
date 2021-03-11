@@ -13,10 +13,7 @@ namespace StswExpress.Globals
         /// <summary>
         /// Is value in list of given values
         /// </summary>
-        public static bool In<T>(this T value, params T[] input)
-        {
-            return input.Any(n => Equals(n, value));
-        }
+        public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
         /// <summary>
         /// Convert DataTable to list of any model class

@@ -10,14 +10,8 @@ namespace StswExpress.Globals
 {
     public static class Security
     {
-        public static SecureString NewSecureString(string text)
-        {
-            return new NetworkCredential(string.Empty, text).SecurePassword;
-        }
-        public static byte[] SecureStringToBytea(SecureString text)
-        {
-            return Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, text).Password);
-        }
+        public static SecureString NewSecureString(string text) => new NetworkCredential(string.Empty, text).SecurePassword;
+        public static byte[] SecureStringToBytea(SecureString text) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, text).Password);
 
         private static byte[] GenerateSalt()
         {

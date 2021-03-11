@@ -26,10 +26,7 @@ namespace StswExpress.Models
 
 		public string Fullname
 		{
-			get
-			{
-				return $"{Lastname} {Forename}";
-			}
+			get => $"{Lastname} {Forename}";
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string Text
         {
-            get { return (string)GetValue(pText); }
+            get => (string)GetValue(pText);
             set { SetValue(pText, value); }
         }
         public static readonly DependencyProperty pText
@@ -35,7 +35,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string FilterType
         {
-            get { return (string)GetValue(pFilterType); }
+            get => (string)GetValue(pFilterType);
             set { SetValue(pFilterType, value); }
         }
         public static readonly DependencyProperty pFilterType
@@ -51,7 +51,7 @@ namespace StswExpress.Controls
         /// </summary>
         public bool FilterVisibility
         {
-            get { return (bool)GetValue(pFilterVisibility); }
+            get => (bool)GetValue(pFilterVisibility);
             set { SetValue(pFilterVisibility, value); }
         }
         public static readonly DependencyProperty pFilterVisibility
@@ -67,7 +67,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string Value1
         {
-            get { return (string)GetValue(pValue1); }
+            get => (string)GetValue(pValue1);
             set { SetValue(pValue1, value); }
         }
         public static readonly DependencyProperty pValue1
@@ -83,7 +83,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string Value2
         {
-            get { return (string)GetValue(pValue2); }
+            get => (string)GetValue(pValue2);
             set { SetValue(pValue2, value); }
         }
         public static readonly DependencyProperty pValue2

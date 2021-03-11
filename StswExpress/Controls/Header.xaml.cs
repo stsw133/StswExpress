@@ -19,7 +19,7 @@ namespace StswExpress.Controls
         /// </summary>
         public ImageSource Icon
         {
-            get { return (ImageSource)GetValue(pIcon); }
+            get => (ImageSource)GetValue(pIcon);
             set { SetValue(pIcon, value); }
         }
         public static readonly DependencyProperty pIcon
@@ -35,7 +35,7 @@ namespace StswExpress.Controls
         /// </summary>
         public string Text
         {
-            get { return (string)GetValue(pText); }
+            get => (string)GetValue(pText);
             set { SetValue(pText, value); }
         }
         public static readonly DependencyProperty pText
