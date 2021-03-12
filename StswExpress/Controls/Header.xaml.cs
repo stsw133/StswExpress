@@ -43,7 +43,7 @@ namespace StswExpress.Controls
                   nameof(Text),
                   typeof(string),
                   typeof(Header),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(null)
               );
     }
 }

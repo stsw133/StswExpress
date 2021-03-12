@@ -14,14 +14,10 @@ namespace StswExpress.Globals
                 build = Assembly.GetEntryAssembly().GetName().Version.Build,
                 revis = Assembly.GetEntryAssembly().GetName().Version.Revision;
 
-            if (build > 0)
-                return $"{major}.{minor}.{build}.{revis}";
-            else if (revis > 0)
-                return $"{major}.{minor}.{build}";
-            else if (minor > 0)
-                return $"{major}.{minor}";
-            else
-                return $"{major}";
+            if      (build > 0)     return $"{major}.{minor}.{build}.{revis}";
+            else if (revis > 0)     return $"{major}.{minor}.{build}";
+            else if (minor > 0)     return $"{major}.{minor}";
+            else                    return $"{major}";
         }
 
         /// App name + version

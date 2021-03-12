@@ -77,15 +77,9 @@ namespace StswExpress.Globals
 			return _conv;
 		}
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
-		}
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return System.Convert.ToBoolean(value) ? Visibility.Collapsed : Visibility.Visible;
-		}
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => System.Convert.ToBoolean(value) ? Visibility.Collapsed : Visibility.Visible;
 	}
 
 	/// <summary>
@@ -312,7 +306,13 @@ namespace StswExpress.Globals
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return parameter.ToString().Split('~')[2];
+			var rev = parameter.ToString().StartsWith("!");
+			var param = parameter.ToString().TrimStart('!').Split('~');
+
+			if ((value.ToString() == param[0] && !rev) || (value.ToString() != param[0] && rev))
+				return parameter.ToString().Split('~')[2];
+			else
+				return parameter.ToString().Split('~')[1];
 		}
 	}
 }

@@ -19,13 +19,14 @@ namespace StswExpress.Controls
         /// </summary>
         public string Fill
         {
-            get => $"#FF{R:X2}{G:X2}{B:X2}";
+            get => $"#{A:X2}{R:X2}{G:X2}{B:X2}";
             set
             {
                 var color = (Color)ColorConverter.ConvertFromString(value);
                 R = color.R;
                 G = color.G;
                 B = color.B;
+                A = color.A;
             }
         }
         public static readonly DependencyProperty pFill
@@ -45,7 +46,7 @@ namespace StswExpress.Controls
                   nameof(R),
                   typeof(byte),
                   typeof(ColorSetter),
-                  new PropertyMetadata(255)
+                  new PropertyMetadata((byte)255)
               );
         public byte G
         {
@@ -57,7 +58,7 @@ namespace StswExpress.Controls
                   nameof(G),
                   typeof(byte),
                   typeof(ColorSetter),
-                  new PropertyMetadata(255)
+                  new PropertyMetadata((byte)255)
               );
         public byte B
         {
@@ -69,7 +70,35 @@ namespace StswExpress.Controls
                   nameof(B),
                   typeof(byte),
                   typeof(ColorSetter),
-                  new PropertyMetadata(255)
+                  new PropertyMetadata((byte)255)
+              );
+        public byte A
+        {
+            get => (byte)GetValue(pA);
+            set { SetValue(pA, value); }
+        }
+        public static readonly DependencyProperty pA
+            = DependencyProperty.Register(
+                  nameof(A),
+                  typeof(byte),
+                  typeof(ColorSetter),
+                  new PropertyMetadata((byte)255)
+              );
+
+        /// <summary>
+        /// ShowAlphaSlider
+        /// </summary>
+        public bool ShowAlphaSlider
+        {
+            get => (bool)GetValue(pShowAlphaSlider);
+            set { SetValue(pShowAlphaSlider, value); }
+        }
+        public static readonly DependencyProperty pShowAlphaSlider
+            = DependencyProperty.Register(
+                  nameof(ShowAlphaSlider),
+                  typeof(bool),
+                  typeof(ColorSetter),
+                  new PropertyMetadata(false)
               );
     }
 }

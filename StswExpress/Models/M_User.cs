@@ -4,29 +4,15 @@ namespace StswExpress.Models
 {
 	public class M_User
 	{
-		public int ID { get; set; }
-		public string Username { get; set; }
-		public string Newpass { get; set; }
-		public string Email { get; set; }
-		public string Phone { get; set; }
-		public string Forename { get; set; }
-		public string Lastname { get; set; }
-		public List<string> Perms { get; set; }
+		public int ID { get; set; } = 0;
+		public string Username { get; set; } = string.Empty;
+		public string Newpass { get; set; } = string.Empty;
+		public string Email { get; set; } = string.Empty;
+		public string Phone { get; set; } = string.Empty;
+		public string Forename { get; set; } = string.Empty;
+		public string Lastname { get; set; } = string.Empty;
+		public List<string> Perms { get; set; } = new List<string>();
 
-		public M_User()
-		{
-			Username = string.Empty;
-			Newpass = string.Empty;
-			Email = string.Empty;
-			Phone = string.Empty;
-			Forename = string.Empty;
-			Lastname = string.Empty;
-			Perms = new List<string>();
-		}
-
-		public string Fullname
-		{
-			get => $"{Lastname} {Forename}";
-		}
+		public string Fullname { get => $"{Lastname} {Forename}"; }
 	}
 }

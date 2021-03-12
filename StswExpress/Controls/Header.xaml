@@ -8,9 +8,10 @@
             Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
             Orientation="Horizontal">
     <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.5}"
-           Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.2}"
-           Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+           Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
+           Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+           Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_Compare}, ConverterParameter={x:Null}}"/>
     <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-           FontSize="{Binding Source={x:Static g:Properties.iSize}}"
-           VerticalAlignment="Center"/>
+           VerticalAlignment="Center"
+           Visibility="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_Compare}, ConverterParameter={x:Null}}"/>
 </StackPanel>

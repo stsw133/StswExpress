@@ -12,12 +12,12 @@
             <Setter Property="CornerRadius" Value="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.5}"/>
         </Style>
     </Button.Resources>
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
+                Orientation="Horizontal">
         <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=2}"
-               Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.3}"
+               Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
                Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
         <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               FontSize="{Binding Source={x:Static g:Properties.iSize}}"
                VerticalAlignment="Center"
                Visibility="{Binding TextVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={g:conv_BoolToVisibility}}"/>
     </StackPanel>

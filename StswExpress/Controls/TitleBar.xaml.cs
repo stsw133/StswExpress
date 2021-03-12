@@ -48,12 +48,22 @@ namespace StswExpress.Controls
 					win.MinHeight = height * 0.4;
 				if (win.MinWidth == 0)
 					win.MinWidth = width * 0.4;
+
 				if (win.BorderThickness.Top == 0)
 				{
 					win.BorderThickness = win.ResizeMode == ResizeMode.CanResize ? new Thickness(6) : new Thickness(3);
 					var col = (Color)ColorConverter.ConvertFromString(Globals.Properties.ThemeColor);
 					win.BorderBrush = new SolidColorBrush(new Color { R = (byte)(col.R * 0.75), G = (byte)(col.G * 0.75), B = (byte)(col.B * 0.75), A = byte.MaxValue });
 				}
+
+				win.FontFamily = new FontFamily(Globals.Properties.iFont);
+				win.FontSize = Globals.Properties.iSize;
+
+				if (win.Owner != null)
+					win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+				else
+					win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
 				win.WindowStyle = WindowStyle.None;
 			}
 		}

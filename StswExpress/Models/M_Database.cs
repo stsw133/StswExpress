@@ -8,23 +8,13 @@ namespace StswExpress.Models
 {
 	public class M_Database
 	{
-		public string Name { get; set; }
-		public string Server { get; set; }
-		public int Port { get; set; }
-		public string Database { get; set; }
-		public string Username { get; set; }
-		public string Password { get; set; }
-		public string Version { get; set; }
-
-		public M_Database()
-		{
-			Name = string.Empty;
-			Server = string.Empty;
-			Database = string.Empty;
-			Username = string.Empty;
-			Password = string.Empty;
-			Version = string.Empty;
-		}
+		public string Name { get; set; } = string.Empty;
+		public string Server { get; set; } = string.Empty;
+		public int Port { get; set; } = 0;
+		public string Database { get; set; } = string.Empty;
+		public string Username { get; set; } = string.Empty;
+		public string Password { get; set; } = string.Empty;
+		public string Version { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Load list of hashed databases from file
@@ -36,13 +26,10 @@ namespace StswExpress.Models
 
 			try
 			{
-				if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Databases.bin")))
-				{
-					Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data"));
-					File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Databases.bin")).Close();
-				}
+				if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")))
+					File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")).Close();
 
-				using (var stream = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Databases.bin")))
+				using (var stream = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")))
 				{
 					while (!stream.EndOfStream)
 					{
@@ -85,7 +72,7 @@ namespace StswExpress.Models
 		{
 			try
 			{
-				using (var stream = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\Databases.bin")))
+				using (var stream = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")))
 				{
 					foreach (M_Database db in databases)
 					{

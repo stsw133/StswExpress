@@ -71,6 +71,7 @@ namespace StswExpress.Globals
                 if (child != null)
                     break;
             }
+
             return child;
         }
     }
