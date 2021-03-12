@@ -19,16 +19,8 @@ namespace StswExpress.Controls
         /// </summary>
         public string Fill
         {
-            get => $"#{A:X2}{R:X2}{G:X2}{B:X2}";
-            set
-            {
-                var color = (Color)ColorConverter.ConvertFromString(value);
-                R = color.R;
-                G = color.G;
-                B = color.B;
-                A = color.A;
-                SetValue(pR, value);
-            }
+            get => (string)GetValue(pFill);
+            set { SetValue(pFill, value); }
         }
         public static readonly DependencyProperty pFill
             = DependencyProperty.Register(
@@ -117,5 +109,25 @@ namespace StswExpress.Controls
                   typeof(ColorSetter),
                   new PropertyMetadata(false)
               );
+
+        /// <summary>
+		/// Loaded
+		/// </summary>
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var color = (Color)ColorConverter.ConvertFromString(Fill);
+            R = color.R;
+            G = color.G;
+            B = color.B;
+            A = color.A;
+        }
+
+        /// <summary>
+        /// ValueChanged
+        /// </summary>
+        private void color_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Fill = $"#{A:X2}{R:X2}{G:X2}{B:X2}";
+        }
     }
 }

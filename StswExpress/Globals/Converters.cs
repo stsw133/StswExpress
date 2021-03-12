@@ -101,7 +101,7 @@ namespace StswExpress.Globals
 			Color color = ColorTranslator.FromHtml(value.ToString());
 
 			if (parameter.ToString() == "!")
-				return color.GetBrightness() < 0.5 ? Color.White : Color.Black;
+				return color.GetBrightness() < 0.5 ? ColorTranslator.ToHtml(Color.White) : ColorTranslator.ToHtml(Color.Black);
 
 			int r = color.R, g = color.G, b = color.B;
 			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
@@ -117,7 +117,7 @@ namespace StswExpress.Globals
 			Color color = ColorTranslator.FromHtml(value.ToString());
 
 			if (parameter.ToString() == "!")
-				return value;
+				return color.GetBrightness() >= 0.5 ? ColorTranslator.ToHtml(Color.White) : ColorTranslator.ToHtml(Color.Black);
 
 			byte r = color.R, g = color.G, b = color.B;
 			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);

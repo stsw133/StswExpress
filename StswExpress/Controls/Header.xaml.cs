@@ -58,7 +58,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(TextVisibility),
                   typeof(bool),
-                  typeof(Button),
+                  typeof(Header),
                   new PropertyMetadata(true)
               );
     }

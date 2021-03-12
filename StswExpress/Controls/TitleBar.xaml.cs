@@ -59,11 +59,6 @@ namespace StswExpress.Controls
 				win.FontFamily = new FontFamily(Globals.Properties.iFont);
 				win.FontSize = Globals.Properties.iSize;
 
-				if (win.Owner != null)
-					win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-				else
-					win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
 				win.WindowStyle = WindowStyle.None;
 			}
 		}
