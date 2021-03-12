@@ -43,7 +43,23 @@ namespace StswExpress.Controls
                   nameof(Text),
                   typeof(string),
                   typeof(Header),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(string.Empty)
+              );
+
+        /// <summary>
+        /// TextVisibility
+        /// </summary>
+        public bool TextVisibility
+        {
+            get => (bool)GetValue(pTextVisibility);
+            set { SetValue(pTextVisibility, value); }
+        }
+        public static readonly DependencyProperty pTextVisibility
+            = DependencyProperty.Register(
+                  nameof(TextVisibility),
+                  typeof(bool),
+                  typeof(Button),
+                  new PropertyMetadata(true)
               );
     }
 }

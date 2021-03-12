@@ -27,6 +27,7 @@ namespace StswExpress.Controls
                 G = color.G;
                 B = color.B;
                 A = color.A;
+                SetValue(pR, value);
             }
         }
         public static readonly DependencyProperty pFill
@@ -36,6 +37,10 @@ namespace StswExpress.Controls
                   typeof(ColorSetter),
                   new PropertyMetadata("#FFFFFFFF")
               );
+
+        /// <summary>
+        /// R
+        /// </summary>
         public byte R
         {
             get => (byte)GetValue(pR);
@@ -48,6 +53,10 @@ namespace StswExpress.Controls
                   typeof(ColorSetter),
                   new PropertyMetadata((byte)255)
               );
+
+        /// <summary>
+        /// G
+        /// </summary>
         public byte G
         {
             get => (byte)GetValue(pG);
@@ -60,6 +69,10 @@ namespace StswExpress.Controls
                   typeof(ColorSetter),
                   new PropertyMetadata((byte)255)
               );
+
+        /// <summary>
+        /// B
+        /// </summary>
         public byte B
         {
             get => (byte)GetValue(pB);
@@ -72,6 +85,10 @@ namespace StswExpress.Controls
                   typeof(ColorSetter),
                   new PropertyMetadata((byte)255)
               );
+
+        /// <summary>
+        /// A
+        /// </summary>
         public byte A
         {
             get => (byte)GetValue(pA);

@@ -42,7 +42,7 @@ namespace StswExpress.Controls
                   nameof(Text),
                   typeof(string),
                   typeof(Button),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(string.Empty)
               );
 
         /// <summary>
