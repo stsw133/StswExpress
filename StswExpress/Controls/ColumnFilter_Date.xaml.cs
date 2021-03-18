@@ -101,8 +101,7 @@ namespace StswExpress.Controls
         {
             try
             {
-                dynamic W = Window.GetWindow(this);
-                W.cmdRefresh_Executed(sender, e);
+                Globals.Commands.Refresh.Execute(null, Parent as UIElement);
             }
             catch { }
         }

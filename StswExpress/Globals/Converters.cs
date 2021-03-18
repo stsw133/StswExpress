@@ -98,13 +98,13 @@ namespace StswExpress.Globals
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			Color color = ColorTranslator.FromHtml(value.ToString());
+			Color color = value != null ? ColorTranslator.FromHtml(value.ToString()) : Color.White;
 
-			if (parameter.ToString() == "!")
+			if (parameter?.ToString() == "!")
 				return color.GetBrightness() < 0.5 ? ColorTranslator.ToHtml(Color.White) : ColorTranslator.ToHtml(Color.Black);
 
 			int r = color.R, g = color.G, b = color.B;
-			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+			var param = System.Convert.ToDouble(parameter ?? 0, CultureInfo.InvariantCulture);
 			r += System.Convert.ToInt32((param > 0 ? 255 - r : r) * param);
 			g += System.Convert.ToInt32((param > 0 ? 255 - g : g) * param);
 			b += System.Convert.ToInt32((param > 0 ? 255 - b : b) * param);
@@ -114,13 +114,13 @@ namespace StswExpress.Globals
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			Color color = ColorTranslator.FromHtml(value.ToString());
+			Color color = value != null ? ColorTranslator.FromHtml(value.ToString()) : Color.White;
 
-			if (parameter.ToString() == "!")
+			if (parameter?.ToString() == "!")
 				return color.GetBrightness() >= 0.5 ? ColorTranslator.ToHtml(Color.White) : ColorTranslator.ToHtml(Color.Black);
 
 			byte r = color.R, g = color.G, b = color.B;
-			var param = System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+			var param = System.Convert.ToDouble(parameter ?? 0, CultureInfo.InvariantCulture);
 			r = System.Convert.ToByte((-255 * param + r) / (1 - param));
 			g = System.Convert.ToByte((-255 * param + g) / (1 - param));
 			b = System.Convert.ToByte((-255 * param + b) / (1 - param));
@@ -162,13 +162,7 @@ namespace StswExpress.Globals
 			}
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (targetType == typeof(Visibility))
-				return Visibility.Collapsed;
-			else
-				return false;
-		}
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 	}
 
 	/// <summary>

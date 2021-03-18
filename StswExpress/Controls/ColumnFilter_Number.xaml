@@ -3,6 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:c="clr-namespace:StswExpress.Controls"
             xmlns:g="clr-namespace:StswExpress.Globals"
             mc:Ignorable="d" d:DesignWidth="100">
     <StackPanel.CommandBindings>
@@ -20,10 +21,10 @@
             <ComboBoxItem Content="≤"/>
         </ComboBox>
         -->
-        <TextBox Text="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
+        <c:NumericUpDown Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <c:NumericUpDown.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
-            </TextBox.InputBindings>
-        </TextBox>
+            </c:NumericUpDown.InputBindings>
+        </c:NumericUpDown>
     </DockPanel>
 </StackPanel>

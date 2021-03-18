@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -15,16 +17,16 @@ namespace StswExpress.Controls
         }
 
         /// <summary>
-        /// Fill
+        /// Color
         /// </summary>
-        public string Fill
+        public string Color
         {
-            get => (string)GetValue(pFill);
-            set { SetValue(pFill, value); }
+            get => (string)GetValue(pColor);
+            set { SetValue(pColor, value); }
         }
-        public static readonly DependencyProperty pFill
+        public static readonly DependencyProperty pColor
             = DependencyProperty.Register(
-                  nameof(Fill),
+                  nameof(Color),
                   typeof(string),
                   typeof(ColorSetter),
                   new PropertyMetadata("#FFFFFFFF")
@@ -111,15 +113,35 @@ namespace StswExpress.Controls
               );
 
         /// <summary>
-		/// Loaded
-		/// </summary>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        /// SliderWidth
+        /// </summary>
+        public int SliderWidth
         {
-            var color = (Color)ColorConverter.ConvertFromString(Fill);
-            R = color.R;
-            G = color.G;
-            B = color.B;
-            A = color.A;
+            get => (int)GetValue(pSliderWidth);
+            set { SetValue(pSliderWidth, value); }
+        }
+        public static readonly DependencyProperty pSliderWidth
+            = DependencyProperty.Register(
+                  nameof(SliderWidth),
+                  typeof(int),
+                  typeof(ColorSetter),
+                  new PropertyMetadata(0)
+              );
+
+        /// <summary>
+		/// LayoutUpdated
+		/// </summary>
+        private void UserControl_LayoutUpdated(object sender, EventArgs e)
+        {
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                var color = (Color)ColorConverter.ConvertFromString(Color);
+                R = color.R;
+                G = color.G;
+                B = color.B;
+                A = color.A;
+                LayoutUpdated -= UserControl_LayoutUpdated;
+            }
         }
 
         /// <summary>
@@ -127,7 +149,7 @@ namespace StswExpress.Controls
         /// </summary>
         private void color_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Fill = $"#{A:X2}{R:X2}{G:X2}{B:X2}";
+            Color = $"#{A:X2}{R:X2}{G:X2}{B:X2}";
         }
     }
 }

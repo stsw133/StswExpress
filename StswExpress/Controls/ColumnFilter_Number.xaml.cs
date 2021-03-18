@@ -65,17 +65,17 @@ namespace StswExpress.Controls
         /// <summary>
         /// Value
         /// </summary>
-        public string Value
+        public double Value
         {
-            get => (string)GetValue(pValue);
+            get => (double)GetValue(pValue);
             set { SetValue(pValue, value); }
         }
         public static readonly DependencyProperty pValue
             = DependencyProperty.Register(
                   nameof(Value),
-                  typeof(string),
+                  typeof(double),
                   typeof(ColumnFilter_Number),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(0d)
               );
 
         /// <summary>
@@ -85,8 +85,7 @@ namespace StswExpress.Controls
         {
             try
             {
-                dynamic W = Window.GetWindow(this);
-                W.cmdRefresh_Executed(sender, e);
+                Globals.Commands.Refresh.Execute(null, Parent as UIElement);
             } catch { }
         }
     }
