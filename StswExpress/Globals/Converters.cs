@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -160,6 +161,28 @@ namespace StswExpress.Globals
 				else
 					return false;
 			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+	}
+
+	/// <summary>
+	/// Compare value to parameter
+	/// </summary>
+	public class conv_GenerateColor : MarkupExtension, IValueConverter
+	{
+		private static conv_GenerateColor _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_GenerateColor();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var col = ColorTranslator.ToHtml(Color.FromArgb(value.ToString().ToCharArray().Select(x => (x - 39) * 100000).Sum() % int.MaxValue));
+			return new conv_Color().Convert(col, null, parameter ?? 0, null);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;

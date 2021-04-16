@@ -13,6 +13,6 @@ namespace StswExpress.Models
 		public string Lastname { get; set; } = string.Empty;
 		public List<string> Perms { get; set; } = new List<string>();
 
-		public string Fullname { get => $"{Lastname} {Forename}"; }
+		public string Fullname => $"{Lastname} {Forename}";
 	}
 }
