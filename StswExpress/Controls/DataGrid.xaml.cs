@@ -18,7 +18,7 @@ namespace StswExpress.Controls
         public string HeaderBackground
         {
             get => (string)GetValue(pHeaderBackground);
-            set { SetValue(pHeaderBackground, value); }
+            set => SetValue(pHeaderBackground, value);
         }
         public static readonly DependencyProperty pHeaderBackground
             = DependencyProperty.Register(

@@ -24,7 +24,7 @@ namespace StswExpress.Controls
 		public ImageSource SubIcon
 		{
 			get => (ImageSource)GetValue(pSubIcon);
-			set { SetValue(pSubIcon, value); }
+			set => SetValue(pSubIcon, value);
 		}
 		public static readonly DependencyProperty pSubIcon
 			= DependencyProperty.Register(

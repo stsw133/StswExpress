@@ -22,7 +22,7 @@ namespace StswExpress.Controls
         public string Color
         {
             get => (string)GetValue(pColor);
-            set { SetValue(pColor, value); }
+            set => SetValue(pColor, value);
         }
         public static readonly DependencyProperty pColor
             = DependencyProperty.Register(
@@ -38,7 +38,7 @@ namespace StswExpress.Controls
         public byte R
         {
             get => (byte)GetValue(pR);
-            set { SetValue(pR, value); }
+            set => SetValue(pR, value);
         }
         public static readonly DependencyProperty pR
             = DependencyProperty.Register(
@@ -54,7 +54,7 @@ namespace StswExpress.Controls
         public byte G
         {
             get => (byte)GetValue(pG);
-            set { SetValue(pG, value); }
+            set => SetValue(pG, value);
         }
         public static readonly DependencyProperty pG
             = DependencyProperty.Register(
@@ -70,7 +70,7 @@ namespace StswExpress.Controls
         public byte B
         {
             get => (byte)GetValue(pB);
-            set { SetValue(pB, value); }
+            set => SetValue(pB, value);
         }
         public static readonly DependencyProperty pB
             = DependencyProperty.Register(
@@ -86,7 +86,7 @@ namespace StswExpress.Controls
         public byte A
         {
             get => (byte)GetValue(pA);
-            set { SetValue(pA, value); }
+            set => SetValue(pA, value);
         }
         public static readonly DependencyProperty pA
             = DependencyProperty.Register(
@@ -102,7 +102,7 @@ namespace StswExpress.Controls
         public bool ShowAlphaSlider
         {
             get => (bool)GetValue(pShowAlphaSlider);
-            set { SetValue(pShowAlphaSlider, value); }
+            set => SetValue(pShowAlphaSlider, value);
         }
         public static readonly DependencyProperty pShowAlphaSlider
             = DependencyProperty.Register(
@@ -118,7 +118,7 @@ namespace StswExpress.Controls
         public int SliderWidth
         {
             get => (int)GetValue(pSliderWidth);
-            set { SetValue(pSliderWidth, value); }
+            set => SetValue(pSliderWidth, value);
         }
         public static readonly DependencyProperty pSliderWidth
             = DependencyProperty.Register(

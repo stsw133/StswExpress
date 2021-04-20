@@ -20,7 +20,7 @@ namespace StswExpress.Controls
         public double Increment
         {
             get => (double)GetValue(pIncrement);
-            set { SetValue(pIncrement, value); }
+            set => SetValue(pIncrement, value);
         }
         public static readonly DependencyProperty pIncrement
             = DependencyProperty.Register(
@@ -36,7 +36,7 @@ namespace StswExpress.Controls
         public double Value
         {
             get => (double)GetValue(pValue);
-            set { SetValue(pValue, value); }
+            set => SetValue(pValue, value);
         }
         public static readonly DependencyProperty pValue
             = DependencyProperty.Register(
@@ -52,7 +52,7 @@ namespace StswExpress.Controls
         public double? ValueMin
         {
             get => (double?)GetValue(pValueMin);
-            set { SetValue(pValueMin, value); }
+            set => SetValue(pValueMin, value);
         }
         public static readonly DependencyProperty pValueMin
             = DependencyProperty.Register(
@@ -68,7 +68,7 @@ namespace StswExpress.Controls
         public double? ValueMax
         {
             get => (double?)GetValue(pValueMax);
-            set { SetValue(pValueMax, value); }
+            set => SetValue(pValueMax, value);
         }
         public static readonly DependencyProperty pValueMax
             = DependencyProperty.Register(
