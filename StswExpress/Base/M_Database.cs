@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace StswExpress.Models
+namespace StswExpress.Base
 {
 	public class M_Database
 	{

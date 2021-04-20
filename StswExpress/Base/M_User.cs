@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StswExpress.Models
+namespace StswExpress.Base
 {
 	public class M_User
 	{
