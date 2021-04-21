@@ -1,4 +1,5 @@
 ﻿using StswExpress.Globals;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -71,8 +72,16 @@ namespace StswExpress.Controls
 				miDefaultSize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
 				miMinimize.IsEnabled = win.ResizeMode.In(ResizeMode.CanMinimize, ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
 				miMaximize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
+
+				win.StateChanged += Window_StateChanged;
+				Window_StateChanged(null, null);
 			}
 		}
+
+		/// <summary>
+		/// StateChanged
+		/// </summary>
+		private void Window_StateChanged(object sender, EventArgs e) => miMaximize.Header = win.WindowState != WindowState.Maximized ? "Maksymalizuj" : "Przywróć";
 
 		/// <summary>
 		/// MouseDown
@@ -110,10 +119,7 @@ namespace StswExpress.Controls
 		/// <summary>
 		/// Minimize
 		/// </summary>
-		private void miMinimize_Click(object sender, RoutedEventArgs e)
-		{
-			win.WindowState = WindowState.Minimized;
-		}
+		private void miMinimize_Click(object sender, RoutedEventArgs e) => win.WindowState = WindowState.Minimized;
 
 		/// <summary>
 		/// Resize
