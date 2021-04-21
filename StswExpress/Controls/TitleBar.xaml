@@ -61,9 +61,9 @@
         <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
             <!--<MenuItem x:Name="miRestoreDown" Header="Przywróć" Click="miResize_Click" IsEnabled="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=Maximized}"/>-->
             <MenuItem x:Name="miSetCenter" Header="Wyśrodkuj na ekranie" Click="miSetCenter_Click"/>
-            <MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="{Binding ResizeMode, Converter={g:conv_Compare}, ConverterParameter=CanResize}"/>
-            <MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="{Binding ResizeMode, Converter={g:conv_Compare}, ConverterParameter=!NoResize}"/>
-            <MenuItem x:Name="miMaximize" Header="Maksymalizuj" Click="miResize_Click" IsEnabled="{Binding ResizeMode, Converter={g:conv_Compare}, ConverterParameter=CanResize}"/>
+            <MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
+            <MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="False"/>
+            <MenuItem x:Name="miMaximize" Header="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_StringToString}, ConverterParameter=Maximized~Przywróć~Maksymalizuj}" Click="miResize_Click" IsEnabled="False"/>
             <Separator/>
             <MenuItem x:Name="miClose" Header="Zamknij okno" Click="miClose_Click"/>
         </ContextMenu>

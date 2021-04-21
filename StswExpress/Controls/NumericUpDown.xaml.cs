@@ -12,6 +12,7 @@ namespace StswExpress.Controls
         public NumericUpDown()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>

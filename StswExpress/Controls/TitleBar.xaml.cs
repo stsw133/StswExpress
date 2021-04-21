@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using StswExpress.Globals;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,7 +12,7 @@ namespace StswExpress.Controls
     public partial class TitleBar : UserControl
     {
 		Window win;
-		double height, width;
+		double height = 450, width = 700;
 
         public TitleBar()
         {
@@ -40,10 +41,11 @@ namespace StswExpress.Controls
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			win = Window.GetWindow(this);
-			height = win?.Height ?? 450;
-			width = win?.Width ?? 700;
 			if (win != null)
 			{
+				height = win.Height;
+				width = win.Width;
+
 				if (win.MinHeight == 0)
 					win.MinHeight = height * 0.4;
 				if (win.MinWidth == 0)
@@ -53,13 +55,22 @@ namespace StswExpress.Controls
 				{
 					win.BorderThickness = win.ResizeMode == ResizeMode.CanResize ? new Thickness(6) : new Thickness(3);
 					var col = (Color)ColorConverter.ConvertFromString(Globals.Properties.ThemeColor);
-					win.BorderBrush = new SolidColorBrush(new Color { R = (byte)(col.R * 0.75), G = (byte)(col.G * 0.75), B = (byte)(col.B * 0.75), A = byte.MaxValue });
+					win.BorderBrush = new SolidColorBrush(new Color
+						{
+							R = (byte)(col.R * 0.75),
+							G = (byte)(col.G * 0.75),
+							B = (byte)(col.B * 0.75),
+							A = byte.MaxValue
+						});
 				}
+				win.WindowStyle = WindowStyle.None;
 
 				win.FontFamily = new FontFamily(Globals.Properties.iFont);
 				win.FontSize = Globals.Properties.iSize;
 
-				win.WindowStyle = WindowStyle.None;
+				miDefaultSize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
+				miMinimize.IsEnabled = win.ResizeMode.In(ResizeMode.CanMinimize, ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
+				miMaximize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
 			}
 		}
 

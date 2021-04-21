@@ -4,13 +4,10 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:g="clr-namespace:StswExpress.Globals"
-            mc:Ignorable="d" d:DesignWidth="100"
-            Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
-            Orientation="Horizontal">
+            mc:Ignorable="d" d:DesignWidth="50"
+            Orientation="Horizontal" Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}">
     <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.5}"
            Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
-           Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-           VerticalAlignment="Center"
-           Visibility="{Binding TextVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}"/>
+           Source="{Binding Icon}"/>
+    <Label Content="{Binding Text}" VerticalAlignment="Center" Visibility="{Binding TextVisibility, Converter={g:conv_BoolToVisibility}}"/>
 </StackPanel>

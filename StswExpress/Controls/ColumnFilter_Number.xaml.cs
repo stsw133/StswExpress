@@ -12,6 +12,7 @@ namespace StswExpress.Controls
         public ColumnFilter_Number()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>

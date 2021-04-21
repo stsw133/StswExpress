@@ -12,6 +12,7 @@ namespace StswExpress.Controls
         public Header()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>

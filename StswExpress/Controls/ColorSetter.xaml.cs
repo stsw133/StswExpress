@@ -14,6 +14,7 @@ namespace StswExpress.Controls
         public ColorSetter()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>

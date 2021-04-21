@@ -11,6 +11,7 @@ namespace StswExpress.Controls
         public Button()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>

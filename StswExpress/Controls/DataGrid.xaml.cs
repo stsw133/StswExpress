@@ -10,6 +10,7 @@ namespace StswExpress.Controls
         public DataGrid()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>
