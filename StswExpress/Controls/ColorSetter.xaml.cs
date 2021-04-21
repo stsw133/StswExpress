@@ -126,7 +126,7 @@ namespace StswExpress.Controls
                   nameof(SliderWidth),
                   typeof(int),
                   typeof(ColorSetter),
-                  new PropertyMetadata(0)
+                  new PropertyMetadata(256)
               );
 
         /// <summary>
