@@ -111,33 +111,33 @@
                                     </Canvas.Resources>
 
                                     <Ellipse x:Name="ellipse0"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.029}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.0292}"
                                              Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.35}"/>
                                     <Ellipse x:Name="ellipse1"
-                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.117}"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.108}"/>
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1083}"
+                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1167}"/>
                                     <Ellipse x:Name="ellipse2"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.342}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.3417}"
                                              Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.0125}"/>
                                     <Ellipse x:Name="ellipse3"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.579}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.5792}"
                                              Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1125}"/>
                                     <Ellipse x:Name="ellipse4"
                                              Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.675}"
-                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.346}"/>
+                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.3458}"/>
                                     <Ellipse x:Name="ellipse5"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.579}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.5792}"
                                              Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.575}"/>
                                     <Ellipse x:Name="ellipse6"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.346}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.3458}"
                                              Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.6625}"/>
                                     <Ellipse x:Name="ellipse7"
-                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.571}"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.117}"/>
-                                    <Ellipse Width="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.658}"
-                                             Height="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.658}"
-                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.146}"
-                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.133}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1167}"
+                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.5708}"/>
+                                    <Ellipse Width="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.6583}"
+                                             Height="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.6583}"
+                                             Canvas.Left="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1458}"
+                                             Canvas.Top="{Binding Size, Converter={g:conv_Size}, ConverterParameter=0.1333}"
                                              Visibility="Hidden"/>
                                 </Canvas>
                                 <Label Content="{Binding Text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -148,5 +148,5 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Control Style="{StaticResource BusyAnimationStyle}"/>
+    <Control Style="{StaticResource BusyAnimationStyle}" Margin="{Binding Size, Converter={g:conv_Size}, ConverterParameter=-0.95;-0.95;0;0}"/>
 </UserControl>
