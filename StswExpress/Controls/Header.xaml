@@ -4,7 +4,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:g="clr-namespace:StswExpress.Globals"
-            mc:Ignorable="d" d:DesignWidth="50"
+            mc:Ignorable="d" d:DesignWidth="100"
             Orientation="Horizontal" Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}">
     <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=1.5}"
            Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"

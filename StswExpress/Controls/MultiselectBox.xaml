@@ -1,0 +1,14 @@
+﻿<ComboBox x:Class="StswExpress.Controls.MultiselectBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="100">
+    <ComboBox.ItemContainerStyle>
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </ComboBox.ItemContainerStyle>
+</ComboBox>
