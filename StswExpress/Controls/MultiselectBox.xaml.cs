@@ -41,7 +41,8 @@ namespace StswExpress.Controls
                     {
                         Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
-                        Content = Source[i]?.ToString()
+                        Content = Source[i]?.ToString(),
+                        HorizontalContentAlignment = HorizontalAlignment.Left
                     };
                     tbtn.Click += ToggleButton_Click;
                     Items.Add(tbtn);
