@@ -62,6 +62,14 @@ namespace StswExpress.Controls
         /// </summary>
         public int[] SelectedIndexes
         {
+            get
+            {
+                var result = new List<int>();
+                for (int i = 0; i < Items.Count; i++)
+                    if ((Items[i] as ToggleButton).IsChecked == true)
+                        result.Add(i);
+                return result.ToArray();
+            }
             set
             {
                 SetValue(pSelectedIndexes, value);
