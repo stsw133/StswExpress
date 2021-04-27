@@ -19,7 +19,6 @@ namespace StswExpress.Controls
         public MultiselectBox()
         {
             InitializeComponent();
-            DataContext = this;
 
             prop = GetType().GetProperty(nameof(SelectionBoxItem));
             prop = prop.DeclaringType.GetProperty(nameof(SelectionBoxItem));

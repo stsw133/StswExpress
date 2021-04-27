@@ -12,7 +12,6 @@ namespace StswExpress.Controls
         public ColumnFilter_Date()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         /// <summary>

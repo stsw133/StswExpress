@@ -8,16 +8,18 @@
              VerticalAlignment="Top">
     <DockPanel>
         <UniformGrid DockPanel.Dock="Right" Columns="1">
-            <Button Content="▲"
+            <Button Grid.Row="0"
+                    Content="▲"
                     FontSize="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.5}"
                     Padding="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.5;0}"
                     Click="btnUp_Click"/>
-            <Button Content="▼"
+            <Button Grid.Row="1"
+                    Content="▼"
                     FontSize="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.5}"
                     Padding="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.5;0}"
                     Click="btnDown_Click"/>
         </UniformGrid>
-        <TextBox Text="{Binding Value, Mode=TwoWay}"
+        <TextBox Text="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
                  VerticalContentAlignment="Center"
                  TextChanged="tbNumeric_TextChanged"/>
     </DockPanel>

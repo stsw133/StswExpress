@@ -12,7 +12,6 @@ namespace StswExpress.Controls
         public NumericUpDown()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         /// <summary>
@@ -104,6 +103,7 @@ namespace StswExpress.Controls
         /// </summary>
         private void tbNumeric_TextChanged(object sender, TextChangedEventArgs e)
         {
+            (sender as TextBox).TextChanged -= tbNumeric_TextChanged;
             try
             {
                 if ((sender as TextBox).Text == "-")
@@ -119,6 +119,7 @@ namespace StswExpress.Controls
             {
                 (sender as TextBox).Text = Value.ToString();
             }
+            (sender as TextBox).TextChanged += tbNumeric_TextChanged;
         }
     }
 }

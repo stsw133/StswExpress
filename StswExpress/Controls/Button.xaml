@@ -14,9 +14,9 @@
     <StackPanel Orientation="Horizontal" Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}">
         <Image Height="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=2}"
                Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.15}"
-               Source="{Binding Icon}"/>
-        <Label Content="{Binding Text}"
+               Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+        <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                VerticalAlignment="Center"
-               Visibility="{Binding TextVisibility, Converter={g:conv_BoolToVisibility}}"/>
+               Visibility="{Binding TextVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={g:conv_BoolToVisibility}}"/>
     </StackPanel>
 </Button>
