@@ -1,0 +1,25 @@
+﻿<Button x:Class="StswExpress.Controls.IconButton"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:g="clr-namespace:StswExpress.Globals"
+        mc:Ignorable="d" d:DesignWidth="100"
+        HorizontalContentAlignment="Left" VerticalAlignment="Top">
+    <Button.Resources>
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius"
+                    Value="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={g:conv_Size}, ConverterParameter=3}"/>
+        </Style>
+    </Button.Resources>
+    <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+               Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+               Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+        <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+               HorizontalAlignment="Stretch" VerticalAlignment="Center"
+               Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={g:conv_BoolToVisibility}}"/>
+    </StackPanel>
+</Button>

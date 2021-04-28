@@ -15,6 +15,22 @@ namespace StswExpress.Controls
         }
 
         /// <summary>
+        /// ButtonsAlignment
+        /// </summary>
+        public Dock ButtonsAlignment
+        {
+            get => (Dock)GetValue(pButtonsAlignment);
+            set => SetValue(pButtonsAlignment, value);
+        }
+        public static readonly DependencyProperty pButtonsAlignment
+            = DependencyProperty.Register(
+                  nameof(ButtonsAlignment),
+                  typeof(Dock),
+                  typeof(NumericUpDown),
+                  new PropertyMetadata(Dock.Right)
+              );
+
+        /// <summary>
         /// Increment
         /// </summary>
         public double Increment
@@ -44,6 +60,22 @@ namespace StswExpress.Controls
                   typeof(double),
                   typeof(NumericUpDown),
                   new PropertyMetadata(0d)
+              );
+
+        /// <summary>
+        /// ValueAlignment
+        /// </summary>
+        public HorizontalAlignment ValueAlignment
+        {
+            get => (HorizontalAlignment)GetValue(pValueAlignment);
+            set => SetValue(pValueAlignment, value);
+        }
+        public static readonly DependencyProperty pValueAlignment
+            = DependencyProperty.Register(
+                  nameof(ValueAlignment),
+                  typeof(HorizontalAlignment),
+                  typeof(NumericUpDown),
+                  new PropertyMetadata(HorizontalAlignment.Left)
               );
 
         /// <summary>

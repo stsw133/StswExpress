@@ -10,7 +10,7 @@ using System.Windows.Markup;
 namespace StswExpress.Globals
 {
 	/// <summary>
-	/// Convert bool -> !bool , bool -> !Visibility : parameter must be a bool
+	/// Convert bool -> !bool , bool -> !Visibility : parameter has to be a bool
 	/// </summary>
 	public class conv_BoolInverted : MarkupExtension, IValueConverter
 	{
@@ -40,7 +40,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Convert bool -> string : parameter must be like 'string~string'
+	/// Convert bool -> string : parameter has to be like 'string~string'
 	/// If true then get string on left side of ~ else get string on right side
 	/// </summary>
 	public class conv_BoolToString : MarkupExtension, IValueConverter
@@ -66,7 +66,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Convert bool -> Visibility : parameter must be bool
+	/// Convert bool -> Visibility : parameter has to be a bool
 	/// </summary>
 	public class conv_BoolToVisibility : MarkupExtension, IValueConverter
 	{
@@ -84,7 +84,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter must be a number
+	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter has to be a number
 	/// To get font color based on brightness of background color use ! as parameter
 	/// </summary>
 	public class conv_Color : MarkupExtension, IValueConverter
@@ -189,7 +189,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Convert List.Contains(string) : parameter must be a string
+	/// Convert List.Contains(string) : parameter has to be a string
 	/// If true then returns true or Visibility.Visible else returns false or Visibility.Collapsed
 	/// </summary>
 	public class conv_ListContains : MarkupExtension, IValueConverter
@@ -297,7 +297,7 @@ namespace StswExpress.Globals
 	}
 
 	/// <summary>
-	/// Convert string -> string : parameter must be like 'string~string~string'
+	/// Convert string -> string : parameter has to be like 'string~string~string'
 	/// If value=parameter[0] then get string on left side of second ~ else get string on right side
 	/// </summary>
 	public class conv_StringToString : MarkupExtension, IValueConverter

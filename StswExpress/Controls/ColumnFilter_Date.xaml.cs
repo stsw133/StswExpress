@@ -15,22 +15,6 @@ namespace StswExpress.Controls
         }
 
         /// <summary>
-        /// Text
-        /// </summary>
-        public string Text
-        {
-            get => (string)GetValue(pText);
-            set => SetValue(pText, value);
-        }
-        public static readonly DependencyProperty pText
-            = DependencyProperty.Register(
-                  nameof(Text),
-                  typeof(string),
-                  typeof(ColumnFilter_Date),
-                  new PropertyMetadata(string.Empty)
-              );
-
-        /// <summary>
         /// FilterType
         /// </summary>
         public string FilterType
@@ -47,16 +31,32 @@ namespace StswExpress.Controls
               );
 
         /// <summary>
-        /// FilterVisibility
+        /// Header
         /// </summary>
-        public bool FilterVisibility
+        public string Header
         {
-            get => (bool)GetValue(pFilterVisibility);
-            set => SetValue(pFilterVisibility, value);
+            get => (string)GetValue(pHeader);
+            set => SetValue(pHeader, value);
         }
-        public static readonly DependencyProperty pFilterVisibility
+        public static readonly DependencyProperty pHeader
             = DependencyProperty.Register(
-                  nameof(FilterVisibility),
+                  nameof(Header),
+                  typeof(string),
+                  typeof(ColumnFilter_Date),
+                  new PropertyMetadata(string.Empty)
+              );
+
+        /// <summary>
+        /// IsFilterVisible
+        /// </summary>
+        public bool IsFilterVisible
+        {
+            get => (bool)GetValue(pIsFilterVisible);
+            set => SetValue(pIsFilterVisible, value);
+        }
+        public static readonly DependencyProperty pIsFilterVisible
+            = DependencyProperty.Register(
+                  nameof(IsFilterVisible),
                   typeof(bool),
                   typeof(ColumnFilter_Date),
                   new PropertyMetadata(true)

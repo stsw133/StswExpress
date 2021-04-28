@@ -7,8 +7,7 @@
           mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="700"
           Margin="5"
           AutoGenerateColumns="False"
-          BorderThickness="1"
-          HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
+          BorderThickness="1" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
     <DataGrid.ColumnHeaderStyle>
         <Style TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

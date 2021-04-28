@@ -9,8 +9,8 @@
     <StackPanel.CommandBindings>
         <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
-    <TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <DockPanel Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
+    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+    <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
         <!--
         <ComboBox SelectedValue="{Binding FilterType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" SelectedValuePath="Content" SelectedIndex="0">
             <ComboBoxItem Content="="/>
@@ -21,7 +21,7 @@
             <ComboBoxItem Content="≤"/>
         </ComboBox>
         -->
-        <c:NumericUpDown Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <c:NumericUpDown Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <c:NumericUpDown.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
             </c:NumericUpDown.InputBindings>

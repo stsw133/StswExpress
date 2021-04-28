@@ -27,7 +27,7 @@ namespace StswExpress.Controls
                   nameof(Size),
                   typeof(double),
                   typeof(LoadingCircle),
-                  new PropertyMetadata(Globals.Properties.iSize)
+                  new PropertyMetadata(Application.Current.MainWindow.FontSize)
               );
         
         /// <summary>

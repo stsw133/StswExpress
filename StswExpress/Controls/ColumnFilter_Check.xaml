@@ -1,4 +1,4 @@
-﻿<StackPanel x:Class="StswExpress.Controls.ColumnFilter_Text"
+﻿<StackPanel x:Class="StswExpress.Controls.ColumnFilter_Check"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,16 +10,13 @@
     </StackPanel.CommandBindings>
     <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
-        <!--
-        <ComboBox SelectedValue="{Binding FilterType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" SelectedValuePath="Content" SelectedIndex="0">
-            <ComboBoxItem Content="⊃"/>
-            <ComboBoxItem Content="="/>
-        </ComboBox>
-        -->
-        <TextBox Text="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
+        <CheckBox Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+                  FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.8}"
+                  IsChecked="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}"
+                  IsThreeState="True">
+            <CheckBox.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
-            </TextBox.InputBindings>
-        </TextBox>
+            </CheckBox.InputBindings>
+        </CheckBox>
     </DockPanel>
 </StackPanel>

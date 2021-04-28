@@ -97,19 +97,19 @@ namespace StswExpress.Controls
               );
 
         /// <summary>
-        /// ShowAlphaSlider
+        /// IsAlphaSliderVisible
         /// </summary>
-        public bool ShowAlphaSlider
+        public Visibility IsAlphaSliderVisible
         {
-            get => (bool)GetValue(pShowAlphaSlider);
-            set => SetValue(pShowAlphaSlider, value);
+            get => (Visibility)GetValue(pIsAlphaSliderVisible);
+            set => SetValue(pIsAlphaSliderVisible, value);
         }
-        public static readonly DependencyProperty pShowAlphaSlider
+        public static readonly DependencyProperty pIsAlphaSliderVisible
             = DependencyProperty.Register(
-                  nameof(ShowAlphaSlider),
-                  typeof(bool),
+                  nameof(IsAlphaSliderVisible),
+                  typeof(Visibility),
                   typeof(ColorSetter),
-                  new PropertyMetadata(false)
+                  new PropertyMetadata(Visibility.Collapsed)
               );
 
         /// <summary>

@@ -5,11 +5,11 @@ using System.Windows.Input;
 namespace StswExpress.Controls
 {
     /// <summary>
-    /// Interaction logic for ColumnFilter_Text.xaml
+    /// Interaction logic for ColumnFilter_Check.xaml
     /// </summary>
-    public partial class ColumnFilter_Text : StackPanel
+    public partial class ColumnFilter_Check : StackPanel
     {
-        public ColumnFilter_Text()
+        public ColumnFilter_Check()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(FilterType),
                   typeof(string),
-                  typeof(ColumnFilter_Text),
+                  typeof(ColumnFilter_Check),
                   new PropertyMetadata(string.Empty)
               );
 
@@ -42,7 +42,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(Header),
                   typeof(string),
-                  typeof(ColumnFilter_Text),
+                  typeof(ColumnFilter_Check),
                   new PropertyMetadata(string.Empty)
               );
 
@@ -58,24 +58,40 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(IsFilterVisible),
                   typeof(bool),
-                  typeof(ColumnFilter_Text),
+                  typeof(ColumnFilter_Check),
                   new PropertyMetadata(true)
+              );
+
+        /// <summary>
+        /// Text
+        /// </summary>
+        public string Text
+        {
+            get => (string)GetValue(pText);
+            set => SetValue(pText, value);
+        }
+        public static readonly DependencyProperty pText
+            = DependencyProperty.Register(
+                  nameof(Text),
+                  typeof(string),
+                  typeof(ColumnFilter_Check),
+                  new PropertyMetadata(string.Empty)
               );
 
         /// <summary>
         /// Value
         /// </summary>
-        public string Value
+        public bool? Value
         {
-            get => (string)GetValue(pValue);
+            get => (bool?)GetValue(pValue);
             set => SetValue(pValue, value);
         }
         public static readonly DependencyProperty pValue
             = DependencyProperty.Register(
                   nameof(Value),
-                  typeof(string),
-                  typeof(ColumnFilter_Text),
-                  new PropertyMetadata(string.Empty)
+                  typeof(bool?),
+                  typeof(ColumnFilter_Check),
+                  new PropertyMetadata(null)
               );
 
         /// <summary>

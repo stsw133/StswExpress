@@ -10,7 +10,7 @@ namespace StswExpress.Controls
     /// <summary>
     /// Interaction logic for TitleBar.xaml
     /// </summary>
-    public partial class TitleBar : UserControl
+    public partial class TitleBar : DockPanel
     {
 		Window win;
 		double height = 450, width = 700;
@@ -39,35 +39,42 @@ namespace StswExpress.Controls
 		/// <summary>
 		/// Loaded
 		/// </summary>
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		private void titleBar_Loaded(object sender, RoutedEventArgs e)
 		{
 			win = Window.GetWindow(this);
 			if (win != null)
 			{
-				height = win.Height;
-				width = win.Width;
-
-				if (win.MinHeight == 0)
-					win.MinHeight = height * 0.4;
-				if (win.MinWidth == 0)
-					win.MinWidth = width * 0.4;
+				if (!win.SizeToContent.In(SizeToContent.WidthAndHeight, SizeToContent.Width))
+                {
+					width = win.Width;
+					if (win.MinWidth == 0)
+						win.MinWidth = width * 0.4;
+				}
+				if (!win.SizeToContent.In(SizeToContent.WidthAndHeight, SizeToContent.Height))
+				{
+					height = win.Height;
+					if (win.MinHeight == 0)
+						win.MinHeight = height * 0.4;
+				}
 
 				if (win.BorderThickness.Top == 0)
 				{
 					win.BorderThickness = win.ResizeMode == ResizeMode.CanResize ? new Thickness(6) : new Thickness(3);
 					var col = (Color)ColorConverter.ConvertFromString(Globals.Properties.ThemeColor);
 					win.BorderBrush = new SolidColorBrush(new Color
-						{
-							R = (byte)(col.R * 0.75),
-							G = (byte)(col.G * 0.75),
-							B = (byte)(col.B * 0.75),
-							A = byte.MaxValue
-						});
+					{
+						R = (byte)(col.R * 0.75),
+						G = (byte)(col.G * 0.75),
+						B = (byte)(col.B * 0.75),
+						A = byte.MaxValue
+					});
 				}
 				win.WindowStyle = WindowStyle.None;
 
-				win.FontFamily = new FontFamily(Globals.Properties.iFont);
-				win.FontSize = Globals.Properties.iSize;
+				if (!string.IsNullOrEmpty(Globals.Properties.iFont))
+					win.FontFamily = new FontFamily(Globals.Properties.iFont);
+				if (Globals.Properties.iSize > 0)
+					win.FontSize = Globals.Properties.iSize;
 
 				miDefaultSize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
 				miMinimize.IsEnabled = win.ResizeMode.In(ResizeMode.CanMinimize, ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);
@@ -76,6 +83,7 @@ namespace StswExpress.Controls
 				win.StateChanged += Window_StateChanged;
 				Window_StateChanged(null, null);
 			}
+			else win = new Window();
 		}
 
 		/// <summary>
@@ -124,20 +132,11 @@ namespace StswExpress.Controls
 		/// <summary>
 		/// Resize
 		/// </summary>
-		private void miResize_Click(object sender, RoutedEventArgs e)
-		{
-			if (win.WindowState == WindowState.Normal)
-				win.WindowState = WindowState.Maximized;
-			else
-				win.WindowState = WindowState.Normal;
-		}
+		private void miResize_Click(object sender, RoutedEventArgs e) => win.WindowState = win.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 
 		/// <summary>
 		/// Close
 		/// </summary>
-		private void miClose_Click(object sender, RoutedEventArgs e)
-		{
-			win.Close();
-		}
+		private void miClose_Click(object sender, RoutedEventArgs e) => win.Close();
 	}
 }

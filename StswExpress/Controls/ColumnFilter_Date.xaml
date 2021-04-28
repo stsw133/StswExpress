@@ -8,25 +8,24 @@
     <StackPanel.CommandBindings>
         <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
-    <TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <Grid Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
+    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+    <Grid Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DatePicker Grid.Column="0"
+        <DatePicker Grid.Column="0" VerticalContentAlignment="Center"
                     Background="White"
                     SelectedDate="{Binding Value1, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <DatePicker.InputBindings>
                 <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
             </DatePicker.InputBindings>
         </DatePicker>
-        <TextBlock Grid.Column="1"
-                   Margin="{Binding Source={x:Static g:Properties.iSize}, Converter={g:conv_Size}, ConverterParameter=0.25}"
-                   Text="/"
+        <TextBlock Grid.Column="1" Text="/"
+                   Margin="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <DatePicker Grid.Column="2"
+        <DatePicker Grid.Column="2" VerticalContentAlignment="Center"
                     Background="White"
                     SelectedDate="{Binding Value2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <DatePicker.InputBindings>

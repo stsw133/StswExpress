@@ -5,11 +5,11 @@ using System.Windows.Media;
 namespace StswExpress.Controls
 {
     /// <summary>
-    /// Interaction logic for Header.xaml
+    /// Interaction logic for IconButton.xaml
     /// </summary>
-    public partial class Header : StackPanel
+    public partial class IconButton : Button
     {
-        public Header()
+        public IconButton()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(Icon),
                   typeof(ImageSource),
-                  typeof(Header),
+                  typeof(IconButton),
                   new PropertyMetadata(null)
               );
 
@@ -42,7 +42,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(IconMargin),
                   typeof(double),
-                  typeof(Header),
+                  typeof(IconButton),
                   new PropertyMetadata(Application.Current.MainWindow.FontSize * 0.15)
               );
 
@@ -58,8 +58,8 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(IconSize),
                   typeof(double),
-                  typeof(Header),
-                  new PropertyMetadata(Application.Current.MainWindow.FontSize * 1.5)
+                  typeof(IconButton),
+                  new PropertyMetadata(Application.Current.MainWindow.FontSize * 2)
               );
 
         /// <summary>
@@ -74,8 +74,24 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(IsTextVisible),
                   typeof(bool),
-                  typeof(Header),
+                  typeof(IconButton),
                   new PropertyMetadata(true)
+              );
+        
+        /// <summary>
+        /// Orientation
+        /// </summary>
+        public Orientation Orientation
+        {
+            get => (Orientation)GetValue(pOrientation);
+            set => SetValue(pOrientation, value);
+        }
+        public static readonly DependencyProperty pOrientation
+            = DependencyProperty.Register(
+                  nameof(Orientation),
+                  typeof(Orientation),
+                  typeof(IconButton),
+                  new PropertyMetadata(Orientation.Horizontal)
               );
 
         /// <summary>
@@ -90,7 +106,7 @@ namespace StswExpress.Controls
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),
-                  typeof(Header),
+                  typeof(IconButton),
                   new PropertyMetadata(string.Empty)
               );
     }
