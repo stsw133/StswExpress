@@ -33,7 +33,10 @@ namespace StswExpress.Globals
                         try
                         {
                             PropertyInfo propertyInfo = obj.GetType().GetProperty(prop.Name);
-                            propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
+                            if (propertyInfo.PropertyType != typeof(object))
+                                propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
+                            else
+                                propertyInfo.SetValue(obj, row[prop.Name], null);
                         }
                         catch
                         {
