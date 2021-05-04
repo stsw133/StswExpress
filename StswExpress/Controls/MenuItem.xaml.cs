@@ -1,0 +1,47 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Media.Imaging;
+
+namespace StswExpress.Controls
+{
+    /// <summary>
+    /// Interaction logic for MenuItem.xaml
+    /// </summary>
+    public partial class MenuItem : System.Windows.Controls.MenuItem
+    {
+        public MenuItem()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// IconUri
+        /// </summary>
+        public string IconUri
+        {
+            get => (string)GetValue(pIconUri);
+            set => SetValue(pIconUri, value);
+        }
+        public static readonly DependencyProperty pIconUri
+            = DependencyProperty.Register(
+                  nameof(IconUri),
+                  typeof(string),
+                  typeof(MenuItem),
+                  new PropertyMetadata(null)
+              );
+
+        /// <summary>
+        /// Loaded
+        /// </summary>
+        private void MenuItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (IconUri != null)
+            {
+                Icon = new System.Windows.Controls.Image
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,," + IconUri, UriKind.RelativeOrAbsolute))
+                };
+            }
+        }
+    }
+}
