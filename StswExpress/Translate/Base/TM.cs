@@ -82,7 +82,7 @@ namespace StswExpress.Translate
         public event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
         public event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
 
-        public SortedDictionary<string, SortedDictionary<string, TMTranslation>> TranslationsDictionary => new SortedDictionary<string, SortedDictionary<string, TMTranslation>>();
+        public SortedDictionary<string, SortedDictionary<string, TMTranslation>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, TMTranslation>>();
 
         /// <summary>
         /// Translate the given textId in current language.
@@ -128,7 +128,7 @@ namespace StswExpress.Translate
         /// </summary>
         public bool LogOutMissingTranslations { get; set; } = false;
 
-        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations => new SortedDictionary<string, SortedDictionary<string, string>>();
+        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
         private string missingTranslationsFileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "TMMissingTranslations.json");
 
