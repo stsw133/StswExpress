@@ -6,8 +6,7 @@
             xmlns:g="clr-namespace:StswExpress.Globals"
             mc:Ignorable="d" d:DesignWidth="100"
             Orientation="Horizontal"
-            Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-            HorizontalAlignment="Center" VerticalAlignment="Center">
+            Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}}">
     <Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
            Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
            Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>

@@ -5,11 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:g="clr-namespace:StswExpress.Globals"
         mc:Ignorable="d" d:DesignWidth="100"
-        HorizontalContentAlignment="Left" VerticalAlignment="Top">
+        HorizontalContentAlignment="Left">
     <Button.Resources>
         <Style TargetType="Border">
-            <Setter Property="CornerRadius"
-                    Value="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={g:conv_Size}, ConverterParameter=3}"/>
+            <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={g:conv_Size}, ConverterParameter=3}"/>
         </Style>
     </Button.Resources>
     <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"

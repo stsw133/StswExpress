@@ -15,6 +15,22 @@ namespace StswExpress.Controls
         }
 
         /// <summary>
+        /// CornerRadius
+        /// </summary>
+        public double CornerRadius
+        {
+            get => (double)GetValue(pCornerRadius);
+            set => SetValue(pCornerRadius, value);
+        }
+        public static readonly DependencyProperty pCornerRadius
+            = DependencyProperty.Register(
+                  nameof(CornerRadius),
+                  typeof(double),
+                  typeof(IconButton),
+                  new PropertyMetadata(Application.Current.MainWindow.FontSize * 0.15)
+              );
+
+        /// <summary>
         /// Icon
         /// </summary>
         public ImageSource Icon

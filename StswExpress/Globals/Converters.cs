@@ -55,13 +55,16 @@ namespace StswExpress.Globals
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if ((bool)value) return parameter.ToString().Split('~')[0];
+			if (System.Convert.ToBoolean(value))
+				return parameter.ToString().Split('~')[0];
 			return parameter.ToString().Split('~')[1];
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return parameter.ToString().Split('~')[1];
+			if (System.Convert.ToBoolean(value))
+				return parameter.ToString().Split('~')[1];
+			return parameter.ToString().Split('~')[0];
 		}
 	}
 

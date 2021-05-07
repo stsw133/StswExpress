@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace StswExpress.Base
 {
-    public class D : INotifyPropertyChanged
+    public abstract class D : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string name = "none passed")
