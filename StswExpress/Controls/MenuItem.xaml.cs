@@ -27,7 +27,7 @@ namespace StswExpress.Controls
                   nameof(IconUri),
                   typeof(string),
                   typeof(MenuItem),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(default(string))
               );
 
         /// <summary>

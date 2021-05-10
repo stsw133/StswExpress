@@ -17,81 +17,81 @@ namespace StswExpress.Controls
         /// <summary>
         /// Icon
         /// </summary>
-        public ImageSource Icon
-        {
-            get => (ImageSource)GetValue(pIcon);
-            set => SetValue(pIcon, value);
-        }
-        public static readonly DependencyProperty pIcon
+        public static readonly DependencyProperty IconProperty
             = DependencyProperty.Register(
                   nameof(Icon),
                   typeof(ImageSource),
                   typeof(Header),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(default(ImageSource))
               );
+        public ImageSource Icon
+        {
+            get => (ImageSource)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
 
         /// <summary>
         /// IconMargin
         /// </summary>
-        public double IconMargin
-        {
-            get => (double)GetValue(pIconMargin);
-            set => SetValue(pIconMargin, value);
-        }
-        public static readonly DependencyProperty pIconMargin
+        public static readonly DependencyProperty IconMarginProperty
             = DependencyProperty.Register(
                   nameof(IconMargin),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(Application.Current.MainWindow.FontSize * 0.15)
+                  new PropertyMetadata(default(double))
               );
+        public double IconMargin
+        {
+            get => (double)GetValue(IconMarginProperty);
+            set => SetValue(IconMarginProperty, value);
+        }
 
         /// <summary>
         /// IconSize
         /// </summary>
-        public double IconSize
-        {
-            get => (double)GetValue(pIconSize);
-            set => SetValue(pIconSize, value);
-        }
-        public static readonly DependencyProperty pIconSize
+        public static readonly DependencyProperty IconSizeProperty
             = DependencyProperty.Register(
                   nameof(IconSize),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(Application.Current.MainWindow.FontSize * 1.5)
+                  new PropertyMetadata(default(double))
               );
+        public double IconSize
+        {
+            get => (double)GetValue(IconSizeProperty);
+            set => SetValue(IconSizeProperty, value);
+        }
 
         /// <summary>
         /// IsTextVisible
         /// </summary>
-        public bool IsTextVisible
-        {
-            get => (bool)GetValue(pIsTextVisible);
-            set => SetValue(pIsTextVisible, value);
-        }
-        public static readonly DependencyProperty pIsTextVisible
+        public static readonly DependencyProperty IsTextVisibleProperty
             = DependencyProperty.Register(
                   nameof(IsTextVisible),
                   typeof(bool),
                   typeof(Header),
                   new PropertyMetadata(true)
               );
+        public bool IsTextVisible
+        {
+            get => (bool)GetValue(IsTextVisibleProperty);
+            set => SetValue(IsTextVisibleProperty, value);
+        }
 
         /// <summary>
         /// Text
         /// </summary>
-        public string Text
-        {
-            get => (string)GetValue(pText);
-            set => SetValue(pText, value);
-        }
-        public static readonly DependencyProperty pText
+        public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),
                   typeof(Header),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
     }
 }

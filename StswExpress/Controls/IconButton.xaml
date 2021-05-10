@@ -14,8 +14,8 @@
     <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                 Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+        <Image Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+               Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
         <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                HorizontalAlignment="Stretch" VerticalAlignment="Center"

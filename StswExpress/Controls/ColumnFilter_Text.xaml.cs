@@ -17,66 +17,66 @@ namespace StswExpress.Controls
         /// <summary>
         /// FilterType
         /// </summary>
-        public string FilterType
-        {
-            get => (string)GetValue(pFilterType);
-            set => SetValue(pFilterType, value);
-        }
-        public static readonly DependencyProperty pFilterType
+        public static readonly DependencyProperty FilterTypeProperty
             = DependencyProperty.Register(
                   nameof(FilterType),
                   typeof(string),
                   typeof(ColumnFilter_Text),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string FilterType
+        {
+            get => (string)GetValue(FilterTypeProperty);
+            set => SetValue(FilterTypeProperty, value);
+        }
 
         /// <summary>
         /// Header
         /// </summary>
-        public string Header
-        {
-            get => (string)GetValue(pHeader);
-            set => SetValue(pHeader, value);
-        }
-        public static readonly DependencyProperty pHeader
+        public static readonly DependencyProperty HeaderProperty
             = DependencyProperty.Register(
                   nameof(Header),
                   typeof(string),
                   typeof(ColumnFilter_Text),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Header
+        {
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
+        }
 
         /// <summary>
         /// IsFilterVisible
         /// </summary>
-        public bool IsFilterVisible
-        {
-            get => (bool)GetValue(pIsFilterVisible);
-            set => SetValue(pIsFilterVisible, value);
-        }
-        public static readonly DependencyProperty pIsFilterVisible
+        public static readonly DependencyProperty IsFilterVisibleProperty
             = DependencyProperty.Register(
                   nameof(IsFilterVisible),
                   typeof(bool),
                   typeof(ColumnFilter_Text),
                   new PropertyMetadata(true)
               );
+        public bool IsFilterVisible
+        {
+            get => (bool)GetValue(IsFilterVisibleProperty);
+            set => SetValue(IsFilterVisibleProperty, value);
+        }
 
         /// <summary>
         /// Value
         /// </summary>
-        public string Value
-        {
-            get => (string)GetValue(pValue);
-            set => SetValue(pValue, value);
-        }
-        public static readonly DependencyProperty pValue
+        public static readonly DependencyProperty ValueProperty
             = DependencyProperty.Register(
                   nameof(Value),
                   typeof(string),
                   typeof(ColumnFilter_Text),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Value
+        {
+            get => (string)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
 
         /// <summary>
         /// Refresh

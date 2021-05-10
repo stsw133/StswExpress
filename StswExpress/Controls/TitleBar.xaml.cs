@@ -23,18 +23,18 @@ namespace StswExpress.Controls
 		/// <summary>
 		/// SubIcon
 		/// </summary>
-		public ImageSource SubIcon
-		{
-			get => (ImageSource)GetValue(pSubIcon);
-			set => SetValue(pSubIcon, value);
-		}
-		public static readonly DependencyProperty pSubIcon
+		public static readonly DependencyProperty SubIconProperty
 			= DependencyProperty.Register(
 				  nameof(SubIcon),
 				  typeof(ImageSource),
 				  typeof(TitleBar),
-				  new PropertyMetadata(null)
+				  new PropertyMetadata(default(ImageSource))
 			  );
+		public ImageSource SubIcon
+		{
+			get => (ImageSource)GetValue(SubIconProperty);
+			set => SetValue(SubIconProperty, value);
+		}
 
 		/// <summary>
 		/// Loaded

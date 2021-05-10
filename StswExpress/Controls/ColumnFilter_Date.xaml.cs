@@ -17,82 +17,82 @@ namespace StswExpress.Controls
         /// <summary>
         /// FilterType
         /// </summary>
-        public string FilterType
-        {
-            get => (string)GetValue(pFilterType);
-            set => SetValue(pFilterType, value);
-        }
-        public static readonly DependencyProperty pFilterType
+        public static readonly DependencyProperty FilterTypeProperty
             = DependencyProperty.Register(
                   nameof(FilterType),
                   typeof(string),
                   typeof(ColumnFilter_Date),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string FilterType
+        {
+            get => (string)GetValue(FilterTypeProperty);
+            set => SetValue(FilterTypeProperty, value);
+        }
 
         /// <summary>
         /// Header
         /// </summary>
+        public static readonly DependencyProperty HeaderProperty
+           = DependencyProperty.Register(
+                 nameof(Header),
+                 typeof(string),
+                 typeof(ColumnFilter_Date),
+                 new PropertyMetadata(default(string))
+             );
         public string Header
         {
-            get => (string)GetValue(pHeader);
-            set => SetValue(pHeader, value);
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
-        public static readonly DependencyProperty pHeader
-            = DependencyProperty.Register(
-                  nameof(Header),
-                  typeof(string),
-                  typeof(ColumnFilter_Date),
-                  new PropertyMetadata(string.Empty)
-              );
 
         /// <summary>
         /// IsFilterVisible
         /// </summary>
-        public bool IsFilterVisible
-        {
-            get => (bool)GetValue(pIsFilterVisible);
-            set => SetValue(pIsFilterVisible, value);
-        }
-        public static readonly DependencyProperty pIsFilterVisible
+        public static readonly DependencyProperty IsFilterVisibleProperty
             = DependencyProperty.Register(
                   nameof(IsFilterVisible),
                   typeof(bool),
                   typeof(ColumnFilter_Date),
                   new PropertyMetadata(true)
               );
+        public bool IsFilterVisible
+        {
+            get => (bool)GetValue(IsFilterVisibleProperty);
+            set => SetValue(IsFilterVisibleProperty, value);
+        }
 
         /// <summary>
         /// Value1
         /// </summary>
-        public string Value1
-        {
-            get => (string)GetValue(pValue1);
-            set => SetValue(pValue1, value);
-        }
-        public static readonly DependencyProperty pValue1
+        public static readonly DependencyProperty Value1Property
             = DependencyProperty.Register(
                   nameof(Value1),
                   typeof(string),
                   typeof(ColumnFilter_Date),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Value1
+        {
+            get => (string)GetValue(Value1Property);
+            set => SetValue(Value1Property, value);
+        }
 
         /// <summary>
         /// Value2
         /// </summary>
-        public string Value2
-        {
-            get => (string)GetValue(pValue2);
-            set => SetValue(pValue2, value);
-        }
-        public static readonly DependencyProperty pValue2
+        public static readonly DependencyProperty Value2Property
             = DependencyProperty.Register(
                   nameof(Value2),
                   typeof(string),
                   typeof(ColumnFilter_Date),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Value2
+        {
+            get => (string)GetValue(Value2Property);
+            set => SetValue(Value2Property, value);
+        }
 
         /// <summary>
         /// Refresh

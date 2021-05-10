@@ -17,33 +17,33 @@ namespace StswExpress.Controls
         /// <summary>
         /// Size
         /// </summary>
-        public double Size
-        {
-            get => (double)GetValue(pSize);
-            set => SetValue(pSize, value);
-        }
-        public static readonly DependencyProperty pSize
+        public static readonly DependencyProperty SizeProperty
             = DependencyProperty.Register(
                   nameof(Size),
                   typeof(double),
                   typeof(LoadingCircle),
                   new PropertyMetadata(Application.Current.MainWindow.FontSize)
               );
-        
+        public double Size
+        {
+            get => (double)GetValue(SizeProperty);
+            set => SetValue(SizeProperty, value);
+        }
+
         /// <summary>
         /// Text
         /// </summary>
-        public string Text
-        {
-            get => (string)GetValue(pText);
-            set => SetValue(pText, value);
-        }
-        public static readonly DependencyProperty pText
+        public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),
                   typeof(LoadingCircle),
-                  new PropertyMetadata(string.Empty)
+                  new PropertyMetadata(default(string))
               );
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
     }
 }

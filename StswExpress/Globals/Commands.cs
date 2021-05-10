@@ -63,7 +63,7 @@ namespace StswExpress.Globals
 			typeof(Commands),
 			new InputGestureCollection()
 			{
-				new KeyGesture(Key.F5, ModifierKeys.Control)
+				new KeyGesture(Key.F9)
 			}
 		);
 		/// <summary>

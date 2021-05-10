@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,98 +18,98 @@ namespace StswExpress.Controls
         /// <summary>
         /// ButtonsAlignment
         /// </summary>
-        public Dock ButtonsAlignment
-        {
-            get => (Dock)GetValue(pButtonsAlignment);
-            set => SetValue(pButtonsAlignment, value);
-        }
-        public static readonly DependencyProperty pButtonsAlignment
+        public static readonly DependencyProperty ButtonsAlignmentProperty
             = DependencyProperty.Register(
                   nameof(ButtonsAlignment),
                   typeof(Dock),
                   typeof(NumericUpDown),
                   new PropertyMetadata(Dock.Right)
               );
+        public Dock ButtonsAlignment
+        {
+            get => (Dock)GetValue(ButtonsAlignmentProperty);
+            set => SetValue(ButtonsAlignmentProperty, value);
+        }
 
         /// <summary>
         /// Increment
         /// </summary>
-        public double Increment
-        {
-            get => (double)GetValue(pIncrement);
-            set => SetValue(pIncrement, value);
-        }
-        public static readonly DependencyProperty pIncrement
+        public static readonly DependencyProperty IncrementProperty
             = DependencyProperty.Register(
                   nameof(Increment),
                   typeof(double),
                   typeof(NumericUpDown),
                   new PropertyMetadata(1d)
               );
+        public double Increment
+        {
+            get => (double)GetValue(IncrementProperty);
+            set => SetValue(IncrementProperty, value);
+        }
 
         /// <summary>
         /// Value
         /// </summary>
-        public double Value
-        {
-            get => (double)GetValue(pValue);
-            set => SetValue(pValue, value);
-        }
-        public static readonly DependencyProperty pValue
+        public static readonly DependencyProperty ValueProperty
             = DependencyProperty.Register(
                   nameof(Value),
                   typeof(double),
                   typeof(NumericUpDown),
-                  new PropertyMetadata(0d)
+                  new PropertyMetadata(default(double))
               );
+        public double Value
+        {
+            get => (double)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
 
         /// <summary>
         /// ValueAlignment
         /// </summary>
-        public HorizontalAlignment ValueAlignment
-        {
-            get => (HorizontalAlignment)GetValue(pValueAlignment);
-            set => SetValue(pValueAlignment, value);
-        }
-        public static readonly DependencyProperty pValueAlignment
+        public static readonly DependencyProperty ValueAlignmentProperty
             = DependencyProperty.Register(
                   nameof(ValueAlignment),
                   typeof(HorizontalAlignment),
                   typeof(NumericUpDown),
-                  new PropertyMetadata(HorizontalAlignment.Left)
+                  new PropertyMetadata(default(HorizontalAlignment))
               );
+        public HorizontalAlignment ValueAlignment
+        {
+            get => (HorizontalAlignment)GetValue(ValueAlignmentProperty);
+            set => SetValue(ValueAlignmentProperty, value);
+        }
 
         /// <summary>
         /// ValueMin
         /// </summary>
-        public double? ValueMin
-        {
-            get => (double?)GetValue(pValueMin);
-            set => SetValue(pValueMin, value);
-        }
-        public static readonly DependencyProperty pValueMin
+        public static readonly DependencyProperty ValueMinProperty
             = DependencyProperty.Register(
                   nameof(ValueMin),
                   typeof(double?),
                   typeof(NumericUpDown),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(default(double?))
               );
+        public double? ValueMin
+        {
+            get => (double?)GetValue(ValueMinProperty);
+            set => SetValue(ValueMinProperty, value);
+        }
 
         /// <summary>
         /// ValueMax
         /// </summary>
-        public double? ValueMax
-        {
-            get => (double?)GetValue(pValueMax);
-            set => SetValue(pValueMax, value);
-        }
-        public static readonly DependencyProperty pValueMax
+        public static readonly DependencyProperty ValueMaxProperty
             = DependencyProperty.Register(
                   nameof(ValueMax),
                   typeof(double?),
                   typeof(NumericUpDown),
-                  new PropertyMetadata(null)
+                  new PropertyMetadata(default(double?))
               );
+        public double? ValueMax
+        {
+            get => (double?)GetValue(ValueMaxProperty);
+            set => SetValue(ValueMaxProperty, value);
+        }
 
         /// <summary>
         /// Up - Click
@@ -135,6 +136,9 @@ namespace StswExpress.Controls
         /// </summary>
         private void tbNumeric_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
             (sender as TextBox).TextChanged -= tbNumeric_TextChanged;
             try
             {
