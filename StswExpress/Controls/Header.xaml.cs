@@ -38,7 +38,7 @@ namespace StswExpress.Controls
                   nameof(IconMargin),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(default(double))
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
               );
         public double IconMargin
         {
@@ -54,7 +54,7 @@ namespace StswExpress.Controls
                   nameof(IconSize),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(default(double))
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 1.5)
               );
         public double IconSize
         {

@@ -4,6 +4,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:g="clr-namespace:StswExpress.Globals"
+            xmlns:p="clr-namespace:StswExpress.Properties"
             mc:Ignorable="d" d:DesignWidth="100">
     <StackPanel.CommandBindings>
         <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
@@ -23,7 +24,7 @@
             </DatePicker.InputBindings>
         </DatePicker>
         <TextBlock Grid.Column="1" Text="/"
-                   Margin="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                   Margin="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.25}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <DatePicker Grid.Column="2" VerticalContentAlignment="Center"
                     Background="White"

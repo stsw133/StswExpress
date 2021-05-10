@@ -4,8 +4,9 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:g="clr-namespace:StswExpress.Globals"
+           xmlns:p="clr-namespace:StswExpress.Properties"
            mc:Ignorable="d" d:DesignWidth="300"
-           Background="{Binding Source={x:Static g:Properties.ThemeColor}}"
+           Background="{Binding ThemeColor, Source={x:Static p:Settings.Default}}"
            Loaded="titleBar_Loaded"
            MouseDown="titleBar_MouseDown"
            WindowChrome.IsHitTestVisibleInChrome="True">
@@ -16,10 +17,10 @@
                 BorderThickness="0"
                 IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=!NoResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=!NoResize}"
-                Width="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=3.5}"
+                Width="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                 Click="miMinimize_Click">
-            <Image Margin="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+            <Image Margin="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                   Height="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=1.75}"
                    Source="/Resources/icon32_minimize.ico"/>
         </Button>
         <Button x:Name="btnResize"
@@ -27,27 +28,27 @@
                 BorderThickness="0"
                 IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=CanResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Compare}, ConverterParameter=CanResize}"
-                Width="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=3.5}"
+                Width="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                 Click="miResize_Click">
-            <Image Margin="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+            <Image Margin="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                   Height="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=1.75}"
                    Source="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_StringToString}, ConverterParameter=Maximized~/Resources/icon32_restoredown.ico~/Resources/icon32_maximize.ico}"/>
         </Button>
         <Button x:Name="btnClose"
                 Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={g:conv_Color}, ConverterParameter=-0.25}"
                 BorderThickness="0"
-                Width="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=3.5}"
+                Width="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=3.5}"
                 Click="miClose_Click">
-            <Image Margin="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+            <Image Margin="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.25}"
+                   Height="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=1.75}"
                    Source="/Resources/icon32_close.ico"/>
         </Button>
     </StackPanel>
     <!-- title -->
-    <Grid Margin="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.25}">
-        <Image Height="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=1.75}"
+    <Grid Margin="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.25}">
+        <Image Height="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=1.75}"
                Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
-        <Image Height="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.85}"
+        <Image Height="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.85}"
                Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}"
                HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>

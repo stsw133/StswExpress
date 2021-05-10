@@ -4,6 +4,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:g="clr-namespace:StswExpress.Globals"
+            xmlns:p="clr-namespace:StswExpress.Properties"
             mc:Ignorable="d" d:DesignWidth="100">
     <StackPanel.CommandBindings>
         <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
@@ -11,7 +12,7 @@
     <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
         <CheckBox Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-                  FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={g:conv_Size}, ConverterParameter=0.8}"
+                  FontSize="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.8}"
                   IsChecked="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}"
                   IsThreeState="True">
             <CheckBox.InputBindings>

@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress.Controls
 {
@@ -22,7 +24,7 @@ namespace StswExpress.Controls
                   nameof(CornerRadius),
                   typeof(double),
                   typeof(IconButton),
-                  new PropertyMetadata(default(double))
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
               );
         public double CornerRadius
         {
@@ -38,7 +40,7 @@ namespace StswExpress.Controls
                   nameof(Icon),
                   typeof(ImageSource),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(default(ImageSource))
+                  new PropertyMetadata(default(string))
               );
         public ImageSource Icon
         {
@@ -54,7 +56,7 @@ namespace StswExpress.Controls
                   nameof(IconMargin),
                   typeof(double),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(default(double))
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
               );
         public double IconMargin
         {
@@ -70,7 +72,7 @@ namespace StswExpress.Controls
                   nameof(IconSize),
                   typeof(double),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(default(double))
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 2)
               );
         public double IconSize
         {
@@ -86,7 +88,7 @@ namespace StswExpress.Controls
                   nameof(IsTextVisible),
                   typeof(bool),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(true)
+                  new PropertyMetadata(true)
               );
         public bool IsTextVisible
         {
@@ -102,7 +104,7 @@ namespace StswExpress.Controls
                   nameof(Orientation),
                   typeof(Orientation),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(default(Orientation))
+                  new PropertyMetadata(default(Orientation))
               );
         public Orientation Orientation
         {
@@ -118,7 +120,7 @@ namespace StswExpress.Controls
                   nameof(Text),
                   typeof(string),
                   typeof(IconButton),
-                  new FrameworkPropertyMetadata(default(string))
+                  new PropertyMetadata(default(string))
               );
         public string Text
         {

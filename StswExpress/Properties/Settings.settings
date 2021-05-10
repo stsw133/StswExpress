@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="StswExpress.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="iSize" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
+    <Setting Name="iFont" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Segoe UI</Value>
+    </Setting>
+    <Setting Name="HashKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">testex</Value>
+    </Setting>
+    <Setting Name="ThemeColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#444</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

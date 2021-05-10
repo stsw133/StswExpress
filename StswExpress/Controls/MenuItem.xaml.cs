@@ -17,18 +17,18 @@ namespace StswExpress.Controls
         /// <summary>
         /// IconUri
         /// </summary>
-        public string IconUri
-        {
-            get => (string)GetValue(pIconUri);
-            set => SetValue(pIconUri, value);
-        }
-        public static readonly DependencyProperty pIconUri
+        public static readonly DependencyProperty IconUriProperty
             = DependencyProperty.Register(
                   nameof(IconUri),
                   typeof(string),
                   typeof(MenuItem),
                   new PropertyMetadata(default(string))
               );
+        public string IconUri
+        {
+            get => (string)GetValue(IconUriProperty);
+            set => SetValue(IconUriProperty, value);
+        }
 
         /// <summary>
         /// Loaded

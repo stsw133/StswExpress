@@ -139,6 +139,9 @@ namespace StswExpress.Controls
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
+            if (!IsLoaded)
+                return;
+            /*
             (sender as TextBox).TextChanged -= tbNumeric_TextChanged;
             try
             {
@@ -156,6 +159,7 @@ namespace StswExpress.Controls
                 (sender as TextBox).Text = Value.ToString();
             }
             (sender as TextBox).TextChanged += tbNumeric_TextChanged;
+            */
         }
     }
 }
