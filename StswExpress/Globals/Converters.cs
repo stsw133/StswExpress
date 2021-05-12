@@ -25,8 +25,8 @@ namespace StswExpress.Globals
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			bool val = System.Convert.ToBoolean(value);
-			string param = parameter.ToString();
-			if (param.StartsWith('!'))
+			string param = parameter?.ToString();
+			if (param?.StartsWith('!') == true)
 			{
 				val = !val;
 				param = param[1..];
@@ -43,8 +43,8 @@ namespace StswExpress.Globals
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			bool val = System.Convert.ToBoolean(value);
-			string param = parameter.ToString();
-			if (param.StartsWith('!'))
+			string param = parameter?.ToString();
+			if (param?.StartsWith('!') == true)
 			{
 				val = !val;
 				param = param[1..];
