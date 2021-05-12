@@ -12,5 +12,5 @@
            Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
            HorizontalAlignment="Stretch" VerticalAlignment="Center"
-           Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}"/>
+           Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_Bool}}"/>
 </StackPanel>

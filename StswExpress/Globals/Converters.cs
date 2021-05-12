@@ -10,80 +10,53 @@ using System.Windows.Markup;
 namespace StswExpress.Globals
 {
 	/// <summary>
-	/// Convert bool -> !bool , bool -> !Visibility : parameter has to be a bool
+	/// Convert bool -> targetType : parameter has to be a bool
 	/// </summary>
-	public class conv_BoolInverted : MarkupExtension, IValueConverter
+	public class conv_Bool : MarkupExtension, IValueConverter
 	{
-		private static conv_BoolInverted _conv = null;
+		private static conv_Bool _conv = null;
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			if (_conv == null)
-				_conv = new conv_BoolInverted();
+				_conv = new conv_Bool();
 			return _conv;
 		}
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (targetType == typeof(Visibility))
-				return !System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
+			bool val = System.Convert.ToBoolean(value);
+			string param = parameter.ToString();
+			if (param.StartsWith('!'))
+			{
+				val = !val;
+				param = param[1..];
+			}
+
+			if (targetType == typeof(string))
+				return val ? param.Split('~')[0] : param.Split('~')[1];
+			else if (targetType == typeof(Visibility))
+				return val ? Visibility.Visible : Visibility.Collapsed;
 			else
-				return !System.Convert.ToBoolean(value);
+				return val;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (targetType == typeof(Visibility))
-				return !System.Convert.ToBoolean(value) ? Visibility.Collapsed : Visibility.Visible;
+			bool val = System.Convert.ToBoolean(value);
+			string param = parameter.ToString();
+			if (param.StartsWith('!'))
+			{
+				val = !val;
+				param = param[1..];
+			}
+
+			if (targetType == typeof(string))
+				return !val ? param.Split('~')[0] : param.Split('~')[1];
+			else if(targetType == typeof(Visibility))
+				return !val ? Visibility.Visible : Visibility.Collapsed;
 			else
-				return !System.Convert.ToBoolean(value);
+				return !val;
 		}
-	}
-
-	/// <summary>
-	/// Convert bool -> string : parameter has to be like 'string~string'
-	/// If true then get string on left side of ~ else get string on right side
-	/// </summary>
-	public class conv_BoolToString : MarkupExtension, IValueConverter
-	{
-		private static conv_BoolToString _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_BoolToString();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (System.Convert.ToBoolean(value))
-				return parameter.ToString().Split('~')[0];
-			return parameter.ToString().Split('~')[1];
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (System.Convert.ToBoolean(value))
-				return parameter.ToString().Split('~')[1];
-			return parameter.ToString().Split('~')[0];
-		}
-	}
-
-	/// <summary>
-	/// Convert bool -> Visibility : parameter has to be a bool
-	/// </summary>
-	public class conv_BoolToVisibility : MarkupExtension, IValueConverter
-	{
-		private static conv_BoolToVisibility _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_BoolToVisibility();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => System.Convert.ToBoolean(value) ? Visibility.Collapsed : Visibility.Visible;
 	}
 
 	/// <summary>

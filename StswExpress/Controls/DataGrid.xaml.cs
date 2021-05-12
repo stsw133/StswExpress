@@ -20,7 +20,7 @@ namespace StswExpress.Controls
                   nameof(HeaderBackground),
                   typeof(string),
                   typeof(DataGrid),
-                  new PropertyMetadata("#DDD")
+                  new PropertyMetadata("#F9F9F9")
               );
         public string HeaderBackground
         {

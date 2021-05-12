@@ -10,7 +10,7 @@
         <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
     <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_BoolToVisibility}}">
+    <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_Bool}}">
         <CheckBox Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
                   FontSize="{Binding iSize, Source={x:Static p:Settings.Default}, Converter={g:conv_Size}, ConverterParameter=0.8}"
                   IsChecked="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}"

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress.Controls
 {
@@ -24,7 +22,7 @@ namespace StswExpress.Controls
                   nameof(CornerRadius),
                   typeof(double),
                   typeof(IconButton),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
+                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.5)
               );
         public double CornerRadius
         {
@@ -40,7 +38,7 @@ namespace StswExpress.Controls
                   nameof(Icon),
                   typeof(ImageSource),
                   typeof(IconButton),
-                  new PropertyMetadata(default(string))
+                  new PropertyMetadata(default(ImageSource))
               );
         public ImageSource Icon
         {
@@ -54,13 +52,13 @@ namespace StswExpress.Controls
         public static readonly DependencyProperty IconMarginProperty
             = DependencyProperty.Register(
                   nameof(IconMargin),
-                  typeof(double),
+                  typeof(Thickness),
                   typeof(IconButton),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
+                  new PropertyMetadata(new Thickness(Properties.Settings.Default.iSize * 0.15))
               );
-        public double IconMargin
+        public Thickness IconMargin
         {
-            get => (double)GetValue(IconMarginProperty);
+            get => (Thickness)GetValue(IconMarginProperty);
             set => SetValue(IconMarginProperty, value);
         }
 
@@ -94,6 +92,22 @@ namespace StswExpress.Controls
         {
             get => (bool)GetValue(IsTextVisibleProperty);
             set => SetValue(IsTextVisibleProperty, value);
+        }
+        
+        /// <summary>
+        /// LabelPadding
+        /// </summary>
+        public static readonly DependencyProperty LabelPaddingProperty
+            = DependencyProperty.Register(
+                  nameof(LabelPadding),
+                  typeof(Thickness),
+                  typeof(IconButton),
+                  new PropertyMetadata(new Thickness(5))
+              );
+        public Thickness LabelPadding
+        {
+            get => (Thickness)GetValue(LabelPaddingProperty);
+            set => SetValue(LabelPaddingProperty, value);
         }
 
         /// <summary>

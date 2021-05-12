@@ -9,11 +9,11 @@
           HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray">
     <DataGrid.ColumnHeaderStyle>
         <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
-            <Setter Property="BorderThickness" Value="0,0,1,1"/>
-            <Setter Property="BorderBrush" Value="{Binding HeaderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Mode=OneWay, Converter={g:conv_Color}, ConverterParameter=-0.25}"/>
+            <Setter Property="BorderBrush" Value="{Binding HeaderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Mode=OneWay, Converter={g:conv_Color}, ConverterParameter=-0.1}"/>
+            <Setter Property="BorderThickness" Value="1,0,1,1"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Padding" Value="4 3"/>
         </Style>
     </DataGrid.ColumnHeaderStyle>

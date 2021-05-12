@@ -27,12 +27,19 @@ namespace StswExpress.Controls
         /// <summary>
         /// Source
         /// </summary>
+        public static readonly DependencyProperty SourceProperty
+            = DependencyProperty.Register(
+                  nameof(Source),
+                  typeof(object[]),
+                  typeof(MultiselectBox),
+                  new PropertyMetadata(default(object[]))
+              );
         public object[] Source
         {
-            get => (object[])GetValue(pSource);
+            get => (object[])GetValue(SourceProperty);
             set
             {
-                SetValue(pSource, value);
+                SetValue(SourceProperty, value);
                 Items.Clear();
                 for (int i = 0; i < Source.Length; i++)
                 {
@@ -48,17 +55,17 @@ namespace StswExpress.Controls
                 }
             }
         }
-        public static readonly DependencyProperty pSource
-            = DependencyProperty.Register(
-                  nameof(Source),
-                  typeof(object[]),
-                  typeof(MultiselectBox),
-                  new PropertyMetadata(null)
-              );
 
         /// <summary>
         /// SelectedIndexes
         /// </summary>
+        public static readonly DependencyProperty SelectedIndexesProperty
+            = DependencyProperty.Register(
+                  nameof(SelectedIndexesProperty),
+                  typeof(int[]),
+                  typeof(MultiselectBox),
+                  new PropertyMetadata(default(int[]))
+              );
         public int[] SelectedIndexes
         {
             get
@@ -71,7 +78,7 @@ namespace StswExpress.Controls
             }
             set
             {
-                SetValue(pSelectedIndexes, value);
+                SetValue(SelectedIndexesProperty, value);
                 for (int i = 0; i < Items.Count; i++)
                 {
                     if (value.Contains(i))
@@ -82,13 +89,6 @@ namespace StswExpress.Controls
                 ToggleButton_Click(null, null);
             }
         }
-        public static readonly DependencyProperty pSelectedIndexes
-            = DependencyProperty.Register(
-                  nameof(SelectedIndexes),
-                  typeof(int[]),
-                  typeof(MultiselectBox),
-                  new PropertyMetadata(null)
-              );
 
         /// <summary>
         /// SelectedContents
