@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for IconButton.xaml
@@ -22,7 +22,7 @@ namespace StswExpress.Controls
                   nameof(CornerRadius),
                   typeof(double),
                   typeof(IconButton),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.5)
+                  new PropertyMetadata(Settings.Default.iSize * 0.5)
               );
         public double CornerRadius
         {
@@ -54,7 +54,7 @@ namespace StswExpress.Controls
                   nameof(IconMargin),
                   typeof(Thickness),
                   typeof(IconButton),
-                  new PropertyMetadata(new Thickness(Properties.Settings.Default.iSize * 0.15))
+                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.15))
               );
         public Thickness IconMargin
         {
@@ -70,7 +70,7 @@ namespace StswExpress.Controls
                   nameof(IconSize),
                   typeof(double),
                   typeof(IconButton),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 2)
+                  new PropertyMetadata(Settings.Default.iSize * 2)
               );
         public double IconSize
         {

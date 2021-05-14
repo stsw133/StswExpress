@@ -1,15 +1,15 @@
-﻿<StackPanel x:Class="StswExpress.Controls.ColumnFilter_Text"
+﻿<StackPanel x:Class="StswExpress.ColumnFilter_Text"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-            xmlns:g="clr-namespace:StswExpress.Globals"
+            xmlns:se="clr-namespace:StswExpress"
             mc:Ignorable="d" d:DesignWidth="100">
     <StackPanel.CommandBindings>
-        <CommandBinding Command="g:Commands.Refresh" Executed="cmdRefresh_Executed"/>
+        <CommandBinding Command="se:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
     <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={g:conv_Bool}}">
+    <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
         <!--
         <ComboBox SelectedValue="{Binding FilterType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" SelectedValuePath="Content" SelectedIndex="0">
             <ComboBoxItem Content="⊃"/>
@@ -18,7 +18,7 @@
         -->
         <TextBox Text="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
-                <KeyBinding Command="g:Commands.Refresh" Key="Return"/>
+                <KeyBinding Command="se:Commands.Refresh" Key="Return"/>
             </TextBox.InputBindings>
         </TextBox>
     </DockPanel>

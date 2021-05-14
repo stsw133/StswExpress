@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
 	public static class Functions
 	{

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
     public static class Extensions
     {

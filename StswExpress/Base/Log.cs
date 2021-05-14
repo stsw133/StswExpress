@@ -3,12 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
     public static class Log
     {
-        private static string LogFileName = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), $"log.log");
-        private static FileInfo LogFile = new FileInfo(LogFileName);
+        private static readonly string LogFileName = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), $"log.log");
+        private static readonly FileInfo LogFile = new FileInfo(LogFileName);
         public static long ArchiveFileSize = 1024 * 1024 * 5; /// 5 MB
         
         /// <summary>
@@ -16,7 +16,7 @@ namespace StswExpress.Globals
         /// </summary>
         /// <param name="text">Text.</param>
         /// <param name="addfunccallername">Add function name.</param>
-        public static void WriteLogEntry(string text, bool addfunccallername = false)
+        public static void Write(string text, bool addfunccallername = false)
         {
             try
             {
@@ -38,10 +38,8 @@ namespace StswExpress.Globals
                 }
 
                 /// write log
-                using (var strWr = new StreamWriter(LogFileName, true))
-                {
-                    strWr.Write($"{DateTime.Now:yyyy-MM-dd | HH:mm:ss.fff} | {text}{Environment.NewLine}");
-                }
+                using var strWr = new StreamWriter(LogFileName, true);
+                strWr.Write($"{DateTime.Now:yyyy-MM-dd | HH:mm:ss.fff} | {text}{Environment.NewLine}");
             }
             catch (Exception ex)
             {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StswExpress.Properties {
+namespace StswExpress {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for Header.xaml
@@ -38,7 +38,7 @@ namespace StswExpress.Controls
                   nameof(IconMargin),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 0.15)
+                  new PropertyMetadata(Settings.Default.iSize * 0.15)
               );
         public double IconMargin
         {
@@ -54,7 +54,7 @@ namespace StswExpress.Controls
                   nameof(IconSize),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(Properties.Settings.Default.iSize * 1.5)
+                  new PropertyMetadata(Settings.Default.iSize * 1.5)
               );
         public double IconSize
         {

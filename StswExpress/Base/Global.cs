@@ -1,24 +1,12 @@
-﻿using StswExpress.Base;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
     public static class Global
     {
         /// App version
-        public static string AppVersion()
-        {
-            int major = Assembly.GetEntryAssembly().GetName().Version.Major,
-                minor = Assembly.GetEntryAssembly().GetName().Version.Minor,
-                build = Assembly.GetEntryAssembly().GetName().Version.Build,
-                revis = Assembly.GetEntryAssembly().GetName().Version.Revision;
-
-            if      (build > 0)     return $"{major}.{minor}.{build}.{revis}";
-            else if (revis > 0)     return $"{major}.{minor}.{build}";
-            else if (minor > 0)     return $"{major}.{minor}";
-            else                    return $"{major}";
-        }
+        public static string AppVersion() => Assembly.GetEntryAssembly().GetName().Version.ToString().TrimEnd(".0".ToCharArray());
 
         /// App name + version
         public static string AppName => $"{Assembly.GetEntryAssembly().GetName().Name} {AppVersion()}";

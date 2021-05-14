@@ -1,4 +1,4 @@
-﻿namespace StswExpress.Globals
+﻿namespace StswExpress
 {
     public static class SQL
     {

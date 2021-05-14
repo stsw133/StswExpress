@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
 	public static class Commands
 	{
@@ -24,7 +24,8 @@ namespace StswExpress.Globals
 			REFRESH,
 			REMOVE,
 			SAVE,
-			SELECT
+			SELECT,
+			SETTINGS
 		}
 
 		/// <summary>
@@ -151,7 +152,11 @@ namespace StswExpress.Globals
 		(
 			Enum.GetName(typeof(Type), Type.LIST),
 			Enum.GetName(typeof(Type), Type.LIST),
-			typeof(Commands)
+			typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.F3)
+			}
 		);
 		/// <summary>
 		/// New
@@ -189,7 +194,7 @@ namespace StswExpress.Globals
 			typeof(Commands),
 			new InputGestureCollection()
 			{
-				new KeyGesture(Key.P, ModifierKeys.Alt)
+				new KeyGesture(Key.F4)
 			}
 		);
 		/// <summary>
@@ -238,7 +243,24 @@ namespace StswExpress.Globals
 		(
 			Enum.GetName(typeof(Type), Type.SELECT),
 			Enum.GetName(typeof(Type), Type.SELECT),
-			typeof(Commands)
+			typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.X, ModifierKeys.Control)
+			}
+		);
+		/// <summary>
+		/// Settings
+		/// </summary>
+		public static readonly RoutedUICommand Settings = new RoutedUICommand
+		(
+			Enum.GetName(typeof(Type), Type.SETTINGS),
+			Enum.GetName(typeof(Type), Type.SETTINGS),
+			typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.F2)
+			}
 		);
 	}
 }

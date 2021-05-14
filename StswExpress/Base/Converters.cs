@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
 	/// <summary>
 	/// Convert bool -> targetType : parameter has to be a bool
@@ -101,6 +101,7 @@ namespace StswExpress.Globals
 			r = System.Convert.ToByte((-255 * param + r) / (1 - param));
 			g = System.Convert.ToByte((-255 * param + g) / (1 - param));
 			b = System.Convert.ToByte((-255 * param + b) / (1 - param));
+
 			return ColorTranslator.ToHtml(Color.FromArgb(r, g, b));
 		}
 	}
@@ -120,7 +121,7 @@ namespace StswExpress.Globals
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			var rev = parameter?.ToString()?.StartsWith("!") ?? false;
+			var rev = parameter?.ToString()?.StartsWith('!') ?? false;
 			var param = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
 
 			if ((value?.ToString() == param && !rev) || (value?.ToString() != param && rev))
@@ -185,14 +186,14 @@ namespace StswExpress.Globals
 				if (targetType == typeof(Visibility))
 					return parameter.ToString()[0] != '!' ? Visibility.Visible : Visibility.Collapsed;
 				else
-					return parameter.ToString()[0] != '!' ? true : false;
+					return parameter.ToString()[0] != '!';
 			}
 			else
 			{
 				if (targetType == typeof(Visibility))
-					return parameter.ToString()[0] != '!' ? Visibility.Collapsed : Visibility.Visible;
+					return parameter.ToString()[0] == '!' ? Visibility.Visible : Visibility.Collapsed;
 				else
-					return parameter.ToString()[0] != '!' ? false : true;
+					return parameter.ToString()[0] == '!';
 			}
 		}
 

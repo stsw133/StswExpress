@@ -1,12 +1,11 @@
-﻿using StswExpress.Globals;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for TitleBar.xaml
@@ -61,7 +60,7 @@ namespace StswExpress.Controls
 				if (win.BorderThickness.Top == 0)
 				{
 					win.BorderThickness = win.ResizeMode == ResizeMode.CanResize ? new Thickness(6) : new Thickness(3);
-					var col = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.ThemeColor);
+					var col = (Color)ColorConverter.ConvertFromString(Settings.Default.ThemeColor);
 					win.BorderBrush = new SolidColorBrush(new Color
 					{
 						R = (byte)(col.R * 0.75),
@@ -72,16 +71,16 @@ namespace StswExpress.Controls
 				}
 				win.WindowStyle = WindowStyle.None;
 
-				if (!string.IsNullOrEmpty(Properties.Settings.Default.iFont))
+				if (!string.IsNullOrEmpty(Settings.Default.iFont))
 					win.SetBinding(Control.FontFamilyProperty, new Binding() {
 						Path = new PropertyPath("iFont"),
-						Source = Properties.Settings.Default
+						Source = Settings.Default
 					});
-				if (Properties.Settings.Default.iSize > 0)
+				if (Settings.Default.iSize > 0)
 					win.SetBinding(Control.FontSizeProperty, new Binding()
 					{
 						Path = new PropertyPath("iSize"),
-						Source = Properties.Settings.Default
+						Source = Settings.Default
 					});
 
 				miDefaultSize.IsEnabled = win.ResizeMode.In(ResizeMode.CanResize, ResizeMode.CanResizeWithGrip);

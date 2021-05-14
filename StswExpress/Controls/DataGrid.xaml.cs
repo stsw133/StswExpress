@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for DataGrid.xaml

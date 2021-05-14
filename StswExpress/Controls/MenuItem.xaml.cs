@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for MenuItem.xaml

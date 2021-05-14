@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-namespace StswExpress.Base
+namespace StswExpress
 {
     public abstract class D : INotifyPropertyChanged
     {

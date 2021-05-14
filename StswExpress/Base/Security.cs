@@ -6,7 +6,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace StswExpress.Globals
+namespace StswExpress
 {
     public static class Security
     {
@@ -38,7 +38,7 @@ namespace StswExpress.Globals
             var saltStringBytes = GenerateSalt();
             var ivStringBytes = GenerateSalt();
             var plainTextBytes = Encoding.UTF8.GetBytes(text);
-            using (var password = new Rfc2898DeriveBytes(Properties.Settings.Default.HashKey, saltStringBytes, 1000))
+            using (var password = new Rfc2898DeriveBytes(Settings.Default.HashKey, saltStringBytes, 1000))
             {
                 var keyBytes = password.GetBytes(16);
                 using (var symmetricKey = new RijndaelManaged())
@@ -76,7 +76,7 @@ namespace StswExpress.Globals
             var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(16).ToArray();
             var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(16).Take(16).ToArray();
             var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(16 * 2).Take(cipherTextBytesWithSaltAndIv.Length - (16 * 2)).ToArray();
-            using (var password = new Rfc2898DeriveBytes(Properties.Settings.Default.HashKey, saltStringBytes, 1000))
+            using (var password = new Rfc2898DeriveBytes(Settings.Default.HashKey, saltStringBytes, 1000))
             {
                 var keyBytes = password.GetBytes(16);
                 using (var symmetricKey = new RijndaelManaged())

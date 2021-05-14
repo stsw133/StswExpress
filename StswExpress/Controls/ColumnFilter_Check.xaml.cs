@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace StswExpress.Controls
+namespace StswExpress
 {
     /// <summary>
     /// Interaction logic for ColumnFilter_Check.xaml
@@ -101,7 +101,7 @@ namespace StswExpress.Controls
         {
             try
             {
-                Globals.Commands.Refresh.Execute(null, Parent as UIElement);
+                Commands.Refresh.Execute(null, Parent as UIElement);
             }
             catch { }
         }
