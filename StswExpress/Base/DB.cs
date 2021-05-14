@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace StswExpress
 {
-	public class M_Database
+	public class DB
 	{
 		public string Name { get; set; } = string.Empty;
 		public string Server { get; set; } = string.Empty;
@@ -18,10 +18,10 @@ namespace StswExpress
 		/// <summary>
 		/// Load list of hashed databases from file
 		/// </summary>
-		public static List<M_Database> LoadAllDatabases()
+		public static List<DB> LoadAllDatabases()
 		{
-			var result = new List<M_Database>();
-			var db = new M_Database();
+			var result = new List<DB>();
+			var db = new DB();
 
 			try
 			{
@@ -37,7 +37,7 @@ namespace StswExpress
 
 						if (property == "0")
 						{
-							db = new M_Database();
+							db = new DB();
 							db.Name =  Security.Decrypt(line.Substring(property.Length + 1));
 						}
 						else if (property == "1")
@@ -67,13 +67,13 @@ namespace StswExpress
 		/// <summary>
 		/// Save list of hashed databases to file
 		/// </summary>
-		public static void SaveAllDatabases(List<M_Database> databases)
+		public static void SaveAllDatabases(List<DB> databases)
 		{
 			try
 			{
 				using (var stream = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")))
 				{
-					foreach (M_Database db in databases)
+					foreach (DB db in databases)
 					{
 						stream.WriteLine($"0={Security.Encrypt(db.Name)}");
 						stream.WriteLine($"1={Security.Encrypt(db.Server)}");

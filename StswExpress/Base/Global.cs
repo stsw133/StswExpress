@@ -11,11 +11,8 @@ namespace StswExpress
         /// App name + version
         public static string AppName => $"{Assembly.GetEntryAssembly().GetName().Name} {AppVersion()}";
 
-        /// Chosen database
-        public static M_Database AppDatabase { get; set; } = new M_Database();
-
-        /// Logged user
-        public static M_User AppUser { get; set; } = new M_User();
+        /// App database
+        public static DB AppDatabase { get; set; } = new DB();
 
         #region Proxy
         public class BindingProxy : Freezable
