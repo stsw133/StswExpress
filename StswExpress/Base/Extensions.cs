@@ -12,14 +12,14 @@ namespace StswExpress
     public static class Extensions
     {
         /// <summary>
-        /// Is value in list of given values
-        /// </summary>
-        public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
-
-        /// <summary>
         /// Set first letter to upper and rest to lower
         /// </summary>
         public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
+
+        /// <summary>
+        /// Is value in list of given values
+        /// </summary>
+        public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
         /// <summary>
         /// Convert DataTable to list of any model class

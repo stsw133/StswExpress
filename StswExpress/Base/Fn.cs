@@ -1,11 +1,38 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
 {
-	public static class Functions
+	public static class Fn
 	{
+		/// App version
+		public static string AppVersion() => Assembly.GetEntryAssembly().GetName().Version.ToString().TrimEnd(".0".ToCharArray());
+
+		/// App name + version
+		public static string AppName => $"{Assembly.GetEntryAssembly().GetName().Name} {AppVersion()}";
+
+		/// App database
+		public static DB AppDatabase { get; set; } = new DB();
+
+		/// <summary>
+		/// Proxy
+		/// </summary>
+		public class BindingProxy : Freezable
+		{
+			protected override Freezable CreateInstanceCore() => new BindingProxy();
+
+			public object Data
+			{
+				get => GetValue(DataProperty);
+				set => SetValue(DataProperty, value);
+			}
+
+			public static readonly DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), new UIPropertyMetadata(null));
+		}
+
 		/// <summary>
 		/// Load image from byte[] to BitmapImage
 		/// </summary>
