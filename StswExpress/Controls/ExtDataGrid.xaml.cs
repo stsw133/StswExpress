@@ -1,13 +1,14 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace StswExpress
 {
     /// <summary>
-    /// Interaction logic for DataGrid.xaml
+    /// Interaction logic for ExtDataGrid.xaml
     /// </summary>
-    public partial class DataGrid : System.Windows.Controls.DataGrid
+    public partial class ExtDataGrid : DataGrid
     {
-        public DataGrid()
+        public ExtDataGrid()
         {
             InitializeComponent();
         }
@@ -19,7 +20,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(HeaderBackground),
                   typeof(string),
-                  typeof(DataGrid),
+                  typeof(ExtDataGrid),
                   new PropertyMetadata("#F9F9F9")
               );
         public string HeaderBackground

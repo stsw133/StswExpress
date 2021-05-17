@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
 {
     /// <summary>
-    /// Interaction logic for MenuItem.xaml
+    /// Interaction logic for ExtMenuItem.xaml
     /// </summary>
-    public partial class MenuItem : System.Windows.Controls.MenuItem
+    public partial class ExtMenuItem : MenuItem
     {
-        public MenuItem()
+        public ExtMenuItem()
         {
             InitializeComponent();
         }
@@ -21,7 +22,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(IconUri),
                   typeof(string),
-                  typeof(MenuItem),
+                  typeof(ExtMenuItem),
                   new PropertyMetadata(default(string))
               );
         public string IconUri

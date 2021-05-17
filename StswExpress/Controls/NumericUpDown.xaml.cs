@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress
 {
@@ -12,6 +14,22 @@ namespace StswExpress
         public NumericUpDown()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// BoxAlignment
+        /// </summary>
+        public static readonly DependencyProperty BoxAlignmentProperty
+            = DependencyProperty.Register(
+                  nameof(BoxAlignment),
+                  typeof(HorizontalAlignment),
+                  typeof(NumericUpDown),
+                  new PropertyMetadata(default(HorizontalAlignment))
+              );
+        public HorizontalAlignment BoxAlignment
+        {
+            get => (HorizontalAlignment)GetValue(BoxAlignmentProperty);
+            set => SetValue(BoxAlignmentProperty, value);
         }
 
         /// <summary>
@@ -47,118 +65,96 @@ namespace StswExpress
         }
 
         /// <summary>
+        /// Max
+        /// </summary>
+        public static readonly DependencyProperty MaxProperty
+            = DependencyProperty.Register(
+                  nameof(Max),
+                  typeof(double?),
+                  typeof(NumericUpDown),
+                  new PropertyMetadata(default(double?))
+              );
+        public double? Max
+        {
+            get => (double?)GetValue(MaxProperty);
+            set => SetValue(MaxProperty, value);
+        }
+
+        /// <summary>
+        /// Min
+        /// </summary>
+        public static readonly DependencyProperty MinProperty
+            = DependencyProperty.Register(
+                  nameof(Min),
+                  typeof(double?),
+                  typeof(NumericUpDown),
+                  new PropertyMetadata(default(double?))
+              );
+        public double? Min
+        {
+            get => (double?)GetValue(MinProperty);
+            set => SetValue(MinProperty, value);
+        }
+
+        /// <summary>
         /// Value
         /// </summary>
         public static readonly DependencyProperty ValueProperty
             = DependencyProperty.Register(
                   nameof(Value),
-                  typeof(double),
+                  typeof(double?),
                   typeof(NumericUpDown),
-                  new PropertyMetadata(default(double))
+                  new PropertyMetadata(default(double?))
               );
-        public double Value
+        public double? Value
         {
-            get => (double)GetValue(ValueProperty);
+            get => (double?)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
 
         /// <summary>
-        /// ValueAlignment
-        /// </summary>
-        public static readonly DependencyProperty ValueAlignmentProperty
-            = DependencyProperty.Register(
-                  nameof(ValueAlignment),
-                  typeof(HorizontalAlignment),
-                  typeof(NumericUpDown),
-                  new PropertyMetadata(default(HorizontalAlignment))
-              );
-        public HorizontalAlignment ValueAlignment
-        {
-            get => (HorizontalAlignment)GetValue(ValueAlignmentProperty);
-            set => SetValue(ValueAlignmentProperty, value);
-        }
-
-        /// <summary>
-        /// ValueMin
-        /// </summary>
-        public static readonly DependencyProperty ValueMinProperty
-            = DependencyProperty.Register(
-                  nameof(ValueMin),
-                  typeof(double?),
-                  typeof(NumericUpDown),
-                  new PropertyMetadata(default(double?))
-              );
-        public double? ValueMin
-        {
-            get => (double?)GetValue(ValueMinProperty);
-            set => SetValue(ValueMinProperty, value);
-        }
-
-        /// <summary>
-        /// ValueMax
-        /// </summary>
-        public static readonly DependencyProperty ValueMaxProperty
-            = DependencyProperty.Register(
-                  nameof(ValueMax),
-                  typeof(double?),
-                  typeof(NumericUpDown),
-                  new PropertyMetadata(default(double?))
-              );
-        public double? ValueMax
-        {
-            get => (double?)GetValue(ValueMaxProperty);
-            set => SetValue(ValueMaxProperty, value);
-        }
-
-        /// <summary>
-        /// Up - Click
+        /// Up - KeyDown
         /// </summary>
         private void btnUp_Click(object sender, RoutedEventArgs e)
         {
             Value += Increment;
-            if (ValueMax != null && Value > ValueMax)
-                Value = (double)ValueMax;
+            if (Value == null)
+            {
+                if (((double?)0).Between(Min, Max))
+                    Value = 0;
+                else
+                    Value = Math.Min(Math.Abs(Min ?? 0d), Math.Abs(Max ?? 0d));
+            }
+            else if (Max != null && Value > Max)
+                Value = (double)Max;
         }
 
         /// <summary>
-        /// Down - Click
+        /// Down - KeyDown
         /// </summary>
         private void btnDown_Click(object sender, RoutedEventArgs e)
         {
             Value -= Increment;
-            if (ValueMin != null && Value < ValueMin)
-                Value = (double)ValueMin;
+            if (Value == null)
+            {
+                if (((double?)0).Between(Min, Max))
+                    Value = 0;
+                else
+                    Value = Math.Min(Math.Abs(Min ?? 0d), Math.Abs(Max ?? 0d));
+            }
+            else if (Min != null && Value < Min)
+                Value = (double)Min;
         }
 
         /// <summary>
-        /// Numeric - TextChanged
+        /// TextBox - LostFocus
         /// </summary>
-        private void tbNumeric_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (DesignerProperties.GetIsInDesignMode(this))
-                return;
-
-            if (!IsLoaded)
-                return;
-            /*
-            (sender as TextBox).TextChanged -= tbNumeric_TextChanged;
-            try
-            {
-                if ((sender as TextBox).Text == "-")
-                    return;
-                var val = Convert.ToDouble((sender as TextBox).Text);
-
-                if (ValueMin != null && val < ValueMin)
-                    (sender as TextBox).Text = ValueMin.ToString();
-                else if (ValueMax != null && val > ValueMax)
-                    (sender as TextBox).Text = ValueMax.ToString();
-            }
-            catch
-            {
-                (sender as TextBox).Text = Value.ToString();
-            }
-            (sender as TextBox).TextChanged += tbNumeric_TextChanged;
-            */
+            if (Min != null && Value < Min)
+                Value = (double)Min;
+            if (Max != null && Value > Max)
+                Value = (double)Max;
         }
     }
 }

@@ -12,6 +12,11 @@ namespace StswExpress
     public static class Extensions
     {
         /// <summary>
+        /// Is value between 2 given values
+        /// </summary>
+        public static bool Between<T>(this T item, T start, T end) => Comparer<T>.Default.Compare(item, start) >= 0 && Comparer<T>.Default.Compare(item, end) <= 0;
+
+        /// <summary>
         /// Set first letter to upper and rest to lower
         /// </summary>
         public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
