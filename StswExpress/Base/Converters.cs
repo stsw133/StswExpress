@@ -10,7 +10,7 @@ using System.Windows.Markup;
 namespace StswExpress
 {
 	/// <summary>
-	/// Convert bool -> targetType : parameter has to be a bool
+	/// Converts bool -> targetType : parameter has to be a bool
 	/// </summary>
 	public class conv_Bool : MarkupExtension, IValueConverter
 	{
@@ -60,7 +60,7 @@ namespace StswExpress
 	}
 
 	/// <summary>
-	/// Lighten/darken hex color using parameter from -1.0 to 1.0 : parameter has to be a number
+	/// Lightens/darkens hex color using parameter from -1.0 to 1.0 : parameter has to be a number
 	/// To get font color based on brightness of background color use ! as parameter
 	/// </summary>
 	public class conv_Color : MarkupExtension, IValueConverter
@@ -107,7 +107,7 @@ namespace StswExpress
 	}
 
 	/// <summary>
-	/// Compare value to parameter
+	/// Compares value to parameter
 	/// </summary>
 	public class conv_Compare : MarkupExtension, IValueConverter
 	{
@@ -144,7 +144,51 @@ namespace StswExpress
 	}
 
 	/// <summary>
-	/// Compare value to parameter
+	/// Checks if value contains parameter
+	/// </summary>
+	public class conv_Contains : MarkupExtension, IValueConverter
+	{
+		private static conv_Contains _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_Contains();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var rev = parameter?.ToString()?.StartsWith('!') ?? false;
+			object param = parameter.ToString().StartsWith('!') ? parameter.ToString().TrimStart('!') : parameter;
+
+			if ((value as IEnumerable<string>).Contains(param))
+			{
+				if (targetType == typeof(Visibility))
+					return !rev ? Visibility.Visible : Visibility.Collapsed;
+				else
+					return !rev;
+			}
+			else
+			{
+				if (targetType == typeof(Visibility))
+					return rev ? Visibility.Visible : Visibility.Collapsed;
+				else
+					return rev;
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType == typeof(Visibility))
+				return Visibility.Collapsed;
+			else
+				return false;
+		}
+	}
+
+
+	/// <summary>
+	/// Generates color from string
 	/// </summary>
 	public class conv_GenerateColor : MarkupExtension, IValueConverter
 	{
@@ -165,49 +209,9 @@ namespace StswExpress
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 	}
 
+	
 	/// <summary>
-	/// Convert List.Contains(string) : parameter has to be a string
-	/// If true then returns true or Visibility.Visible else returns false or Visibility.Collapsed
-	/// </summary>
-	public class conv_ListContains : MarkupExtension, IValueConverter
-	{
-		private static conv_ListContains _conv = null;
-		public override object ProvideValue(IServiceProvider serviceProvider)
-		{
-			if (_conv == null)
-				_conv = new conv_ListContains();
-			return _conv;
-		}
-
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if ((value as List<string>).Contains(parameter.ToString().TrimStart('!')))
-			{
-				if (targetType == typeof(Visibility))
-					return parameter.ToString()[0] != '!' ? Visibility.Visible : Visibility.Collapsed;
-				else
-					return parameter.ToString()[0] != '!';
-			}
-			else
-			{
-				if (targetType == typeof(Visibility))
-					return parameter.ToString()[0] == '!' ? Visibility.Visible : Visibility.Collapsed;
-				else
-					return parameter.ToString()[0] == '!';
-			}
-		}
-
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (targetType == typeof(Visibility))
-				return Visibility.Collapsed;
-			else
-				return false;
-		}
-	}
-
-	/// <summary>
-	/// Convert double -> value * parameter
+	/// Converts double -> value * parameter
 	/// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter)
 	/// </summary>
 	public class conv_Size : MarkupExtension, IValueConverter
@@ -274,7 +278,7 @@ namespace StswExpress
 	}
 
 	/// <summary>
-	/// Convert string -> string : parameter has to be like 'string~string~string'
+	/// Converts string -> string : parameter has to be like 'string~string~string'
 	/// If value=parameter[0] then get string on left side of second ~ else get string on right side
 	/// </summary>
 	public class conv_StringToString : MarkupExtension, IValueConverter
