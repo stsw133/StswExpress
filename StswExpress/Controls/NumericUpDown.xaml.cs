@@ -113,7 +113,7 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// Up - KeyDown
+        /// Up - Click
         /// </summary>
         private void btnUp_Click(object sender, RoutedEventArgs e)
         {
@@ -130,7 +130,7 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// Down - KeyDown
+        /// Down - Click
         /// </summary>
         private void btnDown_Click(object sender, RoutedEventArgs e)
         {

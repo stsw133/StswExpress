@@ -209,7 +209,45 @@ namespace StswExpress
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 	}
 
-	
+	/// <summary>
+	/// Converts decimal independent of using dot or comma
+	/// </summary>
+	public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
+	{
+		private static conv_MultiCultureNumber _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_MultiCultureNumber();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var ci = CultureInfo.InvariantCulture.Clone() as CultureInfo;
+			ci.NumberFormat.NumberDecimalSeparator = ",";
+			return ((decimal)value).ToString(ci);
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var ci = CultureInfo.InvariantCulture.Clone() as CultureInfo;
+			var s = System.Convert.ToString(value);
+			decimal d;
+			if (decimal.TryParse(s, NumberStyles.Number ^ NumberStyles.AllowThousands, ci, out d))
+			{
+				return d;
+			}
+			else
+			{
+				ci.NumberFormat.NumberDecimalSeparator = ",";
+				if (decimal.TryParse(s, NumberStyles.Number ^ NumberStyles.AllowThousands, ci, out d))
+					return d;
+			}
+			return Binding.DoNothing;
+		}
+	}
+
 	/// <summary>
 	/// Converts double -> value * parameter
 	/// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter)
