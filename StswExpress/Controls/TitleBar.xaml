@@ -61,14 +61,14 @@
             <MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
             <MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="False">
                 <MenuItem.Icon>
-                    <TextBlock Text="▂" Foreground="#2CC" HorizontalAlignment="Center"/>
+                    <TextBlock Text="▂" Foreground="#2CC" TextAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem x:Name="miMaximize" Header="Maksymalizuj" Click="miResize_Click" IsEnabled="False"/>
             <Separator/>
             <MenuItem x:Name="miClose" Header="Zamknij okno" Click="miClose_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="✖" Foreground="#E22" HorizontalAlignment="Center"/>
+                    <TextBlock Text="✖" Foreground="#E22" TextAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
