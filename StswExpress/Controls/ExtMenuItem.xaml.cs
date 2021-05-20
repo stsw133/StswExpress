@@ -38,9 +38,9 @@ namespace StswExpress
         {
             if (IconUri != null)
             {
-                Icon = new System.Windows.Controls.Image
+                Icon = new Image
                 {
-                    Source = new BitmapImage(new Uri("pack://application:,,," + IconUri, UriKind.RelativeOrAbsolute))
+                    Source = new BitmapImage(new Uri("pack://siteoforigin:,,," + IconUri, UriKind.RelativeOrAbsolute))
                 };
             }
         }

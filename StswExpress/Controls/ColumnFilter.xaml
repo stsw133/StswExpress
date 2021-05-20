@@ -8,107 +8,32 @@
     <StackPanel.CommandBindings>
         <CommandBinding Command="se:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
-    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+    <TextBlock x:Name="txtHeader" Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
-        <Label x:Name="lblMode" Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-            <Label.ContextMenu>
+        <Image x:Name="imgMode" Height="{Binding ActualHeight, ElementName=txtHeader}" Width="{Binding ActualHeight, ElementName=txtHeader}"
+               Margin="0,0,1,0" PreviewMouseDown="imgMode_PreviewMouseDown">
+            <Image.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.Resources>
-                        <Style TargetType="{x:Type MenuItem}">
+                        <Style TargetType="{x:Type se:ExtMenuItem}">
                             <EventSetter Event="Click" Handler="miFilterMode_Click"/>
                         </Style>
                     </ContextMenu.Resources>
-                    <MenuItem Header="Jest równe" Tag="Equal">
-                        <MenuItem.Icon>
-                            <TextBlock Text="=" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Nie jest równe" Tag="NotEqual">
-                        <MenuItem.Icon>
-                            <TextBlock Text="≠" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Zawiera" Tag="Contains">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines>a<Run Text="b" Foreground="White" Background="Green"/>c</TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Nie zawiera" Tag="NotContains">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines>a<Run Text="b" Foreground="White" Background="Red"/>c</TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Podobne do" Tag="Like">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines>a<Run Text="%" Foreground="White" Background="Green"/>c</TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Nie jest podobne" Tag="NotLike">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines>a<Run Text="%" Foreground="White" Background="Red"/>c</TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Rozpoczyna się od" Tag="StartsWith">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines><Run Text="a" Foreground="White" Background="DodgerBlue"/>bc</TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Kończy się na" Tag="EndsWith">
-                        <MenuItem.Icon>
-                            <TextBlock Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.6}">
-                                <TextBlock.Inlines>ab<Run Text="c" Foreground="White" Background="DodgerBlue"/></TextBlock.Inlines>
-                            </TextBlock>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Jest większe niż" Tag="Greater">
-                        <MenuItem.Icon>
-                            <TextBlock Text="&gt;" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Jest większe lub równe" Tag="GreaterEqual">
-                        <MenuItem.Icon>
-                            <TextBlock Text="≥" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Jest mniejsze niż" Tag="Less">
-                        <MenuItem.Icon>
-                            <TextBlock Text="&lt;" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Jest mniejsze lub równe" Tag="LessEqual">
-                        <MenuItem.Icon>
-                            <TextBlock Text="≤" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Pomiędzy" Tag="Between">
-                        <MenuItem.Icon>
-                            <TextBlock Text="&gt;&lt;" Foreground="Gray" TextAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <se:ExtMenuItem Header="Jest równe" Tag="Equal" IconUri="/Resources/icon32_filter_equal.ico"/>
+                    <se:ExtMenuItem Header="Nie jest równe" Tag="NotEqual" IconUri="/Resources/icon32_filter_notequal.ico"/>
+                    <se:ExtMenuItem Header="Jest większe niż" Tag="Greater" IconUri="/Resources/icon32_filter_greater.ico"/>
+                    <se:ExtMenuItem Header="Jest większe lub równe" Tag="GreaterEqual" IconUri="/Resources/icon32_filter_greaterequal.ico"/>
+                    <se:ExtMenuItem Header="Jest mniejsze niż" Tag="Less" IconUri="/Resources/icon32_filter_less.ico"/>
+                    <se:ExtMenuItem Header="Jest mniejsze lub równe" Tag="LessEqual" IconUri="/Resources/icon32_filter_lessequal.ico"/>
+                    <se:ExtMenuItem Header="Pomiędzy" Tag="Between" IconUri="/Resources/icon32_filter_between.ico"/>
+                    <se:ExtMenuItem Header="Zawiera" Tag="Contains" IconUri="/Resources/icon32_filter_contains.ico"/>
+                    <se:ExtMenuItem Header="Nie zawiera" Tag="NotContains" IconUri="/Resources/icon32_filter_notcontains.ico"/>
+                    <se:ExtMenuItem Header="Podobne do" Tag="Like" IconUri="/Resources/icon32_filter_like.ico"/>
+                    <se:ExtMenuItem Header="Nie jest podobne" Tag="NotLike" IconUri="/Resources/icon32_filter_notlike.ico"/>
+                    <se:ExtMenuItem Header="Rozpoczyna się od" Tag="StartsWith" IconUri="/Resources/icon32_filter_startswith.ico"/>
+                    <se:ExtMenuItem Header="Kończy się na" Tag="EndsWith" IconUri="/Resources/icon32_filter_endswith.ico"/>
                 </ContextMenu>
-            </Label.ContextMenu>
-        </Label>
-        <TextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
-                <KeyBinding Command="se:Commands.Refresh" Key="Return"/>
-            </TextBox.InputBindings>
-        </TextBox>
+            </Image.ContextMenu>
+        </Image>
     </DockPanel>
 </StackPanel>

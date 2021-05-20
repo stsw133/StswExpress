@@ -20,7 +20,7 @@
                 Click="miMinimize_Click">
             <Image Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}"
                    Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
-                   Source="/Resources/icon32_minimize.ico"/>
+                   Source="pack://siteoforigin:,,,/Resources/icon32_minimize.ico"/>
         </Button>
         <Button x:Name="btnResize"
                 Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=-0.25}"
@@ -40,7 +40,7 @@
                 Click="miClose_Click">
             <Image Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}"
                    Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
-                   Source="/Resources/icon32_close.ico"/>
+                   Source="pack://siteoforigin:,,,/Resources/icon32_close.ico"/>
         </Button>
     </StackPanel>
     <!-- title -->
@@ -59,18 +59,10 @@
             <!--<MenuItem x:Name="miRestoreDown" Header="Przywróć" Click="miResize_Click" IsEnabled="False"/>-->
             <MenuItem x:Name="miSetCenter" Header="Wyśrodkuj na ekranie" Click="miSetCenter_Click"/>
             <MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
-            <MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="False">
-                <MenuItem.Icon>
-                    <TextBlock Text="▂" Foreground="#2CC" TextAlignment="Center"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <se:ExtMenuItem x:Name="miMinimize" Header="Minimalizuj" IconUri="/Resources/icon32_minimize.ico" Click="miMinimize_Click" IsEnabled="False"/>
             <MenuItem x:Name="miMaximize" Header="Maksymalizuj" Click="miResize_Click" IsEnabled="False"/>
             <Separator/>
-            <MenuItem x:Name="miClose" Header="Zamknij okno" Click="miClose_Click">
-                <MenuItem.Icon>
-                    <TextBlock Text="✖" Foreground="#E22" TextAlignment="Center"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <se:ExtMenuItem x:Name="miClose" Header="Zamknij okno" IconUri="/Resources/icon32_close.ico" Click="miClose_Click"/>
         </ContextMenu>
     </DockPanel.ContextMenu>
 </DockPanel>

@@ -163,6 +163,136 @@ namespace StswExpress.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_filter_between {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_between", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_contains {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_contains", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_endswith {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_endswith", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_equal {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_equal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_greater {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_greater", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_greaterequal {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_greaterequal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_less {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_less", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_lessequal {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_lessequal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_like {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_like", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_notcontains {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_notcontains", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_notequal {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_notequal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_notlike {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_notlike", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_startswith {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_startswith", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_folder {
             get {
                 object obj = ResourceManager.GetObject("icon32_folder", resourceCulture);

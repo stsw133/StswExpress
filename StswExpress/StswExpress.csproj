@@ -20,6 +20,19 @@
     <None Remove="Resources\icon32_duplicate.ico" />
     <None Remove="Resources\icon32_edit.ico" />
     <None Remove="Resources\icon32_filter.ico" />
+    <None Remove="Resources\icon32_filter_between.ico" />
+    <None Remove="Resources\icon32_filter_contains.ico" />
+    <None Remove="Resources\icon32_filter_endswith.ico" />
+    <None Remove="Resources\icon32_filter_equal.ico" />
+    <None Remove="Resources\icon32_filter_greater.ico" />
+    <None Remove="Resources\icon32_filter_greaterequal.ico" />
+    <None Remove="Resources\icon32_filter_less.ico" />
+    <None Remove="Resources\icon32_filter_lessequal.ico" />
+    <None Remove="Resources\icon32_filter_like.ico" />
+    <None Remove="Resources\icon32_filter_notcontains.ico" />
+    <None Remove="Resources\icon32_filter_notequal.ico" />
+    <None Remove="Resources\icon32_filter_notlike.ico" />
+    <None Remove="Resources\icon32_filter_startswith.ico" />
     <None Remove="Resources\icon32_folder.ico" />
     <None Remove="Resources\icon32_list.ico" />
     <None Remove="Resources\icon32_locked.ico" />
@@ -70,6 +83,45 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\icon32_filter.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_between.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_contains.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_endswith.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_equal.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_greater.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_greaterequal.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_less.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_lessequal.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_like.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_notcontains.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_notequal.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_notlike.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon32_filter_startswith.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\icon32_folder.ico">

@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress
 {
@@ -129,7 +130,7 @@ namespace StswExpress
         /// </summary>
         private void StackPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            var items = Extensions.FindVisualChildren<MenuItem>(lblMode.ContextMenu).ToList();
+            var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
             var binding = new Binding()
             {
                 Path = new PropertyPath("Value"),
@@ -143,28 +144,40 @@ namespace StswExpress
                 Command = Commands.Refresh,
                 Key = Key.Return
             };
-            var dp = lblMode.Parent as DockPanel;
+            var dp = imgMode.Parent as DockPanel;
 
             if (FilterType == Type.Text)
             {
+                FilterMode = Mode.Contains;
+
                 var valuecontainer = new TextBox();
                 valuecontainer.InputBindings.Add(inputbinding);
                 valuecontainer.SetBinding(TextBox.TextProperty, binding);
                 dp.Children.Add(valuecontainer);
 
-                FilterMode = Mode.Contains;
-                lblMode.Content = items.First(x => (string)x.Tag == Mode.Contains.ToString()).Icon;
+                items.First(x => x.Tag.ToString() == Mode.Greater.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.GreaterEqual.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.Less.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.LessEqual.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.Between.ToString()).Visibility = Visibility.Collapsed;
             }
             else if (FilterType == Type.Number)
             {
+                FilterMode = Mode.Equal;
+
                 var valuecontainer = new NumericUpDown();
                 valuecontainer.InputBindings.Add(inputbinding);
                 valuecontainer.SetBinding(NumericUpDown.ValueProperty, binding);
                 dp.Children.Add(valuecontainer);
 
-                FilterMode = Mode.Equal;
-                lblMode.Content = items.First(x => (string)x.Tag == Mode.Equal.ToString()).Icon;
+                items.First(x => x.Tag.ToString() == Mode.Contains.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.NotContains.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.Like.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.NotLike.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.StartsWith.ToString()).Visibility = Visibility.Collapsed;
+                items.First(x => x.Tag.ToString() == Mode.EndsWith.ToString()).Visibility = Visibility.Collapsed;
             }
+            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }
 
         /// <summary>
@@ -180,12 +193,22 @@ namespace StswExpress
         }
 
         /// <summary>
+        /// Filter mode click
+        /// </summary>
+        private void imgMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var c = sender as FrameworkElement;
+            if (c != null) c.ContextMenu.IsOpen = true;
+        }
+
+        /// <summary>
         /// Filter mode change
         /// </summary>
         private void miFilterMode_Click(object sender, RoutedEventArgs e)
         {
-            lblMode.Content = (sender as MenuItem).Icon;
+            var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
             FilterMode = (Mode)Enum.Parse(typeof(Mode), (sender as MenuItem).Tag.ToString());
+            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }
     }
 }
