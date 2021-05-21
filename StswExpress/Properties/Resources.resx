@@ -166,6 +166,9 @@
   <data name="icon32_filter_greaterequal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon32_filter_greaterequal.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon32_filter_in" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon32_filter_in.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon32_filter_less" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon32_filter_less.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -180,6 +183,9 @@
   </data>
   <data name="icon32_filter_notequal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon32_filter_notequal.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_filter_notin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon32_filter_notin.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_filter_notlike" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon32_filter_notlike.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
@@ -24,6 +23,7 @@ namespace StswExpress
             Check,
             //Combo,
             Date,
+            //Multiselect,
             Number,
             Text
         }
@@ -42,7 +42,9 @@ namespace StswExpress
             Like,
             NotLike,
             StartsWith,
-            EndsWith
+            EndsWith,
+            In,
+            NotIn
         }
 
         /// <summary>
@@ -51,13 +53,13 @@ namespace StswExpress
         public static readonly DependencyProperty FilterModeProperty
             = DependencyProperty.Register(
                   nameof(FilterMode),
-                  typeof(Mode),
+                  typeof(Mode?),
                   typeof(ColumnFilter),
-                  new PropertyMetadata(default(Mode))
+                  new PropertyMetadata(default(Mode?))
               );
-        public Mode FilterMode
+        public Mode? FilterMode
         {
-            get => (Mode)GetValue(FilterModeProperty);
+            get => (Mode?)GetValue(FilterModeProperty);
             set => SetValue(FilterModeProperty, value);
         }
 
@@ -91,6 +93,38 @@ namespace StswExpress
         {
             get => (string)GetValue(HeaderProperty);
             set => SetValue(HeaderProperty, value);
+        }
+
+        /// <summary>
+        /// IsFilterCaseSensitive
+        /// </summary>
+        public static readonly DependencyProperty IsFilterCaseSensitiveProperty
+            = DependencyProperty.Register(
+                  nameof(IsFilterCaseSensitive),
+                  typeof(bool),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(bool))
+              );
+        public bool IsFilterCaseSensitive
+        {
+            get => (bool)GetValue(IsFilterCaseSensitiveProperty);
+            set => SetValue(IsFilterCaseSensitiveProperty, value);
+        }
+
+        /// <summary>
+        /// IsFilterNullSensitive
+        /// </summary>
+        public static readonly DependencyProperty IsFilterNullSensitiveProperty
+            = DependencyProperty.Register(
+                  nameof(IsFilterNullSensitive),
+                  typeof(bool),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(bool))
+              );
+        public bool IsFilterNullSensitive
+        {
+            get => (bool)GetValue(IsFilterNullSensitiveProperty);
+            set => SetValue(IsFilterNullSensitiveProperty, value);
         }
 
         /// <summary>
@@ -142,7 +176,7 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// SQL
+        /// SQL (name)
         /// </summary>
         public static readonly DependencyProperty NameSQLProperty
             = DependencyProperty.Register(
@@ -156,42 +190,55 @@ namespace StswExpress
             get => (string)GetValue(NameSQLProperty);
             set => SetValue(NameSQLProperty, value);
         }
+
+        /// <summary>
+        /// SQL (filter)
+        /// </summary>
         public string FilterSQL
         {
             get
             {
-                var s = FilterType.In(Type.Text, Type.Date) ? "'" : "";
-                switch (FilterMode)
+                var s = FilterType.In(Type.Text, Type.Date) ? "'" : string.Empty;
+                var cs1 = FilterType == Type.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
+                var cs2 = FilterType == Type.Text && !IsFilterCaseSensitive ? ")" : string.Empty;
+                var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
+                string ns2 = string.Empty;
+                if (!IsFilterNullSensitive)
                 {
-                    case Mode.Equal:
-                        return $"{NameSQL} = {s}{Value1}{s}";
-                    case Mode.NotEqual:
-                        return $"{NameSQL} <> {s}{Value1}{s}";
-                    case Mode.Greater:
-                        return $"{NameSQL} > {s}{Value1}{s}";
-                    case Mode.GreaterEqual:
-                        return $"{NameSQL} >= {s}{Value1}{s}";
-                    case Mode.Less:
-                        return $"{NameSQL} < {s}{Value1}{s}";
-                    case Mode.LessEqual:
-                        return $"{NameSQL} <= {s}{Value1}{s}";
-                    case Mode.Between:
-                        return $"{NameSQL} between {s}{Value1}{s} and {s}{Value2}{s}";
-                    case Mode.Contains:
-                        return $"{NameSQL} like '%{Value1}%'";
-                    case Mode.NotContains:
-                        return $"{NameSQL} not like '%{Value1}%'";
-                    case Mode.Like:
-                        return $"{NameSQL} like '{Value1}'";
-                    case Mode.NotLike:
-                        return $"{NameSQL} not like '{Value1}'";
-                    case Mode.StartsWith:
-                        return $"{NameSQL} like '{Value1}%'";
-                    case Mode.EndsWith:
-                        return $"{NameSQL} like '%{Value1}'";
-                    default:
-                        throw new NotImplementedException();
+                    if (FilterType == Type.Check)
+                        ns2 = ", false)";
+                    else if (FilterType == Type.Date)
+                        ns2 = ", '0001-01-01')";
+                    else if (FilterType == Type.Number)
+                        ns2 = ", 0)";
+                    else if (FilterType == Type.Text)
+                        ns2 = ", '')";
                 }
+
+                if (Value1 == null)
+                    return null;
+                if (Value2 == null && FilterMode == Mode.Between)
+                    return null;
+
+                return FilterMode switch
+                {
+                    Mode.Equal => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} = {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.NotEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <> {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.Greater => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} > {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.GreaterEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} >= {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.Less => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} < {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.LessEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <= {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.Between => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} between {cs1}{s}{Value1}{s}{cs2} and {cs1}{s}{Value2}{s}{cs2}",
+                    Mode.Contains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}%{Value1}%{s}{cs2}",
+                    Mode.NotContains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{s}%{Value1}%{s}{cs2}",
+                    Mode.Like => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{s}{Value1}{s}{cs2}",
+                    Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}{Value1}%{s}{cs2}",
+                    Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}%{Value1}{s}{cs2}",
+                    Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
+                    Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
+                    _ => null
+                };
             }
         }
 
@@ -203,7 +250,7 @@ namespace StswExpress
             var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
             var binding = new Binding()
             {
-                Path = new PropertyPath("Value"),
+                Path = new PropertyPath("Value1"),
                 RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
                 TargetNullValue = "",
                 Mode = BindingMode.TwoWay,
@@ -219,7 +266,8 @@ namespace StswExpress
             /// Check
             if (FilterType == Type.Check)
             {
-                FilterMode = Mode.Equal;
+                if (FilterMode == null)
+                    FilterMode = Mode.Equal;
 
                 var valuecontainer = new ExtCheckBox()
                 {
@@ -234,56 +282,60 @@ namespace StswExpress
             /// Date
             else if (FilterType == Type.Date)
             {
-                FilterMode = Mode.Equal;
+                if (FilterMode == null)
+                    FilterMode = Mode.Equal;
 
                 var valuecontainer = new DatePicker();
                 valuecontainer.InputBindings.Add(inputbinding);
                 valuecontainer.SetBinding(DatePicker.SelectedDateProperty, binding);
                 dp.Children.Add(valuecontainer);
-
-                items.First(x => x.Tag.ToString() == Mode.Between.ToString()).Visibility = Visibility.Collapsed; //TEMP
-                items.First(x => x.Tag.ToString() == Mode.Contains.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.NotContains.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.Like.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.NotLike.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.StartsWith.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.EndsWith.ToString()).Visibility = Visibility.Collapsed;
             }
             /// Number
             else if (FilterType == Type.Number)
             {
-                FilterMode = Mode.Equal;
+                if (FilterMode == null)
+                    FilterMode = Mode.Equal;
 
                 var valuecontainer = new NumericUpDown();
                 valuecontainer.InputBindings.Add(inputbinding);
                 valuecontainer.SetBinding(NumericUpDown.ValueProperty, binding);
                 dp.Children.Add(valuecontainer);
-
-                items.First(x => x.Tag.ToString() == Mode.Between.ToString()).Visibility = Visibility.Collapsed; //TEMP
-                items.First(x => x.Tag.ToString() == Mode.Contains.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.NotContains.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.Like.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.NotLike.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.StartsWith.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.EndsWith.ToString()).Visibility = Visibility.Collapsed;
             }
             /// Text
             else if (FilterType == Type.Text)
             {
-                FilterMode = Mode.Contains;
+                if (FilterMode == null)
+                    FilterMode = Mode.Contains;
 
                 var valuecontainer = new TextBox();
                 valuecontainer.InputBindings.Add(inputbinding);
                 valuecontainer.SetBinding(TextBox.TextProperty, binding);
                 dp.Children.Add(valuecontainer);
-
-                items.First(x => x.Tag.ToString() == Mode.Greater.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.GreaterEqual.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.Less.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.LessEqual.ToString()).Visibility = Visibility.Collapsed;
-                items.First(x => x.Tag.ToString() == Mode.Between.ToString()).Visibility = Visibility.Collapsed;
             }
-            
+
+            /// Mode visibility
+            if (FilterType.In(Type.Check, Type.Text))
+            {
+                items[(int)Mode.Greater].Visibility = Visibility.Collapsed;
+                items[(int)Mode.GreaterEqual].Visibility = Visibility.Collapsed;
+                items[(int)Mode.Less].Visibility = Visibility.Collapsed;
+                items[(int)Mode.LessEqual].Visibility = Visibility.Collapsed;
+                items[(int)Mode.Between].Visibility = Visibility.Collapsed;
+            }
+            if (FilterType.In(Type.Check, Type.Date, Type.Number))
+            {
+                items[(int)Mode.Contains].Visibility = Visibility.Collapsed;
+                items[(int)Mode.NotContains].Visibility = Visibility.Collapsed;
+                items[(int)Mode.Like].Visibility = Visibility.Collapsed;
+                items[(int)Mode.NotLike].Visibility = Visibility.Collapsed;
+                items[(int)Mode.StartsWith].Visibility = Visibility.Collapsed;
+                items[(int)Mode.EndsWith].Visibility = Visibility.Collapsed;
+            }
+            if (FilterType.In(Type.Check, Type.Date, Type.Number))
+            {
+                items[(int)Mode.In].Visibility = Visibility.Collapsed;
+                items[(int)Mode.NotIn].Visibility = Visibility.Collapsed;
+            }
             imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }
 
@@ -304,8 +356,7 @@ namespace StswExpress
         /// </summary>
         private void imgMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var c = sender as FrameworkElement;
-            if (c != null) c.ContextMenu.IsOpen = true;
+            if (sender is FrameworkElement c) c.ContextMenu.IsOpen = true;
         }
 
         /// <summary>
@@ -313,7 +364,6 @@ namespace StswExpress
         /// </summary>
         private void miFilterMode_Click(object sender, RoutedEventArgs e)
         {
-            var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
             FilterMode = (Mode)Enum.Parse(typeof(Mode), (sender as MenuItem).Tag.ToString());
             imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }

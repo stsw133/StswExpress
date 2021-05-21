@@ -223,6 +223,16 @@ namespace StswExpress.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_filter_in {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_in", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_filter_less {
             get {
                 object obj = ResourceManager.GetObject("icon32_filter_less", resourceCulture);
@@ -266,6 +276,16 @@ namespace StswExpress.Properties {
         public static byte[] icon32_filter_notequal {
             get {
                 object obj = ResourceManager.GetObject("icon32_filter_notequal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_filter_notin {
+            get {
+                object obj = ResourceManager.GetObject("icon32_filter_notin", resourceCulture);
                 return ((byte[])(obj));
             }
         }

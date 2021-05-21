@@ -11,7 +11,7 @@
     <TextBlock x:Name="txtHeader" Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
         <Image x:Name="imgMode" Height="{Binding ActualHeight, ElementName=txtHeader}" Width="{Binding ActualHeight, ElementName=txtHeader}"
-               Margin="0,0,1,0" PreviewMouseDown="imgMode_PreviewMouseDown">
+               Margin="0,0,2,0" PreviewMouseDown="imgMode_PreviewMouseDown">
             <Image.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.Resources>
@@ -32,6 +32,8 @@
                     <se:ExtMenuItem Header="Nie jest podobne" Tag="NotLike" IconUri="/Resources/icon32_filter_notlike.ico"/>
                     <se:ExtMenuItem Header="Rozpoczyna się od" Tag="StartsWith" IconUri="/Resources/icon32_filter_startswith.ico"/>
                     <se:ExtMenuItem Header="Kończy się na" Tag="EndsWith" IconUri="/Resources/icon32_filter_endswith.ico"/>
+                    <se:ExtMenuItem Header="Zawiera listę" Tag="In" IconUri="/Resources/icon32_filter_in.ico"/>
+                    <se:ExtMenuItem Header="Nie zawiera listy" Tag="NotIn" IconUri="/Resources/icon32_filter_notin.ico"/>
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>
