@@ -21,9 +21,8 @@ namespace StswExpress
         public enum Type
         {
             Check,
-            //Combo,
             Date,
-            //Multiselect,
+            List,
             Number,
             Text
         }
@@ -222,19 +221,19 @@ namespace StswExpress
 
                 return FilterMode switch
                 {
-                    Mode.Equal => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} = {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.NotEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <> {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.Greater => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} > {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.GreaterEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} >= {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.Less => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} < {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.LessEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <= {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.Between => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} between {cs1}{s}{Value1}{s}{cs2} and {cs1}{s}{Value2}{s}{cs2}",
-                    Mode.Contains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}%{Value1}%{s}{cs2}",
-                    Mode.NotContains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{s}%{Value1}%{s}{cs2}",
-                    Mode.Like => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{s}{Value1}{s}{cs2}",
-                    Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}{Value1}%{s}{cs2}",
-                    Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{s}%{Value1}{s}{cs2}",
+                    Mode.Equal => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} = {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.NotEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <> {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.Greater => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} > {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.GreaterEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} >= {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.Less => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} < {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.LessEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <= {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.Between => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} between {cs1}@{NameSQL.Replace(".", "")}{cs2} and {cs1}@{NameSQL.Replace(".", "")}2{cs2}",
+                    Mode.Contains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}'%' || @{NameSQL.Replace(".", "")} || '%'{cs2}",
+                    Mode.NotContains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}'%' || @{NameSQL.Replace(".", "")} || '%'{cs2}",
+                    Mode.Like => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}@{NameSQL.Replace(".", "")}{cs2}",
+                    Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}@{NameSQL.Replace(".", "")} || '%'{cs2}",
+                    Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}'%' || @{NameSQL.Replace(".", "")}{cs2}",
                     Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
                     Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
                     _ => null
@@ -290,6 +289,17 @@ namespace StswExpress
                 valuecontainer.SetBinding(DatePicker.SelectedDateProperty, binding);
                 dp.Children.Add(valuecontainer);
             }
+            /// List
+            else if (FilterType == Type.List)
+            {
+                if (FilterMode == null)
+                    FilterMode = Mode.In;
+
+                var valuecontainer = new MultiselectBox();
+                valuecontainer.InputBindings.Add(inputbinding);
+                valuecontainer.SetBinding(MultiselectBox.StringOfContentsProperty, binding);
+                dp.Children.Add(valuecontainer);
+            }
             /// Number
             else if (FilterType == Type.Number)
             {
@@ -314,7 +324,7 @@ namespace StswExpress
             }
 
             /// Mode visibility
-            if (FilterType.In(Type.Check, Type.Text))
+            if (!FilterType.In(Type.Date, Type.Number))
             {
                 items[(int)Mode.Greater].Visibility = Visibility.Collapsed;
                 items[(int)Mode.GreaterEqual].Visibility = Visibility.Collapsed;
@@ -322,7 +332,12 @@ namespace StswExpress
                 items[(int)Mode.LessEqual].Visibility = Visibility.Collapsed;
                 items[(int)Mode.Between].Visibility = Visibility.Collapsed;
             }
-            if (FilterType.In(Type.Check, Type.Date, Type.Number))
+            if (!FilterType.In(Type.List))
+            {
+                items[(int)Mode.In].Visibility = Visibility.Collapsed;
+                items[(int)Mode.NotIn].Visibility = Visibility.Collapsed;
+            }
+            if (!FilterType.In(Type.Text))
             {
                 items[(int)Mode.Contains].Visibility = Visibility.Collapsed;
                 items[(int)Mode.NotContains].Visibility = Visibility.Collapsed;
@@ -330,11 +345,6 @@ namespace StswExpress
                 items[(int)Mode.NotLike].Visibility = Visibility.Collapsed;
                 items[(int)Mode.StartsWith].Visibility = Visibility.Collapsed;
                 items[(int)Mode.EndsWith].Visibility = Visibility.Collapsed;
-            }
-            if (FilterType.In(Type.Check, Type.Date, Type.Number))
-            {
-                items[(int)Mode.In].Visibility = Visibility.Collapsed;
-                items[(int)Mode.NotIn].Visibility = Visibility.Collapsed;
             }
             imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }

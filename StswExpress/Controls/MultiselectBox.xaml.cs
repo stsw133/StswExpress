@@ -106,6 +106,35 @@ namespace StswExpress
         }
 
         /// <summary>
+        /// StringOfContents
+        /// </summary>
+        public static readonly DependencyProperty StringOfContentsProperty
+            = DependencyProperty.Register(
+                  nameof(StringOfContentsProperty),
+                  typeof(string),
+                  typeof(MultiselectBox),
+                  new PropertyMetadata(default(string))
+              );
+        public string StringOfContents
+        {
+            get
+            {
+                var result = new List<object>();
+                foreach (ToggleButton item in Items)
+                    if (item.IsChecked == true)
+                        result.Add(item.Content);
+                return string.Join(',', result);
+            }
+            set
+            {
+                SetValue(StringOfContentsProperty, value);
+                var list = value.Split(',');
+                foreach (ToggleButton item in Items)
+                    item.IsChecked = list.Contains(item.Content);
+            }
+        }
+
+        /// <summary>
         /// Click
         /// </summary>
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
