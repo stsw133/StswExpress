@@ -37,5 +37,6 @@
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>
+        <UniformGrid x:Name="ugFilters" Columns="1"/>
     </DockPanel>
 </StackPanel>

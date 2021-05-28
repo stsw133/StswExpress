@@ -59,7 +59,12 @@ namespace StswExpress
         public Mode? FilterMode
         {
             get => (Mode?)GetValue(FilterModeProperty);
-            set => SetValue(FilterModeProperty, value);
+            set
+            {
+                SetValue(FilterModeProperty, value);
+                if (ugFilters.Children.Count >= 2)
+                    ugFilters.Children[1].Visibility = value == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         /// <summary>
@@ -189,6 +194,7 @@ namespace StswExpress
             get => (string)GetValue(NameSQLProperty);
             set => SetValue(NameSQLProperty, value);
         }
+        public string ParamSQL => "@" + new string(NameSQL.Where(char.IsLetterOrDigit).ToArray());
 
         /// <summary>
         /// SQL (filter)
@@ -197,6 +203,11 @@ namespace StswExpress
         {
             get
             {
+                if (Value1 == null)
+                    return null;
+                if (Value2 == null && FilterMode == Mode.Between)
+                    return null;
+
                 var s = FilterType.In(Type.Text, Type.Date) ? "'" : string.Empty;
                 var cs1 = FilterType == Type.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
                 var cs2 = FilterType == Type.Text && !IsFilterCaseSensitive ? ")" : string.Empty;
@@ -214,26 +225,21 @@ namespace StswExpress
                         ns2 = ", '')";
                 }
 
-                if (Value1 == null)
-                    return null;
-                if (Value2 == null && FilterMode == Mode.Between)
-                    return null;
-
                 return FilterMode switch
                 {
-                    Mode.Equal => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} = {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.NotEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <> {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.Greater => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} > {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.GreaterEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} >= {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.Less => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} < {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.LessEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <= {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.Between => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} between {cs1}@{NameSQL.Replace(".", "")}1{cs2} and {cs1}@{NameSQL.Replace(".", "")}2{cs2}",
-                    Mode.Contains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', @{NameSQL.Replace(".", "")}1, '%'){cs2}",
-                    Mode.NotContains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}concat('%', @{NameSQL.Replace(".", "")}1, '%'){cs2}",
-                    Mode.Like => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}@{NameSQL.Replace(".", "")}1{cs2}",
-                    Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat(@{NameSQL.Replace(".", "")}1, '%'){cs2}",
-                    Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', @{NameSQL.Replace(".", "")}1){cs2}",
+                    Mode.Equal => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} = {cs1}{ParamSQL}1{cs2}",
+                    Mode.NotEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <> {cs1}{ParamSQL}1{cs2}",
+                    Mode.Greater => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} > {cs1}{ParamSQL}1{cs2}",
+                    Mode.GreaterEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} >= {cs1}{ParamSQL}1{cs2}",
+                    Mode.Less => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} < {cs1}{ParamSQL}1{cs2}",
+                    Mode.LessEqual => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} <= {cs1}{ParamSQL}1{cs2}",
+                    Mode.Between => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} between {cs1}{ParamSQL}1{cs2} and {cs1}{ParamSQL}2{cs2}",
+                    Mode.Contains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', {ParamSQL}1, '%'){cs2}",
+                    Mode.NotContains => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}concat('%', {ParamSQL}1, '%'){cs2}",
+                    Mode.Like => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}{ParamSQL}1{cs2}",
+                    Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{ParamSQL}1{cs2}",
+                    Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat({ParamSQL}1, '%'){cs2}",
+                    Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', {ParamSQL}1){cs2}",
                     Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
                     Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
                     _ => null
@@ -247,9 +253,17 @@ namespace StswExpress
         private void StackPanel_Loaded(object sender, RoutedEventArgs e)
         {
             var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
-            var binding = new Binding()
+            var binding1 = new Binding()
             {
                 Path = new PropertyPath("Value1"),
+                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
+                TargetNullValue = "",
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            var binding2 = new Binding()
+            {
+                Path = new PropertyPath("Value2"),
                 RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
                 TargetNullValue = "",
                 Mode = BindingMode.TwoWay,
@@ -260,67 +274,58 @@ namespace StswExpress
                 Command = Commands.Refresh,
                 Key = Key.Return
             };
-            var dp = imgMode.Parent as DockPanel;
 
             /// Check
             if (FilterType == Type.Check)
             {
-                if (FilterMode == null)
-                    FilterMode = Mode.Equal;
-
-                var valuecontainer = new ExtCheckBox()
-                {
-                    IsThreeState = true
-                };
-                valuecontainer.InputBindings.Add(inputbinding);
-                valuecontainer.SetBinding(ExtCheckBox.IsCheckedProperty, binding);
-                dp.Children.Add(valuecontainer);
+                var cont1 = new ExtCheckBox() { IsThreeState = true };
+                cont1.InputBindings.Add(inputbinding);
+                cont1.SetBinding(ExtCheckBox.IsCheckedProperty, binding1);
+                ugFilters.Children.Add(cont1);
 
                 imgMode.Visibility = Visibility.Collapsed;
             }
             /// Date
             else if (FilterType == Type.Date)
             {
-                if (FilterMode == null)
-                    FilterMode = Mode.Equal;
+                var cont1 = new DatePicker();
+                cont1.InputBindings.Add(inputbinding);
+                cont1.SetBinding(DatePicker.SelectedDateProperty, binding1);
+                ugFilters.Children.Add(cont1);
 
-                var valuecontainer = new DatePicker();
-                valuecontainer.InputBindings.Add(inputbinding);
-                valuecontainer.SetBinding(DatePicker.SelectedDateProperty, binding);
-                dp.Children.Add(valuecontainer);
+                var cont2 = new DatePicker();
+                cont2.InputBindings.Add(inputbinding);
+                cont2.SetBinding(DatePicker.SelectedDateProperty, binding2);
+                ugFilters.Children.Add(cont2);
             }
             /// List
             else if (FilterType == Type.List)
             {
-                if (FilterMode == null)
-                    FilterMode = Mode.In;
-
-                var valuecontainer = new MultiselectBox();
-                valuecontainer.InputBindings.Add(inputbinding);
-                valuecontainer.SetBinding(MultiselectBox.StringOfContentsProperty, binding);
-                dp.Children.Add(valuecontainer);
+                var cont1 = new MultiselectBox();
+                cont1.InputBindings.Add(inputbinding);
+                cont1.SetBinding(MultiselectBox.StringOfContentsProperty, binding1);
+                ugFilters.Children.Add(cont1);
             }
             /// Number
             else if (FilterType == Type.Number)
             {
-                if (FilterMode == null)
-                    FilterMode = Mode.Equal;
+                var cont1 = new NumericUpDown();
+                cont1.InputBindings.Add(inputbinding);
+                cont1.SetBinding(NumericUpDown.ValueProperty, binding1);
+                ugFilters.Children.Add(cont1);
 
-                var valuecontainer = new NumericUpDown();
-                valuecontainer.InputBindings.Add(inputbinding);
-                valuecontainer.SetBinding(NumericUpDown.ValueProperty, binding);
-                dp.Children.Add(valuecontainer);
+                var cont2 = new NumericUpDown();
+                cont2.InputBindings.Add(inputbinding);
+                cont2.SetBinding(NumericUpDown.ValueProperty, binding2);
+                ugFilters.Children.Add(cont2);
             }
             /// Text
             else if (FilterType == Type.Text)
             {
-                if (FilterMode == null)
-                    FilterMode = Mode.Contains;
-
-                var valuecontainer = new TextBox();
-                valuecontainer.InputBindings.Add(inputbinding);
-                valuecontainer.SetBinding(TextBox.TextProperty, binding);
-                dp.Children.Add(valuecontainer);
+                var cont1 = new ExtTextBox();
+                cont1.InputBindings.Add(inputbinding);
+                cont1.SetBinding(ExtTextBox.TextProperty, binding1);
+                ugFilters.Children.Add(cont1);
             }
 
             /// Mode visibility
@@ -346,7 +351,22 @@ namespace StswExpress
                 items[(int)Mode.StartsWith].Visibility = Visibility.Collapsed;
                 items[(int)Mode.EndsWith].Visibility = Visibility.Collapsed;
             }
+
+            /// Default mode
+            if (FilterMode == null)
+            {
+                if      (FilterType == Type.Check)  FilterMode = Mode.Equal;
+                else if (FilterType == Type.Date)   FilterMode = Mode.Equal;
+                else if (FilterType == Type.List)   FilterMode = Mode.In;
+                else if (FilterType == Type.Number) FilterMode = Mode.Equal;
+                else if (FilterType == Type.Text)   FilterMode = Mode.Contains;
+            }
+            if (ugFilters.Children.Count >= 2)
+                ugFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+
             imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+
+            Loaded -= StackPanel_Loaded;
         }
 
         /// <summary>
