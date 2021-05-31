@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
@@ -70,6 +73,41 @@ namespace StswExpress
 			process.StartInfo.UseShellExecute = true;
 			process.StartInfo.Verb = "open";
 			process.Start();
+		}
+
+		/// <summary>
+		/// Gets column filters from DataGrid
+		/// </summary>
+		/// <param name="dg">DataGrid</param>
+		/// <param name="filter">SQL filter as string</param>
+		/// <param name="parameters">SQL parameters</param>
+		public static void GetColumnFilters(DataGrid dg, out string filter, out List<Tuple<string, object>> parameters)
+		{
+			filter = string.Empty;
+			parameters = new List<Tuple<string, object>>();
+
+			foreach (var col in dg.Columns)
+				if (col.Header is ColumnFilter c && c?.FilterSQL != null)
+				{
+					filter += c.FilterSQL + " and ";
+					parameters.Add(new Tuple<string, object>(c.ParamSQL + "1", c.Value1 ?? DBNull.Value));
+					parameters.Add(new Tuple<string, object>(c.ParamSQL + "2", c.FilterType == ColumnFilter.Type.Date && c.Value2 != null ? Convert.ToDateTime(c.Value2).AddDays(1).AddMilliseconds(-1) : c.Value2 ?? DBNull.Value));
+				}
+			filter = filter.TrimEnd(" and ".ToCharArray());
+		}
+
+		/// <summary>
+		/// Clears column filters in DataGrid
+		/// </summary>
+		/// <param name="dg">DataGrid</param>
+		public static void ClearColumnFilters(DataGrid dg)
+		{
+			foreach (var col in dg.Columns)
+				if (col.Header is ColumnFilter c)
+				{
+					c.Value1 = null;
+					c.Value2 = null;
+				}
 		}
 	}
 }
