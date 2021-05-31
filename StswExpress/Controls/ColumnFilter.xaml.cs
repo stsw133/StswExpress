@@ -148,6 +148,22 @@ namespace StswExpress
         }
 
         /// <summary>
+        /// ItemsHeaders
+        /// </summary>
+        public static readonly DependencyProperty ItemsHeadersProperty
+            = DependencyProperty.Register(
+                  nameof(ItemsHeaders),
+                  typeof(object),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(object))
+              );
+        public object ItemsHeaders
+        {
+            get => GetValue(ItemsHeadersProperty);
+            set => SetValue(ItemsHeadersProperty, value);
+        }
+
+        /// <summary>
         /// Value1
         /// </summary>
         public static readonly DependencyProperty Value1Property
@@ -211,18 +227,14 @@ namespace StswExpress
                 var s = FilterType.In(Type.Text, Type.Date) ? "'" : string.Empty;
                 var cs1 = FilterType == Type.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
                 var cs2 = FilterType == Type.Text && !IsFilterCaseSensitive ? ")" : string.Empty;
-                var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
+                var ns1 = !IsFilterNullSensitive && FilterType != Type.List ? "coalesce(" : string.Empty;
                 string ns2 = string.Empty;
                 if (!IsFilterNullSensitive)
                 {
-                    if (FilterType == Type.Check)
-                        ns2 = ", false)";
-                    else if (FilterType == Type.Date)
-                        ns2 = ", '0001-01-01')";
-                    else if (FilterType == Type.Number)
-                        ns2 = ", 0)";
-                    else if (FilterType == Type.Text)
-                        ns2 = ", '')";
+                    if      (FilterType == Type.Check)  ns2 = ", false)";
+                    else if (FilterType == Type.Date)   ns2 = ", '1900-01-01')";
+                    else if (FilterType == Type.Number) ns2 = ", 0)";
+                    else if (FilterType == Type.Text)   ns2 = ", '')";
                 }
 
                 return FilterMode switch
@@ -240,8 +252,8 @@ namespace StswExpress
                     Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{ParamSQL}1{cs2}",
                     Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat({ParamSQL}1, '%'){cs2}",
                     Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', {ParamSQL}1){cs2}",
-                    Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
-                    Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1.ToString().Split(","))}{s}{cs2})",
+                    Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{Value1.ToString().Replace(";", $"{s}{cs2},{cs1}{s}")}{s}{cs2})",
+                    Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{Value1.ToString().Replace(";", $"{s}{cs2},{cs1}{s}")}{s}{cs2})",
                     _ => null
                 };
             }
@@ -301,7 +313,7 @@ namespace StswExpress
             /// List
             else if (FilterType == Type.List)
             {
-                var cont1 = new MultiselectBox();
+                var cont1 = new MultiselectBox() { Padding = new Thickness(2), Source = ItemsHeaders.ToString().Split(';') };
                 cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(MultiselectBox.StringOfContentsProperty, binding1);
                 ugFilters.Children.Add(cont1);
@@ -341,6 +353,11 @@ namespace StswExpress
             {
                 items[(int)Mode.In].Visibility = Visibility.Collapsed;
                 items[(int)Mode.NotIn].Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                items[(int)Mode.Equal].Visibility = Visibility.Collapsed;
+                items[(int)Mode.NotEqual].Visibility = Visibility.Collapsed;
             }
             if (!FilterType.In(Type.Text))
             {
