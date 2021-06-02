@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,6 +46,22 @@ namespace StswExpress
             EndsWith,
             In,
             NotIn
+        }
+
+        /// <summary>
+        /// DisplayMemberPath
+        /// </summary>
+        public static readonly DependencyProperty DisplayMemberPathProperty
+            = DependencyProperty.Register(
+                  nameof(DisplayMemberPath),
+                  typeof(string),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(string))
+              );
+        public string DisplayMemberPath
+        {
+            get => (string)GetValue(DisplayMemberPathProperty);
+            set => SetValue(DisplayMemberPathProperty, value);
         }
 
         /// <summary>
@@ -148,19 +166,35 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// ItemsHeaders
+        /// ItemsSource
         /// </summary>
-        public static readonly DependencyProperty ItemsHeadersProperty
+        public static readonly DependencyProperty ItemsSourceProperty
             = DependencyProperty.Register(
-                  nameof(ItemsHeaders),
-                  typeof(object),
+                  nameof(ItemsSource),
+                  typeof(IList),
                   typeof(ColumnFilter),
-                  new PropertyMetadata(default(object))
+                  new PropertyMetadata(default(IList))
               );
-        public object ItemsHeaders
+        public IList ItemsSource
         {
-            get => GetValue(ItemsHeadersProperty);
-            set => SetValue(ItemsHeadersProperty, value);
+            get => (IList)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
+        /// <summary>
+        /// SelectedValuePath
+        /// </summary>
+        public static readonly DependencyProperty SelectedValuePathProperty
+            = DependencyProperty.Register(
+                  nameof(SelectedValuePath),
+                  typeof(string),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(string))
+              );
+        public string SelectedValuePath
+        {
+            get => (string)GetValue(SelectedValuePathProperty);
+            set => SetValue(SelectedValuePathProperty, value);
         }
 
         /// <summary>
@@ -176,7 +210,12 @@ namespace StswExpress
         public object Value1
         {
             get => GetValue(Value1Property);
-            set => SetValue(Value1Property, value);
+            set
+            {
+                SetValue(Value1Property, value);
+                if (FilterType == Type.List && ugFilters.Children.Count > 0)
+                    (ugFilters.Children[0] as MultiBox).SelectedItems = value as List<object>;
+            }
         }
 
         /// <summary>
@@ -219,12 +258,12 @@ namespace StswExpress
         {
             get
             {
-                if (Value1 == null)
+                if (Value1 == null || (Value1 is List<object> l && l.Count == 0))
                     return null;
                 if (Value2 == null && FilterMode == Mode.Between)
                     return null;
 
-                var s = FilterType.In(Type.Text, Type.Date) ? "'" : string.Empty;
+                var s = FilterType.In(Type.Date, Type.List, Type.Date) ? "'" : string.Empty;
                 var cs1 = FilterType == Type.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
                 var cs2 = FilterType == Type.Text && !IsFilterCaseSensitive ? ")" : string.Empty;
                 var ns1 = !IsFilterNullSensitive && FilterType != Type.List ? "coalesce(" : string.Empty;
@@ -252,8 +291,8 @@ namespace StswExpress
                     Mode.NotLike => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not like {cs1}{ParamSQL}1{cs2}",
                     Mode.StartsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat({ParamSQL}1, '%'){cs2}",
                     Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', {ParamSQL}1){cs2}",
-                    Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{Value1.ToString().Replace(";", $"{s}{cs2},{cs1}{s}")}{s}{cs2})",
-                    Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{Value1.ToString().Replace(";", $"{s}{cs2},{cs1}{s}")}{s}{cs2})",
+                    Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)Value1)}{s}{cs2})",
+                    Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", Value1)}{s}{cs2})",
                     _ => null
                 };
             }
@@ -313,9 +352,9 @@ namespace StswExpress
             /// List
             else if (FilterType == Type.List)
             {
-                var cont1 = new MultiselectBox() { Padding = new Thickness(2), Source = ItemsHeaders.ToString().Split(';') };
+                var cont1 = new MultiBox() { Padding = new Thickness(2), DisplayMemberPath = DisplayMemberPath, SelectedValuePath = SelectedValuePath, Source = ItemsSource };
                 cont1.InputBindings.Add(inputbinding);
-                cont1.SetBinding(MultiselectBox.StringOfContentsProperty, binding1);
+                cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
                 ugFilters.Children.Add(cont1);
             }
             /// Number

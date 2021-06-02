@@ -90,8 +90,8 @@ namespace StswExpress
 				if (col.Header is ColumnFilter c && c?.FilterSQL != null)
 				{
 					filter += c.FilterSQL + " and ";
-					parameters.Add(new Tuple<string, object>(c.ParamSQL + "1", c.Value1 ?? DBNull.Value));
-					parameters.Add(new Tuple<string, object>(c.ParamSQL + "2", c.FilterType == ColumnFilter.Type.Date && c.Value2 != null ? Convert.ToDateTime(c.Value2).AddDays(1).AddMilliseconds(-1) : c.Value2 ?? DBNull.Value));
+					parameters.Add(new Tuple<string, object>(c.ParamSQL + "1", (c.Value1 is List<object> ? null : c.Value1) ?? DBNull.Value));
+					parameters.Add(new Tuple<string, object>(c.ParamSQL + "2", (c.Value2 is List<object> ? null : c.Value2) ?? DBNull.Value));
 				}
 			filter = filter.TrimEnd(" and ".ToCharArray());
 		}
