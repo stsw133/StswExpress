@@ -29,11 +29,11 @@ namespace StswExpress
         /// <summary>
         /// Convert DataTable to list of any model class
         /// </summary>
-        public static ObservableCollection<T> ToList<T>(this DataTable table) where T : class, new()
+        public static IList<T> ToList<T>(this DataTable table) where T : class, new()
         {
             try
             {
-                ObservableCollection<T> list = new ObservableCollection<T>();
+				IList<T> list = new List<T>();
 
                 foreach (var row in table.AsEnumerable())
                 {

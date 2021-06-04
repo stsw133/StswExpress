@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace StswExpress
 {
+	/// <summary>
+	/// Basic class for DataContext of Windows and UserControls to property change notifying
+	/// </summary>
     public abstract class D : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

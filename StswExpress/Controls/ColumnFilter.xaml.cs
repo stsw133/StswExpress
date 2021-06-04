@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
@@ -165,10 +166,26 @@ namespace StswExpress
             set => SetValue(IsFilterVisibleProperty, value);
         }
 
-        /// <summary>
-        /// ItemsSource
-        /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty
+		/// <summary>
+		/// ItemsHeaders
+		/// </summary>
+		public static readonly DependencyProperty ItemsHeadersProperty
+			= DependencyProperty.Register(
+				  nameof(ItemsHeaders),
+				  typeof(object),
+				  typeof(ColumnFilter),
+				  new PropertyMetadata(default(object))
+			  );
+		public object ItemsHeaders
+		{
+			get => GetValue(ItemsHeadersProperty);
+			set => SetValue(ItemsHeadersProperty, value);
+		}
+
+		/// <summary>
+		/// ItemsSource
+		/// </summary>
+		public static readonly DependencyProperty ItemsSourceProperty
             = DependencyProperty.Register(
                   nameof(ItemsSource),
                   typeof(IList),
@@ -329,8 +346,12 @@ namespace StswExpress
             /// Check
             if (FilterType == Type.Check)
             {
-                var cont1 = new ExtCheckBox() { IsThreeState = true };
-                cont1.InputBindings.Add(inputbinding);
+                var cont1 = new ExtCheckBox()
+				{
+					HorizontalAlignment = HorizontalAlignment.Center,
+					IsThreeState = true
+				};
+				cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(ExtCheckBox.IsCheckedProperty, binding1);
                 ugFilters.Children.Add(cont1);
 
@@ -339,21 +360,35 @@ namespace StswExpress
             /// Date
             else if (FilterType == Type.Date)
             {
-                var cont1 = new DatePicker();
-                cont1.InputBindings.Add(inputbinding);
+                var cont1 = new DatePicker()
+				{
+					Background = Brushes.White,
+					Padding = new Thickness(0)
+				};
+				cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(DatePicker.SelectedDateProperty, binding1);
                 ugFilters.Children.Add(cont1);
 
-                var cont2 = new DatePicker();
-                cont2.InputBindings.Add(inputbinding);
+                var cont2 = new DatePicker()
+				{
+					Background = Brushes.White,
+					Padding = new Thickness(0)
+				};
+				cont2.InputBindings.Add(inputbinding);
                 cont2.SetBinding(DatePicker.SelectedDateProperty, binding2);
                 ugFilters.Children.Add(cont2);
             }
             /// List
             else if (FilterType == Type.List)
             {
-                var cont1 = new MultiBox() { Padding = new Thickness(2), DisplayMemberPath = DisplayMemberPath, SelectedValuePath = SelectedValuePath, Source = ItemsSource };
-                cont1.InputBindings.Add(inputbinding);
+                var cont1 = new MultiBox()
+				{
+					DisplayMemberPath = DisplayMemberPath,
+					Padding = new Thickness(2),
+					SelectedValuePath = SelectedValuePath,
+					Source = ItemsHeaders is null ? ItemsSource : ItemsHeaders.ToString().Split(';')
+				};
+				cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
                 ugFilters.Children.Add(cont1);
             }

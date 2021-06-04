@@ -81,19 +81,21 @@ namespace StswExpress
 		/// <param name="dg">DataGrid</param>
 		/// <param name="filter">SQL filter as string</param>
 		/// <param name="parameters">SQL parameters</param>
-		public static void GetColumnFilters(DataGrid dg, out string filter, out List<Tuple<string, object>> parameters)
+		public static void GetColumnFilters(DataGrid dg, out string filter, out List<(string name, object val)> parameters)
 		{
 			filter = string.Empty;
-			parameters = new List<Tuple<string, object>>();
+			parameters = new List<(string name, object val)>();
 
 			foreach (var col in dg.Columns)
 				if (col.Header is ColumnFilter c && c?.FilterSQL != null)
 				{
 					filter += c.FilterSQL + " and ";
-					parameters.Add(new Tuple<string, object>(c.ParamSQL + "1", (c.Value1 is List<object> ? null : c.Value1) ?? DBNull.Value));
-					parameters.Add(new Tuple<string, object>(c.ParamSQL + "2", (c.Value2 is List<object> ? null : c.Value2) ?? DBNull.Value));
+					parameters.Add((c.ParamSQL + "1", (c.Value1 is List<object> ? null : c.Value1) ?? DBNull.Value));
+					parameters.Add((c.ParamSQL + "2", (c.Value2 is List<object> ? null : c.Value2) ?? DBNull.Value));
 				}
 			filter = filter.TrimEnd(" and ".ToCharArray());
+			if (string.IsNullOrWhiteSpace(filter))
+				filter = "true";
 		}
 
 		/// <summary>

@@ -41,7 +41,7 @@ namespace StswExpress
                 var result = new List<object>();
                 foreach (ComboBoxItem item in Items)
                 {
-                    var tbtn = (item.Content as ToggleButton);
+                    var tbtn = item.Content as ToggleButton;
                     if (tbtn.IsChecked == true)
                         result.Add(tbtn.Tag);
                 }
@@ -53,7 +53,7 @@ namespace StswExpress
                 {
                     foreach (ComboBoxItem item in Items)
                     {
-                        var tbtn = (item.Content as ToggleButton);
+                        var tbtn = item.Content as ToggleButton;
                         tbtn.IsChecked = value?.Contains(tbtn.Tag) ?? false;
                     }
                     SetText();
@@ -85,10 +85,13 @@ namespace StswExpress
                     {
                         Background = Brushes.Transparent,
                         BorderThickness = new Thickness(0),
-                        Content = value[i].GetType().GetProperty(DisplayMemberPath).GetValue(value[i], null).ToString(),
-                        HorizontalContentAlignment = HorizontalAlignment.Left,
-                        Tag = value[i].GetType().GetProperty(SelectedValuePath).GetValue(value[i], null).ToString()
-                    };
+						Content = new TextBlock()
+						{
+							Text = string.IsNullOrEmpty(DisplayMemberPath) ? value[i].ToString() : value[i].GetType().GetProperty(DisplayMemberPath).GetValue(value[i], null).ToString()
+						},
+						HorizontalContentAlignment = HorizontalAlignment.Left,
+						Tag = string.IsNullOrEmpty(SelectedValuePath) ? value[i].ToString() : value[i].GetType().GetProperty(SelectedValuePath).GetValue(value[i], null).ToString()
+					};
                     tbtn.Click += ToggleButton_Click;
 
                     var cbi = new ComboBoxItem() { Content = tbtn };
@@ -105,10 +108,10 @@ namespace StswExpress
             var result = new List<object>();
             foreach (ComboBoxItem item in Items)
             {
-                var tbtn = (item.Content as ToggleButton);
+                var tbtn = item.Content as ToggleButton;
                 if (tbtn.IsChecked == true)
-                    result.Add(tbtn.Content);
-            }
+					result.Add((tbtn.Content as TextBlock).Text);
+			}
             prop.SetValue(this, string.Join("; ", result), BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         }
 
