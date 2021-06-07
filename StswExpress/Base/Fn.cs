@@ -107,8 +107,8 @@ namespace StswExpress
 			foreach (var col in dg.Columns)
 				if (col.Header is ColumnFilter c)
 				{
-					c.Value1 = null;
-					c.Value2 = null;
+					c.Value1 = c.ValueDef;
+					c.Value2 = c.ValueDef;
 				}
 		}
 	}

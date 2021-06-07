@@ -252,7 +252,28 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// SQL (name)
+        /// ValueDef
+        /// </summary>
+        public static readonly DependencyProperty ValueDefProperty
+            = DependencyProperty.Register(
+                  nameof(ValueDef),
+                  typeof(object),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(object))
+              );
+        public object ValueDef
+        {
+            get => GetValue(ValueDefProperty);
+            set
+            {
+                SetValue(ValueDefProperty, value);
+                if (Value1 == null) Value1 = value;
+                if (Value2 == null) Value2 = value;
+            }
+        }
+
+        /// <summary>
+        /// SQL (name & param)
         /// </summary>
         public static readonly DependencyProperty NameSQLProperty
             = DependencyProperty.Register(
@@ -287,7 +308,7 @@ namespace StswExpress
                 string ns2 = string.Empty;
                 if (!IsFilterNullSensitive)
                 {
-                    if      (FilterType == Type.Check)  ns2 = ", false)";
+                    if      (FilterType == Type.Check)  ns2 = ", 0)";
                     else if (FilterType == Type.Date)   ns2 = ", '1900-01-01')";
                     else if (FilterType == Type.Number) ns2 = ", 0)";
                     else if (FilterType == Type.Text)   ns2 = ", '')";
@@ -386,7 +407,7 @@ namespace StswExpress
 					DisplayMemberPath = DisplayMemberPath,
 					Padding = new Thickness(2),
 					SelectedValuePath = SelectedValuePath,
-					Source = ItemsHeaders is null ? ItemsSource : ItemsHeaders.ToString().Split(';')
+					Source = ItemsHeaders == null ? ItemsSource : ItemsHeaders.ToString().Split(';')
 				};
 				cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
@@ -415,34 +436,22 @@ namespace StswExpress
             }
 
             /// Mode visibility
-            if (!FilterType.In(Type.Date, Type.Number))
-            {
-                items[(int)Mode.Greater].Visibility = Visibility.Collapsed;
-                items[(int)Mode.GreaterEqual].Visibility = Visibility.Collapsed;
-                items[(int)Mode.Less].Visibility = Visibility.Collapsed;
-                items[(int)Mode.LessEqual].Visibility = Visibility.Collapsed;
-                items[(int)Mode.Between].Visibility = Visibility.Collapsed;
-            }
-            if (!FilterType.In(Type.List))
-            {
-                items[(int)Mode.In].Visibility = Visibility.Collapsed;
-                items[(int)Mode.NotIn].Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                items[(int)Mode.Equal].Visibility = Visibility.Collapsed;
-                items[(int)Mode.NotEqual].Visibility = Visibility.Collapsed;
-            }
-            if (!FilterType.In(Type.Text))
-            {
-                items[(int)Mode.Contains].Visibility = Visibility.Collapsed;
-                items[(int)Mode.NotContains].Visibility = Visibility.Collapsed;
-                items[(int)Mode.Like].Visibility = Visibility.Collapsed;
-                items[(int)Mode.NotLike].Visibility = Visibility.Collapsed;
-                items[(int)Mode.StartsWith].Visibility = Visibility.Collapsed;
-                items[(int)Mode.EndsWith].Visibility = Visibility.Collapsed;
-            }
-
+            items[(int)Mode.Equal].Visibility = FilterType.In(Type.Date, Type.Number, Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.NotEqual].Visibility = FilterType.In(Type.Date, Type.Number, Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Greater].Visibility = FilterType.In(Type.Date, Type.Number) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.GreaterEqual].Visibility = FilterType.In(Type.Date, Type.Number) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Less].Visibility = FilterType.In(Type.Date, Type.Number) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.LessEqual].Visibility = FilterType.In(Type.Date, Type.Number) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Between].Visibility = FilterType.In(Type.Date, Type.Number) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Contains].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.NotContains].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Like].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.NotLike].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.StartsWith].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.EndsWith].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.In].Visibility = FilterType.In(Type.List) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.NotIn].Visibility = FilterType.In(Type.List) ? Visibility.Visible : Visibility.Collapsed;
+            
             /// Default mode
             if (FilterMode == null)
             {

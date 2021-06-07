@@ -49,7 +49,7 @@ namespace StswExpress
             }
             set
             {
-                if (value is null || !(SelectedItems.Count == value.Count && SelectedItems.All(value.Contains)))
+                if (value == null || !(SelectedItems.Count == value.Count && SelectedItems.All(value.Contains)))
                 {
                     foreach (ComboBoxItem item in Items)
                     {
