@@ -463,8 +463,13 @@ namespace StswExpress
             }
             if (ugFilters.Children.Count >= 2)
                 ugFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+			if (ValueDef != null)
+			{
+				if (Value1 == null) Value1 = ValueDef;
+				if (Value2 == null) Value2 = ValueDef;
+			}
 
-            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+			imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
 
             Loaded -= StackPanel_Loaded;
         }
