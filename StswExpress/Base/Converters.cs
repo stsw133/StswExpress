@@ -122,7 +122,7 @@ namespace StswExpress
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-			var param = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
+			var param = parameter?.ToString()?.TrimStart('!');
 
 			if ((value?.ToString() == param && !rev) || (value?.ToString() != param && rev))
 			{
