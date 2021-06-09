@@ -37,7 +37,7 @@ namespace StswExpress
 		}
 
 		/// <summary>
-		/// Load image from byte[] to BitmapImage
+		/// Loads image from byte[] to BitmapImage
 		/// </summary>
 		/// <param name="imageData">Byte array data</param>
 		/// <returns>Image</returns>
@@ -60,6 +60,16 @@ namespace StswExpress
 			image.Freeze();
 
 			return image;
+		}
+
+		/// <summary>
+		/// Opens context menu of framework element
+		/// </summary>
+		/// <param name="sender">Framework element</param>
+		public static void OpenContextMenu(object sender)
+		{
+			if (sender is FrameworkElement f)
+				f.ContextMenu.IsOpen = true;
 		}
 
 		/// <summary>
