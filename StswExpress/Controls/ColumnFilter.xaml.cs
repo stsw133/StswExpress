@@ -465,6 +465,8 @@ namespace StswExpress
                 ugFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
 			if (ValueDef != null)
 			{
+				if (FilterType == Type.List)
+					ValueDef = ValueDef.ToString().Split(',').ToList<object>();
 				if (Value1 == null) Value1 = ValueDef;
 				if (Value2 == null) Value2 = ValueDef;
 			}

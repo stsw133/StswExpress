@@ -100,10 +100,18 @@ namespace StswExpress
             }
         }
 
-        /// <summary>
-        /// SetText
-        /// </summary>
-        private void SetText()
+		/// <summary>
+		/// Loaded
+		/// </summary>
+		private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+		{
+			SetText();
+		}
+
+		/// <summary>
+		/// SetText
+		/// </summary>
+		private void SetText()
         {
             var result = new List<object>();
             foreach (ComboBoxItem item in Items)
