@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress
@@ -69,7 +70,10 @@ namespace StswExpress
 		public static void OpenContextMenu(object sender)
 		{
 			if (sender is FrameworkElement f)
+			{
+				f.ContextMenu.PlacementTarget = f;
 				f.ContextMenu.IsOpen = true;
+			}
 		}
 
 		/// <summary>
