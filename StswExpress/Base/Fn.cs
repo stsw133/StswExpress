@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,6 +36,26 @@ namespace StswExpress
 			}
 
 			public static readonly DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy), new UIPropertyMetadata(null));
+		}
+
+		/// <summary>
+		/// Adds char before upper letters in string
+		/// </summary>
+		/// <param name="text">Text to edit</param>
+		/// <returns>Text after adding a char</returns>
+		public static string AddCharBeforeUpperLetters(string text, char symbol)
+		{
+			if (string.IsNullOrWhiteSpace(text))
+				return "";
+			StringBuilder newText = new StringBuilder(text.Length * 2);
+			newText.Append(text[0]);
+			for (int i = 1; i < text.Length; i++)
+			{
+				if (char.IsUpper(text[i]) && text[i - 1] != symbol)
+					newText.Append(symbol);
+				newText.Append(text[i]);
+			}
+			return newText.ToString();
 		}
 
 		/// <summary>
@@ -103,13 +124,14 @@ namespace StswExpress
 			foreach (var col in dg.Columns)
 				if (col.Header is ColumnFilter c && c?.FilterSQL != null)
 				{
-					filter += c.FilterSQL + " and ";
+					filter += " and " + c.FilterSQL;
 					parameters.Add((c.ParamSQL + "1", (c.Value1 is List<object> ? null : c.Value1) ?? DBNull.Value));
 					parameters.Add((c.ParamSQL + "2", (c.Value2 is List<object> ? null : c.Value2) ?? DBNull.Value));
 				}
-			filter = filter.TrimEnd(" and ".ToCharArray());
+			if (filter.StartsWith(" and "))
+				filter = filter[5..];
 			if (string.IsNullOrWhiteSpace(filter))
-				filter = "true";
+				filter = "1=1";
 		}
 
 		/// <summary>

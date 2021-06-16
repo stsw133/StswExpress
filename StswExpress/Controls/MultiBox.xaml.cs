@@ -79,6 +79,9 @@ namespace StswExpress
             {
                 SetValue(SourceProperty, value);
                 Items.Clear();
+                if (value == null)
+                    return;
+
                 for (int i = 0; i < value.Count; i++)
                 {
                     var tbtn = new ToggleButton()
