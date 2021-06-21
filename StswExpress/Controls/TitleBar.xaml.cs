@@ -12,8 +12,8 @@ namespace StswExpress
     /// </summary>
     public partial class TitleBar : DockPanel
     {
-		Window win;
-		double height = 450, width = 700;
+		private Window win;
+		private double height = 450, width = 700;
 
         public TitleBar()
         {
@@ -105,7 +105,7 @@ namespace StswExpress
 		{
 			if (e.ChangedButton == MouseButton.Left)
 			{
-				if (e.ClickCount == 2 && btnResize.IsEnabled)
+				if (e.ClickCount == 2 && win.ResizeMode == ResizeMode.CanResize)
 					miResize_Click(null, null);
 				else
 					win.DragMove();
@@ -127,7 +127,7 @@ namespace StswExpress
 		/// </summary>
 		public void miSetCenter_Click(object sender, RoutedEventArgs e)
 		{
-			Rect workArea = SystemParameters.WorkArea;
+			var workArea = SystemParameters.WorkArea;
 			win.Left = (workArea.Width - win.Width) / 2 + workArea.Left;
 			win.Top = (workArea.Height - win.Height) / 2 + workArea.Top;
 		}

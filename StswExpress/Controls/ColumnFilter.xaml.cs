@@ -46,7 +46,9 @@ namespace StswExpress
             StartsWith,
             EndsWith,
             In,
-            NotIn
+            NotIn,
+			Null,
+			NotNull
         }
 
         /// <summary>
@@ -83,7 +85,9 @@ namespace StswExpress
                 SetValue(FilterModeProperty, value);
                 if (ugFilters.Children.Count >= 2)
                     ugFilters.Children[1].Visibility = value == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
-            }
+				if (ugFilters.Children.Count >= 1)
+					ugFilters.Children[0].Visibility = !value.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+			}
         }
 
         /// <summary>
@@ -331,6 +335,8 @@ namespace StswExpress
                     Mode.EndsWith => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} like {cs1}concat('%', {ParamSQL}1){cs2}",
                     Mode.In => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)Value1)}{s}{cs2})",
                     Mode.NotIn => $"{cs1}{ns1}{NameSQL}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)Value1)}{s}{cs2})",
+                    Mode.Null => $"{NameSQL} is null)",
+                    Mode.NotNull => $"{NameSQL} is not null)",
                     _ => null
                 };
             }
@@ -451,6 +457,8 @@ namespace StswExpress
             items[(int)Mode.EndsWith].Visibility = FilterType.In(Type.Text) ? Visibility.Visible : Visibility.Collapsed;
             items[(int)Mode.In].Visibility = FilterType.In(Type.List) ? Visibility.Visible : Visibility.Collapsed;
             items[(int)Mode.NotIn].Visibility = FilterType.In(Type.List) ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.Null].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
+            items[(int)Mode.NotNull].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
             
             /// Default mode
             if (FilterMode == null)
@@ -461,8 +469,12 @@ namespace StswExpress
                 else if (FilterType == Type.Number) FilterMode = Mode.Equal;
                 else if (FilterType == Type.Text)   FilterMode = Mode.Contains;
             }
+			/// Hide box filters
             if (ugFilters.Children.Count >= 2)
                 ugFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+			if (ugFilters.Children.Count >= 1)
+				ugFilters.Children[0].Visibility = !FilterMode.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+			/// Set default value
 			if (ValueDef != null)
 			{
 				if (FilterType == Type.List)
@@ -471,7 +483,7 @@ namespace StswExpress
 				if (Value2 == null) Value2 = ValueDef;
 			}
 
-			imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+			imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
 
             Loaded -= StackPanel_Loaded;
         }
@@ -502,7 +514,7 @@ namespace StswExpress
         private void miFilterMode_Click(object sender, RoutedEventArgs e)
         {
             FilterMode = (Mode)Enum.Parse(typeof(Mode), (sender as MenuItem).Tag.ToString());
-            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon32_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }
     }
 }

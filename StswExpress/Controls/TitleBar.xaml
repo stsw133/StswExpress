@@ -11,38 +11,28 @@
            WindowChrome.IsHitTestVisibleInChrome="True">
     <!-- buttons -->
     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-        <Button x:Name="btnMinimize"
-                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=-0.25}"
-                BorderThickness="0"
-                IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=!NoResize}"
+		<StackPanel.Resources>
+			<Style TargetType="{x:Type Button}">
+				<Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=-0.25}"/>
+				<Setter Property="BorderThickness" Value="0"/>
+				<Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"/>
+				<Setter Property="FontWeight" Value="Heavy"/>
+				<Setter Property="Foreground" Value="{Binding ThemeColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=!}"/>
+				<Setter Property="Padding" Value="0"/>
+				<Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=3.5}"/>
+			</Style>
+		</StackPanel.Resources>
+		<Button FontFamily="Arial" Content="🗕"
+				IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=!NoResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=!NoResize}"
-                Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=3.5}"
-                Click="miMinimize_Click">
-            <Image Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
-                   Source="pack://siteoforigin:,,,/Resources/icon32_minimize.ico"/>
-        </Button>
-        <Button x:Name="btnResize"
-                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=-0.25}"
-                BorderThickness="0"
-                IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=CanResize}"
+                Click="miMinimize_Click"/>
+		<Button FontFamily="Arial" Content="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}"
+				IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=CanResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=CanResize}"
-                Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=3.5}"
-                Click="miResize_Click">
-            <Image Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
-                   Source="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~/Resources/icon32_restoredown.ico~/Resources/icon32_maximize.ico}"/>
-        </Button>
-        <Button x:Name="btnClose"
-                Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=-0.25}"
-                BorderThickness="0"
-                Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=3.5}"
-                Click="miClose_Click">
-            <Image Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}"
-                   Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
-                   Source="pack://siteoforigin:,,,/Resources/icon32_close.ico"/>
-        </Button>
-    </StackPanel>
+                Click="miResize_Click"/>
+		<Button FontFamily="Arial" Content="🗙"
+				Click="miClose_Click"/>
+	</StackPanel>
     <!-- title -->
     <Grid Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}">
         <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=1.75}"
@@ -54,15 +44,23 @@
     <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
            Foreground="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}, Converter={se:conv_Color}, ConverterParameter=!}"
            VerticalContentAlignment="Center"/>
-    <DockPanel.ContextMenu>
-        <ContextMenu>
-            <!--<MenuItem x:Name="miRestoreDown" Header="Przywróć" Click="miResize_Click" IsEnabled="False"/>-->
+	<DockPanel.ContextMenu>
+		<ContextMenu>
+			<!--<MenuItem x:Name="miRestoreDown" Header="Przywróć" Click="miResize_Click" IsEnabled="False"/>-->
             <MenuItem x:Name="miSetCenter" Header="Wyśrodkuj na ekranie" Click="miSetCenter_Click"/>
-            <MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
-            <se:ExtMenuItem x:Name="miMinimize" Header="Minimalizuj" IconUri="/Resources/icon32_minimize.ico" Click="miMinimize_Click" IsEnabled="False"/>
+			<MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
+			<MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="False">
+				<MenuItem.Icon>
+					<TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center"/>
+				</MenuItem.Icon>
+			</MenuItem>
             <MenuItem x:Name="miMaximize" Header="Maksymalizuj" Click="miResize_Click" IsEnabled="False"/>
             <Separator/>
-            <se:ExtMenuItem x:Name="miClose" Header="Zamknij okno" IconUri="/Resources/icon32_close.ico" Click="miClose_Click"/>
+			<MenuItem x:Name="miClose" Header="Zamknij okno" Click="miClose_Click">
+				<MenuItem.Icon>
+					<TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center"/>
+				</MenuItem.Icon>
+			</MenuItem>
         </ContextMenu>
     </DockPanel.ContextMenu>
 </DockPanel>

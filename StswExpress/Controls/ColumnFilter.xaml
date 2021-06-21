@@ -19,21 +19,23 @@
                             <EventSetter Event="Click" Handler="miFilterMode_Click"/>
                         </Style>
                     </ContextMenu.Resources>
-                    <se:ExtMenuItem Header="Jest równe" Tag="Equal" IconUri="/Resources/icon32_filter_equal.ico"/>
-                    <se:ExtMenuItem Header="Nie jest równe" Tag="NotEqual" IconUri="/Resources/icon32_filter_notequal.ico"/>
-                    <se:ExtMenuItem Header="Jest większe niż" Tag="Greater" IconUri="/Resources/icon32_filter_greater.ico"/>
-                    <se:ExtMenuItem Header="Jest większe lub równe" Tag="GreaterEqual" IconUri="/Resources/icon32_filter_greaterequal.ico"/>
-                    <se:ExtMenuItem Header="Jest mniejsze niż" Tag="Less" IconUri="/Resources/icon32_filter_less.ico"/>
-                    <se:ExtMenuItem Header="Jest mniejsze lub równe" Tag="LessEqual" IconUri="/Resources/icon32_filter_lessequal.ico"/>
-                    <se:ExtMenuItem Header="Pomiędzy" Tag="Between" IconUri="/Resources/icon32_filter_between.ico"/>
-                    <se:ExtMenuItem Header="Zawiera" Tag="Contains" IconUri="/Resources/icon32_filter_contains.ico"/>
-                    <se:ExtMenuItem Header="Nie zawiera" Tag="NotContains" IconUri="/Resources/icon32_filter_notcontains.ico"/>
-                    <se:ExtMenuItem Header="Podobne do" Tag="Like" IconUri="/Resources/icon32_filter_like.ico"/>
-                    <se:ExtMenuItem Header="Nie jest podobne" Tag="NotLike" IconUri="/Resources/icon32_filter_notlike.ico"/>
-                    <se:ExtMenuItem Header="Rozpoczyna się od" Tag="StartsWith" IconUri="/Resources/icon32_filter_startswith.ico"/>
-                    <se:ExtMenuItem Header="Kończy się na" Tag="EndsWith" IconUri="/Resources/icon32_filter_endswith.ico"/>
-                    <se:ExtMenuItem Header="Zawiera listę" Tag="In" IconUri="/Resources/icon32_filter_in.ico"/>
-                    <se:ExtMenuItem Header="Nie zawiera listy" Tag="NotIn" IconUri="/Resources/icon32_filter_notin.ico"/>
+                    <se:ExtMenuItem Header="Jest równe" Tag="Equal" IconUri="/Resources/icon20_filter_equal.ico"/>
+                    <se:ExtMenuItem Header="Nie jest równe" Tag="NotEqual" IconUri="/Resources/icon20_filter_notequal.ico"/>
+                    <se:ExtMenuItem Header="Jest większe niż" Tag="Greater" IconUri="/Resources/icon20_filter_greater.ico"/>
+                    <se:ExtMenuItem Header="Jest większe lub równe" Tag="GreaterEqual" IconUri="/Resources/icon20_filter_greaterequal.ico"/>
+                    <se:ExtMenuItem Header="Jest mniejsze niż" Tag="Less" IconUri="/Resources/icon20_filter_less.ico"/>
+                    <se:ExtMenuItem Header="Jest mniejsze lub równe" Tag="LessEqual" IconUri="/Resources/icon20_filter_lessequal.ico"/>
+                    <se:ExtMenuItem Header="Pomiędzy" Tag="Between" IconUri="/Resources/icon20_filter_between.ico"/>
+                    <se:ExtMenuItem Header="Zawiera" Tag="Contains" IconUri="/Resources/icon20_filter_contains.ico"/>
+                    <se:ExtMenuItem Header="Nie zawiera" Tag="NotContains" IconUri="/Resources/icon20_filter_notcontains.ico"/>
+                    <se:ExtMenuItem Header="Podobne do" Tag="Like" IconUri="/Resources/icon20_filter_like.ico"/>
+                    <se:ExtMenuItem Header="Nie jest podobne" Tag="NotLike" IconUri="/Resources/icon20_filter_notlike.ico"/>
+                    <se:ExtMenuItem Header="Rozpoczyna się od" Tag="StartsWith" IconUri="/Resources/icon20_filter_startswith.ico"/>
+                    <se:ExtMenuItem Header="Kończy się na" Tag="EndsWith" IconUri="/Resources/icon20_filter_endswith.ico"/>
+                    <se:ExtMenuItem Header="Zawiera listę" Tag="In" IconUri="/Resources/icon20_filter_in.ico"/>
+                    <se:ExtMenuItem Header="Nie zawiera listy" Tag="NotIn" IconUri="/Resources/icon20_filter_notin.ico"/>
+                    <se:ExtMenuItem Header="Puste" Tag="Null" IconUri="/Resources/icon20_filter_null.ico"/>
+                    <se:ExtMenuItem Header="Niepuste" Tag="NotNull" IconUri="/Resources/icon20_filter_notnull.ico"/>
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>

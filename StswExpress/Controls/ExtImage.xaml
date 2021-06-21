@@ -9,33 +9,33 @@
         <ContextMenu>
             <MenuItem Header="Wytnij" Click="miCut_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="✂️" FontWeight="Heavy" TextAlignment="Center"/>
+                    <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Header="Kopiuj" Click="miCopy_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📄" FontWeight="Heavy" TextAlignment="Center"/>
+					<TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Header="Wklej" Click="miPaste_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📝" FontWeight="Heavy" TextAlignment="Center"/>
+					<TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Header="Usuń" Click="miDelete_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="❌" FontWeight="Heavy" TextAlignment="Center"/>
+					<TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <Separator/>
             <MenuItem Header="Wczytaj" Click="miLoad_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📁" FontWeight="Heavy" TextAlignment="Center"/>
+					<TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Header="Zapisz" Click="miSave_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="💾" FontWeight="Heavy" TextAlignment="Center"/>
+					<TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>

@@ -10,183 +10,75 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\icon32_accept.ico" />
-    <None Remove="Resources\icon32_add.ico" />
-    <None Remove="Resources\icon32_calendar.ico" />
-    <None Remove="Resources\icon32_cancel.ico" />
-    <None Remove="Resources\icon32_close.ico" />
-    <None Remove="Resources\icon32_database.ico" />
-    <None Remove="Resources\icon32_delete.ico" />
-    <None Remove="Resources\icon32_duplicate.ico" />
-    <None Remove="Resources\icon32_edit.ico" />
-    <None Remove="Resources\icon32_filter.ico" />
-    <None Remove="Resources\icon32_filter_between.ico" />
-    <None Remove="Resources\icon32_filter_contains.ico" />
-    <None Remove="Resources\icon32_filter_endswith.ico" />
-    <None Remove="Resources\icon32_filter_equal.ico" />
-    <None Remove="Resources\icon32_filter_greater.ico" />
-    <None Remove="Resources\icon32_filter_greaterequal.ico" />
-    <None Remove="Resources\icon32_filter_in.ico" />
-    <None Remove="Resources\icon32_filter_less.ico" />
-    <None Remove="Resources\icon32_filter_lessequal.ico" />
-    <None Remove="Resources\icon32_filter_like.ico" />
-    <None Remove="Resources\icon32_filter_notcontains.ico" />
-    <None Remove="Resources\icon32_filter_notequal.ico" />
-    <None Remove="Resources\icon32_filter_notin.ico" />
-    <None Remove="Resources\icon32_filter_notlike.ico" />
-    <None Remove="Resources\icon32_filter_startswith.ico" />
-    <None Remove="Resources\icon32_folder.ico" />
-    <None Remove="Resources\icon32_list.ico" />
-    <None Remove="Resources\icon32_locked.ico" />
-    <None Remove="Resources\icon32_login.ico" />
-    <None Remove="Resources\icon32_mail.ico" />
-    <None Remove="Resources\icon32_maximize.ico" />
-    <None Remove="Resources\icon32_minimize.ico" />
-    <None Remove="Resources\icon32_printer.ico" />
-    <None Remove="Resources\icon32_profile.ico" />
-    <None Remove="Resources\icon32_refresh.ico" />
-    <None Remove="Resources\icon32_remove.ico" />
-    <None Remove="Resources\icon32_restoredown.ico" />
-    <None Remove="Resources\icon32_return.ico" />
-    <None Remove="Resources\icon32_save.ico" />
-    <None Remove="Resources\icon32_scanner.ico" />
-    <None Remove="Resources\icon32_search.ico" />
-    <None Remove="Resources\icon32_settings.ico" />
-    <None Remove="Resources\icon32_show.ico" />
-    <None Remove="Resources\icon32_unlocked.ico" />
+    <None Remove="Resources\icon20_filter_between.ico" />
+    <None Remove="Resources\icon20_filter_contains.ico" />
+    <None Remove="Resources\icon20_filter_endswith.ico" />
+    <None Remove="Resources\icon20_filter_equal.ico" />
+    <None Remove="Resources\icon20_filter_greater.ico" />
+    <None Remove="Resources\icon20_filter_greaterequal.ico" />
+    <None Remove="Resources\icon20_filter_in.ico" />
+    <None Remove="Resources\icon20_filter_less.ico" />
+    <None Remove="Resources\icon20_filter_lessequal.ico" />
+    <None Remove="Resources\icon20_filter_like.ico" />
+    <None Remove="Resources\icon20_filter_notcontains.ico" />
+    <None Remove="Resources\icon20_filter_notequal.ico" />
+    <None Remove="Resources\icon20_filter_notin.ico" />
+    <None Remove="Resources\icon20_filter_notlike.ico" />
+    <None Remove="Resources\icon20_filter_notnull.ico" />
+    <None Remove="Resources\icon20_filter_null.ico" />
+    <None Remove="Resources\icon20_filter_startswith.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\icon32_accept.ico">
+    <Content Include="Resources\icon20_filter_between.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_add.ico">
+    <Content Include="Resources\icon20_filter_contains.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_calendar.ico">
+    <Content Include="Resources\icon20_filter_endswith.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_cancel.ico">
+    <Content Include="Resources\icon20_filter_equal.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_close.ico">
+    <Content Include="Resources\icon20_filter_greater.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_database.ico">
+    <Content Include="Resources\icon20_filter_greaterequal.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_delete.ico">
+    <Content Include="Resources\icon20_filter_in.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_duplicate.ico">
+    <Content Include="Resources\icon20_filter_less.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_edit.ico">
+    <Content Include="Resources\icon20_filter_lessequal.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter.ico">
+    <Content Include="Resources\icon20_filter_like.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_between.ico">
+    <Content Include="Resources\icon20_filter_notcontains.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_contains.ico">
+    <Content Include="Resources\icon20_filter_notequal.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_endswith.ico">
+    <Content Include="Resources\icon20_filter_notin.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_equal.ico">
+    <Content Include="Resources\icon20_filter_notlike.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_greater.ico">
+    <Content Include="Resources\icon20_filter_notnull.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_greaterequal.ico">
+    <Content Include="Resources\icon20_filter_null.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon32_filter_in.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_less.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_lessequal.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_like.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_notcontains.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_notequal.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_notin.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_notlike.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_filter_startswith.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_folder.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_list.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_locked.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_login.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_mail.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_maximize.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_minimize.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_printer.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_profile.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_refresh.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_remove.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_restoredown.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_return.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_save.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_scanner.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_search.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_settings.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_show.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\icon32_unlocked.ico">
+    <Content Include="Resources\icon20_filter_startswith.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
