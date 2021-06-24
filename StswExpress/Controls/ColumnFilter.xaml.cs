@@ -459,9 +459,15 @@ namespace StswExpress
             items[(int)Mode.NotIn].Visibility = FilterType.In(Type.List) ? Visibility.Visible : Visibility.Collapsed;
             items[(int)Mode.Null].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
             items[(int)Mode.NotNull].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
-            
-            /// Default mode
-            if (FilterMode == null)
+
+			/// Shortcuts
+			int keynumb = 1;
+			foreach (var item in items.Where(x => x.Visibility == Visibility.Visible))
+				if (!char.IsNumber(item.Header.ToString()[2]))
+					item.Header = "_" + keynumb++ + " " + item.Header.ToString();
+
+			/// Default mode
+			if (FilterMode == null)
             {
                 if      (FilterType == Type.Check)  FilterMode = Mode.Equal;
                 else if (FilterType == Type.Date)   FilterMode = Mode.Equal;
