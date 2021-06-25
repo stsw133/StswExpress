@@ -29,7 +29,7 @@ namespace StswExpress
         /// <summary>
         /// Convert DataTable to list of any model class
         /// </summary>
-        public static IList<T> ToList<T>(this DataTable table) where T : class, new()
+        public static IList<T> ToList<T>(this DataTable table, string ignoreString = null) where T : class, new()
         {
             try
             {
@@ -43,7 +43,9 @@ namespace StswExpress
                     {
                         try
                         {
-                            PropertyInfo propertyInfo = obj.GetType().GetProperty(prop.Name);
+                            var propname = ignoreString?.Length > 0 ? prop.Name.Replace(ignoreString, "") : prop.Name;
+                            PropertyInfo propertyInfo = obj.GetType().GetProperty(propname);
+
                             if (propertyInfo.PropertyType != typeof(object))
                                 propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
                             else
