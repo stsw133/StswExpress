@@ -79,6 +79,22 @@ namespace StswExpress
         }
 
 		/// <summary>
+		/// LabelPadding
+		/// </summary>
+		public static readonly DependencyProperty LabelPaddingProperty
+			= DependencyProperty.Register(
+				  nameof(LabelPadding),
+				  typeof(Thickness),
+				  typeof(Header),
+				  new PropertyMetadata(new Thickness(5))
+			  );
+		public Thickness LabelPadding
+		{
+			get => (Thickness)GetValue(LabelPaddingProperty);
+			set => SetValue(LabelPaddingProperty, value);
+		}
+
+		/// <summary>
 		/// SubIcon
 		/// </summary>
 		public static readonly DependencyProperty SubIconProperty

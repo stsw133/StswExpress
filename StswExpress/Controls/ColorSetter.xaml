@@ -41,7 +41,7 @@
                         Value="{Binding B, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"
                         ValueChanged="color_ValueChanged"/>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Top" Visibility="{Binding IsAlphaSliderVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Converter={se:conv_Bool}}">
+            <DockPanel DockPanel.Dock="Top" Visibility="{Binding IsAlphaSliderVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                 <Label Content="A" FontWeight="Heavy" Foreground="Gray" VerticalAlignment="Center"/>
                 <Label DockPanel.Dock="Right" VerticalAlignment="Center"
                        Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=3}"

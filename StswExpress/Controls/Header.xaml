@@ -14,16 +14,13 @@
                Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"
                HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 	</Grid>
-	<Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-           Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-           Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
 	<StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
 				HorizontalAlignment="Stretch" VerticalAlignment="Center"
 				Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
-		<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-		<TextBlock Text="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-				   FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.75}"
-				   Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Color}, ConverterParameter=0.25}"
-				   Visibility="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_NotNull}}"/>
+		<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}}"/>
+		<TextBlock Text="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}}"
+				   FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_Size}, ConverterParameter=0.75}"
+				   Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_Color}, ConverterParameter=0.25}"
+				   Visibility="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}"/>
 	</StackPanel>
 </StackPanel>
