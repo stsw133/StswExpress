@@ -7,10 +7,23 @@
             mc:Ignorable="d" d:DesignWidth="100"
             Orientation="Horizontal"
             Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-    <Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+	<Grid Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+          Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}">
+		<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"/>
+		<Image Height="{Binding IconSize, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.5}"
+               Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"
+               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+	</Grid>
+	<Image Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
            Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
            Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
-    <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-           HorizontalAlignment="Stretch" VerticalAlignment="Center"
-           Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}"/>
+	<StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+				HorizontalAlignment="Stretch" VerticalAlignment="Center"
+				Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
+		<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+		<TextBlock Text="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+				   FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.75}"
+				   Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Color}, ConverterParameter=0.25}"
+				   Visibility="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_NotNull}}"/>
+	</StackPanel>
 </StackPanel>

@@ -249,6 +249,36 @@ namespace StswExpress
 	}
 
 	/// <summary>
+	/// Checks if value is not null
+	/// </summary>
+	public class conv_NotNull : MarkupExtension, IValueConverter
+	{
+		private static conv_NotNull _conv = null;
+		public override object ProvideValue(IServiceProvider serviceProvider)
+		{
+			if (_conv == null)
+				_conv = new conv_NotNull();
+			return _conv;
+		}
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType == typeof(Visibility))
+				return value != null ? Visibility.Visible : Visibility.Collapsed;
+			else
+				return value != null;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (targetType == typeof(Visibility))
+				return value == null ? Visibility.Visible : Visibility.Collapsed;
+			else
+				return value == null;
+		}
+	}
+
+	/// <summary>
 	/// Converts double -> value * parameter
 	/// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter)
 	/// </summary>

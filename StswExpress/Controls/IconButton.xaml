@@ -13,12 +13,21 @@
     <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                 Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Image Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               Source="{Binding Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
-        <Label Content="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               Padding="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-               HorizontalAlignment="Stretch" VerticalAlignment="Center"
-               Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={se:conv_Bool}}"/>
-    </StackPanel>
+		<Grid Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+              Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+			<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}}"/>
+			<Image Height="{Binding IconSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Converter={se:conv_Size}, ConverterParameter=0.5}"
+                   Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}}"
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+		</Grid>
+		<StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+					HorizontalAlignment="Stretch" VerticalAlignment="Center"
+					Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={se:conv_Bool}}">
+			<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+			<TextBlock Text="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+					   FontSize="{Binding FontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={se:conv_Size}, ConverterParameter=0.75}"
+					   Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={se:conv_Color}, ConverterParameter=0.25}"
+					   Visibility="{Binding SubText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={se:conv_NotNull}}"/>
+		</StackPanel>
+	</StackPanel>
 </Button>
