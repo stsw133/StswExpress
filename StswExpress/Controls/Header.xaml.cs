@@ -85,7 +85,7 @@ namespace StswExpress
 			= DependencyProperty.Register(
 				  nameof(SubIcon),
 				  typeof(ImageSource),
-				  typeof(IconButton),
+				  typeof(Header),
 				  new PropertyMetadata(default(ImageSource))
 			  );
 		public ImageSource SubIcon
