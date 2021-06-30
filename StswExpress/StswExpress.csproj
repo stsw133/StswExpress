@@ -99,6 +99,9 @@
     <Compile Update="Controls\ColumnFilter.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\ExtComboBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -120,6 +123,10 @@
 
   <ItemGroup>
     <Page Update="Controls\ColumnFilter.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ExtComboBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
