@@ -10,12 +10,12 @@ namespace StswExpress
         private static readonly string LogFileName = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath), $"log.log");
         private static readonly FileInfo LogFile = new FileInfo(LogFileName);
         public static long ArchiveFileSize = 1024 * 1024 * 5; /// 5 MB
-        
-        /// <summary>
-        /// Write text to log file.
-        /// </summary>
-        /// <param name="text">Text.</param>
-        /// <param name="addfunccallername">Add function name.</param>
+
+                                                              /// <summary>
+                                                              /// Write text to log file.
+                                                              /// </summary>
+                                                              /// <param name="text">Text.</param>
+                                                              /// <param name="addfunccallername">Add function name.</param>
         public static void Write(string text, bool addfunccallername = false)
         {
             try

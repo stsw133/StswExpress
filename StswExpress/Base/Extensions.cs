@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 
@@ -33,18 +31,18 @@ namespace StswExpress
         {
             try
             {
-				IList<T> list = new List<T>();
+                IList<T> list = new List<T>();
 
                 foreach (var row in table.AsEnumerable())
                 {
-                    T obj = new T();
+                    var obj = new T();
 
                     foreach (var prop in obj.GetType().GetProperties())
                     {
                         try
                         {
-                            var propname = ignoreString?.Length > 0 ? prop.Name.Replace(ignoreString, "") : prop.Name;
-                            PropertyInfo propertyInfo = obj.GetType().GetProperty(propname);
+                            var propname = ignoreString?.Length > 0 ? prop.Name.Replace(ignoreString, string.Empty) : prop.Name;
+                            var propertyInfo = obj.GetType().GetProperty(propname);
 
                             if (propertyInfo.PropertyType != typeof(object))
                                 propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
@@ -75,10 +73,10 @@ namespace StswExpress
         {
             T child = default;
 
-            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            var numVisuals = VisualTreeHelper.GetChildrenCount(parent);
             for (int i = 0; i < numVisuals; i++)
             {
-                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
+                var v = (Visual)VisualTreeHelper.GetChild(parent, i);
                 child = v as T;
 
                 if (child == null)
@@ -92,15 +90,15 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// Find visual children of control of specified type
+        /// Find visual children of specified type in control
         /// </summary>
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
         {
-            if (depObj != null)
+            if (parent != null)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
                 {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    DependencyObject child = VisualTreeHelper.GetChild(parent, i);
                     if (child != null && child is T)
                     {
                         yield return (T)child;
