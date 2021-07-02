@@ -129,7 +129,7 @@ namespace StswExpress
         }
 
         /// <summary>
-		/// LayoutUpdated
+		/// UserControl - LayoutUpdated
 		/// </summary>
         private void UserControl_LayoutUpdated(object sender, EventArgs e)
         {
@@ -145,8 +145,8 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// ValueChanged
+        /// Color - ValueChanged
         /// </summary>
-        private void color_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => Color = $"#{A:X2}{R:X2}{G:X2}{B:X2}";
+        private void SldColor_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => Color = $"#{A:X2}{R:X2}{G:X2}{B:X2}";
     }
 }

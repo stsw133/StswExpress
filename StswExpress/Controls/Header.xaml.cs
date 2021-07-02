@@ -78,58 +78,58 @@ namespace StswExpress
             set => SetValue(IsTextVisibleProperty, value);
         }
 
-		/// <summary>
-		/// LabelPadding
-		/// </summary>
-		public static readonly DependencyProperty LabelPaddingProperty
-			= DependencyProperty.Register(
-				  nameof(LabelPadding),
-				  typeof(Thickness),
-				  typeof(Header),
-				  new PropertyMetadata(new Thickness(5))
-			  );
-		public Thickness LabelPadding
-		{
-			get => (Thickness)GetValue(LabelPaddingProperty);
-			set => SetValue(LabelPaddingProperty, value);
-		}
+        /// <summary>
+        /// LabelPadding
+        /// </summary>
+        public static readonly DependencyProperty LabelPaddingProperty
+            = DependencyProperty.Register(
+                  nameof(LabelPadding),
+                  typeof(Thickness),
+                  typeof(Header),
+                  new PropertyMetadata(new Thickness(5))
+              );
+        public Thickness LabelPadding
+        {
+            get => (Thickness)GetValue(LabelPaddingProperty);
+            set => SetValue(LabelPaddingProperty, value);
+        }
 
-		/// <summary>
-		/// SubIcon
-		/// </summary>
-		public static readonly DependencyProperty SubIconProperty
-			= DependencyProperty.Register(
-				  nameof(SubIcon),
-				  typeof(ImageSource),
-				  typeof(Header),
-				  new PropertyMetadata(default(ImageSource))
-			  );
-		public ImageSource SubIcon
-		{
-			get => (ImageSource)GetValue(SubIconProperty);
-			set => SetValue(SubIconProperty, value);
-		}
+        /// <summary>
+        /// SubIcon
+        /// </summary>
+        public static readonly DependencyProperty SubIconProperty
+            = DependencyProperty.Register(
+                  nameof(SubIcon),
+                  typeof(ImageSource),
+                  typeof(Header),
+                  new PropertyMetadata(default(ImageSource))
+              );
+        public ImageSource SubIcon
+        {
+            get => (ImageSource)GetValue(SubIconProperty);
+            set => SetValue(SubIconProperty, value);
+        }
 
-		/// <summary>
-		/// SubText
-		/// </summary>
-		public static readonly DependencyProperty SubTextProperty
-			= DependencyProperty.Register(
-				  nameof(SubText),
-				  typeof(string),
-				  typeof(Header),
-				  new PropertyMetadata(default(string))
-			  );
-		public string SubText
-		{
-			get => (string)GetValue(SubTextProperty);
-			set => SetValue(SubTextProperty, value);
-		}
+        /// <summary>
+        /// SubText
+        /// </summary>
+        public static readonly DependencyProperty SubTextProperty
+            = DependencyProperty.Register(
+                  nameof(SubText),
+                  typeof(string),
+                  typeof(Header),
+                  new PropertyMetadata(default(string))
+              );
+        public string SubText
+        {
+            get => (string)GetValue(SubTextProperty);
+            set => SetValue(SubTextProperty, value);
+        }
 
-		/// <summary>
-		/// Text
-		/// </summary>
-		public static readonly DependencyProperty TextProperty
+        /// <summary>
+        /// Text
+        /// </summary>
+        public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),

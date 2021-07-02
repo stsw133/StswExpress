@@ -93,7 +93,7 @@ namespace StswExpress
             get => (bool)GetValue(IsTextVisibleProperty);
             set => SetValue(IsTextVisibleProperty, value);
         }
-        
+
         /// <summary>
         /// LabelPadding
         /// </summary>
@@ -126,42 +126,42 @@ namespace StswExpress
             set => SetValue(OrientationProperty, value);
         }
 
-		/// <summary>
-		/// SubIcon
-		/// </summary>
-		public static readonly DependencyProperty SubIconProperty
-			= DependencyProperty.Register(
-				  nameof(SubIcon),
-				  typeof(ImageSource),
-				  typeof(IconButton),
-				  new PropertyMetadata(default(ImageSource))
-			  );
-		public ImageSource SubIcon
-		{
-			get => (ImageSource)GetValue(SubIconProperty);
-			set => SetValue(SubIconProperty, value);
-		}
+        /// <summary>
+        /// SubIcon
+        /// </summary>
+        public static readonly DependencyProperty SubIconProperty
+            = DependencyProperty.Register(
+                  nameof(SubIcon),
+                  typeof(ImageSource),
+                  typeof(IconButton),
+                  new PropertyMetadata(default(ImageSource))
+              );
+        public ImageSource SubIcon
+        {
+            get => (ImageSource)GetValue(SubIconProperty);
+            set => SetValue(SubIconProperty, value);
+        }
 
-		/// <summary>
-		/// SubText
-		/// </summary>
-		public static readonly DependencyProperty SubTextProperty
-			= DependencyProperty.Register(
-				  nameof(SubText),
-				  typeof(string),
-				  typeof(IconButton),
-				  new PropertyMetadata(default(string))
-			  );
-		public string SubText
-		{
-			get => (string)GetValue(SubTextProperty);
-			set => SetValue(SubTextProperty, value);
-		}
+        /// <summary>
+        /// SubText
+        /// </summary>
+        public static readonly DependencyProperty SubTextProperty
+            = DependencyProperty.Register(
+                  nameof(SubText),
+                  typeof(string),
+                  typeof(IconButton),
+                  new PropertyMetadata(default(string))
+              );
+        public string SubText
+        {
+            get => (string)GetValue(SubTextProperty);
+            set => SetValue(SubTextProperty, value);
+        }
 
-		/// <summary>
-		/// Text
-		/// </summary>
-		public static readonly DependencyProperty TextProperty
+        /// <summary>
+        /// Text
+        /// </summary>
+        public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),

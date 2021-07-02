@@ -76,18 +76,16 @@ namespace StswExpress
         {
             try
             {
-                using (var stream = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin")))
+                using var stream = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Databases.bin"));
+                foreach (var db in databases)
                 {
-                    foreach (var db in databases)
-                    {
-                        stream.WriteLine($"0={Security.Encrypt(db.Name)}");
-                        stream.WriteLine($"1={Security.Encrypt(db.Server)}");
-                        stream.WriteLine($"2={Security.Encrypt(db.Port.ToString())}");
-                        stream.WriteLine($"3={Security.Encrypt(db.Database)}");
-                        stream.WriteLine($"4={Security.Encrypt(db.Username)}");
-                        stream.WriteLine($"5={Security.Encrypt(db.Password)}");
-                        stream.WriteLine(string.Empty);
-                    }
+                    stream.WriteLine($"0={Security.Encrypt(db.Name)}");
+                    stream.WriteLine($"1={Security.Encrypt(db.Server)}");
+                    stream.WriteLine($"2={Security.Encrypt(db.Port.ToString())}");
+                    stream.WriteLine($"3={Security.Encrypt(db.Database)}");
+                    stream.WriteLine($"4={Security.Encrypt(db.Username)}");
+                    stream.WriteLine($"5={Security.Encrypt(db.Password)}");
+                    stream.WriteLine(string.Empty);
                 }
             }
             catch (Exception ex)

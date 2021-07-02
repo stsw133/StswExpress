@@ -47,8 +47,8 @@ namespace StswExpress
             EndsWith,
             In,
             NotIn,
-			Null,
-			NotNull
+            Null,
+            NotNull
         }
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace StswExpress
             set
             {
                 SetValue(FilterModeProperty, value);
-                if (ugFilters.Children.Count >= 2)
-                    ugFilters.Children[1].Visibility = value == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
-				if (ugFilters.Children.Count >= 1)
-					ugFilters.Children[0].Visibility = !value.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
-			}
+                if (UniGriFilters.Children.Count >= 2)
+                    UniGriFilters.Children[1].Visibility = value == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+                if (UniGriFilters.Children.Count >= 1)
+                    UniGriFilters.Children[0].Visibility = !value.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         /// <summary>
@@ -170,26 +170,26 @@ namespace StswExpress
             set => SetValue(IsFilterVisibleProperty, value);
         }
 
-		/// <summary>
-		/// ItemsHeaders
-		/// </summary>
-		public static readonly DependencyProperty ItemsHeadersProperty
-			= DependencyProperty.Register(
-				  nameof(ItemsHeaders),
-				  typeof(object),
-				  typeof(ColumnFilter),
-				  new PropertyMetadata(default(object))
-			  );
-		public object ItemsHeaders
-		{
-			get => GetValue(ItemsHeadersProperty);
-			set => SetValue(ItemsHeadersProperty, value);
-		}
+        /// <summary>
+        /// ItemsHeaders
+        /// </summary>
+        public static readonly DependencyProperty ItemsHeadersProperty
+            = DependencyProperty.Register(
+                  nameof(ItemsHeaders),
+                  typeof(object),
+                  typeof(ColumnFilter),
+                  new PropertyMetadata(default(object))
+              );
+        public object ItemsHeaders
+        {
+            get => GetValue(ItemsHeadersProperty);
+            set => SetValue(ItemsHeadersProperty, value);
+        }
 
-		/// <summary>
-		/// ItemsSource
-		/// </summary>
-		public static readonly DependencyProperty ItemsSourceProperty
+        /// <summary>
+        /// ItemsSource
+        /// </summary>
+        public static readonly DependencyProperty ItemsSourceProperty
             = DependencyProperty.Register(
                   nameof(ItemsSource),
                   typeof(IList),
@@ -234,8 +234,8 @@ namespace StswExpress
             set
             {
                 SetValue(Value1Property, value);
-                if (FilterType == Type.List && ugFilters.Children.Count > 0)
-                    (ugFilters.Children[0] as MultiBox).SelectedItems = value as List<object>;
+                if (FilterType == Type.List && UniGriFilters.Children.Count > 0)
+                    (UniGriFilters.Children[0] as MultiBox).SelectedItems = value as List<object>;
             }
         }
 
@@ -309,13 +309,17 @@ namespace StswExpress
                 var cs1 = FilterType == Type.Text && !IsFilterCaseSensitive ? "lower(" : string.Empty;
                 var cs2 = FilterType == Type.Text && !IsFilterCaseSensitive ? ")" : string.Empty;
                 var ns1 = !IsFilterNullSensitive && FilterType != Type.List ? "coalesce(" : string.Empty;
-                string ns2 = string.Empty;
+                var ns2 = string.Empty;
                 if (!IsFilterNullSensitive)
                 {
-                    if      (FilterType == Type.Check)  ns2 = ", 0)";
-                    else if (FilterType == Type.Date)   ns2 = ", '1900-01-01')";
-                    else if (FilterType == Type.Number) ns2 = ", 0)";
-                    else if (FilterType == Type.Text)   ns2 = ", '')";
+                    ns2 = FilterType switch
+                    {
+                        Type.Check => ", 0)",
+                        Type.Date => ", '1900-01-01')",
+                        Type.Number => ", 0)",
+                        Type.Text => ", '')",
+                        _ => string.Empty,
+                    };
                 }
 
                 return FilterMode switch
@@ -347,7 +351,7 @@ namespace StswExpress
         /// </summary>
         private void StackPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            var items = imgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
+            var items = ImgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
             var binding1 = new Binding()
             {
                 Path = new PropertyPath("Value1"),
@@ -374,50 +378,50 @@ namespace StswExpress
             if (FilterType == Type.Check)
             {
                 var cont1 = new ExtCheckBox()
-				{
-					HorizontalAlignment = HorizontalAlignment.Center,
-					IsThreeState = true
-				};
-				cont1.InputBindings.Add(inputbinding);
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    IsThreeState = true
+                };
+                cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(ExtCheckBox.IsCheckedProperty, binding1);
-                ugFilters.Children.Add(cont1);
+                UniGriFilters.Children.Add(cont1);
 
-                imgMode.Visibility = Visibility.Collapsed;
+                ImgMode.Visibility = Visibility.Collapsed;
             }
             /// Date
             else if (FilterType == Type.Date)
             {
                 var cont1 = new DatePicker()
-				{
-					Background = Brushes.White,
-					Padding = new Thickness(0)
-				};
-				cont1.InputBindings.Add(inputbinding);
+                {
+                    Background = Brushes.White,
+                    Padding = new Thickness(0)
+                };
+                cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(DatePicker.SelectedDateProperty, binding1);
-                ugFilters.Children.Add(cont1);
+                UniGriFilters.Children.Add(cont1);
 
                 var cont2 = new DatePicker()
-				{
-					Background = Brushes.White,
-					Padding = new Thickness(0)
-				};
-				cont2.InputBindings.Add(inputbinding);
+                {
+                    Background = Brushes.White,
+                    Padding = new Thickness(0)
+                };
+                cont2.InputBindings.Add(inputbinding);
                 cont2.SetBinding(DatePicker.SelectedDateProperty, binding2);
-                ugFilters.Children.Add(cont2);
+                UniGriFilters.Children.Add(cont2);
             }
             /// List
             else if (FilterType == Type.List)
             {
                 var cont1 = new MultiBox()
-				{
-					DisplayMemberPath = DisplayMemberPath,
-					Padding = new Thickness(2),
-					SelectedValuePath = SelectedValuePath,
-					Source = ItemsHeaders == null ? ItemsSource : ItemsHeaders.ToString().Split(';')
-				};
-				cont1.InputBindings.Add(inputbinding);
+                {
+                    DisplayMemberPath = DisplayMemberPath,
+                    Padding = new Thickness(2),
+                    SelectedValuePath = SelectedValuePath,
+                    Source = ItemsHeaders == null ? ItemsSource : ItemsHeaders.ToString().Split(';')
+                };
+                cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
-                ugFilters.Children.Add(cont1);
+                UniGriFilters.Children.Add(cont1);
             }
             /// Number
             else if (FilterType == Type.Number)
@@ -425,12 +429,12 @@ namespace StswExpress
                 var cont1 = new NumericUpDown();
                 cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(NumericUpDown.ValueProperty, binding1);
-                ugFilters.Children.Add(cont1);
+                UniGriFilters.Children.Add(cont1);
 
                 var cont2 = new NumericUpDown();
                 cont2.InputBindings.Add(inputbinding);
                 cont2.SetBinding(NumericUpDown.ValueProperty, binding2);
-                ugFilters.Children.Add(cont2);
+                UniGriFilters.Children.Add(cont2);
             }
             /// Text
             else if (FilterType == Type.Text)
@@ -438,7 +442,7 @@ namespace StswExpress
                 var cont1 = new ExtTextBox();
                 cont1.InputBindings.Add(inputbinding);
                 cont1.SetBinding(ExtTextBox.TextProperty, binding1);
-                ugFilters.Children.Add(cont1);
+                UniGriFilters.Children.Add(cont1);
             }
 
             /// Mode visibility
@@ -460,36 +464,36 @@ namespace StswExpress
             items[(int)Mode.Null].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
             items[(int)Mode.NotNull].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
 
-			/// Shortcuts
-			int keynumb = 1;
-			foreach (var item in items.Where(x => x.Visibility == Visibility.Visible))
-				if (!char.IsNumber(item.Header.ToString()[2]))
-					item.Header = "_" + keynumb++ + " " + item.Header.ToString();
+            /// Shortcuts
+            var keynumb = 1;
+            foreach (var item in items.Where(x => x.Visibility == Visibility.Visible))
+                if (!char.IsNumber(item.Header.ToString()[2]))
+                    item.Header = "_" + keynumb++ + " " + item.Header.ToString();
 
-			/// Default mode
-			if (FilterMode == null)
+            /// Default mode
+            if (FilterMode == null)
             {
-                if      (FilterType == Type.Check)  FilterMode = Mode.Equal;
-                else if (FilterType == Type.Date)   FilterMode = Mode.Equal;
-                else if (FilterType == Type.List)   FilterMode = Mode.In;
+                if (FilterType == Type.Check) FilterMode = Mode.Equal;
+                else if (FilterType == Type.Date) FilterMode = Mode.Equal;
+                else if (FilterType == Type.List) FilterMode = Mode.In;
                 else if (FilterType == Type.Number) FilterMode = Mode.Equal;
-                else if (FilterType == Type.Text)   FilterMode = Mode.Contains;
+                else if (FilterType == Type.Text) FilterMode = Mode.Contains;
             }
-			/// Hide box filters
-            if (ugFilters.Children.Count >= 2)
-                ugFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
-			if (ugFilters.Children.Count >= 1)
-				ugFilters.Children[0].Visibility = !FilterMode.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
-			/// Set default value
-			if (ValueDef != null)
-			{
-				if (FilterType == Type.List)
-					ValueDef = ValueDef.ToString().Split(',').ToList<object>();
-				if (Value1 == null) Value1 = ValueDef;
-				if (Value2 == null) Value2 = ValueDef;
-			}
+            /// Hide box filters
+            if (UniGriFilters.Children.Count >= 2)
+                UniGriFilters.Children[1].Visibility = FilterMode == Mode.Between ? Visibility.Visible : Visibility.Collapsed;
+            if (UniGriFilters.Children.Count >= 1)
+                UniGriFilters.Children[0].Visibility = !FilterMode.In(Mode.Null, Mode.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+            /// Set default value
+            if (ValueDef != null)
+            {
+                if (FilterType == Type.List)
+                    ValueDef = ValueDef.ToString().Split(',').ToList<object>();
+                if (Value1 == null) Value1 = ValueDef;
+                if (Value2 == null) Value2 = ValueDef;
+            }
 
-			imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+            ImgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
 
             Loaded -= StackPanel_Loaded;
         }
@@ -520,7 +524,7 @@ namespace StswExpress
         private void miFilterMode_Click(object sender, RoutedEventArgs e)
         {
             FilterMode = (Mode)Enum.Parse(typeof(Mode), (sender as MenuItem).Tag.ToString());
-            imgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
+            ImgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));
         }
     }
 }

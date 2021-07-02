@@ -7,8 +7,8 @@
              mc:Ignorable="d" d:DesignWidth="400"
              LayoutUpdated="UserControl_LayoutUpdated">
     <DockPanel Margin="5">
-        <Border BorderBrush="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Converter={se:conv_Color}, ConverterParameter=-0.5}" BorderThickness="1"
-                Margin="5"
+        <Border BorderBrush="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Converter={se:conv_Color}, ConverterParameter=-0.5}"
+				BorderThickness="1" Margin="5"
                 Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=2}"
                 Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=2}">
             <Rectangle Fill="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
@@ -21,7 +21,7 @@
                        Content="{Binding R, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium"/>
                 <Slider VerticalAlignment="Center" MinWidth="{Binding SliderWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         Value="{Binding R, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"
-                        ValueChanged="color_ValueChanged"/>
+                        ValueChanged="SldColor_ValueChanged"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label Content="G" FontWeight="Heavy" Foreground="Green" VerticalAlignment="Center"/>
@@ -30,7 +30,7 @@
                        Content="{Binding G, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium"/>
                 <Slider VerticalAlignment="Center" MinWidth="{Binding SliderWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         Value="{Binding G, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"
-                        ValueChanged="color_ValueChanged"/>
+                        ValueChanged="SldColor_ValueChanged"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label Content="B" FontWeight="Heavy" Foreground="Blue" VerticalAlignment="Center"/>
@@ -39,7 +39,7 @@
                        Content="{Binding B, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium"/>
                 <Slider VerticalAlignment="Center" MinWidth="{Binding SliderWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         Value="{Binding B, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"
-                        ValueChanged="color_ValueChanged"/>
+                        ValueChanged="SldColor_ValueChanged"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Visibility="{Binding IsAlphaSliderVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                 <Label Content="A" FontWeight="Heavy" Foreground="Gray" VerticalAlignment="Center"/>
@@ -48,7 +48,7 @@
                        Content="{Binding A, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" FontWeight="Medium"/>
                 <Slider VerticalAlignment="Center" MinWidth="{Binding SliderWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         Value="{Binding A, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"
-                        ValueChanged="color_ValueChanged"/>
+                        ValueChanged="SldColor_ValueChanged"/>
             </DockPanel>
         </DockPanel>
     </DockPanel>

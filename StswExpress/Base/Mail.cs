@@ -7,11 +7,6 @@ namespace StswExpress
 {
 	public class Mail
 	{
-		public static string Host { get; set; }
-		public static int Port { get; set; }
-		public static string Email { get; set; }
-		public static string Password { get; set; }
-
 		/// <summary>
 		/// SendMail
 		/// </summary>
@@ -40,9 +35,9 @@ namespace StswExpress
 						foreach (var x in reply)
 							mail.ReplyToList.Add(x);
 
-					var smtp = new SmtpClient(Host, Port)
+					var smtp = new SmtpClient(Settings.Default.mail_Host, Settings.Default.mail_Port)
 					{
-						Credentials = new NetworkCredential(Email, Security.Decrypt(Password)),
+						Credentials = new NetworkCredential(Settings.Default.mail_Username, Security.Decrypt(Settings.Default.mail_Password)),
 						EnableSsl = true
 					};
 
@@ -57,5 +52,12 @@ namespace StswExpress
 
 			return true;
 		}
-	}
+
+        /// <summary>
+        /// SendMail
+        /// </summary>
+        public static bool SendMail(string from, string to, string subject, string body, string[] attachments = null, string[] bbc = null, string[] reply = null) =>
+            SendMail(from, new string[] { to }, subject, body, attachments, bbc, reply);
+
+    }
 }

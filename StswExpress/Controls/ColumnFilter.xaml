@@ -8,9 +8,9 @@
     <StackPanel.CommandBindings>
         <CommandBinding Command="se:Commands.Refresh" Executed="cmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
-    <TextBlock x:Name="txtHeader" Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
+    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
-        <Image x:Name="imgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
+        <Image x:Name="ImgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
                Margin="0,0,2,0" PreviewMouseDown="imgMode_PreviewMouseDown">
             <Image.ContextMenu>
                 <ContextMenu>
@@ -39,6 +39,6 @@
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>
-        <UniformGrid x:Name="ugFilters" Columns="1"/>
+        <UniformGrid x:Name="UniGriFilters" Columns="1"/>
     </DockPanel>
 </StackPanel>

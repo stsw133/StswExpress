@@ -82,7 +82,7 @@ namespace StswExpress
         /// <summary>
         /// Cut
         /// </summary>
-        private void miCut_Click(object sender, RoutedEventArgs e)
+        private void MnuItmCut_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetImage(Source as BitmapSource);
             Source = null;
@@ -91,31 +91,22 @@ namespace StswExpress
         /// <summary>
         /// Copy
         /// </summary>
-        private void miCopy_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetImage(Source as BitmapSource);
-        }
+        private void MnuItmCopy_Click(object sender, RoutedEventArgs e) => Clipboard.SetImage(Source as BitmapSource);
 
         /// <summary>
         /// Paste
         /// </summary>
-        private void miPaste_Click(object sender, RoutedEventArgs e)
-        {
-            Source = Clipboard.GetImage();
-        }
+        private void MnuItmPaste_Click(object sender, RoutedEventArgs e) => Source = Clipboard.GetImage();
 
         /// <summary>
         /// Delete
         /// </summary>
-        private void miDelete_Click(object sender, RoutedEventArgs e)
-        {
-            Source = null;
-        }
+        private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
         /// <summary>
         /// Load
         /// </summary>
-        private void miLoad_Click(object sender, RoutedEventArgs e)
+        private void MnuItmLoad_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
             {
@@ -128,7 +119,7 @@ namespace StswExpress
         /// <summary>
         /// Save
         /// </summary>
-        private void miSave_Click(object sender, RoutedEventArgs e)
+        private void MnuItmSave_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SaveFileDialog()
             {
@@ -136,12 +127,10 @@ namespace StswExpress
             };
             if (dialog.ShowDialog() == true)
             {
-                using (var fileStream = new FileStream(dialog.FileName, FileMode.Create))
-                {
-                    BitmapEncoder encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(Source as BitmapSource));
-                    encoder.Save(fileStream);
-                }
+                using var fileStream = new FileStream(dialog.FileName, FileMode.Create);
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(Source as BitmapSource));
+                encoder.Save(fileStream);
             }
         }
     }

@@ -6,8 +6,8 @@
            xmlns:se="clr-namespace:StswExpress"
            mc:Ignorable="d" d:DesignWidth="300"
            Background="{Binding ThemeColor, Source={x:Static se:Settings.Default}}"
-           Loaded="titleBar_Loaded"
-           MouseDown="titleBar_MouseDown"
+           Loaded="TitleBar_Loaded"
+           MouseDown="TitleBar_MouseDown"
            WindowChrome.IsHitTestVisibleInChrome="True">
     <!-- buttons -->
     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -25,13 +25,13 @@
 		<Button FontFamily="Arial" Content="🗕"
 				IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=!NoResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=!NoResize}"
-                Click="miMinimize_Click"/>
+                Click="MnuItmMinimize_Click"/>
 		<Button FontFamily="Arial" Content="{Binding WindowState, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}"
 				IsEnabled="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=CanResize}"
                 Visibility="{Binding ResizeMode, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Converter={se:conv_Compare}, ConverterParameter=CanResize}"
-                Click="miResize_Click"/>
+                Click="MnuItmResize_Click"/>
 		<Button FontFamily="Arial" Content="🗙"
-				Click="miClose_Click"/>
+				Click="MnuItmClose_Click"/>
 	</StackPanel>
     <!-- title -->
     <Grid Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.25}">
@@ -47,16 +47,16 @@
 	<DockPanel.ContextMenu>
 		<ContextMenu>
 			<!--<MenuItem x:Name="miRestoreDown" Header="Przywróć" Click="miResize_Click" IsEnabled="False"/>-->
-            <MenuItem x:Name="miSetCenter" Header="Wyśrodkuj na ekranie" Click="miSetCenter_Click"/>
-			<MenuItem x:Name="miDefaultSize" Header="Domyślny rozmiar" Click="miDefaultSize_Click" IsEnabled="False"/>
-			<MenuItem x:Name="miMinimize" Header="Minimalizuj" Click="miMinimize_Click" IsEnabled="False">
+			<MenuItem x:Name="MnuItmSetCenter" Header="Wyśrodkuj na ekranie" Click="MnuItmSetCenter_Click"/>
+			<MenuItem x:Name="MnuItmDefaultSize" Header="Domyślny rozmiar" Click="MnuItmDefaultSize_Click" IsEnabled="False"/>
+			<MenuItem x:Name="MnuItmMinimize" Header="Minimalizuj" Click="MnuItmMinimize_Click" IsEnabled="False">
 				<MenuItem.Icon>
 					<TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center"/>
 				</MenuItem.Icon>
 			</MenuItem>
-            <MenuItem x:Name="miMaximize" Header="Maksymalizuj" Click="miResize_Click" IsEnabled="False"/>
+            <MenuItem x:Name="MnuItmMaximize" Header="Maksymalizuj" Click="MnuItmResize_Click" IsEnabled="False"/>
             <Separator/>
-			<MenuItem x:Name="miClose" Header="Zamknij okno" Click="miClose_Click">
+			<MenuItem x:Name="MnuItmClose" Header="Zamknij okno" Click="MnuItmClose_Click">
 				<MenuItem.Icon>
 					<TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center"/>
 				</MenuItem.Icon>

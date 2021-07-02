@@ -10,11 +10,11 @@
             <RepeatButton Content="▲"
                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.4}"
                           Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}"
-                          Click="btnUp_Click"/>
+                          Click="BtnUp_Click"/>
             <RepeatButton Content="▼"
                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.4}"
                           Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}"
-                          Click="btnDown_Click"/>
+                          Click="BtnDown_Click"/>
         </UniformGrid>
         <TextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                  HorizontalContentAlignment="{Binding BoxAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"

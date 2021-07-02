@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace StswExpress
 {
@@ -115,7 +113,7 @@ namespace StswExpress
         /// <summary>
         /// Up - Click
         /// </summary>
-        private void btnUp_Click(object sender, RoutedEventArgs e)
+        private void BtnUp_Click(object sender, RoutedEventArgs e)
         {
             Value += Increment;
             if (Value == null)
@@ -132,7 +130,7 @@ namespace StswExpress
         /// <summary>
         /// Down - Click
         /// </summary>
-        private void btnDown_Click(object sender, RoutedEventArgs e)
+        private void BtnDown_Click(object sender, RoutedEventArgs e)
         {
             Value -= Increment;
             if (Value == null)
