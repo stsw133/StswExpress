@@ -1,8 +1,5 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 
 namespace StswExpress
 {
@@ -26,10 +23,5 @@ namespace StswExpress
             get => (string)GetValue(HeaderBackgroundProperty);
             set => SetValue(HeaderBackgroundProperty, value);
         }
-
-        /// <summary>
-        /// Loaded
-        /// </summary>
-        public virtual void DataGrid_Loaded(object sender, RoutedEventArgs e) => Load(sender, HeaderBackground);
     }
 }
