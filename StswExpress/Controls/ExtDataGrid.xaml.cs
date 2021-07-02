@@ -31,27 +31,5 @@ namespace StswExpress
         /// Loaded
         /// </summary>
         public virtual void DataGrid_Loaded(object sender, RoutedEventArgs e) => Load(sender, HeaderBackground);
-
-        /// <summary>
-        /// Load
-        /// </summary>
-        public static void Load(object sender, string headerBackground)
-        {
-            var win = sender as DataGrid;
-
-            win.AutoGenerateColumns = false;
-            win.HeadersVisibility = DataGridHeadersVisibility.Column;
-            win.HorizontalGridLinesBrush = win.VerticalGridLinesBrush = Brushes.LightGray;
-
-            var style = new Style(typeof(DataGridColumnHeader));
-            style.Setters.Add(new Setter(BackgroundProperty, (Brush)new BrushConverter().ConvertFromString(headerBackground)));
-            style.Setters.Add(new Setter(BorderBrushProperty, (Brush)new BrushConverter().ConvertFromString(new conv_Color().Convert(headerBackground, typeof(Brush), -0.1, CultureInfo.InvariantCulture).ToString())));
-            style.Setters.Add(new Setter(BorderThicknessProperty, new Thickness(1, 0, 1, 1)));
-            style.Setters.Add(new Setter(HorizontalAlignmentProperty, HorizontalAlignment.Stretch));
-            style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-            style.Setters.Add(new Setter(PaddingProperty, new Thickness(4, 3, 4, 3)));
-            foreach (var col in win.Columns)
-                col.HeaderStyle = style;
-        }
     }
 }
