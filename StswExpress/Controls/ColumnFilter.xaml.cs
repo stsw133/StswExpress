@@ -501,7 +501,7 @@ namespace StswExpress
         /// <summary>
         /// Refresh
         /// </summary>
-        private void cmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             try
             {
@@ -513,7 +513,7 @@ namespace StswExpress
         /// <summary>
         /// Filter mode click
         /// </summary>
-        private void imgMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void ImgMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is FrameworkElement c) c.ContextMenu.IsOpen = true;
         }
@@ -521,7 +521,7 @@ namespace StswExpress
         /// <summary>
         /// Filter mode change
         /// </summary>
-        private void miFilterMode_Click(object sender, RoutedEventArgs e)
+        private void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
         {
             FilterMode = (Mode)Enum.Parse(typeof(Mode), (sender as MenuItem).Tag.ToString());
             ImgMode.Source = new BitmapImage(new Uri($"pack://siteoforigin:,,,/Resources/icon20_filter_{FilterMode.ToString().ToLower()}.ico", UriKind.RelativeOrAbsolute));

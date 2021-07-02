@@ -6,17 +6,17 @@
             xmlns:se="clr-namespace:StswExpress"
             mc:Ignorable="d" d:DesignWidth="100" Loaded="StackPanel_Loaded">
     <StackPanel.CommandBindings>
-        <CommandBinding Command="se:Commands.Refresh" Executed="cmdRefresh_Executed"/>
+        <CommandBinding Command="se:Commands.Refresh" Executed="CmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
     <TextBlock Text="{Binding Header, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"/>
     <DockPanel Visibility="{Binding IsFilterVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Bool}}">
         <Image x:Name="ImgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
-               Margin="0,0,2,0" PreviewMouseDown="imgMode_PreviewMouseDown">
+               Margin="0,0,2,0" PreviewMouseDown="ImgMode_PreviewMouseDown">
             <Image.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.Resources>
                         <Style TargetType="{x:Type se:ExtMenuItem}">
-                            <EventSetter Event="Click" Handler="miFilterMode_Click"/>
+                            <EventSetter Event="Click" Handler="MnuItmFilterMode_Click"/>
                         </Style>
                     </ContextMenu.Resources>
                     <se:ExtMenuItem Header="Jest równe" Tag="Equal" IconUri="/Resources/icon20_filter_equal.ico"/>
