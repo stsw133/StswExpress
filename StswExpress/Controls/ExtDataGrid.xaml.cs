@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StswExpress
 {
@@ -8,19 +9,24 @@ namespace StswExpress
     /// </summary>
     public partial class ExtDataGrid : DataGrid
     {
+        public ExtDataGrid()
+        {
+            InitializeComponent();
+        }
+
         /// <summary>
         /// Background color of the column headers
         /// </summary>
         public static readonly DependencyProperty HeaderBackgroundProperty
             = DependencyProperty.Register(
                   nameof(HeaderBackground),
-                  typeof(string),
+                  typeof(Brush),
                   typeof(ExtDataGrid),
-                  new PropertyMetadata("#F9F9F9")
+                  new PropertyMetadata((SolidColorBrush)new BrushConverter().ConvertFrom("#F9F9F9"))
               );
-        public string HeaderBackground
+        public Brush HeaderBackground
         {
-            get => (string)GetValue(HeaderBackgroundProperty);
+            get => (Brush)GetValue(HeaderBackgroundProperty);
             set => SetValue(HeaderBackgroundProperty, value);
         }
     }

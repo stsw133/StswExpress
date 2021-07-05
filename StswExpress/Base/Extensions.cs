@@ -33,6 +33,12 @@ namespace StswExpress
             {
                 IList<T> list = new List<T>();
 
+                /// ignore string
+                if (ignoreString?.Length > 0)
+                    for (int i = 0; i < table.Columns.Count; i++)
+                        table.Columns[i].ColumnName = table.Columns[i].ColumnName.Replace(ignoreString, string.Empty);
+
+                /// assign values to properties
                 foreach (var row in table.AsEnumerable())
                 {
                     var obj = new T();
@@ -41,8 +47,7 @@ namespace StswExpress
                     {
                         try
                         {
-                            var propname = ignoreString?.Length > 0 ? prop.Name.Replace(ignoreString, string.Empty) : prop.Name;
-                            var propertyInfo = obj.GetType().GetProperty(propname);
+                            var propertyInfo = obj.GetType().GetProperty(prop.Name);
 
                             if (propertyInfo.PropertyType != typeof(object))
                                 propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
