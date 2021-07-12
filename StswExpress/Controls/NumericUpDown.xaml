@@ -16,7 +16,7 @@
                           Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}"
                           Click="BtnDown_Click"/>
         </UniformGrid>
-        <TextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+        <TextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
                  HorizontalContentAlignment="{Binding BoxAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                  VerticalContentAlignment="Center" LostFocus="TextBox_LostFocus"/>
     </DockPanel>

@@ -1,0 +1,25 @@
+﻿<GroupBox x:Class="StswExpress.Controls.ExtGroupBox"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:se="clr-namespace:StswExpress"
+          mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="200"
+		  BorderBrush="#AAA" BorderThickness="1.5" Padding="5">
+	<GroupBox.Resources>
+		<Style TargetType="Border">
+			<Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+		</Style>
+	</GroupBox.Resources>
+	<GroupBox.Header>
+		<StackPanel>
+			<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox}}"
+				   Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
+				   Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"/>
+			<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
+			           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"
+			           Margin="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
+			           Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Converter={se:conv_Bool}}"/>
+		</StackPanel>
+	</GroupBox.Header>
+</GroupBox>
