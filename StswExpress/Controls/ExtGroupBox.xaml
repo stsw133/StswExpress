@@ -12,13 +12,15 @@
 		</Style>
 	</GroupBox.Resources>
 	<GroupBox.Header>
-		<StackPanel>
+		<StackPanel Orientation="Horizontal">
 			<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox}}"
 				   Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
-				   Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"/>
+				   Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
+				   VerticalAlignment="Center"/>
 			<TextBlock Text="{Binding Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
 			           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"
 			           Margin="{Binding LabelPadding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}}"
+					   VerticalAlignment="Center"
 			           Visibility="{Binding IsTextVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Converter={se:conv_Bool}}"/>
 		</StackPanel>
 	</GroupBox.Header>

@@ -102,7 +102,7 @@ namespace StswExpress
                   nameof(LabelPadding),
                   typeof(Thickness),
                   typeof(IconButton),
-                  new PropertyMetadata(new Thickness(5))
+                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.3))
               );
         public Thickness LabelPadding
         {
@@ -124,6 +124,22 @@ namespace StswExpress
         {
             get => (Orientation)GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
+        }
+
+        /// <summary>
+        /// PanelMargin
+        /// </summary>
+        public static readonly DependencyProperty PanelMarginProperty
+            = DependencyProperty.Register(
+                  nameof(PanelMargin),
+                  typeof(Thickness),
+                  typeof(IconButton),
+                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.3, Settings.Default.iSize * 0.1, Settings.Default.iSize * 0.3, Settings.Default.iSize * 0.1))
+              );
+        public Thickness PanelMargin
+        {
+            get => (Thickness)GetValue(PanelMarginProperty);
+            set => SetValue(PanelMarginProperty, value);
         }
 
         /// <summary>

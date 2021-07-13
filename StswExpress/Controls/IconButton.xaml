@@ -11,10 +11,11 @@
         </Style>
     </Button.Resources>
     <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-                Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                Margin="{Binding PanelMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
 		<Grid Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
-              Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+              Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+			  VerticalAlignment="Center">
 			<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}}"/>
 			<Image Height="{Binding IconSize, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Converter={se:conv_Size}, ConverterParameter=0.5}"
                    Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}}"

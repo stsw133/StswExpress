@@ -8,7 +8,8 @@
             Orientation="Horizontal"
             Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 	<Grid Height="{Binding IconSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
-          Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}">
+          Margin="{Binding IconMargin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+		  VerticalAlignment="Center">
 		<Image Source="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"/>
 		<Image Height="{Binding IconSize, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.5}"
                Source="{Binding SubIcon, RelativeSource={RelativeSource FindAncestor, AncestorType=StackPanel}}"

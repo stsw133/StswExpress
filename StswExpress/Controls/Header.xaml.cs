@@ -86,7 +86,7 @@ namespace StswExpress
                   nameof(LabelPadding),
                   typeof(Thickness),
                   typeof(Header),
-                  new PropertyMetadata(new Thickness(5))
+                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.3))
               );
         public Thickness LabelPadding
         {

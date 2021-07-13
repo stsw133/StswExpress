@@ -70,7 +70,7 @@ namespace StswExpress
                   nameof(IconSize),
                   typeof(double),
                   typeof(ExtGroupBox),
-                  new PropertyMetadata(Settings.Default.iSize * 2)
+                  new PropertyMetadata(Settings.Default.iSize * 1.25)
               );
         public double IconSize
         {
@@ -102,7 +102,7 @@ namespace StswExpress
                   nameof(LabelPadding),
                   typeof(Thickness),
                   typeof(ExtGroupBox),
-                  new PropertyMetadata(new Thickness(5))
+                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.15))
               );
         public Thickness LabelPadding
         {
