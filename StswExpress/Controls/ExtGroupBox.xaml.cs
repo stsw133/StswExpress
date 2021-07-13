@@ -21,7 +21,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(CornerRadius),
                   typeof(double),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(Settings.Default.iSize * 0.5)
               );
         public double CornerRadius
@@ -37,7 +37,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(Icon),
                   typeof(ImageSource),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(default(ImageSource))
               );
         public ImageSource Icon
@@ -53,7 +53,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(IconMargin),
                   typeof(Thickness),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.15))
               );
         public Thickness IconMargin
@@ -69,7 +69,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(IconSize),
                   typeof(double),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(Settings.Default.iSize * 2)
               );
         public double IconSize
@@ -85,7 +85,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(IsTextVisible),
                   typeof(bool),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(true)
               );
         public bool IsTextVisible
@@ -101,7 +101,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(LabelPadding),
                   typeof(Thickness),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(new Thickness(5))
               );
         public Thickness LabelPadding
@@ -117,7 +117,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(Text),
                   typeof(string),
-                  typeof(IconButton),
+                  typeof(ExtGroupBox),
                   new PropertyMetadata(default(string))
               );
         public string Text
