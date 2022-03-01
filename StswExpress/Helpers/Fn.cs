@@ -16,13 +16,13 @@ namespace StswExpress
     {
         #region App & Database
         /// App name
-        public static string? AppNme() => Assembly.GetEntryAssembly()?.GetName().Name;
+        public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
 
         /// App version
         public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0".ToCharArray());
 
         /// App name + version
-        public static string AppNameAndVersion => $"{AppNme()} {(AppVersion() != "1" ? AppVersion() : string.Empty)}";
+        public static string AppNameAndVersion => $"{AppName()} {(AppVersion() != "1" ? AppVersion() : string.Empty)}";
 
         /// App copyright
         public static string? AppCopyright => $"{FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).LegalCopyright}";
