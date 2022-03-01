@@ -1,0 +1,55 @@
+﻿<StackPanel x:Class="StswExpress.Header"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:se="clr-namespace:StswExpress"
+            mc:Ignorable="d" d:DesignWidth="100"
+            Orientation="Horizontal">
+    <Grid Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+          Margin="{Binding IconMargin, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+		  VerticalAlignment="Center" Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
+        <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+        <Image Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.5}"
+               Source="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+    </Grid>
+    <StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+				HorizontalAlignment="Stretch" VerticalAlignment="Center"
+				Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
+        <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"
+                   Foreground="{Binding cTitleBarForeground1, Source={x:Static se:Themes.Default}}"/>
+        <TextBlock Text="{Binding SubText1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"
+				   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"
+				   Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}" Value="True">
+                            <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, AncestorLevel=2}}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
+                            <Setter Property="Foreground" Value="{Binding cTitleBarForeground2, Source={x:Static se:Themes.Default}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Text="{Binding SubText2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"
+				   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"
+				   Visibility="{Binding SubText2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}" Value="True">
+                            <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
+                            <Setter Property="Foreground" Value="{Binding cTitleBarForeground2, Source={x:Static se:Themes.Default}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </StackPanel>
+</StackPanel>

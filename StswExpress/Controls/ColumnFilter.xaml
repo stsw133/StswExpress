@@ -1,0 +1,39 @@
+﻿<StackPanel x:Class="StswExpress.ColumnFilter"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:se="clr-namespace:StswExpress"
+            mc:Ignorable="d" d:DesignWidth="100" Loaded="StackPanel_Loaded">
+    <StackPanel.CommandBindings>
+        <CommandBinding Command="se:Commands.Refresh" Executed="CmdRefresh_Executed"/>
+    </StackPanel.CommandBindings>
+    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+    <DockPanel Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=StackPanel}}">
+        <Image x:Name="ImgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
+               Margin="0 0 2 0" PreviewMouseDown="ImgMode_PreviewMouseDown">
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="Equal" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_equal.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="NotEqual" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_notequal.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="Greater" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_greater.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="GreaterEqual" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_greaterequal.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="Less" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_less.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="LessEqual" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_lessequal.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="Between" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="Contains" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_contains.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="NotContains" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_notcontains.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="Like" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_like.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne" Tag="NotLike" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_notlike.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="StartsWith" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_startswith.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="EndsWith" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_endswith.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="In" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_in.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="NotIn" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_notin.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="Null" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_null.ico"/>
+                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="NotNull" Image="pack://application:,,,/StswExpress;component/Resources/icon20_filter_notnull.ico"/>
+                </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
+        <UniformGrid x:Name="UniGriFilters" Columns="1"/>
+    </DockPanel>
+</StackPanel>

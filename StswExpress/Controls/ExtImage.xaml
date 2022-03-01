@@ -1,0 +1,43 @@
+﻿<Image x:Class="StswExpress.ExtImage"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:se="clr-namespace:StswExpress"
+       mc:Ignorable="d" d:DesignHeight="32" d:DesignWidth="32">
+    <Image.ContextMenu>
+        <ContextMenu Visibility="{Binding IsContextMenuVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+            <se:ExtMenuItem Header="Wytnij" Click="MnuItmCut_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+            <se:ExtMenuItem Header="Kopiuj" Click="MnuItmCopy_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+            <se:ExtMenuItem Header="Wklej" Click="MnuItmPaste_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+            <se:ExtMenuItem Header="Usuń" Click="MnuItmDelete_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+            <se:ExtSeparator/>
+            <se:ExtMenuItem Header="Wczytaj" Click="MnuItmLoad_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+            <se:ExtMenuItem Header="Zapisz" Click="MnuItmSave_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                </MenuItem.Icon>
+            </se:ExtMenuItem>
+        </ContextMenu>
+    </Image.ContextMenu>
+</Image>

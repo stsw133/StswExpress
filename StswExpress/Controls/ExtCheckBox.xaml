@@ -1,0 +1,104 @@
+﻿<CheckBox x:Class="StswExpress.ExtCheckBox"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:se="clr-namespace:StswExpress"
+          mc:Ignorable="d" d:DesignWidth="100"
+          VerticalContentAlignment="Center"
+          Style="{DynamicResource ChkBoxStyle_DarkMode}">
+    <CheckBox.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}" SnapsToDevicePixels="True" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14 0 0 0" StrokeDashArray="1 2" Stroke="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}" SnapsToDevicePixels="True" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ChkBoxStyle_DarkMode" TargetType="CheckBox">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{Binding cOptionMarkStaticBackground, Source={x:Static se:Themes.Default}}"/>
+            <Setter Property="BorderBrush" Value="{Binding cOptionMarkStaticBorder, Source={x:Static se:Themes.Default}}"/>
+            <Setter Property="Foreground" Value="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{Binding cOptionMarkStaticGlyph, Source={x:Static se:Themes.Default}}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <Path x:Name="indeterminateMark" Data="M4.2,8H5.5V9.25H4.2V8M5.05,0.85C7.3,0.94 8.27,3.2 6.93,4.9C6.58,5.3 6,5.6 5.74,5.95C5.46,6.3 5.46,6.72 5.46,7.14H4.2C4.2,6.44 4.2,5.85 4.5,5.43C4.76,5 5.32,4.76 5.67,4.48C6.69,3.54 6.43,2.2 5.04,2.1A1.26,1.26 0 0,0 3.78,3.36H2.52A2.52,2.52 0 0,1 5.04,0.84Z " Fill="{Binding cOptionMarkStaticGlyph, Source={x:Static se:Themes.Default}}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <Path x:Name="errorMark" Data="M4.76 1.43H6.67V6.67H4.76V1.43M4.76 10V8.1H6.67V10H4.76Z " Fill="{Binding cDataGridErrorForeground, Source={x:Static se:Themes.Default}}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <!--
+                                    <Rectangle x:Name="indeterminateMark" Fill="{Binding cOptionMarkStaticGlyph, Source={x:Static se:Themes.Default}}" Margin="2" Opacity="0"/>
+                                    -->
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="True">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4 -1 0 0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{Binding cOptionMarkMouseOverBackground, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{Binding cOptionMarkMouseOverBorder, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{Binding cOptionMarkMouseOverGlyph, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{Binding cOptionMarkMouseOverGlyph, Source={x:Static se:Themes.Default}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{Binding cOptionMarkDisabledBackground, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{Binding cOptionMarkDisabledBorder, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{Binding cOptionMarkDisabledGlyph, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{Binding cOptionMarkDisabledGlyph, Source={x:Static se:Themes.Default}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{Binding cOptionMarkPressedBackground, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{Binding cOptionMarkPressedBorder, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{Binding cOptionMarkPressedGlyph, Source={x:Static se:Themes.Default}}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{Binding cOptionMarkPressedGlyph, Source={x:Static se:Themes.Default}}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="errorMark" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="errorMark" Value="0"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsError, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="errorMark" Value="1"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{Binding cDisabledForeground, Source={x:Static se:Themes.Default}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </CheckBox.Resources>
+</CheckBox>

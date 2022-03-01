@@ -1,0 +1,70 @@
+﻿<DataGrid x:Class="StswExpress.ExtDataGrid"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+          xmlns:se="clr-namespace:StswExpress"
+          mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500"
+          AutoGenerateColumns="False" HeadersVisibility="Column"
+          Background="{Binding cDataGridStaticBackground, Source={x:Static se:Themes.Default}}"
+		  HorizontalGridLinesBrush="#3777" VerticalGridLinesBrush="#3777"
+          RowStyle="{DynamicResource DtgRowStyle_DarkMode}">
+    <DataGrid.Resources>
+        <Style x:Key="DtgRowStyle_DarkMode" TargetType="DataGridRow">
+            <Setter Property="Background" Value="{Binding cWindowBackground, Source={x:Static se:Themes.Default}}"/>
+            <Setter Property="Foreground" Value="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+            <Setter Property="ValidationErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBlock Foreground="Red" Margin="2 0 0 0" Text="!" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridRow">
+                        <Border x:Name="DGR_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                            <SelectiveScrollingGrid>
+                                <SelectiveScrollingGrid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </SelectiveScrollingGrid.ColumnDefinitions>
+                                <SelectiveScrollingGrid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </SelectiveScrollingGrid.RowDefinitions>
+                                <DataGridCellsPresenter Grid.Column="1" ItemsPanel="{TemplateBinding ItemsPanel}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1" SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType=DataGrid}}" Visibility="{TemplateBinding DetailsVisibility}"/>
+                                <DataGridRowHeader Grid.RowSpan="2" SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                            </SelectiveScrollingGrid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsNewItem" Value="True">
+                    <Setter Property="Margin" Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </DataGrid.Resources>
+    <DataGrid.ColumnHeaderStyle>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{Binding HeaderBackground, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+            <Setter Property="Foreground" Value="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+            <Setter Property="BorderBrush" Value="{Binding HeaderBorderBrush, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+            <Setter Property="BorderThickness" Value="0 0 1 1"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="4 3"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=DataGrid}}" Value="{x:Null}">
+                    <Setter Property="Foreground" Value="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </DataGrid.ColumnHeaderStyle>
+</DataGrid>

@@ -1,0 +1,93 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Company>Karol Staszewski</Company>
+    <Authors>Karol Staszewski</Authors>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\icon20_filter_between.ico" />
+    <None Remove="Resources\icon20_filter_contains.ico" />
+    <None Remove="Resources\icon20_filter_endswith.ico" />
+    <None Remove="Resources\icon20_filter_equal.ico" />
+    <None Remove="Resources\icon20_filter_greater.ico" />
+    <None Remove="Resources\icon20_filter_greaterequal.ico" />
+    <None Remove="Resources\icon20_filter_in.ico" />
+    <None Remove="Resources\icon20_filter_less.ico" />
+    <None Remove="Resources\icon20_filter_lessequal.ico" />
+    <None Remove="Resources\icon20_filter_like.ico" />
+    <None Remove="Resources\icon20_filter_notcontains.ico" />
+    <None Remove="Resources\icon20_filter_notequal.ico" />
+    <None Remove="Resources\icon20_filter_notin.ico" />
+    <None Remove="Resources\icon20_filter_notlike.ico" />
+    <None Remove="Resources\icon20_filter_notnull.ico" />
+    <None Remove="Resources\icon20_filter_null.ico" />
+    <None Remove="Resources\icon20_filter_startswith.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Themes.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Themes.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Themes.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Themes.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Translator\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </Resource>
+    <Resource Include="Resources\icon20_filter_between.ico" />
+    <Resource Include="Resources\icon20_filter_contains.ico" />
+    <Resource Include="Resources\icon20_filter_endswith.ico" />
+    <Resource Include="Resources\icon20_filter_equal.ico" />
+    <Resource Include="Resources\icon20_filter_greater.ico" />
+    <Resource Include="Resources\icon20_filter_greaterequal.ico" />
+    <Resource Include="Resources\icon20_filter_in.ico" />
+    <Resource Include="Resources\icon20_filter_less.ico" />
+    <Resource Include="Resources\icon20_filter_lessequal.ico" />
+    <Resource Include="Resources\icon20_filter_like.ico" />
+    <Resource Include="Resources\icon20_filter_notcontains.ico" />
+    <Resource Include="Resources\icon20_filter_notequal.ico" />
+    <Resource Include="Resources\icon20_filter_notin.ico" />
+    <Resource Include="Resources\icon20_filter_notlike.ico" />
+    <Resource Include="Resources\icon20_filter_notnull.ico" />
+    <Resource Include="Resources\icon20_filter_null.ico" />
+    <Resource Include="Resources\icon20_filter_startswith.ico" />
+  </ItemGroup>
+
+</Project>
