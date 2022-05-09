@@ -47,7 +47,7 @@ namespace StswExpress
                 return val;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ namespace StswExpress
             return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ namespace StswExpress
                 return (val == param && !rev) || (val != param && rev);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -185,12 +185,12 @@ namespace StswExpress
 
             /// calculate result
             if (targetType == typeof(Visibility))
-                return (((IEnumerable<string>)value).Contains(param) && !rev) ? Visibility.Visible : Visibility.Collapsed;
+                return (((IEnumerable<string>)value)?.Contains(param) == true && !rev) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return ((IEnumerable<string>)value).Contains(param) && !rev;
+                return ((IEnumerable<string>)value)?.Contains(param) == true && !rev;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ namespace StswExpress
             return ((decimal)value).ToString(ci);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ namespace StswExpress
                 return value != null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -284,7 +284,7 @@ namespace StswExpress
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 
     /// <summary>
@@ -310,6 +310,6 @@ namespace StswExpress
             return ((value.ToString() == param?[0] && !rev) || (value.ToString() != param?[0] && rev) ? parameter?.ToString()?.Split('~')?[1] : parameter?.ToString()?.Split('~')?[2]) ?? string.Empty;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -176,14 +177,30 @@ namespace StswExpress
             parameters = new List<(string name, object val)>();
 
             foreach (var col in dg.Columns)
-                if (col.Header is ColumnFilter c && c?.FilterSQL != null)
+            {
+                if (col.Header is ColumnFilter cf1)
                 {
-                    filter += " and " + c.FilterSQL;
-                    if (c.Value1 != null)
-                        parameters.Add((c.ParamSQL + "1", (c.Value1 is List<object> ? null : c.Value1) ?? DBNull.Value));
-                    if (c.Value2 != null)
-                        parameters.Add((c.ParamSQL + "2", (c.Value2 is List<object> ? null : c.Value2) ?? DBNull.Value));
+                    if (cf1.FilterSQL != null)
+                    {
+                        filter += " and " + cf1.FilterSQL;
+                        if (cf1.Value1 != null)
+                            parameters.Add((cf1.ParamSQL.Substring(0, cf1.ParamSQL.Length > 120 ? 120 : cf1.ParamSQL.Length) + "1", (cf1.Value1 is List<object> ? null : cf1.Value1) ?? DBNull.Value));
+                        if (cf1.Value2 != null)
+                            parameters.Add((cf1.ParamSQL.Substring(0, cf1.ParamSQL.Length > 120 ? 120 : cf1.ParamSQL.Length) + "2", (cf1.Value2 is List<object> ? null : cf1.Value2) ?? DBNull.Value));
+                    }
                 }
+                else
+                {
+                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).ToList().Where(x => x.FilterSQL != null))
+                    {
+                        filter += " and " + cf2.FilterSQL;
+                        if (cf2.Value1 != null)
+                            parameters.Add((cf2.ParamSQL.Substring(0, cf2.ParamSQL.Length > 120 ? 120 : cf2.ParamSQL.Length) + "1", (cf2.Value1 is List<object> ? null : cf2.Value1) ?? DBNull.Value));
+                        if (cf2.Value2 != null)
+                            parameters.Add((cf2.ParamSQL.Substring(0, cf2.ParamSQL.Length > 120 ? 120 : cf2.ParamSQL.Length) + "2", (cf2.Value2 is List<object> ? null : cf2.Value2) ?? DBNull.Value));
+                    }
+                }
+            }
 
             if (filter.StartsWith(" and "))
                 filter = filter[5..];
@@ -192,17 +209,30 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// Clears column filters in DataGrid
+        /// Clears column filters in DataGrid.
         /// </summary>
         /// <param name="dg">DataGrid</param>
         public static void ClearColumnFilters(DataGrid dg)
         {
             foreach (var col in dg.Columns)
-                if (col.Header is ColumnFilter c)
+            {
+                if (col.Header is ColumnFilter cf1)
                 {
-                    c.Value1 = c.ValueDef;
-                    c.Value2 = c.ValueDef;
+                    cf1.Value1 = cf1.ValueDef;
+                    cf1.Value2 = cf1.ValueDef;
                 }
+                else
+                {
+                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).ToList())
+                    {
+                        if (cf2.FilterSQL != null)
+                        {
+                            cf2.Value1 = cf2.ValueDef;
+                            cf2.Value2 = cf2.ValueDef;
+                        }
+                    }
+                }
+            }
         }
         #endregion
         

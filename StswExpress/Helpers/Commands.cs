@@ -82,20 +82,16 @@ namespace StswExpress
             }
         );
         /// <summary>
-        /// Delete [Ctrl + D]
+        /// Delete
         /// </summary>
         public static readonly RoutedUICommand Delete = new RoutedUICommand
         (
             Enum.GetName(typeof(Type), Type.DELETE),
             Enum.GetName(typeof(Type), Type.DELETE),
-            typeof(Commands),
-            new InputGestureCollection()
-            {
-                new KeyGesture(Key.D, ModifierKeys.Control)
-            }
+            typeof(Commands)
         );
         /// <summary>
-        /// Duplicate [Ctrl + Insert]
+        /// Duplicate [Ctrl + Insert, Ctrl + D]
         /// </summary>
         public static readonly RoutedUICommand Duplicate = new RoutedUICommand
         (
@@ -104,7 +100,8 @@ namespace StswExpress
             typeof(Commands),
             new InputGestureCollection()
             {
-                new KeyGesture(Key.Insert, ModifierKeys.Control)
+                new KeyGesture(Key.Insert, ModifierKeys.Control),
+                new KeyGesture(Key.D, ModifierKeys.Control)
             }
         );
         /// <summary>
