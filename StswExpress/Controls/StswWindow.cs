@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DynamicAero2;
+using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -142,6 +144,21 @@ namespace StswExpress
 
         /// iSizeClick
         protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
+        /// themeClick
+        private void themeClick(int themeID)
+        {
+            if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
+                Application.Current.Resources.MergedDictionaries.Add(new Theme());
+            var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
+
+            theme.Color = (ThemeColor)themeID;
+            Settings.Default.Theme = (int)theme.Color;
+            Settings.Default.Save();
+        }
+        protected void theme0Click(object sender, RoutedEventArgs e) => themeClick(0);
+        protected void theme1Click(object sender, RoutedEventArgs e) => themeClick(1);
+        protected void theme2Click(object sender, RoutedEventArgs e) => themeClick(2);
+        protected void theme3Click(object sender, RoutedEventArgs e) => themeClick(3);
         /// CenterClick
         protected void CenterClick(object sender, RoutedEventArgs e)
         {
@@ -170,8 +187,17 @@ namespace StswExpress
         /// DarkModeClick
         protected void DarkModeClick(object sender, RoutedEventArgs e)
         {
-            Fn.SetTheme(Themes.Default.Theme == 1 ? 0 : 1);
-            AddCustomStyle();
+            if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
+                Application.Current.Resources.MergedDictionaries.Add(new Theme());
+            var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
+
+            theme.Color = theme.Color switch
+            {
+                ThemeColor.NormalColor => ThemeColor.Black,
+                _ => ThemeColor.NormalColor
+            };
+            Settings.Default.Theme = (int)theme.Color;
+            Settings.Default.Save();
         }
         /// MinimizeClick
         protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -465,24 +491,33 @@ namespace StswExpress
             var isizeMenuItem = menuItems.ContextMenu.Items[0] as MenuItem;
             if (isizeMenuItem != null)
                 isizeMenuItem.Click += iSizeClick;
+            /// themeMenuItem
+            var themeMenuItem = menuItems.ContextMenu.Items[1] as MenuItem;
+            if (themeMenuItem != null)
+            {
+                ((MenuItem)themeMenuItem.Items[0]).Click += theme0Click;
+                ((MenuItem)themeMenuItem.Items[1]).Click += theme1Click;
+                ((MenuItem)themeMenuItem.Items[2]).Click += theme2Click;
+                ((MenuItem)themeMenuItem.Items[3]).Click += theme3Click;
+            }
             /// centerMenuItem
-            var centerMenuItem = menuItems.ContextMenu.Items[2] as MenuItem;
+            var centerMenuItem = menuItems.ContextMenu.Items[3] as MenuItem;
             if (centerMenuItem != null)
                 centerMenuItem.Click += CenterClick;
             /// defaultMenuItem
-            var defaultMenuItem = menuItems.ContextMenu.Items[3] as MenuItem;
+            var defaultMenuItem = menuItems.ContextMenu.Items[4] as MenuItem;
             if (defaultMenuItem != null && AllowToResize)
                 defaultMenuItem.Click += DefaultClick;
             /// minimizeMenuItem
-            var minimizeMenuItem = menuItems.ContextMenu.Items[4] as MenuItem;
+            var minimizeMenuItem = menuItems.ContextMenu.Items[5] as MenuItem;
             if (minimizeMenuItem != null && AllowToMinimize)
                 minimizeMenuItem.Click += MinimizeClick;
             /// restoreMenuItem
-            var restoreMenuItem = menuItems.ContextMenu.Items[5] as MenuItem;
+            var restoreMenuItem = menuItems.ContextMenu.Items[6] as MenuItem;
             if (restoreMenuItem != null && AllowToResize)
                 restoreMenuItem.Click += RestoreClick;
             /// closeMenuItem
-            var closeMenuItem = menuItems.ContextMenu.Items[7] as MenuItem;
+            var closeMenuItem = menuItems.ContextMenu.Items[8] as MenuItem;
             if (closeMenuItem != null)
                 closeMenuItem.Click += CloseClick;
 
@@ -538,9 +573,6 @@ namespace StswExpress
             }
             return null;
         }
-
-        /// Add custom style
-        protected virtual void AddCustomStyle() { }
 
         #region DLL
         [DllImport("user32")]

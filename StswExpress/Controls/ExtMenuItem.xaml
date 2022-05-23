@@ -5,4 +5,8 @@
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
           xmlns:se="clr-namespace:StswExpress"
           mc:Ignorable="d" d:DesignWidth="100"
-          Loaded="MenuItem_Loaded"/>
+          Loaded="MenuItem_Loaded">
+    <MenuItem.Style>
+        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"/>
+    </MenuItem.Style>
+</MenuItem>

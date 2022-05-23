@@ -5,4 +5,8 @@
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
          xmlns:se="clr-namespace:StswExpress"
          mc:Ignorable="d" d:DesignWidth="100"
-         VerticalContentAlignment="Center"/>
+         VerticalContentAlignment="Center">
+    <TextBox.Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+    </TextBox.Style>
+</TextBox>

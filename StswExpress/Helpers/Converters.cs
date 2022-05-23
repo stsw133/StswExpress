@@ -78,7 +78,6 @@ namespace StswExpress
                 desaturateColor = paramRaw.Contains('↓'),
                 invertColor = paramRaw.Contains('!'),
                 contrastColor = paramRaw.Contains('‼'),
-                themeReverseColor = paramRaw.Contains('%'),
                 autoBrightness = paramRaw.Contains('?'),
                 generateColor = paramRaw.Contains('#');
             string generatedColor = generateColor ? paramRaw[paramRaw.IndexOf("#")..] : string.Empty;
@@ -112,10 +111,6 @@ namespace StswExpress
             /// auto brightness
             if (autoBrightness)
                 param = color.GetBrightness() < 0.5 ? Math.Abs(param) : Math.Abs(param) * -1;
-
-            /// theme reverse color
-            if (themeReverseColor)
-                param *= System.Convert.ToInt32(Themes.Default.Theme) == 1 ? -1 : 1;
 
             /// calculate new color
             int r = color.R, g = color.G, b = color.B;

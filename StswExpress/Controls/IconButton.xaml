@@ -16,7 +16,7 @@
         </Style>
     </Button.Resources>
     <Button.Style>
-        <Style TargetType="Button">
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="#5777"/>
             <Setter Property="BorderBrush" Value="#A777"/>
             <Setter Property="Template">
@@ -86,7 +86,7 @@
                     </Style>
                 </Label.Resources>
             </Label>
-            <TextBlock Text="{Binding SubText, RelativeSource={RelativeSource AncestorType=Button}}" Foreground="{Binding cTitleBarForeground2, Source={x:Static se:Themes.Default}}"
+            <TextBlock Text="{Binding SubText, RelativeSource={RelativeSource AncestorType=Button}}" Foreground="Gray"
 					   FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Button}, Converter={se:conv_Size}, ConverterParameter=0.8}"
 					   Visibility="{Binding SubText, RelativeSource={RelativeSource AncestorType=Button}, Converter={se:conv_NotNull}}"/>
         </StackPanel>

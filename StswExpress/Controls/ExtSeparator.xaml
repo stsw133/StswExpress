@@ -4,43 +4,28 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
            xmlns:se="clr-namespace:StswExpress"
-           mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="100"
-           Style="{DynamicResource SepStyle_DarkMode}">
-    <Separator.Resources>
-        <Style x:Key="SepStyle_DarkMode" TargetType="Separator">
-            <Style.Triggers>
-                <!-- light theme -->
-                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Themes.Default}}" Value="0">
-                    <Setter Property="Background" Value="#ADADAD"/>
-                </DataTrigger>
-                <!-- dark theme -->
-                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Themes.Default}}" Value="1">
-                    <Setter Property="Background" Value="#525252"/>
-                </DataTrigger>
-            </Style.Triggers>
-            <!-- for all themes -->
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Separator">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Horizontal">
-                                            <Setter Property="Height" Value="1"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Vertical">
-                                            <Setter Property="Width" Value="1"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Separator.Resources>
+           mc:Ignorable="d" d:DesignHeight="2" d:DesignWidth="100">
+    <Separator.Style>
+        <Style TargetType="Separator" BasedOn="{StaticResource {x:Type Separator}}"/>
+    </Separator.Style>
+    <Separator.Template>
+        <ControlTemplate TargetType="Separator">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Horizontal">
+                                <Setter Property="Height" Value="1"/>
+                                <Setter Property="Margin" Value="0 2"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Vertical">
+                                <Setter Property="Width" Value="1"/>
+                                <Setter Property="Margin" Value="2 0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+        </ControlTemplate>
+    </Separator.Template>
 </Separator>

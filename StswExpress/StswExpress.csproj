@@ -34,6 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\ExtDatePicker.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -44,11 +47,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Themes.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Themes.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -56,14 +54,14 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Update="Themes.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Themes.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Translator\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DynamicAero2" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,6 +86,13 @@
     <Resource Include="Resources\icon20_filter_notnull.ico" />
     <Resource Include="Resources\icon20_filter_null.ico" />
     <Resource Include="Resources\icon20_filter_startswith.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\ExtDatePicker.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

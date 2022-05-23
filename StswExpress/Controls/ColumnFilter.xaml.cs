@@ -391,16 +391,16 @@ namespace StswExpress
             /// Date
             else if (FilterType == Type.Date)
             {
-                var cont1 = new DatePicker();
+                var cont1 = new ExtDatePicker();
                 cont1.Padding = new Thickness(0);
                 cont1.InputBindings.Add(inputbinding);
-                cont1.SetBinding(DatePicker.SelectedDateProperty, binding1);
+                cont1.SetBinding(ExtDatePicker.SelectedDateProperty, binding1);
                 UniGriFilters.Children.Add(cont1);
 
-                var cont2 = new DatePicker();
+                var cont2 = new ExtDatePicker();
                 cont2.Padding = new Thickness(0);
                 cont2.InputBindings.Add(inputbinding);
-                cont2.SetBinding(DatePicker.SelectedDateProperty, binding2);
+                cont2.SetBinding(ExtDatePicker.SelectedDateProperty, binding2);
                 UniGriFilters.Children.Add(cont2);
             }
             /// List

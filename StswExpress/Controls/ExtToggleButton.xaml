@@ -4,62 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100"
-              Style="{DynamicResource TglBtnStyle_DarkMode}">
-    <ToggleButton.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}" SnapsToDevicePixels="True" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="TglBtnStyle_DarkMode" TargetType="ToggleButton">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{Binding cButtonStaticBackground, Source={x:Static se:Themes.Default}}"/>
-            <Setter Property="BorderBrush" Value="{Binding cButtonStaticBorder, Source={x:Static se:Themes.Default}}"/>
-            <Setter Property="Foreground" Value="{Binding cWindowForeground, Source={x:Static se:Themes.Default}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsDefaulted" Value="True">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="{Binding cButtonMouseOverBackground, Source={x:Static se:Themes.Default}}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{Binding cButtonMouseOverBorder, Source={x:Static se:Themes.Default}}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="{Binding cButtonPressedBackground, Source={x:Static se:Themes.Default}}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{Binding cButtonPressedBorder, Source={x:Static se:Themes.Default}}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="{Binding cButtonPressedBackground, Source={x:Static se:Themes.Default}}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{Binding cButtonPressedBorder, Source={x:Static se:Themes.Default}}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Background" TargetName="border" Value="{Binding cButtonDisabledBackground, Source={x:Static se:Themes.Default}}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{Binding cButtonDisabledBorder, Source={x:Static se:Themes.Default}}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{Binding cButtonDisabledForeground, Source={x:Static se:Themes.Default}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+             mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100">
+    <ToggleButton.Style>
+        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="Background" Value="Transparent"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ForMultiBox, RelativeSource={RelativeSource Mode=Self}}" Value="True">
-                    <Setter Property="Background" Value="{Binding cComboBoxStaticBackground1, Source={x:Static se:Themes.Default}}"/>
-                </DataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding ForMultiBox, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
@@ -69,5 +18,5 @@
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
-    </ToggleButton.Resources>
+    </ToggleButton.Style>
 </ToggleButton>

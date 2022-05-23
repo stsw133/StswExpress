@@ -7,36 +7,12 @@
              mc:Ignorable="d" d:DesignWidth="100"
              VerticalAlignment="Stretch">
     <DockPanel>
-        <DockPanel.Resources>
-            <Style TargetType="{x:Type RepeatButton}">
-                <Setter Property="Background" Value="{Binding cButtonStaticBackground, Source={x:Static se:Themes.Default}}"/>
-                <Setter Property="BorderBrush" Value="{Binding cButtonStaticBorder, Source={x:Static se:Themes.Default}}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type RepeatButton}">
-                            <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}">
-                                <ContentPresenter/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{Binding cButtonMouseOverBackground, Source={x:Static se:Themes.Default}}"/>
-                        <Setter Property="BorderBrush" Value="{Binding cButtonMouseOverBorder, Source={x:Static se:Themes.Default}}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </DockPanel.Resources>
         <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1">
-            <RepeatButton Content="▲"
+            <RepeatButton Content="▲" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}"
                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.4}"
                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                           Click="BtnUp_Click"/>
-            <RepeatButton Content="▼"
+            <RepeatButton Content="▼" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.5;0}"
                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.4}"
                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                           Click="BtnDown_Click"/>

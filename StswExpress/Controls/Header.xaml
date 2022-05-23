@@ -17,8 +17,7 @@
     <StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource AncestorType=StackPanel}}"
 				HorizontalAlignment="Stretch" VerticalAlignment="Center"
 				Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
-        <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"
-                   Foreground="{Binding cTitleBarForeground1, Source={x:Static se:Themes.Default}}"/>
+        <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
         <TextBlock Text="{Binding SubText1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"
 				   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"
 				   Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}">
@@ -29,7 +28,7 @@
                             <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, AncestorLevel=2}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
-                            <Setter Property="Foreground" Value="{Binding cTitleBarForeground2, Source={x:Static se:Themes.Default}}"/>
+                            <Setter Property="Foreground" Value="Gray"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -45,7 +44,7 @@
                             <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
-                            <Setter Property="Foreground" Value="{Binding cTitleBarForeground2, Source={x:Static se:Themes.Default}}"/>
+                            <Setter Property="Foreground" Value="Gray"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

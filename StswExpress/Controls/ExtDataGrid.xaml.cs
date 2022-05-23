@@ -22,7 +22,7 @@ namespace StswExpress
                   nameof(HeaderBackground),
                   typeof(Brush),
                   typeof(ExtDataGrid),
-                  new PropertyMetadata((Brush)new BrushConverter().ConvertFromString("#F9F9F9"))
+                  new PropertyMetadata(default(SolidColorBrush))
               );
         public Brush HeaderBackground
         {
@@ -38,7 +38,7 @@ namespace StswExpress
                   nameof(HeaderBorderBrush),
                   typeof(SolidColorBrush),
                   typeof(ExtDataGrid),
-                  new PropertyMetadata((SolidColorBrush)new BrushConverter().ConvertFromString("#3777"))
+                  new PropertyMetadata(default(SolidColorBrush))
               );
         public SolidColorBrush HeaderBorderBrush
         {
