@@ -6,7 +6,7 @@
           xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
           xmlns:se="clr-namespace:StswExpress"
           mc:Ignorable="d" d:DesignWidth="100"
-          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"
 		  Loaded="ComboBox_Loaded">
     <ComboBox.Style>
         <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"/>

@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace StswExpress
 {
@@ -11,22 +10,6 @@ namespace StswExpress
         public ExtCheckBox()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// IsError
-        /// </summary>
-        public static readonly DependencyProperty IsErrorProperty
-            = DependencyProperty.Register(
-                  nameof(IsError),
-                  typeof(bool),
-                  typeof(ExtCheckBox),
-                  new PropertyMetadata(default(bool))
-              );
-        public bool IsError
-        {
-            get => (bool)GetValue(IsErrorProperty);
-            set => SetValue(IsErrorProperty, value);
         }
     }
 }
