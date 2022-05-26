@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,45 +14,17 @@ namespace StswExpress
     public static class Fn
     {
         #region App & Database
-        /// App name
+        /// App: name & version & name + version & copyright
         public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
-
-        /// App version
         public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0".ToCharArray());
-
-        /// App name + version
         public static string AppNameAndVersion => $"{AppName()} {(AppVersion() != "1" ? AppVersion() : string.Empty)}";
-
-        /// App copyright
         public static string? AppCopyright => $"{FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).LegalCopyright}";
 
-        /// App database
+        /// App: database connection & mail config
         public static DB AppDatabase { get; set; } = new DB();
+        public static MC AppMailConfig { get; set; } = new MC();
         #endregion
 
-        /// <summary>
-        /// Adds char before upper letters in string.
-        /// </summary>
-        /// <param name="text">Text to edit</param>
-        /// <param name="symbol">Char to add</param>
-        /// <returns>Text after adding a char</returns>
-        public static string AddCharBeforeUpperLetters(string text, char symbol)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-                return string.Empty;
-
-            var newText = new StringBuilder(text.Length * 2);
-            newText.Append(text[0]);
-
-            for (int i = 1; i < text.Length; i++)
-            {
-                if (char.IsUpper(text[i]) && text[i - 1] != symbol)
-                    newText.Append(symbol);
-                newText.Append(text[i]);
-            }
-
-            return newText.ToString();
-        }
         /*
         /// <summary>
         /// Gets all rows and visible columns from DataGrid and puts into new Excel instance.
@@ -107,6 +77,7 @@ namespace StswExpress
             win.Cursor = Cursors.Arrow;
         }
         */
+
         /// <summary>
         /// Loads image from byte[] to BitmapImage.
         /// </summary>
@@ -191,7 +162,7 @@ namespace StswExpress
                 }
                 else if (col.Header is DependencyObject)
                 {
-                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).ToList().Where(x => x.FilterSQL != null))
+                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).Where(x => x.FilterSQL != null))
                     {
                         filter += " and " + cf2.FilterSQL;
                         if (cf2.Value1 != null)
@@ -223,15 +194,43 @@ namespace StswExpress
                 }
                 else if (col.Header is DependencyObject)
                 {
-                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).ToList())
+                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).Where(x => x.FilterSQL != null))
                     {
-                        if (cf2.FilterSQL != null)
-                        {
-                            cf2.Value1 = cf2.ValueDef;
-                            cf2.Value2 = cf2.ValueDef;
-                        }
+                        cf2.Value1 = cf2.ValueDef;
+                        cf2.Value2 = cf2.ValueDef;
                     }
                 }
+            }
+        }
+
+        /// GetFilters
+        public static void GetFilters(DependencyObject panel, out string filter, out List<(string name, object val)> parameters)
+        {
+            filter = string.Empty;
+            parameters = new List<(string name, object val)>();
+
+            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.FilterSQL != null))
+            {
+                filter += " and " + cf.FilterSQL;
+                if (cf.Value1 != null)
+                    parameters.Add((cf.ParamSQL.Substring(0, cf.ParamSQL.Length > 120 ? 120 : cf.ParamSQL.Length) + "1", (cf.Value1 is List<object> ? null : cf.Value1) ?? DBNull.Value));
+                if (cf.Value2 != null)
+                    parameters.Add((cf.ParamSQL.Substring(0, cf.ParamSQL.Length > 120 ? 120 : cf.ParamSQL.Length) + "2", (cf.Value2 is List<object> ? null : cf.Value2) ?? DBNull.Value));
+            }
+
+            if (filter.StartsWith(" and "))
+                filter = filter[5..];
+            if (string.IsNullOrWhiteSpace(filter))
+                filter = "1=1";
+        }
+
+        /// ClearFilters
+        public static void ClearFilters(DependencyObject panel)
+        {
+            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.FilterSQL != null))
+            {
+                cf.Value1 = cf.ValueDef;
+                cf.Value2 = cf.ValueDef;
             }
         }
         #endregion

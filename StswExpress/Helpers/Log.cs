@@ -8,10 +8,10 @@ namespace StswExpress
     {
         private static readonly string LogFileName = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath), $"log.log");
         private static readonly FileInfo LogFile = new FileInfo(LogFileName);
-        public static long ArchiveFileSize = 1024 * 1024 * 5;
+        private static readonly long ArchiveFileSize = 1024 * 1024 * 5;
 
         /// Write text to log file.
-        public static void Write(string text, bool addfunccallername = false)
+        public static void Write(string text)
         {
             if (File.Exists(LogFileName) && LogFile.Length > ArchiveFileSize)
             {

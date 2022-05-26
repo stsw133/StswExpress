@@ -564,7 +564,8 @@ namespace StswExpress
                         Stroke = Brushes.Black,
                         Fill = Brushes.White,
                         StrokeThickness = 1.5,
-                        Text = text
+                        Text = text,
+                        Style = ((buttonsPanel.Children[buttonsPanel.Children.Count - 2] as Button).Content as OutlinedTextBlock).Style
                     },
                     Style = (buttonsPanel.Children[buttonsPanel.Children.Count - 2] as Button).Style
                 };

@@ -65,6 +65,7 @@ namespace StswExpress
             return list;
         }
 
+        #region VisualChildren
         /// Gets visual child of T type inside parent
         public static T? GetVisualChild<T>(DependencyObject parent) where T : Visual
         {
@@ -100,5 +101,6 @@ namespace StswExpress
                         yield return childOfChild;
                 }
         }
+        #endregion
     }
 }

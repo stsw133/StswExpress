@@ -26,8 +26,8 @@ namespace StswExpress
             watermark.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#B777");
             //watermark.Content = "…";
 
-            ((Border)watermark.Parent).BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#7777");
-            ((Border)((Grid)((Border)watermark.Parent).Parent).Children[0]).BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#7777");
+            ((Border)watermark.Parent).BorderThickness = new Thickness(0);
+            ((Border)((Grid)((Border)watermark.Parent).Parent).Children[0]).BorderThickness = new Thickness(0);
         }
     }
 }

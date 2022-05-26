@@ -2,19 +2,37 @@
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:System="clr-namespace:System;assembly=mscorlib"
             xmlns:se="clr-namespace:StswExpress"
             mc:Ignorable="d" d:DesignWidth="100"
             Orientation="Horizontal">
-    <Grid Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-          Margin="{Binding IconMargin, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-		  VerticalAlignment="Center" Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
+    <!-- icon -->
+    <Grid VerticalAlignment="Center" Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
+        <Grid.Height>
+            <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
+                <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                <Binding Path="IconSize" RelativeSource="{RelativeSource AncestorType=StackPanel}"/>
+            </MultiBinding>
+        </Grid.Height>
+        <Grid.Margin>
+            <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">
+                <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                <Binding Path="IconSize" RelativeSource="{RelativeSource AncestorType=StackPanel}"/>
+            </MultiBinding>
+        </Grid.Margin>
         <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
-        <Image Height="{Binding IconSize, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_Size}, ConverterParameter=0.5}"
-               Source="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-               HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Image Source="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=StackPanel}}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Image.Height>
+                <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.5*">
+                    <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                    <Binding Path="IconSize" RelativeSource="{RelativeSource AncestorType=StackPanel}"/>
+                </MultiBinding>
+            </Image.Height>
+        </Image>
     </Grid>
-    <StackPanel Margin="{Binding LabelPadding, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+    <!-- text -->
+    <StackPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=StackPanel}}"
 				HorizontalAlignment="Stretch" VerticalAlignment="Center"
 				Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}">
         <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
@@ -23,10 +41,8 @@
 				   Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, AncestorLevel=2}}"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}" Value="True">
-                            <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, AncestorLevel=2}}"/>
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
                             <Setter Property="Foreground" Value="Gray"/>
                         </DataTrigger>
@@ -39,10 +55,8 @@
 				   Visibility="{Binding SubText2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}, Converter={se:conv_NotNull}}" Value="True">
-                            <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}"/>
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=StackPanel, AncestorLevel=2}}" Value="{x:Null}">
                             <Setter Property="Foreground" Value="Gray"/>
                         </DataTrigger>

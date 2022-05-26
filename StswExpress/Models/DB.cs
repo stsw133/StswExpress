@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace StswExpress
 {
+    /// Model for Database Connection
     public class DB
     {
         public string Name { get; set; } = string.Empty;
@@ -13,6 +15,10 @@ namespace StswExpress
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Version { get; set; } = string.Empty;
+
+        /// GetConnString
+        public string GetMssqlConnString() => $"Server={Server},{Port};Database={Database};User Id={Username};Password={Password};";
+        public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Username};Password={Password};";
 
         /// Load list of encrypted databases from file.
         public static List<DB> LoadAllDatabases(string path)

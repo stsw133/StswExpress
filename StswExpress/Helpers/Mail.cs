@@ -1,28 +1,17 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Mail;
 
 namespace StswExpress
 {
     public class Mail
     {
-        private static string host = string.Empty;
-        public static string Host { set { host = value; } }
-
-        private static int port = 0;
-        public static int Port { set { port = value; } }
-
-        private static string username = string.Empty;
-        private static string Username { set { username = value; } }
-
-        private static string password = string.Empty;
-        private static string Password { set { password = value; } }
-
         /// Send mail to recipients.
-        public static bool Send(string from, string[] to, string subject, string body, string[] attachments = null, string[] bbc = null, string[] reply = null, bool ssl = true)
+        public static bool Send(List<string> to, string subject, string body, List<string> attachments = null, List<string> bbc = null, List<string> reply = null)
         {
             using (var mail = new MailMessage())
             {
-                mail.From = new MailAddress(from);
+                mail.From = new MailAddress(Fn.AppMailConfig.Address);
                 mail.Subject = subject;
                 mail.Body = body;
 
@@ -41,10 +30,10 @@ namespace StswExpress
                     foreach (var x in reply)
                         mail.ReplyToList.Add(x);
 
-                var smtp = new SmtpClient(host, port)
+                var smtp = new SmtpClient(Fn.AppMailConfig.Host, Fn.AppMailConfig.Port)
                 {
-                    Credentials = new NetworkCredential(username, password),
-                    EnableSsl = ssl
+                    Credentials = new NetworkCredential(Fn.AppMailConfig.Username, Fn.AppMailConfig.Password),
+                    EnableSsl = Fn.AppMailConfig.EnableSSL
                 };
 
                 smtp.Send(mail);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -48,6 +49,30 @@ namespace StswExpress
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+    }
+
+    /// <summary>
+    /// Converts doubles -> values calculated by parameter
+    /// </summary>
+    public class conv_Calculate : MarkupExtension, IMultiValueConverter
+    {
+        private static conv_Calculate? _conv;
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (_conv == null)
+                _conv = new conv_Calculate();
+            return _conv;
+        }
+
+        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (targetType == typeof(Thickness))
+                return new Thickness(System.Convert.ToDouble(new DataTable().Compute($"{string.Join(parameter?.ToString(), value)}", string.Empty)));
+            else
+                return System.Convert.ToDouble(new DataTable().Compute($"{string.Join(parameter?.ToString(), value)}", string.Empty));
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture) => new[] { value };
     }
 
     /// <summary>

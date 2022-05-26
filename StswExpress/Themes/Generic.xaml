@@ -42,6 +42,7 @@
     <Style TargetType="{x:Type se:StswWindow}">
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
+        <Setter Property="BorderBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}}"/>
         <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter='Maximized~0~1'}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}}"/>
         <Setter Property="Template">
@@ -73,14 +74,15 @@
                                                            Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.2;0}"/>
                                                 <TextBlock Text="{TemplateBinding SubTitle}" Visibility="{TemplateBinding SubTitle, Converter={se:conv_NotNull}}"
                                                            Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.2;-0.1}"
-                                                           Foreground="Gray" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"/>
+                                                           Foreground="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Gray~#7777}"
+                                                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.8}"/>
                                             </StackPanel>
                                         </DockPanel>
                                         <Label.Style>
                                             <Style TargetType="Label">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
-                                                        <Setter Property="Foreground" Value="#7777"/>
+                                                        <Setter Property="Foreground" Value="#B777"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -90,24 +92,32 @@
                                         <Button x:Name="darkmodeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter='0~Przełącz do trybu ciemnego~Przełącz do trybu jasnego'}"
                                                 Visibility="{TemplateBinding AllowToDarkMode, Converter={se:conv_Bool}}">
-                                            <se:OutlinedTextBlock FontFamily="Arial" Stroke="Black" Fill="White" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                            <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                                                  Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~#B777}"
+                                                                  Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~🌙~🔆}"/>
                                         </Button>
                                         <Button x:Name="minimizeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="Minimalizuj"
                                                 Visibility="{TemplateBinding AllowToMinimize, Converter={se:conv_Bool}}">
-                                            <se:OutlinedTextBlock FontFamily="Arial" Stroke="Black" Fill="White" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                            <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                                                  Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~#B777}"
+                                                                  Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="🗕"/>
                                         </Button>
                                         <Button x:Name="restoreButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
                                                 Visibility="{TemplateBinding AllowToResize, Converter={se:conv_Bool}}">
-                                            <se:OutlinedTextBlock FontFamily="Arial" Stroke="Black" Fill="White" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                            <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                                                  Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~#B777}"
+                                                                  Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}"/>
                                         </Button>
                                         <Button x:Name="closeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="Zamknij">
-                                            <se:OutlinedTextBlock FontFamily="Arial" Stroke="Black" Fill="White" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                            <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Size}, ConverterParameter=0.15}"
+                                                                  Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~#B777}"
+                                                                  Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="🗙"/>
                                         </Button>
                                     </StackPanel>
@@ -117,7 +127,7 @@
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat=\{0:N0\}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <Slider Width="100" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=LostFocus}" Minimum="6" Maximum="18" SmallChange="1"/>
+                                                <Slider Width="100" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=LostFocus}" Minimum="6" Maximum="24" SmallChange="1"/>
                                             </se:ExtMenuItem>
                                             <se:ExtMenuItem Header="Kolor interfejsu">
                                                 <MenuItem.Icon>
@@ -242,9 +252,6 @@
                 <Setter Property="Background" Value="#F6F6F6"/>
                 <Setter Property="Foreground" Value="Black"/>
             </DataTrigger>
-            <Trigger Property="IsActive" Value="False">
-                <Setter Property="Foreground" Value="#3777"/>
-            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

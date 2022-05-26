@@ -31,22 +31,6 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// IconMargin
-        /// </summary>
-        public static readonly DependencyProperty IconMarginProperty
-            = DependencyProperty.Register(
-                  nameof(IconMargin),
-                  typeof(double),
-                  typeof(Header),
-                  new PropertyMetadata(Settings.Default.iSize * 0.15)
-              );
-        public double IconMargin
-        {
-            get => (double)GetValue(IconMarginProperty);
-            set => SetValue(IconMarginProperty, value);
-        }
-
-        /// <summary>
         /// IconSize
         /// </summary>
         public static readonly DependencyProperty IconSizeProperty
@@ -54,7 +38,7 @@ namespace StswExpress
                   nameof(IconSize),
                   typeof(double),
                   typeof(Header),
-                  new PropertyMetadata(Settings.Default.iSize * 1.5)
+                  new PropertyMetadata(1.5)
               );
         public double IconSize
         {
@@ -63,19 +47,19 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// LabelPadding
+        /// Padding
         /// </summary>
-        public static readonly DependencyProperty LabelPaddingProperty
+        public static readonly DependencyProperty PaddingProperty
             = DependencyProperty.Register(
-                  nameof(LabelPadding),
+                  nameof(Padding),
                   typeof(Thickness),
                   typeof(Header),
-                  new PropertyMetadata(new Thickness(Settings.Default.iSize * 0.3))
+                  new PropertyMetadata(new Thickness(5))
               );
-        public Thickness LabelPadding
+        public Thickness Padding
         {
-            get => (Thickness)GetValue(LabelPaddingProperty);
-            set => SetValue(LabelPaddingProperty, value);
+            get => (Thickness)GetValue(PaddingProperty);
+            set => SetValue(PaddingProperty, value);
         }
 
         /// <summary>
