@@ -26,7 +26,8 @@ namespace StswExpress
             REMOVE,
             SAVE,
             SELECT,
-            SETTINGS
+            SETTINGS,
+            WINMODE
         }
 
         /// <summary>
@@ -284,6 +285,19 @@ namespace StswExpress
             new InputGestureCollection()
             {
                 new KeyGesture(Key.F2)
+            }
+        );
+        /// <summary>
+        /// WinMode [F12]
+        /// </summary>
+        public static readonly RoutedUICommand WinMode = new RoutedUICommand
+        (
+            Enum.GetName(typeof(Type), Type.WINMODE),
+            Enum.GetName(typeof(Type), Type.WINMODE),
+            typeof(Commands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.F12)
             }
         );
     }

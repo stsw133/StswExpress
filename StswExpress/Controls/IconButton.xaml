@@ -17,8 +17,8 @@
     </Button.Resources>
     <Button.Style>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Background" Value="#5777"/>
-            <Setter Property="BorderBrush" Value="#A777"/>
+            <Setter Property="Background" Value="#4777"/>
+            <Setter Property="BorderBrush" Value="#9777"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -34,8 +34,8 @@
                     <Setter Property="BorderBrush" Value="#A468"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#2777"/>
-                    <Setter Property="BorderBrush" Value="#4777"/>
+                    <Setter Property="Background" Value="#1777"/>
+                    <Setter Property="BorderBrush" Value="#3777"/>
                     <Setter Property="Foreground" Value="Gray"/>
                 </Trigger>
             </Style.Triggers>

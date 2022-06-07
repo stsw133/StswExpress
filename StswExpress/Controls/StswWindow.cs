@@ -13,7 +13,7 @@ namespace StswExpress
 {
     public class StswWindow : Window
     {
-        private double height, width, minHeight, minWidth;
+        private double height, width;
         private bool resizeError;
         private int leftClickCounter = 1;
 
@@ -133,8 +133,10 @@ namespace StswExpress
                 MinHeight = 40;
             if (MinWidth < 200)
                 MinWidth = 200;
-        }
 
+            var bindingWinMode = new CommandBinding(Commands.WinMode, CmdWinMode_Executed);
+            CommandManager.RegisterClassCommandBinding(typeof(Window), bindingWinMode);
+        }
         void OnSourceInitialized(object sender, EventArgs e)
         {
             _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
@@ -142,6 +144,14 @@ namespace StswExpress
             HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
         }
 
+        /// WinMode
+        void CmdWinMode_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Settings.Default.WinMode = Settings.Default.WinMode == 0 ? 1 : 0;
+            Settings.Default.Save();
+            RestoreClick(null, null);
+            RestoreClick(null, null);
+        }
         /// iSizeClick
         protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
         /// themeClick
@@ -185,20 +195,7 @@ namespace StswExpress
             CenterClick(sender, e);
         }
         /// DarkModeClick
-        protected void DarkModeClick(object sender, RoutedEventArgs e)
-        {
-            if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
-                Application.Current.Resources.MergedDictionaries.Add(new Theme());
-            var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
-
-            theme.Color = theme.Color switch
-            {
-                ThemeColor.NormalColor => ThemeColor.Black,
-                _ => ThemeColor.NormalColor
-            };
-            Settings.Default.Theme = (int)theme.Color;
-            Settings.Default.Save();
-        }
+        protected void DarkModeClick(object sender, RoutedEventArgs e) => themeClick(Settings.Default.Theme == 0 ? 1 : 0);
         /// MinimizeClick
         protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
         /// RestoreClick
@@ -468,6 +465,9 @@ namespace StswExpress
         /// OnApplyTemplate
         public override void OnApplyTemplate()
         {
+            if (Settings.Default.WinMode == 0)
+                return;
+
             var buttonsPanel = (StackPanel)GetTemplateChild("buttonsPanel");
             /// darkmodeButton
             var darkmodeButton = GetTemplateChild("darkmodeButton") as Button;

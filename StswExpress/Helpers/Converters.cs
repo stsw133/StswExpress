@@ -66,10 +66,13 @@ namespace StswExpress
 
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
+            var a = string.Join(parameter?.ToString(), value).Replace(",", ".");
+            var b = System.Convert.ToDouble(new DataTable().Compute($"{a}", string.Empty));
+
             if (targetType == typeof(Thickness))
-                return new Thickness(System.Convert.ToDouble(new DataTable().Compute($"{string.Join(parameter?.ToString(), value)}", string.Empty)));
+                return new Thickness(b);
             else
-                return System.Convert.ToDouble(new DataTable().Compute($"{string.Join(parameter?.ToString(), value)}", string.Empty));
+                return b;
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture) => new[] { value };
