@@ -40,7 +40,7 @@ namespace StswExpress
                   nameof(SliderWidth),
                   typeof(double),
                   typeof(ColorSetter),
-                  new PropertyMetadata(256)
+                  new PropertyMetadata(default(double))
               );
         public double SliderWidth
         {

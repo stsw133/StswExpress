@@ -66,8 +66,8 @@ namespace StswExpress
 
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
-            var a = string.Join(parameter?.ToString(), value).Replace(",", ".");
-            var b = System.Convert.ToDouble(new DataTable().Compute($"{a}", string.Empty));
+            var a = value.Length > 0 ? string.Join(parameter?.ToString(), value).Replace(",", ".") : "1";
+            var b = a.Contains('{') ? 0 : System.Convert.ToDouble(new DataTable().Compute(a, string.Empty));
 
             if (targetType == typeof(Thickness))
                 return new Thickness(b);
@@ -269,13 +269,13 @@ namespace StswExpress
     /// Converts double -> value * parameter
     /// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter)
     /// </summary>
-    public class conv_Size : MarkupExtension, IValueConverter
+    public class conv_Scale : MarkupExtension, IValueConverter
     {
-        private static conv_Size? _conv;
+        private static conv_Scale? _conv;
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (_conv == null)
-                _conv = new conv_Size();
+                _conv = new conv_Scale();
             return _conv;
         }
 

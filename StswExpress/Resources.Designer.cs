@@ -63,6 +63,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] empty {
+            get {
+                object obj = ResourceManager.GetObject("empty", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon20_filter_between {
             get {
                 object obj = ResourceManager.GetObject("icon20_filter_between", resourceCulture);

@@ -9,8 +9,7 @@ namespace StswExpress
     public abstract class VM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged([CallerMemberName] string name = "none passed") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        public void NotifyPropertyChanged([CallerMemberName] string name = "none passed") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         protected bool SetField<T>(ref T field, T value, Expression<Func<T>> selectorExpression)
         {

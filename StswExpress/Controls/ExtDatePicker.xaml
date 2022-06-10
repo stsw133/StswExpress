@@ -5,9 +5,23 @@
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:se="clr-namespace:StswExpress"
             mc:Ignorable="d" d:DesignWidth="100"
-            VerticalContentAlignment="Center"
-            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}">
+            VerticalContentAlignment="Center">
     <DatePicker.Style>
-        <Style TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}"/>
+        <Style TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0">
+                    <Setter Property="Foreground" Value="#000"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1">
+                    <Setter Property="Foreground" Value="#FFF"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="2">
+                    <Setter Property="Foreground" Value="#EEE"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="3">
+                    <Setter Property="Foreground" Value="#111"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </DatePicker.Style>
 </DatePicker>

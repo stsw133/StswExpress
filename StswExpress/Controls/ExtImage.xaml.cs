@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ namespace StswExpress
                   nameof(ContextMenuVisibility),
                   typeof(Visibility),
                   typeof(ExtImage),
-                  new PropertyMetadata(Visibility.Collapsed)
+                  new PropertyMetadata(default(Visibility))
               );
         public Visibility ContextMenuVisibility
         {
@@ -46,31 +47,7 @@ namespace StswExpress
         public bool IsReadOnly
         {
             get => (bool)GetValue(IsReadOnlyProperty);
-            set
-            {
-                var items = ContextMenu.Items;
-
-                ((MenuItem)items[0]).IsEnabled = !value;
-                ((MenuItem)items[2]).IsEnabled = !value;
-                ((MenuItem)items[3]).IsEnabled = !value;
-                ((MenuItem)items[5]).IsEnabled = !value;
-
-                ((TextBlock)((MenuItem)items[0]).Icon).Foreground = value ? Brushes.Gray : (SolidColorBrush)new BrushConverter().ConvertFrom("#58B");
-                ((TextBlock)((MenuItem)items[1]).Icon).Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#58B");
-                ((TextBlock)((MenuItem)items[2]).Icon).Foreground = value ? Brushes.Gray : (SolidColorBrush)new BrushConverter().ConvertFrom("#58B");
-                ((TextBlock)((MenuItem)items[3]).Icon).Foreground = value ? Brushes.Gray : (SolidColorBrush)new BrushConverter().ConvertFrom("#A22");
-                ((TextBlock)((MenuItem)items[5]).Icon).Foreground = value ? Brushes.Gray : (SolidColorBrush)new BrushConverter().ConvertFrom("#C84");
-                ((TextBlock)((MenuItem)items[6]).Icon).Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#84C");
-
-                SetValue(IsReadOnlyProperty, value);
-            }
-        }
-
-        /// Loaded
-        private void Image_Loaded(object sender, RoutedEventArgs e)
-        {
-            ContextMenuVisibility = ContextMenuVisibility;
-            IsReadOnly = IsReadOnly;
+            set => SetValue(IsReadOnlyProperty, value);
         }
 
         /// Cut

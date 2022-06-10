@@ -5,37 +5,44 @@
        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
        xmlns:se="clr-namespace:StswExpress"
        mc:Ignorable="d" d:DesignHeight="32" d:DesignWidth="32">
+    <Image.Source>
+        <Binding Path="Source" RelativeSource="{RelativeSource Mode=Self}">
+            <Binding.TargetNullValue>
+                <ImageSource>pack://application:,,,/StswExpress;component/Resources/empty.png</ImageSource>
+            </Binding.TargetNullValue>
+        </Binding>
+    </Image.Source>
     <Image.ContextMenu>
-        <ContextMenu Visibility="{Binding IsContextMenuVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-            <se:ExtMenuItem Header="Wytnij" Click="MnuItmCut_Click">
+        <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}" Visibility="{Binding ContextMenuVisibility}">
+            <se:ExtMenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=#7777~#58B}"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
             <se:ExtMenuItem Header="Kopiuj" Click="MnuItmCopy_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="#58B"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
-            <se:ExtMenuItem Header="Wklej" Click="MnuItmPaste_Click">
+            <se:ExtMenuItem Header="Wklej" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmPaste_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=#7777~#58B}"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
-            <se:ExtMenuItem Header="Usuń" Click="MnuItmDelete_Click">
+            <se:ExtMenuItem Header="Usuń" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmDelete_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=#7777~#A22}"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
             <se:ExtSeparator/>
-            <se:ExtMenuItem Header="Wczytaj" Click="MnuItmLoad_Click">
+            <se:ExtMenuItem Header="Wczytaj" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmLoad_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=#7777~#C84}"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
             <se:ExtMenuItem Header="Zapisz" Click="MnuItmSave_Click">
                 <MenuItem.Icon>
-                    <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center"/>
+                    <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="#84C"/>
                 </MenuItem.Icon>
             </se:ExtMenuItem>
         </ContextMenu>

@@ -7,7 +7,7 @@ namespace StswExpress
     /// <summary>
     /// Interaction logic for Header.xaml
     /// </summary>
-    public partial class Header : StackPanel
+    public partial class Header : UserControl
     {
         public Header()
         {
@@ -31,35 +31,19 @@ namespace StswExpress
         }
 
         /// <summary>
-        /// IconSize
+        /// IconScale
         /// </summary>
-        public static readonly DependencyProperty IconSizeProperty
+        public static readonly DependencyProperty IconScaleProperty
             = DependencyProperty.Register(
-                  nameof(IconSize),
+                  nameof(IconScale),
                   typeof(double),
                   typeof(Header),
                   new PropertyMetadata(1.5)
               );
-        public double IconSize
+        public double IconScale
         {
-            get => (double)GetValue(IconSizeProperty);
-            set => SetValue(IconSizeProperty, value);
-        }
-
-        /// <summary>
-        /// Padding
-        /// </summary>
-        public static readonly DependencyProperty PaddingProperty
-            = DependencyProperty.Register(
-                  nameof(Padding),
-                  typeof(Thickness),
-                  typeof(Header),
-                  new PropertyMetadata(new Thickness(5))
-              );
-        public Thickness Padding
-        {
-            get => (Thickness)GetValue(PaddingProperty);
-            set => SetValue(PaddingProperty, value);
+            get => (double)GetValue(IconScaleProperty);
+            set => SetValue(IconScaleProperty, value);
         }
 
         /// <summary>

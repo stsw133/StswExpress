@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\empty.png" />
     <None Remove="Resources\icon20_filter_between.ico" />
     <None Remove="Resources\icon20_filter_contains.ico" />
     <None Remove="Resources\icon20_filter_endswith.ico" />
@@ -35,6 +36,9 @@
 
   <ItemGroup>
     <Compile Update="Controls\ExtDatePicker.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\ExtButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Resources.Designer.cs">
@@ -69,6 +73,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Resource>
+    <Resource Include="Resources\empty.png" />
     <Resource Include="Resources\icon20_filter_between.ico" />
     <Resource Include="Resources\icon20_filter_contains.ico" />
     <Resource Include="Resources\icon20_filter_endswith.ico" />
@@ -90,6 +95,10 @@
 
   <ItemGroup>
     <Page Update="Controls\ExtDatePicker.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ExtButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
