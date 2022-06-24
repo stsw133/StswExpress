@@ -5,13 +5,19 @@
        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
        xmlns:se="clr-namespace:StswExpress"
        mc:Ignorable="d" d:DesignHeight="32" d:DesignWidth="32">
-    <Image.Source>
-        <Binding Path="Source" RelativeSource="{RelativeSource Mode=Self}">
-            <Binding.TargetNullValue>
-                <ImageSource>pack://application:,,,/StswExpress;component/Resources/empty.png</ImageSource>
-            </Binding.TargetNullValue>
-        </Binding>
-    </Image.Source>
+    <Image.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                    <Setter Property="Source">
+                        <Setter.Value>
+                            <ImageSource>pack://application:,,,/StswExpress;component/Resources/empty.png</ImageSource>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Image.Resources>
     <Image.ContextMenu>
         <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}" Visibility="{Binding ContextMenuVisibility}">
             <se:ExtMenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
