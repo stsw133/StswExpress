@@ -17,8 +17,8 @@ namespace StswExpress
         public string Version { get; set; } = string.Empty;
 
         /// GetConnString
-        public string GetMssqlConnString() => $"Server={Server},{Port};Database={Database};User Id={Username};Password={Password};";
-        public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Username};Password={Password};";
+        public string GetMssqlConnString() => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Username};Password={Password};Application Name={Fn.AppName()};";
+        public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Username};Password={Password};Application Name={Fn.AppName()};";
 
         /// Load list of encrypted databases from file.
         public static List<DB> LoadAllDatabases(string path)
