@@ -34,7 +34,7 @@ namespace StswExpress
         public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
         /// Converts DataTable to list of T objects
-        public static List<T>? ToList<T>(this DataTable table) where T : class, new()
+        public static List<T> ToList<T>(this DataTable table) where T : class, new()
         {
             var list = new List<T>();
 

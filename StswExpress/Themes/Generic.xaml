@@ -142,15 +142,6 @@
                                                         </MenuItem.Icon>
                                                         <Slider Width="100" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True"/>
                                                     </se:ExtMenuItem>
-                                                    <se:ExtMenuItem Header="Kolor interfejsu">
-                                                        <MenuItem.Icon>
-                                                            <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </MenuItem.Icon>
-                                                        <se:ExtMenuItem Header="Normalny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=0}"/>
-                                                        <se:ExtMenuItem Header="Czarny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=1}"/>
-                                                        <se:ExtMenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=2}"/>
-                                                        <se:ExtMenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=3}"/>
-                                                    </se:ExtMenuItem>
                                                     <se:ExtSeparator/>
                                                     <se:ExtMenuItem Header="Wyśrodkuj na ekranie"/>
                                                     <se:ExtMenuItem Header="Domyślny rozmiar" Visibility="{TemplateBinding AllowToResize, Converter={se:conv_Bool}}"/>

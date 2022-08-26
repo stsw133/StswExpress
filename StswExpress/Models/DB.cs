@@ -12,13 +12,13 @@ namespace StswExpress
         public string Server { get; set; } = string.Empty;
         public int Port { get; set; } = 0;
         public string Database { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
+        public string Login { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Version { get; set; } = string.Empty;
 
         /// GetConnString
-        public string GetMssqlConnString() => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Username};Password={Password};Application Name={Fn.AppName()};";
-        public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Username};Password={Password};Application Name={Fn.AppName()};";
+        public string GetMssqlConnString() => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};";
+        public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};";
 
         /// Load list of encrypted databases from file.
         public static List<DB> LoadAllDatabases(string path)
@@ -52,7 +52,7 @@ namespace StswExpress
                             db.Database = Security.Decrypt(line[(property.Length + 1)..]);
                             break;
                         case "4":
-                            db.Username = Security.Decrypt(line[(property.Length + 1)..]);
+                            db.Login = Security.Decrypt(line[(property.Length + 1)..]);
                             break;
                         case "5":
                             db.Password = Security.Decrypt(line[(property.Length + 1)..]);
@@ -77,7 +77,7 @@ namespace StswExpress
                 stream.WriteLine($"1={Security.Encrypt(db.Server)}");
                 stream.WriteLine($"2={Security.Encrypt(db.Port.ToString())}");
                 stream.WriteLine($"3={Security.Encrypt(db.Database)}");
-                stream.WriteLine($"4={Security.Encrypt(db.Username)}");
+                stream.WriteLine($"4={Security.Encrypt(db.Login)}");
                 stream.WriteLine($"5={Security.Encrypt(db.Password)}");
                 stream.WriteLine(string.Empty);
             }

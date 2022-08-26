@@ -21,8 +21,8 @@ namespace StswExpress
         public static string? AppCopyright => $"{FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).LegalCopyright}";
 
         /// App: database connection & mail config
-        public static DB AppDatabase { get; set; } = new DB();
-        public static MC AppMailConfig { get; set; } = new MC();
+        public static DB? AppDatabase { get; set; } = new();
+        public static MC? AppMailConfig { get; set; } = new();
         #endregion
 
         /*
