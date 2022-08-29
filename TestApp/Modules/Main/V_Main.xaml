@@ -7,7 +7,7 @@
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="560" Width="900" WindowStartupLocation="CenterScreen" AllowToDarkMode="True"
                Title="{Binding Source={x:Static se:Fn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:Fn.AppCopyright}}"
-               Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"
+               Icon="pack://application:,,,/StswExpress;component/Resources/icon32_test.ico"
                Loaded="Window_Loaded">
     <Window.CommandBindings>
         <CommandBinding Command="se:Commands.Settings" Executed="CmdSettings_Executed"/>
@@ -16,7 +16,7 @@
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_documents.ico"/>
             </TabItem.Header>
             <TabItem.CommandBindings>
                 <CommandBinding Command="se:Commands.Clear" Executed="CmdClear_Executed"/>
@@ -28,15 +28,15 @@
                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Center">
                     <se:ExtButton Margin="5" ToolTip="Refresh (F5)">
                         <StackPanel>
-                            <se:Header Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                            <se:Header Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico"/>
                             <ProgressBar IsIndeterminate="True" Value="{Binding LoadingProgress}" Visibility="{Binding Value, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Compare}, ConverterParameter=!100}"/>
                         </StackPanel>
                     </se:ExtButton>
                     <se:ExtButton Margin="5" ToolTip="Clear (F9)">
-                        <se:Header Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                        <se:Header Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico"/>
                     </se:ExtButton>
                     <se:ExtButton Margin="5" ToolTip="Save (Ctrl + S)">
-                        <se:Header Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                        <se:Header Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico"/>
                     </se:ExtButton>
                 </UniformGrid>
                 <!-- data grid -->
@@ -90,7 +90,7 @@
         <!-- stats -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Stats" Icon="pack://application:,,,/StswExpress;component/Resources/icon20_filter_between.ico"/>
+                <se:Header Text="Stats" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_stats.ico"/>
             </TabItem.Header>
             <DockPanel>
                 
