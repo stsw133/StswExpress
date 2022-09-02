@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 
@@ -17,7 +18,7 @@ namespace StswExpress
         public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
 
         /// Changes object to different type
-        public static object? ConvertTo(object o, Type t)
+        public static object? ConvertTo(this object o, Type t)
         {
             if (o == null || o == DBNull.Value)
                 return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
@@ -49,7 +50,7 @@ namespace StswExpress
                         var propertyInfo = obj.GetType().GetProperty(prop.Name);
 
                         if (propertyInfo?.PropertyType != typeof(object))
-                            propertyInfo?.SetValue(obj, ConvertTo(row[prop.Name], propertyInfo.PropertyType), null);
+                            propertyInfo?.SetValue(obj, row[prop.Name].ConvertTo(propertyInfo.PropertyType), null);
                         else
                             propertyInfo?.SetValue(obj, row[prop.Name], null);
                     }
@@ -63,6 +64,46 @@ namespace StswExpress
             }
 
             return list;
+        }
+
+        /// Tries to do action a few times in case a single time could not work
+        public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
+        {
+            while (maxTries > 0)
+            {
+                try
+                {
+                    action.Invoke();
+                    break;
+                }
+                catch
+                {
+                    if (--maxTries <= 0)
+                        throw;
+
+                    Thread.Sleep(msInterval);
+                }
+            }
+        }
+
+        /// Tries to do func a few times in case a single time could not work
+        public static T? TryMultipleTimes<T>(this Func<T> func, int maxTries = 5, int msInterval = 200)
+        {
+            while (maxTries > 0)
+            {
+                try
+                {
+                    return func();
+                }
+                catch
+                {
+                    if (--maxTries <= 0)
+                        throw;
+
+                    Thread.Sleep(msInterval);
+                }
+            }
+            return default;
         }
 
         #region VisualChildren

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -79,6 +80,11 @@ namespace StswExpress
         */
 
         /// <summary>
+        /// Gets color of system color chosen by user
+        /// </summary>
+        public static Color GetWindowsThemeColor => SystemParameters.WindowGlassColor;
+
+        /// <summary>
         /// Loads image from byte[] to BitmapImage.
         /// </summary>
         /// <param name="imageData">Byte array data</param>
@@ -130,11 +136,6 @@ namespace StswExpress
             process.Start();
         }
 
-        /// <summary>
-        /// Gets color of system color chosen by user
-        /// </summary>
-        public static Color GetWindowsThemeColor => SystemParameters.WindowGlassColor;
-        
         #region filters
         /// <summary>
         /// Gets column filters from DataGrid.
