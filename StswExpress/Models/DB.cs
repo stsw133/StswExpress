@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace StswExpress
 {
@@ -24,7 +23,6 @@ namespace StswExpress
         public static List<DB> LoadAllDatabases(string path)
         {
             var result = new List<DB>();
-            var db = new DB();
 
             if (!File.Exists(path))
                 File.Create(path).Close();
@@ -35,32 +33,16 @@ namespace StswExpress
                 var line = stream.ReadLine();
                 if (line != null)
                 {
-                    var property = line.Split('=')?[0];
-                    switch (property)
+                    var data = line.Split('|');
+                    result.Add(new DB()
                     {
-                        case "0":
-                            db = new DB();
-                            db.Name = Security.Decrypt(line[(property.Length + 1)..]);
-                            break;
-                        case "1":
-                            db.Server = Security.Decrypt(line[(property.Length + 1)..]);
-                            break;
-                        case "2":
-                            db.Port = Convert.ToInt32(Security.Decrypt(line[(property.Length + 1)..]));
-                            break;
-                        case "3":
-                            db.Database = Security.Decrypt(line[(property.Length + 1)..]);
-                            break;
-                        case "4":
-                            db.Login = Security.Decrypt(line[(property.Length + 1)..]);
-                            break;
-                        case "5":
-                            db.Password = Security.Decrypt(line[(property.Length + 1)..]);
-                            result.Add(db);
-                            break;
-                        default:
-                            break;
-                    }
+                        Name = Security.Decrypt(data[0]),
+                        Server = Security.Decrypt(data[1]),
+                        Port = Convert.ToInt32(Security.Decrypt(data[2])),
+                        Database = Security.Decrypt(data[3]),
+                        Login = Security.Decrypt(data[4]),
+                        Password = Security.Decrypt(data[5])
+                    });
                 }
             }
 
@@ -72,15 +54,12 @@ namespace StswExpress
         {
             using var stream = new StreamWriter(path);
             foreach (var db in databases)
-            {
-                stream.WriteLine($"0={Security.Encrypt(db.Name)}");
-                stream.WriteLine($"1={Security.Encrypt(db.Server)}");
-                stream.WriteLine($"2={Security.Encrypt(db.Port.ToString())}");
-                stream.WriteLine($"3={Security.Encrypt(db.Database)}");
-                stream.WriteLine($"4={Security.Encrypt(db.Login)}");
-                stream.WriteLine($"5={Security.Encrypt(db.Password)}");
-                stream.WriteLine(string.Empty);
-            }
+                stream.WriteLine(Security.Encrypt(db.Name)
+                    + "|" + Security.Encrypt(db.Server)
+                    + "|" + Security.Encrypt(db.Port.ToString())
+                    + "|" + Security.Encrypt(db.Database)
+                    + "|" + Security.Encrypt(db.Login)
+                    + "|" + Security.Encrypt(db.Password));
         }
     }
 }

@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress
 {
     public static class Fn
     {
-        #region App & Database
+        #region app & database & mailConfig
         /// App: name & version & name + version & copyright
         public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
         public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0".ToCharArray());
@@ -22,8 +20,8 @@ namespace StswExpress
         public static string? AppCopyright => $"{FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).LegalCopyright}";
 
         /// App: database connection & mail config
-        public static DB? AppDatabase { get; set; } = new();
-        public static MC? AppMailConfig { get; set; } = new();
+        public static DB? AppDB { get; set; } = new();
+        public static MC? AppMC { get; set; } = new();
         #endregion
 
         /*
@@ -80,38 +78,12 @@ namespace StswExpress
         */
 
         /// <summary>
-        /// Gets color of system color chosen by user
+        /// Gets system color chosen by user.
         /// </summary>
         public static Color GetWindowsThemeColor => SystemParameters.WindowGlassColor;
 
         /// <summary>
-        /// Loads image from byte[] to BitmapImage.
-        /// </summary>
-        /// <param name="imageData">Byte array data</param>
-        /// <returns>Image</returns>
-        public static BitmapImage? LoadImage(byte[] imageData)
-        {
-            if (imageData == null || imageData.Length == 0)
-                return null;
-
-            var image = new BitmapImage();
-            using (var mem = new MemoryStream(imageData))
-            {
-                mem.Position = 0;
-                image.BeginInit();
-                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = null;
-                image.StreamSource = mem;
-                image.EndInit();
-            }
-            image.Freeze();
-
-            return image;
-        }
-
-        /// <summary>
-        /// Opens context menu of framework element.
+        /// Opens context menu of a framework element.
         /// </summary>
         /// <param name="sender">Framework element</param>
         public static void OpenContextMenu(object sender)
@@ -136,87 +108,20 @@ namespace StswExpress
             process.Start();
         }
 
-        #region filters
-        /// <summary>
-        /// Gets column filters from DataGrid.
-        /// </summary>
-        /// <param name="dg">DataGrid</param>
-        /// <param name="filter">SQL filter as string</param>
-        /// <param name="parameters">SQL parameters</param>
-        public static void GetColumnFilters(DataGrid dg, out string filter, out List<(string name, object val)> parameters)
-        {
-            filter = string.Empty;
-            parameters = new List<(string name, object val)>();
-
-            foreach (var col in dg.Columns)
-            {
-                if (col.Header is ColumnFilter cf1)
-                {
-                    if (cf1.FilterSQL != null)
-                    {
-                        filter += " and " + cf1.FilterSQL;
-                        if (cf1.Value1 != null)
-                            parameters.Add((cf1.ParamSQL.Substring(0, cf1.ParamSQL.Length > 120 ? 120 : cf1.ParamSQL.Length) + "1", (cf1.Value1 is List<object> ? null : cf1.Value1) ?? DBNull.Value));
-                        if (cf1.Value2 != null)
-                            parameters.Add((cf1.ParamSQL.Substring(0, cf1.ParamSQL.Length > 120 ? 120 : cf1.ParamSQL.Length) + "2", (cf1.Value2 is List<object> ? null : cf1.Value2) ?? DBNull.Value));
-                    }
-                }
-                else if (col.Header is DependencyObject)
-                {
-                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).Where(x => x.FilterSQL != null))
-                    {
-                        filter += " and " + cf2.FilterSQL;
-                        if (cf2.Value1 != null)
-                            parameters.Add((cf2.ParamSQL.Substring(0, cf2.ParamSQL.Length > 120 ? 120 : cf2.ParamSQL.Length) + "1", (cf2.Value1 is List<object> ? null : cf2.Value1) ?? DBNull.Value));
-                        if (cf2.Value2 != null)
-                            parameters.Add((cf2.ParamSQL.Substring(0, cf2.ParamSQL.Length > 120 ? 120 : cf2.ParamSQL.Length) + "2", (cf2.Value2 is List<object> ? null : cf2.Value2) ?? DBNull.Value));
-                    }
-                }
-            }
-
-            if (filter.StartsWith(" and "))
-                filter = filter[5..];
-            if (string.IsNullOrWhiteSpace(filter))
-                filter = "1=1";
-        }
-
-        /// <summary>
-        /// Clears column filters in DataGrid.
-        /// </summary>
-        /// <param name="dg">DataGrid</param>
-        public static void ClearColumnFilters(DataGrid dg)
-        {
-            foreach (var col in dg.Columns)
-            {
-                if (col.Header is ColumnFilter cf1)
-                {
-                    cf1.Value1 = cf1.ValueDef;
-                    cf1.Value2 = cf1.ValueDef;
-                }
-                else if (col.Header is DependencyObject)
-                {
-                    foreach (var cf2 in Extensions.FindVisualChildren<ColumnFilter>((DependencyObject)col.Header).Where(x => x.FilterSQL != null))
-                    {
-                        cf2.Value1 = cf2.ValueDef;
-                        cf2.Value2 = cf2.ValueDef;
-                    }
-                }
-            }
-        }
-
+        #region ColumnFilters
         /// GetFilters
         public static void GetFilters(DependencyObject panel, out string filter, out List<(string name, object val)> parameters)
         {
             filter = string.Empty;
             parameters = new List<(string name, object val)>();
 
-            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.FilterSQL != null))
+            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
             {
-                filter += " and " + cf.FilterSQL;
+                filter += " and " + cf.SqlString;
                 if (cf.Value1 != null)
-                    parameters.Add((cf.ParamSQL.Substring(0, cf.ParamSQL.Length > 120 ? 120 : cf.ParamSQL.Length) + "1", (cf.Value1 is List<object> ? null : cf.Value1) ?? DBNull.Value));
+                    parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "1", (cf.Value1 is List<object> ? null : cf.Value1) ?? DBNull.Value));
                 if (cf.Value2 != null)
-                    parameters.Add((cf.ParamSQL.Substring(0, cf.ParamSQL.Length > 120 ? 120 : cf.ParamSQL.Length) + "2", (cf.Value2 is List<object> ? null : cf.Value2) ?? DBNull.Value));
+                    parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "2", (cf.Value2 is List<object> ? null : cf.Value2) ?? DBNull.Value));
             }
 
             if (filter.StartsWith(" and "))
@@ -228,7 +133,7 @@ namespace StswExpress
         /// ClearFilters
         public static void ClearFilters(DependencyObject panel)
         {
-            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.FilterSQL != null))
+            foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
             {
                 cf.Value1 = cf.ValueDef;
                 cf.Value2 = cf.ValueDef;

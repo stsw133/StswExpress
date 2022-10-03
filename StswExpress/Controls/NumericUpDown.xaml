@@ -8,12 +8,12 @@
              VerticalAlignment="Stretch">
     <DockPanel>
         <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1">
-            <RepeatButton Content="▲" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.5;0}"
-                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.4}"
+            <RepeatButton Content="▲" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
+                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                           Click="BtnUp_Click"/>
-            <RepeatButton Content="▼" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.5;0}"
-                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.4}"
+            <RepeatButton Content="▼" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
+                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                           Click="BtnDown_Click"/>
         </UniformGrid>

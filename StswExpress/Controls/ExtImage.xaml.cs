@@ -16,9 +16,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// ContextMenuVisibility
-        /// </summary>
         public static readonly DependencyProperty ContextMenuVisibilityProperty
             = DependencyProperty.Register(
                   nameof(ContextMenuVisibility),
@@ -32,9 +30,7 @@ namespace StswExpress
             set => SetValue(ContextMenuVisibilityProperty, value);
         }
 
-        /// <summary>
         /// IsReadOnly
-        /// </summary>
         public static readonly DependencyProperty IsReadOnlyProperty
             = DependencyProperty.Register(
                   nameof(IsReadOnly),
@@ -72,7 +68,7 @@ namespace StswExpress
                 Filter = "All files (*.*)|*.*|BMP (*.bmp)|*.bmp|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|GIF (*.gif)|*.gif|ICO (*.ico)|*.ico|PNG (*.png)|*.png"
             };
             if (dialog.ShowDialog() == true)
-                Source = Fn.LoadImage(File.ReadAllBytes(dialog.FileName));
+                Source = File.ReadAllBytes(dialog.FileName).AsImage();
         }
 
         /// Save

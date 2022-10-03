@@ -16,9 +16,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Color
-        /// </summary>
         public static readonly DependencyProperty ColorProperty
             = DependencyProperty.Register(
                   nameof(Color),
@@ -32,25 +30,21 @@ namespace StswExpress
             set => SetValue(ColorProperty, value);
         }
 
-        /// <summary>
         /// SliderWidth
-        /// </summary>
-        public static readonly DependencyProperty SliderWidthProperty
+        public static readonly DependencyProperty SlidersWidthProperty
             = DependencyProperty.Register(
-                  nameof(SliderWidth),
+                  nameof(SlidersWidth),
                   typeof(double),
                   typeof(ColorSetter),
                   new PropertyMetadata(default(double))
               );
-        public double SliderWidth
+        public double SlidersWidth
         {
-            get => (double)GetValue(SliderWidthProperty);
-            set => SetValue(SliderWidthProperty, value);
+            get => (double)GetValue(SlidersWidthProperty);
+            set => SetValue(SlidersWidthProperty, value);
         }
 
-        /// <summary>
         /// R
-        /// </summary>
         public static readonly DependencyProperty RProperty
             = DependencyProperty.Register(
                   nameof(R),
@@ -64,9 +58,7 @@ namespace StswExpress
             set => SetValue(RProperty, value);
         }
 
-        /// <summary>
         /// G
-        /// </summary>
         public static readonly DependencyProperty GProperty
             = DependencyProperty.Register(
                   nameof(G),
@@ -80,9 +72,7 @@ namespace StswExpress
             set => SetValue(GProperty, value);
         }
 
-        /// <summary>
         /// B
-        /// </summary>
         public static readonly DependencyProperty BProperty
             = DependencyProperty.Register(
                   nameof(B),
@@ -96,9 +86,7 @@ namespace StswExpress
             set => SetValue(BProperty, value);
         }
 
-        /// <summary>
         /// A
-        /// </summary>
         public static readonly DependencyProperty AProperty
             = DependencyProperty.Register(
                   nameof(A),
@@ -112,9 +100,7 @@ namespace StswExpress
             set => SetValue(AProperty, value);
         }
 
-        /// <summary>
         /// IsAlphaSliderVisible
-        /// </summary>
         public static readonly DependencyProperty IsAlphaSliderVisibleProperty
             = DependencyProperty.Register(
                   nameof(IsAlphaSliderVisible),

@@ -14,9 +14,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Icon
-        /// </summary>
         public static readonly DependencyProperty IconProperty
             = DependencyProperty.Register(
                   nameof(Icon),
@@ -30,9 +28,7 @@ namespace StswExpress
             set => SetValue(IconProperty, value);
         }
 
-        /// <summary>
         /// IconScale
-        /// </summary>
         public static readonly DependencyProperty IconScaleProperty
             = DependencyProperty.Register(
                   nameof(IconScale),
@@ -46,9 +42,7 @@ namespace StswExpress
             set => SetValue(IconScaleProperty, value);
         }
 
-        /// <summary>
         /// SubIcon
-        /// </summary>
         public static readonly DependencyProperty SubIconProperty
             = DependencyProperty.Register(
                   nameof(SubIcon),

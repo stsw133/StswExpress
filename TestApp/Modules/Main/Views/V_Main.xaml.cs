@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TestApp.Modules.Settings;
 
 namespace TestApp.Modules.Main;
 /// <summary>
@@ -10,7 +11,7 @@ namespace TestApp.Modules.Main;
 /// </summary>
 public partial class V_Main : StswWindow
 {
-    private readonly D_Main D = new D_Main();
+    private readonly D_Settings D = new D_Settings();
     private Button? BtnSettings;
 
     public V_Main()
@@ -31,7 +32,7 @@ public partial class V_Main : StswWindow
     private void CmdSettings_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Cursor = Cursors.Wait;
-        //TODO - open settings window (mainly DB config)
+        new V_Settings() { Owner = this }.ShowDialog();
         Cursor = null;
     }
 
@@ -39,7 +40,7 @@ public partial class V_Main : StswWindow
     private void UpdateFilters()
     {
         D.LoadingProgress = 0;
-        Fn.GetColumnFilters(DtgTest, out var filter, out var parameters);
+        DtgUsers.GetColumnFilters(out var filter, out var parameters);
         D.FilterSqlString = filter;
         D.FilterSqlParams = parameters;
     }
@@ -51,7 +52,8 @@ public partial class V_Main : StswWindow
         UpdateFilters();
         await Task.Run(() =>
         {
-            D.ListTest = Q_Main.GetListTest(D.FilterSqlString, D.FilterSqlParams);
+            D.LoadingProgress = 0;
+            D.ListUsers = Q_Main.GetListOfUsers(D.FilterSqlString, D.FilterSqlParams);
             D.LoadingProgress = 100;
         });
         Cursor = null;
@@ -61,10 +63,10 @@ public partial class V_Main : StswWindow
     private async void CmdClear_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Cursor = Cursors.Wait;
-        Fn.ClearColumnFilters(DtgTest);
+        DtgUsers.ClearColumnFilters();
         await Task.Run(() =>
         {
-            D.ListTest = new();
+            D.ListUsers = new();
         });
         Cursor = null;
     }
@@ -73,7 +75,8 @@ public partial class V_Main : StswWindow
     private void CmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Cursor = Cursors.Wait;
-        //TODO - saving data from DtgTest to SQL
+        if (Q_Main.SetListOfUsers(D.ListUsers))
+            MessageBox.Show("Data saved successfully.");
         Cursor = null;
     }
 }

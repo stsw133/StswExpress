@@ -4,7 +4,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:se="clr-namespace:StswExpress"
-            mc:Ignorable="d" d:DesignWidth="100" Loaded="StackPanel_Loaded">
+            mc:Ignorable="d" d:DesignWidth="100" d:Background="White" Loaded="StackPanel_Loaded">
     <StackPanel.CommandBindings>
         <CommandBinding Command="se:Commands.Refresh" Executed="CmdRefresh_Executed"/>
     </StackPanel.CommandBindings>

@@ -13,9 +13,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Size
-        /// </summary>
         public static readonly DependencyProperty SizeProperty
             = DependencyProperty.Register(
                   nameof(Size),
@@ -29,9 +27,7 @@ namespace StswExpress
             set => SetValue(SizeProperty, value);
         }
 
-        /// <summary>
         /// Text
-        /// </summary>
         public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),

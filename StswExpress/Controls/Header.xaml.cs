@@ -14,9 +14,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Icon
-        /// </summary>
         public static readonly DependencyProperty IconProperty
             = DependencyProperty.Register(
                   nameof(Icon),
@@ -30,9 +28,7 @@ namespace StswExpress
             set => SetValue(IconProperty, value);
         }
 
-        /// <summary>
         /// IconScale
-        /// </summary>
         public static readonly DependencyProperty IconScaleProperty
             = DependencyProperty.Register(
                   nameof(IconScale),
@@ -46,9 +42,7 @@ namespace StswExpress
             set => SetValue(IconScaleProperty, value);
         }
 
-        /// <summary>
         /// SubIcon
-        /// </summary>
         public static readonly DependencyProperty SubIconProperty
             = DependencyProperty.Register(
                   nameof(SubIcon),
@@ -62,9 +56,7 @@ namespace StswExpress
             set => SetValue(SubIconProperty, value);
         }
 
-        /// <summary>
         /// SubText1
-        /// </summary>
         public static readonly DependencyProperty SubText1Property
             = DependencyProperty.Register(
                   nameof(SubText1),
@@ -78,9 +70,7 @@ namespace StswExpress
             set => SetValue(SubText1Property, value);
         }
 
-        /// <summary>
         /// SubTextColor1
-        /// </summary>
         public static readonly DependencyProperty SubTextColor1Property
             = DependencyProperty.Register(
                   nameof(SubTextColor1),
@@ -94,9 +84,7 @@ namespace StswExpress
             set => SetValue(SubTextColor1Property, value);
         }
 
-        /// <summary>
         /// SubText2
-        /// </summary>
         public static readonly DependencyProperty SubText2Property
             = DependencyProperty.Register(
                   nameof(SubText2),
@@ -110,9 +98,7 @@ namespace StswExpress
             set => SetValue(SubText2Property, value);
         }
 
-        /// <summary>
         /// SubTextColor2
-        /// </summary>
         public static readonly DependencyProperty SubTextColor2Property
             = DependencyProperty.Register(
                   nameof(SubTextColor2),
@@ -126,9 +112,7 @@ namespace StswExpress
             set => SetValue(SubTextColor2Property, value);
         }
 
-        /// <summary>
         /// Text
-        /// </summary>
         public static readonly DependencyProperty TextProperty
             = DependencyProperty.Register(
                   nameof(Text),

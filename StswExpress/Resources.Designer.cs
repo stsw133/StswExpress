@@ -153,6 +153,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_bank {
+            get {
+                object obj = ResourceManager.GetObject("icon16_bank", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_block {
             get {
                 object obj = ResourceManager.GetObject("icon16_block", resourceCulture);
@@ -293,9 +303,9 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon16_companies {
+        public static byte[] icon16_company {
             get {
-                object obj = ResourceManager.GetObject("icon16_companies", resourceCulture);
+                object obj = ResourceManager.GetObject("icon16_company", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -316,6 +326,16 @@ namespace StswExpress {
         public static byte[] icon16_contacts {
             get {
                 object obj = ResourceManager.GetObject("icon16_contacts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_contractors {
+            get {
+                object obj = ResourceManager.GetObject("icon16_contractors", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -513,9 +533,29 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_flag_purple {
+            get {
+                object obj = ResourceManager.GetObject("icon16_flag_purple", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_flag_red {
             get {
                 object obj = ResourceManager.GetObject("icon16_flag_red", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_flag_white {
+            get {
+                object obj = ResourceManager.GetObject("icon16_flag_white", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -793,16 +833,6 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon16_notes {
-            get {
-                object obj = ResourceManager.GetObject("icon16_notes", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] icon16_notifications {
             get {
                 object obj = ResourceManager.GetObject("icon16_notifications", resourceCulture);
@@ -823,9 +853,9 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon16_pallet {
+        public static byte[] icon16_pallets {
             get {
-                object obj = ResourceManager.GetObject("icon16_pallet", resourceCulture);
+                object obj = ResourceManager.GetObject("icon16_pallets", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -903,6 +933,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_profile {
+            get {
+                object obj = ResourceManager.GetObject("icon16_profile", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_random {
             get {
                 object obj = ResourceManager.GetObject("icon16_random", resourceCulture);
@@ -936,6 +976,16 @@ namespace StswExpress {
         public static byte[] icon16_remove {
             get {
                 object obj = ResourceManager.GetObject("icon16_remove", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_return {
+            get {
+                object obj = ResourceManager.GetObject("icon16_return", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -986,6 +1036,16 @@ namespace StswExpress {
         public static byte[] icon16_saveas {
             get {
                 object obj = ResourceManager.GetObject("icon16_saveas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_scanner {
+            get {
+                object obj = ResourceManager.GetObject("icon16_scanner", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1056,16 +1116,6 @@ namespace StswExpress {
         public static byte[] icon16_show {
             get {
                 object obj = ResourceManager.GetObject("icon16_show", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon16_slideshow {
-            get {
-                object obj = ResourceManager.GetObject("icon16_slideshow", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1193,6 +1243,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_truck {
+            get {
+                object obj = ResourceManager.GetObject("icon16_truck", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_unlock {
             get {
                 object obj = ResourceManager.GetObject("icon16_unlock", resourceCulture);
@@ -1223,6 +1283,26 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_user {
+            get {
+                object obj = ResourceManager.GetObject("icon16_user", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_users {
+            get {
+                object obj = ResourceManager.GetObject("icon16_users", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_versions {
             get {
                 object obj = ResourceManager.GetObject("icon16_versions", resourceCulture);
@@ -1236,6 +1316,16 @@ namespace StswExpress {
         public static byte[] icon16_wait {
             get {
                 object obj = ResourceManager.GetObject("icon16_wait", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon16_warehouse {
+            get {
+                object obj = ResourceManager.GetObject("icon16_warehouse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1493,6 +1583,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_bank {
+            get {
+                object obj = ResourceManager.GetObject("icon32_bank", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_block {
             get {
                 object obj = ResourceManager.GetObject("icon32_block", resourceCulture);
@@ -1556,16 +1656,6 @@ namespace StswExpress {
         public static byte[] icon32_camfile {
             get {
                 object obj = ResourceManager.GetObject("icon32_camfile", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_cancel {
-            get {
-                object obj = ResourceManager.GetObject("icon32_cancel", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1643,9 +1733,9 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon32_companies {
+        public static byte[] icon32_company {
             get {
-                object obj = ResourceManager.GetObject("icon32_companies", resourceCulture);
+                object obj = ResourceManager.GetObject("icon32_company", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1733,16 +1823,6 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon32_delete {
-            get {
-                object obj = ResourceManager.GetObject("icon32_delete", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] icon32_descending {
             get {
                 object obj = ResourceManager.GetObject("icon32_descending", resourceCulture);
@@ -1786,6 +1866,16 @@ namespace StswExpress {
         public static byte[] icon32_edit {
             get {
                 object obj = ResourceManager.GetObject("icon32_edit", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_error {
+            get {
+                object obj = ResourceManager.GetObject("icon32_error", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1873,9 +1963,29 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_flag_purple {
+            get {
+                object obj = ResourceManager.GetObject("icon32_flag_purple", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_flag_red {
             get {
                 object obj = ResourceManager.GetObject("icon32_flag_red", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_flag_white {
+            get {
+                object obj = ResourceManager.GetObject("icon32_flag_white", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -2193,6 +2303,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_pallets {
+            get {
+                object obj = ResourceManager.GetObject("icon32_pallets", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_paste {
             get {
                 object obj = ResourceManager.GetObject("icon32_paste", resourceCulture);
@@ -2453,79 +2573,9 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] icon32_shield_blue {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_blue", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_shield_green {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_green", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_shield_orange {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_orange", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_shield_red {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_red", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_shield_white {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_white", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_shield_yellow {
-            get {
-                object obj = ResourceManager.GetObject("icon32_shield_yellow", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] icon32_show {
             get {
                 object obj = ResourceManager.GetObject("icon32_show", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_slideshow {
-            get {
-                object obj = ResourceManager.GetObject("icon32_slideshow", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -2556,16 +2606,6 @@ namespace StswExpress {
         public static byte[] icon32_stats {
             get {
                 object obj = ResourceManager.GetObject("icon32_stats", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] icon32_stores {
-            get {
-                object obj = ResourceManager.GetObject("icon32_stores", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -2663,6 +2703,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_truck {
+            get {
+                object obj = ResourceManager.GetObject("icon32_truck", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_unlock {
             get {
                 object obj = ResourceManager.GetObject("icon32_unlock", resourceCulture);
@@ -2726,6 +2776,16 @@ namespace StswExpress {
         public static byte[] icon32_wait {
             get {
                 object obj = ResourceManager.GetObject("icon32_wait", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_warehouse {
+            get {
+                object obj = ResourceManager.GetObject("icon32_warehouse", resourceCulture);
                 return ((byte[])(obj));
             }
         }

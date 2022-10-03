@@ -22,9 +22,7 @@ namespace StswExpress
             prop = prop.DeclaringType.GetProperty(nameof(SelectionBoxItem));
         }
 
-        /// <summary>
         /// SelectedItems
-        /// </summary>
         public static readonly DependencyProperty SelectedItemsProperty
             = DependencyProperty.Register(
                   nameof(SelectedItemsProperty),
@@ -60,9 +58,7 @@ namespace StswExpress
             }
         }
 
-        /// <summary>
         /// Source
-        /// </summary>
         public static readonly DependencyProperty SourceProperty
             = DependencyProperty.Register(
                   nameof(SourceProperty),

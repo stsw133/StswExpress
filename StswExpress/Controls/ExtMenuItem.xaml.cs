@@ -14,9 +14,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Image
-        /// </summary>
         public static readonly DependencyProperty ImageProperty
             = DependencyProperty.Register(
                   nameof(Image),

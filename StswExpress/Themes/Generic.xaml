@@ -20,9 +20,9 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=1.25}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.25}"/>
-        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=3.75}"/>
+        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.25}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
+        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=3.75}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#7777"/>
@@ -51,7 +51,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}}"/>
+        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding WinMode, Source={x:Static se:Settings.Default}}" Value="1">
                 <Setter Property="WindowStyle" Value="None"/>
@@ -75,20 +75,20 @@
                                             </Grid.ColumnDefinitions>
                                             <Label x:Name="moveRectangle" VerticalContentAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="2">
                                                 <DockPanel>
-                                                    <Grid Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0;0;0.25;0}" VerticalAlignment="Center" Visibility="{TemplateBinding Icon, Converter={se:conv_NotNull}}">
-                                                        <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=1.75}" Source="{TemplateBinding Icon}"/>
-                                                        <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=1}" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0;0;-0.1;-0.1}" Source="{TemplateBinding SubIcon}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                                    <Grid Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0 0 0.25 0}" VerticalAlignment="Center" Visibility="{TemplateBinding Icon, Converter={se:conv_NotNull}}">
+                                                        <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.75}" Source="{TemplateBinding Icon}"/>
+                                                        <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1}" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0 0 -0.1 -0.1}" Source="{TemplateBinding SubIcon}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal">
                                                         <se:ExtSeparator Orientation="Vertical"/>
                                                     </StackPanel>
                                                     <StackPanel VerticalAlignment="Center">
                                                         <TextBlock Text="{TemplateBinding Title}"
-                                                           Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.2;0}"/>
+                                                           Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2 0}"/>
                                                         <TextBlock Text="{TemplateBinding SubTitle}" Visibility="{TemplateBinding SubTitle, Converter={se:conv_NotNull}}"
-                                                           Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.2;-0.1}"
+                                                           Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2 -0.1}"
                                                            Foreground="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Gray~#7777}"
-                                                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.8}"/>
+                                                           FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
                                                     </StackPanel>
                                                 </DockPanel>
                                                 <Label.Style>
@@ -105,7 +105,7 @@
                                                 <Button x:Name="darkmodeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter='0~Przełącz do trybu ciemnego~Przełącz do trybu jasnego'}"
                                                 Visibility="{TemplateBinding AllowToDarkMode, Converter={se:conv_Bool}}">
-                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.15}"
+                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
                                                                   Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~Transparent}"
                                                                   Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~🌙~🔆}"/>
@@ -113,7 +113,7 @@
                                                 <Button x:Name="minimizeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="Minimalizuj"
                                                 Visibility="{TemplateBinding AllowToMinimize, Converter={se:conv_Bool}}">
-                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.15}"
+                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
                                                                   Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~Transparent}"
                                                                   Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="🗕"/>
@@ -121,14 +121,14 @@
                                                 <Button x:Name="restoreButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
                                                 Visibility="{TemplateBinding AllowToResize, Converter={se:conv_Bool}}">
-                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.15}"
+                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
                                                                   Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~Transparent}"
                                                                   Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}"/>
                                                 </Button>
                                                 <Button x:Name="closeButton" Style="{StaticResource WindowButtonStyle}"
                                                 ToolTip="Zamknij">
-                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.15}"
+                                                    <se:OutlinedTextBlock FontFamily="Arial" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
                                                                   Stroke="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~Transparent}"
                                                                   Fill="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"
                                                                   Text="🗙"/>

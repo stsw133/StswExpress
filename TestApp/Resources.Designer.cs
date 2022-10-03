@@ -59,5 +59,15 @@ namespace TestApp {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] manual_en {
+            get {
+                object obj = ResourceManager.GetObject("manual_en", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

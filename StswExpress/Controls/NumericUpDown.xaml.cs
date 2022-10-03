@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StswExpress
 {
@@ -25,9 +14,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// BoxAlignment
-        /// </summary>
         public static readonly DependencyProperty BoxAlignmentProperty
             = DependencyProperty.Register(
                   nameof(BoxAlignment),
@@ -41,9 +28,7 @@ namespace StswExpress
             set => SetValue(BoxAlignmentProperty, value);
         }
 
-        /// <summary>
         /// ButtonsAlignment
-        /// </summary>
         public static readonly DependencyProperty ButtonsAlignmentProperty
             = DependencyProperty.Register(
                   nameof(ButtonsAlignment),
@@ -57,9 +42,7 @@ namespace StswExpress
             set => SetValue(ButtonsAlignmentProperty, value);
         }
 
-        /// <summary>
         /// Increment
-        /// </summary>
         public static readonly DependencyProperty IncrementProperty
             = DependencyProperty.Register(
                   nameof(Increment),
@@ -73,9 +56,7 @@ namespace StswExpress
             set => SetValue(IncrementProperty, value);
         }
 
-        /// <summary>
         /// Max
-        /// </summary>
         public static readonly DependencyProperty MaxProperty
             = DependencyProperty.Register(
                   nameof(Max),
@@ -89,9 +70,7 @@ namespace StswExpress
             set => SetValue(MaxProperty, value);
         }
 
-        /// <summary>
         /// Min
-        /// </summary>
         public static readonly DependencyProperty MinProperty
             = DependencyProperty.Register(
                   nameof(Min),
@@ -105,9 +84,7 @@ namespace StswExpress
             set => SetValue(MinProperty, value);
         }
 
-        /// <summary>
         /// Value
-        /// </summary>
         public static readonly DependencyProperty ValueProperty
             = DependencyProperty.Register(
                   nameof(Value),

@@ -13,9 +13,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// CornerRadius
-        /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty
             = DependencyProperty.Register(
                   nameof(CornerRadius),
@@ -29,17 +27,15 @@ namespace StswExpress
             set => SetValue(CornerRadiusProperty, value);
         }
 
-        /// <summary>
         /// ForMultiBox
-        /// </summary>
-        public static readonly DependencyProperty ForMultiBoxProperty
+        internal static readonly DependencyProperty ForMultiBoxProperty
             = DependencyProperty.Register(
                   nameof(ForMultiBox),
                   typeof(bool),
                   typeof(ExtToggleButton),
                   new PropertyMetadata(default(bool))
               );
-        public bool ForMultiBox
+        internal bool ForMultiBox
         {
             get => (bool)GetValue(ForMultiBoxProperty);
             set => SetValue(ForMultiBoxProperty, value);

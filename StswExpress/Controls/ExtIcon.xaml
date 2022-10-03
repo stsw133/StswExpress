@@ -16,8 +16,8 @@
         <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <!-- sub icon -->
         <Image Source="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-               Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Scale}, ConverterParameter=0.5}"
-               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Scale}, ConverterParameter=0.5}"
+               Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
+               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
                HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

@@ -21,9 +21,7 @@ namespace StswExpress
         public StswWindow() : base() => PreviewMouseMove += OnPreviewMouseMove;
         static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
 
-        /// <summary>
         /// AllowToDarkMode
-        /// </summary>
         public static readonly DependencyProperty AllowToDarkModeProperty
             = DependencyProperty.Register(
                   nameof(AllowToDarkMode),
@@ -37,9 +35,7 @@ namespace StswExpress
             set => SetValue(AllowToDarkModeProperty, value);
         }
 
-        /// <summary>
         /// AllowToMinimize
-        /// </summary>
         public static readonly DependencyProperty AllowToMinimizeProperty
             = DependencyProperty.Register(
                   nameof(AllowToMinimize),
@@ -53,9 +49,7 @@ namespace StswExpress
             set => SetValue(AllowToMinimizeProperty, value);
         }
 
-        /// <summary>
         /// AllowToResize
-        /// </summary>
         public static readonly DependencyProperty AllowToResizeProperty
             = DependencyProperty.Register(
                   nameof(AllowToResize),
@@ -69,9 +63,7 @@ namespace StswExpress
             set => SetValue(AllowToResizeProperty, value);
         }
 
-        /// <summary>
         /// SubIcon
-        /// </summary>
         public static readonly DependencyProperty SubIconProperty
             = DependencyProperty.Register(
                   nameof(SubIcon),
@@ -85,9 +77,7 @@ namespace StswExpress
             set => SetValue(SubIconProperty, value);
         }
 
-        /// <summary>
         /// SubTitle
-        /// </summary>
         public static readonly DependencyProperty SubTitleProperty
             = DependencyProperty.Register(
                   nameof(SubTitle),
@@ -101,9 +91,7 @@ namespace StswExpress
             set => SetValue(SubTitleProperty, value);
         }
 
-        /// <summary>
         /// TitleBarBackground
-        /// </summary>
         public static readonly DependencyProperty TitleBarBackgroundProperty
             = DependencyProperty.Register(
                   nameof(TitleBarBackground),
@@ -178,7 +166,6 @@ namespace StswExpress
                 var monitorInfo = new MONITORINFO();
                 GetMonitorInfo(monitor, monitorInfo);
                 var rcWorkArea = monitorInfo.rcWork;
-                var rcMonitorArea = monitorInfo.rcMonitor;
                 Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
                 Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
             }
@@ -221,7 +208,6 @@ namespace StswExpress
                         var monitorInfo = new MONITORINFO();
                         GetMonitorInfo(monitor, monitorInfo);
                         var rcWorkArea = monitorInfo.rcWork;
-                        var rcMonitorArea = monitorInfo.rcMonitor;
 
                         var curPos = e.GetPosition((IInputElement)sender);
                         Left = curPos.X - Width / 2 + rcWorkArea.left;
@@ -247,7 +233,8 @@ namespace StswExpress
                 if (e.ClickCount == 2 && leftClickCounter > 1)
                 {
                     resizeError = true;
-                    RestoreClick(null, null);
+                    if (AllowToResize)
+                        RestoreClick(null, null);
                 }
                 else if (WindowState != WindowState.Maximized)
                     DragMove();

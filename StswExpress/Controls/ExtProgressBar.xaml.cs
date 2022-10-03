@@ -13,9 +13,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// TextVisibility
-        /// </summary>
         public static readonly DependencyProperty TextVisibilityProperty
             = DependencyProperty.Register(
                   nameof(TextVisibility),

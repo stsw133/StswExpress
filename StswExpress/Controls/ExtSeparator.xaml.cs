@@ -13,9 +13,7 @@ namespace StswExpress
             InitializeComponent();
         }
 
-        /// <summary>
         /// Orientation
-        /// </summary>
         public static readonly DependencyProperty OrientationProperty
             = DependencyProperty.Register(
                   nameof(Orientation),

@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using TestApp.Models;
 
 namespace TestApp;
 /// <summary>
@@ -21,8 +20,8 @@ public partial class App : Application
         var bindingHelp = new CommandBinding(Commands.Help, CmdHelp_Executed, CmdHelp_CanExecute);
         CommandManager.RegisterClassCommandBinding(typeof(Window), bindingHelp);
 
-        Fn.AppDatabase = SqlConnections.DBs.FirstOrDefault();
+        Fn.AppDB = Global.DBs.FirstOrDefault();
     }
-    private void CmdHelp_Executed(object sender, ExecutedRoutedEventArgs e) => Fn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_pl.pdf");
+    private void CmdHelp_Executed(object sender, ExecutedRoutedEventArgs e) => Fn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_en.pdf");
     private void CmdHelp_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
 }

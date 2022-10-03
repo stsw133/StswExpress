@@ -1,9 +1,8 @@
 ﻿using StswExpress;
 using System.Collections.Generic;
-using TestApp.Models;
 
 namespace TestApp.Modules.Main;
-public class D_Main : VM
+public class D_Settings : BaseD
 {
     /// Filter SQL
     public string FilterSqlString { get; set; } = string.Empty;
@@ -17,11 +16,11 @@ public class D_Main : VM
         set => SetField(ref loadingProgress, value, () => LoadingProgress);
     }
 
-    /// ListTest
-    private List<M_Test> listTest = new();
-    public List<M_Test> ListTest
+    /// ListUsers
+    private ExtCollection<M_User> listUsers = new();
+    public ExtCollection<M_User> ListUsers
     {
-        get => listTest;
-        set => SetField(ref listTest, value, () => ListTest);
+        get => listUsers;
+        set => SetField(ref listUsers, value, () => ListUsers);
     }
 }

@@ -101,43 +101,43 @@
 
                         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
                             <Grid>
-                                <Canvas Height="{Binding Size, Converter={se:conv_Scale}}" Width="{Binding Size, Converter={se:conv_Scale}}">
+                                <Canvas Height="{Binding Size, Converter={se:conv_Multiply}}" Width="{Binding Size, Converter={se:conv_Multiply}}">
                                     <Canvas.Resources>
                                         <Style TargetType="Ellipse">
-                                            <Setter Property="Width" Value="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.25}"/>
-                                            <Setter Property="Height" Value="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.25}"/>
+                                            <Setter Property="Width" Value="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
+                                            <Setter Property="Height" Value="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
                                             <Setter Property="Fill" Value="#009B9B9B"/>
                                         </Style>
                                     </Canvas.Resources>
 
                                     <Ellipse x:Name="ellipse0"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.0292}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.35}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.0292}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.35}"/>
                                     <Ellipse x:Name="ellipse1"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1083}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1167}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1083}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1167}"/>
                                     <Ellipse x:Name="ellipse2"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.3417}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.0125}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.3417}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.0125}"/>
                                     <Ellipse x:Name="ellipse3"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.5792}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1125}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.5792}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1125}"/>
                                     <Ellipse x:Name="ellipse4"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.675}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.3458}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.675}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.3458}"/>
                                     <Ellipse x:Name="ellipse5"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.5792}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.575}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.5792}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.575}"/>
                                     <Ellipse x:Name="ellipse6"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.3458}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.6625}"/>
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.3458}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.6625}"/>
                                     <Ellipse x:Name="ellipse7"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1167}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.5708}"/>
-                                    <Ellipse Width="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.6583}"
-                                             Height="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.6583}"
-                                             Canvas.Left="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1458}"
-                                             Canvas.Top="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=0.1333}"
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1167}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.5708}"/>
+                                    <Ellipse Width="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.6583}"
+                                             Height="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.6583}"
+                                             Canvas.Left="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1458}"
+                                             Canvas.Top="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=0.1333}"
                                              Visibility="Hidden"/>
                                 </Canvas>
                                 <Label Content="{Binding Text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -148,5 +148,5 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Control Style="{StaticResource BusyAnimationStyle}" Margin="{Binding Size, Converter={se:conv_Scale}, ConverterParameter=-0.95;-0.95;0;0}"/>
+    <Control Style="{StaticResource BusyAnimationStyle}" Margin="{Binding Size, Converter={se:conv_Multiply}, ConverterParameter=-0.95 -0.95 0 0}"/>
 </UserControl>

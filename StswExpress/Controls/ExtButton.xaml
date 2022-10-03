@@ -4,14 +4,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:se="clr-namespace:StswExpress"
-        mc:Ignorable="d" d:DesignWidth="100"
+        mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100"
         BorderBrush="#7777">
     <Button.Resources>
         <Style TargetType="Border">
             <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
-                    <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Scale}, ConverterParameter=0.5}"/>
+                    <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
