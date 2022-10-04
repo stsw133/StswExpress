@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace StswExpress;
+
 public abstract class BaseD : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;

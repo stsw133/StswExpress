@@ -2,40 +2,39 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress
+namespace StswExpress;
+
+/// <summary>
+/// Interaction logic for ExtMenuItem.xaml
+/// </summary>
+public partial class ExtMenuItem : MenuItem
 {
-    /// <summary>
-    /// Interaction logic for ExtMenuItem.xaml
-    /// </summary>
-    public partial class ExtMenuItem : MenuItem
+    public ExtMenuItem()
     {
-        public ExtMenuItem()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        /// Image
-        public static readonly DependencyProperty ImageProperty
-            = DependencyProperty.Register(
-                  nameof(Image),
-                  typeof(ImageSource),
-                  typeof(ExtMenuItem),
-                  new PropertyMetadata(default(ImageSource))
-              );
-        public ImageSource Image
-        {
-            get => (ImageSource)GetValue(ImageProperty);
-            set => SetValue(ImageProperty, value);
-        }
+    /// Image
+    public static readonly DependencyProperty ImageProperty
+        = DependencyProperty.Register(
+              nameof(Image),
+              typeof(ImageSource),
+              typeof(ExtMenuItem),
+              new PropertyMetadata(default(ImageSource))
+          );
+    public ImageSource Image
+    {
+        get => (ImageSource)GetValue(ImageProperty);
+        set => SetValue(ImageProperty, value);
+    }
 
-        /// Loaded
-        private void MenuItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (Image != null)
-                Icon = new Image
-                {
-                    Source = Image
-                };
-        }
+    /// Loaded
+    private void MenuItem_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (Image != null)
+            Icon = new Image
+            {
+                Source = Image
+            };
     }
 }

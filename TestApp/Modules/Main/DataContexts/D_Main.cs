@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace TestApp.Modules.Main;
+
 public class D_Settings : BaseD
 {
     /// Filter SQL

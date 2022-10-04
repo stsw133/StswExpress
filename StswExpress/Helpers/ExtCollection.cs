@@ -5,22 +5,14 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace StswExpress;
+
 public delegate void ListedItemPropertyChangedEventHandler(IList sourceList, object Item, PropertyChangedEventArgs e);
 public class ExtCollection<T> : ObservableCollection<T>
 {
     #region Constructors
-    public ExtCollection() : base()
-    {
-        CollectionChanged += ObservableCollection_CollectionChanged;
-    }
-    public ExtCollection(IEnumerable<T> c) : base(c)
-    {
-        CollectionChanged += ObservableCollection_CollectionChanged;
-    }
-    public ExtCollection(List<T> l) : base(l)
-    {
-        CollectionChanged += ObservableCollection_CollectionChanged;
-    }
+    public ExtCollection() : base() => CollectionChanged += ObservableCollection_CollectionChanged;
+    public ExtCollection(IEnumerable<T> c) : base(c) => CollectionChanged += ObservableCollection_CollectionChanged;
+    public ExtCollection(List<T> l) : base(l) => CollectionChanged += ObservableCollection_CollectionChanged;
     #endregion
 
     public new void Clear()

@@ -1,6 +1,7 @@
 ﻿using StswExpress;
 
 namespace TestApp.Modules.Settings;
+
 /// <summary>
 /// Interaction logic for V_Settings.xaml
 /// </summary>

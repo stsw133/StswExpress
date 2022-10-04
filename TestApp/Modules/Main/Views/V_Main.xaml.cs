@@ -6,6 +6,7 @@ using System.Windows.Input;
 using TestApp.Modules.Settings;
 
 namespace TestApp.Modules.Main;
+
 /// <summary>
 /// Interaction logic for Main.xaml
 /// </summary>

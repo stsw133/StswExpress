@@ -2,6 +2,7 @@
 using System;
 
 namespace TestApp.Modules.Main;
+
 public enum E_UserType
 {
     Standard = 0,

@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace StswExpress
+namespace StswExpress;
+
+/// <summary>
+/// Interaction logic for ExtCheckBox.xaml
+/// </summary>
+public partial class ExtCheckBox : CheckBox
 {
-    /// <summary>
-    /// Interaction logic for ExtCheckBox.xaml
-    /// </summary>
-    public partial class ExtCheckBox : CheckBox
+    public ExtCheckBox()
     {
-        public ExtCheckBox()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

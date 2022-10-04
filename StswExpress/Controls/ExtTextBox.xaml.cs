@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace StswExpress
+namespace StswExpress;
+
+/// <summary>
+/// Interaction logic for ExtTextBox.xaml
+/// </summary>
+public partial class ExtTextBox : TextBox
 {
-    /// <summary>
-    /// Interaction logic for ExtTextBox.xaml
-    /// </summary>
-    public partial class ExtTextBox : TextBox
+    public ExtTextBox()
     {
-        public ExtTextBox()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace TestApp;
+
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>

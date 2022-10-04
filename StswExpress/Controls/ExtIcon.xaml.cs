@@ -2,58 +2,57 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace StswExpress
+namespace StswExpress;
+
+/// <summary>
+/// Interaction logic for ExtIcon.xaml
+/// </summary>
+public partial class ExtIcon : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ExtIcon.xaml
-    /// </summary>
-    public partial class ExtIcon : UserControl
+    public ExtIcon()
     {
-        public ExtIcon()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        /// Icon
-        public static readonly DependencyProperty IconProperty
-            = DependencyProperty.Register(
-                  nameof(Icon),
-                  typeof(ImageSource),
-                  typeof(ExtIcon),
-                  new PropertyMetadata(default(ImageSource))
-              );
-        public ImageSource Icon
-        {
-            get => (ImageSource)GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
-        }
+    /// Icon
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+              nameof(Icon),
+              typeof(ImageSource),
+              typeof(ExtIcon),
+              new PropertyMetadata(default(ImageSource))
+          );
+    public ImageSource Icon
+    {
+        get => (ImageSource)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
 
-        /// IconScale
-        public static readonly DependencyProperty IconScaleProperty
-            = DependencyProperty.Register(
-                  nameof(IconScale),
-                  typeof(double),
-                  typeof(ExtIcon),
-                  new PropertyMetadata(1.5)
-              );
-        public double IconScale
-        {
-            get => (double)GetValue(IconScaleProperty);
-            set => SetValue(IconScaleProperty, value);
-        }
+    /// IconScale
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+              nameof(IconScale),
+              typeof(double),
+              typeof(ExtIcon),
+              new PropertyMetadata(1.5)
+          );
+    public double IconScale
+    {
+        get => (double)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
 
-        /// SubIcon
-        public static readonly DependencyProperty SubIconProperty
-            = DependencyProperty.Register(
-                  nameof(SubIcon),
-                  typeof(ImageSource),
-                  typeof(ExtIcon),
-                  new PropertyMetadata(default(ImageSource))
-              );
-        public ImageSource SubIcon
-        {
-            get => (ImageSource)GetValue(SubIconProperty);
-            set => SetValue(SubIconProperty, value);
-        }
+    /// SubIcon
+    public static readonly DependencyProperty SubIconProperty
+        = DependencyProperty.Register(
+              nameof(SubIcon),
+              typeof(ImageSource),
+              typeof(ExtIcon),
+              new PropertyMetadata(default(ImageSource))
+          );
+    public ImageSource SubIcon
+    {
+        get => (ImageSource)GetValue(SubIconProperty);
+        set => SetValue(SubIconProperty, value);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using StswExpress;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
 namespace TestApp.Modules.Main;
+
 internal static class Q_Main
 {
     /// GetListOfUsers

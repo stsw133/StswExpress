@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace StswExpress
+namespace StswExpress;
+
+/// <summary>
+/// Interaction logic for ExtComboBox.xaml
+/// </summary>
+public partial class ExtComboBox : ComboBox
 {
-    /// <summary>
-    /// Interaction logic for ExtComboBox.xaml
-    /// </summary>
-    public partial class ExtComboBox : ComboBox
+    public ExtComboBox()
     {
-        public ExtComboBox()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
