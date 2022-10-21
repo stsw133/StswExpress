@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -96,6 +97,25 @@ public static class Extensions
 
     /// Converts IEnumerable to ExtCollection
     public static ExtCollection<T> ToExtCollection<T>(this IEnumerable<T> value) => new ExtCollection<T>(value);
+
+    /// Converts IDictionary to ExtDictionary
+    public static ExtDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new ExtDictionary<T1, T2>(value);
+
+    /// Converts string to Nullable
+    public static T? ToNullable<T>(this string s) where T : struct
+    {
+        T? result = new();
+        //try
+        //{
+            if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
+            {
+                var conv = TypeDescriptor.GetConverter(typeof(T));
+                result = (T?)conv.ConvertFrom(s);
+            }
+        //}
+        //catch { }
+        return result;
+    }
 
     /// Tries to do action a few times in case a single time could not work
     public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)

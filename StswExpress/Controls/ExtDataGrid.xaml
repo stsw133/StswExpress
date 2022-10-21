@@ -6,7 +6,7 @@
           xmlns:se="clr-namespace:StswExpress"
           mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500"
           AutoGenerateColumns="False" HeadersVisibility="Column"
-		  HorizontalGridLinesBrush="#3777" VerticalGridLinesBrush="#3777">
+		  HorizontalGridLinesBrush="#5777" VerticalGridLinesBrush="#5777">
     <DataGrid.Style>
         <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}"/>
     </DataGrid.Style>

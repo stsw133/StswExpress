@@ -10,12 +10,15 @@ public class D_Settings : BaseD
     public List<(string name, object val)> FilterSqlParams { get; set; } = new();
 
     /// LoadingProgress
-    private double loadingProgress = 100;
+    private double loadingProgress = 0;
     public double LoadingProgress
     {
         get => loadingProgress;
         set => SetField(ref loadingProgress, value, () => LoadingProgress);
     }
+
+    /// ComboLists
+    public List<string?> ListTypes => Q_Main.ListOfTypes();
 
     /// ListUsers
     private ExtCollection<M_User> listUsers = new();

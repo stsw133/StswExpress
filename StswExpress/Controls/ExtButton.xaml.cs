@@ -27,17 +27,17 @@ public partial class ExtButton : Button
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// Property1
-    public static readonly DependencyProperty Property1Property
+    /// ID
+    public static readonly DependencyProperty IDProperty
         = DependencyProperty.Register(
-              nameof(Property1),
+              nameof(ID),
               typeof(int),
               typeof(ExtButton),
               new PropertyMetadata(default(int))
           );
-    public int Property1
+    public int ID
     {
-        get => (int)GetValue(Property1Property);
-        set => SetValue(Property1Property, value);
+        get => (int)GetValue(IDProperty);
+        set => SetValue(IDProperty, value);
     }
 }

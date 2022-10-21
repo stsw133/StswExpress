@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data;
 
 namespace StswExpress;
 
@@ -15,6 +16,7 @@ public class ExtCollection<T> : ObservableCollection<T>
     public ExtCollection(List<T> l) : base(l) => CollectionChanged += ObservableCollection_CollectionChanged;
     #endregion
 
+    /// Clear
     public new void Clear()
     {
         foreach (var item in this)
@@ -22,6 +24,8 @@ public class ExtCollection<T> : ObservableCollection<T>
                 i.PropertyChanged -= Element_PropertyChanged;
         base.Clear();
     }
+
+    /// ObservableCollection_CollectionChanged
     private void ObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.OldItems != null)
@@ -30,8 +34,12 @@ public class ExtCollection<T> : ObservableCollection<T>
                 if (item != null && item is INotifyPropertyChanged i)
                     i.PropertyChanged -= Element_PropertyChanged;
 
-                if (e.Action == NotifyCollectionChangedAction.Remove && (item as BaseM).ItemState != System.Data.DataRowState.Added)
-                    (item as BaseM).ItemState = System.Data.DataRowState.Deleted;
+                var pi = item?.GetType().GetProperty(nameof(BaseM.ItemState));
+                if (pi != null)
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Remove && (DataRowState)pi.GetValue(item) != DataRowState.Added)
+                        pi.SetValue(item, DataRowState.Deleted);
+                }
             }
 
         if (e.NewItems != null)
@@ -43,10 +51,14 @@ public class ExtCollection<T> : ObservableCollection<T>
                     i.PropertyChanged += Element_PropertyChanged;
                 }
 
-                if (e.Action == NotifyCollectionChangedAction.Add)
-                    (item as BaseM).ItemState = System.Data.DataRowState.Added;
-                else if (e.Action == NotifyCollectionChangedAction.Replace && (item as BaseM).ItemState != System.Data.DataRowState.Added)
-                    (item as BaseM).ItemState = System.Data.DataRowState.Modified;
+                var pi = item?.GetType().GetProperty(nameof(BaseM.ItemState));
+                if (pi != null)
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                        pi.SetValue(item, DataRowState.Added);
+                    else if (e.Action == NotifyCollectionChangedAction.Replace && (DataRowState)pi.GetValue(item) != DataRowState.Added)
+                        pi.SetValue(item, DataRowState.Modified);
+                }
             }
     }
 

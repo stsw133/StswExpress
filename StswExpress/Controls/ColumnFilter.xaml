@@ -4,11 +4,27 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:se="clr-namespace:StswExpress"
-            mc:Ignorable="d" d:DesignWidth="100" d:Background="White" Loaded="StackPanel_Loaded">
+            mc:Ignorable="d" d:DesignWidth="100" d:Background="White"
+            Loaded="StackPanel_Loaded">
     <StackPanel.CommandBindings>
         <CommandBinding Command="se:Commands.Refresh" Executed="CmdRefresh_Executed"/>
     </StackPanel.CommandBindings>
-    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Right" Text=" ✪"
+                   ToolTip="{Binding StatsTooltip, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+                   Visibility="{Binding StatsVisibility, RelativeSource={RelativeSource AncestorType=StackPanel}}">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StatsForeground, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}" Value="True">
+                            <Setter Property="Foreground" Value="{Binding StatsForeground, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Text="{Binding Header, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+    </DockPanel>
     <DockPanel Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=StackPanel}}">
         <Image x:Name="ImgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
                Margin="0 0 2 0" PreviewMouseDown="ImgMode_PreviewMouseDown">

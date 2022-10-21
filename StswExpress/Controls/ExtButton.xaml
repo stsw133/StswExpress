@@ -6,6 +6,9 @@
         xmlns:se="clr-namespace:StswExpress"
         mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100"
         BorderBrush="#7777">
+    <Button.Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}"/>
+    </Button.Style>
     <Button.Resources>
         <Style TargetType="Border">
             <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
@@ -16,7 +19,4 @@
             </Style.Triggers>
         </Style>
     </Button.Resources>
-    <Button.Style>
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"/>
-    </Button.Style>
 </Button>

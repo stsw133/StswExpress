@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress;
@@ -85,6 +86,20 @@ public partial class ColumnFilter : StackPanel
             if (UniGriFilters.Children.Count >= 1)
                 UniGriFilters.Children[0].Visibility = !value.In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
         }
+    }
+
+    /// FilterMinWidth
+    public static readonly DependencyProperty FilterMinWidthProperty
+        = DependencyProperty.Register(
+              nameof(FilterMinWidth),
+              typeof(double),
+              typeof(ColumnFilter),
+              new PropertyMetadata(50d)
+          );
+    public double FilterMinWidth
+    {
+        get => (double)GetValue(FilterMinWidthProperty);
+        set => SetValue(FilterMinWidthProperty, value);
     }
 
     /// FilterSqlColumn
@@ -213,6 +228,48 @@ public partial class ColumnFilter : StackPanel
         set => SetValue(SelectedValuePathProperty, value);
     }
 
+    /// StatsForeground
+    public static readonly DependencyProperty StatsForegroundProperty
+        = DependencyProperty.Register(
+              nameof(StatsForeground),
+              typeof(SolidColorBrush),
+              typeof(ColumnFilter),
+              new PropertyMetadata(default(SolidColorBrush))
+          );
+    public SolidColorBrush StatsForeground
+    {
+        get => (SolidColorBrush)GetValue(StatsForegroundProperty);
+        set => SetValue(StatsForegroundProperty, value);
+    }
+
+    /// StatsTooltip
+    public static readonly DependencyProperty StatsTooltipProperty
+        = DependencyProperty.Register(
+              nameof(StatsTooltip),
+              typeof(FrameworkElement),
+              typeof(ColumnFilter),
+              new PropertyMetadata(default(FrameworkElement))
+          );
+    public FrameworkElement StatsTooltip
+    {
+        get => (FrameworkElement)GetValue(StatsTooltipProperty);
+        set => SetValue(StatsTooltipProperty, value);
+    }
+
+    /// StatsVisibility
+    public static readonly DependencyProperty StatsVisibilityProperty
+        = DependencyProperty.Register(
+              nameof(StatsVisibility),
+              typeof(Visibility),
+              typeof(ColumnFilter),
+              new PropertyMetadata(Visibility.Collapsed)
+          );
+    public Visibility StatsVisibility
+    {
+        get => (Visibility)GetValue(StatsVisibilityProperty);
+        set => SetValue(StatsVisibilityProperty, value);
+    }
+
     /// Value1
     public static readonly DependencyProperty Value1Property
         = DependencyProperty.Register(
@@ -226,7 +283,7 @@ public partial class ColumnFilter : StackPanel
         get => GetValue(Value1Property);
         set
         {
-            SetValue(Value1Property, value);
+            SetValue(Value1Property, FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value);
             if (FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) && UniGriFilters.Children.Count > 0)
                 ((MultiBox)UniGriFilters.Children[0]).SelectedItems = (List<object>)value;
         }
@@ -243,7 +300,7 @@ public partial class ColumnFilter : StackPanel
     public object Value2
     {
         get => GetValue(Value2Property);
-        set => SetValue(Value2Property, value);
+        set => SetValue(Value2Property, FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value);
     }
 
     /// ValueDef
@@ -259,9 +316,9 @@ public partial class ColumnFilter : StackPanel
         get => GetValue(ValueDefProperty);
         set
         {
-            SetValue(ValueDefProperty, value);
-            if (Value1 == null) Value1 = value;
-            if (Value2 == null) Value2 = value;
+            SetValue(ValueDefProperty, FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value);
+            if (Value1 == null) Value1 = FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
+            if (Value2 == null) Value2 = FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
         }
     }
 
@@ -331,17 +388,25 @@ public partial class ColumnFilter : StackPanel
         var items = ImgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
         var binding1 = new Binding()
         {
-            Path = new PropertyPath("Value1"),
+            Path = new PropertyPath(nameof(Value1)),
             RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
-            TargetNullValue = "",
+            TargetNullValue = string.Empty,
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
         var binding2 = new Binding()
         {
-            Path = new PropertyPath("Value2"),
+            Path = new PropertyPath(nameof(Value2)),
             RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
-            TargetNullValue = "",
+            TargetNullValue = string.Empty,
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        var bindingMinWidth = new Binding()
+        {
+            Path = new PropertyPath(nameof(FilterMinWidth)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StackPanel), 1),
+            TargetNullValue = 0d,
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
@@ -395,6 +460,7 @@ public partial class ColumnFilter : StackPanel
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
+            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
         }
         /// Number
@@ -403,11 +469,13 @@ public partial class ColumnFilter : StackPanel
             var cont1 = new NumericUpDown();
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(NumericUpDown.ValueProperty, binding1);
+            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
 
             var cont2 = new NumericUpDown();
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(NumericUpDown.ValueProperty, binding2);
+            cont2.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont2);
         }
         /// Text
@@ -416,6 +484,7 @@ public partial class ColumnFilter : StackPanel
             var cont1 = new ExtTextBox();
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(ExtTextBox.TextProperty, binding1);
+            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
         }
 

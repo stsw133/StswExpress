@@ -2433,6 +2433,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon32_refresh1 {
+            get {
+                object obj = ResourceManager.GetObject("icon32_refresh1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon32_remove {
             get {
                 object obj = ResourceManager.GetObject("icon32_remove", resourceCulture);

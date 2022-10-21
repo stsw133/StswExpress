@@ -251,6 +251,7 @@
     <None Remove="Resources\icon32_profile.ico" />
     <None Remove="Resources\icon32_random.ico" />
     <None Remove="Resources\icon32_record.ico" />
+    <None Remove="Resources\icon32_refresh.gif" />
     <None Remove="Resources\icon32_refresh.ico" />
     <None Remove="Resources\icon32_remove.ico" />
     <None Remove="Resources\icon32_return.ico" />
@@ -295,6 +296,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\ExtButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\NumberDescription.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Resources.Designer.cs">
@@ -566,6 +570,7 @@
     <Resource Include="Resources\icon32_profile.ico" />
     <Resource Include="Resources\icon32_random.ico" />
     <Resource Include="Resources\icon32_record.ico" />
+    <Resource Include="Resources\icon32_refresh.gif" />
     <Resource Include="Resources\icon32_refresh.ico" />
     <Resource Include="Resources\icon32_remove.ico" />
     <Resource Include="Resources\icon32_return.ico" />
@@ -611,6 +616,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\ExtButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\NumberDescription.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

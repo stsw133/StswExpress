@@ -4,21 +4,18 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Shapes;
+using System.Windows.Navigation;
+using System.Windows.Shell;
 
 namespace StswExpress;
 
 public class StswWindow : Window
 {
-    private double height, width;
-    private bool resizeError;
-    private int leftClickCounter = 1;
+    private double DefaultHeight, DefaultWidth;
 
     /// Constructors
-    public StswWindow() : base() => PreviewMouseMove += OnPreviewMouseMove;
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
 
     /// AllowToDarkMode
@@ -27,40 +24,12 @@ public class StswWindow : Window
               nameof(AllowToDarkMode),
               typeof(bool),
               typeof(StswWindow),
-              new PropertyMetadata(true)
+              new PropertyMetadata(default(bool))
           );
     public bool AllowToDarkMode
     {
         get => (bool)GetValue(AllowToDarkModeProperty);
         set => SetValue(AllowToDarkModeProperty, value);
-    }
-
-    /// AllowToMinimize
-    public static readonly DependencyProperty AllowToMinimizeProperty
-        = DependencyProperty.Register(
-              nameof(AllowToMinimize),
-              typeof(bool),
-              typeof(StswWindow),
-              new PropertyMetadata(true)
-          );
-    public bool AllowToMinimize
-    {
-        get => (bool)GetValue(AllowToMinimizeProperty);
-        set => SetValue(AllowToMinimizeProperty, value);
-    }
-
-    /// AllowToResize
-    public static readonly DependencyProperty AllowToResizeProperty
-        = DependencyProperty.Register(
-              nameof(AllowToResize),
-              typeof(bool),
-              typeof(StswWindow),
-              new PropertyMetadata(true)
-          );
-    public bool AllowToResize
-    {
-        get => (bool)GetValue(AllowToResizeProperty);
-        set => SetValue(AllowToResizeProperty, value);
     }
 
     /// SubIcon
@@ -112,18 +81,11 @@ public class StswWindow : Window
     protected override void OnInitialized(EventArgs e)
     {
         SourceInitialized += OnSourceInitialized;
+        Loaded += OnLoaded;
         base.OnInitialized(e);
-
-        height = Height;
-        width = Width;
-
-        if (MinHeight < 40)
-            MinHeight = 40;
-        if (MinWidth < 200)
-            MinWidth = 200;
-
-        var bindingWinMode = new CommandBinding(Commands.WinMode, CmdWinMode_Executed);
-        CommandManager.RegisterClassCommandBinding(typeof(Window), bindingWinMode);
+        
+        DefaultHeight = Height;
+        DefaultWidth = Width;
     }
     void OnSourceInitialized(object sender, EventArgs e)
     {
@@ -132,14 +94,6 @@ public class StswWindow : Window
         HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
     }
 
-    /// WinMode
-    void CmdWinMode_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Settings.Default.WinMode = Settings.Default.WinMode == 0 ? 1 : 0;
-        Settings.Default.Save();
-        RestoreClick(null, null);
-        RestoreClick(null, null);
-    }
     /// iSizeClick
     protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
     /// themeClick
@@ -173,8 +127,8 @@ public class StswWindow : Window
     /// DefaultClick
     protected void DefaultClick(object sender, RoutedEventArgs e)
     {
-        Height = height;
-        Width = width;
+        Height = DefaultHeight;
+        Width = DefaultWidth;
         CenterClick(sender, e);
     }
     /// DarkModeClick
@@ -185,150 +139,6 @@ public class StswWindow : Window
     protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
     /// CloseClick
     protected void CloseClick(object sender, RoutedEventArgs e) => Close();
-
-    /// MoveRectangle_MouseMove
-    protected void MoveRectangle_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            if (resizeError)
-            {
-                resizeError = false;
-                return;
-            }
-
-            if (WindowState == WindowState.Maximized && leftClickCounter > 1)
-            {
-                RestoreClick(sender, e);
-
-                int MONITOR_DEFAULTTONEAREST = 0x00000002;
-                var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-                if (monitor != IntPtr.Zero)
-                {
-                    var monitorInfo = new MONITORINFO();
-                    GetMonitorInfo(monitor, monitorInfo);
-                    var rcWorkArea = monitorInfo.rcWork;
-
-                    var curPos = e.GetPosition((IInputElement)sender);
-                    Left = curPos.X - Width / 2 + rcWorkArea.left;
-                    Top = curPos.Y - Settings.Default.iSize + rcWorkArea.top;
-                }
-
-                DragMove();
-            }
-
-            if (Top < 0)
-                Top = 0;
-        }
-
-        //if (Mouse.LeftButton == MouseButtonState.Pressed)
-        //    DragMove();
-    }
-    /// MoveRectangle_PreviewMouseDown
-    protected void MoveRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (Mouse.LeftButton == MouseButtonState.Pressed)
-        {
-            leftClickCounter += 1;
-            if (e.ClickCount == 2 && leftClickCounter > 1)
-            {
-                resizeError = true;
-                if (AllowToResize)
-                    RestoreClick(null, null);
-            }
-            else if (WindowState != WindowState.Maximized)
-                DragMove();
-        }
-        else if (Mouse.RightButton == MouseButtonState.Pressed)
-            leftClickCounter = 0;
-    }
-
-    /// ResizeRectangle_MouseMove
-    protected void ResizeRectangle_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (WindowState == WindowState.Maximized)
-            return;
-
-        var rectangle = sender as Rectangle;
-        switch (rectangle.Name)
-        {
-            case "top":
-                Cursor = Cursors.SizeNS;
-                break;
-            case "bottom":
-                Cursor = Cursors.SizeNS;
-                break;
-            case "left":
-                Cursor = Cursors.SizeWE;
-                break;
-            case "right":
-                Cursor = Cursors.SizeWE;
-                break;
-            case "topLeft":
-                Cursor = Cursors.SizeNWSE;
-                break;
-            case "topRight":
-                Cursor = Cursors.SizeNESW;
-                break;
-            case "bottomLeft":
-                Cursor = Cursors.SizeNESW;
-                break;
-            case "bottomRight":
-                Cursor = Cursors.SizeNWSE;
-                break;
-            default:
-                break;
-        }
-    }
-    /// ResizeRectangle_PreviewMouseDown
-    protected void ResizeRectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        var rectangle = sender as Rectangle;
-        switch (rectangle.Name)
-        {
-            case "top":
-                Cursor = Cursors.SizeNS;
-                ResizeWindow(ResizeDirection.Top);
-                break;
-            case "bottom":
-                Cursor = Cursors.SizeNS;
-                ResizeWindow(ResizeDirection.Bottom);
-                break;
-            case "left":
-                Cursor = Cursors.SizeWE;
-                ResizeWindow(ResizeDirection.Left);
-                break;
-            case "right":
-                Cursor = Cursors.SizeWE;
-                ResizeWindow(ResizeDirection.Right);
-                break;
-            case "topLeft":
-                Cursor = Cursors.SizeNWSE;
-                ResizeWindow(ResizeDirection.TopLeft);
-                break;
-            case "topRight":
-                Cursor = Cursors.SizeNESW;
-                ResizeWindow(ResizeDirection.TopRight);
-                break;
-            case "bottomLeft":
-                Cursor = Cursors.SizeNESW;
-                ResizeWindow(ResizeDirection.BottomLeft);
-                break;
-            case "bottomRight":
-                Cursor = Cursors.SizeNWSE;
-                ResizeWindow(ResizeDirection.BottomRight);
-                break;
-            default:
-                break;
-        }
-    }
-
-    /// OnPreviewMouseMove
-    protected void OnPreviewMouseMove(object sender, MouseEventArgs e)
-    {
-        if (Mouse.LeftButton != MouseButtonState.Pressed)
-            Cursor = Cursors.Arrow;
-    }
     #endregion
 
     #region Avoid hiding task bar upon maximization
@@ -341,7 +151,6 @@ public class StswWindow : Window
                 handled = false;
                 break;
         }
-
         return (IntPtr)0;
     }
 
@@ -432,25 +241,33 @@ public class StswWindow : Window
     }
     #endregion
 
-    private void ResizeWindow(ResizeDirection direction) => SendMessage(_hwndSource.Handle, 0x112, (IntPtr)(61440 + direction), IntPtr.Zero);
-    private enum ResizeDirection
+    #region Hide default context menu and show custom
+    private FrameworkElement MenuItems;
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Left = 1,
-        Right = 2,
-        Top = 3,
-        TopLeft = 4,
-        TopRight = 5,
-        Bottom = 6,
-        BottomLeft = 7,
-        BottomRight = 8,
+        IntPtr windowhandle = new WindowInteropHelper(this).Handle;
+        HwndSource hwndSource = HwndSource.FromHwnd(windowhandle);
+        hwndSource.AddHook(new HwndSourceHook(WndProc));
     }
+
+    private const uint WM_SYSTEMMENU = 0xa4;
+    private const uint WP_SYSTEMMENU = 0x02;
+
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (((msg == WM_SYSTEMMENU) && (wParam.ToInt32() == WP_SYSTEMMENU)) || msg == 165)
+        {
+            Fn.OpenContextMenu(MenuItems);
+            handled = true;
+        }
+
+        return IntPtr.Zero;
+    }
+    #endregion
 
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        if (Settings.Default.WinMode == 0)
-            return;
-
         var buttonsPanel = (StackPanel)GetTemplateChild("buttonsPanel");
         /// darkmodeButton
         var darkmodeButton = GetTemplateChild("darkmodeButton") as Button;
@@ -458,11 +275,11 @@ public class StswWindow : Window
             darkmodeButton.Click += DarkModeClick;
         /// minimizeButton
         var minimizeButton = GetTemplateChild("minimizeButton") as Button;
-        if (minimizeButton != null && AllowToMinimize)
+        if (minimizeButton != null && ResizeMode != ResizeMode.NoResize)
             minimizeButton.Click += MinimizeClick;
         /// restoreButton
         var restoreButton = GetTemplateChild("restoreButton") as Button;
-        if (restoreButton != null && AllowToResize)
+        if (restoreButton != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             restoreButton.Click += RestoreClick;
         /// closeButton
         var closeButton = GetTemplateChild("closeButton") as Button;
@@ -480,80 +297,74 @@ public class StswWindow : Window
             centerMenuItem.Click += CenterClick;
         /// defaultMenuItem
         var defaultMenuItem = menuItems.ContextMenu.Items[3] as MenuItem;
-        if (defaultMenuItem != null && AllowToResize)
+        if (defaultMenuItem != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             defaultMenuItem.Click += DefaultClick;
         /// minimizeMenuItem
         var minimizeMenuItem = menuItems.ContextMenu.Items[4] as MenuItem;
-        if (minimizeMenuItem != null && AllowToMinimize)
+        if (minimizeMenuItem != null && ResizeMode != ResizeMode.NoResize)
             minimizeMenuItem.Click += MinimizeClick;
         /// restoreMenuItem
         var restoreMenuItem = menuItems.ContextMenu.Items[5] as MenuItem;
-        if (restoreMenuItem != null && AllowToResize)
+        if (restoreMenuItem != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             restoreMenuItem.Click += RestoreClick;
         /// closeMenuItem
         var closeMenuItem = menuItems.ContextMenu.Items[7] as MenuItem;
         if (closeMenuItem != null)
             closeMenuItem.Click += CloseClick;
 
+        /// menuItems
+        MenuItems = (FrameworkElement)GetTemplateChild("menuItems");
         /// moveRectangle
         var moveRectangle = (Label)GetTemplateChild("moveRectangle");
-        moveRectangle.PreviewMouseDown += MoveRectangle_PreviewMouseDown;
-        moveRectangle.MouseMove += MoveRectangle_MouseMove;
+        moveRectangle.SizeChanged += MoveRectangle_SizeChanged;
+
         if (TitleBarBackground != null)
             moveRectangle.Background = TitleBarBackground;
 
-        /// resizeGrid
-        if (AllowToResize)
-        {
-            var resizeGrid = GetTemplateChild("resizeGrid") as Grid;
-            if (resizeGrid != null)
-            {
-                foreach (UIElement element in resizeGrid.Children)
-                {
-                    var resizeRectangle = element as Rectangle;
-                    if (resizeRectangle != null)
-                    {
-                        resizeRectangle.PreviewMouseDown += ResizeRectangle_PreviewMouseDown;
-                        resizeRectangle.MouseMove += ResizeRectangle_MouseMove;
-                    }
-                }
-            }
-        }
-
         base.OnApplyTemplate();
+        UpdateLayout();
+    }
+
+    /// MoveRectangle_SizeChanged
+    private void MoveRectangle_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        var chrome = WindowChrome.GetWindowChrome(this);
+        WindowChrome.SetWindowChrome(this, new WindowChrome()
+        {
+            CornerRadius = chrome.CornerRadius,
+            CaptionHeight = ((FrameworkElement)sender).ActualHeight,
+            GlassFrameThickness = chrome.GlassFrameThickness,
+            ResizeBorderThickness = chrome.ResizeBorderThickness,
+            UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
+        });
     }
 
     /// AddButtonToTitleBar
     protected Button? AddButtonToTitleBar(string text)
     {
-        var buttonsPanel = Template.FindName("buttonsPanel", this) as StackPanel;
-        if (buttonsPanel != null)
+        try
         {
-            var button = new Button()
+            var buttonsPanel = Template.FindName("buttonsPanel", this) as StackPanel;
+            if (buttonsPanel != null)
             {
-                Content = new OutlinedTextBlock()
+                var button = new Button()
                 {
-                    FontFamily = new FontFamily("Arial"),
-                    Stroke = Brushes.Black,
-                    Fill = Brushes.White,
-                    StrokeThickness = 1.5,
-                    Text = text,
-                    Style = ((buttonsPanel.Children[buttonsPanel.Children.Count - 2] as Button).Content as OutlinedTextBlock).Style
-                },
-                Style = (buttonsPanel.Children[buttonsPanel.Children.Count - 2] as Button).Style
-            };
-            buttonsPanel.Children.Insert(0, button);
-            return button;
+                    Content = new OutlinedTextBlock()
+                    {
+                        Text = text
+                    }
+                };
+                buttonsPanel.Children.Insert(0, button);
+                return button;
+            }
         }
+        catch { }
         return null;
     }
 
     #region DLL
     [DllImport("user32")]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-
-    [DllImport("user32.dll")]
-    static extern bool GetCursorPos(ref Point lpPoint);
 
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);

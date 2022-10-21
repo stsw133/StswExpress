@@ -24,7 +24,7 @@ public partial class V_Main : StswWindow
     /// Window_Loaded
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        BtnSettings = AddButtonToTitleBar("⚙");
+        BtnSettings = AddButtonToTitleBar("🔧");
         if (BtnSettings != null)
             BtnSettings.Command = Commands.Settings;
     }
@@ -53,7 +53,6 @@ public partial class V_Main : StswWindow
         UpdateFilters();
         await Task.Run(() =>
         {
-            D.LoadingProgress = 0;
             D.ListUsers = Q_Main.GetListOfUsers(D.FilterSqlString, D.FilterSqlParams);
             D.LoadingProgress = 100;
         });
@@ -76,8 +75,10 @@ public partial class V_Main : StswWindow
     private void CmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Cursor = Cursors.Wait;
+        D.LoadingProgress = 0;
         if (Q_Main.SetListOfUsers(D.ListUsers))
             MessageBox.Show("Data saved successfully.");
+        D.LoadingProgress = 100;
         Cursor = null;
     }
 }

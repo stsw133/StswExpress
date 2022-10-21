@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -85,9 +84,10 @@ public class conv_Contains : MarkupExtension, IValueConverter
     {
         var rev = parameter?.ToString()?.StartsWith('!') ?? false;
         var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
+        var val = value as dynamic;
 
         /// calculate result
-        if (value is IEnumerable<string> val)
+        if (value != null && value.GetType().GetProperty("Contains") != null)
         {
             if (targetType == typeof(Visibility))
                 return (val.Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
@@ -148,7 +148,7 @@ public class conv_Color : MarkupExtension, IValueConverter
             desaturateColor = pmr.Contains('↓'),
             autoBrightness = pmr.Contains('?'),
             generateColor = pmr.Contains('#');
-        int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr.Substring(pmr.IndexOf('@')), 16) : -1;
+        int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr.Substring(pmr.IndexOf('@') + 1), 16) : -1;
 
         if (invertColor) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
         if (contrastColor) pmr = pmr.Remove(pmr.IndexOf('‼'), 1);
@@ -158,11 +158,11 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (setAlpha >= 0) pmr = pmr.Remove(pmr.IndexOf('@'));
 
         var generatedColor = string.Empty;
-        var pmrVal = System.Convert.ToDouble(pmr, culture);
+        var pmrVal = System.Convert.ToDouble(string.IsNullOrEmpty(pmr) ? "0" : pmr, culture);
 
         /// generate color
         Color color = generateColor
-            ? Color.FromArgb(255, 240 - (val.Sum(x => x) * 9797 % 110), 240 - (val.Sum(x => x) * 8989 % 110), 240 - (val.Sum(x => x) * 8383 % 110))
+            ? Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90))
             : ColorTranslator.FromHtml(val);
 
         /// desaturate color
@@ -306,6 +306,32 @@ public class conv_Multiply : MarkupExtension, IValueConverter
             var pmr = System.Convert.ToDouble(parameter, culture);
             return val * pmr;
         }
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+}
+
+/// <summary>
+/// Sum values of certain field (name in parameter) in list of elements.
+/// </summary>
+public class conv_Sum : MarkupExtension, IValueConverter
+{
+    private static conv_Sum? _conv;
+    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Sum();
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var val = value as dynamic;
+        var res = 0d;
+
+        /// calculate result
+        if (val != null)
+            foreach (var item in val)
+            {
+                var fld = item?.GetType().GetProperty(parameter.ToString());
+                res += System.Convert.ToDouble(fld.GetValue(item));
+            }
+        return res;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;

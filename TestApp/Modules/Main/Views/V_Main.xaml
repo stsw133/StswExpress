@@ -25,35 +25,41 @@
             </TabItem.CommandBindings>
             <DockPanel>
                 <!-- button panel -->
-                <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="5" HorizontalAlignment="Center">
-                    <se:ExtButton Margin="5" ToolTip="Refresh (F5)" Command="se:Commands.Refresh">
-                        <StackPanel>
-                            <se:Header Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico"/>
-                            <ProgressBar IsIndeterminate="True" Value="{Binding LoadingProgress}" Visibility="{Binding Value, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Compare}, ConverterParameter=!100}"/>
-                        </StackPanel>
+                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
+                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="se:Commands.Refresh">
+                        <se:Header Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico" Padding="3"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="5" ToolTip="Clear (F9)" Command="se:Commands.Clear">
-                        <se:Header Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico"/>
+                    <se:ExtButton Margin="3" ToolTip="Clear (F9)" Command="se:Commands.Clear">
+                        <se:Header Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico" Padding="3"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="5" ToolTip="Save (Ctrl + S)" Command="se:Commands.Save">
-                        <se:Header Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico"/>
+                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="se:Commands.Save">
+                        <se:Header Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico" Padding="3"/>
                     </se:ExtButton>
                 </UniformGrid>
+                <se:ExtProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
-                <se:ExtDataGrid x:Name="DtgUsers" HeaderBackground="#448E" HeaderBorderBrush="#7777" ItemsSource="{Binding ListUsers}">
+                <se:ExtDataGrid x:Name="DtgUsers" Margin="3 0" HeaderBackground="#448E" HeaderBorderBrush="#7777"
+                                ItemsSource="{Binding ListUsers}">
+                    <DataGrid.Resources>
+                        <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
+                        
                         <!-- ID -->
-                        <DataGridTextColumn Width="100" Binding="{Binding ID}">
+                        <DataGridTextColumn Binding="{Binding ID}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter FilterType="Number" FilterMode="Equal" Header="ID" FilterSqlColumn="a.ID"/>
+                                <se:ColumnFilter Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
+                        
                         <!-- Type -->
-                        <DataGridComboBoxColumn Width="150" TextBinding="{Binding Type}">
+                        <DataGridComboBoxColumn TextBinding="{Binding Type}">
                             <DataGridComboBoxColumn.Header>
-                                <se:ColumnFilter FilterType="ListOfTexts" FilterMode="In" Header="Type" FilterSqlColumn="a.Type"/>
+                                <se:ColumnFilter Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
+                                                 ItemsSource="{Binding Proxy.ListTypes}"/>
                             </DataGridComboBoxColumn.Header>
                         </DataGridComboBoxColumn>
+                        
                         <!-- Icon -->
                         <DataGridTemplateColumn Width="30">
                             <DataGridTemplateColumn.CellTemplate>
@@ -62,24 +68,29 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        
                         <!-- Name -->
                         <DataGridTextColumn Width="*" Binding="{Binding Name}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter FilterType="Text" FilterMode="Contains" Header="Name" FilterSqlColumn="a.Name"/>
+                                <se:ColumnFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
+                        
                         <!-- IsEnabled -->
                         <DataGridCheckBoxColumn Width="auto" Binding="{Binding IsEnabled}">
                             <DataGridCheckBoxColumn.Header>
-                                <se:ColumnFilter FilterType="Check" Header="Enabled" FilterSqlColumn="a.IsEnabled"/>
+                                <se:ColumnFilter Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
                             </DataGridCheckBoxColumn.Header>
                         </DataGridCheckBoxColumn>
+                        
                         <!-- CreateDT -->
-                        <DataGridTextColumn Width="auto" Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
+                        <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter FilterType="Date" FilterMode="GreaterEqual" Header="CreateDT" FilterSqlColumn="cast(a.CreateDT as date)" ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"/>
+                                <se:ColumnFilter Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
+                                                 ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
+                        
                     </DataGrid.Columns>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
@@ -99,7 +110,7 @@
                 <se:Header Text="Stats" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_stats.ico"/>
             </TabItem.Header>
             <DockPanel>
-                
+                <TextBlock Text="Not yet implemented"/>
             </DockPanel>
         </TabItem>
     </TabControl>

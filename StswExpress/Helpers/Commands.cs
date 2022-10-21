@@ -3,6 +3,22 @@ using System.Windows.Input;
 
 namespace StswExpress;
 
+public class RelayCommand : ICommand
+{
+    private Action mAction;
+    private bool mCanExecute;
+    public event EventHandler? CanExecuteChanged = (sender, e) => { };
+
+    public RelayCommand(Action action, bool canExecute)
+    {
+        mAction = action;
+        mCanExecute = canExecute;
+    }
+
+    public bool CanExecute(object? parameter) => mCanExecute;
+    public void Execute(object? parameter) => mAction();
+}
+
 public static class Commands
 {
     public enum Type

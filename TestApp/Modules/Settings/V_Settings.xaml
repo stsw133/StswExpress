@@ -5,9 +5,9 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="360" Width="600"
-               Title="Settings" WindowStartupLocation="CenterOwner" AllowToResize="False"
+               Title="Settings" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner"
                Icon="pack://application:,,,/StswExpress;component/Resources/icon32_settings.ico">
     <Grid>
-        
+        <TextBlock Text="Not implemented yet"/>
     </Grid>
 </se:StswWindow>

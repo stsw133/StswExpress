@@ -7,7 +7,14 @@ namespace StswExpress;
 /// Model for Database Connection
 public class DB
 {
+    public enum Types
+    {
+        MSSQL,
+        PostgreSQL
+    }
+
     public string Name { get; set; } = string.Empty;
+    public Types Type { get; set; } = Types.MSSQL;
     public string Server { get; set; } = string.Empty;
     public int Port { get; set; } = 0;
     public string Database { get; set; } = string.Empty;
@@ -16,8 +23,15 @@ public class DB
     public string Version { get; set; } = string.Empty;
 
     /// GetConnString
-    public string GetMssqlConnString() => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};";
-    public string GetNpgsqlConnString() => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};";
+    public string? GetConnString()
+    {
+        return Type switch
+        {
+            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};",
+            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};",
+            _ => null
+        };
+    }
 
     /// Load list of encrypted databases from file.
     public static List<DB> LoadAllDatabases(string path)
