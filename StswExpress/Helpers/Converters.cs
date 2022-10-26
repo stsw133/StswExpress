@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -84,15 +86,38 @@ public class conv_Contains : MarkupExtension, IValueConverter
     {
         var rev = parameter?.ToString()?.StartsWith('!') ?? false;
         var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
-        var val = value as dynamic;
 
         /// calculate result
-        if (value != null && value.GetType().GetProperty("Contains") != null)
+
+        if (value is IEnumerable val)
+        {
+            var genArgList = value.GetType().GetGenericArguments();
+            var type1 = genArgList.First();
+
+            var e = val.GetEnumerator();
+            var list = new List<string>();
+            while (e.MoveNext())
+            {
+                if (e.Current == null)
+                    continue;
+
+                list.Add(System.Convert.ChangeType(e.Current, type1).ToString() ?? "");
+            }
+
+            if (type1 != null)
+            {
+                if (targetType == typeof(Visibility))
+                    return (list.Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+                else
+                    return (list.Contains(pmr) ^ rev);
+            }
+        }
+        else if (value?.ToString() != null)
         {
             if (targetType == typeof(Visibility))
-                return (val.Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+                return (value.ToString().Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return (val.Contains(pmr) ^ rev);
+                return (value.ToString().Contains(pmr) ^ rev);
         }
         return false;
     }

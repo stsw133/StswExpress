@@ -117,6 +117,12 @@ public static class Extensions
         return result;
     }
 
+    /// TrimEnd string
+    public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));
+
+    /// TrimStart string
+    public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source.Substring(value.Length);
+
     /// Tries to do action a few times in case a single time could not work
     public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
     {
