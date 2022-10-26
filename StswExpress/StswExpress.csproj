@@ -326,10 +326,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicAero2" Version="1.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -1,5 +1,4 @@
-﻿using DynamicAero2;
-using StswExpress;
+﻿using StswExpress;
 using System;
 using System.Linq;
 using System.Windows;
@@ -14,9 +13,7 @@ public partial class App : Application
 {
     public App()
     {
-        if (!Current.Resources.MergedDictionaries.Any(x => x is Theme))
-            Current.Resources.MergedDictionaries.Add(new Theme());
-        ((Theme)Current.Resources.MergedDictionaries.First(x => x is Theme)).Color = (ThemeColor)Settings.Default.Theme;
+        Fn.AppStart(this);
         
         var bindingHelp = new CommandBinding(Commands.Help, CmdHelp_Executed, CmdHelp_CanExecute);
         CommandManager.RegisterClassCommandBinding(typeof(Window), bindingHelp);
