@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicAero2;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -74,6 +75,17 @@ public static class Fn
         win.Cursor = Cursors.Arrow;
     }
     */
+
+    /// <summary>
+    /// Starting functions that should be placed in constructor of App class
+    /// </summary>
+    /// <param name="app">Application class</param>
+    public static void AppStart(Application app)
+    {
+        if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
+            app.Resources.MergedDictionaries.Add(new Theme());
+        ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = (ThemeColor)Settings.Default.Theme;
+    }
 
     /// <summary>
     /// Gets system color chosen by user.

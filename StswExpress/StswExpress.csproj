@@ -7,6 +7,7 @@
     <Company>Karol Staszewski</Company>
     <Authors>Karol Staszewski</Authors>
     <NeutralLanguage>en</NeutralLanguage>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
