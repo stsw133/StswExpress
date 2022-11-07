@@ -5,7 +5,7 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:sys="clr-namespace:System;assembly=mscorlib"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-               mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen" AllowToDarkMode="True"
+               mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:Fn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:Fn.AppCopyright}}"
                Icon="pack://application:,,,/StswExpress;component/Resources/icon32_users.ico"
                Loaded="Window_Loaded">
@@ -27,18 +27,18 @@
                 <!-- button panel -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
                     <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="se:Commands.Refresh">
-                        <se:Header Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico" Padding="3"/>
+                        <se:Header Padding="3" Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico"/>
                     </se:ExtButton>
                     <se:ExtButton Margin="3" ToolTip="Clear (F9)" Command="se:Commands.Clear">
-                        <se:Header Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico" Padding="3"/>
+                        <se:Header Padding="3" Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico"/>
                     </se:ExtButton>
                     <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="se:Commands.Save">
-                        <se:Header Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico" Padding="3"/>
+                        <se:Header Padding="3" Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico"/>
                     </se:ExtButton>
                 </UniformGrid>
                 <se:ExtProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
-                <se:ExtDataGrid x:Name="DtgUsers" Margin="3 0" HeaderBackground="#448E" HeaderBorderBrush="#7777"
+                <se:ExtDataGrid x:Name="DtgUsers" Margin="3" HeaderBackground="#448E" HeaderBorderBrush="#7777"
                                 ItemsSource="{Binding ListUsers}">
                     <DataGrid.Resources>
                         <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
@@ -56,7 +56,7 @@
                         <DataGridComboBoxColumn TextBinding="{Binding Type}">
                             <DataGridComboBoxColumn.Header>
                                 <se:ColumnFilter Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
-                                                 ItemsSource="{Binding Proxy.ListTypes}"/>
+                                                 ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                             </DataGridComboBoxColumn.Header>
                         </DataGridComboBoxColumn>
                         

@@ -5,11 +5,11 @@ using System.Windows.Media;
 namespace StswExpress
 {
     /// <summary>
-    /// Interaction logic for NumberDescription.xaml
+    /// Interaction logic for NumericDescription.xaml
     /// </summary>
-    public partial class NumberDescription : StackPanel
+    public partial class NumericDescription : StackPanel
     {
-        public NumberDescription()
+        public NumericDescription()
         {
             InitializeComponent();
         }
@@ -19,7 +19,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(Description),
                   typeof(string),
-                  typeof(NumberDescription),
+                  typeof(NumericDescription),
                   new PropertyMetadata(default(string))
               );
         public string Description
@@ -33,7 +33,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(Number),
                   typeof(int),
-                  typeof(NumberDescription),
+                  typeof(NumericDescription),
                   new PropertyMetadata(default(int))
               );
         public string Number
@@ -47,7 +47,7 @@ namespace StswExpress
             = DependencyProperty.Register(
                   nameof(NumberForeground),
                   typeof(SolidColorBrush),
-                  typeof(NumberDescription),
+                  typeof(NumericDescription),
                   new PropertyMetadata(default(SolidColorBrush))
               );
         public SolidColorBrush NumberForeground

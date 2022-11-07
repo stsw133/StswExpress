@@ -1,5 +1,4 @@
-﻿using StswExpress;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,7 +13,7 @@ internal static class Q_Main
     internal static List<string?> ListOfTypes()
     {
         var result = new DataTable();
-
+        /*
         try
         {
             using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
@@ -34,7 +33,7 @@ internal static class Q_Main
         {
             MessageBox.Show($"Error ({nameof(ListOfTypes)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
+        */
         return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
     }
 
@@ -42,7 +41,7 @@ internal static class Q_Main
     internal static ExtCollection<M_User> GetListOfUsers(string filter, List<(string name, object val)> parameters)
     {
         var result = new DataTable();
-
+        /*
         try
         {
             using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
@@ -66,7 +65,7 @@ internal static class Q_Main
         {
             MessageBox.Show($"Error ({nameof(GetListOfUsers)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
+        */
         return result.AsList<M_User>().ToExtCollection();
     }
 
@@ -74,7 +73,7 @@ internal static class Q_Main
     internal static bool SetListOfUsers(ExtCollection<M_User> list)
     {
         var result = false;
-
+        /*
         try
         {
             using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
@@ -131,7 +130,7 @@ internal static class Q_Main
         {
             MessageBox.Show($"Error ({nameof(SetListOfUsers)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
+        */
         return result;
     }
 }

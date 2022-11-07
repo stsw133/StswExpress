@@ -17,20 +17,6 @@ public class StswWindow : Window
     /// Constructors
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
 
-    /// AllowToDarkMode
-    public static readonly DependencyProperty AllowToDarkModeProperty
-        = DependencyProperty.Register(
-              nameof(AllowToDarkMode),
-              typeof(bool),
-              typeof(StswWindow),
-              new PropertyMetadata(default(bool))
-          );
-    public bool AllowToDarkMode
-    {
-        get => (bool)GetValue(AllowToDarkModeProperty);
-        set => SetValue(AllowToDarkModeProperty, value);
-    }
-
     /// SubIcon
     public static readonly DependencyProperty SubIconProperty
         = DependencyProperty.Register(
@@ -58,25 +44,9 @@ public class StswWindow : Window
         get => (string)GetValue(SubTitleProperty);
         set => SetValue(SubTitleProperty, value);
     }
-
-    /// TitleBarBackground
-    public static readonly DependencyProperty TitleBarBackgroundProperty
-        = DependencyProperty.Register(
-              nameof(TitleBarBackground),
-              typeof(Brush),
-              typeof(StswWindow),
-              new PropertyMetadata(default(Brush))
-          );
-    public Brush TitleBarBackground
-    {
-        get => (Brush)GetValue(TitleBarBackgroundProperty);
-        set => SetValue(TitleBarBackgroundProperty, value);
-    }
-
-    /// Events
-    #region Events
+    
+    #region OnInitialized
     private HwndSource _hwndSource;
-
     protected override void OnInitialized(EventArgs e)
     {
         SourceInitialized += OnSourceInitialized;
@@ -92,11 +62,14 @@ public class StswWindow : Window
         IntPtr handle = (new WindowInteropHelper(this)).Handle;
         HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
     }
+    #endregion
 
+    #region Menu
     /// iSizeClick
     protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
-    /// themeClick
-    private void themeClick(int themeID)
+
+    /// ChangeTheme
+    private void ChangeTheme(int themeID)
     {
         if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
             Application.Current.Resources.MergedDictionaries.Add(new Theme());
@@ -106,6 +79,7 @@ public class StswWindow : Window
         Settings.Default.Theme = (int)theme.Color;
         Settings.Default.Save();
     }
+
     /// CenterClick
     protected void CenterClick(object sender, RoutedEventArgs e)
     {
@@ -123,6 +97,7 @@ public class StswWindow : Window
             Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
         }
     }
+
     /// DefaultClick
     protected void DefaultClick(object sender, RoutedEventArgs e)
     {
@@ -130,12 +105,16 @@ public class StswWindow : Window
         Width = DefaultWidth;
         CenterClick(sender, e);
     }
+
     /// DarkModeClick
-    protected void DarkModeClick(object sender, RoutedEventArgs e) => themeClick(Settings.Default.Theme == 0 ? 1 : 0);
+    protected void DarkModeClick(object sender, RoutedEventArgs e) => ChangeTheme(Settings.Default.Theme == 0 ? 1 : 0);
+
     /// MinimizeClick
     protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
     /// RestoreClick
     protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+
     /// CloseClick
     protected void CloseClick(object sender, RoutedEventArgs e) => Close();
     #endregion
@@ -267,48 +246,48 @@ public class StswWindow : Window
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        var buttonsPanel = (StackPanel)GetTemplateChild("buttonsPanel");
-        /// darkmodeButton
-        var darkmodeButton = GetTemplateChild("darkmodeButton") as Button;
-        if (darkmodeButton != null && AllowToDarkMode)
-            darkmodeButton.Click += DarkModeClick;
         /// minimizeButton
-        var minimizeButton = GetTemplateChild("minimizeButton") as Button;
-        if (minimizeButton != null && ResizeMode != ResizeMode.NoResize)
+        if (GetTemplateChild("minimizeButton") is Button minimizeButton && ResizeMode != ResizeMode.NoResize)
             minimizeButton.Click += MinimizeClick;
         /// restoreButton
-        var restoreButton = GetTemplateChild("restoreButton") as Button;
-        if (restoreButton != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (GetTemplateChild("restoreButton") is Button restoreButton && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             restoreButton.Click += RestoreClick;
         /// closeButton
-        var closeButton = GetTemplateChild("closeButton") as Button;
-        if (closeButton != null)
+        if (GetTemplateChild("closeButton") is Button closeButton)
             closeButton.Click += CloseClick;
 
         var menuItems = (Grid)GetTemplateChild("menuItems");
-        /// isizeMenuItem
-        var isizeMenuItem = menuItems.ContextMenu.Items[0] as MenuItem;
-        if (isizeMenuItem != null)
-            isizeMenuItem.Click += iSizeClick;
+        /// interfaceMenuItem
+        if (menuItems.ContextMenu.Items[0] is MenuItem interfaceMenuItem)
+        {
+            /// isizeMenuItem
+            if (interfaceMenuItem.Items[0] is MenuItem isizeMenuItem)
+                isizeMenuItem.Click += iSizeClick;
+            /// themeMenuItem
+            if (interfaceMenuItem.Items[1] is MenuItem themeMenuItem)
+            {
+                /// theme0MenuItem
+                if (themeMenuItem.Items[0] is MenuItem theme0MenuItem)
+                    theme0MenuItem.Click += (s, e) => ChangeTheme(0);
+                /// theme1MenuItem
+                if (themeMenuItem.Items[1] is MenuItem theme1MenuItem)
+                    theme1MenuItem.Click += (s, e) => ChangeTheme(1);
+            }
+        }
         /// centerMenuItem
-        var centerMenuItem = menuItems.ContextMenu.Items[2] as MenuItem;
-        if (centerMenuItem != null)
+        if (menuItems.ContextMenu.Items[2] is MenuItem centerMenuItem)
             centerMenuItem.Click += CenterClick;
         /// defaultMenuItem
-        var defaultMenuItem = menuItems.ContextMenu.Items[3] as MenuItem;
-        if (defaultMenuItem != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (menuItems.ContextMenu.Items[3] is MenuItem defaultMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             defaultMenuItem.Click += DefaultClick;
         /// minimizeMenuItem
-        var minimizeMenuItem = menuItems.ContextMenu.Items[4] as MenuItem;
-        if (minimizeMenuItem != null && ResizeMode != ResizeMode.NoResize)
+        if (menuItems.ContextMenu.Items[4] is MenuItem minimizeMenuItem && ResizeMode != ResizeMode.NoResize)
             minimizeMenuItem.Click += MinimizeClick;
         /// restoreMenuItem
-        var restoreMenuItem = menuItems.ContextMenu.Items[5] as MenuItem;
-        if (restoreMenuItem != null && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (menuItems.ContextMenu.Items[5] is MenuItem restoreMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             restoreMenuItem.Click += RestoreClick;
         /// closeMenuItem
-        var closeMenuItem = menuItems.ContextMenu.Items[7] as MenuItem;
-        if (closeMenuItem != null)
+        if (menuItems.ContextMenu.Items[7] is MenuItem closeMenuItem)
             closeMenuItem.Click += CloseClick;
 
         /// menuItems
@@ -316,9 +295,6 @@ public class StswWindow : Window
         /// moveRectangle
         var moveRectangle = (Label)GetTemplateChild("moveRectangle");
         moveRectangle.SizeChanged += MoveRectangle_SizeChanged;
-
-        if (TitleBarBackground != null)
-            moveRectangle.Background = TitleBarBackground;
 
         base.OnApplyTemplate();
         UpdateLayout();
@@ -336,6 +312,7 @@ public class StswWindow : Window
             ResizeBorderThickness = chrome.ResizeBorderThickness,
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
+        Settings.Default.Save();
     }
 
     /// AddButtonToTitleBar
@@ -357,8 +334,26 @@ public class StswWindow : Window
                 return button;
             }
         }
-        catch { }
+        catch
+        {
+            ;
+        }
         return null;
+    }
+
+    /// AddToTitleBar
+    protected void AddToTitleBar(UIElement element)
+    {
+        try
+        {
+            var buttonsPanel = Template.FindName("buttonsPanel", this) as StackPanel;
+            if (buttonsPanel != null)
+                buttonsPanel.Children.Insert(0, element);
+        }
+        catch
+        {
+            ;
+        }
     }
 
     #region DLL

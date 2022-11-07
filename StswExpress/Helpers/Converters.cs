@@ -88,7 +88,6 @@ public class conv_Contains : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
 
         /// calculate result
-
         if (value is IEnumerable val)
         {
             var genArgList = value.GetType().GetGenericArguments();
@@ -101,9 +100,8 @@ public class conv_Contains : MarkupExtension, IValueConverter
                 if (e.Current == null)
                     continue;
 
-                list.Add(System.Convert.ChangeType(e.Current, type1).ToString() ?? "");
+                list.Add(System.Convert.ChangeType(e.Current, type1).ToString() ?? string.Empty);
             }
-
             if (type1 != null)
             {
                 if (targetType == typeof(Visibility))
@@ -173,7 +171,7 @@ public class conv_Color : MarkupExtension, IValueConverter
             desaturateColor = pmr.Contains('↓'),
             autoBrightness = pmr.Contains('?'),
             generateColor = pmr.Contains('#');
-        int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr.Substring(pmr.IndexOf('@') + 1), 16) : -1;
+        int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr[(pmr.IndexOf('@') + 1)..], 16) : -1;
 
         if (invertColor) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
         if (contrastColor) pmr = pmr.Remove(pmr.IndexOf('‼'), 1);
@@ -378,7 +376,7 @@ public class conv_StringToString : MarkupExtension, IValueConverter
     {
         var rev = parameter?.ToString()?.StartsWith('!') ?? false;
         var pmr = parameter?.ToString()?.TrimStart('!')?.Split('~') ?? new string[3];
-        var val = System.Convert.ToString(value);
+        var val = System.Convert.ToString(value, culture);
 
         return ((val == pmr[0]) ^ rev) ? pmr[1] : pmr[2];
     }

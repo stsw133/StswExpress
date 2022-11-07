@@ -98,11 +98,6 @@
                                             <Setter Property="FontFamily" Value="Arial"/>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <Button x:Name="darkmodeButton"
-                                            ToolTip="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter='0~Przełącz do trybu ciemnego~Przełącz do trybu jasnego'}"
-                                            Visibility="{TemplateBinding AllowToDarkMode, Converter={se:conv_Bool}}">
-                                        <se:OutlinedTextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~☽~☼}"/>
-                                    </Button>
                                     <Button x:Name="minimizeButton"
                                             ToolTip="Minimalizuj"
                                             Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Compare}, ConverterParameter=!NoResize}">
@@ -120,16 +115,33 @@
                                 </StackPanel>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <se:ExtMenuItem Header="Rozmiar interfejsu">
-                                            <MenuItem.Icon>
-                                                <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </MenuItem.Icon>
-                                            <Slider Width="100" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                        <se:ExtMenuItem Header="Interfejs">
+                                            <se:ExtMenuItem Header="Rozmiar">
+                                                <MenuItem.Icon>
+                                                    <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </MenuItem.Icon>
+                                                <Slider Width="81" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                            </se:ExtMenuItem>
+                                            <se:ExtMenuItem Header="Motyw">
+                                                <MenuItem.Icon>
+                                                    <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~☼~☽}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </MenuItem.Icon>
+                                                <se:ExtMenuItem Header="Jasny">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </MenuItem.Icon>
+                                                </se:ExtMenuItem>
+                                                <se:ExtMenuItem Header="Ciemny">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </MenuItem.Icon>
+                                                </se:ExtMenuItem>
+                                            </se:ExtMenuItem>
                                         </se:ExtMenuItem>
                                         <se:ExtSeparator/>
                                         <se:ExtMenuItem Header="Wyśrodkuj na ekranie">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="▣" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </se:ExtMenuItem>
                                         <se:ExtMenuItem Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
@@ -152,6 +164,7 @@
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
+                                            <MenuItem.InputGestureText>Alt + F4</MenuItem.InputGestureText>
                                         </se:ExtMenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>

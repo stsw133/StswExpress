@@ -130,6 +130,9 @@
   <data name="icon16_admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_admin.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon16_allow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_allow.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon16_appearance" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_appearance.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -201,6 +204,9 @@
   </data>
   <data name="icon16_contractors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_contractors.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon16_contrast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_contrast.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon16_copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_copy.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -315,6 +321,9 @@
   </data>
   <data name="icon16_import" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_import.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon16_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_info.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon16_link" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_link.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -475,6 +484,9 @@
   <data name="icon16_truck" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_truck.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon16_txt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_txt.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon16_unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_unlock.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -498,6 +510,12 @@
   </data>
   <data name="icon16_warehouse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_warehouse.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon16_xlsx" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_xlsx.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon16_xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_xml.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon20_filter_between" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon20_filter_between.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -558,6 +576,9 @@
   </data>
   <data name="icon32_admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_admin.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_allow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_allow.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_appearance" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_appearance.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -630,6 +651,9 @@
   </data>
   <data name="icon32_contractors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_contractors.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_contrast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_contrast.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_copy.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -745,6 +769,9 @@
   <data name="icon32_import" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_import.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon32_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_info.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon32_link" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_link.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -762,9 +789,6 @@
   </data>
   <data name="icon32_logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_logout.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="icon32_logs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\icon32_logs.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_mail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_mail.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -828,9 +852,6 @@
   </data>
   <data name="icon32_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_refresh.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="icon32_refresh1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\icon32_refresh.gif;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_remove.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -916,6 +937,9 @@
   <data name="icon32_truck" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_truck.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon32_txt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_txt.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon32_unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_unlock.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -939,5 +963,11 @@
   </data>
   <data name="icon32_warehouse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_warehouse.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_xlsx" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_xlsx.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_xml.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

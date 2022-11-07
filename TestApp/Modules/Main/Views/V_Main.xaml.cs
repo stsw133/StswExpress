@@ -1,5 +1,4 @@
-﻿using StswExpress;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -37,23 +36,17 @@ public partial class V_Main : StswWindow
         Cursor = null;
     }
 
-    /// UpdateFilters
-    private void UpdateFilters()
-    {
-        D.LoadingProgress = 0;
-        DtgUsers.GetColumnFilters(out var filter, out var parameters);
-        D.FilterSqlString = filter;
-        D.FilterSqlParams = parameters;
-    }
-
     /// Refresh
     private async void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Cursor = Cursors.Wait;
-        UpdateFilters();
+        DtgUsers.GetColumnFilters(out var filter, out var parameters);
         await Task.Run(() =>
         {
-            D.ListUsers = Q_Main.GetListOfUsers(D.FilterSqlString, D.FilterSqlParams);
+            D.LoadingProgress = 0;
+
+            /// Users
+            D.ListUsers = Q_Main.GetListOfUsers(filter, parameters);
             D.LoadingProgress = 100;
         });
         Cursor = null;

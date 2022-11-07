@@ -1,4 +1,4 @@
-﻿using StswExpress;
+﻿global using StswExpress;
 using System;
 using System.Linq;
 using System.Windows;

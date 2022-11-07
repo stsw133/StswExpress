@@ -1,14 +1,9 @@
-﻿using StswExpress;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TestApp.Modules.Main;
 
 public class D_Settings : BaseD
 {
-    /// Filter SQL
-    public string FilterSqlString { get; set; } = string.Empty;
-    public List<(string name, object val)> FilterSqlParams { get; set; } = new();
-
     /// LoadingProgress
     private double loadingProgress = 0;
     public double LoadingProgress

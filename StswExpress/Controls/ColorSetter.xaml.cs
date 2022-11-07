@@ -22,15 +22,15 @@ public partial class ColorSetter : UserControl
               nameof(Color),
               typeof(SolidColorBrush),
               typeof(ColorSetter),
-              new PropertyMetadata(Brushes.White)
+              new PropertyMetadata(default(Brushes))
           );
     public SolidColorBrush Color
     {
-        get => (SolidColorBrush)GetValue(ColorProperty);
+        get => GetValue(ColorProperty) as SolidColorBrush ?? Brushes.Transparent;
         set => SetValue(ColorProperty, value);
     }
 
-    /// SliderWidth
+    /// SlidersWidth
     public static readonly DependencyProperty SlidersWidthProperty
         = DependencyProperty.Register(
               nameof(SlidersWidth),
@@ -100,18 +100,18 @@ public partial class ColorSetter : UserControl
         set => SetValue(AProperty, value);
     }
 
-    /// IsAlphaSliderVisible
-    public static readonly DependencyProperty IsAlphaSliderVisibleProperty
+    /// AlphaSliderVisibility
+    public static readonly DependencyProperty AlphaSliderVisibilityProperty
         = DependencyProperty.Register(
-              nameof(IsAlphaSliderVisible),
+              nameof(AlphaSliderVisibility),
               typeof(Visibility),
               typeof(ColorSetter),
               new PropertyMetadata(Visibility.Collapsed)
           );
-    public Visibility IsAlphaSliderVisible
+    public Visibility AlphaSliderVisibility
     {
-        get => (Visibility)GetValue(IsAlphaSliderVisibleProperty);
-        set => SetValue(IsAlphaSliderVisibleProperty, value);
+        get => (Visibility)GetValue(AlphaSliderVisibilityProperty);
+        set => SetValue(AlphaSliderVisibilityProperty, value);
     }
 
     /// UserControl - LayoutUpdated

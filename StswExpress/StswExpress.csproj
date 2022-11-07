@@ -19,6 +19,7 @@
     <None Remove="Resources\icon16_accept.ico" />
     <None Remove="Resources\icon16_add.ico" />
     <None Remove="Resources\icon16_admin.ico" />
+    <None Remove="Resources\icon16_allow.ico" />
     <None Remove="Resources\icon16_appearance.ico" />
     <None Remove="Resources\icon16_archive.ico" />
     <None Remove="Resources\icon16_articles.ico" />
@@ -43,6 +44,7 @@
     <None Remove="Resources\icon16_config.ico" />
     <None Remove="Resources\icon16_contacts.ico" />
     <None Remove="Resources\icon16_contractors.ico" />
+    <None Remove="Resources\icon16_contrast.ico" />
     <None Remove="Resources\icon16_copy.ico" />
     <None Remove="Resources\icon16_customize.ico" />
     <None Remove="Resources\icon16_cut.ico" />
@@ -81,6 +83,7 @@
     <None Remove="Resources\icon16_icons.ico" />
     <None Remove="Resources\icon16_identity.ico" />
     <None Remove="Resources\icon16_import.ico" />
+    <None Remove="Resources\icon16_info.ico" />
     <None Remove="Resources\icon16_link.ico" />
     <None Remove="Resources\icon16_list.ico" />
     <None Remove="Resources\icon16_lock.ico" />
@@ -134,6 +137,7 @@
     <None Remove="Resources\icon16_transport.ico" />
     <None Remove="Resources\icon16_trash.ico" />
     <None Remove="Resources\icon16_truck.ico" />
+    <None Remove="Resources\icon16_txt.ico" />
     <None Remove="Resources\icon16_unlock.ico" />
     <None Remove="Resources\icon16_upgrade.ico" />
     <None Remove="Resources\icon16_upload.ico" />
@@ -142,6 +146,8 @@
     <None Remove="Resources\icon16_versions.ico" />
     <None Remove="Resources\icon16_wait.ico" />
     <None Remove="Resources\icon16_warehouse.ico" />
+    <None Remove="Resources\icon16_xlsx.ico" />
+    <None Remove="Resources\icon16_xml.ico" />
     <None Remove="Resources\icon20_filter_between.ico" />
     <None Remove="Resources\icon20_filter_contains.ico" />
     <None Remove="Resources\icon20_filter_endswith.ico" />
@@ -162,6 +168,7 @@
     <None Remove="Resources\icon32_accept.ico" />
     <None Remove="Resources\icon32_add.ico" />
     <None Remove="Resources\icon32_admin.ico" />
+    <None Remove="Resources\icon32_allow.ico" />
     <None Remove="Resources\icon32_appearance.ico" />
     <None Remove="Resources\icon32_archive.ico" />
     <None Remove="Resources\icon32_articles.ico" />
@@ -186,6 +193,7 @@
     <None Remove="Resources\icon32_config.ico" />
     <None Remove="Resources\icon32_contacts.ico" />
     <None Remove="Resources\icon32_contractors.ico" />
+    <None Remove="Resources\icon32_contrast.ico" />
     <None Remove="Resources\icon32_copy.ico" />
     <None Remove="Resources\icon32_customize.ico" />
     <None Remove="Resources\icon32_cut.ico" />
@@ -224,13 +232,13 @@
     <None Remove="Resources\icon32_icons.ico" />
     <None Remove="Resources\icon32_identity.ico" />
     <None Remove="Resources\icon32_import.ico" />
+    <None Remove="Resources\icon32_info.ico" />
     <None Remove="Resources\icon32_link.ico" />
     <None Remove="Resources\icon32_list.ico" />
     <None Remove="Resources\icon32_lock.ico" />
     <None Remove="Resources\icon32_log.ico" />
     <None Remove="Resources\icon32_login.ico" />
     <None Remove="Resources\icon32_logout.ico" />
-    <None Remove="Resources\icon32_logs.ico" />
     <None Remove="Resources\icon32_mail.ico" />
     <None Remove="Resources\icon32_male.ico" />
     <None Remove="Resources\icon32_message.ico" />
@@ -252,7 +260,6 @@
     <None Remove="Resources\icon32_profile.ico" />
     <None Remove="Resources\icon32_random.ico" />
     <None Remove="Resources\icon32_record.ico" />
-    <None Remove="Resources\icon32_refresh.gif" />
     <None Remove="Resources\icon32_refresh.ico" />
     <None Remove="Resources\icon32_remove.ico" />
     <None Remove="Resources\icon32_return.ico" />
@@ -282,6 +289,7 @@
     <None Remove="Resources\icon32_transport.ico" />
     <None Remove="Resources\icon32_trash.ico" />
     <None Remove="Resources\icon32_truck.ico" />
+    <None Remove="Resources\icon32_txt.ico" />
     <None Remove="Resources\icon32_unlock.ico" />
     <None Remove="Resources\icon32_upgrade.ico" />
     <None Remove="Resources\icon32_upload.ico" />
@@ -290,6 +298,8 @@
     <None Remove="Resources\icon32_versions.ico" />
     <None Remove="Resources\icon32_wait.ico" />
     <None Remove="Resources\icon32_warehouse.ico" />
+    <None Remove="Resources\icon32_xlsx.ico" />
+    <None Remove="Resources\icon32_xml.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -299,7 +309,7 @@
     <Compile Update="Controls\ExtButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\NumberDescription.xaml.cs">
+    <Compile Update="Controls\NumericDescription.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Resources.Designer.cs">
@@ -334,6 +344,7 @@
     <Resource Include="Resources\icon16_accept.ico" />
     <Resource Include="Resources\icon16_add.ico" />
     <Resource Include="Resources\icon16_admin.ico" />
+    <Resource Include="Resources\icon16_allow.ico" />
     <Resource Include="Resources\icon16_appearance.ico" />
     <Resource Include="Resources\icon16_archive.ico" />
     <Resource Include="Resources\icon16_articles.ico" />
@@ -358,6 +369,7 @@
     <Resource Include="Resources\icon16_config.ico" />
     <Resource Include="Resources\icon16_contacts.ico" />
     <Resource Include="Resources\icon16_contractors.ico" />
+    <Resource Include="Resources\icon16_contrast.ico" />
     <Resource Include="Resources\icon16_copy.ico" />
     <Resource Include="Resources\icon16_customize.ico" />
     <Resource Include="Resources\icon16_cut.ico" />
@@ -396,6 +408,7 @@
     <Resource Include="Resources\icon16_icons.ico" />
     <Resource Include="Resources\icon16_identity.ico" />
     <Resource Include="Resources\icon16_import.ico" />
+    <Resource Include="Resources\icon16_info.ico" />
     <Resource Include="Resources\icon16_link.ico" />
     <Resource Include="Resources\icon16_list.ico" />
     <Resource Include="Resources\icon16_lock.ico" />
@@ -449,6 +462,7 @@
     <Resource Include="Resources\icon16_transport.ico" />
     <Resource Include="Resources\icon16_trash.ico" />
     <Resource Include="Resources\icon16_truck.ico" />
+    <Resource Include="Resources\icon16_txt.ico" />
     <Resource Include="Resources\icon16_unlock.ico" />
     <Resource Include="Resources\icon16_upgrade.ico" />
     <Resource Include="Resources\icon16_upload.ico" />
@@ -457,6 +471,8 @@
     <Resource Include="Resources\icon16_versions.ico" />
     <Resource Include="Resources\icon16_wait.ico" />
     <Resource Include="Resources\icon16_warehouse.ico" />
+    <Resource Include="Resources\icon16_xlsx.ico" />
+    <Resource Include="Resources\icon16_xml.ico" />
     <Resource Include="Resources\icon20_filter_between.ico" />
     <Resource Include="Resources\icon20_filter_contains.ico" />
     <Resource Include="Resources\icon20_filter_endswith.ico" />
@@ -477,6 +493,7 @@
     <Resource Include="Resources\icon32_accept.ico" />
     <Resource Include="Resources\icon32_add.ico" />
     <Resource Include="Resources\icon32_admin.ico" />
+    <Resource Include="Resources\icon32_allow.ico" />
     <Resource Include="Resources\icon32_appearance.ico" />
     <Resource Include="Resources\icon32_archive.ico" />
     <Resource Include="Resources\icon32_articles.ico" />
@@ -494,6 +511,7 @@
     <Resource Include="Resources\icon32_company.ico" />
     <Resource Include="Resources\icon32_config.ico" />
     <Resource Include="Resources\icon32_contacts.ico" />
+    <Resource Include="Resources\icon32_contrast.ico" />
     <Resource Include="Resources\icon32_copy.ico" />
     <Resource Include="Resources\icon32_customize.ico" />
     <Resource Include="Resources\icon32_database.ico" />
@@ -521,6 +539,7 @@
     <Resource Include="Resources\icon32_history.ico" />
     <Resource Include="Resources\icon32_identity.ico" />
     <Resource Include="Resources\icon32_import.ico" />
+    <Resource Include="Resources\icon32_info.ico" />
     <Resource Include="Resources\icon32_link.ico" />
     <Resource Include="Resources\icon32_list.ico" />
     <Resource Include="Resources\icon32_lock.ico" />
@@ -555,7 +574,6 @@
     <Resource Include="Resources\icon32_greetings.ico" />
     <Resource Include="Resources\icon32_groups.ico" />
     <Resource Include="Resources\icon32_icons.ico" />
-    <Resource Include="Resources\icon32_logs.ico" />
     <Resource Include="Resources\icon32_message.ico" />
     <Resource Include="Resources\icon32_paste.ico" />
     <Resource Include="Resources\icon32_phone.ico" />
@@ -567,7 +585,6 @@
     <Resource Include="Resources\icon32_profile.ico" />
     <Resource Include="Resources\icon32_random.ico" />
     <Resource Include="Resources\icon32_record.ico" />
-    <Resource Include="Resources\icon32_refresh.gif" />
     <Resource Include="Resources\icon32_refresh.ico" />
     <Resource Include="Resources\icon32_remove.ico" />
     <Resource Include="Resources\icon32_return.ico" />
@@ -588,6 +605,7 @@
     <Resource Include="Resources\icon32_star.ico" />
     <Resource Include="Resources\icon32_stats.ico" />
     <Resource Include="Resources\icon32_truck.ico" />
+    <Resource Include="Resources\icon32_txt.ico" />
     <Resource Include="Resources\icon32_warehouse.ico" />
     <Resource Include="Resources\icon32_switch.ico" />
     <Resource Include="Resources\icon32_system.ico" />
@@ -605,6 +623,8 @@
     <Resource Include="Resources\icon32_users.ico" />
     <Resource Include="Resources\icon32_versions.ico" />
     <Resource Include="Resources\icon32_wait.ico" />
+    <Resource Include="Resources\icon32_xlsx.ico" />
+    <Resource Include="Resources\icon32_xml.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -616,7 +636,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\NumberDescription.xaml">
+    <Page Update="Controls\NumericDescription.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

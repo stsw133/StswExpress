@@ -8,7 +8,7 @@
              LayoutUpdated="UserControl_LayoutUpdated">
     <UserControl.Resources>
         <Style TargetType="Slider">
-            <Setter Property="Width" Value="{Binding SliderWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <Setter Property="Width" Value="{Binding SlidersWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <EventSetter Event="ValueChanged" Handler="SldColor_ValueChanged"/>
         </Style>
@@ -26,7 +26,7 @@
                 <Label DockPanel.Dock="Right" VerticalAlignment="Center"
                        Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=3}"
                        Content="{Binding R, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="Medium"/>
-                <Slider Value="{Binding R, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
+                <Slider Value="{Binding R, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"/>
             </DockPanel>
             <!-- G -->
             <DockPanel DockPanel.Dock="Top">
@@ -34,7 +34,7 @@
                 <Label DockPanel.Dock="Right" VerticalAlignment="Center"
                        Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=3}"
                        Content="{Binding G, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="Medium"/>
-                <Slider Value="{Binding G, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
+                <Slider Value="{Binding G, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"/>
             </DockPanel>
             <!-- B -->
             <DockPanel DockPanel.Dock="Top">
@@ -42,15 +42,15 @@
                 <Label DockPanel.Dock="Right" VerticalAlignment="Center"
                        Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=3}"
                        Content="{Binding B, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="Medium"/>
-                <Slider Value="{Binding B, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
+                <Slider Value="{Binding B, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"/>
             </DockPanel>
             <!-- A -->
-            <DockPanel DockPanel.Dock="Top" Visibility="{Binding IsAlphaSliderVisible, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <DockPanel DockPanel.Dock="Top" Visibility="{Binding AlphaSliderVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <Label Content="A" FontWeight="Heavy" Foreground="Gray" VerticalAlignment="Center"/>
                 <Label DockPanel.Dock="Right" VerticalAlignment="Center"
                        Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=3}"
                        Content="{Binding A, RelativeSource={RelativeSource AncestorType=UserControl}}" FontWeight="Medium"/>
-                <Slider Value="{Binding A, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
+                <Slider Value="{Binding A, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" Maximum="255"/>
             </DockPanel>
         </DockPanel>
     </DockPanel>

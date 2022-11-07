@@ -98,7 +98,7 @@ public partial class NumericUpDown : UserControl
         set => SetValue(ValueProperty, value);
     }
 
-    /// Up - Click
+    /// BtnUp_Click
     private void BtnUp_Click(object sender, RoutedEventArgs e)
     {
         Value += Increment;
@@ -113,7 +113,7 @@ public partial class NumericUpDown : UserControl
             Value = (double)Max;
     }
 
-    /// Down - Click
+    /// BtnDown_Click
     private void BtnDown_Click(object sender, RoutedEventArgs e)
     {
         Value -= Increment;
@@ -128,7 +128,7 @@ public partial class NumericUpDown : UserControl
             Value = (double)Min;
     }
 
-    /// TextBox - LostFocus
+    /// TextBox_LostFocus
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         if (Min != null && Value < Min)
