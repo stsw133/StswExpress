@@ -5,17 +5,21 @@
     <Style TargetType="{x:Type se:StswWindow}">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="0" CornerRadius="5" GlassFrameThickness="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
+                <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="10" UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="BorderBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=Self}}"/>
-        <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter='Maximized~0~1.5'}"/>
+        <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~0~2}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border Background="Transparent" Padding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_Compare}, ConverterParameter=Maximized~0~5}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#7777" ShadowDepth="0" Direction="0" Opacity="1" BlurRadius="10"/>
+                        </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -120,7 +124,7 @@
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <Slider Width="81" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                                <Slider Width="61" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="8" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
                                             </se:ExtMenuItem>
                                             <se:ExtMenuItem Header="Motyw">
                                                 <MenuItem.Icon>
@@ -171,46 +175,48 @@
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0">
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
+                                                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="True"/>
+                                                </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background">
                                                     <Setter.Value>
                                                         <RadialGradientBrush>
                                                             <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=0.6}"/>
-                                                            <GradientStop Color="#FFFFFF" Offset="2"/>
+                                                            <GradientStop Color="#FFF" Offset="2"/>
                                                         </RadialGradientBrush>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1">
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
+                                                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background" Value="#EEE"/>
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
+                                                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="True"/>
+                                                </MultiDataTrigger.Conditions>
                                                 <Setter Property="Background">
                                                     <Setter.Value>
                                                         <RadialGradientBrush>
                                                             <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=-0.6}"/>
-                                                            <GradientStop Color="#000000" Offset="2"/>
+                                                            <GradientStop Color="#000" Offset="2"/>
                                                         </RadialGradientBrush>
                                                     </Setter.Value>
                                                 </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="2">
-                                                <Setter Property="Background">
-                                                    <Setter.Value>
-                                                        <RadialGradientBrush>
-                                                            <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=-0.55}"/>
-                                                            <GradientStop Color="#212121" Offset="2"/>
-                                                        </RadialGradientBrush>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="3">
-                                                <Setter Property="Background">
-                                                    <Setter.Value>
-                                                        <RadialGradientBrush>
-                                                            <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=0.55}"/>
-                                                            <GradientStop Color="#F6F6F6" Offset="2"/>
-                                                        </RadialGradientBrush>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
+                                                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background" Value="#111"/>
+                                            </MultiDataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Grid.Style>
@@ -222,26 +228,43 @@
                             </Grid>
                         </Grid>
                     </Border>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0">
-                <Setter Property="Background" Value="#FFFFFF"/>
-                <Setter Property="Foreground" Value="#000000"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1">
-                <Setter Property="Background" Value="#000000"/>
-                <Setter Property="Foreground" Value="#FFFFFF"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="2">
-                <Setter Property="Background" Value="#212121"/>
-                <Setter Property="Foreground" Value="#F6F6F6"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="3">
-                <Setter Property="Background" Value="#F6F6F6"/>
-                <Setter Property="Foreground" Value="#212121"/>
-            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
+                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="#FFF"/>
+                <Setter Property="BorderBrush" Value="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=0.3}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
+                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="#FFF"/>
+                <Setter Property="BorderBrush" Value="#CCC"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
+                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="#000"/>
+                <Setter Property="BorderBrush" Value="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=-0.3}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
+                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="#000"/>
+                <Setter Property="BorderBrush" Value="#333"/>
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

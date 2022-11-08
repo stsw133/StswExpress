@@ -12,7 +12,7 @@
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                        <Rectangle Margin="14 0 0 0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="True" StrokeThickness="1"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -23,34 +23,36 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Height="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.2}"
+                        Width="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.2}">
                     <Grid x:Name="markGrid">
-                        <TextBlock x:Name="optionMark" Text="✔" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="indeterminateMark" Text="■" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="optionMark" Text="✔" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="indeterminateMark" Text="■" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
-                <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Grid>
             <ControlTemplate.Triggers>
-                <Trigger Property="HasContent" Value="true">
+                <Trigger Property="HasContent" Value="True">
                     <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
-                    <Setter Property="Padding" Value="4,-1,0,0"/>
+                    <Setter Property="Padding" Value="4 -1 0 0"/>
                 </Trigger>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" TargetName="checkBoxBorder" Value="#3777"/>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="checkBoxBorder" Value="#1777"/>
                     <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#59F"/>
                 </Trigger>
-                <Trigger Property="IsEnabled" Value="false">
+                <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" TargetName="checkBoxBorder" Value="#3777"/>
                     <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#BBB"/>
                     <Setter Property="Foreground" TargetName="optionMark" Value="#7777"/>
                     <Setter Property="Foreground" TargetName="indeterminateMark" Value="#7777"/>
                 </Trigger>
-                <Trigger Property="IsPressed" Value="true">
-                    <Setter Property="Background" TargetName="checkBoxBorder" Value="#3777"/>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" TargetName="checkBoxBorder" Value="#1777"/>
                     <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#37D"/>
                 </Trigger>
-                <Trigger Property="IsChecked" Value="true">
+                <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
                     <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
                 </Trigger>

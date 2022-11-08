@@ -62,6 +62,20 @@ public partial class ExtDataGrid : DataGrid
         get => (SolidColorBrush)GetValue(HeaderForegroundProperty);
         set => SetValue(HeaderForegroundProperty, value);
     }
+
+    /// ID
+    public static readonly DependencyProperty IDProperty
+        = DependencyProperty.Register(
+              nameof(ID),
+              typeof(int),
+              typeof(ExtDataGrid),
+              new PropertyMetadata(default(int))
+          );
+    public int ID
+    {
+        get => (int)GetValue(IDProperty);
+        set => SetValue(IDProperty, value);
+    }
 }
 
 public class SetMinWidthToAutoAttachedBehaviour

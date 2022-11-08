@@ -15,6 +15,20 @@ public partial class ExtDatePicker : DatePicker
         InitializeComponent();
     }
 
+    /// ID
+    public static readonly DependencyProperty IDProperty
+        = DependencyProperty.Register(
+              nameof(ID),
+              typeof(int),
+              typeof(ExtDatePicker),
+              new PropertyMetadata(default(int))
+          );
+    public int ID
+    {
+        get => (int)GetValue(IDProperty);
+        set => SetValue(IDProperty, value);
+    }
+
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();

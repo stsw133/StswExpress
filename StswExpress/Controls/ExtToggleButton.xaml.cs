@@ -40,4 +40,18 @@ public partial class ExtToggleButton : ToggleButton
         get => (bool)GetValue(ForMultiBoxProperty);
         set => SetValue(ForMultiBoxProperty, value);
     }
+
+    /// ID
+    public static readonly DependencyProperty IDProperty
+        = DependencyProperty.Register(
+              nameof(ID),
+              typeof(int),
+              typeof(ExtToggleButton),
+              new PropertyMetadata(default(int))
+          );
+    public int ID
+    {
+        get => (int)GetValue(IDProperty);
+        set => SetValue(IDProperty, value);
+    }
 }
