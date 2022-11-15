@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -270,13 +271,30 @@ public partial class ColumnFilter : StackPanel
         set => SetValue(StatsVisibilityProperty, value);
     }
 
+    /// PropertyChangedCallback
+    public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is ColumnFilter filter)
+            filter.FilterSql = new()
+            {
+                SqlParam = filter.SqlParam,
+                SqlString = filter.SqlString,
+                Value1 = filter.Value1,
+                Value2 = filter.Value2,
+                ValueDef = filter.ValueDef,
+                ColumnFilter = filter
+            };
+    }
+
     /// Value1
     public static readonly DependencyProperty Value1Property
         = DependencyProperty.Register(
               nameof(Value1),
               typeof(object),
               typeof(ColumnFilter),
-              new PropertyMetadata(default(object))
+              new FrameworkPropertyMetadata(default(object),
+                  FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                  ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
           );
     public object Value1
     {
@@ -295,7 +313,9 @@ public partial class ColumnFilter : StackPanel
               nameof(Value2),
               typeof(object),
               typeof(ColumnFilter),
-              new PropertyMetadata(default(object))
+              new FrameworkPropertyMetadata(default(object),
+                  FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                  ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
           );
     public object Value2
     {
@@ -317,9 +337,25 @@ public partial class ColumnFilter : StackPanel
         set
         {
             SetValue(ValueDefProperty, FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value);
-            if (Value1 == null) Value1 = FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
-            if (Value2 == null) Value2 = FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
+            Value1 ??= FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
+            Value2 ??= FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
         }
+    }
+
+    /// FilterSql
+    public static readonly DependencyProperty FilterSqlProperty
+        = DependencyProperty.Register(
+              nameof(FilterSql),
+              typeof(ColumnFilterModel),
+              typeof(ColumnFilter),
+              new FrameworkPropertyMetadata(default(ColumnFilterModel),
+                  FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                  null, null, false, UpdateSourceTrigger.PropertyChanged)
+          );
+    public ColumnFilterModel FilterSql
+    {
+        get => (ColumnFilterModel)GetValue(FilterSqlProperty);
+        set => SetValue(FilterSqlProperty, value);
     }
 
     /// SqlParam
@@ -564,4 +600,14 @@ public partial class ColumnFilter : StackPanel
         FilterMode = (Modes)Enum.Parse(typeof(Modes), (string)((MenuItem)sender).Tag);
         ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString().ToLower()}.ico"));
     }
+}
+
+public class ColumnFilterModel
+{
+    public string SqlParam { get; set; }
+    public string SqlString { get; set; }
+    public object Value1 { get; set; }
+    public object Value2 { get; set; }
+    public object ValueDef { get; set; }
+    public ColumnFilter ColumnFilter { get; set; }
 }

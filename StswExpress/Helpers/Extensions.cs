@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Net.WebRequestMethods;
 
 namespace StswExpress;
 
@@ -265,7 +266,7 @@ public static class Extensions
     }
 
     /// Gets controls of "ColumnFilter" type from ExtDictionary.
-    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilter> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilterModel> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
@@ -273,7 +274,7 @@ public static class Extensions
         foreach (var elem in dict)
         {
             /// Header is ColumnFilter
-            if (elem.Value.SqlString != null)
+            if (elem.Value?.SqlParam != null)
             {
                 filter += " and " + elem.Value.SqlString;
                 if (elem.Value.Value1 != null)
@@ -290,12 +291,12 @@ public static class Extensions
     }
 
     /// Clears values in controls of "ColumnFilter" type in ExtDictionary.
-    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilter> dict)
+    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilterModel> dict)
     {
-        foreach (var elem in dict)
+        foreach (var pair in dict)
         {
-            elem.Value.Value1 = elem.Value.ValueDef;
-            elem.Value.Value2 = elem.Value.ValueDef;
+            dict[pair.Key].ColumnFilter.Value1 = dict[pair.Key].ColumnFilter.ValueDef;
+            dict[pair.Key].ColumnFilter.Value2 = dict[pair.Key].ColumnFilter.ValueDef;
         }
     }
     #endregion

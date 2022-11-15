@@ -1,5 +1,6 @@
 ﻿using DynamicAero2;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,6 +17,7 @@ public class StswWindow : Window
     private double DefaultHeight, DefaultWidth;
 
     /// Constructors
+    public StswWindow() => SetValue(CustomControlsProperty, new ObservableCollection<UIElement>());
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
 
     /// CustomControls
@@ -24,7 +26,7 @@ public class StswWindow : Window
               nameof(CustomControls),
               typeof(ObservableCollection<UIElement>),
               typeof(StswWindow),
-              new PropertyMetadata(new ObservableCollection<UIElement>())
+              new PropertyMetadata(default(ObservableCollection<UIElement>))
           );
     public ObservableCollection<UIElement> CustomControls
     {

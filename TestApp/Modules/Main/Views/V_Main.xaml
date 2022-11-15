@@ -12,22 +12,7 @@
         <Button Command="se:Commands.Settings">
             <se:OutlinedTextBlock Text="🔧"/>
         </Button>
-        <Button>
-            <se:OutlinedTextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"/>
-        </Button>
-        <Button>
-            <se:OutlinedTextBlock Text="E"/>
-        </Button>
-        <Button>
-            <se:OutlinedTextBlock Text="S"/>
-        </Button>
-        <Button>
-            <se:OutlinedTextBlock Text="T"/>
-        </Button>
     </se:StswWindow.CustomControls>
-    <Window.CommandBindings>
-        <CommandBinding Command="se:Commands.Settings" Executed="CmdSettings_Executed"/>
-    </Window.CommandBindings>
     <TabControl SelectedIndex="{Binding SelectedTab}">
         <!-- main data -->
         <TabItem>
@@ -59,7 +44,8 @@
                         <!-- ID -->
                         <DataGridTextColumn Binding="{Binding ID}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
+                                <se:ColumnFilter Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"
+                                                 FilterSql="{Binding DataContext.ColumnFilters[ID], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
                         
@@ -67,7 +53,8 @@
                         <DataGridComboBoxColumn TextBinding="{Binding Type}">
                             <DataGridComboBoxColumn.Header>
                                 <se:ColumnFilter Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
-                                                 ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
+                                                 ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"
+                                                 FilterSql="{Binding DataContext.ColumnFilters[Type], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridComboBoxColumn.Header>
                         </DataGridComboBoxColumn>
                         
@@ -83,14 +70,16 @@
                         <!-- Name -->
                         <DataGridTextColumn Width="*" Binding="{Binding Name}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
+                                <se:ColumnFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"
+                                                 FilterSql="{Binding DataContext.ColumnFilters[Name], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
                         
                         <!-- IsEnabled -->
                         <DataGridCheckBoxColumn Width="auto" Binding="{Binding IsEnabled}">
                             <DataGridCheckBoxColumn.Header>
-                                <se:ColumnFilter Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
+                                <se:ColumnFilter Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"
+                                                 FilterSql="{Binding DataContext.ColumnFilters[IsEnabled], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridCheckBoxColumn.Header>
                         </DataGridCheckBoxColumn>
                         
@@ -98,7 +87,8 @@
                         <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                             <DataGridTextColumn.Header>
                                 <se:ColumnFilter Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
-                                                 ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"/>
+                                                 ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"
+                                                 FilterSql="{Binding DataContext.ColumnFilters[CreateDT], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
                         

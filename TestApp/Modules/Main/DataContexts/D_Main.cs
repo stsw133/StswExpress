@@ -11,6 +11,14 @@ public class D_Main : BaseD
     /// SelectedTab
     public int SelectedTab { get; set; }
 
+    /// ColumnFilters
+    private ExtDictionary<string, ColumnFilterModel> columnFilters = new();
+    public ExtDictionary<string, ColumnFilterModel> ColumnFilters
+    {
+        get => columnFilters;
+        set => SetField(ref columnFilters, value, () => ColumnFilters);
+    }
+
     /// LoadingProgress
     private double loadingProgress = 0;
     public double LoadingProgress
@@ -32,12 +40,12 @@ public class D_Main : BaseD
     #endregion
 
     #region Events
-    /*
     public D_Main()
     {
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Clear, CmdClear_Executed));
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Refresh, CmdRefresh_Executed));
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Save, CmdSave_Executed));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Settings, CmdSettings_Executed));
     }
 
     /// Clear
@@ -46,7 +54,7 @@ public class D_Main : BaseD
         switch (SelectedTab)
         {
             case 0:
-                DtgUsers.ClearColumnFilters();
+                ColumnFilters.ClearColumnFilters();
                 await Task.Run(() =>
                 {
                     ListUsers = new();
@@ -61,7 +69,7 @@ public class D_Main : BaseD
         switch (SelectedTab)
         {
             case 0:
-                DtgUsers.GetColumnFilters(out var filter, out var parameters);
+                ColumnFilters.GetColumnFilters(out var filter, out var parameters);
                 await Task.Run(() =>
                 {
                     LoadingProgress = 0;
@@ -87,6 +95,8 @@ public class D_Main : BaseD
                 break;
         }
     }
-    */
+
+    /// Settings
+    private void CmdSettings_Executed(object sender, ExecutedRoutedEventArgs e) => new Settings.V_Settings() { Owner = Application.Current.MainWindow }.ShowDialog();
     #endregion
 }
