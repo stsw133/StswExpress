@@ -307,6 +307,9 @@
   <data name="icon16_half" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_half.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icon16_hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon16_hand.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icon16_help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon16_help.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -753,6 +756,9 @@
   </data>
   <data name="icon32_half" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_half.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icon32_hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\icon32_hand.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icon32_help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\icon32_help.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

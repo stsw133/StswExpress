@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TestApp.Modules.Settings;
 
 namespace TestApp.Modules.Main;
 
@@ -11,8 +10,7 @@ namespace TestApp.Modules.Main;
 /// </summary>
 public partial class V_Main : StswWindow
 {
-    private readonly D_Settings D = new D_Settings();
-    private Button? BtnSettings;
+    private readonly D_Main D = new D_Main();
 
     public V_Main()
     {
@@ -20,21 +18,8 @@ public partial class V_Main : StswWindow
         DataContext = D;
     }
 
-    /// Window_Loaded
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        BtnSettings = AddButtonToTitleBar("🔧");
-        if (BtnSettings != null)
-            BtnSettings.Command = Commands.Settings;
-    }
-
     /// Settings
-    private void CmdSettings_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Cursor = Cursors.Wait;
-        new V_Settings() { Owner = this }.ShowDialog();
-        Cursor = null;
-    }
+    private void CmdSettings_Executed(object sender, ExecutedRoutedEventArgs e) => new Settings.V_Settings() { Owner = this }.ShowDialog();
 
     /// Refresh
     private async void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)

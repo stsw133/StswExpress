@@ -263,5 +263,40 @@ public static class Extensions
             }
         }
     }
+
+    /// Gets controls of "ColumnFilter" type from ExtDictionary.
+    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilter> dict, out string filter, out List<(string name, object val)> parameters)
+    {
+        filter = string.Empty;
+        parameters = new List<(string, object)>();
+
+        foreach (var elem in dict)
+        {
+            /// Header is ColumnFilter
+            if (elem.Value.SqlString != null)
+            {
+                filter += " and " + elem.Value.SqlString;
+                if (elem.Value.Value1 != null)
+                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "1", (elem.Value.Value1 is List<object> ? null : elem.Value.Value1) ?? DBNull.Value));
+                if (elem.Value.Value2 != null)
+                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "2", (elem.Value.Value2 is List<object> ? null : elem.Value.Value2) ?? DBNull.Value));
+            }
+        }
+
+        if (filter.StartsWith(" and "))
+            filter = filter[5..];
+        if (string.IsNullOrWhiteSpace(filter))
+            filter = "1=1";
+    }
+
+    /// Clears values in controls of "ColumnFilter" type in ExtDictionary.
+    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilter> dict)
+    {
+        foreach (var elem in dict)
+        {
+            elem.Value.Value1 = elem.Value.ValueDef;
+            elem.Value.Value2 = elem.Value.ValueDef;
+        }
+    }
     #endregion
 }

@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace TestApp.Modules.Main;
 
-public class D_Settings : BaseD
+public class D_Main : BaseD
 {
+    #region Data
+    /// SelectedTab
+    public int SelectedTab { get; set; }
+
     /// LoadingProgress
     private double loadingProgress = 0;
     public double LoadingProgress
@@ -22,4 +29,64 @@ public class D_Settings : BaseD
         get => listUsers;
         set => SetField(ref listUsers, value, () => ListUsers);
     }
+    #endregion
+
+    #region Events
+    /*
+    public D_Main()
+    {
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Clear, CmdClear_Executed));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Refresh, CmdRefresh_Executed));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Save, CmdSave_Executed));
+    }
+
+    /// Clear
+    private async void CmdClear_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        switch (SelectedTab)
+        {
+            case 0:
+                DtgUsers.ClearColumnFilters();
+                await Task.Run(() =>
+                {
+                    ListUsers = new();
+                });
+                break;
+        }
+    }
+
+    /// Refresh
+    private async void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        switch (SelectedTab)
+        {
+            case 0:
+                DtgUsers.GetColumnFilters(out var filter, out var parameters);
+                await Task.Run(() =>
+                {
+                    LoadingProgress = 0;
+
+                    /// Users
+                    ListUsers = Q_Main.GetListOfUsers(filter, parameters);
+                    LoadingProgress = 100;
+                });
+                break;
+        }
+    }
+
+    /// Save
+    private void CmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        switch (SelectedTab)
+        {
+            case 0:
+                LoadingProgress = 0;
+                if (Q_Main.SetListOfUsers(ListUsers))
+                    MessageBox.Show("Data saved successfully.");
+                LoadingProgress = 100;
+                break;
+        }
+    }
+    */
+    #endregion
 }

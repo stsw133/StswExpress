@@ -80,6 +80,7 @@
     <None Remove="Resources\icon16_grid.ico" />
     <None Remove="Resources\icon16_groups.ico" />
     <None Remove="Resources\icon16_half.ico" />
+    <None Remove="Resources\icon16_hand.ico" />
     <None Remove="Resources\icon16_help.ico" />
     <None Remove="Resources\icon16_history.ico" />
     <None Remove="Resources\icon16_icons.ico" />
@@ -229,6 +230,7 @@
     <None Remove="Resources\icon32_grid.ico" />
     <None Remove="Resources\icon32_groups.ico" />
     <None Remove="Resources\icon32_half.ico" />
+    <None Remove="Resources\icon32_hand.ico" />
     <None Remove="Resources\icon32_help.ico" />
     <None Remove="Resources\icon32_history.ico" />
     <None Remove="Resources\icon32_icons.ico" />
@@ -405,6 +407,7 @@
     <Resource Include="Resources\icon16_grid.ico" />
     <Resource Include="Resources\icon16_groups.ico" />
     <Resource Include="Resources\icon16_half.ico" />
+    <Resource Include="Resources\icon16_hand.ico" />
     <Resource Include="Resources\icon16_help.ico" />
     <Resource Include="Resources\icon16_history.ico" />
     <Resource Include="Resources\icon16_icons.ico" />
@@ -537,6 +540,7 @@
     <Resource Include="Resources\icon32_global.ico" />
     <Resource Include="Resources\icon32_grid.ico" />
     <Resource Include="Resources\icon32_half.ico" />
+    <Resource Include="Resources\icon32_hand.ico" />
     <Resource Include="Resources\icon32_help.ico" />
     <Resource Include="Resources\icon32_history.ico" />
     <Resource Include="Resources\icon32_identity.ico" />

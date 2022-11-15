@@ -1,5 +1,6 @@
 ﻿using DynamicAero2;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -16,6 +17,20 @@ public class StswWindow : Window
 
     /// Constructors
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
+
+    /// CustomControls
+    public static readonly DependencyProperty CustomControlsProperty
+        = DependencyProperty.Register(
+              nameof(CustomControls),
+              typeof(ObservableCollection<UIElement>),
+              typeof(StswWindow),
+              new PropertyMetadata(new ObservableCollection<UIElement>())
+          );
+    public ObservableCollection<UIElement> CustomControls
+    {
+        get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
+        set => SetValue(CustomControlsProperty, value);
+    }
 
     /// SubIcon
     public static readonly DependencyProperty SubIconProperty
@@ -313,47 +328,6 @@ public class StswWindow : Window
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
         Settings.Default.Save();
-    }
-
-    /// AddButtonToTitleBar
-    protected Button? AddButtonToTitleBar(string text)
-    {
-        try
-        {
-            var buttonsPanel = Template.FindName("buttonsPanel", this) as StackPanel;
-            if (buttonsPanel != null)
-            {
-                var button = new Button()
-                {
-                    Content = new OutlinedTextBlock()
-                    {
-                        Text = text
-                    }
-                };
-                buttonsPanel.Children.Insert(0, button);
-                return button;
-            }
-        }
-        catch
-        {
-            ;
-        }
-        return null;
-    }
-
-    /// AddToTitleBar
-    protected void AddToTitleBar(UIElement element)
-    {
-        try
-        {
-            var buttonsPanel = Template.FindName("buttonsPanel", this) as StackPanel;
-            if (buttonsPanel != null)
-                buttonsPanel.Children.Insert(0, element);
-        }
-        catch
-        {
-            ;
-        }
     }
 
     #region DLL

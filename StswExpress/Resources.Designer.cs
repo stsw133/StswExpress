@@ -693,6 +693,16 @@ namespace StswExpress {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] icon16_hand {
+            get {
+                object obj = ResourceManager.GetObject("icon16_hand", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] icon16_help {
             get {
                 object obj = ResourceManager.GetObject("icon16_help", resourceCulture);
@@ -2176,6 +2186,16 @@ namespace StswExpress {
         public static byte[] icon32_half {
             get {
                 object obj = ResourceManager.GetObject("icon32_half", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] icon32_hand {
+            get {
+                object obj = ResourceManager.GetObject("icon32_hand", resourceCulture);
                 return ((byte[])(obj));
             }
         }

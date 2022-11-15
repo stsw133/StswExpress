@@ -7,22 +7,33 @@
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:Fn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:Fn.AppCopyright}}"
-               Icon="pack://application:,,,/StswExpress;component/Resources/icon32_users.ico"
-               Loaded="Window_Loaded">
+               Icon="pack://application:,,,/StswExpress;component/Resources/icon32_users.ico">
+    <se:StswWindow.CustomControls>
+        <Button Command="se:Commands.Settings">
+            <se:OutlinedTextBlock Text="🔧"/>
+        </Button>
+        <Button>
+            <se:OutlinedTextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </Button>
+        <Button>
+            <se:OutlinedTextBlock Text="E"/>
+        </Button>
+        <Button>
+            <se:OutlinedTextBlock Text="S"/>
+        </Button>
+        <Button>
+            <se:OutlinedTextBlock Text="T"/>
+        </Button>
+    </se:StswWindow.CustomControls>
     <Window.CommandBindings>
         <CommandBinding Command="se:Commands.Settings" Executed="CmdSettings_Executed"/>
     </Window.CommandBindings>
-    <TabControl>
+    <TabControl SelectedIndex="{Binding SelectedTab}">
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
                 <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_documents.ico"/>
             </TabItem.Header>
-            <TabItem.CommandBindings>
-                <CommandBinding Command="se:Commands.Clear" Executed="CmdClear_Executed"/>
-                <CommandBinding Command="se:Commands.Refresh" Executed="CmdRefresh_Executed"/>
-                <CommandBinding Command="se:Commands.Save" Executed="CmdSave_Executed"/>
-            </TabItem.CommandBindings>
             <DockPanel>
                 <!-- button panel -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
