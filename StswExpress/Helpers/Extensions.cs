@@ -249,7 +249,7 @@ public static class Extensions
         foreach (var elem in dict)
         {
             /// Header is ColumnFilter
-            if (elem.Value?.SqlParam != null)
+            if (elem.Value?.SqlString != null)
             {
                 filter += " and " + elem.Value.SqlString;
                 if (elem.Value.Value1 != null)
