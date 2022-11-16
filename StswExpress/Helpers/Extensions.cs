@@ -205,68 +205,43 @@ public static class Extensions
     /// Gets controls of "ColumnFilter" type from DataGrid.
     public static void GetColumnFilters(this DataGrid dg, out string filter, out List<(string name, object val)> parameters)
     {
-        filter = string.Empty;
-        parameters = new List<(string, object)>();
-        
+        var dict = new ExtDictionary<string, ColumnFilter>();
+
         foreach (var col in dg.Columns)
         {
             /// Header is ColumnFilter
             if (col.Header is ColumnFilter cf1)
-            {
-                if (cf1.SqlString != null)
-                {
-                    filter += " and " + cf1.SqlString;
-                    if (cf1.Value1 != null)
-                        parameters.Add((cf1.SqlParam[..(cf1.SqlParam.Length > 120 ? 120 : cf1.SqlParam.Length)] + "1", (cf1.Value1 is List<object> ? null : cf1.Value1) ?? DBNull.Value));
-                    if (cf1.Value2 != null)
-                        parameters.Add((cf1.SqlParam[..(cf1.SqlParam.Length > 120 ? 120 : cf1.SqlParam.Length)] + "2", (cf1.Value2 is List<object> ? null : cf1.Value2) ?? DBNull.Value));
-                }
-            }
+                dict.Add(new KeyValuePair<string, ColumnFilter>(cf1.Uid, cf1));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
-            {
                 foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                {
-                    filter += " and " + cf.SqlString;
-                    if (cf.Value1 != null)
-                        parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "1", (cf.Value1 is List<object> ? null : cf.Value1) ?? DBNull.Value));
-                    if (cf.Value2 != null)
-                        parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "2", (cf.Value2 is List<object> ? null : cf.Value2) ?? DBNull.Value));
-                }
-            }
+                    dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
         }
 
-        if (filter.StartsWith(" and "))
-            filter = filter[5..];
-        if (string.IsNullOrWhiteSpace(filter))
-            filter = "1=1";
+        dict.GetColumnFilters(out filter, out parameters);
     }
 
     /// Clears values in controls of "ColumnFilter" type in DataGrid.
     public static void ClearColumnFilters(this DataGrid dg)
     {
+        var dict = new ExtDictionary<string, ColumnFilter>();
+
         foreach (var col in dg.Columns)
         {
             /// Header is ColumnFilter
             if (col.Header is ColumnFilter cf1)
-            {
-                cf1.Value1 = cf1.ValueDef;
-                cf1.Value2 = cf1.ValueDef;
-            }
+                dict.Add(new KeyValuePair<string, ColumnFilter>(cf1.Uid, cf1));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
-            {
                 foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                {
-                    cf.Value1 = cf.ValueDef;
-                    cf.Value2 = cf.ValueDef;
-                }
-            }
+                    dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
         }
+
+        dict.ClearColumnFilters();
     }
 
     /// Gets controls of "ColumnFilter" type from ExtDictionary.
-    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilterModel> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilter> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
@@ -291,12 +266,12 @@ public static class Extensions
     }
 
     /// Clears values in controls of "ColumnFilter" type in ExtDictionary.
-    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilterModel> dict)
+    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilter> dict)
     {
         foreach (var pair in dict)
         {
-            dict[pair.Key].ColumnFilter.Value1 = dict[pair.Key].ColumnFilter.ValueDef;
-            dict[pair.Key].ColumnFilter.Value2 = dict[pair.Key].ColumnFilter.ValueDef;
+            dict[pair.Key].Value1 = dict[pair.Key].ValueDef;
+            dict[pair.Key].Value2 = dict[pair.Key].ValueDef;
         }
     }
     #endregion

@@ -148,6 +148,12 @@
                                                         </MenuItem.Icon>
                                                     </se:ExtMenuItem>
                                                 </se:ExtMenuItem>
+                                                <se:ExtMenuItem Header="Kolor paska">
+                                                    <MenuItem.Icon>
+                                                        <Rectangle Fill="{Binding TitleBarColor, Mode=OneWay, Source={x:Static se:Settings.Default}}" Height="13" Width="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </MenuItem.Icon>
+                                                    <se:ColorSetter AlphaSliderVisibility="Collapsed" SlidersWidth="256" Color="{Binding TitleBarColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$}"/>
+                                                </se:ExtMenuItem>
                                             </se:ExtMenuItem>
                                             <se:ExtSeparator/>
                                             <se:ExtMenuItem Header="Wyśrodkuj na ekranie">
@@ -190,7 +196,7 @@
                                                     <Setter Property="Background">
                                                         <Setter.Value>
                                                             <RadialGradientBrush>
-                                                                <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=0.6}"/>
+                                                                <GradientStop Color="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$0.6}"/>
                                                                 <GradientStop Color="#FFF" Offset="2"/>
                                                             </RadialGradientBrush>
                                                         </Setter.Value>
@@ -211,7 +217,7 @@
                                                     <Setter Property="Background">
                                                         <Setter.Value>
                                                             <RadialGradientBrush>
-                                                                <GradientStop Color="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=-0.6}"/>
+                                                                <GradientStop Color="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$-0.6}"/>
                                                                 <GradientStop Color="#000" Offset="2"/>
                                                             </RadialGradientBrush>
                                                         </Setter.Value>
@@ -246,7 +252,7 @@
                     <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Background" Value="#FFF"/>
-                <Setter Property="BorderBrush" Value="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=0.3}"/>
+                <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$0.3}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -262,7 +268,7 @@
                     <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Background" Value="#000"/>
-                <Setter Property="BorderBrush" Value="{Binding Source={x:Static se:Fn.GetWindowsThemeColor}, Converter={se:conv_Color}, ConverterParameter=-0.3}"/>
+                <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$-0.3}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>

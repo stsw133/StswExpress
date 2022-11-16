@@ -12,8 +12,8 @@ public class D_Main : BaseD
     public int SelectedTab { get; set; }
 
     /// ColumnFilters
-    private ExtDictionary<string, ColumnFilterModel> columnFilters = new();
-    public ExtDictionary<string, ColumnFilterModel> ColumnFilters
+    private ExtDictionary<string, ColumnFilter> columnFilters = new();
+    public ExtDictionary<string, ColumnFilter> ColumnFilters
     {
         get => columnFilters;
         set => SetField(ref columnFilters, value, () => ColumnFilters);

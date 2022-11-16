@@ -157,6 +157,7 @@ public class conv_NotNull : MarkupExtension, IValueConverter
 /// Use "?" at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.
 /// Use "@" at the end of converter parameter with value between 00 and FF to set alpha of output color.
 /// Use "#" at the beginning of converter parameter to automatically generate color in output based on value string.
+/// Use "$" at the beginning of converter parameter to set color to system if is default.
 /// Use value between -1.0 and 1.0 to set brightness of output color.
 /// </summary>
 public class conv_Color : MarkupExtension, IValueConverter
@@ -173,7 +174,8 @@ public class conv_Color : MarkupExtension, IValueConverter
             contrastColor = pmr.Contains('‼'),
             desaturateColor = pmr.Contains('↓'),
             autoBrightness = pmr.Contains('?'),
-            generateColor = pmr.Contains('#');
+            generateColor = pmr.Contains('#'),
+            systemColor = pmr.Contains('$');
         int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr[(pmr.IndexOf('@') + 1)..], 16) : -1;
 
         if (invertColor) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
@@ -181,6 +183,7 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (desaturateColor) pmr = pmr.Remove(pmr.IndexOf('↓'), 1);
         if (autoBrightness) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
         if (generateColor) pmr = pmr.Remove(pmr.IndexOf('#'), 1);
+        if (systemColor) pmr = pmr.Remove(pmr.IndexOf('$'), 1);
         if (setAlpha >= 0) pmr = pmr.Remove(pmr.IndexOf('@'));
 
         var generatedColor = string.Empty;
@@ -190,6 +193,13 @@ public class conv_Color : MarkupExtension, IValueConverter
         Color color = generateColor
             ? Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90))
             : ColorTranslator.FromHtml(val);
+
+        /// system color
+        if (systemColor && color.ToArgb() == default(Color).ToArgb())
+        {
+            var s = SystemParameters.WindowGlassColor;
+            color = Color.FromArgb(s.R, s.G, s.B);
+        }
 
         /// desaturate color
         if (desaturateColor)

@@ -46,5 +46,17 @@ namespace StswExpress {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#00000000")]
+        public string TitleBarColor {
+            get {
+                return ((string)(this["TitleBarColor"]));
+            }
+            set {
+                this["TitleBarColor"] = value;
+            }
+        }
     }
 }

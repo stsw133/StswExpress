@@ -1,11 +1,9 @@
 ﻿using DynamicAero2;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -85,12 +83,9 @@ public static class Fn
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
             app.Resources.MergedDictionaries.Add(new Theme());
         ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = (ThemeColor)Settings.Default.Theme;
-    }
 
-    /// <summary>
-    /// Gets system color chosen by user.
-    /// </summary>
-    public static Color GetWindowsThemeColor => SystemParameters.WindowGlassColor;
+        app.Exit += (sender, e) => Settings.Default.Save();
+    }
 
     /// <summary>
     /// Opens context menu of a framework element.
@@ -122,32 +117,25 @@ public static class Fn
     /// GetFilters
     public static void GetFilters(DependencyObject panel, out string filter, out List<(string name, object val)> parameters)
     {
-        filter = string.Empty;
-        parameters = new List<(string name, object val)>();
+        var dict = new ExtDictionary<string, ColumnFilter>();
 
+        /// DependencyObject's children are ColumnFilter
         foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
-        {
-            filter += " and " + cf.SqlString;
-            if (cf.Value1 != null)
-                parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "1", (cf.Value1 is List<object> ? null : cf.Value1) ?? DBNull.Value));
-            if (cf.Value2 != null)
-                parameters.Add((cf.SqlParam[..(cf.SqlParam.Length > 120 ? 120 : cf.SqlParam.Length)] + "2", (cf.Value2 is List<object> ? null : cf.Value2) ?? DBNull.Value));
-        }
+            dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
 
-        if (filter.StartsWith(" and "))
-            filter = filter[5..];
-        if (string.IsNullOrWhiteSpace(filter))
-            filter = "1=1";
+        dict.GetColumnFilters(out filter, out parameters);
     }
 
     /// ClearFilters
     public static void ClearFilters(DependencyObject panel)
     {
+        var dict = new ExtDictionary<string, ColumnFilter>();
+
+        /// DependencyObject's children are ColumnFilter
         foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
-        {
-            cf.Value1 = cf.ValueDef;
-            cf.Value2 = cf.ValueDef;
-        }
+            dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
+
+        dict.ClearColumnFilters();
     }
     #endregion
 }

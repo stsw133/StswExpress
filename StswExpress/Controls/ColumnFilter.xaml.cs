@@ -275,15 +275,7 @@ public partial class ColumnFilter : StackPanel
     public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is ColumnFilter filter)
-            filter.FilterSql = new()
-            {
-                SqlParam = filter.SqlParam,
-                SqlString = filter.SqlString,
-                Value1 = filter.Value1,
-                Value2 = filter.Value2,
-                ValueDef = filter.ValueDef,
-                ColumnFilter = filter
-            };
+            filter.This = filter;
     }
 
     /// Value1
@@ -340,22 +332,6 @@ public partial class ColumnFilter : StackPanel
             Value1 ??= FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
             Value2 ??= FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value;
         }
-    }
-
-    /// FilterSql
-    public static readonly DependencyProperty FilterSqlProperty
-        = DependencyProperty.Register(
-              nameof(FilterSql),
-              typeof(ColumnFilterModel),
-              typeof(ColumnFilter),
-              new FrameworkPropertyMetadata(default(ColumnFilterModel),
-                  FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                  null, null, false, UpdateSourceTrigger.PropertyChanged)
-          );
-    public ColumnFilterModel FilterSql
-    {
-        get => (ColumnFilterModel)GetValue(FilterSqlProperty);
-        set => SetValue(FilterSqlProperty, value);
     }
 
     /// SqlParam
@@ -416,6 +392,22 @@ public partial class ColumnFilter : StackPanel
                 _ => null
             };
         }
+    }
+
+    /// This
+    public static readonly DependencyProperty ThisProperty
+        = DependencyProperty.Register(
+              nameof(This),
+              typeof(ColumnFilter),
+              typeof(ColumnFilter),
+              new FrameworkPropertyMetadata(default(ColumnFilter),
+                  FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                  null, null, false, UpdateSourceTrigger.PropertyChanged)
+          );
+    public ColumnFilter This
+    {
+        get => (ColumnFilter)GetValue(ThisProperty);
+        set => SetValue(ThisProperty, value);
     }
 
     /// Loaded
@@ -600,14 +592,4 @@ public partial class ColumnFilter : StackPanel
         FilterMode = (Modes)Enum.Parse(typeof(Modes), (string)((MenuItem)sender).Tag);
         ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString().ToLower()}.ico"));
     }
-}
-
-public class ColumnFilterModel
-{
-    public string SqlParam { get; set; }
-    public string SqlString { get; set; }
-    public object Value1 { get; set; }
-    public object Value2 { get; set; }
-    public object ValueDef { get; set; }
-    public ColumnFilter ColumnFilter { get; set; }
 }
