@@ -2,7 +2,7 @@
 
 namespace StswExpress;
 
-public abstract class BaseM
+public abstract class BaseModel
 {
     public DataRowState ItemState { get; internal set; }
 }

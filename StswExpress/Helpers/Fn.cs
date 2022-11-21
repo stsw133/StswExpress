@@ -1,4 +1,5 @@
 ﻿using DynamicAero2;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -74,10 +75,7 @@ public static class Fn
     }
     */
 
-    /// <summary>
     /// Starting functions that should be placed in constructor of App class
-    /// </summary>
-    /// <param name="app">Application class</param>
     public static void AppStart(Application app)
     {
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
@@ -87,10 +85,7 @@ public static class Fn
         app.Exit += (sender, e) => Settings.Default.Save();
     }
 
-    /// <summary>
-    /// Opens context menu of a framework element.
-    /// </summary>
-    /// <param name="sender">Framework element</param>
+    /// Opens context menu of a framework element
     public static void OpenContextMenu(object sender)
     {
         if (sender is FrameworkElement f)
@@ -100,10 +95,7 @@ public static class Fn
         }
     }
 
-    /// <summary>
-    /// Opens file from path.
-    /// </summary>
-    /// <param name="path">Path to file</param>
+    /// Opens file from path
     public static void OpenFile(string path)
     {
         var process = new Process();
@@ -121,7 +113,7 @@ public static class Fn
 
         /// DependencyObject's children are ColumnFilter
         foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
-            dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
+            dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
 
         dict.GetColumnFilters(out filter, out parameters);
     }
@@ -133,7 +125,7 @@ public static class Fn
 
         /// DependencyObject's children are ColumnFilter
         foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
-            dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
+            dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
 
         dict.ClearColumnFilters();
     }

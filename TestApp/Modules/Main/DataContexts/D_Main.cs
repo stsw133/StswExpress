@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace TestApp.Modules.Main;
 
-public class D_Main : BaseD
+public class D_Main : BaseContext
 {
     #region Data
     /// SelectedTab

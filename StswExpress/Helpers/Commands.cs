@@ -3,6 +3,7 @@ using System.Windows.Input;
 
 namespace StswExpress;
 
+/// RelayCommand
 public class RelayCommand : ICommand
 {
     private Action mAction;
@@ -19,6 +20,7 @@ public class RelayCommand : ICommand
     public void Execute(object? parameter) => mAction();
 }
 
+/// Commands
 public static class Commands
 {
     public enum Type

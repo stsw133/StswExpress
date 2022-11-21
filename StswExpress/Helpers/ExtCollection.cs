@@ -10,13 +10,10 @@ namespace StswExpress;
 public delegate void ListedItemPropertyChangedEventHandler(IList sourceList, object Item, PropertyChangedEventArgs e);
 public class ExtCollection<T> : ObservableCollection<T>
 {
-    #region Constructors
     public ExtCollection() : base() => CollectionChanged += ObservableCollection_CollectionChanged;
     public ExtCollection(IEnumerable<T> c) : base(c) => CollectionChanged += ObservableCollection_CollectionChanged;
     public ExtCollection(List<T> l) : base(l) => CollectionChanged += ObservableCollection_CollectionChanged;
-    #endregion
 
-    /// Clear
     public new void Clear()
     {
         foreach (var item in this)
@@ -25,7 +22,6 @@ public class ExtCollection<T> : ObservableCollection<T>
         base.Clear();
     }
 
-    /// ObservableCollection_CollectionChanged
     private void ObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.OldItems != null)
@@ -34,7 +30,7 @@ public class ExtCollection<T> : ObservableCollection<T>
                 if (item != null && item is INotifyPropertyChanged i)
                     i.PropertyChanged -= Element_PropertyChanged;
 
-                var pi = item?.GetType().GetProperty(nameof(BaseM.ItemState));
+                var pi = item?.GetType().GetProperty(nameof(BaseModel.ItemState));
                 if (pi != null)
                 {
                     if (e.Action == NotifyCollectionChangedAction.Remove && (DataRowState)pi.GetValue(item) != DataRowState.Added)
@@ -51,7 +47,7 @@ public class ExtCollection<T> : ObservableCollection<T>
                     i.PropertyChanged += Element_PropertyChanged;
                 }
 
-                var pi = item?.GetType().GetProperty(nameof(BaseM.ItemState));
+                var pi = item?.GetType().GetProperty(nameof(BaseModel.ItemState));
                 if (pi != null)
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add)

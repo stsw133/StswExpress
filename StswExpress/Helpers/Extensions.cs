@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static System.Net.WebRequestMethods;
 
 namespace StswExpress;
 
@@ -211,11 +210,11 @@ public static class Extensions
         {
             /// Header is ColumnFilter
             if (col.Header is ColumnFilter cf1)
-                dict.Add(new KeyValuePair<string, ColumnFilter>(cf1.Uid, cf1));
+                dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf1));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
                 foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                    dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
+                    dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
         }
 
         dict.GetColumnFilters(out filter, out parameters);
@@ -230,11 +229,11 @@ public static class Extensions
         {
             /// Header is ColumnFilter
             if (col.Header is ColumnFilter cf1)
-                dict.Add(new KeyValuePair<string, ColumnFilter>(cf1.Uid, cf1));
+                dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf1));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
                 foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                    dict.Add(new KeyValuePair<string, ColumnFilter>(cf.Uid, cf));
+                    dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
         }
 
         dict.ClearColumnFilters();
