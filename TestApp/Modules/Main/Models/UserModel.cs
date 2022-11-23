@@ -2,7 +2,7 @@
 
 namespace TestApp.Modules.Main;
 
-public class M_User : BaseModel
+public class UserModel : BaseModel
 {
     public int ID { get; set; } = default;
     public string? Type { get; set; } = default;

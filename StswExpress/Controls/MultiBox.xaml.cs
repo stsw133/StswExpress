@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -24,12 +25,12 @@ public partial class MultiBox : ComboBox
 
     /// SelectedItems
     public static readonly DependencyProperty SelectedItemsProperty
-        = DependencyProperty.Register(
-              nameof(SelectedItemsProperty),
-              typeof(List<object>),
-              typeof(MultiBox),
-              new PropertyMetadata(default(List<object>))
-          );
+            = DependencyProperty.Register(
+                  nameof(SelectedItemsProperty),
+                  typeof(List<object>),
+                  typeof(MultiBox),
+                  new PropertyMetadata(default(List<object>))
+              );
     public List<object> SelectedItems
     {
         get
@@ -60,12 +61,12 @@ public partial class MultiBox : ComboBox
 
     /// Source
     public static readonly DependencyProperty SourceProperty
-        = DependencyProperty.Register(
-              nameof(SourceProperty),
-              typeof(IList),
-              typeof(MultiBox),
-              new PropertyMetadata(default(IList))
-          );
+            = DependencyProperty.Register(
+                  nameof(SourceProperty),
+                  typeof(IList),
+                  typeof(MultiBox),
+                  new PropertyMetadata(default(IList))
+              );
     public IList Source
     {
         get => (IList)GetValue(SourceProperty);

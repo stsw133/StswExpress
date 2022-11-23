@@ -1,6 +1,6 @@
 ﻿namespace TestApp.Modules.Settings;
 
-public class D_Settings : BaseContext
+internal static class SettingsQueries
 {
     
 }

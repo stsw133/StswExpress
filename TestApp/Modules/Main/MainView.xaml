@@ -1,4 +1,4 @@
-﻿<se:StswWindow x:Class="TestApp.Modules.Main.V_Main"
+﻿<se:StswWindow x:Class="TestApp.Modules.Main.MainView"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,7 +13,7 @@
             <se:OutlinedTextBlock Text="🔧"/>
         </Button>
     </se:StswWindow.CustomControls>
-    <TabControl SelectedIndex="{Binding SelectedTab}">
+    <TabControl>
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
@@ -22,13 +22,13 @@
             <DockPanel>
                 <!-- button panel -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="se:Commands.Refresh">
+                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:Commands.Refresh}">
                         <se:Header Padding="3" Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Clear (F9)" Command="se:Commands.Clear">
+                    <se:ExtButton Margin="3" ToolTip="Clear (F9)" Command="{x:Static se:Commands.Clear}">
                         <se:Header Padding="3" Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="se:Commands.Save">
+                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:Commands.Save}">
                         <se:Header Padding="3" Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico"/>
                     </se:ExtButton>
                 </UniformGrid>

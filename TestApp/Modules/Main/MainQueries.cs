@@ -7,12 +7,14 @@ using System.Windows;
 
 namespace TestApp.Modules.Main;
 
-internal static class Q_Main
+internal static class MainQueries
 {
     /// ListOfTypes
     internal static List<string?> ListOfTypes()
     {
         var result = new DataTable();
+
+        return new List<string?>() { "Test1", "Test2", "Test3" };
         /*
         try
         {
@@ -38,7 +40,7 @@ internal static class Q_Main
     }
 
     /// GetListOfUsers
-    internal static ExtCollection<M_User> GetListOfUsers(string filter, List<(string name, object val)> parameters)
+    internal static ExtCollection<UserModel> GetListOfUsers(string filter, List<(string name, object val)> parameters)
     {
         var result = new DataTable();
         /*
@@ -66,11 +68,11 @@ internal static class Q_Main
             MessageBox.Show($"Error ({nameof(GetListOfUsers)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         */
-        return result.AsList<M_User>().ToExtCollection();
+        return result.AsList<UserModel>().ToExtCollection();
     }
 
     /// SetListOfUsers
-    internal static bool SetListOfUsers(ExtCollection<M_User> list)
+    internal static bool SetListOfUsers(ExtCollection<UserModel> list)
     {
         var result = false;
         /*
