@@ -8,6 +8,5 @@ public partial class MainView : StswWindow
     public MainView()
     {
         InitializeComponent();
-        DataContext = new MainContext(this);
     }
 }

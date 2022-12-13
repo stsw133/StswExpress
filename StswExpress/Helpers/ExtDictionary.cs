@@ -178,7 +178,7 @@ public class ExtDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerial
 
         var wasEmpty = reader.IsEmptyElement;
         reader.Read();
-        
+
         if (wasEmpty)
             return;
 

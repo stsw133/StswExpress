@@ -8,7 +8,7 @@ using System.Text;
 
 namespace StswExpress;
 
-public static class Security
+public static class StswSecurity
 {
     private static string hashKey = "stsw";
     public static string HashKey { set => hashKey = value; }

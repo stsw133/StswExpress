@@ -1,6 +1,6 @@
 ﻿namespace TestApp.Modules.Settings;
 
-public class SettingsContext : BaseContext
+public class SettingsContext : StswContext
 {
-    
+
 }

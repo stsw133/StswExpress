@@ -5,7 +5,7 @@ using System.IO;
 namespace StswExpress;
 
 /// Model for Database Connection
-public class DB
+public class StswDB
 {
     public enum Types
     {
@@ -27,16 +27,16 @@ public class DB
     {
         return Type switch
         {
-            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};",
-            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={Fn.AppName()};",
+            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
             _ => null
         };
     }
 
     /// Load list of encrypted databases from file.
-    public static List<DB> LoadAllDatabases(string path)
+    public static List<StswDB> LoadAllDatabases(string path)
     {
-        var result = new List<DB>();
+        var result = new List<StswDB>();
 
         if (!File.Exists(path))
             File.Create(path).Close();
@@ -48,14 +48,14 @@ public class DB
             if (line != null)
             {
                 var data = line.Split('|');
-                result.Add(new DB()
+                result.Add(new StswDB()
                 {
-                    Name = Security.Decrypt(data[0]),
-                    Server = Security.Decrypt(data[1]),
-                    Port = Convert.ToInt32(Security.Decrypt(data[2])),
-                    Database = Security.Decrypt(data[3]),
-                    Login = Security.Decrypt(data[4]),
-                    Password = Security.Decrypt(data[5])
+                    Name = StswSecurity.Decrypt(data[0]),
+                    Server = StswSecurity.Decrypt(data[1]),
+                    Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
+                    Database = StswSecurity.Decrypt(data[3]),
+                    Login = StswSecurity.Decrypt(data[4]),
+                    Password = StswSecurity.Decrypt(data[5])
                 });
             }
         }
@@ -64,15 +64,15 @@ public class DB
     }
 
     /// Save list of encrypted databases to file.
-    public static void SaveAllDatabases(List<DB> databases, string path)
+    public static void SaveAllDatabases(List<StswDB> databases, string path)
     {
         using var stream = new StreamWriter(path);
         foreach (var db in databases)
-            stream.WriteLine(Security.Encrypt(db.Name)
-                + "|" + Security.Encrypt(db.Server)
-                + "|" + Security.Encrypt(db.Port.ToString())
-                + "|" + Security.Encrypt(db.Database)
-                + "|" + Security.Encrypt(db.Login)
-                + "|" + Security.Encrypt(db.Password));
+            stream.WriteLine(StswSecurity.Encrypt(db.Name)
+                + "|" + StswSecurity.Encrypt(db.Server)
+                + "|" + StswSecurity.Encrypt(db.Port.ToString())
+                + "|" + StswSecurity.Encrypt(db.Database)
+                + "|" + StswSecurity.Encrypt(db.Login)
+                + "|" + StswSecurity.Encrypt(db.Password));
     }
 }

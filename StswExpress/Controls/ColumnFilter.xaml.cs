@@ -115,7 +115,7 @@ public partial class ColumnFilter : StackPanel
         get => (string)GetValue(FilterSqlColumnProperty);
         set => SetValue(FilterSqlColumnProperty, value);
     }
-    
+
     /// FilterType
     public static readonly DependencyProperty FilterTypeProperty
         = DependencyProperty.Register(
@@ -439,7 +439,7 @@ public partial class ColumnFilter : StackPanel
         };
         var inputbinding = new KeyBinding()
         {
-            Command = Commands.Refresh,
+            Command = StswCommands.Refresh,
             Key = Key.Return
         };
 
@@ -563,7 +563,7 @@ public partial class ColumnFilter : StackPanel
             if (Value2 == null) Value2 = ValueDef;
         }
 
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString()?.ToLower()}.ico"));
+        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString()?.ToLower()}.png"));
 
         Loaded -= StackPanel_Loaded;
     }
@@ -573,7 +573,7 @@ public partial class ColumnFilter : StackPanel
     {
         try
         {
-            Commands.Refresh.Execute(null, Parent as UIElement);
+            StswCommands.Refresh.Execute(null, Parent as UIElement);
         }
         catch { }
     }
@@ -589,6 +589,6 @@ public partial class ColumnFilter : StackPanel
     private void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
     {
         FilterMode = (Modes)Enum.Parse(typeof(Modes), (string)((MenuItem)sender).Tag);
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString().ToLower()}.ico"));
+        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString().ToLower()}.png"));
     }
 }

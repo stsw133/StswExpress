@@ -5,11 +5,15 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:sys="clr-namespace:System;assembly=mscorlib"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+               xmlns:local="clr-namespace:TestApp.Modules.Main"
                mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen"
-               Title="{Binding Source={x:Static se:Fn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:Fn.AppCopyright}}"
-               Icon="pack://application:,,,/StswExpress;component/Resources/icon32_users.ico">
+               Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
+               Icon="/StswExpress;component/Resources/icon32_users.png">
+    <Window.DataContext>
+        <local:MainContext/>
+    </Window.DataContext>
     <se:StswWindow.CustomControls>
-        <Button Command="se:Commands.Settings">
+        <Button Command="{x:Static se:StswCommands.Settings}">
             <se:OutlinedTextBlock Text="🔧"/>
         </Button>
     </se:StswWindow.CustomControls>
@@ -17,21 +21,37 @@
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_documents.ico"/>
+                <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_documents.png"/>
             </TabItem.Header>
             <DockPanel>
                 <!-- button panel -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:Commands.Refresh}">
-                        <se:Header Padding="3" Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.ico"/>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:Header Padding="3" Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.png"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Clear (F9)" Command="{x:Static se:Commands.Clear}">
-                        <se:Header Padding="3" Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.ico"/>
+                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:Header Padding="3" Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.png"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:Commands.Save}">
-                        <se:Header Padding="3" Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.ico"/>
+                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:Header Padding="3" Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.png"/>
                     </se:ExtButton>
                 </UniformGrid>
+                <!--
+                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Structure}" IconData="{x:Static se:CanvasIcons.Clear}" IconScale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Neutral}" IconData="{x:Static se:CanvasIcons.Refresh}" IconScale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Modify}" IconData="{x:Static se:CanvasIcons.Save}" IconScale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
+                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Positive}" IconData="{x:Static se:CanvasIcons.Excel}" IconScale="2"/>
+                    </se:ExtButton>
+                </UniformGrid>
+                -->
                 <se:ExtProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
                 <se:ExtDataGrid x:Name="DtgUsers" Margin="3" HeaderBackground="#448E" HeaderBorderBrush="#7777"
@@ -40,7 +60,7 @@
                         <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        
+
                         <!-- ID -->
                         <DataGridTextColumn Binding="{Binding ID}">
                             <DataGridTextColumn.Header>
@@ -48,7 +68,7 @@
                                                  This="{Binding DataContext.ColumnFilters[ID], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
-                        
+
                         <!-- Type -->
                         <DataGridComboBoxColumn TextBinding="{Binding Type}">
                             <DataGridComboBoxColumn.Header>
@@ -57,7 +77,7 @@
                                                  This="{Binding DataContext.ColumnFilters[Type], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridComboBoxColumn.Header>
                         </DataGridComboBoxColumn>
-                        
+
                         <!-- Icon -->
                         <DataGridTemplateColumn Width="30">
                             <DataGridTemplateColumn.CellTemplate>
@@ -66,7 +86,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <!-- Name -->
                         <DataGridTextColumn Width="*" Binding="{Binding Name}">
                             <DataGridTextColumn.Header>
@@ -74,7 +94,7 @@
                                                  This="{Binding DataContext.ColumnFilters[Name], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
-                        
+
                         <!-- IsEnabled -->
                         <DataGridCheckBoxColumn Width="auto" Binding="{Binding IsEnabled}">
                             <DataGridCheckBoxColumn.Header>
@@ -82,7 +102,7 @@
                                                  This="{Binding DataContext.ColumnFilters[IsEnabled], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridCheckBoxColumn.Header>
                         </DataGridCheckBoxColumn>
-                        
+
                         <!-- CreateDT -->
                         <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                             <DataGridTextColumn.Header>
@@ -91,7 +111,7 @@
                                                  This="{Binding DataContext.ColumnFilters[CreateDT], RelativeSource={RelativeSource AncestorType=Window}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
-                        
+
                     </DataGrid.Columns>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
@@ -108,7 +128,7 @@
         <!-- stats -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Stats" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_stats.ico"/>
+                <se:Header Text="Stats" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_stats.png"/>
             </TabItem.Header>
             <DockPanel>
                 <TextBlock Text="Not yet implemented"/>

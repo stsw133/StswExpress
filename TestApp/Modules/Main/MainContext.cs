@@ -5,15 +5,15 @@ using System.Windows.Input;
 
 namespace TestApp.Modules.Main;
 
-public class MainContext : BaseContext
+public class MainContext : StswContext
 {
-    public MainContext(Window window)
+    public MainContext()
     {
-        window.CommandBindings.Add(new CommandBinding(Commands.Clear, CmdClear_Executed));
-        window.CommandBindings.Add(new CommandBinding(Commands.Refresh, CmdRefresh_Executed));
-        window.CommandBindings.Add(new CommandBinding(Commands.Save, CmdSave_Executed));
-        window.CommandBindings.Add(new CommandBinding(Commands.Settings, CmdSettings_Executed));
-        //CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(Commands.Settings, CmdSettings_Executed));
+        App.Current.MainWindow.CommandBindings.Add(new CommandBinding(StswCommands.Clear, CmdClear_Executed));
+        App.Current.MainWindow.CommandBindings.Add(new CommandBinding(StswCommands.Refresh, CmdRefresh_Executed));
+        App.Current.MainWindow.CommandBindings.Add(new CommandBinding(StswCommands.Save, CmdSave_Executed));
+        App.Current.MainWindow.CommandBindings.Add(new CommandBinding(StswCommands.Settings, CmdSettings_Executed));
+        //CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswCommands.Settings, CmdSettings_Executed));
     }
 
     #region Data
@@ -22,7 +22,7 @@ public class MainContext : BaseContext
     public ExtDictionary<string, ColumnFilter> ColumnFilters
     {
         get => columnFilters;
-        set => SetField(ref columnFilters, value, () => ColumnFilters);
+        set => SetProperty(ref columnFilters, value, () => ColumnFilters);
     }
 
     /// LoadingProgress
@@ -30,7 +30,7 @@ public class MainContext : BaseContext
     public double LoadingProgress
     {
         get => loadingProgress;
-        set => SetField(ref loadingProgress, value, () => LoadingProgress);
+        set => SetProperty(ref loadingProgress, value, () => LoadingProgress);
     }
 
     /// ComboLists
@@ -41,7 +41,7 @@ public class MainContext : BaseContext
     public ExtCollection<UserModel> ListUsers
     {
         get => listUsers;
-        set => SetField(ref listUsers, value, () => ListUsers);
+        set => SetProperty(ref listUsers, value, () => ListUsers);
     }
     #endregion
 

@@ -1,5 +1,4 @@
-﻿global using StswExpress;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -13,13 +12,13 @@ public partial class App : Application
 {
     public App()
     {
-        Fn.AppStart(this);
+        StswFn.AppStart(this);
         
-        var bindingHelp = new CommandBinding(Commands.Help, CmdHelp_Executed, CmdHelp_CanExecute);
+        var bindingHelp = new CommandBinding(StswCommands.Help, CmdHelp_Executed, CmdHelp_CanExecute);
         CommandManager.RegisterClassCommandBinding(typeof(Window), bindingHelp);
 
-        Fn.AppDB = Global.DBs.FirstOrDefault();
+        StswFn.AppDB = Global.DBs.FirstOrDefault();
     }
-    private void CmdHelp_Executed(object sender, ExecutedRoutedEventArgs e) => Fn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_en.pdf");
+    private void CmdHelp_Executed(object sender, ExecutedRoutedEventArgs e) => StswFn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_en.pdf");
     private void CmdHelp_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
 }

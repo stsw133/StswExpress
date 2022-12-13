@@ -5,9 +5,9 @@ using System.Text;
 
 namespace StswExpress;
 
-public static class Log
+public static class StswLog
 {
-    private static readonly string LogFileDirectory = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath), "logs");
+    public static readonly string LogFileDirectory = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath), "logs");
 
     /// Write text to log file.
     public static void Write(string text)

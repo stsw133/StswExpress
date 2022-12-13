@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace StswExpress;
 
-public static class Fn
+public static class StswFn
 {
     #region app & database & mailConfig
     /// App: name & version & name + version & copyright
@@ -18,8 +18,8 @@ public static class Fn
     public static string? AppCopyright => $"{FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).LegalCopyright}";
 
     /// App: database connection & mail config
-    public static DB? AppDB { get; set; } = new();
-    public static MC? AppMC { get; set; } = new();
+    public static StswDB? AppDB { get; set; } = new();
+    public static StswMC? AppMC { get; set; } = new();
     #endregion
 
     /*
@@ -112,7 +112,7 @@ public static class Fn
         var dict = new ExtDictionary<string, ColumnFilter>();
 
         /// DependencyObject's children are ColumnFilter
-        foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
+        foreach (var cf in StswExtensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
             dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
 
         dict.GetColumnFilters(out filter, out parameters);
@@ -124,7 +124,7 @@ public static class Fn
         var dict = new ExtDictionary<string, ColumnFilter>();
 
         /// DependencyObject's children are ColumnFilter
-        foreach (var cf in Extensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
+        foreach (var cf in StswExtensions.FindVisualChildren<ColumnFilter>(panel).Where(x => x.SqlString != null))
             dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
 
         dict.ClearColumnFilters();

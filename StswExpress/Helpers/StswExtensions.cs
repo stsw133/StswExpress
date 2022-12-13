@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
@@ -13,9 +14,9 @@ using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
-public static class Extensions
+public static class StswExtensions
 {
-    /// Converts DataTable to list of T objects
+    /// Converts byte[] to BitmapImage
     public static BitmapImage? AsImage(this byte[] imageData)
     {
         if (!imageData.Any())
@@ -89,13 +90,12 @@ public static class Extensions
         }
     }
 
-    /// Returns true if parameter list contains given value
+    /// Returns true if parameter list or array contains given value
     public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
-
-    /// Returns true if parameter array contains given value
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
-    /// Converts IEnumerable to ExtCollection
+    /// Converts IEnumerable to ObservableCollection or ExtCollection
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
     public static ExtCollection<T> ToExtCollection<T>(this IEnumerable<T> value) => new ExtCollection<T>(value);
 
     /// Converts IDictionary to ExtDictionary
@@ -107,23 +107,21 @@ public static class Extensions
         T? result = new();
         //try
         //{
-            if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
-            {
-                var conv = TypeDescriptor.GetConverter(typeof(T));
-                result = (T?)conv.ConvertFrom(s);
-            }
+        if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
+        {
+            var conv = TypeDescriptor.GetConverter(typeof(T));
+            result = (T?)conv.ConvertFrom(s);
+        }
         //}
         //catch { }
         return result;
     }
 
-    /// TrimEnd string
+    /// Trim start or end of string
     public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));
-
-    /// TrimStart string
     public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source[value.Length..];
 
-    /// Tries to do action a few times in case a single time could not work
+    /// Tries to do action or func a few times in case a single time could not work
     public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)
@@ -142,8 +140,6 @@ public static class Extensions
             }
         }
     }
-
-    /// Tries to do func a few times in case a single time could not work
     public static T? TryMultipleTimes<T>(this Func<T> func, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)

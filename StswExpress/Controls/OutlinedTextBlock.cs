@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
-[ContentProperty("Text")]
+[ContentProperty(nameof(Text))]
 public class OutlinedTextBlock : FrameworkElement
 {
     public OutlinedTextBlock()

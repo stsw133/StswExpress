@@ -107,11 +107,11 @@ public partial class MultiBox : ComboBox
         var result = new List<object>();
         foreach (ComboBoxItem item in Items)
         {
-            var tbtn = item.Content as ExtToggleButton;
+            var tbtn = (ExtToggleButton)item.Content;
             if (tbtn.IsChecked == true)
-                result.Add((tbtn.Content as TextBlock).Text);
+                result.Add(((TextBlock)tbtn.Content).Text);
         }
-        prop.SetValue(this, string.Join("; ", result), BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+        prop.SetValue(this, result.Count > 1 ? $"<{result.Count} wybrano>" : result.Count == 1 ? result.First() : string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
     }
 
     /// Click

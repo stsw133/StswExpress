@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 
 namespace StswExpress;
 
@@ -29,13 +28,14 @@ public class ExtCollection<T> : ObservableCollection<T>
             {
                 if (item != null && item is INotifyPropertyChanged i)
                     i.PropertyChanged -= Element_PropertyChanged;
-
-                var pi = item?.GetType().GetProperty(nameof(BaseModel.ItemState));
+                /*
+                var pi = item?.GetType().GetProperty(nameof(StswModel.ItemState));
                 if (pi != null)
                 {
                     if (e.Action == NotifyCollectionChangedAction.Remove && (DataRowState)pi.GetValue(item) != DataRowState.Added)
                         pi.SetValue(item, DataRowState.Deleted);
                 }
+                */
             }
 
         if (e.NewItems != null)
@@ -46,8 +46,8 @@ public class ExtCollection<T> : ObservableCollection<T>
                     i.PropertyChanged -= Element_PropertyChanged;
                     i.PropertyChanged += Element_PropertyChanged;
                 }
-
-                var pi = item?.GetType().GetProperty(nameof(BaseModel.ItemState));
+                /*
+                var pi = item?.GetType().GetProperty(nameof(StswModel.ItemState));
                 if (pi != null)
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add)
@@ -55,6 +55,7 @@ public class ExtCollection<T> : ObservableCollection<T>
                     else if (e.Action == NotifyCollectionChangedAction.Replace && (DataRowState)pi.GetValue(item) != DataRowState.Added)
                         pi.SetValue(item, DataRowState.Modified);
                 }
+                */
             }
     }
 

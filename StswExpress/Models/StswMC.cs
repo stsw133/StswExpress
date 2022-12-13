@@ -6,8 +6,8 @@ using System.Net;
 
 namespace StswExpress;
 
-/// Model for Mail Configuration
-public class MC
+/// Model for Mail Client
+public class StswMC
 {
     public string Name { get; set; } = string.Empty;
     public string Host { get; set; } = string.Empty;
@@ -18,9 +18,9 @@ public class MC
     public bool EnableSSL { get; set; } = false;
 
     /// Load list of encrypted mail configs from file.
-    public static List<MC> LoadAllMailConfigs(string path)
+    public static List<StswMC> LoadAllMailConfigs(string path)
     {
-        var result = new List<MC>();
+        var result = new List<StswMC>();
 
         if (!File.Exists(path))
             File.Create(path).Close();
@@ -32,15 +32,15 @@ public class MC
             if (line != null)
             {
                 var data = line.Split('|');
-                result.Add(new MC()
+                result.Add(new StswMC()
                 {
-                    Name = Security.Decrypt(data[0]),
-                    Host = Security.Decrypt(data[1]),
-                    Port = Convert.ToInt32(Security.Decrypt(data[2])),
-                    Address = Security.Decrypt(data[3]),
-                    Username = Security.Decrypt(data[4]),
-                    Password = Security.Decrypt(data[5]),
-                    EnableSSL = Convert.ToBoolean(Security.Decrypt(data[6]))
+                    Name = StswSecurity.Decrypt(data[0]),
+                    Host = StswSecurity.Decrypt(data[1]),
+                    Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
+                    Address = StswSecurity.Decrypt(data[3]),
+                    Username = StswSecurity.Decrypt(data[4]),
+                    Password = StswSecurity.Decrypt(data[5]),
+                    EnableSSL = Convert.ToBoolean(StswSecurity.Decrypt(data[6]))
                 });
             }
         }
@@ -49,17 +49,17 @@ public class MC
     }
 
     /// Save list of encrypted mail configs to file.
-    public static void SaveAllMailConfigs(List<MC> mailConfigs, string path)
+    public static void SaveAllMailConfigs(List<StswMC> mailConfigs, string path)
     {
         using var stream = new StreamWriter(path);
         foreach (var mc in mailConfigs)
-            stream.WriteLine(Security.Encrypt(mc.Name)
-                + "|" + Security.Encrypt(mc.Host)
-                + "|" + Security.Encrypt(mc.Port.ToString())
-                + "|" + Security.Encrypt(mc.Address)
-                + "|" + Security.Encrypt(mc.Username)
-                + "|" + Security.Encrypt(mc.Password)
-                + "|" + Security.Encrypt(mc.EnableSSL.ToString()));
+            stream.WriteLine(StswSecurity.Encrypt(mc.Name)
+                + "|" + StswSecurity.Encrypt(mc.Host)
+                + "|" + StswSecurity.Encrypt(mc.Port.ToString())
+                + "|" + StswSecurity.Encrypt(mc.Address)
+                + "|" + StswSecurity.Encrypt(mc.Username)
+                + "|" + StswSecurity.Encrypt(mc.Password)
+                + "|" + StswSecurity.Encrypt(mc.EnableSSL.ToString()));
     }
 
     /// Send mail to recipients.

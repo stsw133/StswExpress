@@ -1,6 +1,5 @@
 ﻿using DynamicAero2;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -61,7 +60,7 @@ public class StswWindow : Window
         get => (string)GetValue(SubTitleProperty);
         set => SetValue(SubTitleProperty, value);
     }
-    
+
     #region OnInitialized
     private HwndSource _hwndSource;
     protected override void OnInitialized(EventArgs e)
@@ -69,7 +68,7 @@ public class StswWindow : Window
         SourceInitialized += OnSourceInitialized;
         Loaded += OnLoaded;
         base.OnInitialized(e);
-        
+
         DefaultHeight = Height;
         DefaultWidth = Width;
     }
@@ -254,7 +253,7 @@ public class StswWindow : Window
     {
         if (((msg == WM_SYSTEMMENU) && (wParam.ToInt32() == WP_SYSTEMMENU)) || msg == 165)
         {
-            Fn.OpenContextMenu(MenuItems);
+            StswFn.OpenContextMenu(MenuItems);
             handled = true;
         }
 
@@ -314,27 +313,31 @@ public class StswWindow : Window
 
         /// menuItems
         MenuItems = (FrameworkElement)GetTemplateChild("menuItems");
-        /// moveRectangle
-        var moveRectangle = (Label)GetTemplateChild("moveRectangle");
-        moveRectangle.SizeChanged += MoveRectangle_SizeChanged;
+
+        /// Chrome change
+        MoveRectangle = (Label)GetTemplateChild("moveRectangle");
+        MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
+        StateChanged += StswWindow_StateChanged;
 
         base.OnApplyTemplate();
         UpdateLayout();
     }
 
-    /// MoveRectangle_SizeChanged
+    /// Chrome change
+    private FrameworkElement MoveRectangle;
     private void MoveRectangle_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var chrome = WindowChrome.GetWindowChrome(this);
         WindowChrome.SetWindowChrome(this, new WindowChrome()
         {
             CornerRadius = chrome.CornerRadius,
-            CaptionHeight = ((FrameworkElement)sender).ActualHeight,
+            CaptionHeight = MoveRectangle.ActualHeight - (WindowState == WindowState.Maximized ? 7 : 0),
             GlassFrameThickness = chrome.GlassFrameThickness,
             ResizeBorderThickness = chrome.ResizeBorderThickness,
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
     }
+    private void StswWindow_StateChanged(object? sender, EventArgs e) => MoveRectangle_SizeChanged(MoveRectangle, null);
 
     #region DLL
     [DllImport("user32")]
