@@ -7,17 +7,17 @@
              mc:Ignorable="d" d:DesignWidth="200" d:Background="White">
     <StackPanel Orientation="Horizontal">
         <!-- icon -->
-        <se:ExtIcon Icon="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    SubIcon="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">
-            <se:ExtIcon.Margin>
+        <se:StswIcon IconSource="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                     SubIconSource="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                     Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                     Visibility="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">
+            <se:StswIcon.Margin>
                 <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">
                     <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
                     <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
                 </MultiBinding>
-            </se:ExtIcon.Margin>
-        </se:ExtIcon>
+            </se:StswIcon.Margin>
+        </se:StswIcon>
         <!-- text -->
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0.2 0.5 0.2}"
                     Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">

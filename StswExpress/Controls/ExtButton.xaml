@@ -10,7 +10,7 @@
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}"/>
     </Button.Style>
     <Button.Resources>
-        <Style TargetType="Border">
+        <Style TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">

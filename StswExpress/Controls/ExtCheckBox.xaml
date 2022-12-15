@@ -23,9 +23,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                        Height="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.2}"
-                        Width="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.2}">
+                <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                     <Grid x:Name="markGrid">
                         <TextBlock x:Name="optionMark" Text="✔" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBlock x:Name="indeterminateMark" Text="■" Opacity="0" FontSize="{Binding iSize, Mode=OneWay, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}" HorizontalAlignment="Center" VerticalAlignment="Center"/>

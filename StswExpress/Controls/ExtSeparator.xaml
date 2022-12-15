@@ -1,15 +1,14 @@
 ﻿<Separator x:Class="StswExpress.ExtSeparator"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-           xmlns:se="clr-namespace:StswExpress"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            mc:Ignorable="d" d:DesignHeight="2" d:DesignWidth="100">
     <Separator.Style>
-        <Style TargetType="Separator" BasedOn="{StaticResource {x:Type Separator}}"/>
+        <Style TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}"/>
     </Separator.Style>
     <Separator.Template>
-        <ControlTemplate TargetType="Separator">
+        <ControlTemplate TargetType="{x:Type Separator}">
             <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
                 <Border.Style>
                     <Style TargetType="Border">

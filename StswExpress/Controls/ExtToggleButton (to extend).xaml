@@ -7,7 +7,7 @@
               mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100"
               BorderBrush="#7777">
     <ToggleButton.Resources>
-        <Style TargetType="Border">
+        <Style TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
@@ -17,7 +17,7 @@
         </Style>
     </ToggleButton.Resources>
     <ToggleButton.Style>
-        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ForMultiBox, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                     <Setter Property="Background" Value="Transparent"/>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,7 +49,7 @@ public partial class ExtImage : Image
     private void MnuItmCut_Click(object sender, RoutedEventArgs e)
     {
         Clipboard.SetImage(Source as BitmapSource);
-        Source = null;
+        Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/empty.png"));
     }
 
     /// Copy
@@ -58,7 +59,7 @@ public partial class ExtImage : Image
     private void MnuItmPaste_Click(object sender, RoutedEventArgs e) => Source = Clipboard.GetImage();
 
     /// Delete
-    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
+    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/empty.png"));
 
     /// Load
     private void MnuItmLoad_Click(object sender, RoutedEventArgs e)

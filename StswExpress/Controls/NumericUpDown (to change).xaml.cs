@@ -42,20 +42,6 @@ public partial class NumericUpDown : UserControl
         set => SetValue(ButtonsAlignmentProperty, value);
     }
 
-    /// ID
-    public static readonly DependencyProperty IDProperty
-        = DependencyProperty.Register(
-              nameof(ID),
-              typeof(int),
-              typeof(NumericUpDown),
-              new PropertyMetadata(default(int))
-          );
-    public int ID
-    {
-        get => (int)GetValue(IDProperty);
-        set => SetValue(IDProperty, value);
-    }
-
     /// Increment
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(

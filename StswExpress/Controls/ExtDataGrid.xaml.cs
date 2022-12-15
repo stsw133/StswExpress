@@ -62,55 +62,34 @@ public partial class ExtDataGrid : DataGrid
         get => (SolidColorBrush)GetValue(HeaderForegroundProperty);
         set => SetValue(HeaderForegroundProperty, value);
     }
-
-    /// ID
-    public static readonly DependencyProperty IDProperty
-        = DependencyProperty.Register(
-              nameof(ID),
-              typeof(int),
-              typeof(ExtDataGrid),
-              new PropertyMetadata(default(int))
-          );
-    public int ID
-    {
-        get => (int)GetValue(IDProperty);
-        set => SetValue(IDProperty, value);
-    }
 }
 
+/// <summary>
+/// OBSOLETE
+/// </summary>
 public class SetMinWidthToAutoAttachedBehaviour
 {
-    public static bool GetSetMinWidthToAuto(DependencyObject obj)
-    {
-        return (bool)obj.GetValue(SetMinWidthToAutoProperty);
-    }
+    public static bool GetSetMinWidthToAuto(DependencyObject obj) => (bool)obj.GetValue(SetMinWidthToAutoProperty);
+    public static void SetSetMinWidthToAuto(DependencyObject obj, bool value) => obj.SetValue(SetMinWidthToAutoProperty, value);
 
-    public static void SetSetMinWidthToAuto(DependencyObject obj, bool value)
-    {
-        obj.SetValue(SetMinWidthToAutoProperty, value);
-    }
-
-    // Using a DependencyProperty as the backing store for SetMinWidthToAuto.  This enables animation, styling, binding, etc...
+    /// Using a DependencyProperty as the backing store for SetMinWidthToAuto. This enables animation, styling, binding, etc...
     public static readonly DependencyProperty SetMinWidthToAutoProperty =
-        DependencyProperty.RegisterAttached("SetMinWidthToAuto", typeof(bool), typeof(SetMinWidthToAutoAttachedBehaviour), new UIPropertyMetadata(false, WireUpLoadedEvent));
+        DependencyProperty.RegisterAttached(
+            nameof(SetSetMinWidthToAuto),
+            typeof(bool),
+            typeof(SetMinWidthToAutoAttachedBehaviour),
+            new UIPropertyMetadata(false, WireUpLoadedEvent)
+        );
 
     public static void WireUpLoadedEvent(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var grid = (DataGrid)d;
-
-        var doIt = (bool)e.NewValue;
-
-        if (doIt)
-        {
-            grid.Loaded += SetMinWidths;
-        }
+        if ((bool)e.NewValue)
+            ((DataGrid)d).Loaded += SetMinWidths;
     }
 
     public static void SetMinWidths(object source, EventArgs e)
     {
-        var grid = (DataGrid)source;
-
-        foreach (var column in grid.Columns)
+        foreach (var column in ((DataGrid)source).Columns)
         {
             column.MinWidth = column.ActualWidth;
             column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);

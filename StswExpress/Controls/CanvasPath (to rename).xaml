@@ -1,4 +1,4 @@
-﻿<Viewbox x:Class="StswExpress.CanvasIcon"
+﻿<Viewbox x:Class="StswExpress.CanvasPath"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,17 +8,17 @@
     <Viewbox.Height>
         <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
             <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-            <Binding Path="IconScale" RelativeSource="{RelativeSource Mode=Self}"/>
+            <Binding Path="Scale" RelativeSource="{RelativeSource Mode=Self}"/>
         </MultiBinding>
     </Viewbox.Height>
     <Viewbox.Width>
         <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
             <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-            <Binding Path="IconScale" RelativeSource="{RelativeSource Mode=Self}"/>
+            <Binding Path="Scale" RelativeSource="{RelativeSource Mode=Self}"/>
         </MultiBinding>
     </Viewbox.Width>
     <Canvas Width="24" Height="24">
-        <Path Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=Viewbox}}">
+        <Path Data="{Binding Data, RelativeSource={RelativeSource AncestorType=Viewbox}}">
             <Path.Style>
                 <Style TargetType="Path">
                     <Setter Property="Fill" Value="{Binding Color, RelativeSource={RelativeSource AncestorType=Viewbox}}"/>

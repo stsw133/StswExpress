@@ -1,63 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace StswExpress;
-/// <summary>
-/// Interaction logic for CanvasIcon.xaml
-/// </summary>
-/// 
-public partial class CanvasIcon : Viewbox
-{
-    public CanvasIcon()
-    {
-        InitializeComponent();
-    }
 
-    /// Color
-    public static readonly DependencyProperty ColorProperty
-        = DependencyProperty.Register(
-              nameof(Color),
-              typeof(Brush),
-              typeof(CanvasIcon),
-              new PropertyMetadata(default(Brushes))
-          );
-    public Brush Color
-    {
-        get => (Brush)GetValue(ColorProperty);
-        set => SetValue(ColorProperty, value);
-    }
-
-    /// IconData
-    public static readonly DependencyProperty IconDataProperty
-        = DependencyProperty.Register(
-              nameof(IconData),
-              typeof(string),
-              typeof(CanvasIcon),
-              new PropertyMetadata(default(string))
-          );
-    public string IconData
-    {
-        get => (string)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
-    }
-
-    /// IconScale
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-              nameof(IconScale),
-              typeof(double),
-              typeof(CanvasIcon),
-              new PropertyMetadata(1d)
-          );
-    public double IconScale
-    {
-        get => (double)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-}
-
-public static class CanvasIconColors
+public static class PathIconColors
 {
     public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromRgb(56, 138, 52));
     public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromRgb(161, 38, 13));
@@ -66,7 +11,7 @@ public static class CanvasIconColors
     public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromRgb(207, 153, 74));
     public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromRgb(0, 167, 185));
 }
-public static class CanvasIcons
+public static class PathIcons
 {
     public const string Accept = "M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z";
     public const string Account = "M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z";

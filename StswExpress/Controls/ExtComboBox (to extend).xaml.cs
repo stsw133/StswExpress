@@ -3,11 +3,11 @@
 namespace StswExpress;
 
 /// <summary>
-/// Interaction logic for ExtCheckBox.xaml
+/// Interaction logic for ExtComboBox.xaml
 /// </summary>
-public partial class ExtCheckBox : CheckBox
+public partial class ExtComboBox : ComboBox
 {
-    public ExtCheckBox()
+    public ExtComboBox()
     {
         InitializeComponent();
     }

@@ -8,7 +8,7 @@
           AutoGenerateColumns="False" HeadersVisibility="Column"
 		  HorizontalGridLinesBrush="#5777" VerticalGridLinesBrush="#5777">
     <DataGrid.Style>
-        <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}"/>
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}"/>
     </DataGrid.Style>
     <DataGrid.ColumnHeaderStyle>
         <Style TargetType="DataGridColumnHeader">

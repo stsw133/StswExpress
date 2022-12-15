@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="StswExpress.StswIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:se="clr-namespace:StswExpress"
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50">
+    <UserControl.Height>
+        <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
+            <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+            <Binding Path="Scale" RelativeSource="{RelativeSource Mode=Self}"/>
+        </MultiBinding>
+    </UserControl.Height>
+    <UserControl.Width>
+        <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
+            <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+            <Binding Path="Scale" RelativeSource="{RelativeSource Mode=Self}"/>
+        </MultiBinding>
+    </UserControl.Width>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!-- main icon -->
+        <Image Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <!-- sub icon -->
+        <Image Source="{Binding SubIconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
+               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
+               HorizontalAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               VerticalAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <Image.Resources>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Stretch">
+                            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Stretch">
+                            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Resources>
+        </Image>
+    </Grid>
+</UserControl>

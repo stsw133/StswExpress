@@ -15,29 +15,16 @@ public partial class ExtDatePicker : DatePicker
         InitializeComponent();
     }
 
-    /// ID
-    public static readonly DependencyProperty IDProperty
-        = DependencyProperty.Register(
-              nameof(ID),
-              typeof(int),
-              typeof(ExtDatePicker),
-              new PropertyMetadata(default(int))
-          );
-    public int ID
-    {
-        get => (int)GetValue(IDProperty);
-        set => SetValue(IDProperty, value);
-    }
-
+    /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        var box = base.GetTemplateChild("PART_TextBox") as DatePickerTextBox;
+        var box = (DatePickerTextBox)GetTemplateChild("PART_TextBox");
         box.ApplyTemplate();
 
-        var watermark = box.Template.FindName("PART_Watermark", box) as ContentControl;
-        watermark.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#B777");
+        var watermark = (ContentControl)box.Template.FindName("PART_Watermark", box);
+        watermark.Foreground = new SolidColorBrush(Color.FromArgb(191, 127, 127, 127));
         //watermark.Content = "…";
 
         ((Border)watermark.Parent).BorderThickness = new Thickness(0);

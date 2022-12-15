@@ -21,37 +21,37 @@
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Main data" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_documents.png"/>
+                <se:Header Text="Main data" Icon="/StswExpress;component/Resources/icon32_documents.png"/>
             </TabItem.Header>
             <DockPanel>
                 <!-- button panel -->
-                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:Header Padding="3" Text="Clear" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_clear.png"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:Header Padding="3" Text="Refresh" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_refresh.png"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:Header Padding="3" Text="Save" Icon="pack://application:,,,/StswExpress;component/Resources/icon32_save.png"/>
-                    </se:ExtButton>
-                </UniformGrid>
                 <!--
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
                     <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Structure}" IconData="{x:Static se:CanvasIcons.Clear}" IconScale="2"/>
+                        <se:Header Padding="3" Text="Clear" Icon="/StswExpress;component/Resources/icon32_clear.png"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Neutral}" IconData="{x:Static se:CanvasIcons.Refresh}" IconScale="2"/>
+                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:Header Padding="3" Text="Refresh" Icon="/StswExpress;component/Resources/icon32_refresh.png"/>
                     </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Modify}" IconData="{x:Static se:CanvasIcons.Save}" IconScale="2"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
-                        <se:CanvasIcon Color="{x:Static se:CanvasIconColors.Positive}" IconData="{x:Static se:CanvasIcons.Excel}" IconScale="2"/>
+                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:Header Padding="3" Text="Save" Icon="/StswExpress;component/Resources/icon32_save.png"/>
                     </se:ExtButton>
                 </UniformGrid>
                 -->
+                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:CanvasPath Color="{x:Static se:PathIconColors.Structure}" Data="{x:Static se:PathIcons.Clear}" Scale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:CanvasPath Color="{x:Static se:PathIconColors.Neutral}" Data="{x:Static se:PathIcons.Refresh}" Scale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:CanvasPath Color="{x:Static se:PathIconColors.Modify}" Data="{x:Static se:PathIcons.Save}" Scale="2"/>
+                    </se:ExtButton>
+                    <se:ExtButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
+                        <se:CanvasPath Color="{x:Static se:PathIconColors.Positive}" Data="{x:Static se:PathIcons.Excel}" Scale="2"/>
+                    </se:ExtButton>
+                </UniformGrid>
                 <se:ExtProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
                 <se:ExtDataGrid x:Name="DtgUsers" Margin="3" HeaderBackground="#448E" HeaderBorderBrush="#7777"

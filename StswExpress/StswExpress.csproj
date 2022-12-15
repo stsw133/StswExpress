@@ -317,7 +317,7 @@
     <Compile Update="Controls\ExtButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\NumericDescription.xaml.cs">
+    <Compile Update="Controls\NumericDescription (to change).xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Resources.Designer.cs">
@@ -650,7 +650,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\NumericDescription.xaml">
+    <Page Update="Controls\NumericDescription (to change).xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

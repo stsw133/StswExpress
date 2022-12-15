@@ -86,6 +86,7 @@ public partial class MultiBox : ComboBox
                     {
                         Text = string.IsNullOrEmpty(DisplayMemberPath) ? value[i].ToString() : value[i].GetType().GetProperty(DisplayMemberPath).GetValue(value[i], null).ToString()
                     },
+                    CornerRadius = 0,
                     ForMultiBox = true,
                     HorizontalContentAlignment = HorizontalAlignment.Left,
                     Tag = string.IsNullOrEmpty(SelectedValuePath) ? value[i].ToString() : value[i].GetType().GetProperty(SelectedValuePath).GetValue(value[i], null).ToString()
