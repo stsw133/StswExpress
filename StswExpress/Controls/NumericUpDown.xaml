@@ -19,6 +19,6 @@
         </UniformGrid>
         <se:ExtTextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
                        HorizontalContentAlignment="{Binding BoxAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center"
-                       LostFocus="TextBox_LostFocus"/>
+                       LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>
     </DockPanel>
 </UserControl>

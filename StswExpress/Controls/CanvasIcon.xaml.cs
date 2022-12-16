@@ -5,13 +5,27 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Interaction logic for CanvasPath.xaml
+/// Interaction logic for CanvasIcon.xaml
 /// </summary>
-public partial class CanvasPath : Viewbox
+public partial class CanvasIcon : Viewbox
 {
-    public CanvasPath()
+    public CanvasIcon()
     {
         InitializeComponent();
+    }
+
+    /// CanvasSize
+    public static readonly DependencyProperty CanvasSizeProperty
+        = DependencyProperty.Register(
+              nameof(CanvasSize),
+              typeof(double),
+              typeof(CanvasIcon),
+              new PropertyMetadata(24d)
+          );
+    public double CanvasSize
+    {
+        get => (double)GetValue(CanvasSizeProperty);
+        set => SetValue(CanvasSizeProperty, value);
     }
 
     /// Color
@@ -19,7 +33,7 @@ public partial class CanvasPath : Viewbox
         = DependencyProperty.Register(
               nameof(Color),
               typeof(Brush),
-              typeof(CanvasPath),
+              typeof(CanvasIcon),
               new PropertyMetadata(default(Brushes))
           );
     public Brush Color
@@ -32,13 +46,13 @@ public partial class CanvasPath : Viewbox
     public static readonly DependencyProperty DataProperty
         = DependencyProperty.Register(
               nameof(Data),
-              typeof(string),
-              typeof(CanvasPath),
-              new PropertyMetadata(default(string))
+              typeof(Geometry),
+              typeof(CanvasIcon),
+              new PropertyMetadata(default(Geometry?))
           );
-    public string Data
+    public Geometry? Data
     {
-        get => (string)GetValue(DataProperty);
+        get => (Geometry?)GetValue(DataProperty);
         set => SetValue(DataProperty, value);
     }
 
@@ -47,7 +61,7 @@ public partial class CanvasPath : Viewbox
         = DependencyProperty.Register(
               nameof(Scale),
               typeof(double),
-              typeof(CanvasPath),
+              typeof(CanvasIcon),
               new PropertyMetadata(1.5)
           );
     public double Scale

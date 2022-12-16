@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -135,5 +136,16 @@ public partial class NumericUpDown : UserControl
             Value = (double)Min;
         if (Max != null && Value > Max)
             Value = (double)Max;
+    }
+
+    /// TextBox_KeyDown
+    private void TextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        try
+        {
+            if (e.Key == Key.Enter)
+                Value = Convert.ToDouble(((TextBox)sender).Text);
+        }
+        catch { }
     }
 }

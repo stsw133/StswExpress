@@ -1,8 +1,9 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress;
@@ -10,7 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for ExtImage.xaml
 /// </summary>
-public partial class ExtImage : Image
+public partial class ExtImage : Border
 {
     public ExtImage()
     {
@@ -45,21 +46,61 @@ public partial class ExtImage : Image
         set => SetValue(IsReadOnlyProperty, value);
     }
 
+    /// Source
+    public static readonly DependencyProperty SourceProperty
+        = DependencyProperty.Register(
+              nameof(Source),
+              typeof(ImageSource),
+              typeof(ExtImage),
+              new PropertyMetadata(default(ImageSource?))
+          );
+    public ImageSource? Source
+    {
+        get => (ImageSource?)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+
+    /// Stretch
+    public static readonly DependencyProperty StretchProperty
+        = DependencyProperty.Register(
+              nameof(Stretch),
+              typeof(Stretch),
+              typeof(ExtImage),
+              new PropertyMetadata(default(Stretch))
+          );
+    public Stretch Stretch
+    {
+        get => (Stretch)GetValue(StretchProperty);
+        set => SetValue(StretchProperty, value);
+    }
+
+    #region Events
     /// Cut
     private void MnuItmCut_Click(object sender, RoutedEventArgs e)
     {
-        Clipboard.SetImage(Source as BitmapSource);
-        Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/empty.png"));
+        if (Source != null)
+            Clipboard.SetImage(Source as BitmapSource);
+        Source = null;
     }
 
     /// Copy
-    private void MnuItmCopy_Click(object sender, RoutedEventArgs e) => Clipboard.SetImage(Source as BitmapSource);
+    private void MnuItmCopy_Click(object sender, RoutedEventArgs e)
+    {
+        if (Source != null)
+            Clipboard.SetImage(Source as BitmapSource);
+    }
 
     /// Paste
-    private void MnuItmPaste_Click(object sender, RoutedEventArgs e) => Source = Clipboard.GetImage();
+    private void MnuItmPaste_Click(object sender, RoutedEventArgs e)
+    {
+        if (Clipboard.GetImage().GetType() == typeof(InteropBitmap))
+            Source = StswFn.ImageFromClipboard();
+        else
+            Source = Clipboard.GetImage();
+    }
 
     /// Delete
-    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/empty.png"));
+    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
     /// Load
     private void MnuItmLoad_Click(object sender, RoutedEventArgs e)
@@ -68,13 +109,20 @@ public partial class ExtImage : Image
         {
             Filter = "All files (*.*)|*.*|BMP (*.bmp)|*.bmp|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|GIF (*.gif)|*.gif|ICO (*.ico)|*.ico|PNG (*.png)|*.png"
         };
-        if (dialog.ShowDialog() == true)
-            Source = File.ReadAllBytes(dialog.FileName).AsImage();
+        try
+        {
+            if (dialog.ShowDialog() == true)
+                Source = File.ReadAllBytes(dialog.FileName).AsImage();
+        }
+        catch { }
     }
 
     /// Save
     private void MnuItmSave_Click(object sender, RoutedEventArgs e)
     {
+        if (Source == null)
+            return;
+
         var dialog = new SaveFileDialog()
         {
             Filter = "PNG (*.png)|*.png|All files (*.*)|*.*"
@@ -87,4 +135,5 @@ public partial class ExtImage : Image
             encoder.Save(fileStream);
         }
     }
+    #endregion
 }

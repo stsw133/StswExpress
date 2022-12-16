@@ -1,29 +1,13 @@
-﻿<Image x:Class="StswExpress.ExtImage"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-       xmlns:se="clr-namespace:StswExpress"
-       mc:Ignorable="d" d:DesignHeight="32" d:DesignWidth="32">
-    <!--
-    <Image.Style>
-        <Style TargetType="{x:Type Image}">
-            <Style.Triggers>
-                <Trigger Property="Source" Value="{x:Null}">
-                    <Setter Property="Stretch" Value="Fill"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Image.Style>
-    -->
-    <Image.Source>
-        <Binding Path="Source" RelativeSource="{RelativeSource Mode=Self}">
-            <Binding.TargetNullValue>
-                <ImageSource>/StswExpress;component/Resources/empty.png</ImageSource>
-            </Binding.TargetNullValue>
-        </Binding>
-    </Image.Source>
-    <Image.ContextMenu>
+﻿<Border x:Class="StswExpress.ExtImage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:se="clr-namespace:StswExpress"
+        mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50"
+        Background="Transparent">
+    <Image Source="{Binding Source, RelativeSource={RelativeSource AncestorType=Border}}" Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=Border}}"/>
+    <Border.ContextMenu>
         <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}" Visibility="{Binding ContextMenuVisibility}">
             <se:ExtMenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
                 <MenuItem.Icon>
@@ -57,5 +41,5 @@
                 </MenuItem.Icon>
             </se:ExtMenuItem>
         </ContextMenu>
-    </Image.ContextMenu>
-</Image>
+    </Border.ContextMenu>
+</Border>
