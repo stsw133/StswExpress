@@ -14,7 +14,7 @@ public class StswDB
     }
 
     public string Name { get; set; } = string.Empty;
-    public Types Type { get; set; } = Types.MSSQL;
+    public Types Type { get; set; } = default(Types);
     public string Server { get; set; } = string.Empty;
     public int Port { get; set; } = 0;
     public string Database { get; set; } = string.Empty;

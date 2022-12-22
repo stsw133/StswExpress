@@ -19,14 +19,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                     <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost" 
-                            Focusable="false" 
-                            HorizontalScrollBarVisibility="Hidden" 
-                            VerticalScrollBarVisibility="Hidden" />
+                                      Focusable="false" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
@@ -57,8 +57,7 @@
     <!--=================================================================
         PasswordBox
     ==================================================================-->
-    <Style x:Key="{x:Type PasswordBox}"
-           TargetType="{x:Type PasswordBox}">
+    <Style x:Key="{x:Type PasswordBox}" TargetType="{x:Type PasswordBox}">
         <Setter Property="PasswordChar" Value="●"/>
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Static.Border}"/>
@@ -74,14 +73,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">
                     <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost" 
-                            Focusable="false" 
-                            HorizontalScrollBarVisibility="Hidden" 
-                            VerticalScrollBarVisibility="Hidden" />
+                                      Focusable="false" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
@@ -112,40 +111,27 @@
     <!--=================================================================
         TextBox
     ==================================================================-->
-    <Style x:Key="{x:Type TextBox}"
-           BasedOn="{StaticResource {x:Type TextBoxBase}}"
-           TargetType="{x:Type TextBox}">
-    </Style>
+    <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBoxBase}}" TargetType="{x:Type TextBox}"/>
+    
     <!--=================================================================
         RichTextBox
     ==================================================================-->
-    <Style x:Key="{x:Type RichTextBox}"
-           BasedOn="{StaticResource {x:Type TextBoxBase}}"
-           TargetType="{x:Type RichTextBox}">
+    <Style x:Key="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type TextBoxBase}}" TargetType="{x:Type RichTextBox}">
         <Style.Resources>
-            <Style x:Key="{x:Type FlowDocument}"
-                   TargetType="{x:Type FlowDocument}">
-                <Setter Property="OverridesDefaultStyle"
-                        Value="true"/>
+            <Style x:Key="{x:Type FlowDocument}" TargetType="{x:Type FlowDocument}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
             </Style>
-            <Style x:Key="{x:Type Hyperlink}"
-                   BasedOn="{StaticResource {x:Type Hyperlink}}"
-                   TargetType="{x:Type Hyperlink}">
+            <Style x:Key="{x:Type Hyperlink}" BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="{x:Type Hyperlink}">
                 <Style.Triggers>
-                    <Trigger Property="IsMouseOver"
-                             Value="true">
-                        <Setter Property="Foreground"
-                                Value="Blue"/>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Foreground" Value="Blue"/>
                     </Trigger>
-                    <Trigger Property="IsEnabled"
-                             Value="false">
-                        <Setter Property="Foreground"
-                                Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </Style.Resources>
-        <Setter Property="MinWidth"
-                Value="10"/>
+        <Setter Property="MinWidth" Value="10"/>
     </Style>
 </ResourceDictionary>

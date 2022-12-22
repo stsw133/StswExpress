@@ -38,7 +38,7 @@ public partial class MultiBox : ComboBox
             var result = new List<object>();
             foreach (ComboBoxItem item in Items)
             {
-                var tbtn = item.Content as ExtToggleButton;
+                var tbtn = item.Content as StswToggleButton;
                 if (tbtn.IsChecked == true)
                     result.Add(tbtn.Tag);
             }
@@ -50,7 +50,7 @@ public partial class MultiBox : ComboBox
             {
                 foreach (ComboBoxItem item in Items)
                 {
-                    var tbtn = item.Content as ExtToggleButton;
+                    var tbtn = item.Content as StswToggleButton;
                     tbtn.IsChecked = value?.Contains(tbtn.Tag) ?? false;
                 }
                 SetText();
@@ -79,14 +79,14 @@ public partial class MultiBox : ComboBox
 
             for (int i = 0; i < value.Count; i++)
             {
-                var tbtn = new ExtToggleButton()
+                var tbtn = new StswToggleButton()
                 {
                     BorderThickness = new Thickness(0),
                     Content = new TextBlock()
                     {
                         Text = string.IsNullOrEmpty(DisplayMemberPath) ? value[i].ToString() : value[i].GetType().GetProperty(DisplayMemberPath).GetValue(value[i], null).ToString()
                     },
-                    CornerRadius = 0,
+                    CornerRadius = new CornerRadius(0),
                     ForMultiBox = true,
                     HorizontalContentAlignment = HorizontalAlignment.Left,
                     Tag = string.IsNullOrEmpty(SelectedValuePath) ? value[i].ToString() : value[i].GetType().GetProperty(SelectedValuePath).GetValue(value[i], null).ToString()
@@ -108,7 +108,7 @@ public partial class MultiBox : ComboBox
         var result = new List<object>();
         foreach (ComboBoxItem item in Items)
         {
-            var tbtn = (ExtToggleButton)item.Content;
+            var tbtn = (StswToggleButton)item.Content;
             if (tbtn.IsChecked == true)
                 result.Add(((TextBlock)tbtn.Content).Text);
         }

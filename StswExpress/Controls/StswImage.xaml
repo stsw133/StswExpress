@@ -1,0 +1,97 @@
+﻿<Border x:Class="StswExpress.StswImage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:se="clr-namespace:StswExpress"
+        mc:Ignorable="d" d:Background="White" d:DesignHeight="50" d:DesignWidth="50"
+        Background="Transparent">
+    <Image Source="{Binding Source, RelativeSource={RelativeSource AncestorType=Border}}"
+           Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=Border}}"/>
+    <Border.ContextMenu>
+        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=Self}}" Visibility="{Binding ContextMenuVisibility}">
+            <!-- cut -->
+            <MenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Neutral}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                        <Setter Property="Foreground" Value="#7777"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </MenuItem.Icon>
+            </MenuItem>
+            <!-- copy -->
+            <MenuItem Header="Kopiuj" Click="MnuItmCopy_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswIconColors.Positive}"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <!-- paste -->
+            <MenuItem Header="Wklej" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmPaste_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Neutral}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                        <Setter Property="Foreground" Value="#7777"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </MenuItem.Icon>
+            </MenuItem>
+            <!-- delete -->
+            <MenuItem Header="Usuń" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmDelete_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Negative}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                        <Setter Property="Foreground" Value="#7777"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </MenuItem.Icon>
+            </MenuItem>
+            <!-- separator -->
+            <Separator/>
+            <!-- load -->
+            <MenuItem Header="Wczytaj" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmLoad_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Structure}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                        <Setter Property="Foreground" Value="#7777"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </MenuItem.Icon>
+            </MenuItem>
+            <!-- save-->
+            <MenuItem Header="Zapisz" Click="MnuItmSave_Click">
+                <MenuItem.Icon>
+                    <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswIconColors.Modify}"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </Border.ContextMenu>
+</Border>

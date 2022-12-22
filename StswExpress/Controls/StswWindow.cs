@@ -32,7 +32,21 @@ public class StswWindow : Window
         get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
         set => SetValue(CustomControlsProperty, value);
     }
-
+    /*
+    /// Fullscreen
+    public static readonly DependencyProperty FullscreenProperty
+        = DependencyProperty.Register(
+              nameof(Fullscreen),
+              typeof(bool),
+              typeof(StswWindow),
+              new PropertyMetadata(default(bool))
+          );
+    public bool Fullscreen
+    {
+        get => (bool)GetValue(FullscreenProperty);
+        set => SetValue(FullscreenProperty, value);
+    }
+    */
     /// SubIcon
     public static readonly DependencyProperty SubIconProperty
         = DependencyProperty.Register(

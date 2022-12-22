@@ -13,17 +13,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Border x:Name="border"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    SnapsToDevicePixels="true">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter"
-                        RecognizesAccessKey="True"
-                        Margin="{TemplateBinding Padding}"
-                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                        Focusable="False">
+                                          RecognizesAccessKey="True"
+                                          Margin="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Focusable="False">
                         </ContentPresenter>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -52,9 +52,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="{x:Type ToggleButton}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{x:Type ToggleButton}" BasedOn="{StaticResource BaseButtonStyle}" TargetType="{x:Type ToggleButton}">
         <Style.Triggers>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -75,14 +73,9 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Type RepeatButton}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type RepeatButton}">
-        <Setter Property="Stylus.IsPressAndHoldEnabled"
-            Value="false"/>
+    <Style x:Key="{x:Type RepeatButton}" BasedOn="{StaticResource BaseButtonStyle}" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
     </Style>
 
-    <Style x:Key="{x:Type Button}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type Button}"/>
+    <Style x:Key="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}" TargetType="{x:Type Button}"/>
 </ResourceDictionary>

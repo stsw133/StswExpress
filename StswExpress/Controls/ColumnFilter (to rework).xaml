@@ -30,23 +30,23 @@
                Margin="0 0 2 0" PreviewMouseDown="ImgMode_PreviewMouseDown">
             <Image.ContextMenu>
                 <ContextMenu>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="Equal" Image="/StswExpress;component/Resources/icon20_filter_equal.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="NotEqual" Image="/StswExpress;component/Resources/icon20_filter_notequal.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="Greater" Image="/StswExpress;component/Resources/icon20_filter_greater.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="GreaterEqual" Image="/StswExpress;component/Resources/icon20_filter_greaterequal.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="Less" Image="/StswExpress;component/Resources/icon20_filter_less.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="LessEqual" Image="/StswExpress;component/Resources/icon20_filter_lessequal.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="Between" Image="/StswExpress;component/Resources/icon20_filter_between.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="Contains" Image="/StswExpress;component/Resources/icon20_filter_contains.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="NotContains" Image="/StswExpress;component/Resources/icon20_filter_notcontains.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="Like" Image="/StswExpress;component/Resources/icon20_filter_like.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne" Tag="NotLike" Image="/StswExpress;component/Resources/icon20_filter_notlike.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="StartsWith" Image="/StswExpress;component/Resources/icon20_filter_startswith.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="EndsWith" Image="/StswExpress;component/Resources/icon20_filter_endswith.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="In" Image="/StswExpress;component/Resources/icon20_filter_in.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="NotIn" Image="/StswExpress;component/Resources/icon20_filter_notin.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="Null" Image="/StswExpress;component/Resources/icon20_filter_null.png"/>
-                    <se:ExtMenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="NotNull" Image="/StswExpress;component/Resources/icon20_filter_notnull.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="Equal" Image="/StswExpress;component/Icons/20_filter_equal.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="NotEqual" Image="/StswExpress;component/Icons/20_filter_notequal.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="Greater" Image="/StswExpress;component/Icons/20_filter_greater.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="GreaterEqual" Image="/StswExpress;component/Icons/20_filter_greaterequal.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="Less" Image="/StswExpress;component/Icons/20_filter_less.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="LessEqual" Image="/StswExpress;component/Icons/20_filter_lessequal.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="Between" Image="/StswExpress;component/Icons/20_filter_between.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="Contains" Image="/StswExpress;component/Icons/20_filter_contains.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="NotContains" Image="/StswExpress;component/Icons/20_filter_notcontains.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="Like" Image="/StswExpress;component/Icons/20_filter_like.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne" Tag="NotLike" Image="/StswExpress;component/Icons/20_filter_notlike.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="StartsWith" Image="/StswExpress;component/Icons/20_filter_startswith.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="EndsWith" Image="/StswExpress;component/Icons/20_filter_endswith.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="In" Image="/StswExpress;component/Icons/20_filter_in.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="NotIn" Image="/StswExpress;component/Icons/20_filter_notin.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="Null" Image="/StswExpress;component/Icons/20_filter_null.png"/>
+                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="NotNull" Image="/StswExpress;component/Icons/20_filter_notnull.png"/>
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>

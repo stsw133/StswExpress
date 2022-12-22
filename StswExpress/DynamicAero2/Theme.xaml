@@ -19,7 +19,6 @@
         <ResourceDictionary Source="Styles/ListBox.xaml"/>
         <ResourceDictionary Source="Styles/ListBoxItem.xaml"/>
         <ResourceDictionary Source="Styles/TextBox.xaml"/>
-        
         <ResourceDictionary Source="Styles/ToolTip.xaml"/>
         <ResourceDictionary Source="Styles/TabControl.xaml"/>
         <ResourceDictionary Source="Styles/TabItem.xaml"/>

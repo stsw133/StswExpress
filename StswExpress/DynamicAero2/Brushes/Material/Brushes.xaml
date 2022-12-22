@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    
-
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{DynamicResource Color900}"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="{DynamicResource ForegroundColor}"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{DynamicResource ForegroundColor}"/>
@@ -14,7 +12,6 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource SelectionColor2}"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HotTrackColorKey}" Color="{DynamicResource SelectionColor1}"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlDarkDarkBrushKey}" Color="{DynamicResource Color600}"/>
-
 
     <!-- Button -->
     <SolidColorBrush x:Key="Button.Static.Background" Color="{DynamicResource Color800}" />
@@ -272,4 +269,5 @@
     <SolidColorBrush x:Key="GroupBox.Static.OuterBorder" Color="{DynamicResource Color850}"/>
     <SolidColorBrush x:Key="GroupBox.Static.MiddleBorder" Color="{DynamicResource Color700}"/>
     <SolidColorBrush x:Key="GroupBox.Static.InnerBorder" Color="{DynamicResource Color850}"/>
+    
 </ResourceDictionary>

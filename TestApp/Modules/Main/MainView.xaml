@@ -8,7 +8,7 @@
                xmlns:local="clr-namespace:TestApp.Modules.Main"
                mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
-               Icon="/StswExpress;component/Resources/icon32_users.png">
+               Icon="/StswExpress;component/Icons/32_users.png">
     <Window.DataContext>
         <local:MainContext/>
     </Window.DataContext>
@@ -21,41 +21,40 @@
         <!-- main data -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Main data" IconSource="/StswExpress;component/Resources/icon32_documents.png"/>
+                <se:StswHeader Text="Main data" IconData="{x:Static se:StswIcons.Profiles}"/>
             </TabItem.Header>
             <DockPanel>
                 <!-- button panel -->
                 <!--
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:Header Padding="3" Text="Clear" Icon="/StswExpress;component/Resources/icon32_clear.png"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:Header Padding="3" Text="Refresh" Icon="/StswExpress;component/Resources/icon32_refresh.png"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:Header Padding="3" Text="Save" Icon="/StswExpress;component/Resources/icon32_save.png"/>
-                    </se:ExtButton>
+                    <se:StswButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:Header Padding="3" Text="Clear" Icon="/StswExpress;component/Icons/32_clear.png"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:Header Padding="3" Text="Refresh" Icon="/StswExpress;component/Icons/32_refresh.png"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:Header Padding="3" Text="Save" Icon="/StswExpress;component/Icons/32_save.png"/>
+                    </se:StswButton>
                 </UniformGrid>
                 -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:CanvasIcon Color="{x:Static se:StswIconColors.Structure}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:CanvasIcon Color="{x:Static se:StswIconColors.Neutral}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:CanvasIcon Color="{x:Static se:StswIconColors.Modify}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
-                    </se:ExtButton>
-                    <se:ExtButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
-                        <se:CanvasIcon Color="{x:Static se:StswIconColors.Positive}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
-                    </se:ExtButton>
+                    <se:StswButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:StswIcon Color="{x:Static se:StswIconColors.Structure}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:StswIcon Color="{x:Static se:StswIconColors.Neutral}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:StswIcon Color="{x:Static se:StswIconColors.Modify}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
+                        <se:StswIcon Color="{x:Static se:StswIconColors.Positive}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
+                    </se:StswButton>
                 </UniformGrid>
-                <se:ExtProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
+                <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
-                <se:ExtDataGrid x:Name="DtgUsers" Margin="3" HeaderBackground="#448E" HeaderBorderBrush="#7777"
-                                ItemsSource="{Binding ListUsers}">
+                <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">
                     <DataGrid.Resources>
                         <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
                     </DataGrid.Resources>
@@ -64,17 +63,17 @@
                         <!-- ID -->
                         <DataGridTextColumn Binding="{Binding ID}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"
-                                                 This="{Binding DataContext.ColumnFilters[ID], RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                <se:ColumnFilter This="{Binding DataContext.ColumnFilters[ID], RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
                         <!-- Type -->
                         <DataGridComboBoxColumn TextBinding="{Binding Type}">
                             <DataGridComboBoxColumn.Header>
-                                <se:ColumnFilter Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
-                                                 ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"
-                                                 This="{Binding DataContext.ColumnFilters[Type], RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                <se:ColumnFilter This="{Binding DataContext.ColumnFilters[Type], RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
+                                                 ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                             </DataGridComboBoxColumn.Header>
                         </DataGridComboBoxColumn>
 
@@ -82,7 +81,7 @@
                         <DataGridTemplateColumn Width="30">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <se:ExtImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"/>
+                                    <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -90,25 +89,25 @@
                         <!-- Name -->
                         <DataGridTextColumn Width="*" Binding="{Binding Name}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"
-                                                 This="{Binding DataContext.ColumnFilters[Name], RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                <se:ColumnFilter This="{Binding DataContext.ColumnFilters[Name], RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
                         <!-- IsEnabled -->
                         <DataGridCheckBoxColumn Width="auto" Binding="{Binding IsEnabled}">
                             <DataGridCheckBoxColumn.Header>
-                                <se:ColumnFilter Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"
-                                                 This="{Binding DataContext.ColumnFilters[IsEnabled], RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                <se:ColumnFilter This="{Binding DataContext.ColumnFilters[IsEnabled], RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
                             </DataGridCheckBoxColumn.Header>
                         </DataGridCheckBoxColumn>
 
                         <!-- CreateDT -->
                         <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                             <DataGridTextColumn.Header>
-                                <se:ColumnFilter Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
-                                                 ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"
-                                                 This="{Binding DataContext.ColumnFilters[CreateDT], RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                <se:ColumnFilter This="{Binding DataContext.ColumnFilters[CreateDT], RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
+                                                 ValueDef="{Binding Source={x:Static sys:DateTime.Today}}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
 
@@ -122,13 +121,13 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.CellStyle>
-                </se:ExtDataGrid>
+                </se:StswDataGrid>
             </DockPanel>
         </TabItem>
         <!-- stats -->
         <TabItem>
             <TabItem.Header>
-                <se:Header Text="Stats" IconSource="pack://application:,,,/StswExpress;component/Resources/icon32_stats.png"/>
+                <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.Stats}"/>
             </TabItem.Header>
             <DockPanel>
                 <TextBlock Text="Not yet implemented"/>

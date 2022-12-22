@@ -19,14 +19,14 @@
                 <ControlTemplate>
                     <Grid>
                         <Rectangle Margin="13,0,1,1"
-                         StrokeThickness="1"
-                         Stroke="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"
-                         SnapsToDevicePixels="true"/>
+                                   StrokeThickness="1"
+                                   Stroke="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"
+                                   SnapsToDevicePixels="true"/>
                         <Rectangle Margin="13,0,1,1"
-                         StrokeThickness="1"
-                         Stroke="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
-                         StrokeDashArray="2 2"
-                         SnapsToDevicePixels="true"/>
+                                   StrokeThickness="1"
+                                   Stroke="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+                                   StrokeDashArray="2 2"
+                                   SnapsToDevicePixels="true"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -39,14 +39,14 @@
                 <ControlTemplate>
                     <Grid>
                         <Rectangle Margin="1,0,1,1"
-                         StrokeThickness="1"
-                         Stroke="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"
-                         SnapsToDevicePixels="true"/>
+                                   StrokeThickness="1"
+                                   Stroke="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"
+                                   SnapsToDevicePixels="true"/>
                         <Rectangle Margin="1,0,1,1"
-                         StrokeThickness="1"
-                         Stroke="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
-                         StrokeDashArray="2 2"
-                         SnapsToDevicePixels="true"/>
+                                   StrokeThickness="1"
+                                   Stroke="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+                                   StrokeDashArray="2 2"
+                                   SnapsToDevicePixels="true"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -7,7 +7,7 @@
                xmlns:local="clr-namespace:TestApp.Modules.Settings"
                mc:Ignorable="d" Height="360" Width="600"
                Title="Settings" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner"
-               Icon="/StswExpress;component/Resources/icon32_settings.png">
+               Icon="/StswExpress;component/Icons/32_settings.png">
     <Window.DataContext>
         <local:SettingsContext/>
     </Window.DataContext>

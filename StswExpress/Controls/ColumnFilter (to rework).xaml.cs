@@ -446,13 +446,13 @@ public partial class ColumnFilter : StackPanel
         /// Check
         if (FilterType == Types.Check)
         {
-            var cont1 = new ExtCheckBox()
+            var cont1 = new StswCheckBox()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 IsThreeState = true
             };
             cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(ExtCheckBox.IsCheckedProperty, binding1);
+            cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
             UniGriFilters.Children.Add(cont1);
 
             ImgMode.Visibility = Visibility.Collapsed;
@@ -460,16 +460,16 @@ public partial class ColumnFilter : StackPanel
         /// Date
         else if (FilterType == Types.Date)
         {
-            var cont1 = new ExtDatePicker();
+            var cont1 = new StswDatePicker();
             cont1.Padding = new Thickness(0);
             cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(ExtDatePicker.SelectedDateProperty, binding1);
+            cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
             UniGriFilters.Children.Add(cont1);
 
-            var cont2 = new ExtDatePicker();
+            var cont2 = new StswDatePicker();
             cont2.Padding = new Thickness(0);
             cont2.InputBindings.Add(inputbinding);
-            cont2.SetBinding(ExtDatePicker.SelectedDateProperty, binding2);
+            cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
             UniGriFilters.Children.Add(cont2);
         }
         /// List
@@ -493,24 +493,24 @@ public partial class ColumnFilter : StackPanel
         /// Number
         else if (FilterType == Types.Number)
         {
-            var cont1 = new NumericUpDown();
+            var cont1 = new StswNumericBox();
             cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(NumericUpDown.ValueProperty, binding1);
+            cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
             cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
 
-            var cont2 = new NumericUpDown();
+            var cont2 = new StswNumericBox();
             cont2.InputBindings.Add(inputbinding);
-            cont2.SetBinding(NumericUpDown.ValueProperty, binding2);
+            cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
             cont2.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont2);
         }
         /// Text
         else if (FilterType == Types.Text)
         {
-            var cont1 = new ExtTextBox();
+            var cont1 = new StswTextBox();
             cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(ExtTextBox.TextProperty, binding1);
+            cont1.SetBinding(StswTextBox.TextProperty, binding1);
             cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
         }
@@ -563,7 +563,7 @@ public partial class ColumnFilter : StackPanel
             if (Value2 == null) Value2 = ValueDef;
         }
 
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString()?.ToLower()}.png"));
+        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Icons/20_filter_{FilterMode?.ToString()?.ToLower()}.png"));
 
         Loaded -= StackPanel_Loaded;
     }
@@ -589,6 +589,6 @@ public partial class ColumnFilter : StackPanel
     private void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
     {
         FilterMode = (Modes)Enum.Parse(typeof(Modes), (string)((MenuItem)sender).Tag);
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Resources/icon20_filter_{FilterMode?.ToString().ToLower()}.png"));
+        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Icons/20_filter_{FilterMode?.ToString().ToLower()}.png"));
     }
 }

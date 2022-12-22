@@ -15,7 +15,7 @@ public class MainContext : StswContext
         App.Current.MainWindow.CommandBindings.Add(new CommandBinding(StswCommands.Settings, CmdSettings_Executed));
         //CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswCommands.Settings, CmdSettings_Executed));
     }
-
+    
     #region Data
     /// ColumnFilters
     private ExtDictionary<string, ColumnFilter> columnFilters = new();

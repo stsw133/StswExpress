@@ -19,15 +19,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
                     <Border Name="Border" 
-                        Background="{TemplateBinding Background}" 
-                        BorderBrush="{TemplateBinding BorderBrush}" 
-                        BorderThickness="{TemplateBinding BorderThickness}" 
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter 
-                            Margin="{TemplateBinding Padding}" 
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

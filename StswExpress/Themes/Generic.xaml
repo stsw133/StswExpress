@@ -10,6 +10,7 @@
         </Setter>
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~0~2}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
         <Setter Property="Template">
@@ -36,7 +37,7 @@
                                                 <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.75}" Source="{TemplateBinding Icon}"/>
                                                 <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1}" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0 0 -0.1 -0.1}" Source="{TemplateBinding SubIcon}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                             </Grid>
-                                            <se:ExtSeparator Orientation="Vertical"/>
+                                            <se:StswSeparator Orientation="Vertical"/>
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock Text="{TemplateBinding Title}"
                                                            Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2 0}"/>
@@ -126,63 +127,63 @@
                                     </StackPanel>
                                     <Grid.ContextMenu>
                                         <ContextMenu>
-                                            <se:ExtMenuItem Header="Interfejs">
-                                                <se:ExtMenuItem Header="Rozmiar">
+                                            <MenuItem Header="Interfejs">
+                                                <MenuItem Header="Rozmiar">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                     <Slider Width="61" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="8" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                                                </se:ExtMenuItem>
-                                                <se:ExtMenuItem Header="Motyw">
+                                                </MenuItem>
+                                                <MenuItem Header="Motyw">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~☼~☽}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
-                                                    <se:ExtMenuItem Header="Jasny">
+                                                    <MenuItem Header="Jasny">
                                                         <MenuItem.Icon>
                                                             <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </MenuItem.Icon>
-                                                    </se:ExtMenuItem>
-                                                    <se:ExtMenuItem Header="Ciemny">
+                                                    </MenuItem>
+                                                    <MenuItem Header="Ciemny">
                                                         <MenuItem.Icon>
                                                             <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </MenuItem.Icon>
-                                                    </se:ExtMenuItem>
-                                                </se:ExtMenuItem>
-                                                <se:ExtMenuItem Header="Kolor paska">
+                                                    </MenuItem>
+                                                </MenuItem>
+                                                <MenuItem Header="Kolor paska">
                                                     <MenuItem.Icon>
                                                         <Rectangle Fill="{Binding TitleBarColor, Mode=OneWay, Source={x:Static se:Settings.Default}}" Height="13" Width="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
-                                                    <se:ColorSetter AlphaSliderVisibility="Collapsed" SlidersWidth="256" Color="{Binding TitleBarColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$}"/>
-                                                </se:ExtMenuItem>
-                                            </se:ExtMenuItem>
-                                            <se:ExtSeparator/>
-                                            <se:ExtMenuItem Header="Wyśrodkuj na ekranie">
+                                                    <se:ColorPicker AlphaSliderVisibility="Collapsed" SlidersWidth="256" Color="{Binding TitleBarColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$}"/>
+                                                </MenuItem>
+                                            </MenuItem>
+                                            <Separator/>
+                                            <MenuItem Header="Wyśrodkuj na ekranie">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                            </se:ExtMenuItem>
-                                            <se:ExtMenuItem Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                            </MenuItem>
+                                            <MenuItem Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="↕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                            </se:ExtMenuItem>
-                                            <se:ExtMenuItem Header="Minimalizuj" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Compare}, ConverterParameter=!NoResize}">
+                                            </MenuItem>
+                                            <MenuItem Header="Minimalizuj" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Compare}, ConverterParameter=!NoResize}">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                            </se:ExtMenuItem>
-                                            <se:ExtMenuItem Header="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                            </MenuItem>
+                                            <MenuItem Header="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                            </se:ExtMenuItem>
-                                            <se:ExtSeparator/>
-                                            <se:ExtMenuItem Header="Zamknij">
+                                            </MenuItem>
+                                            <Separator/>
+                                            <MenuItem Header="Zamknij">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                                 <MenuItem.InputGestureText>Alt + F4</MenuItem.InputGestureText>
-                                            </se:ExtMenuItem>
+                                            </MenuItem>
                                         </ContextMenu>
                                     </Grid.ContextMenu>
                                     <Grid.Style>
@@ -246,38 +247,12 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
-                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="#FFF"/>
+            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$0.3}"/>
-            </MultiDataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="0"/>
-                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="#FFF"/>
-                <Setter Property="BorderBrush" Value="#CCC"/>
-            </MultiDataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
-                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="#000"/>
-                <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$-0.3}"/>
-            </MultiDataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Theme, Source={x:Static se:Settings.Default}}" Value="1"/>
-                    <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Background" Value="#000"/>
-                <Setter Property="BorderBrush" Value="#333"/>
-            </MultiDataTrigger>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

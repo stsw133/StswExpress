@@ -266,7 +266,19 @@ public class conv_Add : MarkupExtension, IValueConverter
         var val = System.Convert.ToDouble(value, culture);
 
         /// calculate result
-        if (targetType == typeof(Thickness))
+        if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
+        {
+            var pmr = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            if (pmr.Length == 4)
+                return new CornerRadius(val + pmr[0], val + pmr[1], val + pmr[2], val + pmr[3]);
+            else if (pmr.Length == 2)
+                return new CornerRadius(val + pmr[0], val + pmr[1], val + pmr[0], val + pmr[1]);
+            else if (pmr.Length == 1)
+                return new CornerRadius(val + pmr[0]);
+            else
+                return new CornerRadius(val);
+        }
+        else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
             var pmr = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             if (pmr.Length == 4)
@@ -302,7 +314,7 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
         var b = a.Contains('{') ? 0 : System.Convert.ToDouble(new DataTable().Compute(a, string.Empty), culture);
 
         /// calculate result
-        if (targetType == typeof(Thickness))
+        if (targetType.In(typeof(Thickness), typeof(Thickness?)))
             return new Thickness(b);
         else
             return b;
@@ -325,7 +337,19 @@ public class conv_Multiply : MarkupExtension, IValueConverter
         var val = System.Convert.ToDouble(value, culture);
 
         /// calculate result
-        if (targetType == typeof(Thickness))
+        if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
+        {
+            var pmr = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            if (pmr.Length == 4)
+                return new CornerRadius(val * pmr[0], val * pmr[1], val * pmr[2], val * pmr[3]);
+            else if (pmr.Length == 2)
+                return new CornerRadius(val * pmr[0], val * pmr[1], val * pmr[0], val * pmr[1]);
+            else if (pmr.Length == 1)
+                return new CornerRadius(val * pmr[0]);
+            else
+                return new CornerRadius(val);
+        }
+        else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
             var pmr = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             if (pmr.Length == 4)
