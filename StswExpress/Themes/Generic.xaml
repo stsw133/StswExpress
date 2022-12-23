@@ -161,7 +161,7 @@
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
-                                                    <Slider Width="61" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="8" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                                    <Slider Width="256" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="4" Maximum="80" TickFrequency="1" IsSnapToTickEnabled="True"/>
                                                 </MenuItem>
                                                 <MenuItem Header="Motyw">
                                                     <MenuItem.Icon>

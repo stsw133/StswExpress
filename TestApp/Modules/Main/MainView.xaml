@@ -41,19 +41,41 @@
                 </UniformGrid>
                 -->
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:StswButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:StswIcon Color="{x:Static se:StswIconColors.Structure}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
+                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Padding="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:StswIcon Color="{x:Static se:StswIconColors.Neutral}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
+                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Padding="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:StswIcon Color="{x:Static se:StswIconColors.Modify}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
+                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Padding="3" ToolTip="Export to Excel" IsEnabled="False">
-                        <se:StswIcon Color="{x:Static se:StswIconColors.Positive}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
+                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" ToolTip="Export to Excel" IsEnabled="False">
+                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
                     </se:StswButton>
                 </UniformGrid>
+                <!--
+                <UniformGrid DockPanel.Dock="Top" HorizontalAlignment="Center" Columns="3">
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Designer}">
+                        <se:StswHeader Text="Designer TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Modify}">
+                        <se:StswHeader Text="Modify TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Negative}">
+                        <se:StswHeader Text="Negative TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Neutral}">
+                        <se:StswHeader Text="Neutral TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Positive}">
+                        <se:StswHeader Text="Positive TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Structure}">
+                        <se:StswHeader Text="Structure TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
+                    </se:StswButton>
+                </UniformGrid>
+                -->
                 <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
                 <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">

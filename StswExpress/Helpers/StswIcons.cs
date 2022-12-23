@@ -4,12 +4,12 @@ namespace StswExpress;
 
 public static class StswIconColors
 {
-    public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromRgb(56, 138, 52));
-    public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromRgb(161, 38, 13));
-    public readonly static SolidColorBrush Neutral = new SolidColorBrush(Color.FromRgb(0, 83, 156));
-    public readonly static SolidColorBrush Modify = new SolidColorBrush(Color.FromRgb(103, 40, 120));
-    public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromRgb(207, 153, 74));
-    public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromRgb(0, 167, 185));
+    public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromRgb(60, 140, 50));
+    public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromRgb(160, 40, 20));
+    public readonly static SolidColorBrush Neutral = new SolidColorBrush(Color.FromRgb(0, 80, 160));
+    public readonly static SolidColorBrush Modify = new SolidColorBrush(Color.FromRgb(100, 40, 120));
+    public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromRgb(170, 130, 20));
+    public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromRgb(0, 160, 190));
 }
 public static class StswIcons
 {

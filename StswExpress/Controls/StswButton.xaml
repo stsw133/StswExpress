@@ -4,25 +4,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:se="clr-namespace:StswExpress"
-        mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100"
-        VerticalContentAlignment="Center">
+        mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="100">
     <Button.Resources>
-        <Style TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding CornerRadius, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{x:Null}">
-                    <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
-                </DataTrigger>
-            </Style.Triggers>
+        <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
+            <Setter Property="Background" Value="{DynamicResource Button.Static.Background}" />
+            <Setter Property="BackgroundDisabled" Value="#1777" />
+            <Setter Property="BackgroundPressed" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Color}, ConverterParameter=?0.4}" />
+            <Setter Property="BackgroundMouseOver" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Color}, ConverterParameter=?0.2}" />
+            <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Color}, ConverterParameter=?0.2}" />
+            <Setter Property="BorderBrushDisabled" Value="#2777" />
+            <Setter Property="BorderBrushPressed" Value="{Binding BorderBrush, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Color}, ConverterParameter=?0.4}" />
+            <Setter Property="BorderBrushMouseOver" Value="{Binding BorderBrush, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_Color}, ConverterParameter=?0.2}" />
+            <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2}"/>
+            <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
     </Button.Resources>
-    <Button.Style>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-            <!--
-            <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}}"/>
-            <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
-            <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
-            -->
-        </Style>
-    </Button.Style>
+    <Button.Template>
+        <ControlTemplate TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Button}}"
+                    SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter"
+                                  Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                </ContentPresenter>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" TargetName="border" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="border" />
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Button.Template>
 </Button>
