@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace DynamicAero2.Styles;
+namespace StswExpress.Styles;
 
 partial class ContextMenu
 {

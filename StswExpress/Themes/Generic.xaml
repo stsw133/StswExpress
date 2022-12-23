@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswWindow}">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="10" UseAeroCaptionButtons="False"/>
+                <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="0" UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="AllowsTransparency" Value="True"/>
@@ -13,11 +13,14 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~0~2}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
+        <!-- template -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
+                    <!-- shadow effect as border & real border inside -->
                     <Border Background="Transparent" Padding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_Compare}, ConverterParameter=Maximized~0~5}">
-                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5">
+                        <se:ClippingBorder BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                                           CornerRadius="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_Compare}, ConverterParameter=Maximized~0~10}">
                             <Border.Effect>
                                 <DropShadowEffect Color="#7777" ShadowDepth="0" Direction="0" Opacity="1" BlurRadius="10"/>
                             </Border.Effect>
@@ -26,24 +29,47 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
+                                <!-- chrome -->
                                 <Grid x:Name="menuItems">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Label x:Name="moveRectangle" VerticalContentAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <!-- icon & title -->
                                         <DockPanel>
                                             <Grid Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0 0 0.25 0}" VerticalAlignment="Center" Visibility="{TemplateBinding Icon, Converter={se:conv_NotNull}}">
                                                 <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.75}" Source="{TemplateBinding Icon}"/>
                                                 <Image Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1}" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0 0 -0.1 -0.1}" Source="{TemplateBinding SubIcon}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                             </Grid>
-                                            <se:StswSeparator Orientation="Vertical"/>
+                                            <se:StswSeparator Orientation="Vertical" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}">
+                                                <Separator.Style>
+                                                    <Style TargetType="{x:Type Separator}">
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Icon, RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Null}"/>
+                                                                    <Condition Binding="{Binding SubIcon, RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Null}"/>
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Null}"/>
+                                                                    <Condition Binding="{Binding SubTitle, RelativeSource={RelativeSource AncestorType=Window}}" Value="{x:Null}"/>
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Separator.Style>
+                                            </se:StswSeparator>
                                             <StackPanel VerticalAlignment="Center">
                                                 <TextBlock Text="{TemplateBinding Title}"
                                                            Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2 0}"/>
                                                 <TextBlock Text="{TemplateBinding SubTitle}" Visibility="{TemplateBinding SubTitle, Converter={se:conv_NotNull}}"
                                                            Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.2 -0.1}"
-                                                           Foreground="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Gray~#7777}"
+                                                           Foreground="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=#777~#7777}"
                                                            FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
                                             </StackPanel>
                                         </DockPanel>
@@ -57,8 +83,10 @@
                                             </Style>
                                         </Label.Style>
                                     </Label>
+                                    <!-- buttons panel -->
                                     <StackPanel x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" Margin="0 0 0.5 0">
                                         <StackPanel.Resources>
+                                            <!-- buttons style -->
                                             <Style TargetType="{x:Type Button}">
                                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
                                                 <Setter Property="Template">
@@ -103,6 +131,7 @@
                                                 <Setter Property="FontFamily" Value="Arial"/>
                                             </Style>
                                         </StackPanel.Resources>
+                                        <!-- buttons -->
                                         <ItemsControl x:Name="customControls" ItemsSource="{TemplateBinding CustomControls}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -187,7 +216,7 @@
                                         </ContextMenu>
                                     </Grid.ContextMenu>
                                     <Grid.Style>
-                                        <Style TargetType="Grid">
+                                        <Style TargetType="{x:Type Grid}">
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
@@ -241,7 +270,7 @@
                                     </AdornerDecorator>
                                 </Grid>
                             </Grid>
-                        </Border>
+                        </se:ClippingBorder>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -251,7 +280,7 @@
                 <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}, Converter={se:conv_Color}, ConverterParameter=$0.3}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="False">
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

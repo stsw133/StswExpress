@@ -12,11 +12,13 @@
     <Window.DataContext>
         <local:MainContext/>
     </Window.DataContext>
+    <!--
     <se:StswWindow.CustomControls>
         <Button Command="{x:Static se:StswCommands.Settings}">
             <se:OutlinedTextBlock Text="🔧"/>
         </Button>
     </se:StswWindow.CustomControls>
+    -->
     <TabControl>
         <!-- main data -->
         <TabItem>

@@ -1,5 +1,4 @@
-﻿using DynamicAero2;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -287,7 +286,7 @@ public class StswWindow : Window
         /// closeButton
         if (GetTemplateChild("closeButton") is Button closeButton)
             closeButton.Click += CloseClick;
-
+        
         var menuItems = (Grid)GetTemplateChild("menuItems");
         /// interfaceMenuItem
         if (menuItems.ContextMenu.Items[0] is MenuItem interfaceMenuItem)
@@ -324,7 +323,7 @@ public class StswWindow : Window
         /// closeMenuItem
         if (menuItems.ContextMenu.Items[7] is MenuItem closeMenuItem)
             closeMenuItem.Click += CloseClick;
-
+        
         /// menuItems
         MenuItems = (FrameworkElement)GetTemplateChild("menuItems");
 
@@ -347,7 +346,7 @@ public class StswWindow : Window
             CornerRadius = chrome.CornerRadius,
             CaptionHeight = MoveRectangle.ActualHeight - (WindowState == WindowState.Maximized ? 7 : 0),
             GlassFrameThickness = chrome.GlassFrameThickness,
-            ResizeBorderThickness = chrome.ResizeBorderThickness,
+            ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 10),
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
     }

@@ -1,4 +1,4 @@
-﻿namespace DynamicAero2;
+﻿namespace StswExpress;
 
 public enum ThemeColor
 {

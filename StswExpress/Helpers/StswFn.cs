@@ -1,5 +1,4 @@
-﻿using DynamicAero2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -89,6 +88,7 @@ public static class StswFn
         app.Exit += (sender, e) => Settings.Default.Save();
     }
 
+    #region ImageFromClipboard
     /// ImageFromClipboardDib
     public static ImageSource ImageFromClipboard()
     {
@@ -192,6 +192,7 @@ public static class StswFn
             }
         }
     }
+    #endregion
 
     /// Opens context menu of a framework element
     public static void OpenContextMenu(object sender)
