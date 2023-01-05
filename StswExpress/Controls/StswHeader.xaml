@@ -4,17 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d" d:DesignWidth="200" d:Background="White">
+             mc:Ignorable="d">
     <StackPanel Orientation="Horizontal">
         <!-- icon -->
-        <se:StswDoubleIcon Color="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           HorizontalIconAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <se:StswDoubleIcon Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           Color="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
                            SubColor="{Binding SubIconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
                            SubData="{Binding SubIconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
                            SubSource="{Binding SubIconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           HorizontalIconAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
                            VerticalIconAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}">
             <se:StswDoubleIcon.Margin>
                 <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">

@@ -4,11 +4,11 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// Interaction logic for StswToggleButton.xaml
+/// Interaction logic for MultiBoxButton.xaml
 /// </summary>
-public partial class StswToggleButton : ToggleButton
+public partial class MultiBoxButton : ToggleButton
 {
-    public StswToggleButton()
+    public MultiBoxButton()
     {
         InitializeComponent();
     }
@@ -18,7 +18,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius?),
-            typeof(StswToggleButton),
+            typeof(MultiBoxButton),
             new PropertyMetadata(default(CornerRadius?))
         );
     public CornerRadius? CornerRadius
@@ -32,7 +32,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
               nameof(ForMultiBox),
               typeof(bool),
-              typeof(StswToggleButton),
+              typeof(MultiBoxButton),
               new PropertyMetadata(default(bool))
           );
     internal bool ForMultiBox

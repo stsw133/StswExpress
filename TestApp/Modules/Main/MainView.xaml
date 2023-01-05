@@ -27,55 +27,20 @@
             </TabItem.Header>
             <DockPanel>
                 <!-- button panel -->
-                <!--
                 <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:StswButton Margin="3" Padding="3" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:Header Padding="3" Text="Clear" Icon="/StswExpress;component/Icons/32_clear.png"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:Header Padding="3" Text="Refresh" Icon="/StswExpress;component/Icons/32_refresh.png"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:Header Padding="3" Text="Save" Icon="/StswExpress;component/Icons/32_save.png"/>
-                    </se:StswButton>
-                </UniformGrid>
-                -->
-                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                    <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
                         <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                    <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
                         <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                    <se:StswButton Margin="3" Background="{DynamicResource ColorModify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
                         <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" ToolTip="Export to Excel" IsEnabled="False">
+                    <se:StswButton Margin="3" Background="{DynamicResource ColorPositive}" ToolTip="Export to Excel" IsEnabled="False">
                         <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
                     </se:StswButton>
                 </UniformGrid>
-                <!--
-                <UniformGrid DockPanel.Dock="Top" HorizontalAlignment="Center" Columns="3">
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Designer}">
-                        <se:StswHeader Text="Designer TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Modify}">
-                        <se:StswHeader Text="Modify TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Negative}">
-                        <se:StswHeader Text="Negative TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Neutral}">
-                        <se:StswHeader Text="Neutral TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Positive}">
-                        <se:StswHeader Text="Positive TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="6" HorizontalContentAlignment="Left" Background="{x:Static se:StswIconColors.Structure}">
-                        <se:StswHeader Text="Structure TEST" Foreground="{x:Static SystemColors.WindowBrush}" IconColor="{x:Static SystemColors.WindowBrush}" IconData="{x:Static se:StswIcons.Cake}"/>
-                    </se:StswButton>
-                </UniformGrid>
-                -->
                 <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
                 <!-- data grid -->
                 <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">
@@ -111,7 +76,7 @@
                         </DataGridTemplateColumn>
 
                         <!-- Name -->
-                        <DataGridTextColumn Width="*" Binding="{Binding Name}">
+                        <DataGridTextColumn Width="300" Binding="{Binding Name}">
                             <DataGridTextColumn.Header>
                                 <se:ColumnFilter This="{Binding DataContext.ColumnFilters[Name], RelativeSource={RelativeSource AncestorType=Window}}"
                                                  Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
@@ -153,9 +118,29 @@
             <TabItem.Header>
                 <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.Stats}"/>
             </TabItem.Header>
-            <DockPanel>
-                <TextBlock Text="Not yet implemented"/>
-            </DockPanel>
+            <ScrollViewer>
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Not yet implemented"/>
+                    <TextBox DockPanel.Dock="Top" Margin="5"/>
+                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsEnabled="False"/>
+                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsReadOnly="True"/>
+                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST"/>
+                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
+                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
+                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5"/>
+                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
+                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
+                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5"/>
+                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" IsEnabled="False"/>
+                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
+                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
+                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
+                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
+                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
+                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
+                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}"/>
+                </DockPanel>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </se:StswWindow>

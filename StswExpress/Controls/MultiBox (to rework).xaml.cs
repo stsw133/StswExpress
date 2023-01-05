@@ -38,7 +38,7 @@ public partial class MultiBox : ComboBox
             var result = new List<object>();
             foreach (ComboBoxItem item in Items)
             {
-                var tbtn = item.Content as StswToggleButton;
+                var tbtn = item.Content as MultiBoxButton;
                 if (tbtn.IsChecked == true)
                     result.Add(tbtn.Tag);
             }
@@ -50,7 +50,7 @@ public partial class MultiBox : ComboBox
             {
                 foreach (ComboBoxItem item in Items)
                 {
-                    var tbtn = item.Content as StswToggleButton;
+                    var tbtn = item.Content as MultiBoxButton;
                     tbtn.IsChecked = value?.Contains(tbtn.Tag) ?? false;
                 }
                 SetText();
@@ -79,7 +79,7 @@ public partial class MultiBox : ComboBox
 
             for (int i = 0; i < value.Count; i++)
             {
-                var tbtn = new StswToggleButton()
+                var tbtn = new MultiBoxButton()
                 {
                     BorderThickness = new Thickness(0),
                     Content = new TextBlock()
@@ -108,7 +108,7 @@ public partial class MultiBox : ComboBox
         var result = new List<object>();
         foreach (ComboBoxItem item in Items)
         {
-            var tbtn = (StswToggleButton)item.Content;
+            var tbtn = (MultiBoxButton)item.Content;
             if (tbtn.IsChecked == true)
                 result.Add(((TextBlock)tbtn.Content).Text);
         }

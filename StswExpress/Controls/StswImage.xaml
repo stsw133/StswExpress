@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:se="clr-namespace:StswExpress"
-        mc:Ignorable="d" d:Background="White" d:DesignHeight="50" d:DesignWidth="50"
+        mc:Ignorable="d"
         Background="Transparent">
     <Image Source="{Binding Source, RelativeSource={RelativeSource AncestorType=Border}}"
            Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=Border}}"/>

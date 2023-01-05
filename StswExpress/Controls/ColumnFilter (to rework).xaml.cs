@@ -412,7 +412,7 @@ public partial class ColumnFilter : StackPanel
     /// Loaded
     private void StackPanel_Loaded(object sender, RoutedEventArgs e)
     {
-        var items = ImgMode.ContextMenu.Items.OfType<MenuItem>().ToList();
+        var items = SymbolMode.ContextMenu.Items.OfType<MenuItem>().ToList();
         var binding1 = new Binding()
         {
             Path = new PropertyPath(nameof(Value1)),
@@ -448,6 +448,7 @@ public partial class ColumnFilter : StackPanel
         {
             var cont1 = new StswCheckBox()
             {
+                Content = null,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 IsThreeState = true
             };
@@ -455,19 +456,17 @@ public partial class ColumnFilter : StackPanel
             cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
             UniGriFilters.Children.Add(cont1);
 
-            ImgMode.Visibility = Visibility.Collapsed;
+            SymbolMode.Visibility = Visibility.Collapsed;
         }
         /// Date
         else if (FilterType == Types.Date)
         {
             var cont1 = new StswDatePicker();
-            cont1.Padding = new Thickness(0);
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
             UniGriFilters.Children.Add(cont1);
 
             var cont2 = new StswDatePicker();
-            cont2.Padding = new Thickness(0);
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
             UniGriFilters.Children.Add(cont2);
@@ -563,7 +562,10 @@ public partial class ColumnFilter : StackPanel
             if (Value2 == null) Value2 = ValueDef;
         }
 
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Icons/20_filter_{FilterMode?.ToString()?.ToLower()}.png"));
+        var symbol = (SymbolMode.Content as OutlinedTextBlock);
+        var newSymbol = (items[(int)FilterMode].Icon as OutlinedTextBlock);
+        symbol.Text = newSymbol.Text;
+        symbol.Fill = newSymbol.Fill;
 
         Loaded -= StackPanel_Loaded;
     }
@@ -579,7 +581,7 @@ public partial class ColumnFilter : StackPanel
     }
 
     /// Filter mode click
-    private void ImgMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void SymbolMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (sender is FrameworkElement c)
             c.ContextMenu.IsOpen = true;
@@ -589,6 +591,10 @@ public partial class ColumnFilter : StackPanel
     private void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
     {
         FilterMode = (Modes)Enum.Parse(typeof(Modes), (string)((MenuItem)sender).Tag);
-        ImgMode.Source = new BitmapImage(new Uri($"pack://application:,,,/StswExpress;component/Icons/20_filter_{FilterMode?.ToString().ToLower()}.png"));
+
+        var symbol = (SymbolMode.Content as OutlinedTextBlock);
+        var newSymbol = (SymbolMode.ContextMenu.Items.OfType<MenuItem>().ToList()[(int)FilterMode].Icon as OutlinedTextBlock);
+        symbol.Text = newSymbol.Text;
+        symbol.Fill = newSymbol.Fill;
     }
 }

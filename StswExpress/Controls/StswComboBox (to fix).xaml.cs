@@ -25,6 +25,20 @@ public partial class StswComboBox : ComboBox
         prop = prop?.DeclaringType?.GetProperty(nameof(SelectionBoxItem));
     }
 
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+              nameof(CornerRadius),
+              typeof(CornerRadius?),
+              typeof(StswComboBox),
+              new PropertyMetadata(default(CornerRadius?))
+          );
+    public CornerRadius? CornerRadius
+    {
+        get => (CornerRadius?)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    
     /// SelectionMode
     public static readonly DependencyProperty SelectionModeProperty
         = DependencyProperty.Register(

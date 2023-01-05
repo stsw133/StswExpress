@@ -25,31 +25,104 @@
         </TextBlock>
         <TextBlock Text="{Binding Header, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
     </DockPanel>
+    <Separator/>
     <DockPanel Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=StackPanel}}">
-        <Image x:Name="ImgMode" Height="{Binding iSize, Source={x:Static se:Settings.Default}}"
-               Margin="0 0 2 0" PreviewMouseDown="ImgMode_PreviewMouseDown">
-            <Image.ContextMenu>
+        <Label x:Name="SymbolMode"
+               Padding="2 0" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.5}"
+               Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               PreviewMouseDown="SymbolMode_PreviewMouseDown">
+            <se:OutlinedTextBlock Stroke="Black" StrokeThickness="2"/>
+            <Label.ContextMenu>
                 <ContextMenu>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="Equal" Image="/StswExpress;component/Icons/20_filter_equal.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="NotEqual" Image="/StswExpress;component/Icons/20_filter_notequal.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="Greater" Image="/StswExpress;component/Icons/20_filter_greater.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="GreaterEqual" Image="/StswExpress;component/Icons/20_filter_greaterequal.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="Less" Image="/StswExpress;component/Icons/20_filter_less.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="LessEqual" Image="/StswExpress;component/Icons/20_filter_lessequal.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="Between" Image="/StswExpress;component/Icons/20_filter_between.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="Contains" Image="/StswExpress;component/Icons/20_filter_contains.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="NotContains" Image="/StswExpress;component/Icons/20_filter_notcontains.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="Like" Image="/StswExpress;component/Icons/20_filter_like.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne" Tag="NotLike" Image="/StswExpress;component/Icons/20_filter_notlike.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="StartsWith" Image="/StswExpress;component/Icons/20_filter_startswith.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="EndsWith" Image="/StswExpress;component/Icons/20_filter_endswith.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="In" Image="/StswExpress;component/Icons/20_filter_in.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="NotIn" Image="/StswExpress;component/Icons/20_filter_notin.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="Null" Image="/StswExpress;component/Icons/20_filter_null.png"/>
-                    <se:StswMenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="NotNull" Image="/StswExpress;component/Icons/20_filter_notnull.png"/>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="Equal">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="=" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="NotEqual">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="≠" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="Greater">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="&#62;" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="GreaterEqual">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="≥" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="Less">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="&#60;" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="LessEqual">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="≤" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="Between">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="≷" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="Contains">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text=".B." Fill="#4D4" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="NotContains">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text=".B." Fill="#D44" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="Like">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="%" Fill="#4D4" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne" Tag="NotLike">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="%" Fill="#D44" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="StartsWith">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="A.." Fill="#44D" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="EndsWith">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="..C" Fill="#44D" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="In">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="◐" Fill="#4D4" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="NotIn">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="◐" Fill="#D44" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="Null">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="○" Fill="White" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="NotNull">
+                        <MenuItem.Icon>
+                            <se:OutlinedTextBlock Text="⬤" Fill="#44D" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
-            </Image.ContextMenu>
-        </Image>
+            </Label.ContextMenu>
+        </Label>
         <UniformGrid x:Name="UniGriFilters" Columns="1"/>
     </DockPanel>
 </StackPanel>

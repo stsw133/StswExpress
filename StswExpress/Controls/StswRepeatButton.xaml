@@ -1,19 +1,19 @@
-﻿<se:StswButtonBase x:Class="StswExpress.StswButton"
-                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                   xmlns:se="clr-namespace:StswExpress"
-                   mc:Ignorable="d">
-    
-    <se:StswButtonBase.Template>
-        <ControlTemplate TargetType="{x:Type se:StswButtonBase}">
-            <se:ClippingBorder x:Name="border"
-                               Background="{TemplateBinding Background}"
-                               BorderBrush="{TemplateBinding BorderBrush}"
-                               BorderThickness="{TemplateBinding BorderThickness}"
-                               CornerRadius="{TemplateBinding CornerRadius}"
-                               SnapsToDevicePixels="True">
+﻿<se:StswRepeatButtonBase x:Class="StswExpress.StswRepeatButton"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:se="clr-namespace:StswExpress"
+                         mc:Ignorable="d">
+
+    <se:StswRepeatButtonBase.Template>
+        <ControlTemplate TargetType="{x:Type se:StswRepeatButtonBase}">
+            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    SnapsToDevicePixels="True">
                 <ContentPresenter x:Name="contentPresenter"
                                   Focusable="False"
                                   Margin="{TemplateBinding Padding}"
@@ -21,7 +21,7 @@
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </se:ClippingBorder>
+            </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="Button.IsDefaulted" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" TargetName="border" />
@@ -41,5 +41,5 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-    </se:StswButtonBase.Template>
-</se:StswButtonBase>
+    </se:StswRepeatButtonBase.Template>
+</se:StswRepeatButtonBase>

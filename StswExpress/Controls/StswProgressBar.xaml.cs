@@ -13,6 +13,20 @@ public partial class StswProgressBar : ProgressBar
         InitializeComponent();
     }
 
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswProgressBar),
+            new PropertyMetadata(default(CornerRadius))
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
     /// TextSymbol
     public static readonly DependencyProperty TextSymbolProperty
         = DependencyProperty.Register(

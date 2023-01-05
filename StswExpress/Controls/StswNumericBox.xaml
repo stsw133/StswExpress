@@ -1,37 +1,85 @@
-﻿<UserControl x:Class="StswExpress.StswNumericBox"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d" d:DesignWidth="100"
-             VerticalAlignment="Stretch">
-    <DockPanel>
-        <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1">
-            <RepeatButton Content="▲" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
-                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
-                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                          Click="BtnUp_Click"/>
-            <RepeatButton Content="▼" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
-                          FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
-                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                          Click="BtnDown_Click"/>
-        </UniformGrid>
-        <TextBox Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
-                 HorizontalContentAlignment="{Binding BoxAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center"
-                 LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown">
-            <!--
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
-                            <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter='0 0.75 0.75 0'}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Resources>
-            -->
-        </TextBox>
-    </DockPanel>
-</UserControl>
+﻿<se:StswNumericBoxBase x:Class="StswExpress.StswNumericBox"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                       xmlns:se="clr-namespace:StswExpress"
+                       mc:Ignorable="d">
+    
+    <se:StswNumericBoxBase.Template>
+        <ControlTemplate TargetType="{x:Type se:StswNumericBoxBase}">
+            <se:ClippingBorder x:Name="border"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               SnapsToDevicePixels="True">
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1"
+                                 IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Bool}, ConverterParameter=!}"
+                                 Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}">
+                        <se:StswRepeatButton x:Name="buttonup"
+                                             Content="▲" BorderThickness="0" CornerRadius="0"
+                                             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                             FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
+                                             Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
+                                             Click="BtnUp_Click"/>
+                        <se:StswRepeatButton x:Name="buttondown"
+                                             Content="▼" BorderThickness="0" CornerRadius="0"
+                                             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                             FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
+                                             Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
+                                             Click="BtnDown_Click"/>
+                    </UniformGrid>
+                    <Border x:Name="subborder"
+                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+                    <se:StswTextBox x:Name="box"
+                             Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
+                             Padding="{TemplateBinding Padding}" BorderThickness="0" CornerRadius="0" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                             LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>
+                </DockPanel>
+            </se:ClippingBorder>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                </Trigger>
+                <DataTrigger Binding="{Binding IsPressed, ElementName=buttonup}" Value="True">
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsPressed, ElementName=buttondown}" Value="True">
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=box}" Value="True">
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                    <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" /> -->
+                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" /> -->
+                </DataTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </se:StswNumericBoxBase.Template>
+</se:StswNumericBoxBase>

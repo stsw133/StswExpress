@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d" d:DesignWidth="200" d:Background="White"
+             mc:Ignorable="d"
              Background="#3777" VerticalAlignment="Center" Padding="5">
     <ProgressBar.Style>
         <Style TargetType="{x:Type ProgressBar}" BasedOn="{StaticResource {x:Type ProgressBar}}"/>
@@ -31,7 +31,10 @@
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
-                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=ProgressBar}}"/>
                 <Rectangle x:Name="PART_Track"/>
                 <Grid x:Name="PART_Indicator" ClipToBounds="True" HorizontalAlignment="Left">
                     <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>

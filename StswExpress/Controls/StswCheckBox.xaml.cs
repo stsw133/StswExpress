@@ -1,30 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace StswExpress;
 
 /// <summary>
 /// Interaction logic for StswCheckBox.xaml
 /// </summary>
-public partial class StswCheckBox : CheckBox
+public partial class StswCheckBox : StswCheckBoxBase
 {
     public StswCheckBox()
     {
         InitializeComponent();
     }
-    /*
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius?),
-            typeof(StswCheckBox),
-            new PropertyMetadata(default(CornerRadius?))
-        );
-    public CornerRadius? CornerRadius
+    static StswCheckBox()
     {
-        get => (CornerRadius?)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
-    */
 }

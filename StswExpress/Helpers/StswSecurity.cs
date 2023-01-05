@@ -22,10 +22,10 @@ public static class StswSecurity
     /// Generate salt
     private static byte[] GenerateSalt()
     {
-        var bytes = new byte[16];
-        using (var rng = new RNGCryptoServiceProvider())
-            rng.GetBytes(bytes);
-        return bytes;
+        using var generator = RandomNumberGenerator.Create();
+        var salt = new byte[16];
+        generator.GetBytes(salt);
+        return salt;
     }
 
     /// Generate hash
@@ -46,7 +46,7 @@ public static class StswSecurity
         var plainTextBytes = Encoding.UTF8.GetBytes(text);
         using var password = new Rfc2898DeriveBytes(hashKey, saltStringBytes, 1000);
         var keyBytes = password.GetBytes(16);
-        using var symmetricKey = new RijndaelManaged();
+        using var symmetricKey = Aes.Create();
         symmetricKey.BlockSize = 128;
         symmetricKey.Mode = CipherMode.CBC;
         symmetricKey.Padding = PaddingMode.PKCS7;
@@ -75,7 +75,7 @@ public static class StswSecurity
         var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(16 * 2).Take(cipherTextBytesWithSaltAndIv.Length - (16 * 2)).ToArray();
         using var password = new Rfc2898DeriveBytes(hashKey, saltStringBytes, 1000);
         var keyBytes = password.GetBytes(16);
-        using var symmetricKey = new RijndaelManaged();
+        using var symmetricKey = Aes.Create();
         symmetricKey.BlockSize = 128;
         symmetricKey.Mode = CipherMode.CBC;
         symmetricKey.Padding = PaddingMode.PKCS7;

@@ -3,21 +3,26 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-           mc:Ignorable="d" d:DesignHeight="2" d:DesignWidth="100">
+           xmlns:se="clr-namespace:StswExpress"
+           mc:Ignorable="d"
+           BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.1}">
     <Separator.Style>
         <Style TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}"/>
     </Separator.Style>
     <Separator.Template>
         <ControlTemplate TargetType="{x:Type Separator}">
-            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="True">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Horizontal">
-                                <Setter Property="Height" Value="1"/>
+                                <Setter Property="Height" Value="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=Separator}}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Vertical">
-                                <Setter Property="Width" Value="1"/>
+                                <Setter Property="Width" Value="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=Separator}}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

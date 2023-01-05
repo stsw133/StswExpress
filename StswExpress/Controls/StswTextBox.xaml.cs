@@ -1,43 +1,18 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace StswExpress;
 
 /// <summary>
 /// Interaction logic for StswTextBox.xaml
 /// </summary>
-public partial class StswTextBox : TextBox
+public partial class StswTextBox : StswTextBoxBase
 {
     public StswTextBox()
     {
         InitializeComponent();
     }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius?),
-            typeof(StswTextBox),
-            new PropertyMetadata(default(CornerRadius?))
-        );
-    public CornerRadius? CornerRadius
+    static StswTextBox()
     {
-        get => (CornerRadius?)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
-    /*
-    /// Placeholder
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(ExtTextBox),
-            new PropertyMetadata(default(string?))
-        );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }*/
 }

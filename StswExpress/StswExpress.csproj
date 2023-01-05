@@ -597,6 +597,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\StswRepeatButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\StswDatePicker.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -919,6 +922,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\StswRepeatButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\StswDatePicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

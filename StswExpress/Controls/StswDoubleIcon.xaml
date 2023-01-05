@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50">
+             mc:Ignorable="d">
     <UserControl.Height>
         <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
             <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
