@@ -11,7 +11,7 @@
             <se:ClippingBorder x:Name="border"
                                BorderBrush="{TemplateBinding BorderBrush}"
                                BorderThickness="{TemplateBinding BorderThickness}"
-                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               CornerRadius="{TemplateBinding CornerRadius}"
                                SnapsToDevicePixels="True">
                 <DockPanel>
                     <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1"

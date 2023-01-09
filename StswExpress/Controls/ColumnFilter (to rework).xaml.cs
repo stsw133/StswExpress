@@ -294,7 +294,7 @@ public partial class ColumnFilter : StackPanel
         {
             SetValue(Value1Property, FilterType == Types.Check ? value?.ToString().ToNullable<bool>() : value);
             if (FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) && UniGriFilters.Children.Count > 0)
-                ((MultiBox)UniGriFilters.Children[0]).SelectedItems = (List<object>)value;
+                ((StswComboBox)UniGriFilters.Children[0]).SelectedItems = (List<object>)value;
         }
     }
 
@@ -477,16 +477,16 @@ public partial class ColumnFilter : StackPanel
             binding1.TargetNullValue = null;
             binding2.TargetNullValue = null;
 
-            var cont1 = new MultiBox()
+            var cont1 = new StswComboBox()
             {
                 DisplayMemberPath = DisplayMemberPath,
-                Padding = new Thickness(2),
                 SelectedValuePath = SelectedValuePath,
-                Source = ItemsHeaders?.ToString()?.Split(';')?.ToList() ?? ItemsSource
+                SelectionMode = SelectionMode.Multiple,
+                ItemsSource = ItemsHeaders?.ToString()?.Split(';')?.ToList() ?? ItemsSource
             };
             cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(MultiBox.SelectedItemsProperty, binding1);
-            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
+            cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
+            cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
         }
         /// Number
@@ -495,13 +495,13 @@ public partial class ColumnFilter : StackPanel
             var cont1 = new StswNumericBox();
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
-            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
+            cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
 
             var cont2 = new StswNumericBox();
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
-            cont2.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
+            cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont2);
         }
         /// Text
@@ -510,7 +510,7 @@ public partial class ColumnFilter : StackPanel
             var cont1 = new StswTextBox();
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswTextBox.TextProperty, binding1);
-            cont1.SetBinding(MultiBox.MinWidthProperty, bindingMinWidth);
+            cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             UniGriFilters.Children.Add(cont1);
         }
 

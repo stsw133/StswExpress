@@ -138,7 +138,11 @@
                     <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
                     <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
                     <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
+                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
+                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
                     <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}"/>
+                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
                 </DockPanel>
             </ScrollViewer>
         </TabItem>

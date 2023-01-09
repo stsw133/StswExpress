@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace TestApp.Modules.Main;
 
@@ -14,7 +15,12 @@ internal static class MainQueries
     {
         var result = new DataTable();
 
-        return new List<string?>() { "Test1", "Test2", "Test3" };
+        return new List<string?> () { 
+            "Test1",
+            "Test2",
+            "Test3",
+            null
+        };
         /*
         try
         {
@@ -36,7 +42,7 @@ internal static class MainQueries
             MessageBox.Show($"Error ({nameof(ListOfTypes)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         */
-        return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
+        //return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
     }
 
     /// GetListOfUsers

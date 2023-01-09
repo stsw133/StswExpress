@@ -35,6 +35,7 @@ public class MainContext : StswContext
 
     /// ComboLists
     public List<string?> ListTypes => MainQueries.ListOfTypes();
+    public List<string?> SelectedTypes => new List<string?>() { "Test2", "Test3", null };
 
     /// ListUsers
     private ExtCollection<UserModel> listUsers = new();
