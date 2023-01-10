@@ -350,6 +350,11 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
+    <!-- StswColumnFilter -->
+    <Style TargetType="{x:Type se:StswColumnFilter}">
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+    </Style>
+
     <!-- StswComboBox -->
     <Style TargetType="{x:Type se:StswComboBox}">
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
@@ -370,6 +375,7 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
@@ -400,6 +406,7 @@
         <Setter Property="StyleColorPlaceholder" Value="#7777"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
@@ -431,6 +438,7 @@
         <Setter Property="StyleColorPlaceholder" Value="#7777"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 

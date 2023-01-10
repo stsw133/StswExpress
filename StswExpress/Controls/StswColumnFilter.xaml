@@ -1,0 +1,242 @@
+﻿<se:StswColumnFilterBase x:Class="StswExpress.StswColumnFilter"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:se="clr-namespace:StswExpress"
+                         mc:Ignorable="d" BorderBrush="Gray" BorderThickness="2">
+    <se:StswColumnFilterBase.CommandBindings>
+        <CommandBinding Command="{x:Static se:StswCommands.Refresh}" Executed="CmdRefresh_Executed"/>
+    </se:StswColumnFilterBase.CommandBindings>
+
+    <se:StswColumnFilterBase.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <DockPanel>
+                <!-- filter -->
+                <DockPanel DockPanel.Dock="Bottom" Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <!-- symbol -->
+                    <se:StswButton x:Name="BtnSymbol"
+                                   BorderThickness="0"
+                                   CornerRadius="0"
+                                   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.5}"
+                                   Padding="{Binding FilterPadding, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
+                                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                   Click="BtnSymbol_Click">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <se:OutlinedTextBlock Text=" " Fill="Transparent" FontFamily="Gill Sans MT Condensed" Stroke="Black" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+                            <se:OutlinedTextBlock Text=" " Fill="Transparent" FontFamily="Gill Sans MT Condensed" Stroke="Black" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+                            <se:OutlinedTextBlock Text=" " Fill="Transparent" FontFamily="Gill Sans MT Condensed" Stroke="Black" StrokeThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+                        </StackPanel>
+                        <se:StswButton.ContextMenu>
+                            <ContextMenu>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="{x:Static se:StswColumnFilter+Modes.Equal}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="=" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="{x:Static se:StswColumnFilter+Modes.NotEqual}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="≠" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="{x:Static se:StswColumnFilter+Modes.Greater}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="&#62;" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="{x:Static se:StswColumnFilter+Modes.GreaterEqual}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="≥" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="{x:Static se:StswColumnFilter+Modes.Less}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="&#60;" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="{x:Static se:StswColumnFilter+Modes.LessEqual}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="≤" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="{x:Static se:StswColumnFilter+Modes.Between}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="≷" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="{x:Static se:StswColumnFilter+Modes.Contains}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="B" Fill="#4D4" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="C" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="{x:Static se:StswColumnFilter+Modes.NotContains}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="B" Fill="#D54" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="C" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="{x:Static se:StswColumnFilter+Modes.Like}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="%" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne do" Tag="{x:Static se:StswColumnFilter+Modes.NotLike}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="%" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="{x:Static se:StswColumnFilter+Modes.StartsWith}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text="A" Fill="#46D" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="B" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="C" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="{x:Static se:StswColumnFilter+Modes.EndsWith}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="B" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                            <se:OutlinedTextBlock Text="C" Fill="#46D" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="{x:Static se:StswColumnFilter+Modes.In}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="◐" Fill="#4D4" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="{x:Static se:StswColumnFilter+Modes.NotIn}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="◐" Fill="#D54" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="{x:Static se:StswColumnFilter+Modes.Null}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="○" Fill="White" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="{x:Static se:StswColumnFilter+Modes.NotNull}">
+                                    <MenuItem.Icon>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text="⬤" Fill="#46D" Stroke="Black" StrokeThickness="2"/>
+                                            <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+                                        </StackPanel>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                
+                            </ContextMenu>
+                        </se:StswButton.ContextMenu>
+                    </se:StswButton>
+                    <Border x:Name="subborder"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+                    <!-- controls -->
+                    <UniformGrid x:Name="UngFilters" Columns="1"/>
+                </DockPanel>
+                <!-- separator -->
+                <Border DockPanel.Dock="Bottom"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter='0 1 0 0'}"/>
+                <!-- header -->
+                <DockPanel>
+                    <!-- stats icon -->
+                    <!--
+                    <TextBlock DockPanel.Dock="Right" Text=" ✪"
+                               ToolTip="{Binding StatsTooltip, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+                               Visibility="{Binding StatsVisibility, RelativeSource={RelativeSource AncestorType=StackPanel}}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatsForeground, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={se:conv_NotNull}}" Value="True">
+                                        <Setter Property="Foreground" Value="{Binding StatsForeground, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    -->
+                    <!-- name -->
+                    <ContentControl Content="{Binding Header, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                </DockPanel>
+            </DockPanel>
+        </ControlTemplate>
+    </se:StswColumnFilterBase.Template>
+</se:StswColumnFilterBase>

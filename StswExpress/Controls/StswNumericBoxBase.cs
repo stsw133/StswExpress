@@ -132,6 +132,20 @@ public class StswNumericBoxBase : UserControl
         get => (Brush)GetValue(StyleColorPlaceholderProperty);
         set => SetValue(StyleColorPlaceholderProperty, value);
     }
+
+    /// StyleThicknessSubBorder
+    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+        = DependencyProperty.Register(
+            nameof(StyleThicknessSubBorder),
+            typeof(Thickness),
+            typeof(StswNumericBoxBase),
+            new PropertyMetadata(default(Thickness))
+        );
+    public Thickness StyleThicknessSubBorder
+    {
+        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
+        set => SetValue(StyleThicknessSubBorderProperty, value);
+    }
     #endregion
 
     /// ButtonsAlignment

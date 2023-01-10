@@ -33,7 +33,7 @@
                     <Border x:Name="subborder"
                             DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
                     <se:StswTextBox x:Name="box"
                              Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
                              Padding="{TemplateBinding Padding}" BorderThickness="0" CornerRadius="0" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"

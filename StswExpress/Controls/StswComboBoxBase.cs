@@ -118,6 +118,20 @@ public class StswComboBoxBase : ComboBox
         get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
         set => SetValue(StyleColorReadOnlyBorderProperty, value);
     }
+
+    /// StyleThicknessSubBorder
+    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+        = DependencyProperty.Register(
+            nameof(StyleThicknessSubBorder),
+            typeof(Thickness),
+            typeof(StswComboBoxBase),
+            new PropertyMetadata(default(Thickness))
+        );
+    public Thickness StyleThicknessSubBorder
+    {
+        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
+        set => SetValue(StyleThicknessSubBorderProperty, value);
+    }
     #endregion
 
     /// ButtonAlignment

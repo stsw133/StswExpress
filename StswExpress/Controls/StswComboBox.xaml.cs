@@ -5,8 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -22,13 +20,16 @@ public partial class StswComboBox : StswComboBoxBase
         InitializeComponent();
         Loaded += (s, e) =>
         {
-            if (SelectedItems == null)
-                SelectedItems = new List<object>();
+            SelectedItems ??= new List<object>();
             SetText();
         };
 
         prop = GetType()?.GetProperty(nameof(SelectionBoxItem));
         prop = prop?.DeclaringType?.GetProperty(nameof(SelectionBoxItem));
+    }
+    static StswComboBox()
+    {
+        //DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
     }
 
     /// SelectedItems
@@ -130,7 +131,7 @@ public partial class StswComboBox : StswComboBoxBase
         {
             object? item = SelectedItems?.OfType<object?>()?.FirstOrDefault();
 
-            if (!item.GetType().IsValueType && item.GetType() != typeof(string))
+            if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string))
             {
                 var displayProperty = item?.GetType()?.GetProperty(DisplayMemberPath);
                 var display = displayProperty != null ? displayProperty.GetValue(item) : item?.ToString();

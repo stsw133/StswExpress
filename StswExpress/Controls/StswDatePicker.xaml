@@ -24,7 +24,8 @@
                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"/>
                     <Border x:Name="subborder"
                             DockPanel.Dock="{TemplateBinding ButtonAlignment}"
-                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=DatePicker}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"/>
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
                     <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Button}" StaysOpen="False"/>
                     <DatePickerTextBox x:Name="PART_TextBox" Focusable="{TemplateBinding Focusable}"
                                        Padding="{TemplateBinding Padding}" BorderThickness="0"
