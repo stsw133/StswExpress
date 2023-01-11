@@ -17,6 +17,10 @@ public partial class StswColumnFilter : StswColumnFilterBase
     {
         InitializeComponent();
     }
+    static StswColumnFilter()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnFilter), new FrameworkPropertyMetadata(typeof(StswColumnFilter)));
+    }
 
     /// FilterModeChanged
     public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -88,7 +92,10 @@ public partial class StswColumnFilter : StswColumnFilterBase
     public static void FilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColumnFilter filter)
+        {
             filter.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
+            filter.SetData();
+        }
     }
 
     /// Value1
@@ -185,6 +192,8 @@ public partial class StswColumnFilter : StswColumnFilterBase
                 Modes.NotNull => $"{filter.FilterSqlColumn} is not null)",
                 _ => null
             };
+
+            filter.SetData();
         }
     }
 
@@ -216,6 +225,35 @@ public partial class StswColumnFilter : StswColumnFilterBase
         private set => SetValue(SqlStringProperty, value);
     }
 
+    /// Data
+    public static readonly DependencyProperty DataProperty
+        = DependencyProperty.Register(
+            nameof(Data),
+            typeof(StswColumnFilterData),
+            typeof(StswColumnFilter),
+            new PropertyMetadata(default(StswColumnFilterData?))
+        );
+    public StswColumnFilterData? Data
+    {
+        get => (StswColumnFilterData?)GetValue(DataProperty);
+        set => SetValue(DataProperty, value);
+    }
+
+    /// SetData
+    private void SetData()
+    {
+        Data = new StswColumnFilterData()
+        {
+            SqlParam = SqlParam,
+            SqlString = SqlString,
+            Value1 = Value1,
+            Value2 = Value2,
+            DefaultValue1 = DefaultValue1,
+            DefaultValue2 = DefaultValue2,
+            Clear = new Action(Clear)
+        };
+    }
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -239,6 +277,15 @@ public partial class StswColumnFilter : StswColumnFilterBase
             TargetNullValue = string.Empty,
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        var subborderThickness = new Binding()
+        {
+            Path = new PropertyPath(nameof(BorderThickness) + ".Top"),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            Converter = new conv_Multiply(),
+            ConverterParameter = "0.5 0 0 0"
         };
         /*
         var bindingMinWidth = new Binding()
@@ -264,14 +311,11 @@ public partial class StswColumnFilter : StswColumnFilterBase
                 BorderThickness = new Thickness(0),
                 Content = null,
                 CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
                 IsThreeState = true
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
             ungFilters.Children.Add(cont1);
-
-            btnSymbol.Visibility = Visibility.Collapsed;
         }
         /// create StswDatePicker when Date
         else if (FilterType == Types.Date)
@@ -284,6 +328,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
+            cont1.SetBinding(StswDatePicker.StyleThicknessSubBorderProperty, subborderThickness);
             ungFilters.Children.Add(cont1);
 
             var cont2 = new StswDatePicker()
@@ -295,6 +340,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
+            cont1.SetBinding(StswDatePicker.StyleThicknessSubBorderProperty, subborderThickness);
             ungFilters.Children.Add(cont2);
         }
         /// create StswComboBox when List
@@ -315,6 +361,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
+            cont1.SetBinding(StswComboBox.StyleThicknessSubBorderProperty, subborderThickness);
             //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont1);
         }
@@ -329,6 +376,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
+            cont1.SetBinding(StswNumericBox.StyleThicknessSubBorderProperty, subborderThickness);
             //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont1);
 
@@ -341,6 +389,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
+            cont1.SetBinding(StswNumericBox.StyleThicknessSubBorderProperty, subborderThickness);
             //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont2);
         }
@@ -360,7 +409,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
         }
 
         /// visibility for FilterMode items
-        btnSymbolItems[(int)Modes.Equal].Visibility = FilterType.In(Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Equal].Visibility = FilterType.In(Types.Check, Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
         btnSymbolItems[(int)Modes.NotEqual].Visibility = FilterType.In(Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
         btnSymbolItems[(int)Modes.Greater].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
         btnSymbolItems[(int)Modes.GreaterEqual].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
@@ -461,4 +510,15 @@ public partial class StswColumnFilter : StswColumnFilterBase
         ((OutlinedTextBlock)symbolStackPanel.Children[2]).Fill = ((OutlinedTextBlock)newSymbolStackPanel.Children[2]).Fill;
         ((OutlinedTextBlock)symbolStackPanel.Children[2]).Text = ((OutlinedTextBlock)newSymbolStackPanel.Children[2]).Text;
     }
+}
+
+public class StswColumnFilterData
+{
+    public string? SqlParam { get; internal set; }
+    public string? SqlString { get; internal set; }
+    public object? Value1 { get; internal set; }
+    public object? Value2 { get; internal set; }
+    public object? DefaultValue1 { get; internal set; }
+    public object? DefaultValue2 { get; internal set; }
+    public Action? Clear { get; internal set; }
 }

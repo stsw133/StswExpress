@@ -14,9 +14,11 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=CheckBox}}"
-                        Padding="{TemplateBinding Padding}"
+                        Padding="{TemplateBinding Padding}">
+                    <!--
                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                    -->
                     <Grid>
                         <TextBlock/>
                         <TextBlock x:Name="textmark" Foreground="{Binding StyleColorGlyph, RelativeSource={RelativeSource AncestorType=CheckBox}}"
@@ -24,19 +26,17 @@
                                    FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.9}"/>
                     </Grid>
                 </Border>
+                <!--
                 <ContentPresenter x:Name="contentPresenter"
                                   Focusable="False" RecognizesAccessKey="True"
                                   Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                -->
             </DockPanel>
             <ControlTemplate.Triggers>
+                <!--
                 <Trigger Property="HasContent" Value="False">
                     <Setter Property="Visibility" Value="Collapsed" TargetName="contentPresenter"/>
-                </Trigger>
-                <!--
-                <Trigger Property="HasContent" Value="True">
-                    <Setter Property="FocusVisualStyle" Value="{DynamicResource OptionMarkFocusVisual}"/>
-                    <Setter Property="Padding" Value="4 -1 0 0"/>
                 </Trigger>
                 -->
                 <Trigger Property="IsMouseOver" Value="True">

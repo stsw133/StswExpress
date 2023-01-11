@@ -338,7 +338,7 @@
         <Setter Property="StyleColorCheckedBackground" Value="#74D4"/>
 
         <Setter Property="StyleCharIndeterminate" Value="❔"/>
-        <Setter Property="StyleColorIndeterminateBackground" Value="{DynamicResource OptionMark.Static.Background}"/>
+        <Setter Property="StyleColorIndeterminateBackground" Value="#7777"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
@@ -352,7 +352,7 @@
 
     <!-- StswColumnFilter -->
     <Style TargetType="{x:Type se:StswColumnFilter}">
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
     </Style>
 
     <!-- StswComboBox -->
@@ -414,6 +414,33 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="SelectedDateFormat" Value="Short"/>
+    </Style>
+
+    <!-- StswNavigationButton -->
+    <Style TargetType="{x:Type se:StswNavigationButton}">
+        <Setter Property="Background" Value="#49D"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+
+        <Setter Property="StyleColorDisabledBackground" Value="#249D"/>
+        <Setter Property="StyleColorDisabledBorder" Value="Transparent"/>
+
+        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="Transparent"/>
+
+        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="Transparent"/>
+
+        <Setter Property="StyleColorCheckedBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.35}"/>
+        <Setter Property="StyleColorCheckedBorder" Value="Transparent"/>
+
+        <Setter Property="Foreground" Value="White"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <!-- StswNumericBox -->

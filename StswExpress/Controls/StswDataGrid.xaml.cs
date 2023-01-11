@@ -67,6 +67,7 @@ public partial class StswDataGrid : DataGrid
 /// <summary>
 /// OBSOLETE
 /// </summary>
+[Obsolete]
 public class SetMinWidthToAutoAttachedBehaviour
 {
     public static bool GetSetMinWidthToAuto(DependencyObject obj) => (bool)obj.GetValue(SetMinWidthToAutoProperty);

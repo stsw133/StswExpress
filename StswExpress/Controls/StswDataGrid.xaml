@@ -16,6 +16,7 @@
             <Setter Property="BorderThickness" Value="0 0 1 1"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <!-- <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.3}"/> -->
             <Style.Triggers>
                 <DataTrigger Binding="{Binding HeaderBackground, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={se:conv_NotNull}}" Value="True">

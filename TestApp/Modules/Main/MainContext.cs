@@ -18,8 +18,8 @@ public class MainContext : StswContext
     
     #region Data
     /// ColumnFilters
-    private ExtDictionary<string, ColumnFilter> columnFilters = new();
-    public ExtDictionary<string, ColumnFilter> ColumnFilters
+    private ExtDictionary<string, StswColumnFilterData> columnFilters = new();
+    public ExtDictionary<string, StswColumnFilterData> ColumnFilters
     {
         get => columnFilters;
         set => SetProperty(ref columnFilters, value, () => ColumnFilters);

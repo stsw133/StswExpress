@@ -187,8 +187,8 @@ public static class StswExtensions
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
-                if (child != null && child is T)
-                    yield return (T)child;
+                if (child != null && child is T t)
+                    yield return t;
 
                 foreach (T childOfChild in FindVisualChildren<T>(child))
                     yield return childOfChild;
@@ -198,58 +198,60 @@ public static class StswExtensions
 
     #region ColumnFilters
     /// Gets controls of "ColumnFilter" type from DataGrid.
+    [Obsolete]
     public static void GetColumnFilters(this DataGrid dg, out string filter, out List<(string name, object val)> parameters)
     {
-        var dict = new ExtDictionary<string, ColumnFilter>();
+        var dict = new ExtDictionary<string, StswColumnFilterData>();
 
         foreach (var col in dg.Columns)
         {
             /// Header is ColumnFilter
-            if (col.Header is ColumnFilter cf1)
-                dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf1));
+            if (col.Header is StswColumnFilter cf1)
+                dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf1.Data));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
-                foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                    dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
+                foreach (var cf in FindVisualChildren<StswColumnFilter>(cf2).Where(x => x.SqlString != null))
+                    dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf.Data));
         }
 
         dict.GetColumnFilters(out filter, out parameters);
     }
 
     /// Clears values in controls of "ColumnFilter" type in DataGrid.
+    [Obsolete]
     public static void ClearColumnFilters(this DataGrid dg)
     {
-        var dict = new ExtDictionary<string, ColumnFilter>();
+        var dict = new ExtDictionary<string, StswColumnFilterData>();
 
         foreach (var col in dg.Columns)
         {
             /// Header is ColumnFilter
-            if (col.Header is ColumnFilter cf1)
-                dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf1));
+            if (col.Header is StswColumnFilter cf1)
+                dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf1.Data));
             /// Header's children are ColumnFilter
             else if (col.Header is DependencyObject cf2)
-                foreach (var cf in FindVisualChildren<ColumnFilter>(cf2).Where(x => x.SqlString != null))
-                    dict.Add(new KeyValuePair<string, ColumnFilter>(Guid.NewGuid().ToString(), cf));
+                foreach (var cf in FindVisualChildren<StswColumnFilter>(cf2).Where(x => x.SqlString != null))
+                    dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf.Data));
         }
 
         dict.ClearColumnFilters();
     }
 
     /// Gets controls of "ColumnFilter" type from ExtDictionary.
-    public static void GetColumnFilters(this ExtDictionary<string, ColumnFilter> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this ExtDictionary<string, StswColumnFilterData> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
 
         foreach (var elem in dict)
         {
-            /// Header is ColumnFilter
+            /// Header is StswColumnFilterData
             if (elem.Value?.SqlString != null)
             {
                 filter += " and " + elem.Value.SqlString;
-                if (elem.Value.Value1 != null)
+                if (elem.Value.Value1 != null && elem.Value.SqlParam != null)
                     parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "1", (elem.Value.Value1 is List<object> ? null : elem.Value.Value1) ?? DBNull.Value));
-                if (elem.Value.Value2 != null)
+                if (elem.Value.Value2 != null && elem.Value.SqlParam != null)
                     parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "2", (elem.Value.Value2 is List<object> ? null : elem.Value.Value2) ?? DBNull.Value));
             }
         }
@@ -261,13 +263,10 @@ public static class StswExtensions
     }
 
     /// Clears values in controls of "ColumnFilter" type in ExtDictionary.
-    public static void ClearColumnFilters(this ExtDictionary<string, ColumnFilter> dict)
+    public static void ClearColumnFilters(this ExtDictionary<string, StswColumnFilterData> dict)
     {
         foreach (var pair in dict)
-        {
-            dict[pair.Key].Value1 = dict[pair.Key].ValueDef;
-            dict[pair.Key].Value2 = dict[pair.Key].ValueDef;
-        }
+            dict[pair.Key].Clear();
     }
     #endregion
 }

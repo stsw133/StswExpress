@@ -62,9 +62,8 @@ internal static class MainQueries
                     order by a.Name";
                 using (var sqlDA = new SqlDataAdapter(query, sqlConn))
                 {
-                    if (parameters != null)
-                        foreach (var (name, val) in parameters)
-                            sqlDA.SelectCommand.Parameters.AddWithValue(name, val);
+                    foreach (var (name, val) in parameters)
+                        sqlDA.SelectCommand.Parameters.AddWithValue(name, val);
                     sqlDA.Fill(result);
                 }
             }
