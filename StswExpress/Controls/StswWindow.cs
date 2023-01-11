@@ -109,7 +109,7 @@ public class StswWindow : Window
     }
 
     /// TitleBarColorClick
-    protected void TitleBarColorClick(object sender, RoutedEventArgs e) => Settings.Default.TitleBarColor = new ColorConverter().ConvertToString(SystemParameters.WindowGlassColor);
+    protected void TitleBarColorClick(object sender, RoutedEventArgs e) => Settings.Default.TitleBarColor = null;
 
     /// CenterClick
     protected void CenterClick(object sender, RoutedEventArgs e)
@@ -304,9 +304,11 @@ public class StswWindow : Window
                 if (themeMenuItem.Items[1] is MenuItem theme1MenuItem)
                     theme1MenuItem.Click += (s, e) => ChangeTheme(1);
             }
+            /*
             /// titlebarcolorMenuItem
             if (interfaceMenuItem.Items[2] is MenuItem titlebarcolorMenuItem)
                 titlebarcolorMenuItem.Click += TitleBarColorClick;
+            */
         }
         /// centerMenuItem
         if (menuItems.ContextMenu.Items[2] is MenuItem centerMenuItem)
@@ -328,7 +330,7 @@ public class StswWindow : Window
         MenuItems = (FrameworkElement)GetTemplateChild("menuItems");
 
         /// Chrome change
-        MoveRectangle = (Label)GetTemplateChild("moveRectangle");
+        MoveRectangle = (Control)GetTemplateChild("moveRectangle");
         MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
         StateChanged += StswWindow_StateChanged;
 

@@ -19,146 +19,168 @@
         </Button>
     </se:StswWindow.CustomControls>
     -->
-    <TabControl>
-        <!-- main data -->
-        <TabItem>
-            <TabItem.Header>
-                <se:StswHeader Text="Main data" IconData="{x:Static se:StswIcons.Profiles}"/>
-            </TabItem.Header>
-            <DockPanel>
-                <!-- button panel -->
-                <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                    <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
-                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" Background="{DynamicResource ColorModify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" Background="{DynamicResource ColorPositive}" ToolTip="Export to Excel" IsEnabled="False">
-                        <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
-                    </se:StswButton>
-                </UniformGrid>
-                <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
-                <!-- data grid -->
-                <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">
-                    <DataGrid.Resources>
-                        <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
+    <DockPanel>
+        <Border Background="#349D" BorderBrush="#7777" BorderThickness="1">
+            <StackPanel>
+                <se:StswNavigationButton BorderThickness="0 0 0 1" IsChecked="True">
+                    <se:StswHeader Text="Account" IconData="{x:Static se:StswIcons.Account}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Profiles" IconData="{x:Static se:StswIcons.Profiles}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Attachments" IconData="{x:Static se:StswIcons.Attachment}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.Stats}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Config}"/>
+                </se:StswNavigationButton>
+            </StackPanel>
+        </Border>
+        <TabControl>
+            <!-- main data -->
+            <TabItem>
+                <TabItem.Header>
+                    <se:StswHeader Text="Main" IconData="{x:Static se:StswIcons.Folder}"/>
+                </TabItem.Header>
+                <DockPanel>
+                    <!-- button panel -->
+                    <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
+                        <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="3" Background="{DynamicResource ColorModify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="3" Background="{DynamicResource ColorPositive}" ToolTip="Export to Excel" IsEnabled="False">
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
+                        </se:StswButton>
+                    </UniformGrid>
+                    <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
+                    <!-- data grid -->
+                    <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">
+                        <DataGrid.Resources>
+                            <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
 
-                        <!-- ID -->
-                        <DataGridTextColumn Binding="{Binding ID}">
-                            <DataGridTextColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[ID], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- ID -->
+                            <DataGridTextColumn Binding="{Binding ID}">
+                                <DataGridTextColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[ID], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
 
-                        <!-- Type -->
-                        <DataGridComboBoxColumn TextBinding="{Binding Type}">
-                            <DataGridComboBoxColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Type], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- Type -->
+                            <DataGridComboBoxColumn TextBinding="{Binding Type}">
+                                <DataGridComboBoxColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Type], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
                                                      ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
-                            </DataGridComboBoxColumn.Header>
-                        </DataGridComboBoxColumn>
+                                </DataGridComboBoxColumn.Header>
+                            </DataGridComboBoxColumn>
 
-                        <!-- Icon -->
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Icon], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- Icon -->
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Icon], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                        <!-- Name -->
-                        <DataGridTextColumn Width="300" Binding="{Binding Name}">
-                            <DataGridTextColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Name], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- Name -->
+                            <DataGridTextColumn Width="*" Binding="{Binding Name}">
+                                <DataGridTextColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Name], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
 
-                        <!-- IsEnabled -->
-                        <DataGridCheckBoxColumn Width="auto" Binding="{Binding IsEnabled}">
-                            <DataGridCheckBoxColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[IsEnabled], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- IsEnabled -->
+                            <DataGridCheckBoxColumn Binding="{Binding IsEnabled}">
+                                <DataGridCheckBoxColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[IsEnabled], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
-                            </DataGridCheckBoxColumn.Header>
-                        </DataGridCheckBoxColumn>
+                                </DataGridCheckBoxColumn.Header>
+                            </DataGridCheckBoxColumn>
 
-                        <!-- CreateDT -->
-                        <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
-                            <DataGridTextColumn.Header>
-                                <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[CreateDT], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
+                            <!-- CreateDT -->
+                            <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
+                                <DataGridTextColumn.Header>
+                                    <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[CreateDT], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                      Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
                                                      Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
 
-                    </DataGrid.Columns>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEnabled}" Value="True">
-                                    <Setter Property="Foreground" Value="#777"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                </se:StswDataGrid>
-            </DockPanel>
-        </TabItem>
-        <!-- stats -->
-        <TabItem>
-            <TabItem.Header>
-                <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.Stats}"/>
-            </TabItem.Header>
-            <ScrollViewer>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="Not yet implemented"/>
-                    <TextBox DockPanel.Dock="Top" Margin="5"/>
-                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsEnabled="False"/>
-                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsReadOnly="True"/>
-                    <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST"/>
-                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
-                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
-                    <se:StswNumericBox DockPanel.Dock="Top" Margin="5"/>
-                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
-                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
-                    <se:StswDatePicker DockPanel.Dock="Top" Margin="5"/>
-                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" IsEnabled="False"/>
-                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
-                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
-                    <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST"/>
-                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
-                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
-                    <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
-                    <StackPanel DockPanel.Dock="Top" Margin="5">
-                        <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
-                        <se:StswNavigationButton Content="TEST 2"/>
-                        <se:StswNavigationButton Content="TEST 3"/>
-                        <se:StswNavigationButton Content="TEST 4"/>
-                    </StackPanel>
-                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
-                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
-                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}"/>
-                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
-                    <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
-                    <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">
-                        <se:StswColumnFilter DockPanel.Dock="Top" Padding="5" BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
-                                             Header="TEST" FilterType="Date" FilterMode="Between" FilterSqlColumn="m.ID" Value1="test1"/>
-                    </se:ClippingBorder>
+                        </DataGrid.Columns>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                                        <Setter Property="Foreground" Value="#777"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </se:StswDataGrid>
                 </DockPanel>
-            </ScrollViewer>
-        </TabItem>
-    </TabControl>
+            </TabItem>
+            <!-- tests -->
+            <TabItem>
+                <TabItem.Header>
+                    <se:StswHeader Text="Tests" IconData="{x:Static se:StswIcons.Trash}"/>
+                </TabItem.Header>
+                <ScrollViewer>
+                    <DockPanel>
+                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsEnabled="False"/>
+                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsReadOnly="True"/>
+                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST"/>
+                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
+                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
+                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5"/>
+                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
+                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
+                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5"/>
+                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsEnabled="False"/>
+                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="{x:Null}"/>
+                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="False"/>
+                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="True"/>
+                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
+                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
+                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
+                        <StackPanel DockPanel.Dock="Top" Margin="5">
+                            <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
+                            <se:StswNavigationButton Content="TEST 2"/>
+                            <se:StswNavigationButton Content="TEST 3"/>
+                            <se:StswNavigationButton Content="TEST 4"/>
+                        </StackPanel>
+                        <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
+                        <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
+                        <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}"/>
+                        <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+                        <se:StswComboBox DockPanel.Dock="Top" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
+                        <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">
+                            <se:StswColumnFilter DockPanel.Dock="Top" Padding="5" BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
+                                             Header="TEST" FilterType="Date" FilterMode="Between" FilterSqlColumn="m.ID" Value1="test1"/>
+                        </se:ClippingBorder>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </se:StswWindow>

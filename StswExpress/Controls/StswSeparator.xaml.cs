@@ -12,6 +12,10 @@ public partial class StswSeparator : Separator
     {
         InitializeComponent();
     }
+    static StswSeparator()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
+    }
 
     /// Orientation
     public static readonly DependencyProperty OrientationProperty

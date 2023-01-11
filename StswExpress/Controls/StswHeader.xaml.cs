@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswHeader.xaml
 /// </summary>
-public partial class StswHeader : UserControl
+public partial class StswHeader : Label
 {
     public StswHeader()
     {

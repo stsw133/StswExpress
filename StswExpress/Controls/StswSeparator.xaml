@@ -4,25 +4,23 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:se="clr-namespace:StswExpress"
-           mc:Ignorable="d"
-           BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.1}">
-    <Separator.Style>
-        <Style TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}"/>
-    </Separator.Style>
+           mc:Ignorable="d">
+
     <Separator.Template>
         <ControlTemplate TargetType="{x:Type Separator}">
-            <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
+            <Border BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    SnapsToDevicePixels="True">
+                    SnapsToDevicePixels="False">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Horizontal">
-                                <Setter Property="Height" Value="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=Separator}}"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Separator}}" Value="Vertical">
-                                <Setter Property="Width" Value="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=Separator}}"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

@@ -1,25 +1,25 @@
-﻿<UserControl x:Class="StswExpress.StswHeader"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d">
+﻿<Label x:Class="StswExpress.StswHeader"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+       xmlns:se="clr-namespace:StswExpress"
+       mc:Ignorable="d">
     <StackPanel Orientation="Horizontal">
         <!-- icon -->
-        <se:StswDoubleIcon Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Color="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           SubColor="{Binding SubIconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           SubData="{Binding SubIconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           SubSource="{Binding SubIconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           HorizontalIconAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                           VerticalIconAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <se:StswDoubleIcon Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=Label}}"
+                           Color="{Binding IconColor, RelativeSource={RelativeSource AncestorType=Label}}"
+                           SubColor="{Binding SubIconColor, RelativeSource={RelativeSource AncestorType=Label}}"
+                           Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=Label}}"
+                           SubData="{Binding SubIconData, RelativeSource={RelativeSource AncestorType=Label}}"
+                           Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=Label}}"
+                           SubSource="{Binding SubIconSource, RelativeSource={RelativeSource AncestorType=Label}}"
+                           HorizontalIconAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=Label}}"
+                           VerticalIconAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=Label}}">
             <se:StswDoubleIcon.Margin>
                 <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">
                     <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                    <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                    <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType=Label}"/>
                 </MultiBinding>
             </se:StswDoubleIcon.Margin>
             <se:StswDoubleIcon.Style>
@@ -39,19 +39,19 @@
             </se:StswDoubleIcon.Style>
         </se:StswDoubleIcon>
         <!-- text -->
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0.2 0.5 0.2}"
-                    Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0.2}"
+                    Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_NotNull}}">
             <!-- main text -->
-            <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=Label}}" TextWrapping="Wrap"/>
             <!-- sub text 1 -->
-            <TextBlock Text="{Binding SubText1, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="Wrap"
+            <TextBlock Text="{Binding SubText1, RelativeSource={RelativeSource AncestorType=Label}}" TextWrapping="Wrap"
                        FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"
-                       Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">
+                       Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_NotNull}}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                        <Setter Property="Foreground" Value="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=Label}}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding SubTextColor1, RelativeSource={RelativeSource AncestorType=Label}}" Value="{x:Null}">
                                 <Setter Property="Foreground" Value="Gray"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -59,14 +59,14 @@
                 </TextBlock.Style>
             </TextBlock>
             <!-- sub text 2 -->
-            <TextBlock Text="{Binding SubText2, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="Wrap"
+            <TextBlock Text="{Binding SubText2, RelativeSource={RelativeSource AncestorType=Label}}" TextWrapping="Wrap"
                        FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"
-                       Visibility="{Binding SubText2, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_NotNull}}">
+                       Visibility="{Binding SubText2, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_NotNull}}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        <Setter Property="Foreground" Value="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=Label}}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding SubTextColor2, RelativeSource={RelativeSource AncestorType=Label}}" Value="{x:Null}">
                                 <Setter Property="Foreground" Value="Gray"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -75,4 +75,4 @@
             </TextBlock>
         </StackPanel>
     </StackPanel>
-</UserControl>
+</Label>

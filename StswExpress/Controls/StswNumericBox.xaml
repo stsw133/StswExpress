@@ -35,10 +35,12 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
                     <se:StswTextBox x:Name="box"
-                             Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
-                             Padding="{TemplateBinding Padding}" BorderThickness="0" CornerRadius="0" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                             LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>
+                                    BorderThickness="0" CornerRadius="0"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Padding="{TemplateBinding Padding}"
+                                    Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
+                                    LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>
                 </DockPanel>
             </se:ClippingBorder>
             <ControlTemplate.Triggers>

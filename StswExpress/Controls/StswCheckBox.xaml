@@ -8,17 +8,17 @@
 
     <se:StswCheckBoxBase.Template>
         <ControlTemplate TargetType="{x:Type se:StswCheckBoxBase}">
-            <DockPanel x:Name="templateRoot" SnapsToDevicePixels="True">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Border x:Name="checkBoxBorder"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=CheckBox}}"
                         Padding="{TemplateBinding Padding}">
-                    <!--
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                    -->
                     <Grid>
                         <TextBlock/>
                         <TextBlock x:Name="textmark" Foreground="{Binding StyleColorGlyph, RelativeSource={RelativeSource AncestorType=CheckBox}}"
@@ -26,19 +26,23 @@
                                    FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.9}"/>
                     </Grid>
                 </Border>
-                <!--
-                <ContentPresenter x:Name="contentPresenter"
+                <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
                                   Focusable="False" RecognizesAccessKey="True"
                                   Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                -->
-            </DockPanel>
+            </Grid>
             <ControlTemplate.Triggers>
-                <!--
                 <Trigger Property="HasContent" Value="False">
+                    <Setter Property="Grid.ColumnSpan" Value="2" TargetName="checkBoxBorder"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="checkBoxBorder"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch" TargetName="checkBoxBorder"/>
                     <Setter Property="Visibility" Value="Collapsed" TargetName="contentPresenter"/>
                 </Trigger>
-                -->
+                <Trigger Property="HasContent" Value="True">
+                    <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Self}}" TargetName="checkBoxBorder"/>
+                    <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Self}}" TargetName="checkBoxBorder"/>
+                    <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="checkBoxBorder"/>
+                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="checkBoxBorder" />
                     <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="checkBoxBorder" />
