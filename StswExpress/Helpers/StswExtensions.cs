@@ -266,7 +266,7 @@ public static class StswExtensions
     public static void ClearColumnFilters(this ExtDictionary<string, StswColumnFilterData> dict)
     {
         foreach (var pair in dict)
-            dict[pair.Key].Clear();
+            dict[pair.Key]?.Clear();
     }
     #endregion
 }

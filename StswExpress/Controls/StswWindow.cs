@@ -15,7 +15,7 @@ public class StswWindow : Window
     private double DefaultHeight, DefaultWidth;
 
     /// Constructors
-    public StswWindow() => SetValue(CustomControlsProperty, new ObservableCollection<UIElement>());
+    public StswWindow() => SetValue(CustomControlsProperty, new ObservableCollection<UIElement>()); /// without this controls move into new window
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
 
     /// CustomControls

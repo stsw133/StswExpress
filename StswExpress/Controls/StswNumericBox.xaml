@@ -14,18 +14,18 @@
                                CornerRadius="{TemplateBinding CornerRadius}"
                                SnapsToDevicePixels="True">
                 <DockPanel>
-                    <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}" Columns="1"
+                    <UniformGrid DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
                                  IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Bool}, ConverterParameter=!}"
                                  Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}">
                         <se:StswRepeatButton x:Name="buttonup"
                                              Content="▲" BorderThickness="0" CornerRadius="0"
-                                             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                             Foreground="{TemplateBinding Foreground}"
                                              FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                                              Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
                                              Click="BtnUp_Click"/>
                         <se:StswRepeatButton x:Name="buttondown"
                                              Content="▼" BorderThickness="0" CornerRadius="0"
-                                             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                             Foreground="{TemplateBinding Foreground}"
                                              FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                                              Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
                                              Click="BtnDown_Click"/>
@@ -37,7 +37,7 @@
                     <se:StswTextBox x:Name="box"
                                     BorderThickness="0" CornerRadius="0"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    IsReadOnly="{TemplateBinding IsReadOnly}"
                                     Padding="{TemplateBinding Padding}"
                                     Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
                                     LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>

@@ -1,10 +1,25 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace StswExpress;
 
-public class StswComboBoxBase : ComboBox
+/// <summary>
+/// Interaction logic for StswCheckButton.xaml
+/// </summary>
+public partial class StswCheckButton : StswCheckButtonBase
+{
+    public StswCheckButton()
+    {
+        InitializeComponent();
+    }
+    static StswCheckButton()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckButton), new FrameworkPropertyMetadata(typeof(StswCheckButton)));
+    }
+}
+
+public class StswCheckButtonBase : ToggleButton
 {
     #region StyleColors
     /// StyleColorDisabledBackground
@@ -12,7 +27,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorDisabledBackground),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorDisabledBackground
@@ -26,7 +41,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorDisabledBorder),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorDisabledBorder
@@ -40,7 +55,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorMouseOverBackground),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorMouseOverBackground
@@ -54,7 +69,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorMouseOverBorder),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorMouseOverBorder
@@ -68,7 +83,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorPressedBackground),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorPressedBackground
@@ -82,7 +97,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(StyleColorPressedBorder),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorPressedBorder
@@ -91,88 +106,46 @@ public class StswComboBoxBase : ComboBox
         set => SetValue(StyleColorPressedBorderProperty, value);
     }
 
-    /// StyleColorReadOnlyBackground
-    public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
+    /// StyleColorCheckedBackground
+    public static readonly DependencyProperty StyleColorCheckedBackgroundProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBackground),
+            nameof(StyleColorCheckedBackground),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBackground
+    public Brush StyleColorCheckedBackground
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBackgroundProperty);
-        set => SetValue(StyleColorReadOnlyBackgroundProperty, value);
+        get => (Brush)GetValue(StyleColorCheckedBackgroundProperty);
+        set => SetValue(StyleColorCheckedBackgroundProperty, value);
     }
 
-    /// StyleColorReadOnlyBorder
-    public static readonly DependencyProperty StyleColorReadOnlyBorderProperty
+    /// StyleColorCheckedBorder
+    public static readonly DependencyProperty StyleColorCheckedBorderProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBorder),
+            nameof(StyleColorCheckedBorder),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBorder
+    public Brush StyleColorCheckedBorder
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
-        set => SetValue(StyleColorReadOnlyBorderProperty, value);
-    }
-
-    /// StyleThicknessSubBorder
-    public static readonly DependencyProperty StyleThicknessSubBorderProperty
-        = DependencyProperty.Register(
-            nameof(StyleThicknessSubBorder),
-            typeof(Thickness),
-            typeof(StswComboBoxBase),
-            new PropertyMetadata(default(Thickness))
-        );
-    public Thickness StyleThicknessSubBorder
-    {
-        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
-        set => SetValue(StyleThicknessSubBorderProperty, value);
+        get => (Brush)GetValue(StyleColorCheckedBorderProperty);
+        set => SetValue(StyleColorCheckedBorderProperty, value);
     }
     #endregion
-
-    /// ButtonAlignment
-    public static readonly DependencyProperty ButtonAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ButtonAlignment),
-            typeof(Dock),
-            typeof(StswComboBoxBase),
-            new PropertyMetadata(Dock.Right)
-        );
-    public Dock ButtonAlignment
-    {
-        get => (Dock)GetValue(ButtonAlignmentProperty);
-        set => SetValue(ButtonAlignmentProperty, value);
-    }
 
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBoxBase),
+            typeof(StswCheckButtonBase),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
-    }
-
-    /// SelectionMode
-    public static readonly DependencyProperty SelectionModeProperty
-        = DependencyProperty.Register(
-              nameof(SelectionMode),
-              typeof(SelectionMode),
-              typeof(StswComboBoxBase),
-              new PropertyMetadata(default(SelectionMode))
-          );
-    public SelectionMode SelectionMode
-    {
-        get => (SelectionMode)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
     }
 }
