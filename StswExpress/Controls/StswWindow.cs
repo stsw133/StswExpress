@@ -52,11 +52,11 @@ public class StswWindow : Window
               nameof(SubIcon),
               typeof(ImageSource),
               typeof(StswWindow),
-              new PropertyMetadata(default(ImageSource))
+              new PropertyMetadata(default(ImageSource?))
           );
-    public ImageSource SubIcon
+    public ImageSource? SubIcon
     {
-        get => (ImageSource)GetValue(SubIconProperty);
+        get => (ImageSource?)GetValue(SubIconProperty);
         set => SetValue(SubIconProperty, value);
     }
 
@@ -107,9 +107,6 @@ public class StswWindow : Window
         theme.Color = (ThemeColor)themeID;
         Settings.Default.Theme = (int)theme.Color;
     }
-
-    /// TitleBarColorClick
-    protected void TitleBarColorClick(object sender, RoutedEventArgs e) => Settings.Default.TitleBarColor = null;
 
     /// CenterClick
     protected void CenterClick(object sender, RoutedEventArgs e)
@@ -304,11 +301,6 @@ public class StswWindow : Window
                 if (themeMenuItem.Items[1] is MenuItem theme1MenuItem)
                     theme1MenuItem.Click += (s, e) => ChangeTheme(1);
             }
-            /*
-            /// titlebarcolorMenuItem
-            if (interfaceMenuItem.Items[2] is MenuItem titlebarcolorMenuItem)
-                titlebarcolorMenuItem.Click += TitleBarColorClick;
-            */
         }
         /// centerMenuItem
         if (menuItems.ContextMenu.Items[2] is MenuItem centerMenuItem)

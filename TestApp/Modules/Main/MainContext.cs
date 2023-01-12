@@ -16,7 +16,6 @@ public class MainContext : StswContext
         //CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswCommands.Settings, CmdSettings_Executed));
     }
     
-    #region Data
     /// ColumnFilters
     private ExtDictionary<string, StswColumnFilterData> columnFilters = new();
     public ExtDictionary<string, StswColumnFilterData> ColumnFilters
@@ -44,9 +43,7 @@ public class MainContext : StswContext
         get => listUsers;
         set => SetProperty(ref listUsers, value, () => ListUsers);
     }
-    #endregion
 
-    #region Events
     /// Clear
     private async void CmdClear_Executed(object sender, ExecutedRoutedEventArgs e)
     {
@@ -82,5 +79,4 @@ public class MainContext : StswContext
 
     /// Settings
     private void CmdSettings_Executed(object sender, ExecutedRoutedEventArgs e) => new Settings.SettingsView() { Owner = Application.Current.MainWindow }.ShowDialog();
-    #endregion
 }

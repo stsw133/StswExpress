@@ -6,7 +6,7 @@
                xmlns:sys="clr-namespace:System;assembly=mscorlib"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                xmlns:local="clr-namespace:TestApp.Modules.Main"
-               mc:Ignorable="d" Height="540" Width="900" WindowStartupLocation="CenterScreen"
+               mc:Ignorable="d" Height="540" Width="960" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
                Icon="/StswExpress;component/Icons/32_users.png">
     <Window.DataContext>
@@ -51,22 +51,26 @@
                 <DockPanel>
                     <!-- button panel -->
                     <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
-                        <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
+                        <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
                             <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
                         </se:StswButton>
-                        <se:StswButton Margin="3" Background="{DynamicResource ColorNeutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
+                        <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
                             <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
                         </se:StswButton>
-                        <se:StswButton Margin="3" Background="{DynamicResource ColorModify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
+                        <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
                             <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
                         </se:StswButton>
-                        <se:StswButton Margin="3" Background="{DynamicResource ColorPositive}" ToolTip="Export to Excel" IsEnabled="False">
+                        <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" ToolTip="Export to Excel" IsEnabled="False">
                             <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
                         </se:StswButton>
                     </UniformGrid>
                     <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
+                    <TextBlock DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Right">
+                        <Run Text="Wyświetlono: "/>
+                        <Run Text="{Binding ListUsers.Count, Mode=OneWay}" FontWeight="Bold"/>
+                    </TextBlock>
                     <!-- data grid -->
-                    <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#348C" HeaderBorderBrush="#7777" BorderBrush="#7777">
+                    <se:StswDataGrid ItemsSource="{Binding ListUsers}" Margin="3" HeaderBackground="#349D" HeaderBorderBrush="#7777" BorderBrush="#7777">
                         <DataGrid.Resources>
                             <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
                         </DataGrid.Resources>
@@ -147,36 +151,50 @@
                 </TabItem.Header>
                 <ScrollViewer>
                     <DockPanel>
-                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsEnabled="False"/>
-                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST" IsReadOnly="True"/>
-                        <se:StswTextBox DockPanel.Dock="Top" Margin="5" Text="TEST"/>
-                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
-                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
-                        <se:StswNumericBox DockPanel.Dock="Top" Margin="5"/>
-                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
-                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5" IsReadOnly="True"/>
-                        <se:StswDatePicker DockPanel.Dock="Top" Margin="5"/>
-                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsEnabled="False"/>
-                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="{x:Null}"/>
-                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="False"/>
-                        <se:StswCheckBox DockPanel.Dock="Top" IsThreeState="True" Margin="5" Content="TEST" IsChecked="True"/>
-                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
-                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
-                        <se:StswButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
-                        <se:StswCheckButton DockPanel.Dock="Top" Margin="5" Content="TEST" IsEnabled="False"/>
-                        <se:StswCheckButton DockPanel.Dock="Top" Margin="5" Content="TEST"/>
-                        <se:StswCheckButton DockPanel.Dock="Top" Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}"/>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswTextBox Margin="5" Text="TEST" IsEnabled="False"/>
+                            <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
+                            <se:StswTextBox Margin="5" Text="TEST"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswNumericBox Margin="5" IsEnabled="False"/>
+                            <se:StswNumericBox Margin="5" IsReadOnly="True"/>
+                            <se:StswNumericBox Margin="5"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswDatePicker Margin="5" IsEnabled="False"/>
+                            <se:StswDatePicker Margin="5" IsReadOnly="True"/>
+                            <se:StswDatePicker Margin="5"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsEnabled="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswButton Margin="5" Content="TEST" IsEnabled="False"/>
+                            <se:StswButton Margin="5" Content="TEST"/>
+                            <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswCheckButton Margin="5" Content="TEST" IsEnabled="False"/>
+                            <se:StswCheckButton Margin="5" Content="TEST"/>
+                            <se:StswCheckButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+                        </UniformGrid>
+                        <UniformGrid DockPanel.Dock="Top" Rows="1">
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
+                        </UniformGrid>
                         <StackPanel DockPanel.Dock="Top" Margin="5">
                             <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
                             <se:StswNavigationButton Content="TEST 2"/>
                             <se:StswNavigationButton Content="TEST 3"/>
                             <se:StswNavigationButton Content="TEST 4"/>
                         </StackPanel>
-                        <se:StswComboBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
-                        <se:StswComboBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
-                        <se:StswComboBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}"/>
-                        <se:StswComboBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
-                        <se:StswComboBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
                         <!--
                         <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">
                             <se:StswColumnFilter DockPanel.Dock="Top" Padding="5" BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"

@@ -330,9 +330,9 @@
                                     <!-- icon & title -->
                                     <se:StswHeader x:Name="moveRectangle" Grid.ColumnSpan="2"
                                                    Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15 0}"
+                                                   Text="{TemplateBinding Title}" SubText1="{TemplateBinding SubTitle}"
                                                    IconSource="{TemplateBinding Icon}" SubIconSource="{TemplateBinding SubIcon}"
-                                                   IconScale="2" VerticalAlignment="Center"
-                                                   Text="{TemplateBinding Title}" SubText1="{TemplateBinding SubTitle}">
+                                                   IconScale="2" VerticalAlignment="Center">
                                         <se:StswHeader.Style>
                                             <Style TargetType="{x:Type se:StswHeader}">
                                                 <Style.Triggers>
