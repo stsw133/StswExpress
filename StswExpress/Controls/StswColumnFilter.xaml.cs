@@ -23,19 +23,6 @@ public partial class StswColumnFilter : StswColumnFilterBase
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnFilter), new FrameworkPropertyMetadata(typeof(StswColumnFilter)));
     }
 
-    /// FilterModeChanged
-    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswColumnFilter filter)
-        {
-            var panel = filter.GetTemplateChild("UngFilters") as Panel;
-            if (panel?.Children?.Count >= 2)
-                panel.Children[1].Visibility = (Modes)e.NewValue == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
-            if (panel?.Children?.Count >= 1)
-                panel.Children[0].Visibility = !((Modes)e.NewValue).In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
-        }
-    }
-
     /// FilterMode
     public static readonly DependencyProperty FilterModeProperty
         = DependencyProperty.Register(
@@ -71,6 +58,19 @@ public partial class StswColumnFilter : StswColumnFilterBase
         NotIn,
         Null,
         NotNull
+    }
+
+    /// FilterModeChanged
+    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColumnFilter filter)
+        {
+            var panel = filter.GetTemplateChild("UngFilters") as Panel;
+            if (panel?.Children?.Count >= 2)
+                panel.Children[1].Visibility = (Modes)e.NewValue == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
+            if (panel?.Children?.Count >= 1)
+                panel.Children[0].Visibility = !((Modes)e.NewValue).In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
     /// FilterSqlColumn
@@ -112,7 +112,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
     public object? Value1
     {
         get => (object?)GetValue(Value1Property);
-        set => SetValue(Value1Property, FilterType == Types.Check ? value?.ToString()?.ToNullable<bool>() : value);
+        set => SetValue(Value1Property, value);
     }
     internal object? DefaultValue1 { get; set; } = null;
 
@@ -129,7 +129,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
     public object? Value2
     {
         get => (object?)GetValue(Value2Property);
-        set => SetValue(Value2Property, FilterType == Types.Check ? value?.ToString()?.ToNullable<bool>() : value);
+        set => SetValue(Value2Property, value);
     }
     internal object? DefaultValue2 { get; set; } = null;
 
@@ -139,8 +139,13 @@ public partial class StswColumnFilter : StswColumnFilterBase
         if (obj is StswColumnFilter filter)
         {
             var panel = filter.GetTemplateChild("UngFilters") as Panel;
-            if (filter.FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) && panel?.Children?.Count > 0)
-                ((StswComboBox)panel.Children[0]).SelectedItems = (List<object>)e.NewValue;
+            if (filter.FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
+            {
+                if (panel?.Children?.Count > 0)
+                    ((StswComboBox)panel.Children[0]).SelectedItems = (List<object>)e.NewValue;
+                else if (panel?.Children?.Count == null)
+                    filter.Value1 = new List<object>();
+            }
 
             if (filter.Value1 == null || (filter.Value1 is List<object> l && l.Count == 0)
             ||  (filter.Value2 == null && filter.FilterMode == Modes.Between))
@@ -454,9 +459,10 @@ public partial class StswColumnFilter : StswColumnFilterBase
 
         /// set default values
         DefaultFilterMode = FilterMode;
-        DefaultValue1 = Value1;
-        DefaultValue2 = Value2;
+        DefaultValue1 = FilterType.ToString().StartsWith("List") && Value1 == null ? new List<object>() : Value1;
+        DefaultValue2 = FilterType.ToString().StartsWith("List") && Value2 == null ? new List<object>() : Value2;
 
+        ValueChanged(this, new DependencyPropertyChangedEventArgs());
         MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], null);
 
         base.OnApplyTemplate();
@@ -472,6 +478,11 @@ public partial class StswColumnFilter : StswColumnFilterBase
             Value1 = DefaultValue1;
             Value2 = DefaultValue2;
             UpdateLayout();
+            if (FilterType.ToString().StartsWith("List"))
+            {
+                var ungFilters = (UniformGrid)GetTemplateChild("UngFilters");
+                (ungFilters.Children[0] as StswComboBox).SetText();
+            }    
         }
         catch { }
     }
@@ -526,6 +537,22 @@ public class StswColumnFilterData
 
 public class StswColumnFilterBase : UserControl
 {
+    #region StyleColors
+    /// StyleThicknessSubBorder
+    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+        = DependencyProperty.Register(
+            nameof(StyleThicknessSubBorder),
+            typeof(Thickness),
+            typeof(StswColumnFilterBase),
+            new PropertyMetadata(default(Thickness))
+        );
+    public Thickness StyleThicknessSubBorder
+    {
+        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
+        set => SetValue(StyleThicknessSubBorderProperty, value);
+    }
+    #endregion
+
     /// DisplayMemberPath
     public static readonly DependencyProperty DisplayMemberPathProperty
         = DependencyProperty.Register(

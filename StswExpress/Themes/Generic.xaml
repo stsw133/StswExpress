@@ -97,6 +97,9 @@
 
     <!-- StswColumnFilter -->
     <Style TargetType="{x:Type se:StswColumnFilter}">
+        <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.3}"/>
+        
+        <Setter Property="StyleThicknessSubBorder" Value="1 0 0 0"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
     </Style>
 

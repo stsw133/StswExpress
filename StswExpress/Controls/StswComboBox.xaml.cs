@@ -119,11 +119,16 @@ public partial class StswComboBox : StswComboBoxBase
             SelectedItems?.Remove(itemToDelete);
         }
 
+        var newSelectedItems = new List<object>();
+        foreach (var selectedItem in SelectedItems)
+            newSelectedItems.Add(selectedItem);
+        SelectedItems = newSelectedItems;
+
         SetText();
     }
 
     /// SetText
-    private void SetText()
+    internal void SetText()
     {
         if (SelectedItems?.Count > 1)
             prop?.SetValue(this, $"<{SelectedItems?.Count} wybrano>", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);

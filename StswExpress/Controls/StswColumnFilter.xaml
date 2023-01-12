@@ -10,7 +10,7 @@
     </se:StswColumnFilterBase.CommandBindings>
 
     <se:StswColumnFilterBase.Template>
-        <ControlTemplate TargetType="{x:Type UserControl}">
+        <ControlTemplate TargetType="{x:Type se:StswColumnFilterBase}">
             <DockPanel>
                 <!-- filter -->
                 <DockPanel DockPanel.Dock="Bottom" Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
@@ -205,15 +205,15 @@
                         </se:StswButton.ContextMenu>
                     </se:StswButton>
                     <Border x:Name="subborder"
-                            BorderBrush="{Binding HorizontalGridLinesBrush, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                            BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Converter={se:conv_Multiply}, ConverterParameter='0 1 0 0'}"/>
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
                     <!-- controls -->
                     <UniformGrid x:Name="UngFilters" Columns="1" Background="{DynamicResource TextBox.Static.Background}"/>
                 </DockPanel>
                 <!-- separator -->
                 <Border DockPanel.Dock="Bottom"
-                        BorderBrush="{Binding HorizontalGridLinesBrush, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                        BorderThickness="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Converter={se:conv_Multiply}, ConverterParameter='0 1 0 0'}"/>
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="0 1 0 0"/>
                 <!-- header -->
                 <DockPanel>
                     <!-- stats icon -->

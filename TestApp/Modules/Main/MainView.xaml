@@ -76,7 +76,7 @@
                             <DataGridTextColumn Binding="{Binding ID}">
                                 <DataGridTextColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[ID], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
+                                                         Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
@@ -84,8 +84,8 @@
                             <DataGridComboBoxColumn TextBinding="{Binding Type}">
                                 <DataGridComboBoxColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Type], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
-                                                     ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
+                                                         Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
+                                                         ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                                 </DataGridComboBoxColumn.Header>
                             </DataGridComboBoxColumn>
 
@@ -93,7 +93,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Icon], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
+                                                         Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -106,7 +106,7 @@
                             <DataGridTextColumn Width="*" Binding="{Binding Name}">
                                 <DataGridTextColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Name], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
+                                                         Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
@@ -114,7 +114,7 @@
                             <DataGridCheckBoxColumn Binding="{Binding IsEnabled}">
                                 <DataGridCheckBoxColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[IsEnabled], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
+                                                         Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
                                 </DataGridCheckBoxColumn.Header>
                             </DataGridCheckBoxColumn>
 
@@ -122,8 +122,8 @@
                             <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                                 <DataGridTextColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[CreateDT], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
-                                                     Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
+                                                         Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
+                                                         Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
