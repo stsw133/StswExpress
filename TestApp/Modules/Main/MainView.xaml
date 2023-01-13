@@ -18,50 +18,50 @@
             <se:OutlinedTextBlock Text="🔧"/>
         </Button>
     </se:StswWindow.CustomControls>
-    -->
+-->
     <DockPanel>
-        <se:StswNavigationPanel BorderThickness="1" Margin="0 0 1 0">
+        <se:StswNavigation BorderThickness="1" Margin="0 0 1 0">
             <StackPanel>
                 <se:StswNavigationButton BorderThickness="0 0 0 1" IsChecked="True">
                     <se:StswHeader Text="Account" IconData="{x:Static se:StswIcons.Account}"/>
                 </se:StswNavigationButton>
                 <se:StswNavigationButton BorderThickness="0 0 0 1">
-                    <se:StswHeader Text="Profiles" IconData="{x:Static se:StswIcons.Profiles}"/>
+                    <se:StswHeader Text="Messages" IconData="{x:Static se:StswIcons.Message}"/>
+                </se:StswNavigationButton>
+                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                    <se:StswHeader Text="Drive" IconData="{x:Static se:StswIcons.GoogleDrive}"/>
                 </se:StswNavigationButton>
                 <se:StswNavigationButton BorderThickness="0 0 0 1">
                     <se:StswHeader Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}"/>
                 </se:StswNavigationButton>
                 <se:StswNavigationButton BorderThickness="0 0 0 1">
-                    <se:StswHeader Text="Attachments" IconData="{x:Static se:StswIcons.Attachment}"/>
+                    <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}"/>
                 </se:StswNavigationButton>
                 <se:StswNavigationButton BorderThickness="0 0 0 1">
-                    <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.Stats}"/>
-                </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
-                    <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Config}"/>
+                    <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Cog}"/>
                 </se:StswNavigationButton>
             </StackPanel>
-        </se:StswNavigationPanel>
+        </se:StswNavigation>
         <TabControl>
             <!-- main data -->
             <TabItem>
                 <TabItem.Header>
-                    <se:StswHeader Text="Main" IconData="{x:Static se:StswIcons.Folder}"/>
+                    <se:StswHeader Text="Main" IconData="{x:Static se:StswIcons.Domain}"/>
                 </TabItem.Header>
                 <DockPanel>
                     <!-- button panel -->
                     <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="3" HorizontalAlignment="Left">
                         <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Clear (F9)" Command="{x:Static se:StswCommands.Clear}">
-                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Clear}" Scale="2"/>
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Broom}" Scale="2"/>
                         </se:StswButton>
                         <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" ToolTip="Refresh (F5)" Command="{x:Static se:StswCommands.Refresh}">
                             <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Refresh}" Scale="2"/>
                         </se:StswButton>
                         <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" ToolTip="Save (Ctrl + S)" Command="{x:Static se:StswCommands.Save}">
-                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Save}" Scale="2"/>
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.ContentSave}" Scale="2"/>
                         </se:StswButton>
                         <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" ToolTip="Export to Excel" IsEnabled="False">
-                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.Excel}" Scale="2"/>
+                            <se:StswIcon Color="{x:Static SystemColors.WindowBrush}" Data="{x:Static se:StswIcons.MicrosoftExcel}" Scale="2"/>
                         </se:StswButton>
                     </UniformGrid>
                     <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" Value="{Binding LoadingProgress}"/>
@@ -94,7 +94,7 @@
                             </DataGridComboBoxColumn>
 
                             <!-- Icon -->
-                            <DataGridTemplateColumn>
+                            <DataGridTemplateColumn IsReadOnly="True">
                                 <DataGridTemplateColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[Icon], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                          Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
@@ -115,12 +115,17 @@
                             </DataGridTextColumn>
 
                             <!-- IsEnabled -->
-                            <DataGridCheckBoxColumn Binding="{Binding IsEnabled}">
-                                <DataGridCheckBoxColumn.Header>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.Header>
                                     <se:StswColumnFilter Data="{Binding DataContext.ColumnFilters[IsEnabled], Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType=Window}}"
                                                          Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
-                                </DataGridCheckBoxColumn.Header>
-                            </DataGridCheckBoxColumn>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <se:StswCheckBox IsChecked="{Binding IsEnabled}" BorderThickness="0" CornerRadius="0" Padding="0" StyleColorUncheckedBackground="#3777"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
                             <!-- CreateDT -->
                             <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
@@ -147,23 +152,23 @@
             <!-- tests -->
             <TabItem>
                 <TabItem.Header>
-                    <se:StswHeader Text="Tests" IconData="{x:Static se:StswIcons.Trash}"/>
+                    <se:StswHeader Text="Tests" IconData="{x:Static se:StswIcons.TestTube}"/>
                 </TabItem.Header>
                 <ScrollViewer>
                     <DockPanel>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">
                             <se:StswTextBox Margin="5" Text="TEST" IsEnabled="False"/>
                             <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
-                            <se:StswTextBox Margin="5" Text="TEST"/>
+                            <se:StswTextBox Margin="5" Text="TEST" Placeholder="cokolwiek"/>
                         </UniformGrid>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">
-                            <se:StswNumericBox Margin="5" IsEnabled="False"/>
-                            <se:StswNumericBox Margin="5" IsReadOnly="True"/>
+                            <se:StswNumericBox Margin="5" Value="133" IsEnabled="False"/>
+                            <se:StswNumericBox Margin="5" Value="133" IsReadOnly="True"/>
                             <se:StswNumericBox Margin="5"/>
                         </UniformGrid>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">
-                            <se:StswDatePicker Margin="5" IsEnabled="False"/>
-                            <se:StswDatePicker Margin="5" IsReadOnly="True"/>
+                            <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsEnabled="False"/>
+                            <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
                             <se:StswDatePicker Margin="5"/>
                         </UniformGrid>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">

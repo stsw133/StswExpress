@@ -33,7 +33,8 @@
                     <Border x:Name="subborder"
                             DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"
+                            SnapsToDevicePixels="True"/>
                     <se:StswTextBox x:Name="box"
                                     BorderThickness="0" CornerRadius="0"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

@@ -249,6 +249,24 @@ public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 }
+
+/// <summary>
+/// Checks if value parameter is null and returns UnsetValue if it is.
+/// </summary>
+public class conv_NullToUnset : MarkupExtension, IValueConverter
+{
+    private static conv_NullToUnset? _conv;
+    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NullToUnset();
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value == null)
+            return DependencyProperty.UnsetValue;
+        return value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
 #endregion
 
 #region NumericConverters

@@ -6,10 +6,10 @@
         xmlns:se="clr-namespace:StswExpress"
         mc:Ignorable="d"
         Background="Transparent">
-    <Image Source="{Binding Source, RelativeSource={RelativeSource AncestorType=Border}}"
+    <Image Source="{Binding Source, RelativeSource={RelativeSource AncestorType=Border}, Converter={se:conv_NullToUnset}}"
            Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=Border}}"/>
     <Border.ContextMenu>
-        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=Self}}" Visibility="{Binding ContextMenuVisibility}">
+        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Visibility="{Binding ContextMenuVisibility}">
             <!-- cut -->
             <MenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
                 <MenuItem.Icon>

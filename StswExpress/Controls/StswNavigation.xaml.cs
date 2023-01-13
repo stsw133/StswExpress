@@ -5,26 +5,26 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswNavigationPanel.xaml
 /// </summary>
-public partial class StswNavigationPanel : StswNavigationPanelBase
+public partial class StswNavigation : StswNavigationBase
 {
-    public StswNavigationPanel()
+    public StswNavigation()
     {
         InitializeComponent();
     }
-    static StswNavigationPanel()
+    static StswNavigation()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationPanel), new FrameworkPropertyMetadata(typeof(StswNavigationPanel)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
     }
 }
 
-public class StswNavigationPanelBase : UserControl
+public class StswNavigationBase : UserControl
 {
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationPanelBase),
+            typeof(StswNavigationBase),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius

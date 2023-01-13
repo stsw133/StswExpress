@@ -206,7 +206,8 @@
                     </se:StswButton>
                     <Border x:Name="subborder"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"
+                            SnapsToDevicePixels="True"/>
                     <!-- controls -->
                     <UniformGrid x:Name="UngFilters" Columns="1" Background="{DynamicResource TextBox.Static.Background}"/>
                 </DockPanel>

@@ -25,7 +25,8 @@
                     <Border x:Name="subborder"
                             DockPanel.Dock="{TemplateBinding ButtonAlignment}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"/>
+                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"
+                            SnapsToDevicePixels="True"/>
                     <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Button}" StaysOpen="False"/>
                     <DatePickerTextBox x:Name="PART_TextBox" Focusable="{TemplateBinding Focusable}"
                                        Padding="{TemplateBinding Padding}" BorderThickness="0"

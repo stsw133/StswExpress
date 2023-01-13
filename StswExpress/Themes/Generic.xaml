@@ -10,14 +10,14 @@
         <Setter Property="StyleColorDisabledBackground" Value="#2777"/>
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
-        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-
+        
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
@@ -34,17 +34,17 @@
 
         <Setter Property="StyleColorDisabledBackground" Value="#2777"/>
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
-        <Setter Property="StyleColorDisabledGlyph" Value="#3777"/>
+        <Setter Property="StyleColorDisabledGlyph" Value="#7777"/>
 
         <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorMouseOverGlyph" Value="{Binding StyleColorGlyph, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorMouseOverGlyph" Value="{Binding StyleColorGlyph, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorPressedGlyph" Value="{Binding StyleColorMouseOverGlyph, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorPressedGlyph" Value="{Binding StyleColorMouseOverGlyph, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.05}"/>
+        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.05}"/>
         <Setter Property="StyleColorReadOnlyBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="StyleColorReadOnlyGlyph" Value="{Binding StyleColorGlyph, RelativeSource={RelativeSource Self}}"/>
 
@@ -75,14 +75,14 @@
         <Setter Property="StyleColorDisabledBackground" Value="#2777"/>
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
-        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorCheckedBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.35}"/>
-        <Setter Property="StyleColorCheckedBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.35}"/>
+        <Setter Property="StyleColorCheckedBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.4}"/>
+        <Setter Property="StyleColorCheckedBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.4}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
@@ -94,12 +94,11 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-
     <!-- StswColumnFilter -->
     <Style TargetType="{x:Type se:StswColumnFilter}">
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.3}"/>
         
-        <Setter Property="StyleThicknessSubBorder" Value="1 0 0 0"/>
+        <Setter Property="StyleThicknessSubBorder" Value="0 0 1 0"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
     </Style>
 
@@ -112,18 +111,18 @@
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
         <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.05}"/>
+        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.05}"/>
         <Setter Property="StyleColorReadOnlyBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
-        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
@@ -140,12 +139,12 @@
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
         <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.05}"/>
+        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.05}"/>
         <Setter Property="StyleColorReadOnlyBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -154,7 +153,7 @@
         <Setter Property="StyleColorPlaceholder" Value="#7777"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
-        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
@@ -192,7 +191,7 @@
     </Style>
 
     <!-- StswNavigationPanel -->
-    <Style TargetType="{x:Type se:StswNavigationPanel}">
+    <Style TargetType="{x:Type se:StswNavigation}">
         <Setter Property="Background" Value="#349D"/>
         <Setter Property="BorderBrush" Value="#7777"/>
         
@@ -209,12 +208,12 @@
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
         <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.05}"/>
+        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.05}"/>
         <Setter Property="StyleColorReadOnlyBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -222,7 +221,7 @@
         <Setter Property="StyleColorPlaceholder" Value="#7777"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
-        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneTime, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
+        <Setter Property="StyleThicknessSubBorder" Value="{Binding BorderThickness.Top, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
@@ -238,11 +237,11 @@
         <Setter Property="StyleColorDisabledBackground" Value="#2777"/>
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
-        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
@@ -269,12 +268,12 @@
         <Setter Property="StyleColorDisabledBorder" Value="#3777"/>
 
         <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
         <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.15}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.05}"/>
+        <Setter Property="StyleColorReadOnlyBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.05}"/>
         <Setter Property="StyleColorReadOnlyBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>

@@ -52,13 +52,13 @@ public partial class StswImage : Border
     public static readonly DependencyProperty SourceProperty
         = DependencyProperty.Register(
               nameof(Source),
-              typeof(ImageSource),
+              typeof(object),
               typeof(StswImage),
-              new PropertyMetadata(default(ImageSource?))
+              new PropertyMetadata(default(object?))
           );
-    public ImageSource? Source
+    public object? Source
     {
-        get => (ImageSource?)GetValue(SourceProperty);
+        get => (object?)GetValue(SourceProperty) ?? DependencyProperty.UnsetValue;
         set => SetValue(SourceProperty, value);
     }
 

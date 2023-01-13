@@ -399,7 +399,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont2);
         }
-        /// create StswTextBox when Tect
+        /// create StswTextBox when Text
         else if (FilterType == Types.Text)
         {
             var cont1 = new StswTextBox()

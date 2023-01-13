@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 
 namespace StswExpress;
 
 public static class StswFn
 {
-    #region app & database & mailConfig
     /// App: name & version & name + version & copyright
     public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
     public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0").TrimEnd(".0").TrimEnd(".0");
@@ -23,7 +16,6 @@ public static class StswFn
     /// App: database connection & mail config
     public static StswDB? AppDB { get; set; } = new();
     public static StswMC? AppMC { get; set; } = new();
-    #endregion
 
     /*
     /// <summary>
@@ -88,7 +80,7 @@ public static class StswFn
         app.Exit += (sender, e) => Settings.Default.Save();
     }
 
-    /// Opens context menu of a framework element
+    /// Opens context menu of a framework element.
     public static void OpenContextMenu(object sender)
     {
         if (sender is FrameworkElement f)
@@ -98,7 +90,7 @@ public static class StswFn
         }
     }
 
-    /// Opens file from path
+    /// Opens file from path.
     public static void OpenFile(string path)
     {
         var process = new Process();
@@ -107,32 +99,4 @@ public static class StswFn
         process.StartInfo.Verb = "open";
         process.Start();
     }
-
-    #region ColumnFilters
-    /// GetFilters
-    [Obsolete]
-    public static void GetFilters(DependencyObject panel, out string filter, out List<(string name, object val)> parameters)
-    {
-        var dict = new ExtDictionary<string, StswColumnFilterData>();
-
-        /// DependencyObject's children are ColumnFilter
-        foreach (var cf in StswExtensions.FindVisualChildren<StswColumnFilter>(panel).Where(x => x.SqlString != null))
-            dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf.Data));
-
-        dict.GetColumnFilters(out filter, out parameters);
-    }
-
-    /// ClearFilters
-    [Obsolete]
-    public static void ClearFilters(DependencyObject panel)
-    {
-        var dict = new ExtDictionary<string, StswColumnFilterData>();
-
-        /// DependencyObject's children are ColumnFilter
-        foreach (var cf in StswExtensions.FindVisualChildren<StswColumnFilter>(panel).Where(x => x.SqlString != null))
-            dict.Add(new KeyValuePair<string, StswColumnFilterData>(Guid.NewGuid().ToString(), cf.Data));
-
-        dict.ClearColumnFilters();
-    }
-    #endregion
 }

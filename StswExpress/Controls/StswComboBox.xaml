@@ -39,7 +39,8 @@
                                     <Border x:Name="subborder"
                                             DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{Binding StyleThicknessSubBorder, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"/>
+                                            BorderThickness="{Binding StyleThicknessSubBorder, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                            SnapsToDevicePixels="True"/>
                                     <ContentPresenter x:Name="contentPresenter"
                                                           Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"
                                                           ContentTemplate="{Binding SelectionBoxItemTemplate, RelativeSource={RelativeSource AncestorType=ComboBox}}"

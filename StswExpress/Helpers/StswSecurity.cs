@@ -10,7 +10,7 @@ namespace StswExpress;
 
 public static class StswSecurity
 {
-    private static string hashKey = "stsw";
+    private static string? hashKey = null;
     public static string HashKey { set => hashKey = value; }
 
     /// New secure string
