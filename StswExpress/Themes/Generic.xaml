@@ -300,7 +300,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <!-- <Setter Property="BorderBrush" Value="{Binding TitleBarColor, Source={x:Static se:Settings.Default}}"/> -->
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_StringToString}, ConverterParameter=Maximized~0~2}"/>
+        <Setter Property="BorderThickness" Value="{Binding WindowState, RelativeSource={RelativeSource Mode=Self}, Converter={se:conv_IfElse}, ConverterParameter=Maximized~0~2}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
 
         <Setter Property="Template">
@@ -308,10 +308,10 @@
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- shadow effect as border & real border inside -->
                     <Border Background="Transparent"
-                            Padding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_Compare}, ConverterParameter=Maximized~0~5}">
+                            Padding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_IfElse}, ConverterParameter=Maximized~0~5}">
                         <se:ClippingBorder BorderBrush="{TemplateBinding BorderBrush}"
                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_Compare}, ConverterParameter=Maximized~0~10}">
+                                           CornerRadius="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={se:conv_IfElse}, ConverterParameter=Maximized~0~10}">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="10" Color="Gray" Direction="0" Opacity="1" ShadowDepth="0"/>
                             </Border.Effect>
@@ -387,9 +387,9 @@
                                                 </Style.Triggers>
                                             </Style>
                                             <Style TargetType="{x:Type se:OutlinedTextBlock}">
-                                                <Setter Property="Fill" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=White~#B777}"/>
+                                                <Setter Property="Fill" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_IfElse}, ConverterParameter=True~White~#B777}"/>
                                                 <Setter Property="FontFamily" Value="Arial"/>
-                                                <Setter Property="Stroke" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_Bool}, ConverterParameter=Black~Transparent}"/>
+                                                <Setter Property="Stroke" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={se:conv_IfElse}, ConverterParameter=True~Black~Transparent}"/>
                                                 <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
                                             </Style>
                                         </StackPanel.Resources>
@@ -407,9 +407,9 @@
                                             <se:OutlinedTextBlock Text="🗕"/>
                                         </Button>
                                         <Button x:Name="restoreButton"
-                                                ToolTip="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
+                                                ToolTip="{TemplateBinding WindowState, Converter={se:conv_IfElse}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
                                                 Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
-                                            <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}"/>
+                                            <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={se:conv_IfElse}, ConverterParameter=Maximized~🗗~🗖}"/>
                                         </Button>
                                         <Button x:Name="closeButton"
                                                 ToolTip="Zamknij">
@@ -427,7 +427,7 @@
                                                 </MenuItem>
                                                 <MenuItem Header="Motyw">
                                                     <MenuItem.Icon>
-                                                        <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_StringToString}, ConverterParameter=0~☼~☽}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_IfElse}, ConverterParameter=0~☼~☽}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                     <MenuItem Header="Jasny">
                                                         <MenuItem.Icon>
@@ -465,9 +465,9 @@
                                                     <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
-                                            <MenuItem Header="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                            <MenuItem Header="{TemplateBinding WindowState, Converter={se:conv_IfElse}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
                                                 <MenuItem.Icon>
-                                                    <TextBlock Text="{TemplateBinding WindowState, Converter={se:conv_StringToString}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{TemplateBinding WindowState, Converter={se:conv_IfElse}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                             <Separator/>

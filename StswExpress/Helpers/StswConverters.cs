@@ -15,8 +15,7 @@ namespace StswExpress;
 /// <summary>
 /// Converts bool -> targetType : value parameter has to be a bool.
 /// Use "!" at the beginning of converter parameter to invert output value.
-/// When targetType = "string" then converter parameter must contains "~" and be like "whatToDisplayWhenTrue~whatToDisplayWhenFalse".
-/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
+/// When targetType == "Visibility" then output is "Visible" when true or "Collapsed" when false.
 /// When targetType is anything else then returns bool depending on converter result.
 /// </summary>
 public class conv_Bool : MarkupExtension, IValueConverter
@@ -27,19 +26,16 @@ public class conv_Bool : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-        var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
         var val = System.Convert.ToBoolean(value, culture);
 
         /// calculate result
-        if (pmr.Contains('~'))
-            return (val ^ rev) ? pmr.Split('~')[0] : pmr.Split('~')[1];
-        else if (targetType == typeof(Visibility))
+        if (targetType == typeof(Visibility))
             return (val ^ rev) ? Visibility.Visible : Visibility.Collapsed;
         else
             return (val ^ rev);
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 }
 
 /// <summary>
@@ -249,24 +245,6 @@ public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 }
-
-/// <summary>
-/// Checks if value parameter is null and returns UnsetValue if it is.
-/// </summary>
-public class conv_NullToUnset : MarkupExtension, IValueConverter
-{
-    private static conv_NullToUnset? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NullToUnset();
-
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value == null)
-            return DependencyProperty.UnsetValue;
-        return value;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
-}
 #endregion
 
 #region NumericConverters
@@ -416,26 +394,45 @@ public class conv_Sum : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region StringConverters
+#region SpecialConverters
 /// <summary>
-/// Converts string -> string : converter parameter has to be like 'stringCondition~whatToDisplayWhenTrue~whatToDisplayWhenFalse'.
-/// Use "!" at the beginning of converter parameter to invert output value.
-/// If value == stringCondition then displays "whatToDisplayWhenTrue" else displays "whatToDisplayWhenFalse".
+/// Checks if value parameter is null and returns UnsetValue if it is.
 /// </summary>
-public class conv_StringToString : MarkupExtension, IValueConverter
+public class conv_NullToUnset : MarkupExtension, IValueConverter
 {
-    private static conv_StringToString? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_StringToString();
+    private static conv_NullToUnset? _conv;
+    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NullToUnset();
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-        var pmr = parameter?.ToString()?.TrimStart('!')?.Split('~') ?? new string[3];
-        var val = System.Convert.ToString(value, culture);
-
-        return ((val == pmr[0]) ^ rev) ? pmr[1] : pmr[2];
+        if (value == null)
+            return DependencyProperty.UnsetValue;
+        return value;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+#endregion
+
+#region UniversalConverters
+/// <summary>
+/// Compares binded value to first element of parameter, then displays second or third element based on compare result
+/// Converter parameter has to be like 'valueToCompare~whatToDisplayWhenTrue~whatToDisplayWhenFalse'.
+/// If binded value is equal to "valueToCompare" then displays "whatToDisplayWhenTrue" else displays "whatToDisplayWhenFalse".
+/// </summary>
+public class conv_IfElse : MarkupExtension, IValueConverter
+{
+    private static conv_IfElse? _conv;
+    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_IfElse();
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var pmr = parameter?.ToString()?.Split('~') ?? new string[3];
+        var val = System.Convert.ToString(value, culture);
+
+        return (val == pmr[0]) ? pmr[1] : pmr[2];
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;
 }
 #endregion
