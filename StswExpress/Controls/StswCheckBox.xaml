@@ -65,6 +65,9 @@
                     <Setter Property="Background" Value="{Binding StyleColorIndeterminateBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
                     <Setter Property="Text" Value="{Binding StyleCharIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
+                <Trigger Property="IsHitTestVisible" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" TargetName="textmark" />
+                </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
                     <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />

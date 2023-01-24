@@ -49,10 +49,10 @@
         <Setter Property="StyleColorReadOnlyGlyph" Value="{Binding StyleColorGlyph, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="StyleCharUnchecked" Value="❌"/>
-        <Setter Property="StyleColorUncheckedBackground" Value="#7D44"/>
+        <Setter Property="StyleColorUncheckedBackground" Value="#AA32"/>
 
         <Setter Property="StyleCharChecked" Value="✔"/>
-        <Setter Property="StyleColorCheckedBackground" Value="#74D4"/>
+        <Setter Property="StyleColorCheckedBackground" Value="#A3A2"/>
 
         <Setter Property="StyleCharIndeterminate" Value="❔"/>
         <Setter Property="StyleColorIndeterminateBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
@@ -63,7 +63,7 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
@@ -126,7 +126,7 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
@@ -157,7 +157,7 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="SelectedDateFormat" Value="Short"/>
@@ -186,11 +186,11 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <!-- StswNavigationPanel -->
+    <!-- StswNavigation -->
     <Style TargetType="{x:Type se:StswNavigation}">
         <Setter Property="Background" Value="#349D"/>
         <Setter Property="BorderBrush" Value="#7777"/>
@@ -225,7 +225,7 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
@@ -284,7 +284,7 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 

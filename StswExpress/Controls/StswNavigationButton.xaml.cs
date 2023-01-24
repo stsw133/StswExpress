@@ -147,4 +147,32 @@ public class StswNavigationButtonBase : RadioButton
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
+
+    /// CreateNewInstance
+    public static readonly DependencyProperty CreateNewInstanceProperty
+        = DependencyProperty.Register(
+            nameof(CreateNewInstance),
+            typeof(bool),
+            typeof(StswNavigationButtonBase),
+            new PropertyMetadata(default(bool))
+        );
+    public bool CreateNewInstance
+    {
+        get => (bool)GetValue(CreateNewInstanceProperty);
+        set => SetValue(CreateNewInstanceProperty, value);
+    }
+
+    /// PageNamespace
+    public static readonly DependencyProperty PageNamespaceProperty
+        = DependencyProperty.Register(
+            nameof(PageNamespace),
+            typeof(string),
+            typeof(StswNavigationButtonBase),
+            new PropertyMetadata(default(string))
+        );
+    public string PageNamespace
+    {
+        get => (string)GetValue(PageNamespaceProperty);
+        set => SetValue(PageNamespaceProperty, value);
+    }
 }

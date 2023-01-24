@@ -19,7 +19,7 @@ public abstract class StswContext : INotifyPropertyChanged
 
         if (selectorExpression == null)
             throw new ArgumentNullException(nameof(selectorExpression));
-        if (!(selectorExpression.Body is MemberExpression body))
+        if (selectorExpression.Body is not MemberExpression body)
             throw new ArgumentException("The body must be a member expression");
 
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(body.Member.Name));

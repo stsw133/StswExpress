@@ -69,15 +69,14 @@
                     <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
                     <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                <Trigger Property="IsReadOnly" Value="True">
+                    <!-- <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" /> -->
                     <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" /> -->
                     <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" /> -->
-                </DataTrigger>
+                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" />
                     <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
                     <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                     <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />

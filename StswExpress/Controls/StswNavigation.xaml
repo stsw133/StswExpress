@@ -8,13 +8,28 @@
 
     <se:StswNavigationBase.Template>
         <ControlTemplate TargetType="{x:Type se:StswNavigationBase}">
-            <se:ClippingBorder Background="{TemplateBinding Background}"
-                               BorderBrush="{TemplateBinding BorderBrush}"
-                               BorderThickness="{TemplateBinding BorderThickness}"
-                               CornerRadius="{TemplateBinding CornerRadius}"
-                               SnapsToDevicePixels="True">
-                <ContentPresenter />
-            </se:ClippingBorder>
+            <DockPanel>
+                <se:ClippingBorder DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
+                    <ItemsControl ItemsSource="{TemplateBinding Buttons}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationBase}}}"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.Resources>
+                            <Style TargetType="{x:Type se:StswNavigationButton}">
+                                <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
+                            </Style>
+                        </ItemsControl.Resources>
+                    </ItemsControl>
+                </se:ClippingBorder>
+                <Frame x:Name="NaviFrame" Content="{TemplateBinding Content}" NavigationUIVisibility="Hidden"/>
+            </DockPanel>
         </ControlTemplate>
     </se:StswNavigationBase.Template>
 </se:StswNavigationBase>

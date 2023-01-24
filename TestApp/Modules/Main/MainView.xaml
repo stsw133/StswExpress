@@ -21,26 +21,26 @@
 -->
     <DockPanel>
         <se:StswNavigation BorderThickness="1" Margin="0 0 1 0">
-            <StackPanel>
-                <se:StswNavigationButton BorderThickness="0 0 0 1" IsChecked="True">
+            <se:StswNavigation.Buttons>
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage2.TestPage2View">
                     <se:StswHeader Text="Account" IconData="{x:Static se:StswIcons.Account}"/>
                 </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage1.TestPage1View" CreateNewInstance="True">
                     <se:StswHeader Text="Messages" IconData="{x:Static se:StswIcons.Message}"/>
                 </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
-                    <se:StswHeader Text="Drive" IconData="{x:Static se:StswIcons.GoogleDrive}"/>
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage2.TestPage2View">
+                    <se:StswHeader Text="Drive" IconData="{x:Static se:StswIcons.FolderTable}"/>
                 </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage1.TestPage1View">
                     <se:StswHeader Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}"/>
                 </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage2.TestPage2View">
                     <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}"/>
                 </se:StswNavigationButton>
-                <se:StswNavigationButton BorderThickness="0 0 0 1">
+                <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.TestPage1.TestPage1View">
                     <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Cog}"/>
                 </se:StswNavigationButton>
-            </StackPanel>
+            </se:StswNavigation.Buttons>
         </se:StswNavigation>
         <TabControl>
             <!-- main data -->
@@ -172,7 +172,12 @@
                             <se:StswDatePicker Margin="5"/>
                         </UniformGrid>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">
-                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsEnabled="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsEnabled="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsEnabled="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsHitTestVisible="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsHitTestVisible="False"/>
+                            <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsHitTestVisible="False"/>
                             <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}"/>
                             <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False"/>
                             <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True"/>
@@ -189,16 +194,23 @@
                         </UniformGrid>
                         <UniformGrid DockPanel.Dock="Top" Rows="1">
                             <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
-                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False" IsEditable="True"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False" IsEditable="True"/>
                             <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
                             <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
                             <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
+                            <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
                         </UniformGrid>
                         <StackPanel DockPanel.Dock="Top" Margin="5">
-                            <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
-                            <se:StswNavigationButton Content="TEST 2"/>
-                            <se:StswNavigationButton Content="TEST 3"/>
-                            <se:StswNavigationButton Content="TEST 4"/>
+                            <se:StswNavigation>
+                                <se:StswNavigation.Buttons>
+                                    <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
+                                    <se:StswNavigationButton Content="TEST 2"/>
+                                    <se:StswNavigationButton Content="TEST 3"/>
+                                    <se:StswNavigationButton Content="TEST 4"/>
+                                </se:StswNavigation.Buttons>
+                            </se:StswNavigation>
                         </StackPanel>
                         <!--
                         <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">

@@ -22,8 +22,11 @@ public partial class StswComboBox : StswComboBoxBase
         InitializeComponent();
         Loaded += (s, e) =>
         {
-            SelectedItems ??= new List<object>();
-            SetText();
+            if (SelectionMode == SelectionMode.Multiple)
+            {
+                SelectedItems ??= new List<object>();
+                SetText();
+            }
         };
 
         prop = GetType()?.GetProperty(nameof(SelectionBoxItem));
