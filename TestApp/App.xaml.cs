@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿global using StswExpress;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,8 +12,7 @@ public partial class App : Application
 {
     public App()
     {
-        StswFn.AppStart(this);
-        CommandManager.RegisterClassCommandBinding(typeof(Window), new CommandBinding(StswCommands.Help, (s, e) => StswFn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_en.pdf")));
-        StswFn.AppDB = Global.DBs.FirstOrDefault();
+        StswFn.AppStart(this, "stsw");
+        CommandManager.RegisterClassCommandBinding(typeof(Window), new CommandBinding(StswGlobalCommands.Help, (s, e) => StswFn.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"/Resources/manual_en.pdf")));
     }
 }

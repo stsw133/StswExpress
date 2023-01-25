@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress;
 /// <summary>
@@ -83,6 +84,20 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    /// FrameVisibility
+    public static readonly DependencyProperty FrameVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(FrameVisibility),
+            typeof(Visibility),
+            typeof(StswNavigationBase),
+            new PropertyMetadata(default(Visibility))
+        );
+    public Visibility FrameVisibility
+    {
+        get => (Visibility)GetValue(FrameVisibilityProperty);
+        set => SetValue(FrameVisibilityProperty, value);
+    }
+
     /// Orientation
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
@@ -122,6 +137,8 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
             return;
         }
 
+        Cursor = Cursors.Wait;
+
         if (naviFrame != null && naviFrame.BackStack != null)
             naviFrame.RemoveBackEntry();
         if (createNewInstance && Pages.ContainsKey(parameter))
@@ -129,6 +146,8 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         if (!Pages.ContainsKey(parameter))
             Pages.Add(new KeyValuePair<string, Page?>(parameter, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name, parameter)?.Unwrap() as Page));
         Content = pages[parameter];
+
+        Cursor = null;
     }
 
     /// StswNavigationButton_Click

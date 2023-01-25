@@ -305,7 +305,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
         */
         var inputbinding = new KeyBinding()
         {
-            Command = StswCommands.Refresh,
+            Command = StswGlobalCommands.Refresh,
             Key = Key.Return
         };
 
@@ -492,7 +492,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
     {
         try
         {
-            StswCommands.Refresh.Execute(null, Parent as UIElement);
+            StswGlobalCommands.Refresh.Execute(null, Parent as UIElement);
         }
         catch { }
     }

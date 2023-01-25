@@ -1,0 +1,51 @@
+﻿<se:StswWindow x:Class="TestApp.Modules.MainWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+               mc:Ignorable="d" Height="540" Width="960" WindowStartupLocation="CenterScreen"
+               Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
+               Icon="/TestApp;component/Resources/icon.ico">
+    <!--
+    <se:StswWindow.CustomControls>
+        <Button Command="{x:Static se:StswCommands.Settings}">
+            <se:OutlinedTextBlock Text="🔧"/>
+        </Button>
+    </se:StswWindow.CustomControls>
+    -->
+    <se:StswNavigation BorderThickness="1" Padding="5">
+        <se:StswNavigation.Buttons>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.Databases.DatabasesView">
+                <se:StswHeader Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Account" IconData="{x:Static se:StswIcons.Account}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.Contractors.ContractorsView">
+                <se:StswHeader Text="Contractors" IconData="{x:Static se:StswIcons.Domain}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Documents" IconData="{x:Static se:StswIcons.FileDocument}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Attributes" IconData="{x:Static se:StswIcons.Tag}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Files" IconData="{x:Static se:StswIcons.File}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+                <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Cog}"/>
+            </se:StswNavigationButton>
+            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.LibraryTests.LibraryTestsView">
+                <se:StswHeader Text="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
+            </se:StswNavigationButton>
+        </se:StswNavigation.Buttons>
+    </se:StswNavigation>
+</se:StswWindow>

@@ -6,7 +6,7 @@
                          xmlns:se="clr-namespace:StswExpress"
                          mc:Ignorable="d" BorderBrush="Gray" BorderThickness="2">
     <se:StswColumnFilterBase.CommandBindings>
-        <CommandBinding Command="{x:Static se:StswCommands.Refresh}" Executed="CmdRefresh_Executed"/>
+        <CommandBinding Command="{x:Static se:StswGlobalCommands.Refresh}" Executed="CmdRefresh_Executed"/>
     </se:StswColumnFilterBase.CommandBindings>
 
     <se:StswColumnFilterBase.Template>

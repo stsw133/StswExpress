@@ -3,8 +3,30 @@ using System.Windows.Input;
 
 namespace StswExpress;
 
-/// Commands
-public static class StswCommands
+/// RelayCommand
+public class StswRelayCommand : ICommand
+{
+    private readonly Action<object?> execute;
+    private readonly Func<object?, bool>? canExecute;
+
+    public event EventHandler? CanExecuteChanged
+    {
+        add => CommandManager.RequerySuggested += value;
+        remove => CommandManager.RequerySuggested -= value;
+    }
+
+    public StswRelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
+    {
+        this.execute = execute;
+        this.canExecute = canExecute;
+    }
+
+    public bool CanExecute(object? parameter) => canExecute == null || canExecute(parameter);
+    public void Execute(object? parameter) => execute(parameter);
+}
+
+/// GlobalCommands
+public static class StswGlobalCommands
 {
     public enum Type
     {
@@ -38,7 +60,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.ADD),
         Enum.GetName(typeof(Type), Type.ADD),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { AddKey }
     );
     /// <summary>
@@ -49,7 +71,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.ARCHIVE),
         Enum.GetName(typeof(Type), Type.ARCHIVE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { ArchiveKey }
     );
     /// <summary>
@@ -60,7 +82,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.CLEAR),
         Enum.GetName(typeof(Type), Type.CLEAR),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { ClearKey }
     );
     /// <summary>
@@ -71,7 +93,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.DECREASE),
         Enum.GetName(typeof(Type), Type.DECREASE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { DecreaseKey }
     );
     /// <summary>
@@ -82,7 +104,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.DELETE),
         Enum.GetName(typeof(Type), Type.DELETE),
-        typeof(StswCommands)
+        typeof(StswGlobalCommands)
     );
     /// <summary>
     /// Duplicate [Ctrl + Insert, Ctrl + D]
@@ -93,7 +115,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.DUPLICATE),
         Enum.GetName(typeof(Type), Type.DUPLICATE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { Duplicate1Key, Duplicate2Key }
     );
     /// <summary>
@@ -104,7 +126,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.EDIT),
         Enum.GetName(typeof(Type), Type.EDIT),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { EditKey }
     );
     /// <summary>
@@ -115,7 +137,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.FIND),
         Enum.GetName(typeof(Type), Type.FIND),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { FindKey }
     );
     /// <summary>
@@ -126,7 +148,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.FULLSCREEN),
         Enum.GetName(typeof(Type), Type.FULLSCREEN),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { FullscreenKey }
     );
     /// <summary>
@@ -137,7 +159,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.HELP),
         Enum.GetName(typeof(Type), Type.HELP),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { HelpKey }
     );
     /// <summary>
@@ -148,7 +170,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.INCREASE),
         Enum.GetName(typeof(Type), Type.INCREASE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { IncreaseKey }
     );
     /// <summary>
@@ -159,7 +181,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.LIST),
         Enum.GetName(typeof(Type), Type.LIST),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { ListKey }
     );
 
@@ -171,7 +193,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.NEW),
         Enum.GetName(typeof(Type), Type.NEW),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { NewKey }
     );
     /// <summary>
@@ -182,7 +204,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.PREVIEW),
         Enum.GetName(typeof(Type), Type.PREVIEW),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { PreviewKey }
     );
     /// <summary>
@@ -193,7 +215,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.PRINT),
         Enum.GetName(typeof(Type), Type.PRINT),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { PrintKey }
     );
     /// <summary>
@@ -204,7 +226,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.REFRESH),
         Enum.GetName(typeof(Type), Type.REFRESH),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { RefreshKey }
     );
     /// <summary>
@@ -215,7 +237,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.REMOVE),
         Enum.GetName(typeof(Type), Type.REMOVE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { RemoveKey }
     );
     /// <summary>
@@ -226,7 +248,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.SAVE),
         Enum.GetName(typeof(Type), Type.SAVE),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { SaveKey }
     );
     /// <summary>
@@ -237,7 +259,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.SELECT),
         Enum.GetName(typeof(Type), Type.SELECT),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { SelectKey }
     );
     /// <summary>
@@ -248,7 +270,7 @@ public static class StswCommands
     (
         Enum.GetName(typeof(Type), Type.SETTINGS),
         Enum.GetName(typeof(Type), Type.SETTINGS),
-        typeof(StswCommands),
+        typeof(StswGlobalCommands),
         new InputGestureCollection() { SettingsKey }
     );
 }

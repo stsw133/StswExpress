@@ -163,40 +163,40 @@
         <Setter Property="SelectedDateFormat" Value="Short"/>
     </Style>
 
+    <!-- StswNavigation -->
+    <Style TargetType="{x:Type se:StswNavigation}">
+        <Setter Property="Background" Value="#349D"/>
+        <Setter Property="BorderBrush" Value="#7777"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
     <!-- StswNavigationButton -->
     <Style TargetType="{x:Type se:StswNavigationButton}">
         <Setter Property="Background" Value="#349D"/>
         <Setter Property="BorderBrush" Value="#549D"/>
 
-        <Setter Property="StyleColorDisabledBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@22}"/>
-        <Setter Property="StyleColorDisabledBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@33}"/>
+        <Setter Property="StyleColorDisabledBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@20}"/>
+        <Setter Property="StyleColorDisabledBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@30}"/>
 
-        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@44}"/>
-        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@66}"/>
+        <Setter Property="StyleColorMouseOverBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@50}"/>
+        <Setter Property="StyleColorMouseOverBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@70}"/>
 
-        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@55}"/>
-        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@77}"/>
+        <Setter Property="StyleColorPressedBackground" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@60}"/>
+        <Setter Property="StyleColorPressedBorder" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@80}"/>
 
-        <Setter Property="StyleColorCheckedBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@77}"/>
-        <Setter Property="StyleColorCheckedBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@99}"/>
+        <Setter Property="StyleColorCheckedBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@80}"/>
+        <Setter Property="StyleColorCheckedBorder" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=@A0}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        
+
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
-
-    <!-- StswNavigation -->
-    <Style TargetType="{x:Type se:StswNavigation}">
-        <Setter Property="Background" Value="#349D"/>
-        <Setter Property="BorderBrush" Value="#7777"/>
-        
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="0"/>
     </Style>
 
     <!-- StswNumericBox -->

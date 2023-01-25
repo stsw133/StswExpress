@@ -56,12 +56,7 @@ public class conv_Compare : MarkupExtension, IValueConverter
         var val = System.Convert.ToString(value, culture);
 
         /// calculate result
-        if (pmr.Contains('~'))
-        {
-            var pmrArr = pmr.Split('~');
-            return ((val == pmrArr[0]) ^ rev) ? pmrArr[1] : pmrArr[2];
-        }
-        else if (targetType == typeof(Visibility))
+        if (targetType == typeof(Visibility))
             return ((val == pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
         else
             return ((val == pmr) ^ rev);

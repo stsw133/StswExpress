@@ -1,0 +1,79 @@
+﻿<Page x:Class="TestApp.Modules.LibraryTests.LibraryTestsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+      xmlns:local="clr-namespace:TestApp.Modules.LibraryTests"
+      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750"
+      Title="Library tests">
+    <Page.DataContext>
+        <local:LibraryTestsContext/>
+    </Page.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswTextBox Margin="5" Text="TEST" IsEnabled="False"/>
+                <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
+                <se:StswTextBox Margin="5" Text="TEST" Placeholder="cokolwiek"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswNumericBox Margin="5" Value="133" IsEnabled="False"/>
+                <se:StswNumericBox Margin="5" Value="133" IsReadOnly="True"/>
+                <se:StswNumericBox Margin="5"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsEnabled="False"/>
+                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
+                <se:StswDatePicker Margin="5"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsEnabled="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsEnabled="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False"/>
+                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswButton Margin="5" Content="TEST" IsEnabled="False"/>
+                <se:StswButton Margin="5" Content="TEST"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswCheckButton Margin="5" Content="TEST" IsEnabled="False"/>
+                <se:StswCheckButton Margin="5" Content="TEST"/>
+                <se:StswCheckButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False" IsEditable="True"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False" IsEditable="True"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
+            </UniformGrid>
+            <StackPanel DockPanel.Dock="Top" Margin="5">
+                <se:StswNavigation>
+                    <se:StswNavigation.Buttons>
+                        <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
+                        <se:StswNavigationButton Content="TEST 2"/>
+                        <se:StswNavigationButton Content="TEST 3"/>
+                        <se:StswNavigationButton Content="TEST 4"/>
+                    </se:StswNavigation.Buttons>
+                </se:StswNavigation>
+            </StackPanel>
+            <!--
+            <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">
+                <se:StswColumnFilter DockPanel.Dock="Top" Padding="5" BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
+                                 Header="TEST" FilterType="Date" FilterMode="Between" FilterSqlColumn="m.ID" Value1="test1"/>
+            </se:ClippingBorder>
+            -->
+        </DockPanel>
+    </ScrollViewer>
+</Page>

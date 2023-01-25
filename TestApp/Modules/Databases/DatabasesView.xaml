@@ -1,0 +1,50 @@
+﻿<Page x:Class="TestApp.Modules.Databases.DatabasesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+      xmlns:local="clr-namespace:TestApp.Modules.Databases"
+      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="800"
+      Title="Databases">
+    <Page.DataContext>
+        <local:DatabasesContext/>
+    </Page.DataContext>
+    <DockPanel>
+        <!-- button panel -->
+        <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <UniformGrid Rows="1" HorizontalAlignment="Left">
+                <UniformGrid.Resources>
+                    <Style TargetType="{x:Type se:StswHeader}">
+                        <Setter Property="IconColor" Value="White"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </UniformGrid.Resources>
+                <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" Command="{Binding ImportCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseImport}" Text="Import databases"/>
+                </se:StswButton>
+                <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" Command="{Binding ExportCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseExport}" Text="Export databases"/>
+                </se:StswButton>
+            </UniformGrid>
+        </ScrollViewer>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
+        <!-- db data -->
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Server:"/>
+            <se:StswTextBox Text="{Binding CurrentDB.Server}"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Database:"/>
+            <se:StswTextBox Text="{Binding CurrentDB.Database}"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Login:"/>
+            <se:StswTextBox Text="{Binding CurrentDB.Login}"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Password:"/>
+            <se:StswTextBox Text="{Binding CurrentDB.Password}"/>
+        </StackPanel>
+    </DockPanel>
+</Page>

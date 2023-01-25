@@ -14,7 +14,7 @@ public class StswDB
     }
 
     public string Name { get; set; } = string.Empty;
-    public Types Type { get; set; } = default(Types);
+    public Types Type { get; set; } = default;
     public string Server { get; set; } = string.Empty;
     public int Port { get; set; } = 0;
     public string Database { get; set; } = string.Empty;
@@ -33,15 +33,17 @@ public class StswDB
         };
     }
 
+    public static string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases.stsw");
+
     /// Load list of encrypted databases from file.
-    public static List<StswDB> LoadAllDatabases(string path)
+    public static List<StswDB> ImportDatabases()
     {
         var result = new List<StswDB>();
 
-        if (!File.Exists(path))
-            File.Create(path).Close();
+        if (!File.Exists(FilePath))
+            File.Create(FilePath).Close();
 
-        using var stream = new StreamReader(path);
+        using var stream = new StreamReader(FilePath);
         while (!stream.EndOfStream)
         {
             var line = stream.ReadLine();
@@ -64,9 +66,9 @@ public class StswDB
     }
 
     /// Save list of encrypted databases to file.
-    public static void SaveAllDatabases(List<StswDB> databases, string path)
+    public static void ExportDatabases(List<StswDB> databases)
     {
-        using var stream = new StreamWriter(path);
+        using var stream = new StreamWriter(FilePath);
         foreach (var db in databases)
             stream.WriteLine(StswSecurity.Encrypt(db.Name)
                 + "|" + StswSecurity.Encrypt(db.Server)

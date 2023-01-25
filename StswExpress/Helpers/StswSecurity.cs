@@ -31,61 +31,58 @@ public static class StswSecurity
     /// Generate hash
     public static byte[] GenerateHash(SecureString password)
     {
-        using var deriveBytes = new Rfc2898DeriveBytes(SecureStringToBytea(password), GenerateSalt(), 1000);
+        using var deriveBytes = new Rfc2898DeriveBytes(SecureStringToBytea(password), new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 }, 1000);
         return deriveBytes.GetBytes(16);
     }
 
     /// Encrypt text
     public static string Encrypt(string text)
     {
-        if (text.Length == 0)
-            return string.Empty;
+        if (string.IsNullOrEmpty(text))
+            return text;
 
-        var saltStringBytes = GenerateSalt();
-        var ivStringBytes = GenerateSalt();
-        var plainTextBytes = Encoding.UTF8.GetBytes(text);
-        using var password = new Rfc2898DeriveBytes(hashKey, saltStringBytes, 1000);
-        var keyBytes = password.GetBytes(16);
-        using var symmetricKey = Aes.Create();
-        symmetricKey.BlockSize = 128;
-        symmetricKey.Mode = CipherMode.CBC;
-        symmetricKey.Padding = PaddingMode.PKCS7;
-        using var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes);
-        using var memoryStream = new MemoryStream();
-        using var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
-        cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-        cryptoStream.FlushFinalBlock();
-        var cipherTextBytes = saltStringBytes;
-        cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
-        cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
-        memoryStream.Close();
-        cryptoStream.Close();
-        return Convert.ToBase64String(cipherTextBytes);
+        var clearBytes = Encoding.Unicode.GetBytes(text);
+        using (var encryptor = Aes.Create())
+        {
+            var pdb = new Rfc2898DeriveBytes(hashKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(clearBytes, 0, clearBytes.Length);
+                    cs.Close();
+                }
+                text = Convert.ToBase64String(ms.ToArray());
+            }
+        }
+        return text;
     }
 
     /// Decrypt text
     public static string Decrypt(string text)
     {
-        if (text.Length == 0)
-            return string.Empty;
+        if (string.IsNullOrEmpty(text))
+            return text;
 
-        var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(text);
-        var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(16).ToArray();
-        var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(16).Take(16).ToArray();
-        var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(16 * 2).Take(cipherTextBytesWithSaltAndIv.Length - (16 * 2)).ToArray();
-        using var password = new Rfc2898DeriveBytes(hashKey, saltStringBytes, 1000);
-        var keyBytes = password.GetBytes(16);
-        using var symmetricKey = Aes.Create();
-        symmetricKey.BlockSize = 128;
-        symmetricKey.Mode = CipherMode.CBC;
-        symmetricKey.Padding = PaddingMode.PKCS7;
-        using var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes);
-        using var memoryStream = new MemoryStream(cipherTextBytes);
-        using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-        var plainTextBytes = new byte[cipherTextBytes.Length];
-        var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-        memoryStream.Close();
-        cryptoStream.Close();
-        return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+        text = text.Replace(" ", "+");
+        var cipherBytes = Convert.FromBase64String(text);
+        using (var encryptor = Aes.Create())
+        {
+            var pdb = new Rfc2898DeriveBytes(hashKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(cipherBytes, 0, cipherBytes.Length);
+                    cs.Close();
+                }
+                text = Encoding.Unicode.GetString(ms.ToArray());
+            }
+        }
+        return text;
     }
 }

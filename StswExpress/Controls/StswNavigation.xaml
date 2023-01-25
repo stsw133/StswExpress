@@ -15,20 +15,28 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
-                    <ItemsControl ItemsSource="{TemplateBinding Buttons}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationBase}}}"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.Resources>
-                            <Style TargetType="{x:Type se:StswNavigationButton}">
-                                <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
-                            </Style>
-                        </ItemsControl.Resources>
-                    </ItemsControl>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{TemplateBinding Buttons}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationBase}}}"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.Resources>
+                                <Style TargetType="{x:Type se:StswNavigationButton}">
+                                    <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
+                                </Style>
+                            </ItemsControl.Resources>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </se:ClippingBorder>
-                <Frame x:Name="NaviFrame" Content="{TemplateBinding Content}" NavigationUIVisibility="Hidden"/>
+                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Visibility="{TemplateBinding FrameVisibility}">
+                    <Frame x:Name="NaviFrame" NavigationUIVisibility="Hidden"
+                           Content="{TemplateBinding Content}"
+                           Margin="{TemplateBinding Padding}"/>
+                </Border>
             </DockPanel>
         </ControlTemplate>
     </se:StswNavigationBase.Template>

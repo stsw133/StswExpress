@@ -70,9 +70,11 @@ public static class StswFn
     }
     */
 
-    /// Starting functions that should be placed in constructor of App class
-    public static void AppStart(Application app)
+    /// Starting functions that should be placed in constructor of App class (if you want to have light and dark theme)
+    public static void AppStart(Application app, string hashKey)
     {
+        StswSecurity.HashKey = hashKey;
+
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
             app.Resources.MergedDictionaries.Add(new Theme());
         ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = (ThemeColor)Settings.Default.Theme;
