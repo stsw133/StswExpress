@@ -85,7 +85,6 @@ public class ContractorsContext : StswContext
         await Task.Run(() =>
         {
             CountActions++;
-            Task.Delay(3000);
             ListContractors = ContractorsQueries.GetContractors(filter, parameters);
             CountActions--;
         });

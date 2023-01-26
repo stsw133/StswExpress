@@ -63,7 +63,7 @@
                 <!-- ID -->
                 <DataGridTextColumn Binding="{Binding ID}">
                     <DataGridTextColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[ID], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[ID], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
@@ -71,7 +71,7 @@
                 <!-- Type -->
                 <DataGridComboBoxColumn TextBinding="{Binding Type}">
                     <DataGridComboBoxColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Type], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Type], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
                                              ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                     </DataGridComboBoxColumn.Header>
@@ -80,7 +80,7 @@
                 <!-- Icon -->
                 <DataGridTemplateColumn IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Icon], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Icon], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -93,7 +93,7 @@
                 <!-- Name -->
                 <DataGridTextColumn Binding="{Binding Name}">
                     <DataGridTextColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Name], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Name], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
@@ -101,7 +101,7 @@
                 <!-- IsEnabled -->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[IsArchival], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[IsArchival], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -114,7 +114,7 @@
                 <!-- CreateDT -->
                 <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                     <DataGridTextColumn.Header>
-                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[CreateDT], Mode=OneWayToSource, Source={StaticResource proxy}}"
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[CreateDT], Mode=TwoWay, Source={StaticResource proxy}}"
                                              Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"
                                              Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}"/>
                     </DataGridTextColumn.Header>

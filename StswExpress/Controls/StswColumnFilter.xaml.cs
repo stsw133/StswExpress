@@ -23,243 +23,6 @@ public partial class StswColumnFilter : StswColumnFilterBase
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnFilter), new FrameworkPropertyMetadata(typeof(StswColumnFilter)));
     }
 
-    /// FilterMode
-    public static readonly DependencyProperty FilterModeProperty
-        = DependencyProperty.Register(
-            nameof(FilterMode),
-            typeof(Modes?),
-            typeof(StswColumnFilterBase),
-            new FrameworkPropertyMetadata(default(Modes?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                FilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public Modes? FilterMode
-    {
-        get => (Modes?)GetValue(FilterModeProperty);
-        set => SetValue(FilterModeProperty, value);
-    }
-    internal Modes? DefaultFilterMode { get; set; } = null;
-    public enum Modes
-    {
-        Equal,
-        NotEqual,
-        Greater,
-        GreaterEqual,
-        Less,
-        LessEqual,
-        Between,
-        Contains,
-        NotContains,
-        Like,
-        NotLike,
-        StartsWith,
-        EndsWith,
-        In,
-        NotIn,
-        Null,
-        NotNull
-    }
-
-    /// FilterModeChanged
-    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswColumnFilter filter)
-        {
-            var panel = filter.GetTemplateChild("UngFilters") as Panel;
-            if (panel?.Children?.Count >= 2)
-                panel.Children[1].Visibility = (Modes)e.NewValue == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
-            if (panel?.Children?.Count >= 1)
-                panel.Children[0].Visibility = !((Modes)e.NewValue).In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
-        }
-    }
-
-    /// FilterSqlColumn
-    public static readonly DependencyProperty FilterSqlColumnProperty
-        = DependencyProperty.Register(
-            nameof(FilterSqlColumn),
-            typeof(string),
-            typeof(StswColumnFilter),
-            new FrameworkPropertyMetadata(default(string),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                FilterSqlColumnChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public string FilterSqlColumn
-    {
-        get => (string)GetValue(FilterSqlColumnProperty);
-        set => SetValue(FilterSqlColumnProperty, value);
-    }
-
-    /// FilterSqlColumnChanged
-    public static void FilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswColumnFilter filter)
-        {
-            filter.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
-            filter.SetData();
-        }
-    }
-
-    /// Value1
-    public static readonly DependencyProperty Value1Property
-        = DependencyProperty.Register(
-            nameof(Value1),
-            typeof(object),
-            typeof(StswColumnFilter),
-            new FrameworkPropertyMetadata(default(object?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public object? Value1
-    {
-        get => (object?)GetValue(Value1Property);
-        set => SetValue(Value1Property, value);
-    }
-    internal object? DefaultValue1 { get; set; } = null;
-
-    /// Value2
-    public static readonly DependencyProperty Value2Property
-        = DependencyProperty.Register(
-            nameof(Value2),
-            typeof(object),
-            typeof(StswColumnFilter),
-            new FrameworkPropertyMetadata(default(object?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public object? Value2
-    {
-        get => (object?)GetValue(Value2Property);
-        set => SetValue(Value2Property, value);
-    }
-    internal object? DefaultValue2 { get; set; } = null;
-
-    /// ValueChanged
-    public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswColumnFilter filter)
-        {
-            var panel = filter.GetTemplateChild("UngFilters") as Panel;
-            if (filter.FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
-            {
-                if (panel?.Children?.Count > 0)
-                    ((StswComboBox)panel.Children[0]).SelectedItems = (List<object>)e.NewValue;
-                else if (panel?.Children?.Count == null)
-                    filter.Value1 = new List<object>();
-            }
-
-            if (filter.Value1 == null || (filter.Value1 is List<object> l && l.Count == 0)
-            ||  (filter.Value2 == null && filter.FilterMode == Modes.Between))
-            {
-                filter.SqlString = null;
-                return;
-            }
-
-            /// separator
-            var s = filter.FilterType.In(Types.Date, Types.Text, Types.ListOfTexts) ? "'" : string.Empty;
-            /// case sensitive
-            var cs1 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? "lower(" : string.Empty;
-            var cs2 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? ")" : string.Empty;
-            /// null sensitive
-            var ns1 = !filter.IsFilterNullSensitive ? "coalesce(" : string.Empty;
-            var ns2 = string.Empty;
-            if (!filter.IsFilterNullSensitive)
-            {
-                ns2 = filter.FilterType switch
-                {
-                    Types.Check => ", 0)",
-                    Types.Date => ", '1900-01-01')",
-                    Types.Number => ", 0)",
-                    Types.Text => ", '')",
-                    Types.ListOfNumbers => ", 0)",
-                    Types.ListOfTexts => ", '')",
-                    _ => string.Empty
-                };
-            }
-
-            /// calculate SQL string
-            filter.SqlString = filter.FilterMode switch
-            {
-                Modes.Equal => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} = {cs1}{filter.SqlParam}1{cs2}",
-                Modes.NotEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <> {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Greater => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} > {cs1}{filter.SqlParam}1{cs2}",
-                Modes.GreaterEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} >= {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Less => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} < {cs1}{filter.SqlParam}1{cs2}",
-                Modes.LessEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <= {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Between => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} between {cs1}{filter.SqlParam}1{cs2} and {cs1}{filter.SqlParam}2{cs2}",
-                Modes.Contains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
-                Modes.NotContains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
-                Modes.Like => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}{filter.SqlParam}1{cs2}",
-                Modes.NotLike => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}{filter.SqlParam}1{cs2}",
-                Modes.StartsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat({filter.SqlParam}1, '%'){cs2}",
-                Modes.EndsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1){cs2}",
-                Modes.In => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
-                Modes.NotIn => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
-                Modes.Null => $"{filter.FilterSqlColumn} is null)",
-                Modes.NotNull => $"{filter.FilterSqlColumn} is not null)",
-                _ => null
-            };
-
-            filter.SetData();
-        }
-    }
-
-    /// SqlParam
-    public static readonly DependencyProperty SqlParamProperty
-        = DependencyProperty.Register(
-            nameof(SqlParam),
-            typeof(string),
-            typeof(StswColumnFilter),
-            new PropertyMetadata(default(string))
-        );
-    public string SqlParam
-    {
-        get => (string)GetValue(SqlParamProperty);
-        private set => SetValue(SqlParamProperty, value);
-    }
-    
-    /// SqlString
-    public static readonly DependencyProperty SqlStringProperty
-        = DependencyProperty.Register(
-            nameof(SqlString),
-            typeof(string),
-            typeof(StswColumnFilter),
-            new PropertyMetadata(default(string?))
-        );
-    public string? SqlString
-    {
-        get => (string?)GetValue(SqlStringProperty);
-        private set => SetValue(SqlStringProperty, value);
-    }
-
-    /// Data
-    public static readonly DependencyProperty DataProperty
-        = DependencyProperty.Register(
-            nameof(Data),
-            typeof(StswColumnFilterData),
-            typeof(StswColumnFilter),
-            new PropertyMetadata(default(StswColumnFilterData?))
-        );
-    public StswColumnFilterData? Data
-    {
-        get => (StswColumnFilterData?)GetValue(DataProperty);
-        set => SetValue(DataProperty, value);
-    }
-
-    /// SetData
-    private void SetData()
-    {
-        Data = new StswColumnFilterData()
-        {
-            SqlParam = SqlParam,
-            SqlString = SqlString,
-            Value1 = Value1,
-            Value2 = Value2,
-            DefaultValue1 = DefaultValue1,
-            DefaultValue2 = DefaultValue2,
-            Clear = new Action(Clear)
-        };
-    }
-
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -286,12 +49,10 @@ public partial class StswColumnFilter : StswColumnFilterBase
         };
         var subborderThickness = new Binding()
         {
-            Path = new PropertyPath(nameof(BorderThickness) + ".Top"),
+            Path = new PropertyPath(nameof(StyleThicknessSubBorder)),
             RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
             Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            Converter = new conv_Multiply(),
-            ConverterParameter = "0.5 0 0 0"
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
         /*
         var bindingMinWidth = new Binding()
@@ -452,10 +213,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
         };
 
         /// hide box filters depending on FilterMode
-        if (ungFilters.Children.Count >= 2)
-            ungFilters.Children[1].Visibility = FilterMode == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
-        if (ungFilters.Children.Count >= 1)
-            ungFilters.Children[0].Visibility = !FilterMode.In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+        FilterModeChanged(this, new DependencyPropertyChangedEventArgs());
 
         /// set default values
         DefaultFilterMode = FilterMode;
@@ -469,24 +227,6 @@ public partial class StswColumnFilter : StswColumnFilterBase
         UpdateLayout();
     }
 
-    /// Clear
-    public void Clear()
-    {
-        try
-        {
-            FilterMode = DefaultFilterMode;
-            Value1 = DefaultValue1;
-            Value2 = DefaultValue2;
-            UpdateLayout();
-            if (FilterType.ToString().StartsWith("List"))
-            {
-                var ungFilters = (UniformGrid)GetTemplateChild("UngFilters");
-                (ungFilters.Children[0] as StswComboBox).SetText();
-            }    
-        }
-        catch { }
-    }
-    
     /// Refresh
     private void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
     {
@@ -524,17 +264,6 @@ public partial class StswColumnFilter : StswColumnFilterBase
     }
 }
 
-public class StswColumnFilterData
-{
-    public string? SqlParam { get; internal set; }
-    public string? SqlString { get; internal set; }
-    public object? Value1 { get; internal set; }
-    public object? Value2 { get; internal set; }
-    public object? DefaultValue1 { get; internal set; }
-    public object? DefaultValue2 { get; internal set; }
-    public Action? Clear { get; internal set; }
-}
-
 public class StswColumnFilterBase : UserControl
 {
     #region StyleColors
@@ -567,6 +296,56 @@ public class StswColumnFilterBase : UserControl
         set => SetValue(DisplayMemberPathProperty, value);
     }
 
+    /// FilterMode
+    public static readonly DependencyProperty FilterModeProperty
+        = DependencyProperty.Register(
+            nameof(FilterMode),
+            typeof(Modes?),
+            typeof(StswColumnFilterBase),
+            new FrameworkPropertyMetadata(default(Modes?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public Modes? FilterMode
+    {
+        get => (Modes?)GetValue(FilterModeProperty);
+        set => SetValue(FilterModeProperty, value);
+    }
+    internal Modes? DefaultFilterMode { get; set; } = null;
+    public enum Modes
+    {
+        Equal,
+        NotEqual,
+        Greater,
+        GreaterEqual,
+        Less,
+        LessEqual,
+        Between,
+        Contains,
+        NotContains,
+        Like,
+        NotLike,
+        StartsWith,
+        EndsWith,
+        In,
+        NotIn,
+        Null,
+        NotNull
+    }
+
+    /// FilterModeChanged
+    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColumnFilter filter)
+        {
+            var panel = filter.GetTemplateChild("UngFilters") as Panel;
+            if (panel?.Children?.Count >= 2)
+                panel.Children[1].Visibility = filter.FilterMode == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
+            if (panel?.Children?.Count >= 1)
+                panel.Children[0].Visibility = !filter.FilterMode.In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+        }
+    }
+
     /// FilterPadding
     public static readonly DependencyProperty FilterPaddingProperty
         = DependencyProperty.Register(
@@ -579,6 +358,32 @@ public class StswColumnFilterBase : UserControl
     {
         get => (Thickness)GetValue(FilterPaddingProperty);
         set => SetValue(FilterPaddingProperty, value);
+    }
+
+    /// FilterSqlColumn
+    public static readonly DependencyProperty FilterSqlColumnProperty
+        = DependencyProperty.Register(
+            nameof(FilterSqlColumn),
+            typeof(string),
+            typeof(StswColumnFilterBase),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FilterSqlColumnChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public string FilterSqlColumn
+    {
+        get => (string)GetValue(FilterSqlColumnProperty);
+        set => SetValue(FilterSqlColumnProperty, value);
+    }
+
+    /// FilterSqlColumnChanged
+    public static void FilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColumnFilterBase filter)
+        {
+            filter.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
+            filter.SetData();
+        }
     }
 
     /// FilterType
@@ -687,4 +492,215 @@ public class StswColumnFilterBase : UserControl
         get => (string)GetValue(SelectedValuePathProperty);
         set => SetValue(SelectedValuePathProperty, value);
     }
+
+    /// Value1
+    public static readonly DependencyProperty Value1Property
+        = DependencyProperty.Register(
+            nameof(Value1),
+            typeof(object),
+            typeof(StswColumnFilterBase),
+            new FrameworkPropertyMetadata(default(object?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public object? Value1
+    {
+        get => (object?)GetValue(Value1Property);
+        set => SetValue(Value1Property, value);
+    }
+    internal object? DefaultValue1 { get; set; } = null;
+
+    /// Value2
+    public static readonly DependencyProperty Value2Property
+        = DependencyProperty.Register(
+            nameof(Value2),
+            typeof(object),
+            typeof(StswColumnFilterBase),
+            new FrameworkPropertyMetadata(default(object?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public object? Value2
+    {
+        get => (object?)GetValue(Value2Property);
+        set => SetValue(Value2Property, value);
+    }
+    internal object? DefaultValue2 { get; set; } = null;
+
+    /// ValueChanged
+    public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColumnFilterBase filter)
+        {
+            var panel = filter.GetTemplateChild("UngFilters") as Panel;
+            if (filter.FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
+            {
+                /*
+                if (panel?.Children?.Count > 0)
+                    ((StswComboBox)panel.Children[0]).SelectedItems = (IList)e.NewValue;
+                else*/
+                if (panel?.Children?.Count == null)
+                    filter.Value1 = new List<object>();
+            }
+
+            if (filter.Value1 == null || (filter.Value1 is IList l && l.Count == 0)
+            || (filter.Value2 == null && filter.FilterMode == Modes.Between))
+            {
+                filter.SqlString = null;
+                return;
+            }
+
+            /// separator
+            var s = filter.FilterType.In(Types.Date, Types.Text, Types.ListOfTexts) ? "'" : string.Empty;
+            /// case sensitive
+            var cs1 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? "lower(" : string.Empty;
+            var cs2 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? ")" : string.Empty;
+            /// null sensitive
+            var ns1 = !filter.IsFilterNullSensitive ? "coalesce(" : string.Empty;
+            var ns2 = string.Empty;
+            if (!filter.IsFilterNullSensitive)
+            {
+                ns2 = filter.FilterType switch
+                {
+                    Types.Check => ", 0)",
+                    Types.Date => ", '1900-01-01')",
+                    Types.Number => ", 0)",
+                    Types.Text => ", '')",
+                    Types.ListOfNumbers => ", 0)",
+                    Types.ListOfTexts => ", '')",
+                    _ => string.Empty
+                };
+            }
+
+            /// calculate SQL string
+            filter.SqlString = filter.FilterMode switch
+            {
+                Modes.Equal => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} = {cs1}{filter.SqlParam}1{cs2}",
+                Modes.NotEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <> {cs1}{filter.SqlParam}1{cs2}",
+                Modes.Greater => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} > {cs1}{filter.SqlParam}1{cs2}",
+                Modes.GreaterEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} >= {cs1}{filter.SqlParam}1{cs2}",
+                Modes.Less => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} < {cs1}{filter.SqlParam}1{cs2}",
+                Modes.LessEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <= {cs1}{filter.SqlParam}1{cs2}",
+                Modes.Between => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} between {cs1}{filter.SqlParam}1{cs2} and {cs1}{filter.SqlParam}2{cs2}",
+                Modes.Contains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
+                Modes.NotContains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
+                Modes.Like => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}{filter.SqlParam}1{cs2}",
+                Modes.NotLike => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}{filter.SqlParam}1{cs2}",
+                Modes.StartsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat({filter.SqlParam}1, '%'){cs2}",
+                Modes.EndsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1){cs2}",
+                Modes.In => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
+                Modes.NotIn => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
+                Modes.Null => $"{filter.FilterSqlColumn} is null)",
+                Modes.NotNull => $"{filter.FilterSqlColumn} is not null)",
+                _ => null
+            };
+
+            filter.SetData();
+        }
+    }
+
+    /// SqlParam
+    public static readonly DependencyProperty SqlParamProperty
+        = DependencyProperty.Register(
+            nameof(SqlParam),
+            typeof(string),
+            typeof(StswColumnFilterBase),
+            new PropertyMetadata(default(string))
+        );
+    public string SqlParam
+    {
+        get => (string)GetValue(SqlParamProperty);
+        private set => SetValue(SqlParamProperty, value);
+    }
+
+    /// SqlString
+    public static readonly DependencyProperty SqlStringProperty
+        = DependencyProperty.Register(
+            nameof(SqlString),
+            typeof(string),
+            typeof(StswColumnFilterBase),
+            new PropertyMetadata(default(string?))
+        );
+    public string? SqlString
+    {
+        get => (string?)GetValue(SqlStringProperty);
+        private set => SetValue(SqlStringProperty, value);
+    }
+
+    /// Data
+    public static readonly DependencyProperty DataProperty
+        = DependencyProperty.Register(
+            nameof(Data),
+            typeof(StswColumnFilterData),
+            typeof(StswColumnFilterBase),
+            new PropertyMetadata(default(StswColumnFilterData?))
+        );
+    public StswColumnFilterData? Data
+    {
+        get => (StswColumnFilterData?)GetValue(DataProperty);
+        set => SetValue(DataProperty, value);
+    }
+
+    /// SetData
+    private void SetData()
+    {
+        Data = new StswColumnFilterData()
+        {
+            SqlParam = SqlParam,
+            SqlString = SqlString,
+            Value1 = Value1,
+            Value2 = Value2,
+            DefaultValue1 = DefaultValue1,
+            DefaultValue2 = DefaultValue2,
+            Clear = new Action(ClearData)
+        };
+    }
+
+    /// ClearData
+    public void ClearData()
+    {
+        var ungFilters = (UniformGrid)GetTemplateChild("UngFilters");
+
+        FilterMode = DefaultFilterMode;
+
+        if (Value1 is IList list1)
+        {
+            list1.Clear();
+            if (DefaultValue1 != null)
+                foreach (var elem in (IList)DefaultValue1)
+                    list1.Add(elem);
+            if (ungFilters.Children.Count > 0)
+                ((StswComboBox)ungFilters.Children[0]).SetText();
+            ValueChanged(this, new DependencyPropertyChangedEventArgs());
+        }
+        else
+            Value1 = DefaultValue1;
+
+        if (Value2 is IList list2)
+        {
+            list2.Clear();
+            if (DefaultValue2 != null)
+                foreach (var elem in (IList)DefaultValue2)
+                    list2.Add(elem);
+            if (ungFilters.Children.Count > 1)
+                ((StswComboBox)ungFilters.Children[1]).SetText();
+            ValueChanged(this, new DependencyPropertyChangedEventArgs());
+        }
+        else
+            Value2 = DefaultValue2;
+
+        SetData();
+        UpdateLayout();
+    }
+}
+
+public class StswColumnFilterData
+{
+    public string? SqlParam { get; internal set; }
+    public string? SqlString { get; internal set; }
+    public object? Value1 { get; internal set; }
+    public object? Value2 { get; internal set; }
+    public object? DefaultValue1 { get; internal set; }
+    public object? DefaultValue2 { get; internal set; }
+    public Action? Clear { get; internal set; }
 }

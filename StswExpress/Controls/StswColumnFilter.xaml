@@ -4,7 +4,7 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                          xmlns:se="clr-namespace:StswExpress"
-                         mc:Ignorable="d" BorderBrush="Gray" BorderThickness="2">
+                         mc:Ignorable="d">
     <se:StswColumnFilterBase.CommandBindings>
         <CommandBinding Command="{x:Static se:StswGlobalCommands.Refresh}" Executed="CmdRefresh_Executed"/>
     </se:StswColumnFilterBase.CommandBindings>
@@ -13,13 +13,13 @@
         <ControlTemplate TargetType="{x:Type se:StswColumnFilterBase}">
             <DockPanel>
                 <!-- filter -->
-                <DockPanel DockPanel.Dock="Bottom" Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <DockPanel DockPanel.Dock="Bottom" Visibility="{Binding FilterVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswColumnFilterBase}}}">
                     <!-- symbol -->
                     <se:StswButton x:Name="BtnSymbol"
                                    BorderThickness="0"
                                    CornerRadius="0"
                                    FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=1.5}"
-                                   Padding="{Binding FilterPadding, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Padding="{Binding FilterPadding, RelativeSource={RelativeSource AncestorType={x:Type se:StswColumnFilterBase}}}"
                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                    Click="BtnSymbol_Click">
@@ -31,7 +31,7 @@
                         <se:StswButton.ContextMenu>
                             <ContextMenu>
                                 
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="{x:Static se:StswColumnFilter+Modes.Equal}">
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest równe" Tag="{x:Static se:StswColumnFilterBase+Modes.Equal}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -41,7 +41,7 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="{x:Static se:StswColumnFilter+Modes.NotEqual}">
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest równe" Tag="{x:Static se:StswColumnFilterBase+Modes.NotEqual}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -50,8 +50,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="{x:Static se:StswColumnFilter+Modes.Greater}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe niż" Tag="{x:Static se:StswColumnFilterBase+Modes.Greater}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -60,8 +60,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="{x:Static se:StswColumnFilter+Modes.GreaterEqual}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest większe lub równe" Tag="{x:Static se:StswColumnFilterBase+Modes.GreaterEqual}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -70,8 +70,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="{x:Static se:StswColumnFilter+Modes.Less}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze niż" Tag="{x:Static se:StswColumnFilterBase+Modes.Less}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -80,8 +80,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="{x:Static se:StswColumnFilter+Modes.LessEqual}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Jest mniejsze lub równe" Tag="{x:Static se:StswColumnFilterBase+Modes.LessEqual}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -90,8 +90,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="{x:Static se:StswColumnFilter+Modes.Between}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Pomiędzy" Tag="{x:Static se:StswColumnFilterBase+Modes.Between}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -100,8 +100,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="{x:Static se:StswColumnFilter+Modes.Contains}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera" Tag="{x:Static se:StswColumnFilterBase+Modes.Contains}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
@@ -110,8 +110,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="{x:Static se:StswColumnFilter+Modes.NotContains}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera" Tag="{x:Static se:StswColumnFilterBase+Modes.NotContains}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
@@ -120,8 +120,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="{x:Static se:StswColumnFilter+Modes.Like}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Podobne do" Tag="{x:Static se:StswColumnFilterBase+Modes.Like}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -130,8 +130,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne do" Tag="{x:Static se:StswColumnFilter+Modes.NotLike}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie jest podobne do" Tag="{x:Static se:StswColumnFilterBase+Modes.NotLike}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -140,8 +140,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="{x:Static se:StswColumnFilter+Modes.StartsWith}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Rozpoczyna się od" Tag="{x:Static se:StswColumnFilterBase+Modes.StartsWith}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text="A" Fill="#46D" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
@@ -150,8 +150,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="{x:Static se:StswColumnFilter+Modes.EndsWith}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Kończy się na" Tag="{x:Static se:StswColumnFilterBase+Modes.EndsWith}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text="A" Fill="White" Stroke="Black" StrokeThickness="2" FontFamily="Gill Sans MT Condensed"/>
@@ -160,8 +160,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="{x:Static se:StswColumnFilter+Modes.In}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Zawiera listę" Tag="{x:Static se:StswColumnFilterBase+Modes.In}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -170,8 +170,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="{x:Static se:StswColumnFilter+Modes.NotIn}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Nie zawiera listy" Tag="{x:Static se:StswColumnFilterBase+Modes.NotIn}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -180,8 +180,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="{x:Static se:StswColumnFilter+Modes.Null}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Puste" Tag="{x:Static se:StswColumnFilterBase+Modes.Null}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -190,8 +190,8 @@
                                         </StackPanel>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                
-                                <MenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="{x:Static se:StswColumnFilter+Modes.NotNull}">
+
+                                <MenuItem Click="MnuItmFilterMode_Click" Header="Niepuste" Tag="{x:Static se:StswColumnFilterBase+Modes.NotNull}">
                                     <MenuItem.Icon>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <se:OutlinedTextBlock Text=" " Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
@@ -234,8 +234,8 @@
                     </TextBlock>
                     -->
                     <!-- name -->
-                    <ContentControl Content="{Binding Header, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    <ContentControl Content="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type se:StswColumnFilterBase}}}"
+                                    Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswColumnFilterBase}}}"/>
                 </DockPanel>
             </DockPanel>
         </ControlTemplate>
