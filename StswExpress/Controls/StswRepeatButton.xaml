@@ -8,12 +8,12 @@
 
     <se:StswRepeatButtonBase.Template>
         <ControlTemplate TargetType="{x:Type se:StswRepeatButtonBase}">
-            <Border x:Name="border"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    SnapsToDevicePixels="True">
+            <se:ClippingBorder x:Name="border"
+                               Background="{TemplateBinding Background}"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               CornerRadius="{TemplateBinding CornerRadius}"
+                               SnapsToDevicePixels="True">
                 <ContentPresenter x:Name="contentPresenter"
                                   Focusable="False"
                                   Margin="{TemplateBinding Padding}"
@@ -21,23 +21,23 @@
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </Border>
+            </se:ClippingBorder>
             <ControlTemplate.Triggers>
                 <Trigger Property="Button.IsDefaulted" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDefaulted, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="TextElement.Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

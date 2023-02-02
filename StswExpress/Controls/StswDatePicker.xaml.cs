@@ -23,145 +23,141 @@ public partial class StswDatePicker : StswDatePickerBase
 
 public class StswDatePickerBase : DatePicker
 {
-    #region StyleColors
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
-
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
-
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(ForegroundDisabled),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush ForegroundDisabled
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
     }
-
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
+            nameof(BorderBrushMouseOver),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBackground
+    public Brush BorderBrushMouseOver
     {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
 
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
+    /// BackgroundFocused
+    public static readonly DependencyProperty BackgroundFocusedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
+            nameof(BackgroundFocused),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBorder
+    public Brush BackgroundFocused
     {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
+        get => (Brush)GetValue(BackgroundFocusedProperty);
+        set => SetValue(BackgroundFocusedProperty, value);
     }
-
-    /// StyleColorReadOnlyBackground
-    public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
+    /// BorderBrushFocused
+    public static readonly DependencyProperty BorderBrushFocusedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBackground),
+            nameof(BorderBrushFocused),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBackground
+    public Brush BorderBrushFocused
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBackgroundProperty);
-        set => SetValue(StyleColorReadOnlyBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushFocusedProperty);
+        set => SetValue(BorderBrushFocusedProperty, value);
     }
 
-    /// StyleColorReadOnlyBorder
-    public static readonly DependencyProperty StyleColorReadOnlyBorderProperty
+    /// BackgroundReadOnly
+    public static readonly DependencyProperty BackgroundReadOnlyProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBorder),
+            nameof(BackgroundReadOnly),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBorder
+    public Brush BackgroundReadOnly
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
-        set => SetValue(StyleColorReadOnlyBorderProperty, value);
+        get => (Brush)GetValue(BackgroundReadOnlyProperty);
+        set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
-    /// StyleColorPlaceholder
-    public static readonly DependencyProperty StyleColorPlaceholderProperty
+    /// ForegroundPlaceholder
+    public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPlaceholder),
+            nameof(ForegroundPlaceholder),
             typeof(Brush),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPlaceholder
+    public Brush ForegroundPlaceholder
     {
-        get => (Brush)GetValue(StyleColorPlaceholderProperty);
-        set => SetValue(StyleColorPlaceholderProperty, value);
+        get => (Brush)GetValue(ForegroundPlaceholderProperty);
+        set => SetValue(ForegroundPlaceholderProperty, value);
     }
 
-    /// StyleThicknessSubBorder
-    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(StyleThicknessSubBorder),
+            nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswDatePickerBase),
             new PropertyMetadata(default(Thickness))
         );
-    public Thickness StyleThicknessSubBorder
+    public Thickness SubBorderThickness
     {
-        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
-        set => SetValue(StyleThicknessSubBorderProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
 

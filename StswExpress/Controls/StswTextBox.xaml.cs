@@ -21,131 +21,127 @@ public partial class StswTextBox : StswTextBoxBase
 
 public class StswTextBoxBase : TextBox
 {
-    #region StyleColors
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswTextBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
+    }
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswTextBoxBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswTextBoxBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswTextBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
+    }
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushMouseOver),
+            typeof(Brush),
+            typeof(StswTextBoxBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushMouseOver
+    {
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
 
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// BackgroundFocused
+    public static readonly DependencyProperty BackgroundFocusedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(BackgroundFocused),
             typeof(Brush),
             typeof(StswTextBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush BackgroundFocused
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundFocusedProperty);
+        set => SetValue(BackgroundFocusedProperty, value);
+    }
+    /// BorderBrushFocused
+    public static readonly DependencyProperty BorderBrushFocusedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushFocused),
+            typeof(Brush),
+            typeof(StswTextBoxBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushFocused
+    {
+        get => (Brush)GetValue(BorderBrushFocusedProperty);
+        set => SetValue(BorderBrushFocusedProperty, value);
     }
 
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BackgroundReadOnly
+    public static readonly DependencyProperty BackgroundReadOnlyProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BackgroundReadOnly),
             typeof(Brush),
             typeof(StswTextBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BackgroundReadOnly
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
+        get => (Brush)GetValue(BackgroundReadOnlyProperty);
+        set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
+    /// ForegroundPlaceholder
+    public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
+            nameof(ForegroundPlaceholder),
             typeof(Brush),
             typeof(StswTextBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBackground
+    public Brush ForegroundPlaceholder
     {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
-    }
-
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
-            typeof(Brush),
-            typeof(StswTextBoxBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorPressedBorder
-    {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
-    }
-
-    /// StyleColorReadOnlyBackground
-    public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBackground),
-            typeof(Brush),
-            typeof(StswTextBoxBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorReadOnlyBackground
-    {
-        get => (Brush)GetValue(StyleColorReadOnlyBackgroundProperty);
-        set => SetValue(StyleColorReadOnlyBackgroundProperty, value);
-    }
-
-    /// StyleColorReadOnlyBorder
-    public static readonly DependencyProperty StyleColorReadOnlyBorderProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBorder),
-            typeof(Brush),
-            typeof(StswTextBoxBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorReadOnlyBorder
-    {
-        get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
-        set => SetValue(StyleColorReadOnlyBorderProperty, value);
-    }
-
-    /// StyleColorPlaceholder
-    public static readonly DependencyProperty StyleColorPlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorPlaceholder),
-            typeof(Brush),
-            typeof(StswTextBoxBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorPlaceholder
-    {
-        get => (Brush)GetValue(StyleColorPlaceholderProperty);
-        set => SetValue(StyleColorPlaceholderProperty, value);
+        get => (Brush)GetValue(ForegroundPlaceholderProperty);
+        set => SetValue(ForegroundPlaceholderProperty, value);
     }
     #endregion
 
@@ -168,7 +164,7 @@ public class StswTextBoxBase : TextBox
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswTextBoxProperties),
+            typeof(StswTextBoxBase),
             new PropertyMetadata(default(bool))
         );
     public bool IsReadOnly

@@ -49,7 +49,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
         };
         var subborderThickness = new Binding()
         {
-            Path = new PropertyPath(nameof(StyleThicknessSubBorder)),
+            Path = new PropertyPath(nameof(SubBorderThickness)),
             RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -95,7 +95,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
-            cont1.SetBinding(StswDatePicker.StyleThicknessSubBorderProperty, subborderThickness);
+            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
             ungFilters.Children.Add(cont1);
 
             var cont2 = new StswDatePicker()
@@ -107,7 +107,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
-            cont1.SetBinding(StswDatePicker.StyleThicknessSubBorderProperty, subborderThickness);
+            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
             ungFilters.Children.Add(cont2);
         }
         /// create StswComboBox when List
@@ -128,7 +128,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
-            cont1.SetBinding(StswComboBox.StyleThicknessSubBorderProperty, subborderThickness);
+            cont1.SetBinding(StswComboBox.SubBorderThicknessProperty, subborderThickness);
             //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont1);
         }
@@ -143,7 +143,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             };
             cont1.InputBindings.Add(inputbinding);
             cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
-            cont1.SetBinding(StswNumericBox.StyleThicknessSubBorderProperty, subborderThickness);
+            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
             //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont1);
 
@@ -156,7 +156,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
             cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
             cont2.InputBindings.Add(inputbinding);
             cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
-            cont1.SetBinding(StswNumericBox.StyleThicknessSubBorderProperty, subborderThickness);
+            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
             //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
             ungFilters.Children.Add(cont2);
         }
@@ -266,19 +266,19 @@ public partial class StswColumnFilter : StswColumnFilterBase
 
 public class StswColumnFilterBase : UserControl
 {
-    #region StyleColors
-    /// StyleThicknessSubBorder
-    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+    #region Style
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(StyleThicknessSubBorder),
+            nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswColumnFilterBase),
             new PropertyMetadata(default(Thickness))
         );
-    public Thickness StyleThicknessSubBorder
+    public Thickness SubBorderThickness
     {
-        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
-        set => SetValue(StyleThicknessSubBorderProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
 

@@ -21,147 +21,141 @@ public partial class StswCheckBox : StswCheckBoxBase
 
 public class StswCheckBoxBase : CheckBox
 {
-    #region StyleColors
-    /// StyleColorGlyph
-    public static readonly DependencyProperty StyleColorGlyphProperty
+    #region Style
+    /// GlyphBrush
+    public static readonly DependencyProperty GlyphBrushProperty
         = DependencyProperty.Register(
-            nameof(StyleColorGlyph),
+            nameof(GlyphBrush),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorGlyph
+    public Brush GlyphBrush
     {
-        get => (Brush)GetValue(StyleColorGlyphProperty);
-        set => SetValue(StyleColorGlyphProperty, value);
+        get => (Brush)GetValue(GlyphBrushProperty);
+        set => SetValue(GlyphBrushProperty, value);
     }
 
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
-
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
-
-    /// StyleColorDisabledGlyph
-    public static readonly DependencyProperty StyleColorDisabledGlyphProperty
+    /// GlyphBrushDisabled
+    public static readonly DependencyProperty GlyphBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledGlyph),
+            nameof(GlyphBrushDisabled),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledGlyph
+    public Brush GlyphBrushDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledGlyphProperty);
-        set => SetValue(StyleColorDisabledGlyphProperty, value);
+        get => (Brush)GetValue(GlyphBrushDisabledProperty);
+        set => SetValue(GlyphBrushDisabledProperty, value);
     }
 
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
     }
-
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BorderBrushMouseOver),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BorderBrushMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
-
-    /// StyleColorMouseOverGlyph
-    public static readonly DependencyProperty StyleColorMouseOverGlyphProperty
+    /// GlyphBrushMouseOver
+    public static readonly DependencyProperty GlyphBrushMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverGlyph),
+            nameof(GlyphBrushMouseOver),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverGlyph
+    public Brush GlyphBrushMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverGlyphProperty);
-        set => SetValue(StyleColorMouseOverGlyphProperty, value);
+        get => (Brush)GetValue(GlyphBrushMouseOverProperty);
+        set => SetValue(GlyphBrushMouseOverProperty, value);
     }
 
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
+    /// BackgroundPressed
+    public static readonly DependencyProperty BackgroundPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
+            nameof(BackgroundPressed),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBackground
+    public Brush BackgroundPressed
     {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundPressedProperty);
+        set => SetValue(BackgroundPressedProperty, value);
     }
-
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
+    /// BorderBrushPressed
+    public static readonly DependencyProperty BorderBrushPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
+            nameof(BorderBrushPressed),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBorder
+    public Brush BorderBrushPressed
     {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushPressedProperty);
+        set => SetValue(BorderBrushPressedProperty, value);
     }
-
-    /// StyleColorPressedGlyph
-    public static readonly DependencyProperty StyleColorPressedGlyphProperty
+    /// GlyphBrushPressed
+    public static readonly DependencyProperty GlyphBrushPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedGlyph),
+            nameof(GlyphBrushPressed),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedGlyph
+    public Brush GlyphBrushPressed
     {
-        get => (Brush)GetValue(StyleColorPressedGlyphProperty);
-        set => SetValue(StyleColorPressedGlyphProperty, value);
+        get => (Brush)GetValue(GlyphBrushPressedProperty);
+        set => SetValue(GlyphBrushPressedProperty, value);
     }
-
+    /*
     /// StyleColorReadOnlyBackground
     public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
         = DependencyProperty.Register(
@@ -203,89 +197,86 @@ public class StswCheckBoxBase : CheckBox
         get => (Brush)GetValue(StyleColorReadOnlyGlyphProperty);
         set => SetValue(StyleColorReadOnlyGlyphProperty, value);
     }
-
-    /// StyleCharUnchecked
-    public static readonly DependencyProperty StyleCharUncheckedProperty
+    */
+    /// SymbolUnchecked
+    public static readonly DependencyProperty SymbolUncheckedProperty
         = DependencyProperty.Register(
-            nameof(StyleCharUnchecked),
+            nameof(SymbolUnchecked),
             typeof(char),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(char))
         );
-    public char StyleCharUnchecked
+    public char SymbolUnchecked
     {
-        get => (char)GetValue(StyleCharUncheckedProperty);
-        set => SetValue(StyleCharUncheckedProperty, value);
+        get => (char)GetValue(SymbolUncheckedProperty);
+        set => SetValue(SymbolUncheckedProperty, value);
     }
-
-    /// StyleColorUncheckedBackground
-    public static readonly DependencyProperty StyleColorUncheckedBackgroundProperty
+    /// BackgroundUnchecked
+    public static readonly DependencyProperty BackgroundUncheckedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorUncheckedBackground),
+            nameof(BackgroundUnchecked),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorUncheckedBackground
+    public Brush BackgroundUnchecked
     {
-        get => (Brush)GetValue(StyleColorUncheckedBackgroundProperty);
-        set => SetValue(StyleColorUncheckedBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundUncheckedProperty);
+        set => SetValue(BackgroundUncheckedProperty, value);
     }
 
-    /// StyleCharChecked
-    public static readonly DependencyProperty StyleCharCheckedProperty
+    /// SymbolChecked
+    public static readonly DependencyProperty SymbolCheckedProperty
         = DependencyProperty.Register(
-            nameof(StyleCharChecked),
+            nameof(SymbolChecked),
             typeof(char),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(char))
         );
-    public char StyleCharChecked
+    public char SymbolChecked
     {
-        get => (char)GetValue(StyleCharCheckedProperty);
-        set => SetValue(StyleCharCheckedProperty, value);
+        get => (char)GetValue(SymbolCheckedProperty);
+        set => SetValue(SymbolCheckedProperty, value);
     }
-
-    /// StyleColorCheckedBackground
-    public static readonly DependencyProperty StyleColorCheckedBackgroundProperty
+    /// BackgroundChecked
+    public static readonly DependencyProperty BackgroundCheckedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorCheckedBackground),
+            nameof(BackgroundChecked),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorCheckedBackground
+    public Brush BackgroundChecked
     {
-        get => (Brush)GetValue(StyleColorCheckedBackgroundProperty);
-        set => SetValue(StyleColorCheckedBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundCheckedProperty);
+        set => SetValue(BackgroundCheckedProperty, value);
     }
 
-    /// StyleCharIndeterminate
-    public static readonly DependencyProperty StyleCharIndeterminateProperty
+    /// SymbolIndeterminate
+    public static readonly DependencyProperty SymbolIndeterminateProperty
         = DependencyProperty.Register(
-            nameof(StyleCharIndeterminate),
+            nameof(SymbolIndeterminate),
             typeof(char),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(char))
         );
-    public char StyleCharIndeterminate
+    public char SymbolIndeterminate
     {
-        get => (char)GetValue(StyleCharIndeterminateProperty);
-        set => SetValue(StyleCharIndeterminateProperty, value);
+        get => (char)GetValue(SymbolIndeterminateProperty);
+        set => SetValue(SymbolIndeterminateProperty, value);
     }
-
-    /// StyleColorIndeterminateBackground
-    public static readonly DependencyProperty StyleColorIndeterminateBackgroundProperty
+    /// BackgroundIndeterminate
+    public static readonly DependencyProperty BackgroundIndeterminateProperty
         = DependencyProperty.Register(
-            nameof(StyleColorIndeterminateBackground),
+            nameof(BackgroundIndeterminate),
             typeof(Brush),
             typeof(StswCheckBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorIndeterminateBackground
+    public Brush BackgroundIndeterminate
     {
-        get => (Brush)GetValue(StyleColorIndeterminateBackgroundProperty);
-        set => SetValue(StyleColorIndeterminateBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundIndeterminateProperty);
+        set => SetValue(BackgroundIndeterminateProperty, value);
     }
     #endregion
 

@@ -1,0 +1,18 @@
+﻿// TODO - animations (so Hubert can be satisfied)
+// TODO - performance tests (application that uses this library should work fast and effective)
+// TODO - fullscreen mode in StswWindow (hiding TitleBar and TaskBar)
+// TODO - MessageBox builded in window
+// TODO - NotifyIcon builded in window
+// TODO - Popup instead of ContextMenu in StswWindow since context menu is bugged
+// TODO - new StswColorPicker control that allows to pick/set ARGB color
+// TODO - loading circle after clicking StswButton (with IsBusy property it should work fine)
+// TODO - StswDataGrid with special column: (show/hide and clear filters buttons in header and show row details buttons in rows)
+// TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down)
+// TODO - StswNavigation with special button to hide section names
+// TODO - StswNavigationButton should work with Expanders (something like sub buttons)
+// TODO - possibility to move TitleBar from StswWindow to StswNavigation
+// TODO - export List<T> to Excel (only CSV for start, need to implement attribute with Name, Format and Visibility)
+// TODO - ExtCollection with RowState functionality (want to know which instances were modified/added/deleted before changing them in database)
+// TODO - StswSecurity improvements (now only one const salt is used)
+// TODO - making StswColumnFilter looks better (margins for example)
+// TODO - finish StswComboBox style (for example background is not changing when mouse over or pressed)

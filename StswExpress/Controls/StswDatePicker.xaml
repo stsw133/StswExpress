@@ -19,19 +19,19 @@
                                    DockPanel.Dock="{TemplateBinding ButtonAlignment}"
                                    Content="📅" BorderThickness="0" CornerRadius="0"
                                    IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=DatePicker}, Converter={se:conv_Bool}, ConverterParameter=!}"
-                                   Foreground="{TemplateBinding Foreground}"
                                    FontSize="{Binding iSize, Source={x:Static se:Settings.Default}}"
                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"/>
                     <Border x:Name="subborder"
                             DockPanel.Dock="{TemplateBinding ButtonAlignment}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"
+                            BorderThickness="{TemplateBinding SubBorderThickness}"
                             SnapsToDevicePixels="True"/>
                     <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_Button}" StaysOpen="False"/>
                     <DatePickerTextBox x:Name="PART_TextBox" Focusable="{TemplateBinding Focusable}"
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="0"
+                                       Foreground="{TemplateBinding Foreground}"
                                        IsEnabled="{TemplateBinding IsEnabled}"
                                        IsReadOnly="{TemplateBinding IsReadOnly}"
                                        Padding="{TemplateBinding Padding}"
@@ -48,11 +48,11 @@
                                         <Border x:Name="watermark_decorator" BorderThickness="0">
                                             <ContentControl x:Name="PART_Watermark" Focusable="False" IsHitTestVisible="False" Opacity="0" Padding="0"/>
                                         </Border>
-                                        <TextBlock IsHitTestVisible="False" Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType=DatePicker}}"
-                                                   Foreground="{Binding StyleColorPlaceholder, RelativeSource={RelativeSource AncestorType=DatePicker}}"
+                                        <TextBlock IsHitTestVisible="False" Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePickerBase}}}"
+                                                   Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePickerBase}}}"
                                                    Margin="{TemplateBinding Padding}"
                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                   Visibility="{Binding SelectedDate, Mode=OneWay, RelativeSource={RelativeSource AncestorType=DatePicker}, Converter={se:conv_Compare}, ConverterParameter={x:Null}}"/>
+                                                   Visibility="{Binding SelectedDate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePickerBase}}, Converter={se:conv_Compare}, ConverterParameter={x:Null}}"/>
                                         <ScrollViewer x:Name="PART_ContentHost" Margin="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Grid>
                                 </Border>
@@ -63,35 +63,33 @@
             </se:ClippingBorder>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </Trigger>
                 <DataTrigger Binding="{Binding IsPressed, ElementName=PART_Button}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=PART_TextBox}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
                 <Trigger Property="IsReadOnly" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_TextBox" />
-                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" /> -->
-                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" /> -->
-                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                    <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_TextBox" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Button" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_TextBox" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" TargetName="PART_TextBox" />
-                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_TextBox" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_TextBox" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Button" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

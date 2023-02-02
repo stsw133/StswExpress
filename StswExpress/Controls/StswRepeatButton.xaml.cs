@@ -21,89 +21,113 @@ public partial class StswRepeatButton : StswRepeatButtonBase
 
 public class StswRepeatButtonBase : RepeatButton
 {
-    #region StyleColors
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswRepeatButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
+    }
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswRepeatButtonBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswRepeatButtonBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswRepeatButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
+    }
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushMouseOver),
+            typeof(Brush),
+            typeof(StswRepeatButtonBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushMouseOver
+    {
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
 
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// BackgroundPressed
+    public static readonly DependencyProperty BackgroundPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(BackgroundPressed),
             typeof(Brush),
             typeof(StswRepeatButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush BackgroundPressed
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundPressedProperty);
+        set => SetValue(BackgroundPressedProperty, value);
+    }
+    /// BorderBrushPressed
+    public static readonly DependencyProperty BorderBrushPressedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushPressed),
+            typeof(Brush),
+            typeof(StswRepeatButtonBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush BorderBrushPressed
+    {
+        get => (Brush)GetValue(BorderBrushPressedProperty);
+        set => SetValue(BorderBrushPressedProperty, value);
     }
 
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BorderBrushDefaulted
+    public static readonly DependencyProperty BorderBrushDefaultedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BorderBrushDefaulted),
             typeof(Brush),
             typeof(StswRepeatButtonBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BorderBrushDefaulted
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
-    }
-
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
-            typeof(Brush),
-            typeof(StswRepeatButtonBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorPressedBackground
-    {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
-    }
-
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
-        = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
-            typeof(Brush),
-            typeof(StswRepeatButtonBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush StyleColorPressedBorder
-    {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushDefaultedProperty);
+        set => SetValue(BorderBrushDefaultedProperty, value);
     }
     #endregion
 

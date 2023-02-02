@@ -134,7 +134,7 @@ public partial class StswComboBox : StswComboBoxBase
     internal void SetText()
     {
         if (SelectedItems?.Count > 1)
-            prop?.SetValue(this, $"<{SelectedItems?.Count} wybrano>", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+            prop?.SetValue(this, $"< {SelectedItems?.Count} >", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         else if (SelectedItems?.Count == 0)
             prop?.SetValue(this, string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         else
@@ -155,131 +155,140 @@ public partial class StswComboBox : StswComboBoxBase
 
 public class StswComboBoxBase : ComboBox
 {
-    #region StyleColors
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
-
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
-
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(ForegroundDisabled),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush ForegroundDisabled
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
     }
-
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
+            nameof(BorderBrushMouseOver),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBackground
+    public Brush BorderBrushMouseOver
     {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
 
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
+    /// BackgroundPressed
+    public static readonly DependencyProperty BackgroundPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
+            nameof(BackgroundPressed),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBorder
+    public Brush BackgroundPressed
     {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
+        get => (Brush)GetValue(BackgroundPressedProperty);
+        set => SetValue(BackgroundPressedProperty, value);
     }
-
-    /// StyleColorReadOnlyBackground
-    public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
+    /// BorderBrushPressed
+    public static readonly DependencyProperty BorderBrushPressedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBackground),
+            nameof(BorderBrushPressed),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBackground
+    public Brush BorderBrushPressed
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBackgroundProperty);
-        set => SetValue(StyleColorReadOnlyBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushPressedProperty);
+        set => SetValue(BorderBrushPressedProperty, value);
     }
 
-    /// StyleColorReadOnlyBorder
-    public static readonly DependencyProperty StyleColorReadOnlyBorderProperty
+    /// BackgroundReadOnly
+    public static readonly DependencyProperty BackgroundReadOnlyProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBorder),
+            nameof(BackgroundReadOnly),
             typeof(Brush),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBorder
+    public Brush BackgroundReadOnly
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
-        set => SetValue(StyleColorReadOnlyBorderProperty, value);
+        get => (Brush)GetValue(BackgroundReadOnlyProperty);
+        set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
-    /// StyleThicknessSubBorder
-    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+    /// PopupBorderThickness
+    public static readonly DependencyProperty PopupBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(StyleThicknessSubBorder),
+            nameof(PopupBorderThickness),
             typeof(Thickness),
             typeof(StswComboBoxBase),
             new PropertyMetadata(default(Thickness))
         );
-    public Thickness StyleThicknessSubBorder
+    public Thickness PopupBorderThickness
     {
-        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
-        set => SetValue(StyleThicknessSubBorderProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
+    }
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswComboBoxBase),
+            new PropertyMetadata(default(Thickness))
+        );
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
 
@@ -314,11 +323,11 @@ public class StswComboBoxBase : ComboBox
     /// SelectionMode
     public static readonly DependencyProperty SelectionModeProperty
         = DependencyProperty.Register(
-              nameof(SelectionMode),
-              typeof(SelectionMode),
-              typeof(StswComboBoxBase),
-              new PropertyMetadata(default(SelectionMode))
-          );
+            nameof(SelectionMode),
+            typeof(SelectionMode),
+            typeof(StswComboBoxBase),
+            new PropertyMetadata(default(SelectionMode))
+        );
     public SelectionMode SelectionMode
     {
         get => (SelectionMode)GetValue(SelectionModeProperty);

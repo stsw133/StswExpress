@@ -15,71 +15,71 @@
                                SnapsToDevicePixels="True">
                 <DockPanel>
                     <UniformGrid DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
-                                 IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={se:conv_Bool}, ConverterParameter=!}"
+                                 IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswNumericBoxBase}}, Converter={se:conv_Bool}, ConverterParameter=!}"
                                  Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}">
                         <se:StswRepeatButton x:Name="buttonup"
                                              Content="▲" BorderThickness="0" CornerRadius="0"
-                                             Foreground="{TemplateBinding Foreground}"
                                              FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                                              Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
                                              Click="BtnUp_Click"/>
                         <se:StswRepeatButton x:Name="buttondown"
                                              Content="▼" BorderThickness="0" CornerRadius="0"
-                                             Foreground="{TemplateBinding Foreground}"
                                              FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4}"
                                              Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
                                              Click="BtnDown_Click"/>
                     </UniformGrid>
                     <Border x:Name="subborder"
-                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNumericBoxBase}}}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding StyleThicknessSubBorder}"
+                            BorderThickness="{TemplateBinding SubBorderThickness}"
                             SnapsToDevicePixels="True"/>
                     <se:StswTextBox x:Name="box"
                                     BorderThickness="0" CornerRadius="0"
+                                    Foreground="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                     Padding="{TemplateBinding Padding}"
-                                    Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}"
-                                    LostFocus="TextBox_LostFocus" KeyDown="TextBox_KeyDown"/>
+                                    Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType={x:Type se:StswNumericBoxBase}}}"
+                                    KeyDown="TextBox_KeyDown"/>
                 </DockPanel>
             </se:ClippingBorder>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorMouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorMouseOverBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </Trigger>
                 <DataTrigger Binding="{Binding IsPressed, ElementName=buttonup}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsPressed, ElementName=buttondown}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=box}" Value="True">
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="Background" Value="{Binding StyleColorPressedBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorPressedBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
                 </DataTrigger>
                 <Trigger Property="IsReadOnly" Value="True">
-                    <!-- <Setter Property="Background" Value="{Binding StyleColorReadOnlyBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" /> -->
-                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" /> -->
-                    <!-- <Setter Property="BorderBrush" Value="{Binding StyleColorReadOnlyBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" /> -->
-                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                    <Setter Property="BackgroundReadOnly" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="buttonup" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="buttondown" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding StyleColorDisabledBackground, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
-                    <Setter Property="BorderBrush" Value="{Binding StyleColorDisabledBorder, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
-                    <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}" />
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="subborder" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="box" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="buttonup" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="buttondown" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

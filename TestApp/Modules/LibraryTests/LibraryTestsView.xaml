@@ -42,11 +42,21 @@
                 <se:StswButton Margin="5" Content="TEST" IsEnabled="False"/>
                 <se:StswButton Margin="5" Content="TEST"/>
                 <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Negative}" Foreground="White"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Neutral}" Foreground="White"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Modify}" Foreground="White"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Structure}" Foreground="White"/>
+                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Designer}" Foreground="White"/>
             </UniformGrid>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckButton Margin="5" Content="TEST" IsEnabled="False"/>
-                <se:StswCheckButton Margin="5" Content="TEST"/>
-                <se:StswCheckButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" IsEnabled="False"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Negative}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Neutral}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Modify}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Structure}" Foreground="White"/>
+                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Designer}" Foreground="White"/>
             </UniformGrid>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>

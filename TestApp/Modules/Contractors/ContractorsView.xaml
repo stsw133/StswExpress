@@ -43,7 +43,7 @@
         </ScrollViewer>
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
         <TextBlock DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Right">
-            <Run Text="Wyświetlono: "/>
+            <Run Text="Displayed: "/>
             <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
         </TextBlock>
         <!-- data grid -->
@@ -106,7 +106,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswCheckBox IsChecked="{Binding IsArchival}" BorderThickness="0" CornerRadius="0" Padding="0" StyleColorUncheckedBackground="#3777"/>
+                            <se:StswCheckBox IsChecked="{Binding IsArchival}" BorderThickness="0" CornerRadius="0" Padding="0" BackgroundUnchecked="#3777"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

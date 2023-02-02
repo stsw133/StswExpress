@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -19,209 +20,145 @@ public partial class StswNumericBox : StswNumericBoxBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
     }
-
-    /// BtnDown_Click
-    private void BtnDown_Click(object sender, RoutedEventArgs e)
-    {
-        Value -= Increment;
-        if (Value == null)
-        {
-            if (((double?)0).Between(Min, Max))
-                Value = 0;
-            else
-                Value = Math.Min(Math.Abs(Min ?? 0d), Math.Abs(Max ?? 0d));
-        }
-        else if (Min != null && Value < Min)
-            Value = (double)Min;
-    }
-
-    /// BtnUp_Click
-    private void BtnUp_Click(object sender, RoutedEventArgs e)
-    {
-        Value += Increment;
-        if (Value == null)
-        {
-            if (((double?)0).Between(Min, Max))
-                Value = 0;
-            else
-                Value = Math.Min(Math.Abs(Min ?? 0d), Math.Abs(Max ?? 0d));
-        }
-        else if (Max != null && Value > Max)
-            Value = (double)Max;
-    }
-
-    /// TextBox_LostFocus
-    private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-    {
-        /*
-        var chars = ((TextBox)sender).Text?.ToString()?.ToCharArray()?.Where(x => !char.IsLetter(x))?.ToList();
-        var val = string.Concat(chars);
-
-        if (val != null)
-        {
-            double.TryParse(val, out var res);
-            Value = res;
-        }
-        */
-        if (Min != null && Value < Min)
-            Value = (double)Min;
-        if (Max != null && Value > Max)
-            Value = (double)Max;
-    }
-
-    /// TextBox_KeyDown
-    private void TextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        try
-        {
-            if (e.Key == Key.Enter)
-                Value = Convert.ToDouble(((TextBox)sender).Text);
-        }
-        catch { }
-    }
 }
 
 public class StswNumericBoxBase : UserControl
 {
-    #region StyleColors
-    /// StyleColorDisabledBackground
-    public static readonly DependencyProperty StyleColorDisabledBackgroundProperty
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBackgroundProperty);
-        set => SetValue(StyleColorDisabledBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
-
-    /// StyleColorDisabledBorder
-    public static readonly DependencyProperty StyleColorDisabledBorderProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorDisabledBorder),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorDisabledBorder
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(StyleColorDisabledBorderProperty);
-        set => SetValue(StyleColorDisabledBorderProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
-
-    /// StyleColorMouseOverBackground
-    public static readonly DependencyProperty StyleColorMouseOverBackgroundProperty
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBackground),
+            nameof(ForegroundDisabled),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBackground
+    public Brush ForegroundDisabled
     {
-        get => (Brush)GetValue(StyleColorMouseOverBackgroundProperty);
-        set => SetValue(StyleColorMouseOverBackgroundProperty, value);
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// StyleColorMouseOverBorder
-    public static readonly DependencyProperty StyleColorMouseOverBorderProperty
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorMouseOverBorder),
+            nameof(BackgroundMouseOver),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorMouseOverBorder
+    public Brush BackgroundMouseOver
     {
-        get => (Brush)GetValue(StyleColorMouseOverBorderProperty);
-        set => SetValue(StyleColorMouseOverBorderProperty, value);
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
     }
-
-    /// StyleColorPressedBackground
-    public static readonly DependencyProperty StyleColorPressedBackgroundProperty
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBackground),
+            nameof(BorderBrushMouseOver),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBackground
+    public Brush BorderBrushMouseOver
     {
-        get => (Brush)GetValue(StyleColorPressedBackgroundProperty);
-        set => SetValue(StyleColorPressedBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
     }
 
-    /// StyleColorPressedBorder
-    public static readonly DependencyProperty StyleColorPressedBorderProperty
+    /// BackgroundFocused
+    public static readonly DependencyProperty BackgroundFocusedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPressedBorder),
+            nameof(BackgroundFocused),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPressedBorder
+    public Brush BackgroundFocused
     {
-        get => (Brush)GetValue(StyleColorPressedBorderProperty);
-        set => SetValue(StyleColorPressedBorderProperty, value);
+        get => (Brush)GetValue(BackgroundFocusedProperty);
+        set => SetValue(BackgroundFocusedProperty, value);
     }
-
-    /// StyleColorReadOnlyBackground
-    public static readonly DependencyProperty StyleColorReadOnlyBackgroundProperty
+    /// BorderBrushFocused
+    public static readonly DependencyProperty BorderBrushFocusedProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBackground),
+            nameof(BorderBrushFocused),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBackground
+    public Brush BorderBrushFocused
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBackgroundProperty);
-        set => SetValue(StyleColorReadOnlyBackgroundProperty, value);
+        get => (Brush)GetValue(BorderBrushFocusedProperty);
+        set => SetValue(BorderBrushFocusedProperty, value);
     }
 
-    /// StyleColorReadOnlyBorder
-    public static readonly DependencyProperty StyleColorReadOnlyBorderProperty
+    /// BackgroundReadOnly
+    public static readonly DependencyProperty BackgroundReadOnlyProperty
         = DependencyProperty.Register(
-            nameof(StyleColorReadOnlyBorder),
+            nameof(BackgroundReadOnly),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorReadOnlyBorder
+    public Brush BackgroundReadOnly
     {
-        get => (Brush)GetValue(StyleColorReadOnlyBorderProperty);
-        set => SetValue(StyleColorReadOnlyBorderProperty, value);
+        get => (Brush)GetValue(BackgroundReadOnlyProperty);
+        set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
-    /// StyleColorPlaceholder
-    public static readonly DependencyProperty StyleColorPlaceholderProperty
+    /// ForegroundPlaceholder
+    public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
-            nameof(StyleColorPlaceholder),
+            nameof(ForegroundPlaceholder),
             typeof(Brush),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush StyleColorPlaceholder
+    public Brush ForegroundPlaceholder
     {
-        get => (Brush)GetValue(StyleColorPlaceholderProperty);
-        set => SetValue(StyleColorPlaceholderProperty, value);
+        get => (Brush)GetValue(ForegroundPlaceholderProperty);
+        set => SetValue(ForegroundPlaceholderProperty, value);
     }
 
-    /// StyleThicknessSubBorder
-    public static readonly DependencyProperty StyleThicknessSubBorderProperty
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(StyleThicknessSubBorder),
+            nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswNumericBoxBase),
             new PropertyMetadata(default(Thickness))
         );
-    public Thickness StyleThicknessSubBorder
+    public Thickness SubBorderThickness
     {
-        get => (Thickness)GetValue(StyleThicknessSubBorderProperty);
-        set => SetValue(StyleThicknessSubBorderProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
 
@@ -329,11 +266,51 @@ public class StswNumericBoxBase : UserControl
             nameof(Value),
             typeof(double?),
             typeof(StswNumericBoxBase),
-            new PropertyMetadata(default(double?))
+            new FrameworkPropertyMetadata(default(double?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
+    }
+
+    /// ValueChanged
+    public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNumericBoxBase box && box.Value != null)
+        {
+            if (box.Min != null && box.Value < box.Min)
+                box.Value = (double)box.Min;
+            if (box.Max != null && box.Value > box.Max)
+                box.Value = (double)box.Max;
+        }
+    }
+
+    /// Btn_Click
+    private void Btn_Click(double increment)
+    {
+        Value += increment;
+        if (Value == null)
+        {
+            if (((double?)0).Between(Min, Max))
+                Value = 0;
+            else
+                Value = Math.Min(Math.Abs(Min ?? 0d), Math.Abs(Max ?? 0d));
+        }
+    }
+    private void BtnDown_Click(object sender, RoutedEventArgs e) => Btn_Click(-Increment);
+    private void BtnUp_Click(object sender, RoutedEventArgs e) => Btn_Click(Increment);
+
+    /// TextBox_KeyDown
+    private void TextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        try
+        {
+            if (e.Key == Key.Enter)
+                Value = Convert.ToDouble(((TextBox)sender).Text);
+        }
+        catch { }
     }
 }
