@@ -11,8 +11,5 @@
 // TODO - StswNavigation with special button to hide section names
 // TODO - StswNavigationButton should work with Expanders (something like sub buttons)
 // TODO - possibility to move TitleBar from StswWindow to StswNavigation
-// TODO - export List<T> to Excel (only CSV for start, need to implement attribute with Name, Format and Visibility)
 // TODO - ExtCollection with RowState functionality (want to know which instances were modified/added/deleted before changing them in database)
-// TODO - StswSecurity improvements (now only one const salt is used)
-// TODO - making StswColumnFilter looks better (margins for example)
-// TODO - finish StswComboBox style (for example background is not changing when mouse over or pressed)
+// TODO - export List<T> to Excel (only CSV for start, need to implement attribute with Name, Format and Visibility)

@@ -250,17 +250,11 @@ public partial class StswColumnFilter : StswColumnFilterBase
         FilterMode = (Modes)Enum.Parse(typeof(Modes), ((FrameworkElement)sender).Tag.ToString());
 
         var symbolButton = (ButtonBase)GetTemplateChild("BtnSymbol");
-        var symbolStackPanel = (StackPanel)symbolButton.Content;
-        var newSymbolStackPanel = (StackPanel)symbolButton.ContextMenu.Items.OfType<MenuItem>().ToList()[(int)FilterMode].Icon;
+        var symbolText = (OutlinedTextBlock)symbolButton.Content;
+        var newSymbolText = (OutlinedTextBlock)symbolButton.ContextMenu.Items.OfType<MenuItem>().ToList()[(int)FilterMode].Icon;
 
-        ((OutlinedTextBlock)symbolStackPanel.Children[0]).Fill = ((OutlinedTextBlock)newSymbolStackPanel.Children[0]).Fill;
-        ((OutlinedTextBlock)symbolStackPanel.Children[0]).Text = ((OutlinedTextBlock)newSymbolStackPanel.Children[0]).Text;
-
-        ((OutlinedTextBlock)symbolStackPanel.Children[1]).Fill = ((OutlinedTextBlock)newSymbolStackPanel.Children[1]).Fill;
-        ((OutlinedTextBlock)symbolStackPanel.Children[1]).Text = ((OutlinedTextBlock)newSymbolStackPanel.Children[1]).Text;
-
-        ((OutlinedTextBlock)symbolStackPanel.Children[2]).Fill = ((OutlinedTextBlock)newSymbolStackPanel.Children[2]).Fill;
-        ((OutlinedTextBlock)symbolStackPanel.Children[2]).Text = ((OutlinedTextBlock)newSymbolStackPanel.Children[2]).Text;
+        symbolText.Fill = newSymbolText.Fill;
+        symbolText.Text = newSymbolText.Text;
     }
 }
 
@@ -282,6 +276,20 @@ public class StswColumnFilterBase : UserControl
     }
     #endregion
 
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswColumnFilterBase),
+            new PropertyMetadata(default(CornerRadius))
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    
     /// DisplayMemberPath
     public static readonly DependencyProperty DisplayMemberPathProperty
         = DependencyProperty.Register(

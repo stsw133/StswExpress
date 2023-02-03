@@ -9,6 +9,9 @@ namespace StswExpress;
 
 public static class StswSecurity
 {
+    private static string? saltKey = null;
+    public static string SaltKey { set => saltKey = value; }
+
     private static string? hashKey = null;
     public static string HashKey { set => hashKey = value; }
 
@@ -19,18 +22,22 @@ public static class StswSecurity
     public static byte[] SecureStringToBytea(SecureString text) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, text).Password);
 
     /// Generate salt
-    private static byte[] GenerateSalt()
+    private static byte[] GenerateSalt(bool random)
     {
-        using var generator = RandomNumberGenerator.Create();
-        var salt = new byte[16];
-        generator.GetBytes(salt);
-        return salt;
+        if (random)
+        {
+            using var generator = RandomNumberGenerator.Create();
+            var salt = new byte[16];
+            generator.GetBytes(salt);
+            return salt;
+        }
+        else return Encoding.UTF8.GetBytes(saltKey);
     }
 
     /// Generate hash
     public static byte[] GenerateHash(SecureString password)
     {
-        using var deriveBytes = new Rfc2898DeriveBytes(SecureStringToBytea(password), new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 }, 1000);
+        using var deriveBytes = new Rfc2898DeriveBytes(SecureStringToBytea(password), GenerateSalt(false), 1000);
         return deriveBytes.GetBytes(16);
     }
 
@@ -43,7 +50,7 @@ public static class StswSecurity
         var clearBytes = Encoding.Unicode.GetBytes(text);
         using (var encryptor = Aes.Create())
         {
-            var pdb = new Rfc2898DeriveBytes(hashKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            var pdb = new Rfc2898DeriveBytes(hashKey, GenerateSalt(false));
             encryptor.Key = pdb.GetBytes(32);
             encryptor.IV = pdb.GetBytes(16);
             using (var ms = new MemoryStream())
@@ -69,7 +76,7 @@ public static class StswSecurity
         var cipherBytes = Convert.FromBase64String(text);
         using (var encryptor = Aes.Create())
         {
-            var pdb = new Rfc2898DeriveBytes(hashKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            var pdb = new Rfc2898DeriveBytes(hashKey, GenerateSalt(false));
             encryptor.Key = pdb.GetBytes(32);
             encryptor.IV = pdb.GetBytes(16);
             using (var ms = new MemoryStream())
