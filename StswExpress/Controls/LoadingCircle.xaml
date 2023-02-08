@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="StswExpress.LoadingCircle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:se="clr-namespace:StswExpress" 
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50">
+    <UserControl.Template>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Viewbox>
+                <Viewbox.Height>
+                    <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
+                        <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                        <Binding Path="Scale" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                    </MultiBinding>
+                </Viewbox.Height>
+                <Viewbox.Width>
+                    <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
+                        <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                        <Binding Path="Scale" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                    </MultiBinding>
+                </Viewbox.Width>
+                <Ellipse Width="12" Height="12" StrokeDashArray="24" Stroke="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0.5">
+                    <Ellipse.RenderTransform>
+                        <RotateTransform x:Name="PART_Rotation" Angle="0" />
+                    </Ellipse.RenderTransform>
+                    <Ellipse.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetName="PART_Rotation"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="0" To="360"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Ellipse.Triggers>
+                </Ellipse>
+            </Viewbox>
+        </ControlTemplate>
+    </UserControl.Template>
+</UserControl>

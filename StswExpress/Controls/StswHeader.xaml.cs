@@ -84,6 +84,20 @@ public partial class StswHeader : Label
         set => SetValue(IconSourceProperty, value);
     }
 
+    /// IsBusy
+    public static readonly DependencyProperty IsBusyProperty
+        = DependencyProperty.Register(
+            nameof(IsBusy),
+            typeof(bool),
+            typeof(StswHeader),
+            new PropertyMetadata(default(bool))
+        );
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
+
     /// SubIconColor
     public static readonly DependencyProperty SubIconColorProperty
         = DependencyProperty.Register(

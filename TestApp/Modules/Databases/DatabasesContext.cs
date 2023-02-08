@@ -42,7 +42,7 @@ public class DatabasesContext : StswContext
     private void Import()
     {
         CountActions++;
-        CurrentDB = StswDB.ImportDatabases().FirstOrDefault() ?? new();
+        StswFn.AppDB = CurrentDB = StswDB.ImportDatabases().FirstOrDefault() ?? new();
         CountActions--;
     }
 

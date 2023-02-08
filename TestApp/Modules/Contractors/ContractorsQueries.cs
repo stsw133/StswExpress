@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace TestApp.Modules.Contractors;
@@ -19,11 +20,12 @@ internal static class ContractorsQueries
         /*
         try
         {
-            using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
             {
                 sqlConn.Open();
 
-                var query = $@"select distinct [Type]
+                var query = $@"
+                    select distinct [Type]
                     from dbo.Users with(nolock)
                     order by 1";
                 using (var sqlDA = new SqlDataAdapter(query, sqlConn))
@@ -43,15 +45,27 @@ internal static class ContractorsQueries
     /// GetContractors
     internal static ExtCollection<ContractorModel> GetContractors(string filter, List<(string name, object val)> parameters)
     {
-        var result = new DataTable();
         /*
+        var result = new DataTable();
+        
         try
         {
-            using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
             {
                 sqlConn.Open();
 
-                var query = $@"select a.ID, a.Type, a.Icon, a.Name, a.IsEnabled, a.CreateDT
+                var query = $@"
+                    select
+                        a.ID,
+                        a.Type,
+                        a.Icon,
+                        a.Name,
+                        a.Country,
+                        a.PostCode,
+                        a.City,
+                        a.Street,
+                        a.IsEnabled,
+                        a.CreateDT
                     from dbo.Users with(nolock)
                     where {filter}
                     order by a.Name";
@@ -65,10 +79,19 @@ internal static class ContractorsQueries
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(GetListOfUsers)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({nameof(GetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        */
+        
         return result.AsList<ContractorModel>().ToExtCollection();
+        */
+        var result = new ExtCollection<ContractorModel>();
+        for (int i = 1; i <= 1000; i++)
+            result.Add(new ContractorModel()
+            {
+                ID = i,
+                CreateDT = DateTime.Now
+            });
+        return result;
     }
 
     /// SetContractors
@@ -86,7 +109,8 @@ internal static class ContractorsQueries
                 {
                     if (item.ItemState == DataRowState.Added)
                     {
-                        var query = $@"insert into dbo.Users (Type, Icon, Name, IsEnabled, CreateDT)
+                        var query = $@"
+                            insert into dbo.Users (Type, Icon, Name, IsEnabled, CreateDT)
                             values (@Type, @Icon, @Name, @IsEnabled, @CreateDT)";
                         using (var sqlCmd = new SqlCommand(query, sqlConn))
                         {
@@ -100,7 +124,8 @@ internal static class ContractorsQueries
                     }
                     else if (item.ItemState == DataRowState.Modified)
                     {
-                        var query = $@"update dbo.Users
+                        var query = $@"
+                            update dbo.Users
                             set Type=@Type, Icon=@Icon, Name=@Name, IsEnabled=@IsEnabled, CreateDT=@CreateDT)
                             where ID=@ID";
                         using (var sqlCmd = new SqlCommand(query, sqlConn))
@@ -116,7 +141,8 @@ internal static class ContractorsQueries
                     }
                     else if (item.ItemState == DataRowState.Deleted)
                     {
-                        var query = $@"delete from dbo.Users
+                        var query = $@"
+                            delete from dbo.Users
                             where ID=@ID";
                         using (var sqlCmd = new SqlCommand(query, sqlConn))
                         {
@@ -130,7 +156,7 @@ internal static class ContractorsQueries
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(SetListOfUsers)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({nameof(SetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         */
         return result;

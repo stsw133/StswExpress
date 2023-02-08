@@ -52,7 +52,7 @@
                                                    Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePickerBase}}}"
                                                    Margin="{TemplateBinding Padding}"
                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                   Visibility="{Binding SelectedDate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePickerBase}}, Converter={se:conv_Compare}, ConverterParameter={x:Null}}"/>
+                                                   Visibility="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}"/>
                                         <ScrollViewer x:Name="PART_ContentHost" Margin="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Grid>
                                 </Border>

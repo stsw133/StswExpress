@@ -22,23 +22,17 @@
                     </Style>
                 </UniformGrid.Resources>
                 <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" Command="{Binding ClearCommand}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Broom}" Text="Clear table"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Broom}" Text="Clear table" IsBusy="{Binding IsBusy[Clear]}"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" Command="{Binding RefreshCommand}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Refresh}" Text="Refresh data"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Refresh}" Text="Refresh data" IsBusy="{Binding IsBusy[Refresh]}"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" Command="{Binding SaveCommand}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.ContentSave}" Text="Save changes"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.ContentSave}" Text="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
                 </se:StswButton>
-                <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" IsEnabled="False">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.MicrosoftExcel}" Text="Export to Excel"/>
+                <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Positive}" Command="{Binding ExportToCsvCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.MicrosoftExcel}" Text="Export to CSV" IsBusy="{Binding IsBusy[ExportToCsv]}"/>
                 </se:StswButton>
-                <se:StswCheckButton Margin="3" Background="{x:Static se:StswIconColors.Designer}" IsChecked="{Binding ShowFilters}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Filter}" Text="Show filters"/>
-                </se:StswCheckButton>
-                <se:StswCheckButton Margin="3" Background="{x:Static se:StswIconColors.Designer}" IsChecked="{Binding ShowRowDetails}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.DotsVertical}" Text="Show row details"/>
-                </se:StswCheckButton>
             </UniformGrid>
         </ScrollViewer>
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
@@ -47,16 +41,9 @@
             <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
         </TextBlock>
         <!-- data grid -->
-        <se:StswDataGrid ItemsSource="{Binding ListContractors}" Margin="3" BorderBrush="#7777" HeaderBackground="#349D" HeaderBorderBrush="#7777">
+        <se:StswDataGrid ItemsSource="{Binding ListContractors}" Margin="3" BorderBrush="#7777" BackgroundHeader="#349D" BorderBrushHeader="#7777">
             <DataGrid.Resources>
                 <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
-                <Style TargetType="{x:Type se:StswColumnFilter}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Proxy.ShowFilters, Source={StaticResource proxy}}" Value="False">
-                            <Setter Property="FilterVisibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
 
@@ -98,15 +85,47 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
-                <!-- IsEnabled -->
+                <!-- Country -->
+                <DataGridTextColumn Binding="{Binding Country}">
+                    <DataGridTextColumn.Header>
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Country], Mode=TwoWay, Source={StaticResource proxy}}"
+                                             Header="Country" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Country"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <!-- PostCode -->
+                <DataGridTextColumn Binding="{Binding PostCode}">
+                    <DataGridTextColumn.Header>
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[PostCode], Mode=TwoWay, Source={StaticResource proxy}}"
+                                             Header="Post code" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.PostCode"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <!-- City -->
+                <DataGridTextColumn Binding="{Binding City}">
+                    <DataGridTextColumn.Header>
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[City], Mode=TwoWay, Source={StaticResource proxy}}"
+                                             Header="City" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.City"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <!-- Street -->
+                <DataGridTextColumn Binding="{Binding Street}">
+                    <DataGridTextColumn.Header>
+                        <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[Street], Mode=TwoWay, Source={StaticResource proxy}}"
+                                             Header="Street" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Street"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <!-- IsArchival -->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
                         <se:StswColumnFilter Data="{Binding Proxy.ColumnFilters[IsArchival], Mode=TwoWay, Source={StaticResource proxy}}"
-                                             Header="Enabled" FilterType="Check" FilterSqlColumn="a.IsEnabled"/>
+                                             Header="Is archival" FilterType="Check" FilterSqlColumn="a.IsArchival" IsFilterNullSensitive="True"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswCheckBox IsChecked="{Binding IsArchival}" BorderThickness="0" CornerRadius="0" Padding="0" BackgroundUnchecked="#3777"/>
+                            <se:StswCheckBox IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" CornerRadius="0" Padding="0" BackgroundUnchecked="#3777"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -122,16 +141,27 @@
 
             </DataGrid.Columns>
 
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock Text="RowDetails TEST"/>
+                    </DockPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Proxy.ShowRowDetails, Source={StaticResource proxy}}" Value="False">
+                        <DataTrigger Binding="{Binding ShowDetails}" Value="False">
                             <Setter Property="DetailsVisibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ShowDetails}" Value="True">
+                            <Setter Property="DetailsVisibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
-            
+            <!--
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Style.Triggers>
@@ -141,7 +171,7 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-            
+            -->
         </se:StswDataGrid>
     </DockPanel>
 </Page>

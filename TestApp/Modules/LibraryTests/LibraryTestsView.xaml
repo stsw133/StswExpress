@@ -15,7 +15,7 @@
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswTextBox Margin="5" Text="TEST" IsEnabled="False"/>
                 <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
-                <se:StswTextBox Margin="5" Text="TEST" Placeholder="cokolwiek"/>
+                <se:StswTextBox Margin="5" Text="TEST"/>
             </UniformGrid>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswNumericBox Margin="5" Value="133" IsEnabled="False"/>
@@ -78,12 +78,6 @@
                     </se:StswNavigation.Buttons>
                 </se:StswNavigation>
             </StackPanel>
-            <!--
-            <se:ClippingBorder BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}" Margin="5">
-                <se:StswColumnFilter DockPanel.Dock="Top" Padding="5" BorderBrush="Gray" BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
-                                 Header="TEST" FilterType="Date" FilterMode="Between" FilterSqlColumn="m.ID" Value1="test1"/>
-            </se:ClippingBorder>
-            -->
         </DockPanel>
     </ScrollViewer>
 </Page>

@@ -22,240 +22,6 @@ public partial class StswColumnFilter : StswColumnFilterBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnFilter), new FrameworkPropertyMetadata(typeof(StswColumnFilter)));
     }
-
-    /// OnApplyTemplate
-    public override void OnApplyTemplate()
-    {
-        var btnSymbol = (ButtonBase)GetTemplateChild("BtnSymbol");
-        var ungFilters = (UniformGrid)GetTemplateChild("UngFilters");
-
-        /// bindings for Value1 and Value2
-        var btnSymbolItems = btnSymbol.ContextMenu.Items.OfType<MenuItem>().ToList();
-        var binding1 = new Binding()
-        {
-            Path = new PropertyPath(nameof(Value1)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
-            TargetNullValue = string.Empty,
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        var binding2 = new Binding()
-        {
-            Path = new PropertyPath(nameof(Value2)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
-            TargetNullValue = string.Empty,
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        var subborderThickness = new Binding()
-        {
-            Path = new PropertyPath(nameof(SubBorderThickness)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        /*
-        var bindingMinWidth = new Binding()
-        {
-            Path = new PropertyPath(nameof(FilterMinWidth)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
-            TargetNullValue = 0d,
-            Mode = BindingMode.TwoWay,
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        */
-        var inputbinding = new KeyBinding()
-        {
-            Command = StswGlobalCommands.Refresh,
-            Key = Key.Return
-        };
-
-        /// create StswCheckBox when Check
-        if (FilterType == Types.Check)
-        {
-            var cont1 = new StswCheckBox()
-            {
-                BorderThickness = new Thickness(0),
-                Content = null,
-                CornerRadius = new CornerRadius(0),
-                IsThreeState = true
-            };
-            cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
-            ungFilters.Children.Add(cont1);
-        }
-        /// create StswDatePicker when Date
-        else if (FilterType == Types.Date)
-        {
-            var cont1 = new StswDatePicker()
-            {
-                BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
-            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
-            ungFilters.Children.Add(cont1);
-
-            var cont2 = new StswDatePicker()
-            {
-                //BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
-            cont2.InputBindings.Add(inputbinding);
-            cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
-            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
-            ungFilters.Children.Add(cont2);
-        }
-        /// create StswComboBox when List
-        else if (FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
-        {
-            binding1.TargetNullValue = null;
-            binding2.TargetNullValue = null;
-
-            var cont1 = new StswComboBox()
-            {
-                BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                DisplayMemberPath = DisplayMemberPath,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                ItemsSource = /*ItemsHeaders?.ToString()?.Split(';')?.ToList() ??*/ ItemsSource,
-                SelectionMode = SelectionMode.Multiple,
-                SelectedValuePath = SelectedValuePath
-            };
-            cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
-            cont1.SetBinding(StswComboBox.SubBorderThicknessProperty, subborderThickness);
-            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
-            ungFilters.Children.Add(cont1);
-        }
-        /// create StswNumericBox when Number
-        else if (FilterType == Types.Number)
-        {
-            var cont1 = new StswNumericBox()
-            {
-                BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
-            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
-            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
-            ungFilters.Children.Add(cont1);
-
-            var cont2 = new StswNumericBox()
-            {
-                //BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
-            cont2.InputBindings.Add(inputbinding);
-            cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
-            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
-            //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
-            ungFilters.Children.Add(cont2);
-        }
-        /// create StswTextBox when Text
-        else if (FilterType == Types.Text)
-        {
-            var cont1 = new StswTextBox()
-            {
-                BorderThickness = new Thickness(0),
-                CornerRadius = new CornerRadius(0),
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-            cont1.InputBindings.Add(inputbinding);
-            cont1.SetBinding(StswTextBox.TextProperty, binding1);
-            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
-            ungFilters.Children.Add(cont1);
-        }
-
-        /// visibility for FilterMode items
-        btnSymbolItems[(int)Modes.Equal].Visibility = FilterType.In(Types.Check, Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.NotEqual].Visibility = FilterType.In(Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Greater].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.GreaterEqual].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Less].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.LessEqual].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Between].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Contains].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.NotContains].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Like].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.NotLike].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.StartsWith].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.EndsWith].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.In].Visibility = FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.NotIn].Visibility = FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.Null].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
-        btnSymbolItems[(int)Modes.NotNull].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
-
-        /// shortcuts for FilterMode items
-        var keynumb = 1;
-        foreach (var item in btnSymbolItems.Where(x => x.Visibility == Visibility.Visible))
-            if (!char.IsNumber(((string)item.Header)[2]))
-                item.Header = "_" + keynumb++ + " " + item.Header.ToString();
-
-        /// default FilterMode
-        FilterMode ??= FilterType switch
-        {
-            Types.Check => Modes.Equal,
-            Types.Date => Modes.Equal,
-            Types.ListOfNumbers => Modes.In,
-            Types.ListOfTexts => Modes.In,
-            Types.Number => Modes.Equal,
-            Types.Text => Modes.Contains,
-            _ => null
-        };
-
-        /// hide box filters depending on FilterMode
-        FilterModeChanged(this, new DependencyPropertyChangedEventArgs());
-
-        /// set default values
-        DefaultFilterMode = FilterMode;
-        DefaultValue1 = FilterType.ToString().StartsWith("List") && Value1 == null ? new List<object>() : Value1;
-        DefaultValue2 = FilterType.ToString().StartsWith("List") && Value2 == null ? new List<object>() : Value2;
-
-        ValueChanged(this, new DependencyPropertyChangedEventArgs());
-        MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], null);
-
-        base.OnApplyTemplate();
-        UpdateLayout();
-    }
-
-    /// Refresh
-    private void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        try
-        {
-            StswGlobalCommands.Refresh.Execute(null, Parent as UIElement);
-        }
-        catch { }
-    }
-
-    /// Filter mode click
-    private void BtnSymbol_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement c)
-            c.ContextMenu.IsOpen = true;
-    }
-
-    /// Filter mode change
-    private void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
-    {
-        FilterMode = (Modes)Enum.Parse(typeof(Modes), ((FrameworkElement)sender).Tag.ToString());
-
-        var symbolButton = (ButtonBase)GetTemplateChild("BtnSymbol");
-        var symbolText = (OutlinedTextBlock)symbolButton.Content;
-        var newSymbolText = (OutlinedTextBlock)symbolButton.ContextMenu.Items.OfType<MenuItem>().ToList()[(int)FilterMode].Icon;
-
-        symbolText.Fill = newSymbolText.Fill;
-        symbolText.Text = newSymbolText.Text;
-    }
 }
 
 public class StswColumnFilterBase : UserControl
@@ -350,7 +116,7 @@ public class StswColumnFilterBase : UserControl
             if (panel?.Children?.Count >= 2)
                 panel.Children[1].Visibility = filter.FilterMode == Modes.Between ? Visibility.Visible : Visibility.Collapsed;
             if (panel?.Children?.Count >= 1)
-                panel.Children[0].Visibility = !filter.FilterMode.In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Collapsed;
+                panel.Children[0].Visibility = !filter.FilterMode.In(Modes.Null, Modes.NotNull) ? Visibility.Visible : Visibility.Hidden;
         }
     }
 
@@ -697,8 +463,245 @@ public class StswColumnFilterBase : UserControl
         else
             Value2 = DefaultValue2;
 
+        var btnSymbol = (ButtonBase)GetTemplateChild("BtnSymbol");
+        var btnSymbolItems = btnSymbol.ContextMenu.Items.OfType<MenuItem>().ToList();
+        MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], null);
         SetData();
         UpdateLayout();
+    }
+
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        var btnSymbol = (ButtonBase)GetTemplateChild("BtnSymbol");
+        var ungFilters = (UniformGrid)GetTemplateChild("UngFilters");
+
+        /// bindings for Value1 and Value2
+        var btnSymbolItems = btnSymbol.ContextMenu.Items.OfType<MenuItem>().ToList();
+        var binding1 = new Binding()
+        {
+            Path = new PropertyPath(nameof(Value1)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            TargetNullValue = string.Empty,
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        var binding2 = new Binding()
+        {
+            Path = new PropertyPath(nameof(Value2)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            TargetNullValue = string.Empty,
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        var subborderThickness = new Binding()
+        {
+            Path = new PropertyPath(nameof(SubBorderThickness)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        /*
+        var bindingMinWidth = new Binding()
+        {
+            Path = new PropertyPath(nameof(FilterMinWidth)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            TargetNullValue = 0d,
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
+        */
+        var inputbinding = new KeyBinding()
+        {
+            Command = StswGlobalCommands.Refresh,
+            Key = Key.Return
+        };
+
+        /// create StswCheckBox when Check
+        if (FilterType == Types.Check)
+        {
+            var cont1 = new StswCheckBox()
+            {
+                BorderThickness = new Thickness(0),
+                Content = null,
+                CornerRadius = new CornerRadius(0),
+                IsThreeState = true
+            };
+            cont1.InputBindings.Add(inputbinding);
+            cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
+            ungFilters.Children.Add(cont1);
+        }
+        /// create StswDatePicker when Date
+        else if (FilterType == Types.Date)
+        {
+            var cont1 = new StswDatePicker()
+            {
+                BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            cont1.InputBindings.Add(inputbinding);
+            cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
+            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
+            ungFilters.Children.Add(cont1);
+
+            var cont2 = new StswDatePicker()
+            {
+                //BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
+            cont2.InputBindings.Add(inputbinding);
+            cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
+            cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
+            ungFilters.Children.Add(cont2);
+        }
+        /// create StswComboBox when List
+        else if (FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
+        {
+            binding1.TargetNullValue = null;
+            binding2.TargetNullValue = null;
+
+            var cont1 = new StswComboBox()
+            {
+                BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                DisplayMemberPath = DisplayMemberPath,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                ItemsSource = /*ItemsHeaders?.ToString()?.Split(';')?.ToList() ??*/ ItemsSource,
+                SelectionMode = SelectionMode.Multiple,
+                SelectedValuePath = SelectedValuePath
+            };
+            cont1.InputBindings.Add(inputbinding);
+            cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
+            cont1.SetBinding(StswComboBox.SubBorderThicknessProperty, subborderThickness);
+            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
+            ungFilters.Children.Add(cont1);
+        }
+        /// create StswNumericBox when Number
+        else if (FilterType == Types.Number)
+        {
+            var cont1 = new StswNumericBox()
+            {
+                BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            cont1.InputBindings.Add(inputbinding);
+            cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
+            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
+            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
+            ungFilters.Children.Add(cont1);
+
+            var cont2 = new StswNumericBox()
+            {
+                //BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
+            cont2.InputBindings.Add(inputbinding);
+            cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
+            cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
+            //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
+            ungFilters.Children.Add(cont2);
+        }
+        /// create StswTextBox when Text
+        else if (FilterType == Types.Text)
+        {
+            var cont1 = new StswTextBox()
+            {
+                BorderThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+            cont1.InputBindings.Add(inputbinding);
+            cont1.SetBinding(StswTextBox.TextProperty, binding1);
+            //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
+            ungFilters.Children.Add(cont1);
+        }
+
+        /// visibility for FilterMode items
+        btnSymbolItems[(int)Modes.Equal].Visibility = FilterType.In(Types.Check, Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.NotEqual].Visibility = FilterType.In(Types.Date, Types.Number, Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Greater].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.GreaterEqual].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Less].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.LessEqual].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Between].Visibility = FilterType.In(Types.Date, Types.Number) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Contains].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.NotContains].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Like].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.NotLike].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.StartsWith].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.EndsWith].Visibility = FilterType.In(Types.Text) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.In].Visibility = FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.NotIn].Visibility = FilterType.In(Types.ListOfNumbers, Types.ListOfTexts) ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.Null].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
+        btnSymbolItems[(int)Modes.NotNull].Visibility = IsFilterNullSensitive ? Visibility.Visible : Visibility.Collapsed;
+
+        /// shortcuts for FilterMode items
+        var keynumb = 1;
+        foreach (var item in btnSymbolItems.Where(x => x.Visibility == Visibility.Visible))
+            if (!char.IsNumber(((string)item.Header)[2]))
+                item.Header = "_" + keynumb++ + " " + item.Header.ToString();
+
+        /// default FilterMode
+        FilterMode ??= FilterType switch
+        {
+            Types.Check => Modes.Equal,
+            Types.Date => Modes.Equal,
+            Types.ListOfNumbers => Modes.In,
+            Types.ListOfTexts => Modes.In,
+            Types.Number => Modes.Equal,
+            Types.Text => Modes.Contains,
+            _ => null
+        };
+
+        /// hide box filters depending on FilterMode
+        FilterModeChanged(this, new DependencyPropertyChangedEventArgs());
+
+        /// set default values
+        DefaultFilterMode = FilterMode;
+        DefaultValue1 = FilterType.ToString().StartsWith("List") && Value1 == null ? new List<object>() : Value1;
+        DefaultValue2 = FilterType.ToString().StartsWith("List") && Value2 == null ? new List<object>() : Value2;
+
+        ValueChanged(this, new DependencyPropertyChangedEventArgs());
+        MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], null);
+
+        base.OnApplyTemplate();
+        UpdateLayout();
+    }
+
+    /// Refresh
+    protected void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        try
+        {
+            StswGlobalCommands.Refresh.Execute(null, Parent as UIElement);
+        }
+        catch { }
+    }
+
+    /// Filter mode click
+    protected void BtnSymbol_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement c)
+            c.ContextMenu.IsOpen = true;
+    }
+
+    /// Filter mode change
+    protected void MnuItmFilterMode_Click(object sender, RoutedEventArgs e)
+    {
+        FilterMode = (Modes)Enum.Parse(typeof(Modes), ((FrameworkElement)sender).Tag.ToString());
+
+        var symbolButton = (ButtonBase)GetTemplateChild("BtnSymbol");
+        var symbolText = (OutlinedTextBlock)symbolButton.Content;
+        var newSymbolText = (OutlinedTextBlock)symbolButton.ContextMenu.Items.OfType<MenuItem>().ToList()[(int)FilterMode].Icon;
+
+        symbolText.Fill = newSymbolText.Fill;
+        symbolText.Text = newSymbolText.Text;
     }
 }
 

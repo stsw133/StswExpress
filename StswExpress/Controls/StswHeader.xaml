@@ -15,7 +15,8 @@
                            Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType=Label}}"
                            SubSource="{Binding SubIconSource, RelativeSource={RelativeSource AncestorType=Label}}"
                            HorizontalIconAlignment="{Binding HorizontalIconAlignment, RelativeSource={RelativeSource AncestorType=Label}}"
-                           VerticalIconAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=Label}}">
+                           VerticalIconAlignment="{Binding VerticalIconAlignment, RelativeSource={RelativeSource AncestorType=Label}}"
+                           Visibility="{Binding IsBusy, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_Bool}, ConverterParameter=!}">
             <se:StswDoubleIcon.Margin>
                 <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">
                     <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
@@ -38,6 +39,17 @@
                 </Style>
             </se:StswDoubleIcon.Style>
         </se:StswDoubleIcon>
+        <!-- when IsBusy -->
+        <se:LoadingCircle Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType=Label}}"
+                          Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=Label}}"
+                          Visibility="{Binding IsBusy, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_Bool}}">
+            <se:LoadingCircle.Margin>
+                <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*0.1*">
+                    <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
+                    <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType=Label}"/>
+                </MultiBinding>
+            </se:LoadingCircle.Margin>
+        </se:LoadingCircle>
         <!-- text -->
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0.2}"
                     Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_NotNull}}">

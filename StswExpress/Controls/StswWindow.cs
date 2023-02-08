@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
@@ -17,6 +18,27 @@ public class StswWindow : Window
     /// Constructors
     public StswWindow() => SetValue(CustomControlsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
     static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
+
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+              nameof(CornerRadius),
+              typeof(CornerRadius),
+              typeof(StswWindow),
+              new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+          );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static void CornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswWindow window && !window.IsLoaded)
+            window.AllowsTransparency = window.CornerRadius.TopLeft != 0;
+    }
 
     /// CustomControls
     public static readonly DependencyProperty CustomControlsProperty
@@ -248,7 +270,7 @@ public class StswWindow : Window
     #endregion
 
     #region Hide default context menu and show custom
-    private FrameworkElement MenuItems;
+    private FrameworkElement TitleBar;
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         IntPtr windowhandle = new WindowInteropHelper(this).Handle;
@@ -263,7 +285,7 @@ public class StswWindow : Window
     {
         if (((msg == WM_SYSTEMMENU) && (wParam.ToInt32() == WP_SYSTEMMENU)) || msg == 165)
         {
-            StswFn.OpenContextMenu(MenuItems);
+            StswFn.OpenContextMenu(TitleBar);
             handled = true;
         }
 
@@ -283,10 +305,11 @@ public class StswWindow : Window
         /// closeButton
         if (GetTemplateChild("closeButton") is Button closeButton)
             closeButton.Click += CloseClick;
-        
-        var menuItems = (Grid)GetTemplateChild("menuItems");
+
+        TitleBar = (FrameworkElement)GetTemplateChild("titleBar");
+
         /// interfaceMenuItem
-        if (menuItems.ContextMenu.Items[0] is MenuItem interfaceMenuItem)
+        if (TitleBar.ContextMenu.Items[0] is MenuItem interfaceMenuItem)
         {
             /// isizeMenuItem
             if (interfaceMenuItem.Items[0] is MenuItem isizeMenuItem)
@@ -303,23 +326,20 @@ public class StswWindow : Window
             }
         }
         /// centerMenuItem
-        if (menuItems.ContextMenu.Items[2] is MenuItem centerMenuItem)
+        if (TitleBar.ContextMenu.Items[2] is MenuItem centerMenuItem)
             centerMenuItem.Click += CenterClick;
         /// defaultMenuItem
-        if (menuItems.ContextMenu.Items[3] is MenuItem defaultMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (TitleBar.ContextMenu.Items[3] is MenuItem defaultMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             defaultMenuItem.Click += DefaultClick;
         /// minimizeMenuItem
-        if (menuItems.ContextMenu.Items[4] is MenuItem minimizeMenuItem && ResizeMode != ResizeMode.NoResize)
+        if (TitleBar.ContextMenu.Items[4] is MenuItem minimizeMenuItem && ResizeMode != ResizeMode.NoResize)
             minimizeMenuItem.Click += MinimizeClick;
         /// restoreMenuItem
-        if (menuItems.ContextMenu.Items[5] is MenuItem restoreMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (TitleBar.ContextMenu.Items[5] is MenuItem restoreMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
             restoreMenuItem.Click += RestoreClick;
         /// closeMenuItem
-        if (menuItems.ContextMenu.Items[7] is MenuItem closeMenuItem)
+        if (TitleBar.ContextMenu.Items[7] is MenuItem closeMenuItem)
             closeMenuItem.Click += CloseClick;
-        
-        /// menuItems
-        MenuItems = (FrameworkElement)GetTemplateChild("menuItems");
 
         /// Chrome change
         MoveRectangle = (Control)GetTemplateChild("moveRectangle");
@@ -340,7 +360,7 @@ public class StswWindow : Window
             CornerRadius = chrome.CornerRadius,
             CaptionHeight = MoveRectangle.ActualHeight - (WindowState == WindowState.Maximized ? 7 : 0),
             GlassFrameThickness = chrome.GlassFrameThickness,
-            ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 10),
+            ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5),
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
     }

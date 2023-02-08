@@ -39,6 +39,7 @@
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                     Padding="{TemplateBinding Padding}"
+                                    Placeholder="{TemplateBinding Placeholder}"
                                     Text="{Binding Value, TargetNullValue='', RelativeSource={RelativeSource AncestorType={x:Type se:StswNumericBoxBase}}}"
                                     KeyDown="TextBox_KeyDown"/>
                 </DockPanel>

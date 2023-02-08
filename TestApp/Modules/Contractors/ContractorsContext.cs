@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,19 +15,12 @@ public class ContractorsContext : StswContext
         set => SetProperty(ref columnFilters, value, () => ColumnFilters);
     }
 
-    /// ShowFilters
-    private bool showFilters = true;
-    public bool ShowFilters
+    /// IsBusy
+    private ExtDictionary<string, bool> isBusy = new();
+    public ExtDictionary<string, bool> IsBusy
     {
-        get => showFilters;
-        set => SetProperty(ref showFilters, value, () => ShowFilters);
-    }
-    /// ShowRowDetails
-    private bool showRowDetails = true;
-    public bool ShowRowDetails
-    {
-        get => showRowDetails;
-        set => SetProperty(ref showRowDetails, value, () => ShowRowDetails);
+        get => isBusy;
+        set => SetProperty(ref isBusy, value, () => IsBusy);
     }
 
     /// ComboLists
@@ -58,44 +52,79 @@ public class ContractorsContext : StswContext
     public StswRelayCommand ClearCommand { get; set; }
     public StswRelayCommand RefreshCommand { get; set; }
     public StswRelayCommand SaveCommand { get; set; }
+    public StswRelayCommand ExportToCsvCommand { get; set; }
 
     public ContractorsContext()
     {
         ClearCommand = new StswRelayCommand(o => Clear(), o => true);
         RefreshCommand = new StswRelayCommand(o => Refresh(), o => true);
         SaveCommand = new StswRelayCommand(o => Save(), o => true);
+        ExportToCsvCommand = new StswRelayCommand(o => ExportToCsv(), o => true);
     }
     
     /// Clear
     private async void Clear()
     {
-        ColumnFilters.ClearColumnFilters();
+        if (IsBusy[nameof(Clear)]) return;
+        IsBusy[nameof(Clear)] = true;
+        CountActions++;
+
         await Task.Run(() =>
         {
-            CountActions++;
+            Thread.Sleep(100);
             ListContractors = new();
-            CountActions--;
         });
+
+        CountActions--;
+        IsBusy[nameof(Clear)] = false;
     }
 
     /// Refresh
     private async void Refresh()
     {
+        if (IsBusy[nameof(Refresh)]) return;
+        IsBusy[nameof(Refresh)] = true;
+        CountActions++;
+
         ColumnFilters.GetColumnFilters(out var filter, out var parameters);
         await Task.Run(() =>
         {
-            CountActions++;
+            Thread.Sleep(100);
             ListContractors = ContractorsQueries.GetContractors(filter, parameters);
-            CountActions--;
         });
+
+        CountActions--;
+        IsBusy[nameof(Refresh)] = false;
     }
 
     /// Save
     private void Save()
     {
+        if (IsBusy[nameof(Save)]) return;
+        IsBusy[nameof(Save)] = true;
         CountActions++;
+
         if (ContractorsQueries.SetContractors(ListContractors))
             MessageBox.Show("Data saved successfully.");
+
         CountActions--;
+        IsBusy[nameof(Save)] = false;
+    }
+
+    /// ExportToCsv
+    private async void ExportToCsv()
+    {
+        if (IsBusy[nameof(ExportToCsv)]) return;
+        IsBusy[nameof(ExportToCsv)] = true;
+        CountActions++;
+
+        await Task.Run(() =>
+        {
+            Thread.Sleep(100);
+            ListContractors.ExportToCsv(null, true, "\t");
+        });
+
+        CountActions--;
+        IsBusy[nameof(ExportToCsv)] = false;
     }
 }
