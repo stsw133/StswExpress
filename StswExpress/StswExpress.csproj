@@ -25,9 +25,6 @@
     <Compile Update="Controls\StswButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\NumericDescription (to change).xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -60,10 +57,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\StswButton.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\NumericDescription (to change).xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

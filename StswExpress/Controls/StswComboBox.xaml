@@ -36,7 +36,7 @@
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
                                            Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                    <Border x:Name="subborder"
+                                    <Border x:Name="PART_SubBorder"
                                             DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
@@ -61,7 +61,11 @@
                                                         Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
-                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}, Converter={se:conv_Bool}}"/>
+                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}, Converter={se:conv_Bool}}">
+                                            <se:StswTextBox.Style>
+                                                <Style TargetType="{x:Type se:StswTextBox}" BasedOn="{StaticResource {x:Type se:StswTextBox}}"/>
+                                            </se:StswTextBox.Style>
+                                        </se:StswTextBox>
                                     </Grid>
                                 </DockPanel>
                             </se:ClippingBorder>
@@ -75,7 +79,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Background}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" TargetName="PART_SubBorder" />
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Button.Background}" TargetName="Arrow" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" TargetName="Arrow" />
                                 </MultiDataTrigger>
@@ -89,7 +93,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -98,7 +102,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Background}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" TargetName="PART_SubBorder" />
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Background}" TargetName="Arrow" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Border}" TargetName="Arrow" />
                                 </MultiDataTrigger>
@@ -112,7 +116,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -121,7 +125,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Background}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" TargetName="PART_SubBorder" />
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Background}" TargetName="Arrow" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Border}" TargetName="Arrow" />
                                 </MultiDataTrigger>
@@ -138,7 +142,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -147,7 +151,7 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Background}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" TargetName="subborder" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" TargetName="PART_SubBorder" />
                                     <Setter Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Background}" TargetName="Arrow" />
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Border}" TargetName="Arrow" />
                                 </MultiDataTrigger>

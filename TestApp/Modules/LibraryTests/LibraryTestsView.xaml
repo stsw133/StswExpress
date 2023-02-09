@@ -30,6 +30,9 @@
                     <Setter Property="IconScale" Value="1.25"/>
                     <Setter Property="Padding" Value="0"/>
                 </Style>
+                <Style TargetType="{x:Type se:StswIcon}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
                 <Style TargetType="{x:Type se:StswNavigationButton}">
                     <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
                 </Style>
@@ -44,6 +47,7 @@
                 </Style>
             </DockPanel.Resources>
             <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsEnabled="True"/>
+            <se:StswSeparator DockPanel.Dock="Top" Margin="5"/>
             <!-- buttons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswButton Margin="5">

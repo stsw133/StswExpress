@@ -13,21 +13,28 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswImage.xaml
 /// </summary>
-public partial class StswImage : Border
+public partial class StswImage : StswImageBase
 {
     public StswImage()
     {
         InitializeComponent();
     }
+    static StswImage()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
+    }
+}
 
+public class StswImageBase : UserControl
+{
     /// ContextMenuVisibility
     public static readonly DependencyProperty ContextMenuVisibilityProperty
         = DependencyProperty.Register(
-              nameof(ContextMenuVisibility),
-              typeof(Visibility),
-              typeof(StswImage),
-              new PropertyMetadata(default(Visibility))
-          );
+            nameof(ContextMenuVisibility),
+            typeof(Visibility),
+            typeof(StswImageBase),
+            new PropertyMetadata(default(Visibility))
+        );
     public Visibility ContextMenuVisibility
     {
         get => (Visibility)GetValue(ContextMenuVisibilityProperty);
@@ -37,11 +44,11 @@ public partial class StswImage : Border
     /// IsReadOnly
     public static readonly DependencyProperty IsReadOnlyProperty
         = DependencyProperty.Register(
-              nameof(IsReadOnly),
-              typeof(bool),
-              typeof(StswImage),
-              new PropertyMetadata(default(bool))
-          );
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswImageBase),
+            new PropertyMetadata(default(bool))
+        );
     public bool IsReadOnly
     {
         get => (bool)GetValue(IsReadOnlyProperty);
@@ -51,11 +58,11 @@ public partial class StswImage : Border
     /// Source
     public static readonly DependencyProperty SourceProperty
         = DependencyProperty.Register(
-              nameof(Source),
-              typeof(object),
-              typeof(StswImage),
-              new PropertyMetadata(default(object?))
-          );
+            nameof(Source),
+            typeof(object),
+            typeof(StswImageBase),
+            new PropertyMetadata(default(object?))
+        );
     public object? Source
     {
         get => (object?)GetValue(SourceProperty) ?? DependencyProperty.UnsetValue;
@@ -65,20 +72,19 @@ public partial class StswImage : Border
     /// Stretch
     public static readonly DependencyProperty StretchProperty
         = DependencyProperty.Register(
-              nameof(Stretch),
-              typeof(Stretch),
-              typeof(StswImage),
-              new PropertyMetadata(default(Stretch))
-          );
+            nameof(Stretch),
+            typeof(Stretch),
+            typeof(StswImageBase),
+            new PropertyMetadata(default(Stretch))
+        );
     public Stretch Stretch
     {
         get => (Stretch)GetValue(StretchProperty);
         set => SetValue(StretchProperty, value);
     }
 
-    #region Events
     /// Cut
-    private void MnuItmCut_Click(object sender, RoutedEventArgs e)
+    protected void MnuItmCut_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
@@ -86,14 +92,14 @@ public partial class StswImage : Border
     }
 
     /// Copy
-    private void MnuItmCopy_Click(object sender, RoutedEventArgs e)
+    protected void MnuItmCopy_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
     }
 
     /// Paste
-    private void MnuItmPaste_Click(object sender, RoutedEventArgs e)
+    protected void MnuItmPaste_Click(object sender, RoutedEventArgs e)
     {
         if (Clipboard.GetImage().GetType() == typeof(InteropBitmap))
             Source = ImageFromClipboard();
@@ -102,10 +108,10 @@ public partial class StswImage : Border
     }
 
     /// Delete
-    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
+    protected void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
     /// Load
-    private void MnuItmLoad_Click(object sender, RoutedEventArgs e)
+    protected void MnuItmLoad_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog()
         {
@@ -120,7 +126,7 @@ public partial class StswImage : Border
     }
 
     /// Save
-    private void MnuItmSave_Click(object sender, RoutedEventArgs e)
+    protected void MnuItmSave_Click(object sender, RoutedEventArgs e)
     {
         if (Source == null)
             return;
@@ -137,7 +143,6 @@ public partial class StswImage : Border
             encoder.Save(fileStream);
         }
     }
-    #endregion
 
     #region ImageFromClipboard
     /// ImageFromClipboardDib

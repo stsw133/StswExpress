@@ -44,7 +44,11 @@
                                     <ControlTemplate>
                                         <se:StswIcon Color="{Binding Color, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                      Data="{Binding Data, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                     Scale="{Binding Scale, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                     Scale="{Binding Scale, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                            <se:StswIcon.Style>
+                                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                            </se:StswIcon.Style>
+                                        </se:StswIcon>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>

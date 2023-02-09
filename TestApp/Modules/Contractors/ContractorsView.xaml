@@ -92,7 +92,8 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"/>
+                            <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"
+                                          MaxHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Add}, ConverterParameter=4}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

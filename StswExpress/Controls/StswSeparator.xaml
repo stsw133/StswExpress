@@ -9,6 +9,7 @@
         <ControlTemplate TargetType="{x:Type Separator}">
             <Border BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="1"
                     SnapsToDevicePixels="False">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
