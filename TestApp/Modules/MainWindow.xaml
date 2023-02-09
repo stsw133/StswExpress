@@ -16,36 +16,47 @@
     -->
     <se:StswNavigation BorderThickness="1" Padding="5">
         <se:StswNavigation.Buttons>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.Databases.DatabasesView">
+            
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.Databases.DatabasesView">
                 <se:StswHeader Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Account" IconData="{x:Static se:StswIcons.Account}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.Contractors.ContractorsView">
+            
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.Contractors.ContractorsView">
                 <se:StswHeader Text="Contractors" IconData="{x:Static se:StswIcons.Domain}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Documents" IconData="{x:Static se:StswIcons.FileDocument}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Attributes" IconData="{x:Static se:StswIcons.Tag}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Files" IconData="{x:Static se:StswIcons.File}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" IsEnabled="False">
+            
+            <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Text="Config" IconData="{x:Static se:StswIcons.Cog}"/>
             </se:StswNavigationButton>
-            <se:StswNavigationButton BorderThickness="0 0 0 1" GroupName="Main" PageNamespace="TestApp.Modules.LibraryTests.LibraryTestsView">
+            
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.LibraryTests.LibraryTestsView">
                 <se:StswHeader Text="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
             </se:StswNavigationButton>
+            
         </se:StswNavigation.Buttons>
     </se:StswNavigation>
 </se:StswWindow>

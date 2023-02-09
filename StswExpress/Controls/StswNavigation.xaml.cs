@@ -30,6 +30,9 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
 
     public StswNavigationBase()
     {
+        if (DesignerProperties.GetIsInDesignMode(this))
+            return;
+
         Loaded += (s, e) =>
         {
             var checkedButton = (Buttons.FirstOrDefault(x => x is StswNavigationButton r && r.IsChecked == true) as StswNavigationButton);

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Win32;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -25,9 +26,38 @@ public static class StswFn
 
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
             app.Resources.MergedDictionaries.Add(new Theme());
-        ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = (ThemeColor)Settings.Default.Theme;
+        ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = Settings.Default.Theme < 0 ? (ThemeColor)GetWindowsTheme() : (ThemeColor)Settings.Default.Theme;
 
         app.Exit += (sender, e) => Settings.Default.Save();
+    }
+
+    /// Gets system theme
+    public static int GetWindowsTheme()
+    {
+        var theme = 0;
+
+        try
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
+            {
+                var registryValueObject = key?.GetValue("AppsUseLightTheme");
+                if (registryValueObject == null)
+                    return 0;
+
+                var registryValue = (int)registryValueObject;
+
+                //if (SystemParameters.HighContrast)
+                //    theme = 2;
+
+                theme = registryValue > 0 ? 0 : 1;
+            }
+
+            return theme;
+        }
+        catch
+        {
+            return theme;
+        }
     }
 
     /// Opens context menu of a framework element.

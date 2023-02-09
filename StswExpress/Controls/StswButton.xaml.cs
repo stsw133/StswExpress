@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -61,7 +63,7 @@ public class StswButtonBase : Button
         get => (Brush)GetValue(ForegroundDisabledProperty);
         set => SetValue(ForegroundDisabledProperty, value);
     }
-
+    
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
@@ -143,5 +145,39 @@ public class StswButtonBase : Button
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// Hyperlink
+    public static readonly DependencyProperty HyperlinkProperty
+        = DependencyProperty.Register(
+            nameof(Hyperlink),
+            typeof(string),
+            typeof(StswButtonBase),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public string? Hyperlink
+    {
+        get => (string?)GetValue(HyperlinkProperty);
+        set => SetValue(HyperlinkProperty, value);
+    }
+    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswButton button)
+        {
+            if (!string.IsNullOrEmpty(button.Hyperlink))
+                button.Click += StswButtonBaseHyperlink_Click;
+            else
+                button.Click -= StswButtonBaseHyperlink_Click;
+        }
+    }
+    private static void StswButtonBaseHyperlink_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is StswButton button && !string.IsNullOrEmpty(button.Hyperlink))
+        {
+            var url = button.Hyperlink.Replace("&", "^&");
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
     }
 }

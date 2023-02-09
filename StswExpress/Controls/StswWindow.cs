@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -126,8 +127,11 @@ public class StswWindow : Window
             Application.Current.Resources.MergedDictionaries.Add(new Theme());
         var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
 
-        theme.Color = (ThemeColor)themeID;
-        Settings.Default.Theme = (int)theme.Color;
+        if (themeID < 0)
+            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
+        else
+            theme.Color = (ThemeColor)themeID;
+        Settings.Default.Theme = themeID;
     }
 
     /// CenterClick
@@ -155,9 +159,6 @@ public class StswWindow : Window
         Width = DefaultWidth;
         CenterClick(sender, e);
     }
-
-    /// DarkModeClick
-    protected void DarkModeClick(object sender, RoutedEventArgs e) => ChangeTheme(Settings.Default.Theme == 0 ? 1 : 0);
 
     /// MinimizeClick
     protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -270,7 +271,7 @@ public class StswWindow : Window
     #endregion
 
     #region Hide default context menu and show custom
-    private FrameworkElement TitleBar;
+    FrameworkElement TitleBar;
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         IntPtr windowhandle = new WindowInteropHelper(this).Handle;
@@ -317,11 +318,14 @@ public class StswWindow : Window
             /// themeMenuItem
             if (interfaceMenuItem.Items[1] is MenuItem themeMenuItem)
             {
+                /// themeAutoMenuItem
+                if (themeMenuItem.Items[0] is MenuItem themeAutoMenuItem)
+                    themeAutoMenuItem.Click += (s, e) => ChangeTheme(-1);
                 /// theme0MenuItem
-                if (themeMenuItem.Items[0] is MenuItem theme0MenuItem)
+                if (themeMenuItem.Items[1] is MenuItem theme0MenuItem)
                     theme0MenuItem.Click += (s, e) => ChangeTheme(0);
                 /// theme1MenuItem
-                if (themeMenuItem.Items[1] is MenuItem theme1MenuItem)
+                if (themeMenuItem.Items[2] is MenuItem theme1MenuItem)
                     theme1MenuItem.Click += (s, e) => ChangeTheme(1);
             }
         }
@@ -342,7 +346,7 @@ public class StswWindow : Window
             closeMenuItem.Click += CloseClick;
 
         /// Chrome change
-        MoveRectangle = (Control)GetTemplateChild("moveRectangle");
+        MoveRectangle = (FrameworkElement)GetTemplateChild("moveRectangle");
         MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
         StateChanged += StswWindow_StateChanged;
 

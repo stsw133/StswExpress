@@ -5,21 +5,21 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Interaction logic for StswCheckButton.xaml
+/// Interaction logic for StswToggleButton.xaml
 /// </summary>
-public partial class StswCheckButton : StswCheckButtonBase
+public partial class StswToggleButton : StswToggleButtonBase
 {
-    public StswCheckButton()
+    public StswToggleButton()
     {
         InitializeComponent();
     }
-    static StswCheckButton()
+    static StswToggleButton()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckButton), new FrameworkPropertyMetadata(typeof(StswCheckButton)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
     }
 }
 
-public class StswCheckButtonBase : ToggleButton
+public class StswToggleButtonBase : ToggleButton
 {
     #region Style
     /// BackgroundDisabled
@@ -27,7 +27,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -40,7 +40,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -53,7 +53,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -67,7 +67,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -80,7 +80,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -94,7 +94,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundPressed
@@ -107,7 +107,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushPressed
@@ -121,7 +121,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundChecked),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundChecked
@@ -134,7 +134,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushChecked),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushChecked
@@ -148,7 +148,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDefaulted
@@ -163,7 +163,7 @@ public class StswCheckButtonBase : ToggleButton
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCheckButtonBase),
+            typeof(StswToggleButtonBase),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius

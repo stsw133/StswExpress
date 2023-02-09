@@ -20,40 +20,45 @@ public class ExtCollection<T> : ObservableCollection<T>
                 i.PropertyChanged -= Element_PropertyChanged;
         base.Clear();
     }
-
+    /*
+    public List<T> ItemsAdded { get; set; } = new();
+    public List<T> ItemsDeleted { get; set; } = new();
+    public List<T> ItemsModified { get; set; } = new();
+    */
     private void ObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.OldItems != null)
-            foreach (var item in e.OldItems)
+            foreach (T item in e.OldItems)
             {
                 if (item != null && item is INotifyPropertyChanged i)
                     i.PropertyChanged -= Element_PropertyChanged;
                 /*
-                var pi = item?.GetType().GetProperty(nameof(StswModel.ItemState));
-                if (pi != null)
+                if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Remove && (DataRowState)pi.GetValue(item) != DataRowState.Added)
-                        pi.SetValue(item, DataRowState.Deleted);
+                    if (ItemsAdded.Contains(item))
+                        ItemsAdded.Remove(item);
+                    else if (ItemsModified.Contains(item))
+                        ItemsModified.Remove(item);
+                    else if (!ItemsDeleted.Contains(item))
+                        ItemsDeleted.Add(item);
                 }
                 */
             }
 
         if (e.NewItems != null)
-            foreach (var item in e.NewItems)
+            foreach (T item in e.NewItems)
             {
                 if (item != null && item is INotifyPropertyChanged i)
-                {
-                    i.PropertyChanged -= Element_PropertyChanged;
                     i.PropertyChanged += Element_PropertyChanged;
-                }
                 /*
-                var pi = item?.GetType().GetProperty(nameof(StswModel.ItemState));
-                if (pi != null)
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                    ItemsAdded.Add(item);
+                else
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                        pi.SetValue(item, DataRowState.Added);
-                    else if (e.Action == NotifyCollectionChangedAction.Replace && (DataRowState)pi.GetValue(item) != DataRowState.Added)
-                        pi.SetValue(item, DataRowState.Modified);
+                    if (ItemsAdded.Contains(item))
+                        continue;
+                    else
+                        ItemsModified.Add(item);
                 }
                 */
             }

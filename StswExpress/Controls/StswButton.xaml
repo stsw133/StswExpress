@@ -8,12 +8,12 @@
     
     <se:StswButtonBase.Template>
         <ControlTemplate TargetType="{x:Type se:StswButtonBase}">
-            <se:ClippingBorder x:Name="border"
-                               Background="{TemplateBinding Background}"
-                               BorderBrush="{TemplateBinding BorderBrush}"
-                               BorderThickness="{TemplateBinding BorderThickness}"
-                               CornerRadius="{TemplateBinding CornerRadius}"
-                               SnapsToDevicePixels="True">
+            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    SnapsToDevicePixels="True">
                 <ContentPresenter x:Name="contentPresenter"
                                   Focusable="False"
                                   Margin="{TemplateBinding Padding}"
@@ -21,7 +21,7 @@
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </se:ClippingBorder>
+            </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="Button.IsDefaulted" Value="True">
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDefaulted, RelativeSource={RelativeSource TemplatedParent}}" TargetName="border" />

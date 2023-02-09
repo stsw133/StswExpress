@@ -36,12 +36,32 @@
             </UniformGrid>
         </ScrollViewer>
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Right">
-            <Run Text="Displayed: "/>
-            <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
-        </TextBlock>
+        <DockPanel DockPanel.Dock="Bottom">
+            <UniformGrid DockPanel.Dock="Right" Rows="1">
+                <UniformGrid.Resources>
+                    <Style TargetType="{x:Type se:StswHeader}">
+                        <Setter Property="IconColor" Value="White"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                </UniformGrid.Resources>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswIconColors.Positive}" Command="{Binding AddCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Plus}" IsBusy="{Binding IsBusy[Add]}"/>
+                </se:StswButton>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswIconColors.Positive}" Command="{Binding EditCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Pencil}" IsBusy="{Binding IsBusy[Edit]}"/>
+                </se:StswButton>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswIconColors.Negative}" Command="{Binding DeleteCommand}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Delete}" IsBusy="{Binding IsBusy[Delete]}"/>
+                </se:StswButton>
+            </UniformGrid>
+            <TextBlock Margin="3">
+                <Run Text="Displayed: "/>
+                <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
+            </TextBlock>
+        </DockPanel>
         <!-- data grid -->
-        <se:StswDataGrid ItemsSource="{Binding ListContractors}" Margin="3" BorderBrush="#7777" BackgroundHeader="#349D" BorderBrushHeader="#7777">
+        <se:StswDataGrid ItemsSource="{Binding ListContractors}" Margin="3" SelectedItem="{Binding SelectedItem}">
             <DataGrid.Resources>
                 <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
             </DataGrid.Resources>
@@ -143,9 +163,20 @@
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <DockPanel>
-                        <TextBlock Text="RowDetails TEST"/>
-                    </DockPanel>
+                    <StackPanel Margin="5">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Attribute name 1:"/>
+                            <TextBlock Text="Value TEST1" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Attribute name 2:"/>
+                            <TextBlock Text="Value TEST2" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Attribute name 3:"/>
+                            <TextBlock Text="Value TEST3" FontWeight="Bold"/>
+                        </StackPanel>
+                    </StackPanel>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
 

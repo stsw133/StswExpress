@@ -13,6 +13,7 @@
     </DataGrid.Style>
     <DataGrid.ColumnHeaderStyle>
         <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
             <Setter Property="BorderThickness" Value="0 0 1 1"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -37,9 +38,9 @@
         <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
                 <UniformGrid Columns="1" Visibility="{Binding IsSpecialColumnHeaderVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGridBase}}, Converter={se:conv_Bool}}">
-                    <se:StswCheckButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
+                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
                         <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
-                    </se:StswCheckButton>
+                    </se:StswToggleButton>
                     <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Visibility="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={se:conv_Bool}}" Click="BtnClearFilters_Click">
                         <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
                     </se:StswButton>
@@ -47,9 +48,9 @@
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                    <se:StswCheckButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">
-                        <se:StswCheckButton.Resources>
-                            <Style TargetType="{x:Type se:StswCheckButton}">
+                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">
+                        <se:StswToggleButton.Resources>
+                            <Style TargetType="{x:Type se:StswToggleButton}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGridBase}}}" Value="Collapsed">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -59,9 +60,9 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </se:StswCheckButton.Resources>
+                        </se:StswToggleButton.Resources>
                         <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
-                    </se:StswCheckButton>
+                    </se:StswToggleButton>
                 </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>

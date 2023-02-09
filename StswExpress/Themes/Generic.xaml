@@ -63,8 +63,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <!-- StswCheckButton -->
-    <Style TargetType="{x:Type se:StswCheckButton}">
+    <!-- StswToggleButton -->
+    <Style TargetType="{x:Type se:StswToggleButton}">
         <Setter Property="Background" Value="{DynamicResource Button.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.3}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -162,6 +162,15 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="SelectedDateFormat" Value="Short"/>
+    </Style>
+
+    <!-- StswIcon -->
+    <Style TargetType="{x:Type se:StswIcon}">
+        <Setter Property="Color" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="ColorDisabled" Value="#7777"/>
+        
+        <Setter Property="CanvasSize" Value="24"/>
+        <Setter Property="Scale" Value="1.5"/>
     </Style>
 
     <!-- StswNavigation -->
@@ -301,6 +310,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={se:conv_Color}}"/>
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
         <Setter Property="WindowStyle" Value="None"/>
 
@@ -437,14 +447,19 @@
                                             </MenuItem>
                                             <MenuItem Header="Motyw">
                                                 <MenuItem.Icon>
-                                                    <TextBlock Text="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_IfElse}, ConverterParameter=0~☼~☽}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <MenuItem Header="Jasny">
+                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=-1}">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock Text=" " FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=0}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Ciemny">
+                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={se:conv_Compare}, ConverterParameter=1}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>

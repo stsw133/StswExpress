@@ -11,56 +11,79 @@
         <local:LibraryTestsContext/>
     </Page.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
+        <DockPanel VerticalAlignment="Top">
+            <DockPanel.Resources>
+                <Style TargetType="{x:Type se:StswButton}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswCheckBox}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsThreeState" Value="True"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswComboBox}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswDatePicker}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswHeader}">
+                    <Setter Property="IconScale" Value="1.25"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswNavigationButton}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswNumericBox}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswTextBox}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswToggleButton}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                </Style>
+            </DockPanel.Resources>
+            <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsEnabled="True"/>
+            <!-- buttons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" Text="TEST" IsEnabled="False"/>
-                <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
-                <se:StswTextBox Margin="5" Text="TEST"/>
+                <se:StswButton Margin="5">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Text="Standard"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Text="Positive"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Negative"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Neutral"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Text="Modify"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Text="Structure"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Text="Designer"/>
+                </se:StswButton>
             </UniformGrid>
+            <!-- buttons with hyperlinks -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox Margin="5" Value="133" IsEnabled="False"/>
-                <se:StswNumericBox Margin="5" Value="133" IsReadOnly="True"/>
-                <se:StswNumericBox Margin="5"/>
+                <se:StswButton Margin="5" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com"/>
+                <se:StswButton Margin="5" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com" Foreground="Blue"/>
             </UniformGrid>
+            <!-- checkboxes -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsEnabled="False"/>
-                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
-                <se:StswDatePicker Margin="5"/>
+                <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True" IsHitTestVisible="False"/>
+                <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}"/>
+                <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False"/>
+                <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True"/>
             </UniformGrid>
+            <!-- comboboxes -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsEnabled="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsEnabled="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="{x:Null}"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="False"/>
-                <se:StswCheckBox Margin="5" Content="TEST" IsThreeState="True" IsChecked="True"/>
-            </UniformGrid>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswButton Margin="5" Content="TEST" IsEnabled="False"/>
-                <se:StswButton Margin="5" Content="TEST"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Negative}" Foreground="White"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Neutral}" Foreground="White"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Modify}" Foreground="White"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Structure}" Foreground="White"/>
-                <se:StswButton Margin="5" Content="TEST" Background="{x:Static se:StswIconColors.Designer}" Foreground="White"/>
-            </UniformGrid>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" IsEnabled="False"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Positive}" Foreground="White"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Negative}" Foreground="White"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Neutral}" Foreground="White"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Modify}" Foreground="White"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Structure}" Foreground="White"/>
-                <se:StswCheckButton Margin="5" Content="TEST" IsChecked="True" Background="{x:Static se:StswIconColors.Designer}" Foreground="White"/>
-            </UniformGrid>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False" IsEditable="True"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False" IsEditable="True"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
@@ -68,16 +91,76 @@
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
             </UniformGrid>
+            <!-- datepickers -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
+                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13"/>
+            </UniformGrid>
+            <!-- icons -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice5}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice6}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.BatteryOff}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery10}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery20}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery30}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery40}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery50}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery60}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery70}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery80}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery90}" Scale="2"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Battery}" Scale="2"/>
+            </UniformGrid>
+            <!-- navigation -->
             <StackPanel DockPanel.Dock="Top" Margin="5">
-                <se:StswNavigation>
+                <se:StswNavigation BorderThickness="1">
                     <se:StswNavigation.Buttons>
-                        <se:StswNavigationButton Content="TEST 1" IsEnabled="False"/>
-                        <se:StswNavigationButton Content="TEST 2"/>
-                        <se:StswNavigationButton Content="TEST 3"/>
-                        <se:StswNavigationButton Content="TEST 4"/>
+                        <se:StswNavigationButton GroupName="TEST" Content="TEST 1"/>
+                        <se:StswNavigationButton GroupName="TEST" Content="TEST 2"/>
+                        <se:StswNavigationButton GroupName="TEST" Content="TEST 3"/>
+                        <se:StswNavigationButton GroupName="TEST" Content="TEST 4"/>
                     </se:StswNavigation.Buttons>
                 </se:StswNavigation>
             </StackPanel>
+            <!-- numericboxes -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswNumericBox Margin="5" Value="133" IsReadOnly="True"/>
+                <se:StswNumericBox Margin="5" Value="133"/>
+            </UniformGrid>
+            <!-- textboxes -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
+                <se:StswTextBox Margin="5" Text="TEST"/>
+            </UniformGrid>
+            <!-- togglebuttons -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswToggleButton Margin="5">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Text="Standard"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Text="Positive"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Negative"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Neutral"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Text="Modify"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Text="Structure"/>
+                </se:StswToggleButton>
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
+                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Text="Designer"/>
+                </se:StswToggleButton>
+            </UniformGrid>
         </DockPanel>
     </ScrollViewer>
 </Page>

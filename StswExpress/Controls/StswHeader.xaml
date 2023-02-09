@@ -57,6 +57,7 @@
             <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=Label}}" TextWrapping="Wrap"/>
             <!-- sub text 1 -->
             <TextBlock Text="{Binding SubText1, RelativeSource={RelativeSource AncestorType=Label}}" TextWrapping="Wrap"
+                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}}"
                        FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"
                        Visibility="{Binding SubText1, RelativeSource={RelativeSource AncestorType=Label}, Converter={se:conv_NotNull}}">
                 <TextBlock.Style>

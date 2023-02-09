@@ -53,6 +53,9 @@ public class ContractorsContext : StswContext
     public StswRelayCommand RefreshCommand { get; set; }
     public StswRelayCommand SaveCommand { get; set; }
     public StswRelayCommand ExportToCsvCommand { get; set; }
+    public StswRelayCommand AddCommand { get; set; }
+    public StswRelayCommand EditCommand { get; set; }
+    public StswRelayCommand DeleteCommand { get; set; }
 
     public ContractorsContext()
     {
@@ -60,50 +63,57 @@ public class ContractorsContext : StswContext
         RefreshCommand = new StswRelayCommand(o => Refresh(), o => true);
         SaveCommand = new StswRelayCommand(o => Save(), o => true);
         ExportToCsvCommand = new StswRelayCommand(o => ExportToCsv(), o => true);
+        AddCommand = new StswRelayCommand(o => Add(), o => true);
+        EditCommand = new StswRelayCommand(o => Edit(), o => true);
+        DeleteCommand = new StswRelayCommand(o => Delete(), o => true);
     }
     
     /// Clear
     private async void Clear()
     {
         if (IsBusy[nameof(Clear)]) return;
-        IsBusy[nameof(Clear)] = true;
-        CountActions++;
-
+        
         await Task.Run(() =>
         {
+            IsBusy[nameof(Clear)] = true;
+            CountActions++;
+
             Thread.Sleep(100);
             ListContractors = new();
-        });
 
-        CountActions--;
-        IsBusy[nameof(Clear)] = false;
+            CountActions--;
+            IsBusy[nameof(Clear)] = false;
+        });
     }
 
     /// Refresh
     private async void Refresh()
     {
         if (IsBusy[nameof(Refresh)]) return;
-        IsBusy[nameof(Refresh)] = true;
-        CountActions++;
-
+        
         ColumnFilters.GetColumnFilters(out var filter, out var parameters);
         await Task.Run(() =>
         {
+            IsBusy[nameof(Refresh)] = true;
+            CountActions++;
+
             Thread.Sleep(100);
             ListContractors = ContractorsQueries.GetContractors(filter, parameters);
-        });
 
-        CountActions--;
-        IsBusy[nameof(Refresh)] = false;
+            CountActions--;
+            IsBusy[nameof(Refresh)] = false;
+        });
     }
 
     /// Save
     private void Save()
     {
         if (IsBusy[nameof(Save)]) return;
+
         IsBusy[nameof(Save)] = true;
         CountActions++;
 
+        Thread.Sleep(100);
         if (ContractorsQueries.SetContractors(ListContractors))
             MessageBox.Show("Data saved successfully.");
 
@@ -115,16 +125,77 @@ public class ContractorsContext : StswContext
     private async void ExportToCsv()
     {
         if (IsBusy[nameof(ExportToCsv)]) return;
-        IsBusy[nameof(ExportToCsv)] = true;
-        CountActions++;
-
+        
         await Task.Run(() =>
         {
+            IsBusy[nameof(ExportToCsv)] = true;
+            CountActions++;
+
             Thread.Sleep(100);
             ListContractors.ExportToCsv(null, true, "\t");
+
+            CountActions--;
+            IsBusy[nameof(ExportToCsv)] = false;
         });
+    }
+
+    /// SelectedItem
+    private object? selectedItem = new();
+    public object? SelectedItem
+    {
+        get => selectedItem;
+        set => SetProperty(ref selectedItem, value, () => SelectedItem);
+    }
+
+    /// Add
+    private void Add()
+    {
+        if (IsBusy[nameof(Add)]) return;
+        
+        IsBusy[nameof(Add)] = true;
+        CountActions++;
+
+        Thread.Sleep(100);
+        var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+        navi.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName, true);
+        //((navi.Content as Page).DataContext as ContractorsSingle.ContractorsSingleContext).ID = null;
 
         CountActions--;
-        IsBusy[nameof(ExportToCsv)] = false;
+        IsBusy[nameof(Add)] = false;
+    }
+
+    /// Edit
+    private void Edit()
+    {
+        if (IsBusy[nameof(Edit)]) return;
+        
+        IsBusy[nameof(Edit)] = true;
+        CountActions++;
+
+        Thread.Sleep(100);
+        var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+        //navi.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName, true);
+        //navi.Pages[typeof(ContractorsSingle.ContractorsSingleView).FullName].DataContext.ID = SelectedItem.ID;
+        //((navi.Content as Page).DataContext as ContractorsSingle.ContractorsSingleContext).ID = null;
+
+        CountActions--;
+        IsBusy[nameof(Edit)] = false;
+    }
+
+    /// Delete
+    private void Delete()
+    {
+        if (IsBusy[nameof(Delete)]) return;
+        
+        IsBusy[nameof(Delete)] = true;
+        CountActions++;
+
+        Thread.Sleep(100);
+        //var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+        //navi.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName, true);
+        //((navi.Content as Page).DataContext as ContractorsSingle.ContractorsSingleContext).ID = null;
+
+        CountActions--;
+        IsBusy[nameof(Delete)] = false;
     }
 }
