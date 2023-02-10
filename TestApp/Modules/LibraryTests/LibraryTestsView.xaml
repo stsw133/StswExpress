@@ -51,25 +51,25 @@
             <!-- buttons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswButton Margin="5">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Text="Standard"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Text="Positive"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Negative"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Neutral"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Text="Modify"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Text="Structure"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
                 </se:StswButton>
                 <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Text="Designer"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswButton>
             </UniformGrid>
             <!-- buttons with hyperlinks -->
@@ -99,6 +99,31 @@
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
                 <se:StswDatePicker Margin="5" SelectedDate="2023-01-13"/>
+            </UniformGrid>
+            <!-- headers -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader Content="Account" BorderBrush="Gray"/>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}"/>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}"/>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red"/>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalAlignment="Top" VerticalContentAlignment="Top">
+                        <se:StswHeader.SubTexts>
+                            <TextBlock Text="TEST" Foreground="Blue" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                        </se:StswHeader.SubTexts>
+                    </se:StswHeader>
+                </Border>
             </UniformGrid>
             <!-- icons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
@@ -144,25 +169,25 @@
             <!-- togglebuttons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswToggleButton Margin="5">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Text="Standard"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Text="Positive"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Negative"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Text="Neutral"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Text="Modify"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Text="Structure"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
                 </se:StswToggleButton>
                 <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
-                    <se:StswHeader IconColor="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Text="Designer"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswToggleButton>
             </UniformGrid>
         </DockPanel>

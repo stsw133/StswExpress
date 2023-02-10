@@ -69,20 +69,6 @@ public class StswWindow : Window
         set => SetValue(FullscreenProperty, value);
     }
     */
-    /// SubIcon
-    public static readonly DependencyProperty SubIconProperty
-        = DependencyProperty.Register(
-              nameof(SubIcon),
-              typeof(ImageSource),
-              typeof(StswWindow),
-              new PropertyMetadata(default(ImageSource?))
-          );
-    public ImageSource? SubIcon
-    {
-        get => (ImageSource?)GetValue(SubIconProperty);
-        set => SetValue(SubIconProperty, value);
-    }
-
     /// SubTitle
     public static readonly DependencyProperty SubTitleProperty
         = DependencyProperty.Register(
@@ -328,6 +314,13 @@ public class StswWindow : Window
                 if (themeMenuItem.Items[2] is MenuItem theme1MenuItem)
                     theme1MenuItem.Click += (s, e) => ChangeTheme(1);
             }
+            /// hideSubTitle
+            if (interfaceMenuItem.Items[2] is MenuItem hideSubTitle)
+                hideSubTitle.Click += (s, e) =>
+                {
+                    if (!string.IsNullOrEmpty(SubTitle))
+                        MoveRectangle.SubTexts[0].Visibility = Settings.Default.ShowSubTitle ? Visibility.Visible : Visibility.Collapsed;
+                };
         }
         /// centerMenuItem
         if (TitleBar.ContextMenu.Items[2] is MenuItem centerMenuItem)
@@ -346,7 +339,7 @@ public class StswWindow : Window
             closeMenuItem.Click += CloseClick;
 
         /// Chrome change
-        MoveRectangle = (FrameworkElement)GetTemplateChild("moveRectangle");
+        MoveRectangle = (StswHeader)GetTemplateChild("moveRectangle");
         MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
         StateChanged += StswWindow_StateChanged;
 
@@ -355,7 +348,7 @@ public class StswWindow : Window
     }
 
     /// Chrome change
-    private FrameworkElement MoveRectangle;
+    private StswHeader MoveRectangle;
     private void MoveRectangle_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var chrome = WindowChrome.GetWindowChrome(this);

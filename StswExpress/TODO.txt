@@ -4,13 +4,11 @@
 // TODO - export IEnumerable<T> to Excel
 // TODO - fullscreen mode in StswWindow (hiding TitleBar and TaskBar)
 // TODO - MessageBox and NotifyIcon builded in window
-// TODO - new custom Calendar, GroupBox, PasswordBox, RadioButton, ScrollViewer, DatePicker & TimePicker, ToggleSwitch, grid with dynamic number of rows and columns
-// TODO - new StswColorPicker control that allows to pick/set ARGB color
-// TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down)
+// TODO - new Stsw column controls
+// TODO - new custom Calendar, ColorPicker, Expander, GroupBox, PasswordBox, RadioButton, ScrollViewer, DatePicker & TimePicker, ToggleSwitch, grid with dynamic number of rows or columns
+// TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
 // TODO - possibility to move TitleBar from StswWindow to StswNavigation
 // TODO - StswToggleButton with third state and better looking
-// TODO - StswNavigation with special button to hide section names or/and always hiding names and showing them only when mouse is over them
-// TODO - StswNavigationButton should work with Expanders (something like sub buttons)
 
 /// Changes difficult to implement so have lower priority for now:
 // TODO - StswDataGrid with special column - this option is ready, just needs some improvements
@@ -21,5 +19,8 @@
 
 /// Changes to do for now:
 // TODO - edit instance from instances list with basic binding in context
-// TODO (?) - disabled controls should have opacity instead of colors for: background, borderbrush, foreground
-// TODO - change all Stsw controls to use templates
+// TODO - change all Stsw controls to use templates (left at the moment: StswDataGrid)
+// TODO - StswColumnFilter needs to refresh data on Enter click
+// TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
+// TODO - StswNavigationButton should work with Expanders (something like sub buttons)
+// TODO - StswNavigation with special button to hide section names or/and always hiding names and showing them only when mouse is over them

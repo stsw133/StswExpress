@@ -135,10 +135,25 @@
         <Setter Property="SelectedDateFormat" Value="Short"/>
     </Style>
 
+    <!-- StswHeader -->
+    <Style TargetType="{x:Type se:StswHeader}">
+        <Setter Property="IconForeground" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="IconScale" Value="1.5"/>
+
+        <Setter Property="Margin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
+        <Setter Property="TextPadding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4 0.1}"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
     <!-- StswIcon -->
     <Style TargetType="{x:Type se:StswIcon}">
-        <Setter Property="Color" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-        <Setter Property="ColorDisabled" Value="#7777"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="#7777"/>
         
         <Setter Property="CanvasSize" Value="24"/>
         <Setter Property="Scale" Value="1.5"/>
@@ -353,17 +368,37 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- icon & title -->
-                                <se:StswHeader x:Name="moveRectangle" Grid.ColumnSpan="2"
-                                               Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15 0}"
-                                               Text="{TemplateBinding Title}" SubText1="{TemplateBinding SubTitle}"
-                                               IconSource="{TemplateBinding Icon}" SubIconSource="{TemplateBinding SubIcon}"
-                                               IconScale="2" VerticalAlignment="Center">
+                                <se:StswHeader x:Name="moveRectangle" Grid.ColumnSpan="2" Content="{TemplateBinding Title}" IconSource="{TemplateBinding Icon}" IconScale="{x:Null}">
+                                    <se:StswHeader.SubTexts>
+                                        <TextBlock Text="{TemplateBinding SubTitle}"
+                                                   Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={se:conv_Color}, ConverterParameter=?0.4}"
+                                                   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SubTitle, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding SubTitle, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
+                                                                <Condition Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="True"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </se:StswHeader.SubTexts>
                                     <se:StswHeader.Style>
                                         <Style TargetType="{x:Type se:StswHeader}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                                                     <Setter Property="Foreground" Value="#B777"/>
-                                                    <Setter Property="SubTextColor1" Value="#7777"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -470,6 +505,11 @@
                                                         <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
+                                            </MenuItem>
+                                            <MenuItem Header="Podtytuł okna" IsCheckable="True" IsChecked="{Binding ShowSubTitle, Mode=TwoWay, Source={x:Static se:Settings.Default}}">
+                                                <MenuItem.Icon>
+                                                    <TextBlock Text=" " FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </MenuItem.Icon>
                                             </MenuItem>
                                         </MenuItem>
                                         <Separator/>

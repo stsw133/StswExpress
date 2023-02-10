@@ -22,32 +22,18 @@ public partial class StswIcon : StswIconBase
 public class StswIconBase : UserControl
 {
     #region Style
-    /// Color
-    public static readonly DependencyProperty ColorProperty
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(Color),
+            nameof(ForegroundDisabled),
             typeof(Brush),
             typeof(StswIconBase),
             new PropertyMetadata(default(Brush))
         );
-    public Brush Color
+    public Brush ForegroundDisabled
     {
-        get => (Brush)GetValue(ColorProperty);
-        set => SetValue(ColorProperty, value);
-    }
-
-    /// ColorDisabled
-    public static readonly DependencyProperty ColorDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ColorDisabled),
-            typeof(Brush),
-            typeof(StswIconBase),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ColorDisabled
-    {
-        get => (Brush)GetValue(ColorDisabledProperty);
-        set => SetValue(ColorDisabledProperty, value);
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 

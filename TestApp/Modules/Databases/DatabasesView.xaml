@@ -16,15 +16,15 @@
             <UniformGrid Rows="1" HorizontalAlignment="Left">
                 <UniformGrid.Resources>
                     <Style TargetType="{x:Type se:StswHeader}">
-                        <Setter Property="IconColor" Value="White"/>
+                        <Setter Property="IconForeground" Value="White"/>
                         <Setter Property="Foreground" Value="White"/>
                     </Style>
                 </UniformGrid.Resources>
                 <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Neutral}" Command="{Binding ImportCommand}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseImport}" Text="Import databases"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseImport}" Content="Import databases"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Background="{x:Static se:StswIconColors.Modify}" Command="{Binding ExportCommand}">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseExport}" Text="Export databases"/>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.DatabaseExport}" Content="Export databases"/>
                 </se:StswButton>
             </UniformGrid>
         </ScrollViewer>

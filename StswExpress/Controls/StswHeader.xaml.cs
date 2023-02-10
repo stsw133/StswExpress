@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -7,39 +8,23 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswHeader.xaml
 /// </summary>
-public partial class StswHeader : Label
+public partial class StswHeader : StswHeaderBase
 {
     public StswHeader()
     {
         InitializeComponent();
     }
-
-    /// HorizontalIconAlignment
-    public static readonly DependencyProperty HorizontalIconAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(HorizontalIconAlignment),
-            typeof(HorizontalAlignment),
-            typeof(StswHeader),
-            new PropertyMetadata(default(HorizontalAlignment))
-        );
-    public HorizontalAlignment HorizontalIconAlignment
+    static StswHeader()
     {
-        get => (HorizontalAlignment)GetValue(HorizontalIconAlignmentProperty);
-        set => SetValue(HorizontalIconAlignmentProperty, value);
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
+}
 
-    /// IconColor
-    public static readonly DependencyProperty IconColorProperty
-        = DependencyProperty.Register(
-            nameof(IconColor),
-            typeof(Brush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Brushes))
-        );
-    public Brush IconColor
+public class StswHeaderBase : UserControl
+{
+    public StswHeaderBase()
     {
-        get => (Brush)GetValue(IconColorProperty);
-        set => SetValue(IconColorProperty, value);
+        SetValue(SubTextsProperty, new ObservableCollection<UIElement>());
     }
 
     /// IconData
@@ -47,7 +32,7 @@ public partial class StswHeader : Label
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswHeader),
+            typeof(StswHeaderBase),
             new PropertyMetadata(default(Geometry?))
         );
     public Geometry? IconData
@@ -55,27 +40,38 @@ public partial class StswHeader : Label
         get => (Geometry?)GetValue(IconDataProperty);
         set => SetValue(IconDataProperty, value);
     }
-
+    /// IconForeground
+    public static readonly DependencyProperty IconForegroundProperty
+        = DependencyProperty.Register(
+            nameof(IconForeground),
+            typeof(Brush),
+            typeof(StswHeaderBase),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush IconForeground
+    {
+        get => (Brush)GetValue(IconForegroundProperty);
+        set => SetValue(IconForegroundProperty, value);
+    }
     /// IconScale
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(double),
-            typeof(StswHeader),
-            new PropertyMetadata(1.5)
+            typeof(double?),
+            typeof(StswHeaderBase),
+            new PropertyMetadata(default(double?))
         );
-    public double IconScale
+    public double? IconScale
     {
-        get => (double)GetValue(IconScaleProperty);
+        get => (double?)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
-
     /// IconSource
     public static readonly DependencyProperty IconSourceProperty
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
-            typeof(StswHeader),
+            typeof(StswHeaderBase),
             new PropertyMetadata(default(ImageSource?))
         );
     public ImageSource? IconSource
@@ -89,7 +85,7 @@ public partial class StswHeader : Label
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
-            typeof(StswHeader),
+            typeof(StswHeaderBase),
             new PropertyMetadata(default(bool))
         );
     public bool IsBusy
@@ -97,130 +93,46 @@ public partial class StswHeader : Label
         get => (bool)GetValue(IsBusyProperty);
         set => SetValue(IsBusyProperty, value);
     }
-
-    /// SubIconColor
-    public static readonly DependencyProperty SubIconColorProperty
+    
+    /// Orientation
+    public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
-            nameof(SubIconColor),
-            typeof(Brush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Brushes))
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(StswHeaderBase),
+            new PropertyMetadata(default(Orientation))
         );
-    public Brush SubIconColor
+    public Orientation Orientation
     {
-        get => (Brush)GetValue(SubIconColorProperty);
-        set => SetValue(SubIconColorProperty, value);
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 
-    /// SubIconData
-    public static readonly DependencyProperty SubIconDataProperty
+    /// SubTexts
+    public static readonly DependencyProperty SubTextsProperty
         = DependencyProperty.Register(
-            nameof(SubIconData),
-            typeof(Geometry),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Geometry?))
-        );
-    public Geometry? SubIconData
+              nameof(SubTexts),
+              typeof(ObservableCollection<UIElement>),
+              typeof(StswHeaderBase),
+              new PropertyMetadata(default(ObservableCollection<UIElement>))
+          );
+    public ObservableCollection<UIElement> SubTexts
     {
-        get => (Geometry?)GetValue(SubIconDataProperty);
-        set => SetValue(SubIconDataProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(SubTextsProperty);
+        set => SetValue(SubTextsProperty, value);
     }
 
-    /// SubIconSource
-    public static readonly DependencyProperty SubIconSourceProperty
+    /// TextPadding
+    public static readonly DependencyProperty TextPaddingProperty
         = DependencyProperty.Register(
-            nameof(SubIconSource),
-            typeof(ImageSource),
-            typeof(StswHeader),
-            new PropertyMetadata(default(ImageSource?))
+            nameof(TextPadding),
+            typeof(Thickness),
+            typeof(StswHeaderBase),
+            new PropertyMetadata(default(Thickness))
         );
-    public ImageSource? SubIconSource
+    public Thickness TextPadding
     {
-        get => (ImageSource?)GetValue(SubIconSourceProperty);
-        set => SetValue(SubIconSourceProperty, value);
-    }
-
-    /// SubText1
-    public static readonly DependencyProperty SubText1Property
-        = DependencyProperty.Register(
-            nameof(SubText1),
-            typeof(string),
-            typeof(StswHeader),
-            new PropertyMetadata(default(string))
-        );
-    public string SubText1
-    {
-        get => (string)GetValue(SubText1Property);
-        set => SetValue(SubText1Property, value);
-    }
-
-    /// SubTextColor1
-    public static readonly DependencyProperty SubTextColor1Property
-        = DependencyProperty.Register(
-            nameof(SubTextColor1),
-            typeof(SolidColorBrush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(SolidColorBrush))
-        );
-    public SolidColorBrush SubTextColor1
-    {
-        get => (SolidColorBrush)GetValue(SubTextColor1Property);
-        set => SetValue(SubTextColor1Property, value);
-    }
-
-    /// SubText2
-    public static readonly DependencyProperty SubText2Property
-        = DependencyProperty.Register(
-            nameof(SubText2),
-            typeof(string),
-            typeof(StswHeader),
-            new PropertyMetadata(default(string))
-        );
-    public string SubText2
-    {
-        get => (string)GetValue(SubText2Property);
-        set => SetValue(SubText2Property, value);
-    }
-
-    /// SubTextColor2
-    public static readonly DependencyProperty SubTextColor2Property
-        = DependencyProperty.Register(
-            nameof(SubTextColor2),
-            typeof(SolidColorBrush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(SolidColorBrush))
-        );
-    public SolidColorBrush SubTextColor2
-    {
-        get => (SolidColorBrush)GetValue(SubTextColor2Property);
-        set => SetValue(SubTextColor2Property, value);
-    }
-
-    /// Text
-    public static readonly DependencyProperty TextProperty
-        = DependencyProperty.Register(
-            nameof(Text),
-            typeof(string),
-            typeof(StswHeader),
-            new PropertyMetadata(default(string))
-        );
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-
-    /// VerticalIconAlignment
-    public static readonly DependencyProperty VerticalIconAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(VerticalIconAlignment),
-            typeof(VerticalAlignment),
-            typeof(StswHeader),
-            new PropertyMetadata(default(VerticalAlignment))
-        );
-    public VerticalAlignment VerticalIconAlignment
-    {
-        get => (VerticalAlignment)GetValue(VerticalIconAlignmentProperty);
-        set => SetValue(VerticalIconAlignmentProperty, value);
+        get => (Thickness)GetValue(TextPaddingProperty);
+        set => SetValue(TextPaddingProperty, value);
     }
 }

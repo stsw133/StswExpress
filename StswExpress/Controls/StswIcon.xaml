@@ -22,12 +22,12 @@
                     </MultiBinding>
                 </Viewbox.Width>
                 <Canvas Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
-                    <Path x:Name="PART_Path" Data="{TemplateBinding Data}" Fill="{TemplateBinding Color}"/>
+                    <Path x:Name="PART_Path" Data="{TemplateBinding Data}" Fill="{TemplateBinding Foreground}"/>
                 </Canvas>
             </Viewbox>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Fill" Value="{Binding ColorDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Path" />
+                    <Setter Property="Fill" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Path" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

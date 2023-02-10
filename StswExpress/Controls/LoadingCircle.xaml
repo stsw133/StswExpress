@@ -12,13 +12,13 @@
                 <Viewbox.Height>
                     <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
                         <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                        <Binding Path="Scale" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                        <Binding Path="Scale" RelativeSource="{RelativeSource TemplatedParent}"/>
                     </MultiBinding>
                 </Viewbox.Height>
                 <Viewbox.Width>
                     <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
                         <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                        <Binding Path="Scale" RelativeSource="{RelativeSource Mode=TemplatedParent}"/>
+                        <Binding Path="Scale" RelativeSource="{RelativeSource TemplatedParent}"/>
                     </MultiBinding>
                 </Viewbox.Width>
                 <Ellipse Width="12" Height="12" StrokeDashArray="24" Stroke="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0.5">
