@@ -17,15 +17,22 @@ public class StswMC
     public string Password { get; set; } = string.Empty;
     public bool EnableSSL { get; set; } = false;
 
-    /// Load list of encrypted mail configs from file.
-    public static List<StswMC> LoadAllMailConfigs(string path)
+    /// FilePath
+    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mailconfigs.stsw");
+
+    /// <summary>
+    /// Loads list of encrypted mail configs from file.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns>List of mail configs</returns>
+    public static List<StswMC> LoadAllMailConfigs()
     {
         var result = new List<StswMC>();
 
-        if (!File.Exists(path))
-            File.Create(path).Close();
+        if (!File.Exists(FilePath))
+            File.Create(FilePath).Close();
 
-        using var stream = new StreamReader(path);
+        using var stream = new StreamReader(FilePath);
         while (!stream.EndOfStream)
         {
             var line = stream.ReadLine();
@@ -48,10 +55,14 @@ public class StswMC
         return result;
     }
 
-    /// Save list of encrypted mail configs to file.
-    public static void SaveAllMailConfigs(List<StswMC> mailConfigs, string path)
+    /// <summary>
+    /// Saves list of encrypted mail configs to file.
+    /// </summary>
+    /// <param name="mailConfigs">Mail configs</param>
+    /// <param name="path"></param>
+    public static void SaveAllMailConfigs(List<StswMC> mailConfigs)
     {
-        using var stream = new StreamWriter(path);
+        using var stream = new StreamWriter(FilePath);
         foreach (var mc in mailConfigs)
             stream.WriteLine(StswSecurity.Encrypt(mc.Name)
                 + "|" + StswSecurity.Encrypt(mc.Host)
@@ -62,8 +73,17 @@ public class StswMC
                 + "|" + StswSecurity.Encrypt(mc.EnableSSL.ToString()));
     }
 
-    /// Send mail to recipients.
-    public bool Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bbc = null, IEnumerable<string>? reply = null)
+    /// <summary>
+    /// Sends mail to recipients.
+    /// </summary>
+    /// <param name="to">Recipients</param>
+    /// <param name="subject">Subject of message</param>
+    /// <param name="body">Body of message</param>
+    /// <param name="attachments">Attachments of message</param>
+    /// <param name="bcc">BCC</param>
+    /// <param name="reply">Reply to</param>
+    /// <returns></returns>
+    public bool Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
         using (var mail = new MailMessage())
         {
@@ -78,8 +98,8 @@ public class StswMC
                 foreach (var x in attachments)
                     mail.Attachments.Add(new Attachment(x));
 
-            if (bbc != null)
-                foreach (var x in bbc)
+            if (bcc != null)
+                foreach (var x in bcc)
                     mail.Bcc.Add(x);
 
             if (reply != null)

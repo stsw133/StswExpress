@@ -10,22 +10,22 @@ namespace StswExpress;
 public delegate void ListedItemPropertyChangedEventHandler(IList sourceList, object item, PropertyChangedEventArgs e);
 public class StswCollection<T> : ObservableCollection<T> where T : INotifyPropertyChanged
 {
-    private readonly Dictionary<T, DataRowState> _itemStates = new Dictionary<T, DataRowState>();
+    private readonly Dictionary<T, DataRowState> _itemStates = new();
 
     public StswCollection() : base() { }
 
-    public StswCollection(IEnumerable<T> value) : base(value)
+    public StswCollection(IEnumerable<T> items) : base(items)
     {
-        foreach (var item in value)
+        foreach (var item in items)
         {
             _itemStates[item] = DataRowState.Unchanged;
             item.PropertyChanged += Item_PropertyChanged;
         }
     }
 
-    public StswCollection(IList<T> value) : base(value)
+    public StswCollection(IList<T> items) : base(items)
     {
-        foreach (var item in value)
+        foreach (var item in items)
         {
             _itemStates[item] = DataRowState.Unchanged;
             item.PropertyChanged += Item_PropertyChanged;
@@ -79,16 +79,16 @@ public class StswCollection<T> : ObservableCollection<T> where T : INotifyProper
     }
 
     /// Item_PropertyChanged
-    private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var item = (T)sender;
+        var item = (T?)sender;
 
         if (_itemStates[item] == DataRowState.Unchanged)
             _itemStates[item] = DataRowState.Modified;
     }
 
     /// GetState
-    public DataRowState GetState(T item)
+    public DataRowState GetStateOfItem(T item)
     {
         if (_itemStates.TryGetValue(item, out var state))
             return state;

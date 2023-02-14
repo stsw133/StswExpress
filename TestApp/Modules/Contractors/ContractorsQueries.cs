@@ -12,7 +12,7 @@ internal static class ContractorsQueries
     /// InitializeTables
     internal static void InitializeTables()
     {
-        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
+        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswFn.AppDB?.Server))
             return;
 
         try

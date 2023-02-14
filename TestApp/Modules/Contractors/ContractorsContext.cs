@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace TestApp.Modules.Contractors;
 
@@ -49,13 +50,13 @@ public class ContractorsContext : StswObservableObject
     }
 
     /// Commands
-    public StswRelayCommand ClearCommand { get; set; }
-    public StswRelayCommand RefreshCommand { get; set; }
-    public StswRelayCommand SaveCommand { get; set; }
-    public StswRelayCommand ExportToExcelCommand { get; set; }
-    public StswRelayCommand AddCommand { get; set; }
-    public StswRelayCommand EditCommand { get; set; }
-    public StswRelayCommand DeleteCommand { get; set; }
+    public ICommand ClearCommand { get; set; }
+    public ICommand RefreshCommand { get; set; }
+    public ICommand SaveCommand { get; set; }
+    public ICommand ExportToExcelCommand { get; set; }
+    public ICommand AddCommand { get; set; }
+    public ICommand EditCommand { get; set; }
+    public ICommand DeleteCommand { get; set; }
 
     public ContractorsContext()
     {

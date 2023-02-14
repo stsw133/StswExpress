@@ -22,6 +22,9 @@ public class StswDB
     public string Password { get; set; } = string.Empty;
     public string Version { get; set; } = string.Empty;
 
+    /// FilePath
+    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases.stsw");
+
     /// GetConnString
     public string? GetConnString()
     {
@@ -33,9 +36,10 @@ public class StswDB
         };
     }
 
-    public static string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases.stsw");
-
-    /// Load list of encrypted databases from file.
+    /// <summary>
+    /// Loads list of encrypted databases from file.
+    /// </summary>
+    /// <returns>List of databases</returns>
     public static List<StswDB> ImportDatabases()
     {
         var result = new List<StswDB>();
@@ -65,7 +69,10 @@ public class StswDB
         return result;
     }
 
-    /// Save list of encrypted databases to file.
+    /// <summary>
+    /// Saves list of encrypted databases to file.
+    /// </summary>
+    /// <param name="databases">List of databases</param>
     public static void ExportDatabases(List<StswDB> databases)
     {
         using var stream = new StreamWriter(FilePath);

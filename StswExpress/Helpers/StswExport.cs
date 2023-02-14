@@ -11,7 +11,7 @@ namespace StswExpress;
 public static class StswExport
 {
     /// ExportToExcel
-    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExcelColumns>? columns)
+    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExportColumn>? columns)
     {
         if (filePath == null)
         {
@@ -93,7 +93,7 @@ public static class StswExport
     }
 }
 
-public class StswExcelColumns
+public class StswExportColumn
 {
     public string? FieldName { get; set; }
     public string? ColumnName { get; set; }
