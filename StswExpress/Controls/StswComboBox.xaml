@@ -55,7 +55,7 @@
                                                           Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}, Converter={se:conv_Bool}, ConverterParameter=!}"/>
                                         <se:StswTextBox x:Name="PART_EditableTextBox"
                                                         AllowDrop="True"
-                                                        BorderThickness="0" CornerRadius="0"
+                                                        BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0"
                                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
                                                         Padding="{TemplateBinding Padding}"
                                                         Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}"
@@ -84,77 +84,26 @@
                                     <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" TargetName="Arrow" />
                                 </MultiDataTrigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource ComboBox.MouseOver.Glyph}" TargetName="Arrow" />
-                                </Trigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="False"/>
-                                    </MultiDataTrigger.Conditions>
                                     <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Background}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Border}" TargetName="PART_SubBorder" />
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Background}" TargetName="Arrow" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.MouseOver.Editable.Button.Border}" TargetName="Arrow" />
-                                </MultiDataTrigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource ComboBox.Pressed.Glyph}" TargetName="Arrow" />
                                 </Trigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="False"/>
-                                    </MultiDataTrigger.Conditions>
+                                <Trigger Property="IsPressed" Value="True">
                                     <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Background}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Border}" TargetName="PART_SubBorder" />
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Background}" TargetName="Arrow" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Pressed.Editable.Button.Border}" TargetName="Arrow" />
-                                </MultiDataTrigger>
+                                </Trigger>
                                 <Trigger Property="IsHitTestVisible" Value="False">
                                     <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="Arrow" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="Arrow" />
-                                </Trigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="False"/>
-                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="Transparent" TargetName="PART_EditableTextBox" />
                                     <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="templateRoot" />
                                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="PART_SubBorder" />
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False"/>
-                                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Background}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" TargetName="templateRoot" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Border}" TargetName="PART_SubBorder" />
-                                    <Setter Property="Background" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Background}" TargetName="Arrow" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Disabled.Editable.Button.Border}" TargetName="Arrow" />
-                                </MultiDataTrigger>
+                                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" TargetName="Arrow" />
+                                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBoxBase}}}" />
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </ToggleButton.Template>
@@ -211,6 +160,9 @@
                 <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="False">
                     <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
                     <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="IsHitTestVisible" Value="False" TargetName="toggleButton"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

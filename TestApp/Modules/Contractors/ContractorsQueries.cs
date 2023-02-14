@@ -1,11 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Windows;
 
 namespace TestApp.Modules.Contractors;
 
 internal static class ContractorsQueries
 {
+    /// InitializeTables
+    internal static void InitializeTables()
+    {
+        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
+            return;
+
+        try
+        {
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            {
+                sqlConn.Open();
+
+                var query = @"
+                    if not exists (select * from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
+				        create table StswExpressTEST_Contractors
+				        (
+				    	    ID int identity(1,1) not null primary key,
+                            Type int,
+                            Icon varbinary(max),
+                            Name varchar(255),
+                            Country varchar(2),
+                            PostCode varchar(10),
+                            City varchar(30),
+                            Street varchar(60),
+                            IsArchival bit,
+                            CreateDT datetime
+				        )";
+                using (var sqlCmd = new SqlCommand(query, sqlConn))
+                    sqlCmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error ({nameof(InitializeTables)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
     /// ListOfTypes
     internal static List<string?> ListOfTypes()
     {
@@ -43,9 +83,8 @@ internal static class ContractorsQueries
     }
 
     /// GetContractors
-    internal static ExtCollection<ContractorModel> GetContractors(string filter, List<(string name, object val)> parameters)
+    internal static StswCollection<ContractorModel> GetContractors(string filter, List<(string name, object val)> parameters)
     {
-        /*
         var result = new DataTable();
         
         try
@@ -64,9 +103,9 @@ internal static class ContractorsQueries
                         a.PostCode,
                         a.City,
                         a.Street,
-                        a.IsEnabled,
+                        a.IsArchival,
                         a.CreateDT
-                    from dbo.Users with(nolock)
+                    from dbo.StswExpressTEST_Contractors a with(nolock)
                     where {filter}
                     order by a.Name";
                 using (var sqlDA = new SqlDataAdapter(query, sqlConn))
@@ -82,75 +121,78 @@ internal static class ContractorsQueries
             MessageBox.Show($"Error ({nameof(GetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
-        return result.AsList<ContractorModel>().ToExtCollection();
-        */
-        var result = new ExtCollection<ContractorModel>();
-        for (int i = 1; i <= 1000; i++)
-            result.Add(new ContractorModel()
-            {
-                ID = i,
-                CreateDT = DateTime.Now
-            });
-        return result;
+        return result.AsList<ContractorModel>().ToStswCollection();
     }
 
     /// SetContractors
-    internal static bool SetContractors(ExtCollection<ContractorModel> list)
+    internal static bool SetContractors(StswCollection<ContractorModel> list)
     {
         var result = false;
-        /*
+        
         try
         {
-            using (var sqlConn = new SqlConnection(Fn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
             {
                 sqlConn.Open();
 
-                foreach (var item in list)
+                foreach (var item in list.GetItemsByState(DataRowState.Added))
                 {
-                    if (item.ItemState == DataRowState.Added)
+                    var query = $@"
+                        insert into dbo.StswExpressTEST_Contractors
+                            (Type, Icon, Name, Country, PostCode, City, Street,
+                             IsArchival, CreateDT)
+                        values
+                            (@Type, @Icon, @Name, @Country, @PostCode, @City, @Street,
+                             @IsArchival, @CreateDT)";
+                    using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
-                        var query = $@"
-                            insert into dbo.Users (Type, Icon, Name, IsEnabled, CreateDT)
-                            values (@Type, @Icon, @Name, @IsEnabled, @CreateDT)";
-                        using (var sqlCmd = new SqlCommand(query, sqlConn))
-                        {
-                            sqlCmd.Parameters.AddWithValue("@Type", item.Type);
-                            sqlCmd.Parameters.AddWithValue("@Icon", item.Icon);
-                            sqlCmd.Parameters.AddWithValue("@Name", item.Name);
-                            sqlCmd.Parameters.AddWithValue("@IsEnabled", item.IsEnabled);
-                            sqlCmd.Parameters.AddWithValue("@CreateDT", item.CreateDT);
-                            sqlCmd.ExecuteNonQuery();
-                        }
-                    }
-                    else if (item.ItemState == DataRowState.Modified)
-                    {
-                        var query = $@"
-                            update dbo.Users
-                            set Type=@Type, Icon=@Icon, Name=@Name, IsEnabled=@IsEnabled, CreateDT=@CreateDT)
-                            where ID=@ID";
-                        using (var sqlCmd = new SqlCommand(query, sqlConn))
-                        {
-                            sqlCmd.Parameters.AddWithValue("@ID", item.ID);
-                            sqlCmd.Parameters.AddWithValue("@Type", item.Type);
-                            sqlCmd.Parameters.AddWithValue("@Icon", item.Icon);
-                            sqlCmd.Parameters.AddWithValue("@Name", item.Name);
-                            sqlCmd.Parameters.AddWithValue("@IsEnabled", item.IsEnabled);
-                            sqlCmd.Parameters.AddWithValue("@CreateDT", item.CreateDT);
-                            sqlCmd.ExecuteNonQuery();
-                        }
-                    }
-                    else if (item.ItemState == DataRowState.Deleted)
-                    {
-                        var query = $@"
-                            delete from dbo.Users
-                            where ID=@ID";
-                        using (var sqlCmd = new SqlCommand(query, sqlConn))
-                        {
-                            sqlCmd.Parameters.AddWithValue("@ID", item.ID);
-                            sqlCmd.ExecuteNonQuery();
-                        }
+                        sqlCmd.Parameters.AddWithValue("@Type", (object)item.Type ?? DBNull.Value);
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.AddWithValue("@Name", (object)item.Name ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Country", (object)item.Country ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@PostCode", (object)item.PostCode ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@City", (object)item.City ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Street", (object)item.Street ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object)item.IsArchival ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object)item.CreateDT ?? DBNull.Value);
+                        sqlCmd.ExecuteNonQuery();
                     }
                 }
+                foreach (var item in list.GetItemsByState(DataRowState.Modified))
+                {
+                    var query = $@"
+                        update dbo.StswExpressTEST_Contractors
+                        set Type=@Type, Icon=@Icon, Name=@Name,
+                            Country=@Country, PostCode=@PostCode, City=@City, Street=@Street,
+                            IsArchival=@IsArchival, CreateDT=@CreateDT
+                        where ID=@ID";
+                    using (var sqlCmd = new SqlCommand(query, sqlConn))
+                    {
+                        sqlCmd.Parameters.AddWithValue("@ID", item.ID);
+                        sqlCmd.Parameters.AddWithValue("@Type", (object)item.Type ?? DBNull.Value);
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.AddWithValue("@Name", (object)item.Name ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Country", (object)item.Country ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@PostCode", (object)item.PostCode ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@City", (object)item.City ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Street", (object)item.Street ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object)item.IsArchival ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object)item.CreateDT ?? DBNull.Value);
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                }
+                foreach (var item in list.GetItemsByState(DataRowState.Deleted))
+                {
+                    var query = $@"
+                        delete from dbo.StswExpressTEST_Contractors
+                        where ID=@ID";
+                    using (var sqlCmd = new SqlCommand(query, sqlConn))
+                    {
+                        sqlCmd.Parameters.AddWithValue("@ID", item.ID);
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                }
+
                 result = true;
             }
         }
@@ -158,7 +200,7 @@ internal static class ContractorsQueries
         {
             MessageBox.Show($"Error ({nameof(SetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        */
+        
         return result;
     }
 }

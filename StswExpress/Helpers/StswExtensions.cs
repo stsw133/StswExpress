@@ -123,7 +123,7 @@ public static class StswExtensions
     }
 
     /// Gets or clears data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void GetColumnFilters(this ExtDictionary<string, StswColumnFilterData> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this StswDictionary<string, StswColumnFilterData> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
@@ -146,7 +146,7 @@ public static class StswExtensions
         if (string.IsNullOrWhiteSpace(filter))
             filter = "1=1";
     }
-    public static void ClearColumnFilters(this ExtDictionary<string, StswColumnFilterData> dict)
+    public static void ClearColumnFilters(this StswDictionary<string, StswColumnFilterData> dict)
     {
         foreach (var pair in dict)
             dict[pair.Key]?.Clear();
@@ -157,8 +157,8 @@ public static class StswExtensions
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
     /// Converts one type of list structure to another one.
-    public static ExtCollection<T> ToExtCollection<T>(this IEnumerable<T> value) => new ExtCollection<T>(value);
-    public static ExtDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new ExtDictionary<T1, T2>(value);
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : INotifyPropertyChanged => new StswCollection<T>(value);
+    public static StswDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 
     /// Converts string to Nullable.

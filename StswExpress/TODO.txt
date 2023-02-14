@@ -24,3 +24,4 @@
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
 // TODO - StswNavigationButton should work with Expanders (something like sub buttons)
 // TODO - StswNavigation with special button to hide section names or/and always hiding names and showing them only when mouse is over them
+// TODO - StswColumnFilter does not change SqlString when FilterMode changing

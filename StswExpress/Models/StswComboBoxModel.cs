@@ -1,6 +1,6 @@
 ﻿namespace StswExpress;
 
-public class ComboBoxModel
+public class StswComboBoxModel
 {
     public object? Display { get; set; }
     public object? Value { get; set; }

@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 namespace StswExpress;
 
 [XmlRoot("Dictionary")]
-public class ExtDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerializable, INotifyCollectionChanged, INotifyPropertyChanged
+public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerializable, INotifyCollectionChanged, INotifyPropertyChanged
 {
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
@@ -21,12 +21,12 @@ public class ExtDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSerial
     private IDictionary<TKey, TValue> _Dictionary;
     protected IDictionary<TKey, TValue> Dictionary => _Dictionary;
 
-    public ExtDictionary() => _Dictionary = new Dictionary<TKey, TValue>();
-    public ExtDictionary(IDictionary<TKey, TValue> dictionary) => _Dictionary = new Dictionary<TKey, TValue>(dictionary);
-    public ExtDictionary(IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(comparer);
-    public ExtDictionary(int capacity) => _Dictionary = new Dictionary<TKey, TValue>(capacity);
-    public ExtDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
-    public ExtDictionary(int capacity, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+    public StswDictionary() => _Dictionary = new Dictionary<TKey, TValue>();
+    public StswDictionary(IDictionary<TKey, TValue> dictionary) => _Dictionary = new Dictionary<TKey, TValue>(dictionary);
+    public StswDictionary(IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(comparer);
+    public StswDictionary(int capacity) => _Dictionary = new Dictionary<TKey, TValue>(capacity);
+    public StswDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+    public StswDictionary(int capacity, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
 
     #region IDictionary<TKey,TValue> Members
     public void Add(TKey key, TValue value) => Insert(key, value, true);

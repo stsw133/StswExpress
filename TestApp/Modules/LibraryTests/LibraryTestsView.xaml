@@ -46,29 +46,29 @@
                     <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
                 </Style>
             </DockPanel.Resources>
-            <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsEnabled="True"/>
+            <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsChecked="True" IsEnabled="True" FontWeight="Bold"/>
             <se:StswSeparator DockPanel.Dock="Top" Margin="5"/>
             <!-- buttons -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswButton Margin="5">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Positive}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Negative}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Neutral}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Modify}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Structure}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
                 </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Designer}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswButton>
             </UniformGrid>
@@ -88,8 +88,8 @@
             </UniformGrid>
             <!-- comboboxes -->
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsHitTestVisible="False" IsEditable="True"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsEditable="True"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
@@ -171,22 +171,22 @@
                 <se:StswToggleButton Margin="5">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Positive}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Positive}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Negative}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Negative}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Neutral}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Neutral}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Modify}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Modify}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Structure}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Structure}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
                 </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswIconColors.Designer}">
+                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Designer}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswToggleButton>
             </UniformGrid>

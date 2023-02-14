@@ -6,8 +6,8 @@ namespace StswExpress;
 /// RelayCommand
 public class StswRelayCommand : ICommand
 {
-    private readonly Action<object?> execute;
-    private readonly Func<object?, bool>? canExecute;
+    private readonly Action execute;
+    private readonly Func<bool>? canExecute;
 
     public event EventHandler? CanExecuteChanged
     {
@@ -15,14 +15,14 @@ public class StswRelayCommand : ICommand
         remove => CommandManager.RequerySuggested -= value;
     }
 
-    public StswRelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
+    public StswRelayCommand(Action execute, Func<bool>? canExecute = null)
     {
         this.execute = execute;
         this.canExecute = canExecute;
     }
 
-    public bool CanExecute(object? parameter) => canExecute == null || canExecute(parameter);
-    public void Execute(object? parameter) => execute(parameter);
+    public bool CanExecute(object? parameter) => canExecute == null || canExecute();
+    public void Execute(object? parameter) => execute();
 }
 
 /// GlobalCommands

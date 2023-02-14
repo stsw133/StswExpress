@@ -2,47 +2,93 @@
 
 namespace TestApp.Modules.Contractors;
 
-public class ContractorModel
+public class ContractorModel : StswObservableObject
 {
     /// ID
-    [StswExcelAttribute("ID")]
-    public int ID { get; set; } = default;
+    private int id;
+    public int ID
+    {
+        get => id;
+        set => SetProperty(ref id, value);
+    }
 
     /// Type
-    [StswExcelAttribute("Type")]
-    public string? Type { get; set; } = default;
-    
+    private string? type;
+    public string? Type
+    {
+        get => type;
+        set => SetProperty(ref type, value);
+    }
+
     /// Icon
-    public byte[]? Icon { get; set; } = default;
+    private byte[]? icon;
+    public byte[]? Icon
+    {
+        get => icon;
+        set => SetProperty(ref icon, value);
+    }
 
     /// Name
-    [StswExcelAttribute("Name")]
-    public string? Name { get; set; } = default;
+    private string? name;
+    public string? Name
+    {
+        get => name;
+        set => SetProperty(ref name, value);
+    }
 
     /// Country
-    [StswExcelAttribute("Country")]
-    public string? Country { get; set; } = default;
-    
+    private string? country;
+    public string? Country
+    {
+        get => country;
+        set => SetProperty(ref country, value);
+    }
+
     /// PostCode
-    [StswExcelAttribute("Post code")]
-    public string? PostCode { get; set; } = default;
+    private string? postCode;
+    public string? PostCode
+    {
+        get => postCode;
+        set => SetProperty(ref postCode, value);
+    }
 
     /// City
-    [StswExcelAttribute("City")]
-    public string? City { get; set; } = default;
+    private string? city;
+    public string? City
+    {
+        get => city;
+        set => SetProperty(ref city, value);
+    }
 
     /// Street
-    [StswExcelAttribute("Street")]
-    public string? Street { get; set; } = default;
+    private string? street;
+    public string? Street
+    {
+        get => street;
+        set => SetProperty(ref street, value);
+    }
 
     /// IsArchival
-    [StswExcelAttribute("Is archival", "{0:YES;1;NO}")]
-    public bool IsArchival { get; set; } = default;
+    private bool isArchival;
+    public bool IsArchival
+    {
+        get => isArchival;
+        set => SetProperty(ref isArchival, value);
+    }
 
     /// CreateDT
-    [StswExcelAttribute("Create date", "yyyy-MM-dd")]
-    public DateTime CreateDT { get; set; } = default;
+    private DateTime createDT = DateTime.Now;
+    public DateTime CreateDT
+    {
+        get => createDT;
+        set => SetProperty(ref createDT, value);
+    }
 
     /// ShowDetails
-    public bool ShowDetails { get; set; } = default;
+    private bool showDetails;
+    public bool ShowDetails
+    {
+        get => showDetails;
+        set => SetProperty(ref showDetails, value);
+    }
 }

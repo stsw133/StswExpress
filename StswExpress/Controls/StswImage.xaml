@@ -25,7 +25,7 @@
                                 <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Neutral}"/>
+                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Neutral}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                     <Setter Property="Foreground" Value="#7777"/>
@@ -39,7 +39,7 @@
                         <!-- copy -->
                         <MenuItem Header="Kopiuj" Click="MnuItmCopy_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswIconColors.Positive}"/>
+                                <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswColors.Positive}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- paste -->
@@ -48,7 +48,7 @@
                                 <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Neutral}"/>
+                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Neutral}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                     <Setter Property="Foreground" Value="#7777"/>
@@ -65,7 +65,7 @@
                                 <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Negative}"/>
+                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Negative}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                     <Setter Property="Foreground" Value="#7777"/>
@@ -84,7 +84,7 @@
                                 <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswIconColors.Structure}"/>
+                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Structure}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                     <Setter Property="Foreground" Value="#7777"/>
@@ -98,7 +98,7 @@
                         <!-- save-->
                         <MenuItem Header="Zapisz" Click="MnuItmSave_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswIconColors.Modify}"/>
+                                <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswColors.Modify}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </ContextMenu>

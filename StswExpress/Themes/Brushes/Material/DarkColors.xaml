@@ -2,12 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <SolidColorBrush x:Key="ColorPositive" Color="{Binding Source={x:Static se:StswIconColors.Positive}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
-    <SolidColorBrush x:Key="ColorNegative" Color="{Binding Source={x:Static se:StswIconColors.Negative}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
-    <SolidColorBrush x:Key="ColorNeutral" Color="{Binding Source={x:Static se:StswIconColors.Neutral}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
-    <SolidColorBrush x:Key="ColorModify" Color="{Binding Source={x:Static se:StswIconColors.Modify}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
-    <SolidColorBrush x:Key="ColorStructure" Color="{Binding Source={x:Static se:StswIconColors.Structure}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
-    <SolidColorBrush x:Key="ColorDesigner" Color="{Binding Source={x:Static se:StswIconColors.Designer}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorPositive" Color="{Binding Source={x:Static se:StswColors.Positive}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorNegative" Color="{Binding Source={x:Static se:StswColors.Negative}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorNeutral" Color="{Binding Source={x:Static se:StswColors.Neutral}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorModify" Color="{Binding Source={x:Static se:StswColors.Modify}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorStructure" Color="{Binding Source={x:Static se:StswColors.Structure}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
+    <SolidColorBrush x:Key="ColorDesigner" Color="{Binding Source={x:Static se:StswColors.Designer}, Converter={se:conv_Color}, ConverterParameter=-0.3}" />
 
     <Color x:Key="Color50">#fffcfcfc</Color>
     <Color x:Key="Color100">#fff8f8f8</Color>

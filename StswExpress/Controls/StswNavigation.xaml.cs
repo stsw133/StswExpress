@@ -118,8 +118,8 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
     /// Pages (main logic)
     private Frame? naviFrame;
 
-    private ExtDictionary<string, Page?> pages = new();
-    public ExtDictionary<string, Page?> Pages
+    private StswDictionary<string, Page?> pages = new();
+    public StswDictionary<string, Page?> Pages
     {
         get => pages;
         set

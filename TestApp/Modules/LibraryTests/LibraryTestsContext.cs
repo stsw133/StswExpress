@@ -2,7 +2,7 @@
 
 namespace TestApp.Modules.LibraryTests;
 
-public class LibraryTestsContext : StswContext
+public class LibraryTestsContext : StswObservableObject
 {
     /// ComboLists
     public List<string?> ListTypes => new List<string?>() { "Test1", "Test2", "Test3", null };

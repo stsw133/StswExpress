@@ -136,10 +136,10 @@
                                 </ContextMenu>
                             </se:StswButton.ContextMenu>
                         </se:StswButton>
-                        <Border x:Name="subborder"
+                        <Border x:Name="PART_SubBorder"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding SubBorderThickness}"
-                                SnapsToDevicePixels="False"/>
+                                SnapsToDevicePixels="True"/>
                         <!-- controls -->
                         <UniformGrid x:Name="UngFilters" Columns="1" Background="{DynamicResource TextBox.Static.Background}"/>
                     </DockPanel>

@@ -44,6 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.19.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Controls\StswToggleButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

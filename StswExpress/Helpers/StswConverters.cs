@@ -254,6 +254,7 @@ public class conv_Add : MarkupExtension, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        parameter ??= 0;
         var val = System.Convert.ToDouble(value, culture);
 
         /// calculate result
@@ -325,6 +326,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        parameter ??= 1;
         var val = System.Convert.ToDouble(value, culture);
 
         /// calculate result
@@ -398,12 +400,7 @@ public class conv_NullToUnset : MarkupExtension, IValueConverter
     private static conv_NullToUnset? _conv;
     public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NullToUnset();
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value == null)
-            return DependencyProperty.UnsetValue;
-        return value;
-    }
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
@@ -422,7 +419,10 @@ public class conv_IfElse : MarkupExtension, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var pmr = parameter?.ToString()?.Split('~') ?? new string[3];
+        var pmr = parameter?.ToString()?.Split('~');
+        if (pmr?.Length != 3)
+            pmr = new string[3];
+
         var val = System.Convert.ToString(value, culture);
 
         return (val == pmr[0]) ? pmr[1] : pmr[2];

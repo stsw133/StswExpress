@@ -38,11 +38,11 @@
         <Setter Property="BorderBrushDisabled" Value="#3777"/>
         <Setter Property="GlyphBrushDisabled" Value="#7777"/>
 
-        <Setter Property="BackgroundMouseOver" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
         <Setter Property="BorderBrushMouseOver" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
         <Setter Property="GlyphBrushMouseOver" Value="{Binding GlyphBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.2}"/>
 
-        <Setter Property="BackgroundPressed" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundPressed" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.1}"/>
         <Setter Property="BorderBrushPressed" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.1}"/>
         <Setter Property="GlyphBrushPressed" Value="{Binding GlyphBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.1}"/>
 
@@ -308,8 +308,8 @@
         <Setter Property="BackgroundPressed" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.1}"/>
         <Setter Property="BorderBrushPressed" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.1}"/>
 
-        <Setter Property="BackgroundChecked" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.35}"/>
-        <Setter Property="BorderBrushChecked" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.35}"/>
+        <Setter Property="BackgroundChecked" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=-0.4}"/>
+        <Setter Property="BorderBrushChecked" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BorderBrushDefaulted" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
 

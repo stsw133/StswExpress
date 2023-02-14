@@ -7,7 +7,7 @@ namespace StswExpress;
 
 public static class StswLog
 {
-    public static readonly string LogFileDirectory = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath), "logs");
+    public static readonly string LogFileDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "logs");
 
     /// Write text to log file.
     public static void Write(string text)

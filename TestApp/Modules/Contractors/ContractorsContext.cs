@@ -5,22 +5,22 @@ using System.Windows;
 
 namespace TestApp.Modules.Contractors;
 
-public class ContractorsContext : StswContext
+public class ContractorsContext : StswObservableObject
 {
     /// ColumnFilters
-    private ExtDictionary<string, StswColumnFilterData> columnFilters = new();
-    public ExtDictionary<string, StswColumnFilterData> ColumnFilters
+    private StswDictionary<string, StswColumnFilterData> columnFilters = new();
+    public StswDictionary<string, StswColumnFilterData> ColumnFilters
     {
         get => columnFilters;
-        set => SetProperty(ref columnFilters, value, () => ColumnFilters);
+        set => SetProperty(ref columnFilters, value);
     }
 
     /// IsBusy
-    private ExtDictionary<string, bool> isBusy = new();
-    public ExtDictionary<string, bool> IsBusy
+    private StswDictionary<string, bool> isBusy = new();
+    public StswDictionary<string, bool> IsBusy
     {
         get => isBusy;
-        set => SetProperty(ref isBusy, value, () => IsBusy);
+        set => SetProperty(ref isBusy, value);
     }
 
     /// ComboLists
@@ -34,38 +34,39 @@ public class ContractorsContext : StswContext
         get => countActions;
         set
         {
-            SetProperty(ref countActions, value, () => CountActions);
+            SetProperty(ref countActions, value);
             NotifyPropertyChanged(nameof(IsLoading));
         }
     }
     public bool IsLoading => CountActions > 0;
 
     /// ListContractors
-    private ExtCollection<ContractorModel> listContractors = new();
-    public ExtCollection<ContractorModel> ListContractors
+    private StswCollection<ContractorModel> listContractors = new();
+    public StswCollection<ContractorModel> ListContractors
     {
         get => listContractors;
-        set => SetProperty(ref listContractors, value, () => ListContractors);
+        set => SetProperty(ref listContractors, value);
     }
 
     /// Commands
     public StswRelayCommand ClearCommand { get; set; }
     public StswRelayCommand RefreshCommand { get; set; }
     public StswRelayCommand SaveCommand { get; set; }
-    public StswRelayCommand ExportToCsvCommand { get; set; }
+    public StswRelayCommand ExportToExcelCommand { get; set; }
     public StswRelayCommand AddCommand { get; set; }
     public StswRelayCommand EditCommand { get; set; }
     public StswRelayCommand DeleteCommand { get; set; }
 
     public ContractorsContext()
     {
-        ClearCommand = new StswRelayCommand(o => Clear(), o => true);
-        RefreshCommand = new StswRelayCommand(o => Refresh(), o => true);
-        SaveCommand = new StswRelayCommand(o => Save(), o => true);
-        ExportToCsvCommand = new StswRelayCommand(o => ExportToCsv(), o => true);
-        AddCommand = new StswRelayCommand(o => Add(), o => true);
-        EditCommand = new StswRelayCommand(o => Edit(), o => true);
-        DeleteCommand = new StswRelayCommand(o => Delete(), o => true);
+        ContractorsQueries.InitializeTables();
+        ClearCommand = new StswRelayCommand(Clear);
+        RefreshCommand = new StswRelayCommand(Refresh);
+        SaveCommand = new StswRelayCommand(Save);
+        ExportToExcelCommand = new StswRelayCommand(ExportToExcel);
+        AddCommand = new StswRelayCommand(Add);
+        EditCommand = new StswRelayCommand(Edit);
+        DeleteCommand = new StswRelayCommand(Delete);
     }
     
     /// Clear
@@ -115,27 +116,41 @@ public class ContractorsContext : StswContext
 
         Thread.Sleep(100);
         if (ContractorsQueries.SetContractors(ListContractors))
+        {
+            Refresh();
             MessageBox.Show("Data saved successfully.");
+        }
 
         CountActions--;
         IsBusy[nameof(Save)] = false;
     }
 
-    /// ExportToCsv
-    private async void ExportToCsv()
+    /// ExportToExcel
+    private async void ExportToExcel()
     {
-        if (IsBusy[nameof(ExportToCsv)]) return;
+        if (IsBusy[nameof(ExportToExcel)]) return;
         
         await Task.Run(() =>
         {
-            IsBusy[nameof(ExportToCsv)] = true;
+            IsBusy[nameof(ExportToExcel)] = true;
             CountActions++;
 
             Thread.Sleep(100);
-            ListContractors.ExportToCsv(null, true, "\t");
+            StswExport.ExportToExcel(ListContractors, null, true, new()
+            {
+                new() { FieldName = nameof(ContractorModel.ID), ColumnName = "ID" },
+                new() { FieldName = nameof(ContractorModel.Type), ColumnName = "Type" },
+                new() { FieldName = nameof(ContractorModel.Name), ColumnName = "Name" },
+                new() { FieldName = nameof(ContractorModel.Country), ColumnName = "Country" },
+                new() { FieldName = nameof(ContractorModel.PostCode), ColumnName = "Post code" },
+                new() { FieldName = nameof(ContractorModel.City), ColumnName = "City" },
+                new() { FieldName = nameof(ContractorModel.Street), ColumnName = "Street" },
+                new() { FieldName = nameof(ContractorModel.IsArchival), ColumnName = "Is archival", ColumnFormat = "{0:yes;1;no}" },
+                new() { FieldName = nameof(ContractorModel.CreateDT), ColumnName = "Date of creation", ColumnFormat = "yyyy-MM-dd" },
+            });
 
             CountActions--;
-            IsBusy[nameof(ExportToCsv)] = false;
+            IsBusy[nameof(ExportToExcel)] = false;
         });
     }
 
@@ -144,7 +159,7 @@ public class ContractorsContext : StswContext
     public object? SelectedItem
     {
         get => selectedItem;
-        set => SetProperty(ref selectedItem, value, () => SelectedItem);
+        set => SetProperty(ref selectedItem, value);
     }
 
     /// Add

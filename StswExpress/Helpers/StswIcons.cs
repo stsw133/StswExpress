@@ -2,7 +2,7 @@
 
 namespace StswExpress;
 
-public static class StswIconColors
+public static class StswColors
 {
     public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromArgb(220, 50, 140, 50));
     public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromArgb(220, 160, 40, 20));

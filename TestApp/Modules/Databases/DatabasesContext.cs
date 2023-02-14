@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace TestApp.Modules.Databases;
 
-public class DatabasesContext : StswContext
+public class DatabasesContext : StswObservableObject
 {
     /// CurrentDB
     private StswDB? currentDB;
     public StswDB? CurrentDB
     {
         get => currentDB;
-        set => SetProperty(ref currentDB, value, () => CurrentDB);
+        set => SetProperty(ref currentDB, value);
     }
 
     /// IsLoading
@@ -20,7 +20,7 @@ public class DatabasesContext : StswContext
         get => countActions;
         set
         {
-            SetProperty(ref countActions, value, () => CountActions);
+            SetProperty(ref countActions, value);
             NotifyPropertyChanged(nameof(IsLoading));
         }
     }
@@ -32,8 +32,8 @@ public class DatabasesContext : StswContext
 
     public DatabasesContext()
     {
-        ImportCommand = new StswRelayCommand(o => Import(), o => true);
-        ExportCommand = new StswRelayCommand(o => Export(), o => true);
+        ImportCommand = new StswRelayCommand(Import);
+        ExportCommand = new StswRelayCommand(Export);
 
         Import();
     }

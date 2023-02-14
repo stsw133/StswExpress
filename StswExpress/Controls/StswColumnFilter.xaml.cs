@@ -324,51 +324,7 @@ public class StswColumnFilterBase : UserControl
                 return;
             }
 
-            /// separator
-            var s = filter.FilterType.In(Types.Date, Types.Text, Types.ListOfTexts) ? "'" : string.Empty;
-            /// case sensitive
-            var cs1 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? "lower(" : string.Empty;
-            var cs2 = filter.FilterType.In(Types.Text, Types.ListOfTexts) && !filter.IsFilterCaseSensitive ? ")" : string.Empty;
-            /// null sensitive
-            var ns1 = !filter.IsFilterNullSensitive ? "coalesce(" : string.Empty;
-            var ns2 = string.Empty;
-            if (!filter.IsFilterNullSensitive)
-            {
-                ns2 = filter.FilterType switch
-                {
-                    Types.Check => ", 0)",
-                    Types.Date => ", '1900-01-01')",
-                    Types.Number => ", 0)",
-                    Types.Text => ", '')",
-                    Types.ListOfNumbers => ", 0)",
-                    Types.ListOfTexts => ", '')",
-                    _ => string.Empty
-                };
-            }
-
-            /// calculate SQL string
-            filter.SqlString = filter.FilterMode switch
-            {
-                Modes.Equal => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} = {cs1}{filter.SqlParam}1{cs2}",
-                Modes.NotEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <> {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Greater => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} > {cs1}{filter.SqlParam}1{cs2}",
-                Modes.GreaterEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} >= {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Less => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} < {cs1}{filter.SqlParam}1{cs2}",
-                Modes.LessEqual => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} <= {cs1}{filter.SqlParam}1{cs2}",
-                Modes.Between => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} between {cs1}{filter.SqlParam}1{cs2} and {cs1}{filter.SqlParam}2{cs2}",
-                Modes.Contains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
-                Modes.NotContains => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {filter.SqlParam}1, '%'){cs2}",
-                Modes.Like => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}{filter.SqlParam}1{cs2}",
-                Modes.NotLike => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not like {cs1}{filter.SqlParam}1{cs2}",
-                Modes.StartsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat({filter.SqlParam}1, '%'){cs2}",
-                Modes.EndsWith => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {filter.SqlParam}1){cs2}",
-                Modes.In => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
-                Modes.NotIn => $"{cs1}{ns1}{filter.FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)filter.Value1)}{s}{cs2})",
-                Modes.Null => $"{filter.FilterSqlColumn} is null)",
-                Modes.NotNull => $"{filter.FilterSqlColumn} is not null)",
-                _ => null
-            };
-
+            filter.GenerateSqlString();
             filter.SetData();
         }
     }
@@ -702,6 +658,55 @@ public class StswColumnFilterBase : UserControl
 
         symbolText.Fill = newSymbolText.Fill;
         symbolText.Text = newSymbolText.Text;
+    }
+
+    /// GenerateSqlString
+    internal void GenerateSqlString()
+    {
+        /// separator
+        var s = FilterType.In(Types.Date, Types.Text, Types.ListOfTexts) ? "'" : string.Empty;
+        /// case sensitive
+        var cs1 = FilterType.In(Types.Text, Types.ListOfTexts) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
+        var cs2 = FilterType.In(Types.Text, Types.ListOfTexts) && !IsFilterCaseSensitive ? ")" : string.Empty;
+        /// null sensitive
+        var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
+        var ns2 = string.Empty;
+        if (!IsFilterNullSensitive)
+        {
+            ns2 = FilterType switch
+            {
+                Types.Check => ", 0)",
+                Types.Date => ", '1900-01-01')",
+                Types.Number => ", 0)",
+                Types.Text => ", '')",
+                Types.ListOfNumbers => ", 0)",
+                Types.ListOfTexts => ", '')",
+                _ => string.Empty
+            };
+        }
+
+        /// calculate SQL string
+        SqlString = FilterMode switch
+        {
+            Modes.Equal => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
+            Modes.NotEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
+            Modes.Greater => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
+            Modes.GreaterEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
+            Modes.Less => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
+            Modes.LessEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
+            Modes.Between => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
+            Modes.Contains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            Modes.NotContains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            Modes.Like => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
+            Modes.NotLike => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
+            Modes.StartsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
+            Modes.EndsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
+            Modes.In => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)Value1)}{s}{cs2})",
+            Modes.NotIn => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", (List<object>)Value1)}{s}{cs2})",
+            Modes.Null => $"{FilterSqlColumn} is null)",
+            Modes.NotNull => $"{FilterSqlColumn} is not null)",
+            _ => null
+        };
     }
 }
 

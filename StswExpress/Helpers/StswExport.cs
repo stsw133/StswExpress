@@ -1,27 +1,23 @@
-﻿using Microsoft.Win32;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace StswExpress;
 
 public static class StswExport
 {
-    /// <summary>
-    /// Gets all rows and visible columns from DataGrid and puts into new Excel instance.
-    /// </summary>
-    /// <param name="dg">DataGrid</param>
-    public static void ExportToCsv<T>(this IEnumerable<T> list, string? filePath, bool openFile, string columnSeparator)
+    /// ExportToExcel
+    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExcelColumns>? columns)
     {
-        var result = string.Empty;
-
         if (filePath == null)
         {
             var dialog = new SaveFileDialog()
             {
-                Filter = "Pliki CSV|*.csv"
+                Filter = "Excel file (XLSX)|*.xlsx"
             };
             if (dialog.ShowDialog() == true)
                 filePath = dialog.FileName;
@@ -29,42 +25,77 @@ public static class StswExport
                 return;
         }
 
-        var properties = typeof(T).GetProperties().Where(x => Attribute.IsDefined(x, typeof(StswExcelAttribute)));
-        result = string.Join(columnSeparator, properties.Select(x => x.GetCustomAttribute<StswExcelAttribute>()?.columnName));
-
-        foreach (var elem in list)
+        using (var document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
         {
-            result += Environment.NewLine;
+            /// new workbook and sheets
+            var workbookPart = document.AddWorkbookPart();
+            workbookPart.Workbook = new Workbook();
 
-            var line = string.Empty;
+            var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            var sheetData = new SheetData();
+            worksheetPart.Worksheet = new Worksheet(sheetData);
+
+            var sheets = workbookPart.Workbook.AppendChild(new Sheets());
+            var sheet = new Sheet()
+            {
+                Id = workbookPart.GetIdOfPart(worksheetPart),
+                SheetId = 1,
+                Name = "Sheet1"
+            };
+            sheets.Append(sheet);
+
+            /// properties of T
+            var properties = typeof(T).GetProperties().Where(x => columns == null || x.Name.In(columns.Select(y => y.FieldName)));
+
+            /// headers
+            var row = new Row();
             foreach (var property in properties)
             {
-                var val = property.GetValue(elem);
-                var format = property.GetCustomAttribute<StswExcelAttribute>()?.columnFormat;
-                var isFormattable = val is IFormattable f;
-                line += ((isFormattable ? (val as dynamic)?.ToString(format) : format != null ? string.Format(format, val.GetHashCode()) : val?.ToString()) ?? string.Empty) + columnSeparator;
+                row.Append(new Cell
+                {
+                    DataType = CellValues.String,
+                    CellValue = new CellValue(columns == null ? property.Name : columns.First(x => x.FieldName == property.Name).ColumnName ?? string.Empty)
+                });
             }
-            line = line.TrimEnd(columnSeparator);
+            sheetData.AppendChild(row);
 
-            result += line;
+            /// elements
+            foreach (var item in data)
+            {
+                row = new Row();
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(item);
+                    var format = columns?.FirstOrDefault(x => x.FieldName == property.Name)?.ColumnFormat;
+
+                    string valueAsString;
+                    if (format != null && value is IFormattable f)
+                        valueAsString = (value as dynamic).ToString(format);
+                    else if (format != null && value != null)
+                        valueAsString = string.Format(format, value.GetHashCode());
+                    else
+                        valueAsString = value?.ToString() ?? string.Empty;
+                    
+                    row.Append(new Cell
+                    {
+                        DataType = CellValues.String,
+                        CellValue = new CellValue(valueAsString)
+                    });
+                }
+                sheetData.AppendChild(row);
+            }
+
+            /// save
+            workbookPart.Workbook.Save();
         }
-        using (var sw = new StreamWriter(filePath, false))
-            sw.Write(result);
-
         if (openFile)
             StswFn.OpenFile(filePath);
     }
 }
 
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-public class StswExcelAttribute : Attribute
+public class StswExcelColumns
 {
-    public readonly string columnName;
-    public readonly string? columnFormat;
-
-    public StswExcelAttribute(string columnName, string? columnFormat = null)
-    {
-        this.columnName = columnName;
-        this.columnFormat = columnFormat;
-    }
+    public string? FieldName { get; set; }
+    public string? ColumnName { get; set; }
+    public string? ColumnFormat { get; set; }
 }

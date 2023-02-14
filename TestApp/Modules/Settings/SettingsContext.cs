@@ -1,6 +1,6 @@
 ﻿namespace TestApp.Modules.Settings;
 
-public class SettingsContext : StswContext
+public class SettingsContext : StswObservableObject
 {
 
 }

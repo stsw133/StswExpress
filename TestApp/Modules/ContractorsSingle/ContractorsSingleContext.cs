@@ -1,12 +1,12 @@
 ﻿namespace TestApp.Modules.ContractorsSingle;
 
-public class ContractorsSingleContext : StswContext
+public class ContractorsSingleContext : StswObservableObject
 {
     /// ID
     private int? id = new();
     public int? ID
     {
         get => id;
-        set => SetProperty(ref id, value, () => ID);
+        set => SetProperty(ref id, value);
     }
 }
