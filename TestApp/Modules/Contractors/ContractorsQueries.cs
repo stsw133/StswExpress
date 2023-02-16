@@ -26,7 +26,7 @@ internal static class ContractorsQueries
 				        create table StswExpressTEST_Contractors
 				        (
 				    	    ID int identity(1,1) not null primary key,
-                            Type int,
+                            Type varchar(30),
                             Icon varbinary(max),
                             Name varchar(255),
                             Country varchar(2),

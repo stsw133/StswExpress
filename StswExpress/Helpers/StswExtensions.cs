@@ -123,7 +123,7 @@ public static class StswExtensions
     }
 
     /// Gets or clears data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void GetColumnFilters(this StswDictionary<string, StswColumnFilterData> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
@@ -146,7 +146,7 @@ public static class StswExtensions
         if (string.IsNullOrWhiteSpace(filter))
             filter = "1=1";
     }
-    public static void ClearColumnFilters(this StswDictionary<string, StswColumnFilterData> dict)
+    public static void ClearColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict)
     {
         foreach (var pair in dict)
             dict[pair.Key]?.Clear();

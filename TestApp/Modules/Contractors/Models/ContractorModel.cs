@@ -85,5 +85,10 @@ public class ContractorModel : StswObservableObject
     }
 
     /// ShowDetails
-    public bool ShowDetails { get; set; }
+    private bool showDetails;
+    public bool ShowDetails
+    {
+        get => showDetails;
+        set => SetProperty(ref showDetails, value);
+    }
 }

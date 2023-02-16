@@ -115,8 +115,8 @@ public class StswDataGridBase : DataGrid
     /// BtnClearFilters_Click
     private void BtnClearFilters_Click(object sender, RoutedEventArgs e)
     {
-        var extDict = new StswDictionary<string, StswColumnFilterData?>();
-        var datas = StswExtensions.FindVisualChildren<StswColumnFilter>(this).Select(x => x.Data).ToList();
+        var extDict = new StswDictionary<string, StswColumnFilterBindingData?>();
+        var datas = StswExtensions.FindVisualChildren<StswColumnFilter>(this).Select(x => x.BindingData).ToList();
         for (int i = 0; i < datas.Count(); i++)
             extDict.Add(i.ToString(), datas[i]);
         extDict.ClearColumnFilters();

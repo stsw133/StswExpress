@@ -1,7 +1,6 @@
 ﻿/// Changes for future:
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
-// TODO - export IEnumerable<T> to Excel
 // TODO - fullscreen mode in StswWindow (hiding TitleBar and TaskBar)
 // TODO - MessageBox and NotifyIcon builded in window
 // TODO - new Stsw column controls
@@ -15,13 +14,12 @@
 // TODO - Popup instead of ContextMenu in StswWindow but both of them are bugged anyway
 // TODO - null filter in StswColumnFilter should completely hide filter field
 // TODO - new option in StswColumnFilters to download or not data from database
-// TODO - ExtCollection with RowState functionality (want to know which instances were modified/added/deleted before changing them in database)
+// TODO - ExtCollection with RowState functionality - this is ready, just needs some improvements
 
 /// Changes to do for now:
-// TODO - edit instance from instances list with basic binding in context
 // TODO - change all Stsw controls to use templates (left at the moment: StswDataGrid)
 // TODO - StswColumnFilter needs to refresh data on Enter click
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
 // TODO - StswNavigationButton should work with Expanders (something like sub buttons)
 // TODO - StswNavigation with special button to hide section names or/and always hiding names and showing them only when mouse is over them
-// TODO - StswColumnFilter does not change SqlString when FilterMode changing
+// TODO - edit instance from instances list with basic binding in context

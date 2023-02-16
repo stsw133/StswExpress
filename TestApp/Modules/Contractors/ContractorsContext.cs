@@ -9,8 +9,8 @@ namespace TestApp.Modules.Contractors;
 public class ContractorsContext : StswObservableObject
 {
     /// ColumnFilters
-    private StswDictionary<string, StswColumnFilterData> columnFilters = new();
-    public StswDictionary<string, StswColumnFilterData> ColumnFilters
+    private StswDictionary<string, StswColumnFilterBindingData> columnFilters = new();
+    public StswDictionary<string, StswColumnFilterBindingData> ColumnFilters
     {
         get => columnFilters;
         set => SetProperty(ref columnFilters, value);
