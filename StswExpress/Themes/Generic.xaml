@@ -72,7 +72,7 @@
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='0.5 0 0 0'}"/>
         <Setter Property="Margin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="FilterVisibility" Value="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={se:conv_Bool}}"/>
+        <Setter Property="FilterVisibility" Value="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={se:conv_Bool}, FallbackValue=Visible}"/>
     </Style>
 
     <!-- StswComboBox -->
@@ -135,6 +135,8 @@
         <Setter Property="SelectedDateFormat" Value="Short"/>
     </Style>
 
+    <!-- StswDataGrid (in xaml file) -->
+
     <!-- StswHeader -->
     <Style TargetType="{x:Type se:StswHeader}">
         <Setter Property="IconForeground" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
@@ -172,6 +174,8 @@
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
+        
+        <Setter Property="ExtendedMode" Value="True"/>
     </Style>
 
     <!-- StswNavigationButton -->
@@ -325,7 +329,7 @@
     <Style TargetType="{x:Type se:StswWindow}">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="0" UseAeroCaptionButtons="False"/>
+                <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -477,9 +481,10 @@
                                         <se:OutlinedTextBlock Text="🗙"/>
                                     </Button>
                                 </StackPanel>
+                                <!-- context menu -->
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
-                                        <MenuItem Header="Interfejs">
+                                        <MenuItem Header="Dodatkowe opcje">
                                             <MenuItem Header="Rozmiar">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>

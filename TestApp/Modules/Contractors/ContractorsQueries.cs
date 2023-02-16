@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Windows;
 
 namespace TestApp.Modules.Contractors;
@@ -49,8 +50,6 @@ internal static class ContractorsQueries
     /// ListOfTypes
     internal static List<string?> ListOfTypes()
     {
-        var result = new DataTable();
-
         return new List<string?>() {
             "Test1",
             "Test2",
@@ -58,6 +57,8 @@ internal static class ContractorsQueries
             null
         };
         /*
+        var result = new DataTable();
+
         try
         {
             using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
@@ -76,10 +77,11 @@ internal static class ContractorsQueries
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(ListOfTypes)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        
+        return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
         */
-        //return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
     }
 
     /// GetContractors
@@ -118,7 +120,7 @@ internal static class ContractorsQueries
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(GetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
         return result.AsList<ContractorModel>().ToStswCollection();
@@ -146,15 +148,15 @@ internal static class ContractorsQueries
                              @IsArchival, @CreateDT)";
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
-                        sqlCmd.Parameters.AddWithValue("@Type", (object)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object)item.Icon ?? DBNull.Value;
-                        sqlCmd.Parameters.AddWithValue("@Name", (object)item.Name ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@Country", (object)item.Country ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@PostCode", (object)item.PostCode ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@City", (object)item.City ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@Street", (object)item.Street ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object)item.IsArchival ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object)item.CreateDT ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object?)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@City", (object?)item.City ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Street", (object?)item.Street ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object?)item.IsArchival ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object?)item.CreateDT ?? DBNull.Value);
                         sqlCmd.ExecuteNonQuery();
                     }
                 }
@@ -169,15 +171,15 @@ internal static class ContractorsQueries
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
-                        sqlCmd.Parameters.AddWithValue("@Type", (object)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object)item.Icon ?? DBNull.Value;
-                        sqlCmd.Parameters.AddWithValue("@Name", (object)item.Name ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@Country", (object)item.Country ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@PostCode", (object)item.PostCode ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@City", (object)item.City ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@Street", (object)item.Street ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object)item.IsArchival ?? DBNull.Value);
-                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object)item.CreateDT ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object?)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@City", (object?)item.City ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@Street", (object?)item.Street ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@IsArchival", (object?)item.IsArchival ?? DBNull.Value);
+                        sqlCmd.Parameters.AddWithValue("@CreateDT", (object?)item.CreateDT ?? DBNull.Value);
                         sqlCmd.ExecuteNonQuery();
                     }
                 }
@@ -198,7 +200,38 @@ internal static class ContractorsQueries
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(SetContractors)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+        return result;
+    }
+
+    /// DeleteContractor
+    internal static bool DeleteContractor(int id)
+    {
+        var result = false;
+        
+        try
+        {
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            {
+                sqlConn.Open();
+
+                var query = $@"
+                    delete from dbo.StswExpressTEST_Contractors
+                    where ID=@ID";
+                using (var sqlCmd = new SqlCommand(query, sqlConn))
+                {
+                    sqlCmd.Parameters.AddWithValue("@ID", id);
+                    sqlCmd.ExecuteNonQuery();
+                }
+
+                result = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
         return result;

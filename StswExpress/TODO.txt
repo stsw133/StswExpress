@@ -1,25 +1,21 @@
 ﻿/// Changes for future:
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
+// TODO - Popup instead of ContextMenu in StswWindow
 // TODO - fullscreen mode in StswWindow (hiding TitleBar and TaskBar)
 // TODO - MessageBox and NotifyIcon builded in window
 // TODO - new Stsw column controls
 // TODO - new custom Calendar, ColorPicker, Expander, GroupBox, PasswordBox, RadioButton, ScrollViewer, DatePicker & TimePicker, ToggleSwitch, grid with dynamic number of rows or columns
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
-// TODO - possibility to move TitleBar from StswWindow to StswNavigation
-// TODO - StswToggleButton with third state and better looking
+// TODO - StswToggleButton with third state and better looking (StswToggleSwitch propably will work this way)
 
 /// Changes difficult to implement so have lower priority for now:
-// TODO - StswDataGrid with special column - this option is ready, just needs some improvements
-// TODO - Popup instead of ContextMenu in StswWindow but both of them are bugged anyway
 // TODO - null filter in StswColumnFilter should completely hide filter field
 // TODO - new option in StswColumnFilters to download or not data from database
 // TODO - ExtCollection with RowState functionality - this is ready, just needs some improvements
 
 /// Changes to do for now:
-// TODO - change all Stsw controls to use templates (left at the moment: StswDataGrid)
 // TODO - StswColumnFilter needs to refresh data on Enter click
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
 // TODO - StswNavigationButton should work with Expanders (something like sub buttons)
-// TODO - StswNavigation with special button to hide section names or/and always hiding names and showing them only when mouse is over them
 // TODO - edit instance from instances list with basic binding in context

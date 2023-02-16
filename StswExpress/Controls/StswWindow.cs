@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace StswExpress;
@@ -15,21 +13,30 @@ namespace StswExpress;
 public class StswWindow : Window
 {
     private double DefaultHeight, DefaultWidth;
+    private FrameworkElement TitleBar;
+    private StswHeader MoveRectangle;
 
     /// Constructors
-    public StswWindow() => SetValue(CustomControlsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
-    static StswWindow() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
+    public StswWindow()
+    {
+        SetValue(CustomControlsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
+    }
+    static StswWindow()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
+    }
 
+    #region Properties
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
-              nameof(CornerRadius),
-              typeof(CornerRadius),
-              typeof(StswWindow),
-              new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-          );
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+              FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+              CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -44,11 +51,11 @@ public class StswWindow : Window
     /// CustomControls
     public static readonly DependencyProperty CustomControlsProperty
         = DependencyProperty.Register(
-              nameof(CustomControls),
-              typeof(ObservableCollection<UIElement>),
-              typeof(StswWindow),
-              new PropertyMetadata(default(ObservableCollection<UIElement>))
-          );
+            nameof(CustomControls),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswWindow),
+            new PropertyMetadata(default(ObservableCollection<UIElement>))
+        );
     public ObservableCollection<UIElement> CustomControls
     {
         get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
@@ -58,11 +65,11 @@ public class StswWindow : Window
     /// Fullscreen
     public static readonly DependencyProperty FullscreenProperty
         = DependencyProperty.Register(
-              nameof(Fullscreen),
-              typeof(bool),
-              typeof(StswWindow),
-              new PropertyMetadata(default(bool))
-          );
+            nameof(Fullscreen),
+            typeof(bool),
+            typeof(StswWindow),
+            new PropertyMetadata(default(bool))
+        );
     public bool Fullscreen
     {
         get => (bool)GetValue(FullscreenProperty);
@@ -72,23 +79,26 @@ public class StswWindow : Window
     /// SubTitle
     public static readonly DependencyProperty SubTitleProperty
         = DependencyProperty.Register(
-              nameof(SubTitle),
-              typeof(string),
-              typeof(StswWindow),
-              new PropertyMetadata(default(string))
-          );
+            nameof(SubTitle),
+            typeof(string),
+            typeof(StswWindow),
+            new PropertyMetadata(default(string))
+        );
     public string SubTitle
     {
         get => (string)GetValue(SubTitleProperty);
         set => SetValue(SubTitleProperty, value);
     }
+    #endregion
 
     #region OnInitialized
     private HwndSource _hwndSource;
+
     protected override void OnInitialized(EventArgs e)
     {
         SourceInitialized += OnSourceInitialized;
         Loaded += OnLoaded;
+        Closed += OnClosed;
         base.OnInitialized(e);
 
         DefaultHeight = Height;
@@ -102,58 +112,34 @@ public class StswWindow : Window
     }
     #endregion
 
-    #region Menu
-    /// iSizeClick
-    protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
-
-    /// ChangeTheme
-    private void ChangeTheme(int themeID)
+    #region Hide default context menu and show custom
+    private HwndSourceHook _hook;
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
-            Application.Current.Resources.MergedDictionaries.Add(new Theme());
-        var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
-
-        if (themeID < 0)
-            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
-        else
-            theme.Color = (ThemeColor)themeID;
-        Settings.Default.Theme = themeID;
-    }
-
-    /// CenterClick
-    protected void CenterClick(object sender, RoutedEventArgs e)
-    {
-        if (WindowState == WindowState.Maximized)
-            WindowState = WindowState.Normal;
-
-        int MONITOR_DEFAULTTONEAREST = 0x00000002;
-        var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-        if (monitor != IntPtr.Zero)
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
         {
-            var monitorInfo = new MONITORINFO();
-            GetMonitorInfo(monitor, monitorInfo);
-            var rcWorkArea = monitorInfo.rcWork;
-            Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
-            Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+            _hook = new HwndSourceHook(WndProc);
+            hwndSource.AddHook(_hook);
         }
     }
-
-    /// DefaultClick
-    protected void DefaultClick(object sender, RoutedEventArgs e)
+    private void OnClosed(object sender, EventArgs e)
     {
-        Height = DefaultHeight;
-        Width = DefaultWidth;
-        CenterClick(sender, e);
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
+            hwndSource.RemoveHook(_hook);
     }
 
-    /// MinimizeClick
-    protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    private const uint WM_SYSTEMMENU = 0xa4;
+    private const uint WP_SYSTEMMENU = 0x02;
 
-    /// RestoreClick
-    protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
-
-    /// CloseClick
-    protected void CloseClick(object sender, RoutedEventArgs e) => Close();
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if ((msg == WM_SYSTEMMENU && wParam.ToInt32() == WP_SYSTEMMENU) || msg == 165)
+        {
+            TitleBar.ContextMenu.IsOpen = true;
+            handled = true;
+        }
+        return IntPtr.Zero;
+    }
     #endregion
 
     #region Avoid hiding task bar upon maximization
@@ -256,30 +242,6 @@ public class StswWindow : Window
     }
     #endregion
 
-    #region Hide default context menu and show custom
-    FrameworkElement TitleBar;
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        IntPtr windowhandle = new WindowInteropHelper(this).Handle;
-        HwndSource hwndSource = HwndSource.FromHwnd(windowhandle);
-        hwndSource.AddHook(new HwndSourceHook(WndProc));
-    }
-
-    private const uint WM_SYSTEMMENU = 0xa4;
-    private const uint WP_SYSTEMMENU = 0x02;
-
-    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        if (((msg == WM_SYSTEMMENU) && (wParam.ToInt32() == WP_SYSTEMMENU)) || msg == 165)
-        {
-            StswFn.OpenContextMenu(TitleBar);
-            handled = true;
-        }
-
-        return IntPtr.Zero;
-    }
-    #endregion
-
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -341,36 +303,83 @@ public class StswWindow : Window
         /// Chrome change
         MoveRectangle = (StswHeader)GetTemplateChild("moveRectangle");
         MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
-        StateChanged += StswWindow_StateChanged;
+        StateChanged += (s, e) => MoveRectangle_SizeChanged(MoveRectangle, null);
 
         base.OnApplyTemplate();
         UpdateLayout();
     }
 
     /// Chrome change
-    private StswHeader MoveRectangle;
     private void MoveRectangle_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var chrome = WindowChrome.GetWindowChrome(this);
         WindowChrome.SetWindowChrome(this, new WindowChrome()
         {
             CornerRadius = chrome.CornerRadius,
-            CaptionHeight = MoveRectangle.ActualHeight - (WindowState == WindowState.Maximized ? 7 : 0),
+            CaptionHeight = TitleBar.ActualHeight - (WindowState == WindowState.Maximized ? 2 : 0),
             GlassFrameThickness = chrome.GlassFrameThickness,
-            ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5),
+            ResizeBorderThickness = chrome.ResizeBorderThickness,
             UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
         });
     }
-    private void StswWindow_StateChanged(object? sender, EventArgs e) => MoveRectangle_SizeChanged(MoveRectangle, null);
 
-    #region DLL
+    #region ContextMenu
+    /// iSizeClick
+    protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
+
+    /// ChangeTheme
+    private void ChangeTheme(int themeID)
+    {
+        if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
+            Application.Current.Resources.MergedDictionaries.Add(new Theme());
+        var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
+
+        if (themeID < 0)
+            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
+        else
+            theme.Color = (ThemeColor)themeID;
+        Settings.Default.Theme = themeID;
+    }
+
+    /// CenterClick
+    protected void CenterClick(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+            WindowState = WindowState.Normal;
+
+        int MONITOR_DEFAULTTONEAREST = 0x00000002;
+        var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+        if (monitor != IntPtr.Zero)
+        {
+            var monitorInfo = new MONITORINFO();
+            GetMonitorInfo(monitor, monitorInfo);
+            var rcWorkArea = monitorInfo.rcWork;
+            Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
+            Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+        }
+    }
+
+    /// DefaultClick
+    protected void DefaultClick(object sender, RoutedEventArgs e)
+    {
+        Height = DefaultHeight;
+        Width = DefaultWidth;
+        //CenterClick(sender, e);
+    }
+
+    /// MinimizeClick
+    protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    /// RestoreClick
+    protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+
+    /// CloseClick
+    protected void CloseClick(object sender, RoutedEventArgs e) => Close();
+    #endregion
+
     [DllImport("user32")]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
 
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam);
-    #endregion
 }

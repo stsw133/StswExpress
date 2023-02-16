@@ -4,7 +4,7 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:se="clr-namespace:StswExpress"
-                       mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="50">
+                       mc:Ignorable="d" d:Background="White" d:DesignHeight="300" d:DesignWidth="500">
 
     <se:StswNavigationBase.Template>
         <ControlTemplate TargetType="{x:Type se:StswNavigationBase}">
@@ -15,25 +15,79 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{TemplateBinding Buttons}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationBase}}}"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.Resources>
-                                <Style TargetType="{x:Type se:StswNavigationButton}">
-                                    <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
-                                </Style>
-                            </ItemsControl.Resources>
-                        </ItemsControl>
-                    </ScrollViewer>
+                    <StackPanel Orientation="{TemplateBinding Orientation}">
+                        <UniformGrid Rows="1">
+                            
+                            <se:StswToggleButton x:Name="PART_Menu" BorderThickness="0" CornerRadius="0" IsChecked="{TemplateBinding ExtendedMode}">
+                                <se:StswToggleButton.Style>
+                                    <Style TargetType="{x:Type se:StswToggleButton}" BasedOn="{StaticResource {x:Type se:StswToggleButton}}"/>
+                                </se:StswToggleButton.Style>
+                                <se:StswHeader IconData="{x:Static se:StswIcons.Menu}">
+                                    <se:StswHeader.Style>
+                                        <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
+                                    </se:StswHeader.Style>
+                                </se:StswHeader>
+                            </se:StswToggleButton>
+                            <!--
+                            <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={se:conv_Bool}}">
+                                <se:StswButton.Style>
+                                    <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
+                                </se:StswButton.Style>
+                                <se:StswHeader IconData="{x:Static se:StswIcons.Magnify}">
+                                    <se:StswHeader.Style>
+                                        <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
+                                    </se:StswHeader.Style>
+                                </se:StswHeader>
+                            </se:StswButton>
+
+                            <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={se:conv_Bool}}"
+                                           Click="PART_Options_Checked">
+                                <se:StswButton.Style>
+                                    <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
+                                </se:StswButton.Style>
+                                <se:StswHeader IconData="{x:Static se:StswIcons.Cog}">
+                                    <se:StswHeader.Style>
+                                        <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
+                                    </se:StswHeader.Style>
+                                </se:StswHeader>
+                            </se:StswButton>
+                            -->
+                        </UniformGrid>
+                        <se:StswSeparator BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0.5"/>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{TemplateBinding Buttons}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.Resources>
+                                    <Style TargetType="{x:Type se:StswNavigationButton}">
+                                        <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
+                                    </Style>
+                                    <Style TargetType="{x:Type se:StswHeader}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Menu}" Value="False">
+                                                <Setter Property="HideText" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Menu}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Resources>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
                 </se:ClippingBorder>
                 <Border BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Visibility="{TemplateBinding FrameVisibility}">
-                    <Frame x:Name="NaviFrame" NavigationUIVisibility="Hidden"
+                    <Frame x:Name="PART_Frame" NavigationUIVisibility="Hidden"
                            Content="{TemplateBinding Content}"
                            Margin="{TemplateBinding Padding}"/>
                 </Border>

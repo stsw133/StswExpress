@@ -11,6 +11,9 @@ namespace StswExpress;
 /// </Remarks>
 public class ClippingBorder : Border
 {
+    private RectangleGeometry _clipRect = new RectangleGeometry();
+    private object? _oldClip;
+
     protected override void OnRender(DrawingContext dc)
     {
         OnApplyChildClip();
@@ -47,7 +50,4 @@ public class ClippingBorder : Border
             child.Clip = _clipRect;
         }
     }
-
-    private RectangleGeometry _clipRect = new RectangleGeometry();
-    private object _oldClip;
 }

@@ -18,28 +18,30 @@ public partial class StswNavigation : StswNavigationBase
     public StswNavigation()
     {
         InitializeComponent();
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
     }
-    static StswNavigation() => DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
+    static StswNavigation()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
+    }
 }
 
 public class StswNavigationBase : UserControl, INotifyPropertyChanged
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    public void NotifyPropertyChanged([CallerMemberName] string name = "none passed") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
     public StswNavigationBase()
     {
-        if (DesignerProperties.GetIsInDesignMode(this))
-            return;
+        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(PagesProperty, new StswDictionary<string, Page?>());
 
+        if (DesignerProperties.GetIsInDesignMode(this)) return;
+
+        /// selecting first visible and enabled button from navigation
         Loaded += (s, e) =>
         {
             var checkedButton = (Buttons.FirstOrDefault(x => x is StswNavigationButton r && r.IsChecked == true) as StswNavigationButton);
-            var button = checkedButton != null ? checkedButton : (Buttons.FirstOrDefault(x => x is StswNavigationButton r && r.IsVisible && r.IsEnabled) as StswNavigationButton);
+            var button = checkedButton ?? Buttons.FirstOrDefault(x => x is StswNavigationButton r && r.IsVisible && r.IsEnabled) as StswNavigationButton;
             if (button != null)
             {
-                StswNavigationButton_Click(button, null);
+                StswNavigationButton_Click(button, new RoutedEventArgs());
                 button.IsChecked = true;
             }
         };
@@ -87,6 +89,20 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    /// ExtendedMode
+    public static readonly DependencyProperty ExtendedModeProperty
+        = DependencyProperty.Register(
+            nameof(ExtendedMode),
+            typeof(bool),
+            typeof(StswNavigationBase),
+            new PropertyMetadata(default(bool))
+        );
+    public bool ExtendedMode
+    {
+        get => (bool)GetValue(ExtendedModeProperty);
+        set => SetValue(ExtendedModeProperty, value);
+    }
+
     /// FrameVisibility
     public static readonly DependencyProperty FrameVisibilityProperty
         = DependencyProperty.Register(
@@ -115,42 +131,44 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         set => SetValue(OrientationProperty, value);
     }
 
-    /// Pages (main logic)
-    private Frame? naviFrame;
-
-    private StswDictionary<string, Page?> pages = new();
+    /// Pages
+    public static readonly DependencyProperty PagesProperty
+        = DependencyProperty.Register(
+            nameof(Pages),
+            typeof(StswDictionary<string, Page?>),
+            typeof(StswNavigationBase),
+            new PropertyMetadata(default(StswDictionary<string, Page?>))
+        );
     public StswDictionary<string, Page?> Pages
     {
-        get => pages;
-        set
-        {
-            pages = value;
-            NotifyPropertyChanged();
-        }
+        get => (StswDictionary<string, Page?>)GetValue(PagesProperty);
+        set => SetValue(PagesProperty, value);
     }
 
-    public void PageChange(string parameter, bool createNewInstance)
+    /// ...
+    private Frame? partFrame;
+
+    public object? PageChange(string parameter, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this))
-            return;
+            return null;
 
         if (string.IsNullOrEmpty(parameter))
-        {
-            Content = null;
-            return;
-        }
+            return Content = null;
 
         Cursor = Cursors.Wait;
 
-        if (naviFrame != null && naviFrame.BackStack != null)
-            naviFrame.RemoveBackEntry();
+        if (partFrame != null && partFrame.BackStack != null)
+            partFrame.RemoveBackEntry();
         if (createNewInstance && Pages.ContainsKey(parameter))
             Pages.Remove(parameter);
         if (!Pages.ContainsKey(parameter))
-            Pages.Add(new KeyValuePair<string, Page?>(parameter, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name, parameter)?.Unwrap() as Page));
-        Content = pages[parameter];
+            Pages.Add(new KeyValuePair<string, Page?>(parameter, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap() as Page));
+        Content = Pages[parameter];
 
         Cursor = null;
+
+        return Content;
     }
 
     /// StswNavigationButton_Click
@@ -163,7 +181,11 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        naviFrame = GetTemplateChild("NaviFrame") as Frame;
+        partFrame = GetTemplateChild("PART_Frame") as Frame;
         base.OnApplyTemplate();
     }
+
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public void NotifyPropertyChanged([CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

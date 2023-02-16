@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using DocumentFormat.OpenXml.Math;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,6 +26,20 @@ public class StswHeaderBase : UserControl
     public StswHeaderBase()
     {
         SetValue(SubTextsProperty, new ObservableCollection<UIElement>());
+    }
+
+    /// HideText
+    public static readonly DependencyProperty HideTextProperty
+        = DependencyProperty.Register(
+            nameof(HideText),
+            typeof(bool),
+            typeof(StswHeaderBase),
+            new PropertyMetadata(default(bool))
+        );
+    public bool HideText
+    {
+        get => (bool)GetValue(HideTextProperty);
+        set => SetValue(HideTextProperty, value);
     }
 
     /// IconData

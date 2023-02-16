@@ -36,6 +36,9 @@
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding AddCommand}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Add]}"/>
                 </se:StswButton>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding CloneCommand}">
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Clone]}"/>
+                </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding EditCommand}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Edit]}"/>
                 </se:StswButton>
@@ -134,7 +137,9 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswCheckBox IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" CornerRadius="0" Padding="0" BackgroundUnchecked="#3777"/>
+                            <se:StswCheckBox IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}"
+                                             BorderThickness="0" CornerRadius="0" Padding="0"
+                                             BackgroundUnchecked="#3777" SymbolUnchecked=" " BackgroundChecked="#3777"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

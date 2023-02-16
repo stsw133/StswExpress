@@ -15,6 +15,10 @@ public partial class StswDataGrid : StswDataGridBase
     {
         InitializeComponent();
     }
+    static StswDataGrid()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
+    }
 }
 
 public class StswDataGridBase : DataGrid
@@ -109,16 +113,21 @@ public class StswDataGridBase : DataGrid
     public static void IsSpecialColumnVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDataGrid dtg)
-            dtg.Columns[0].Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Collapsed;
+        {
+            dtg.Columns[0].MinWidth = (bool)e.NewValue ? dtg.MinColumnWidth : 0;
+            dtg.Columns[0].Width = (bool)e.NewValue ? DataGridLength.Auto : 0;
+            dtg.Columns[0].CanUserResize = (bool)e.NewValue;
+        }
     }
 
     /// BtnClearFilters_Click
     private void BtnClearFilters_Click(object sender, RoutedEventArgs e)
     {
-        var extDict = new StswDictionary<string, StswColumnFilterBindingData?>();
-        var datas = StswExtensions.FindVisualChildren<StswColumnFilter>(this).Select(x => x.BindingData).ToList();
-        for (int i = 0; i < datas.Count(); i++)
-            extDict.Add(i.ToString(), datas[i]);
+        var extDict = new StswDictionary<string, StswColumnFilterBindingData>();
+        var bindingDatas = StswExtensions.FindVisualChildren<StswColumnFilter>(this).Select(x => x.BindingData).ToList();
+        for (int i = 0; i < bindingDatas.Count; i++)
+            extDict.Add(i.ToString(), bindingDatas[i]);
+
         extDict.ClearColumnFilters();
     }
 }
