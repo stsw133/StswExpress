@@ -13,22 +13,12 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswNavigation.xaml
 /// </summary>
-public partial class StswNavigation : StswNavigationBase
+public partial class StswNavigation : UserControl, INotifyPropertyChanged
 {
     public StswNavigation()
     {
         InitializeComponent();
-    }
-    static StswNavigation()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
-    }
-}
 
-public class StswNavigationBase : UserControl, INotifyPropertyChanged
-{
-    public StswNavigationBase()
-    {
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
         SetValue(PagesProperty, new StswDictionary<string, Page?>());
 
@@ -46,13 +36,18 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
             }
         };
     }
+    static StswNavigation()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigation), new FrameworkPropertyMetadata(typeof(StswNavigation)));
+    }
 
+    #region Properties
     /// Buttons
     public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
             nameof(Buttons),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(ObservableCollection<UIElement>))
         );
     public ObservableCollection<UIElement> Buttons
@@ -66,7 +61,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(ButtonsAlignment),
             typeof(Dock),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(Dock))
         );
     public Dock ButtonsAlignment
@@ -80,7 +75,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -94,7 +89,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(ExtendedMode),
             typeof(bool),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(bool))
         );
     public bool ExtendedMode
@@ -108,7 +103,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(FrameVisibility),
             typeof(Visibility),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(Visibility))
         );
     public Visibility FrameVisibility
@@ -122,7 +117,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(Orientation.Vertical)
         );
     public Orientation Orientation
@@ -136,7 +131,7 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         = DependencyProperty.Register(
             nameof(Pages),
             typeof(StswDictionary<string, Page?>),
-            typeof(StswNavigationBase),
+            typeof(StswNavigation),
             new PropertyMetadata(default(StswDictionary<string, Page?>))
         );
     public StswDictionary<string, Page?> Pages
@@ -144,33 +139,43 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
         get => (StswDictionary<string, Page?>)GetValue(PagesProperty);
         set => SetValue(PagesProperty, value);
     }
+    #endregion
 
     /// ...
     private Frame? partFrame;
 
-    public object? PageChange(string parameter, bool createNewInstance)
+    public object? PageChange(Page? parameter, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this))
             return null;
 
-        if (string.IsNullOrEmpty(parameter))
+        var pageFullname = parameter?.GetType()?.FullName ?? string.Empty;
+        if (pageFullname == null)
             return Content = null;
 
         Cursor = Cursors.Wait;
 
         if (partFrame != null && partFrame.BackStack != null)
             partFrame.RemoveBackEntry();
-        if (createNewInstance && Pages.ContainsKey(parameter))
-            Pages.Remove(parameter);
-        if (!Pages.ContainsKey(parameter))
-            Pages.Add(new KeyValuePair<string, Page?>(parameter, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap() as Page));
-        Content = Pages[parameter];
+        if (createNewInstance && Pages.ContainsKey(pageFullname))
+            Pages.Remove(pageFullname);
+        if (!Pages.ContainsKey(pageFullname))
+            Pages.Add(new KeyValuePair<string, Page?>(pageFullname, parameter));
+        Content = Pages[pageFullname];
 
         Cursor = null;
 
         return Content;
     }
+    public object? PageChange(string parameter, bool createNewInstance)
+    {
+        if (parameter != null)
+            return PageChange(Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap() as Page, createNewInstance);
+        else
+            return Content = null;
+    }
 
+    #region Events
     /// StswNavigationButton_Click
     private void StswNavigationButton_Click(object sender, RoutedEventArgs e)
     {
@@ -188,4 +193,5 @@ public class StswNavigationBase : UserControl, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public void NotifyPropertyChanged([CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    #endregion
 }

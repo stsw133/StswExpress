@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
       xmlns:local="clr-namespace:TestApp.Modules.Databases"
-      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750"
       Title="Databases">
     <Page.DataContext>
         <local:DatabasesContext/>
@@ -28,7 +28,7 @@
                 </se:StswButton>
             </UniformGrid>
         </ScrollViewer>
-        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
         <!-- db data -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Server:"/>

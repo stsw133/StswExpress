@@ -24,18 +24,18 @@ public class ContractorsContext : StswObservableObject
         set => SetProperty(ref isBusy, value);
     }
 
-    /// IsLoading
-    private int countActions = 0;
-    public int CountActions
+    /// Loading
+    private int loadingActions = 0;
+    public int LoadingActions
     {
-        get => countActions;
+        get => loadingActions;
         set
         {
-            SetProperty(ref countActions, value);
-            NotifyPropertyChanged(nameof(IsLoading));
+            SetProperty(ref loadingActions, value);
+            NotifyPropertyChanged(nameof(LoadingState));
         }
     }
-    public bool IsLoading => CountActions > 0;
+    public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
 
     /// ComboLists
     public List<string?> ListTypes => ContractorsQueries.ListOfTypes();
@@ -47,8 +47,12 @@ public class ContractorsContext : StswObservableObject
         get => listContractors;
         set => SetProperty(ref listContractors, value);
     }
+    //public int ListContractors_Added => ListContractors.GetItemsByState(System.Data.DataRowState.Added).Count;
+    //public int ListContractors_Modified => ListContractors.GetItemsByState(System.Data.DataRowState.Modified).Count;
+    //public int ListContractors_Deleted => ListContractors.GetItemsByState(System.Data.DataRowState.Deleted).Count;
 
-    /// Commands
+    #region Commands
+
     public ICommand ClearCommand { get; set; }
     public ICommand RefreshCommand { get; set; }
     public ICommand SaveCommand { get; set; }
@@ -79,14 +83,14 @@ public class ContractorsContext : StswObservableObject
         await Task.Run(() =>
         {
             IsBusy[nameof(Clear)] = true;
-            CountActions++;
+            LoadingActions++;
             Thread.Sleep(100);
 
             /// ...
             ListContractors = new();
             /// ...
 
-            CountActions--;
+            LoadingActions--;
             IsBusy[nameof(Clear)] = false;
         });
     }
@@ -100,14 +104,14 @@ public class ContractorsContext : StswObservableObject
         await Task.Run(() =>
         {
             IsBusy[nameof(Refresh)] = true;
-            CountActions++;
+            LoadingActions++;
             Thread.Sleep(100);
 
             /// ...
             ListContractors = ContractorsQueries.GetContractors(filter, parameters);
             /// ...
 
-            CountActions--;
+            LoadingActions--;
             IsBusy[nameof(Refresh)] = false;
         });
     }
@@ -118,7 +122,7 @@ public class ContractorsContext : StswObservableObject
         if (IsBusy[nameof(Save)]) return;
 
         IsBusy[nameof(Save)] = true;
-        CountActions++;
+        LoadingActions++;
         Thread.Sleep(100);
 
         /// ...
@@ -129,7 +133,7 @@ public class ContractorsContext : StswObservableObject
         }
         /// ...
 
-        CountActions--;
+        LoadingActions--;
         IsBusy[nameof(Save)] = false;
     }
 
@@ -141,7 +145,7 @@ public class ContractorsContext : StswObservableObject
         await Task.Run(() =>
         {
             IsBusy[nameof(ExportToExcel)] = true;
-            CountActions++;
+            LoadingActions++;
             Thread.Sleep(100);
 
             /// ...
@@ -159,7 +163,7 @@ public class ContractorsContext : StswObservableObject
             });
             /// ...
 
-            CountActions--;
+            LoadingActions--;
             IsBusy[nameof(ExportToExcel)] = false;
         });
     }
@@ -178,15 +182,24 @@ public class ContractorsContext : StswObservableObject
         if (IsBusy[nameof(Add)]) return;
         
         IsBusy[nameof(Add)] = true;
-        CountActions++;
+        LoadingActions++;
         Thread.Sleep(100);
 
         /// ...
         var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+        navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+        {
+            DataContext = new ContractorsSingle.ContractorsSingleContext()
+        }, true);
+
+        // or (if you set DataContext in XAML):
+        /*
+        var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
         navi?.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName ?? string.Empty, true);
+        */
         /// ...
 
-        CountActions--;
+        LoadingActions--;
         IsBusy[nameof(Add)] = false;
     }
 
@@ -196,7 +209,7 @@ public class ContractorsContext : StswObservableObject
         if (IsBusy[nameof(Clone)]) return;
 
         IsBusy[nameof(Clone)] = true;
-        CountActions++;
+        LoadingActions++;
         Thread.Sleep(100);
 
         /// ...
@@ -204,12 +217,28 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+            navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+            {
+                DataContext = new ContractorsSingle.ContractorsSingleContext()
+                {
+                    ID = selectedItem.ID,
+                    DoClone = true
+                }
+            }, true);
+
+            // or (if you set DataContext in XAML):
+            /*
+            var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
             if (navi?.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName ?? string.Empty, true) is ContractorsSingle.ContractorsSingleView page)
+            {
                 ((ContractorsSingle.ContractorsSingleContext)page.DataContext).ID = selectedItem.ID;
+                ((ContractorsSingle.ContractorsSingleContext)page.DataContext).DoClone = true;
+            }
+            */
         }
         /// ...
 
-        CountActions--;
+        LoadingActions--;
         IsBusy[nameof(Clone)] = false;
     }
     private bool CloneCondition() => SelectedItem is ContractorModel and not null;
@@ -220,7 +249,7 @@ public class ContractorsContext : StswObservableObject
         if (IsBusy[nameof(Edit)]) return;
 
         IsBusy[nameof(Edit)] = true;
-        CountActions++;
+        LoadingActions++;
         Thread.Sleep(100);
 
         /// ...
@@ -228,12 +257,28 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+            navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+            {
+                DataContext = new ContractorsSingle.ContractorsSingleContext()
+                {
+                    ID = selectedItem.ID,
+                    DoClone = false
+                }
+            }, true);
+
+            // or (if you set DataContext in XAML):
+            /*
+            var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
             if (navi?.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName ?? string.Empty, true) is ContractorsSingle.ContractorsSingleView page)
+            {
                 ((ContractorsSingle.ContractorsSingleContext)page.DataContext).ID = selectedItem.ID;
+                ((ContractorsSingle.ContractorsSingleContext)page.DataContext).DoClone = false;
+            }
+            */
         }
         /// ...
 
-        CountActions--;
+        LoadingActions--;
         IsBusy[nameof(Edit)] = false;
     }
     private bool EditCondition() => SelectedItem is ContractorModel and not null;
@@ -244,7 +289,7 @@ public class ContractorsContext : StswObservableObject
         if (IsBusy[nameof(Delete)]) return;
 
         IsBusy[nameof(Delete)] = true;
-        CountActions++;
+        LoadingActions++;
         Thread.Sleep(100);
 
         /// ...
@@ -258,8 +303,10 @@ public class ContractorsContext : StswObservableObject
         }
         /// ...
 
-        CountActions--;
+        LoadingActions--;
         IsBusy[nameof(Delete)] = false;
     }
     private bool DeleteCondition() => SelectedItem is ContractorModel and not null;
+
+    #endregion
 }

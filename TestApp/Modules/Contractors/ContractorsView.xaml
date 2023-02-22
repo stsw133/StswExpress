@@ -25,14 +25,18 @@
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.ContentSave}" Content="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Background="{x:Static se:StswColors.Positive}" Command="{Binding ExportToExcelCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" Content="Export to Excel" IsBusy="{Binding IsBusy[ExportToExcel]}"/>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" Content="Export to Excel" IsBusy="{Binding IsBusy[ExportToExcel]}">
+                        <se:StswHeader.SubTexts>
+                            <TextBlock Text="Only visible data" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                        </se:StswHeader.SubTexts>
+                    </se:StswHeader>
                 </se:StswButton>
             </UniformGrid>
         </ScrollViewer>
         <!-- progress panel -->
-        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="{Binding IsLoading}" TextVisibility="Hidden"/>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
         <DockPanel DockPanel.Dock="Bottom">
-            <UniformGrid DockPanel.Dock="Right" Rows="1">
+            <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding AddCommand}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Add]}"/>
                 </se:StswButton>
@@ -49,6 +53,15 @@
             <TextBlock Margin="3">
                 <Run Text="Displayed: "/>
                 <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
+                <!--
+                <Run Text=" (added: "/>
+                <Run Text="{Binding ListContractors_Added, Mode=OneWay}" FontWeight="Bold" Foreground="Green"/>
+                <Run Text=", modified: "/>
+                <Run Text="{Binding ListContractors_Modified, Mode=OneWay}" FontWeight="Bold" Foreground="DarkGoldenrod"/>
+                <Run Text=", deleted: "/>
+                <Run Text="{Binding ListContractors_Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="Red"/>
+                <Run Text=")"/>
+                -->
             </TextBlock>
         </DockPanel>
         <!-- data grid -->
@@ -83,8 +96,9 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon}"
-                                          MaxHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Add}, ConverterParameter=4}"/>
+                            <se:StswImage ContextMenuVisibility="Visible" IsReadOnly="False" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={se:conv_Add}, ConverterParameter=-4}"
+                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={se:conv_Add}, ConverterParameter=-4}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

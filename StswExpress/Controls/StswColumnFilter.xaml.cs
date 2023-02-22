@@ -12,7 +12,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswColumnFilter.xaml
 /// </summary>
-public partial class StswColumnFilter : StswColumnFilterBase
+public partial class StswColumnFilter : UserControl
 {
     public StswColumnFilter()
     {
@@ -22,10 +22,7 @@ public partial class StswColumnFilter : StswColumnFilterBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColumnFilter), new FrameworkPropertyMetadata(typeof(StswColumnFilter)));
     }
-}
 
-public class StswColumnFilterBase : UserControl
-{
     public enum Modes
     {
         Equal,
@@ -65,7 +62,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness SubBorderThickness
@@ -81,7 +78,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(BindingData),
             typeof(StswColumnFilterBindingData),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(StswColumnFilterBindingData?))
         );
     public StswColumnFilterBindingData? BindingData
@@ -95,7 +92,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -109,7 +106,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(string))
         );
     public string DisplayMemberPath
@@ -123,7 +120,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(FilterMode),
             typeof(Modes?),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new FrameworkPropertyMetadata(default(Modes?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 FilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -140,7 +137,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(FilterPadding),
             typeof(Thickness),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness FilterPadding
@@ -154,7 +151,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(FilterSqlColumn),
             typeof(string),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new FrameworkPropertyMetadata(default(string),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 FilterSqlColumnChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -170,7 +167,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(FilterType),
             typeof(Types),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(Types.Text)
         );
     public Types FilterType
@@ -184,7 +181,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(FilterVisibility),
             typeof(Visibility),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(Visibility))
         );
     public Visibility FilterVisibility
@@ -198,7 +195,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(object?))
         );
     public object? Header
@@ -212,7 +209,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(IsFilterCaseSensitive),
             typeof(bool),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(bool))
         );
     public bool IsFilterCaseSensitive
@@ -226,7 +223,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(IsFilterNullSensitive),
             typeof(bool),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(bool))
         );
     public bool IsFilterNullSensitive
@@ -240,7 +237,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(IList))
         );
     public IList ItemsSource
@@ -248,13 +245,26 @@ public class StswColumnFilterBase : UserControl
         get => (IList)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
-
+    /*
+    /// RefreshCommand
+    public static readonly DependencyProperty RefreshCommandProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommand),
+            typeof(ICommand),
+            typeof(StswColumnFilter)
+        );
+    public ICommand RefreshCommand
+    {
+        get => (ICommand)GetValue(RefreshCommandProperty);
+        set => SetValue(RefreshCommandProperty, value);
+    }
+    */
     /// SelectedValuePath
     public static readonly DependencyProperty SelectedValuePathProperty
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(string))
         );
     public string SelectedValuePath
@@ -268,7 +278,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(SqlParam),
             typeof(string),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(string))
         );
     public string SqlParam
@@ -282,7 +292,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(SqlString),
             typeof(string),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new PropertyMetadata(default(string?))
         );
     public string? SqlString
@@ -296,7 +306,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(Value1),
             typeof(object),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new FrameworkPropertyMetadata(default(object?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -313,7 +323,7 @@ public class StswColumnFilterBase : UserControl
         = DependencyProperty.Register(
             nameof(Value2),
             typeof(object),
-            typeof(StswColumnFilterBase),
+            typeof(StswColumnFilter),
             new FrameworkPropertyMetadata(default(object?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -440,7 +450,7 @@ public class StswColumnFilterBase : UserControl
         var binding1 = new Binding()
         {
             Path = new PropertyPath(nameof(Value1)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilter), 1),
             TargetNullValue = string.Empty,
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -448,7 +458,7 @@ public class StswColumnFilterBase : UserControl
         var binding2 = new Binding()
         {
             Path = new PropertyPath(nameof(Value2)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilter), 1),
             TargetNullValue = string.Empty,
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -456,7 +466,7 @@ public class StswColumnFilterBase : UserControl
         var subborderThickness = new Binding()
         {
             Path = new PropertyPath(nameof(SubBorderThickness)),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilterBase), 1),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswColumnFilter), 1),
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
@@ -493,8 +503,8 @@ public class StswColumnFilterBase : UserControl
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     cont1.InputBindings.Add(inputbinding);
-                    cont1.SetBinding(StswDatePickerBase.SelectedDateProperty, binding1);
-                    cont1.SetBinding(StswDatePickerBase.SubBorderThicknessProperty, subborderThickness);
+                    cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
+                    cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont1);
 
                     var cont2 = new StswDatePicker()
@@ -505,8 +515,8 @@ public class StswColumnFilterBase : UserControl
                     };
                     cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
                     cont2.InputBindings.Add(inputbinding);
-                    cont2.SetBinding(StswDatePickerBase.SelectedDateProperty, binding2);
-                    cont1.SetBinding(StswDatePickerBase.SubBorderThicknessProperty, subborderThickness);
+                    cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
+                    cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont2);
                     break;
                 }
@@ -520,8 +530,8 @@ public class StswColumnFilterBase : UserControl
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     cont1.InputBindings.Add(inputbinding);
-                    cont1.SetBinding(StswNumericBoxBase.ValueProperty, binding1);
-                    cont1.SetBinding(StswNumericBoxBase.SubBorderThicknessProperty, subborderThickness);
+                    cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
+                    cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
                     //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
 
@@ -533,8 +543,8 @@ public class StswColumnFilterBase : UserControl
                     };
                     cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
                     cont2.InputBindings.Add(inputbinding);
-                    cont2.SetBinding(StswNumericBoxBase.ValueProperty, binding2);
-                    cont1.SetBinding(StswNumericBoxBase.SubBorderThicknessProperty, subborderThickness);
+                    cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
+                    cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
                     //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont2);
                     break;
@@ -573,7 +583,7 @@ public class StswColumnFilterBase : UserControl
                     };
                     cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
-                    cont1.SetBinding(StswComboBoxBase.SubBorderThicknessProperty, subborderThickness);
+                    cont1.SetBinding(StswComboBox.SubBorderThicknessProperty, subborderThickness);
                     //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
                 }
@@ -656,7 +666,7 @@ public class StswColumnFilterBase : UserControl
     /// FilterSqlColumnChanged
     public static void FilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColumnFilterBase filter)
+        if (obj is StswColumnFilter filter)
         {
             filter.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
             filter.SetData();
@@ -666,7 +676,7 @@ public class StswColumnFilterBase : UserControl
     /// ValueChanged
     public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswColumnFilterBase filter)
+        if (obj is StswColumnFilter filter)
         {
             if (filter.FilterType.In(Types.ListOfNumbers, Types.ListOfTexts))
             {
@@ -691,14 +701,12 @@ public class StswColumnFilterBase : UserControl
 
     #region Events
     /// Refresh
-    [Obsolete]
-    protected void CmdRefresh_Executed(object sender, ExecutedRoutedEventArgs e)
+    protected void PART_Controls_KeyDown(object sender, KeyEventArgs e)
     {
-        try
-        {
-            StswGlobalCommands.Refresh.Execute(null, Parent as UIElement);
-        }
-        catch { }
+        /*
+        if (e.Key == Key.Enter && RefreshCommand != null)
+            RefreshCommand.Execute(null);
+        */
     }
 
     /// FilterMode click

@@ -17,6 +17,7 @@ public class OutlinedTextBlock : FrameworkElement
         TextDecorations = new TextDecorationCollection();
     }
 
+    #region Properties
     /// Fill
     public static readonly DependencyProperty FillProperty
         = DependencyProperty.Register(
@@ -190,8 +191,8 @@ public class OutlinedTextBlock : FrameworkElement
         get => (TextWrapping)GetValue(TextWrappingProperty);
         set => SetValue(TextWrappingProperty, value);
     }
+    #endregion
 
-    /// ...
     private FormattedText _FormattedText;
     private Geometry _TextGeometry;
     private Pen _Pen;
@@ -212,7 +213,6 @@ public class OutlinedTextBlock : FrameworkElement
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
-
         drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
         drawingContext.DrawGeometry(Fill, null, _TextGeometry);
     }
@@ -220,30 +220,17 @@ public class OutlinedTextBlock : FrameworkElement
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
+        _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+        _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
 
-        // constrain the formatted text according to the available size
-
-        double w = availableSize.Width;
-        double h = availableSize.Height;
-
-        // the Math.Min call is important - without this constraint (which seems arbitrary, but is the maximum allowable text width), things blow up when availableSize is infinite in both directions
-        // the Math.Max call is to ensure we don't hit zero, which will cause MaxTextHeight to throw
-        _FormattedText.MaxTextWidth = Math.Min(3579139, w);
-        _FormattedText.MaxTextHeight = Math.Max(0.0001d, h);
-
-        // return the desired size
         return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();
-
-        // update the formatted text with the final size
         _FormattedText.MaxTextWidth = finalSize.Width;
         _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
-
-        // need to re-generate the geometry now that the dimensions have changed
         _TextGeometry = null;
 
         return finalSize;

@@ -17,6 +17,21 @@ public partial class StswSeparator : Separator
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
     }
 
+    #region Properties
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSeparator),
+            new PropertyMetadata(default(CornerRadius))
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
     /// Orientation
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
@@ -30,4 +45,5 @@ public partial class StswSeparator : Separator
         get => (Orientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
     }
+    #endregion
 }

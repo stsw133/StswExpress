@@ -9,4 +9,11 @@ public class ContractorsSingleContext : StswObservableObject
         get => id;
         set => SetProperty(ref id, value);
     }
+    /// DoClone
+    private bool doClone = new();
+    public bool DoClone
+    {
+        get => doClone;
+        set => SetProperty(ref doClone, value);
+    }
 }

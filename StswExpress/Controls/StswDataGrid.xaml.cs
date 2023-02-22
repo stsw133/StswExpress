@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswDataGrid.xaml
 /// </summary>
-public partial class StswDataGrid : StswDataGridBase
+public partial class StswDataGrid : DataGrid
 {
     public StswDataGrid()
     {
@@ -19,10 +19,7 @@ public partial class StswDataGrid : StswDataGridBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
     }
-}
 
-public class StswDataGridBase : DataGrid
-{
     #region Style
     /// BackgroundHeader
     public static readonly DependencyProperty BackgroundHeaderProperty
@@ -67,6 +64,7 @@ public class StswDataGridBase : DataGrid
     }
     #endregion
 
+    #region Properties
     /// AreFiltersVisible
     public static readonly DependencyProperty AreFiltersVisibleProperty
         = DependencyProperty.Register(
@@ -119,7 +117,24 @@ public class StswDataGridBase : DataGrid
             dtg.Columns[0].CanUserResize = (bool)e.NewValue;
         }
     }
+    /*
+    /// RefreshCommand
+    public static readonly DependencyProperty RefreshCommandProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommand),
+            typeof(ICommand),
+            typeof(StswDataGrid),
+            new PropertyMetadata(default(ICommand))
+        );
+    public ICommand RefreshCommand
+    {
+        get => (ICommand)GetValue(RefreshCommandProperty);
+        set => SetValue(RefreshCommandProperty, value);
+    }
+    */
+    #endregion
 
+    #region Events
     /// BtnClearFilters_Click
     private void BtnClearFilters_Click(object sender, RoutedEventArgs e)
     {
@@ -130,4 +145,5 @@ public class StswDataGridBase : DataGrid
 
         extDict.ClearColumnFilters();
     }
+    #endregion
 }

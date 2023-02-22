@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -9,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswDatePicker.xaml
 /// </summary>
-public partial class StswDatePicker : StswDatePickerBase
+public partial class StswDatePicker : DatePicker
 {
     public StswDatePicker()
     {
@@ -19,17 +17,14 @@ public partial class StswDatePicker : StswDatePickerBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
     }
-}
 
-public class StswDatePickerBase : DatePicker
-{
     #region Style
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -42,7 +37,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -55,7 +50,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -69,7 +64,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -82,7 +77,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -96,7 +91,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BackgroundFocused),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundFocused
@@ -109,7 +104,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BorderBrushFocused),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushFocused
@@ -123,7 +118,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundReadOnly
@@ -137,7 +132,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundPlaceholder
@@ -151,7 +146,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness SubBorderThickness
@@ -161,12 +156,13 @@ public class StswDatePickerBase : DatePicker
     }
     #endregion
 
+    #region Properties
     /// ButtonAlignment
     public static readonly DependencyProperty ButtonAlignmentProperty
         = DependencyProperty.Register(
             nameof(ButtonAlignment),
             typeof(Dock),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(Dock.Right)
         );
     public Dock ButtonAlignment
@@ -180,7 +176,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -194,7 +190,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(bool))
         );
     public bool IsReadOnly
@@ -208,7 +204,7 @@ public class StswDatePickerBase : DatePicker
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswDatePickerBase),
+            typeof(StswDatePicker),
             new PropertyMetadata(default(string?))
         );
     public string? Placeholder
@@ -216,4 +212,5 @@ public class StswDatePickerBase : DatePicker
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
+    #endregion
 }

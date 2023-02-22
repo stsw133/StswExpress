@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -7,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswIcon.xaml
 /// </summary>
-public partial class StswIcon : StswIconBase
+public partial class StswIcon : UserControl
 {
     public StswIcon()
     {
@@ -17,17 +18,14 @@ public partial class StswIcon : StswIconBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
     }
-}
 
-public class StswIconBase : UserControl
-{
     #region Style
     /// ForegroundDisabled
     public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswIconBase),
+            typeof(StswIcon),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -37,12 +35,13 @@ public class StswIconBase : UserControl
     }
     #endregion
 
+    #region Properties
     /// CanvasSize
     public static readonly DependencyProperty CanvasSizeProperty
         = DependencyProperty.Register(
             nameof(CanvasSize),
             typeof(double),
-            typeof(StswIconBase),
+            typeof(StswIcon),
             new PropertyMetadata(default(double))
         );
     public double CanvasSize
@@ -56,7 +55,7 @@ public class StswIconBase : UserControl
         = DependencyProperty.Register(
             nameof(Data),
             typeof(Geometry),
-            typeof(StswIconBase),
+            typeof(StswIcon),
             new PropertyMetadata(default(Geometry?))
         );
     public Geometry? Data
@@ -69,13 +68,37 @@ public class StswIconBase : UserControl
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(double),
-            typeof(StswIconBase),
-            new PropertyMetadata(default(double))
+            typeof(GridLength),
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnScaleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public double Scale
+    public GridLength Scale
     {
-        get => (double)GetValue(ScaleProperty);
+        get => (GridLength)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
+    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswIcon stsw)
+        {
+            if (stsw.Scale == GridLength.Auto)
+            {
+                stsw.Height = double.NaN;
+                stsw.Width = double.NaN;
+            }
+            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
+            {
+                var multiBinding = new MultiBinding();
+                multiBinding.Bindings.Add(new Binding(nameof(Settings.Default.iSize)) { Source = Settings.Default });
+                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
+                multiBinding.Converter = new conv_Calculate();
+                multiBinding.ConverterParameter = "*";
+                stsw.SetBinding(HeightProperty, multiBinding);
+                stsw.SetBinding(WidthProperty, multiBinding);
+            }
+        }
+    }
+    #endregion
 }

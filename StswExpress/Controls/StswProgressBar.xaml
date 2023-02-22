@@ -4,14 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d"
-             Background="#3777" VerticalAlignment="Center" Padding="5">
-    <ProgressBar.Style>
-        <Style TargetType="{x:Type ProgressBar}" BasedOn="{StaticResource {x:Type ProgressBar}}"/>
-    </ProgressBar.Style>
+             mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="200">
+
     <ProgressBar.Template>
-        <ControlTemplate TargetType="ProgressBar">
-            <Grid x:Name="TemplateRoot">
+        <ControlTemplate TargetType="{x:Type ProgressBar}">
+            <Border x:Name="PART_MainBorder"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">
                         <VisualState x:Name="Determinate"/>
@@ -31,31 +32,32 @@
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=ProgressBar}}"/>
-                <Rectangle x:Name="PART_Track"/>
-                <Grid x:Name="PART_Indicator" ClipToBounds="True" HorizontalAlignment="Left">
-                    <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>
-                    <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0.5">
-                        <Rectangle.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
+                <Grid x:Name="TemplateRoot">
+                    <!-- value -->
+                    <Rectangle x:Name="PART_Track" Opacity="0.3"/>
+                    <Grid x:Name="PART_Indicator" ClipToBounds="True" HorizontalAlignment="Left">
+                        <Rectangle x:Name="Indicator"/>
+                        <Rectangle x:Name="Animation" RenderTransformOrigin="0.5 0.5">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Grid>
+                    <!-- text -->
+                    <Label x:Name="PART_Text"
+                           Content="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+                           FontWeight="Medium"
+                           Foreground="{TemplateBinding Foreground}"
+                           Padding="{TemplateBinding Padding}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
                 </Grid>
-                <Label Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Visibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType=ProgressBar}}" Orientation="Horizontal">
-                        <TextBlock Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.1}" Text="{Binding Value, RelativeSource={RelativeSource AncestorType=ProgressBar}}" FontWeight="Bold"/>
-                        <TextBlock Margin="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.1}" Text="{Binding TextSymbol, RelativeSource={RelativeSource AncestorType=ProgressBar}}" Visibility="{Binding TextSymbol, RelativeSource={RelativeSource AncestorType=ProgressBar}, Converter={se:conv_NotNull}}"/>
-                    </StackPanel>
-                </Label>
-            </Grid>
+            </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="Orientation" Value="Vertical">
                     <Setter Property="LayoutTransform" TargetName="TemplateRoot">
@@ -65,8 +67,41 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsIndeterminate" Value="True">
-                    <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator" />
+                    <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
                 </Trigger>
+                <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Ready">
+                    <Setter Property="Fill" Value="{Binding ForegroundReady, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                    <Setter Property="Visibility" Value="Hidden" TargetName="Indicator" />
+                    <Setter Property="Visibility" Value="Hidden" TargetName="Animation" />
+                    <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Running">
+                    <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                    <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
+                    <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Paused">
+                    <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                    <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
+                    <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Error">
+                    <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                    <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
+                    <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                </DataTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Text" />
+                    <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Multiply}, ConverterParameter=0.3}" TargetName="PART_Track" />
+                    <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
+                    <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                </Trigger>
+                <DataTrigger Binding="{Binding IsTrackTransparent, RelativeSource={RelativeSource Self}}" Value="True">
+                    <Setter Property="Fill" Value="{Binding ForegroundReady, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                </DataTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </ProgressBar.Template>

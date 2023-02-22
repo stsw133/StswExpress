@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswNavigationButton.xaml
 /// </summary>
-public partial class StswNavigationButton : StswNavigationButtonBase
+public partial class StswNavigationButton : RadioButton
 {
     public StswNavigationButton()
     {
@@ -16,17 +16,14 @@ public partial class StswNavigationButton : StswNavigationButtonBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationButton), new FrameworkPropertyMetadata(typeof(StswNavigationButton)));
     }
-}
 
-public class StswNavigationButtonBase : RadioButton
-{
     #region Style
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -39,7 +36,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -52,7 +49,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -66,7 +63,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -79,7 +76,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -93,7 +90,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundPressed
@@ -106,7 +103,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushPressed
@@ -120,7 +117,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BackgroundChecked),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundChecked
@@ -133,7 +130,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BorderBrushChecked),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushChecked
@@ -147,7 +144,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDefaulted
@@ -157,12 +154,13 @@ public class StswNavigationButtonBase : RadioButton
     }
     #endregion
 
+    #region Properties
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -176,7 +174,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(CreateNewInstance),
             typeof(bool),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(bool))
         );
     public bool CreateNewInstance
@@ -190,7 +188,7 @@ public class StswNavigationButtonBase : RadioButton
         = DependencyProperty.Register(
             nameof(PageNamespace),
             typeof(string),
-            typeof(StswNavigationButtonBase),
+            typeof(StswNavigationButton),
             new PropertyMetadata(default(string))
         );
     public string PageNamespace
@@ -198,4 +196,5 @@ public class StswNavigationButtonBase : RadioButton
         get => (string)GetValue(PageNamespaceProperty);
         set => SetValue(PageNamespaceProperty, value);
     }
+    #endregion
 }

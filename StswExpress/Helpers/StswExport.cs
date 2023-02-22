@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
+﻿using ClosedXML.Excel;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -11,7 +9,7 @@ namespace StswExpress;
 public static class StswExport
 {
     /// ExportToExcel
-    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExportColumn>? columns)
+    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExportColumn>? customColumns)
     {
         if (filePath == null)
         {
@@ -25,48 +23,28 @@ public static class StswExport
                 return;
         }
 
-        using (var document = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
+        using (var wb = new XLWorkbook())
         {
             /// new workbook and sheets
-            var workbookPart = document.AddWorkbookPart();
-            workbookPart.Workbook = new Workbook();
-
-            var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-            var sheetData = new SheetData();
-            worksheetPart.Worksheet = new Worksheet(sheetData);
-
-            var sheets = workbookPart.Workbook.AppendChild(new Sheets());
-            var sheet = new Sheet()
-            {
-                Id = workbookPart.GetIdOfPart(worksheetPart),
-                SheetId = 1,
-                Name = "Sheet1"
-            };
-            sheets.Append(sheet);
+            var ws = wb.AddWorksheet("Sheet1");
 
             /// properties of T
-            var properties = typeof(T).GetProperties().Where(x => columns == null || x.Name.In(columns.Select(y => y.FieldName)));
+            var properties = typeof(T).GetProperties().Where(x => customColumns == null || x.Name.In(customColumns.Select(y => y.FieldName))).ToList();
+            
+            var row = 1;
 
             /// headers
-            var row = new Row();
-            foreach (var property in properties)
-            {
-                row.Append(new Cell
-                {
-                    DataType = CellValues.String,
-                    CellValue = new CellValue(columns == null ? property.Name : columns.First(x => x.FieldName == property.Name).ColumnName ?? string.Empty)
-                });
-            }
-            sheetData.AppendChild(row);
-
+            for (int i = 0; i < properties.Count; i++)
+                ws.Cell(row, i + 1).Value = customColumns == null ? properties[i].Name : customColumns.First(x => x.FieldName == properties[i].Name).ColumnName ?? string.Empty;
+            
             /// elements
             foreach (var item in data)
             {
-                row = new Row();
-                foreach (var property in properties)
+                ++row;
+                for (int i = 0; i < properties.Count; i++)
                 {
-                    var value = property.GetValue(item);
-                    var format = columns?.FirstOrDefault(x => x.FieldName == property.Name)?.ColumnFormat;
+                    var value = properties[i].GetValue(item);
+                    var format = customColumns?.FirstOrDefault(x => x.FieldName == properties[i].Name)?.ColumnFormat;
 
                     string valueAsString;
                     if (format != null && value is IFormattable f)
@@ -75,18 +53,17 @@ public static class StswExport
                         valueAsString = string.Format(format, value.GetHashCode());
                     else
                         valueAsString = value?.ToString() ?? string.Empty;
-                    
-                    row.Append(new Cell
-                    {
-                        DataType = CellValues.String,
-                        CellValue = new CellValue(valueAsString)
-                    });
+
+                    ws.Cell(row, i + 1).Value = valueAsString;
                 }
-                sheetData.AppendChild(row);
             }
 
+            /// table and auto column width
+            var table = ws.Range(1, 1, row, properties.Count).CreateTable();
+            ws.Columns().AdjustToContents();
+
             /// save
-            workbookPart.Workbook.Save();
+            wb.SaveAs(filePath);
         }
         if (openFile)
             StswFn.OpenFile(filePath);

@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswButton.xaml
 /// </summary>
-public partial class StswButton : StswButtonBase
+public partial class StswButton : Button
 {
     public StswButton()
     {
@@ -19,17 +19,14 @@ public partial class StswButton : StswButtonBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButton), new FrameworkPropertyMetadata(typeof(StswButton)));
     }
-}
 
-public class StswButtonBase : Button
-{
     #region Style
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -42,7 +39,7 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -55,7 +52,7 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -69,7 +66,7 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -82,7 +79,7 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -90,13 +87,26 @@ public class StswButtonBase : Button
         get => (Brush)GetValue(BorderBrushMouseOverProperty);
         set => SetValue(BorderBrushMouseOverProperty, value);
     }
+    /// ForegroundMouseOver
+    public static readonly DependencyProperty ForegroundMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundMouseOver),
+            typeof(Brush),
+            typeof(StswButton),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush ForegroundMouseOver
+    {
+        get => (Brush)GetValue(ForegroundMouseOverProperty);
+        set => SetValue(ForegroundMouseOverProperty, value);
+    }
 
     /// BackgroundPressed
     public static readonly DependencyProperty BackgroundPressedProperty
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundPressed
@@ -109,7 +119,7 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushPressed
@@ -117,13 +127,26 @@ public class StswButtonBase : Button
         get => (Brush)GetValue(BorderBrushPressedProperty);
         set => SetValue(BorderBrushPressedProperty, value);
     }
+    /// ForegroundPressed
+    public static readonly DependencyProperty ForegroundPressedProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundPressed),
+            typeof(Brush),
+            typeof(StswButton),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush ForegroundPressed
+    {
+        get => (Brush)GetValue(ForegroundPressedProperty);
+        set => SetValue(ForegroundPressedProperty, value);
+    }
 
     /// BorderBrushDefaulted
     public static readonly DependencyProperty BorderBrushDefaultedProperty
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDefaulted
@@ -133,12 +156,13 @@ public class StswButtonBase : Button
     }
     #endregion
 
+    #region Properties
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -152,26 +176,30 @@ public class StswButtonBase : Button
         = DependencyProperty.Register(
             nameof(Hyperlink),
             typeof(string),
-            typeof(StswButtonBase),
+            typeof(StswButton),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                FilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                HyperlinkChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public string? Hyperlink
     {
         get => (string?)GetValue(HyperlinkProperty);
         set => SetValue(HyperlinkProperty, value);
     }
-    public static void FilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void HyperlinkChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswButton button)
         {
-            if (!string.IsNullOrEmpty(button.Hyperlink))
-                button.Click += StswButtonBaseHyperlink_Click;
-            else
+            if (e.OldValue != null)
                 button.Click -= StswButtonBaseHyperlink_Click;
+            if (e.NewValue != null)
+                button.Click += StswButtonBaseHyperlink_Click;
         }
     }
+    #endregion
+
+    #region Events
+    /// StswButtonBaseHyperlink_Click
     private static void StswButtonBaseHyperlink_Click(object sender, RoutedEventArgs e)
     {
         if (sender is StswButton button && !string.IsNullOrEmpty(button.Hyperlink))
@@ -180,4 +208,5 @@ public class StswButtonBase : Button
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
     }
+    #endregion
 }

@@ -1,13 +1,14 @@
 ﻿/// Changes for future:
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
-// TODO - Popup instead of ContextMenu in StswWindow
-// TODO - fullscreen mode in StswWindow (hiding TitleBar and TaskBar)
 // TODO - MessageBox and NotifyIcon builded in window
-// TODO - new Stsw column controls
-// TODO - new custom Calendar, ColorPicker, Expander, GroupBox, PasswordBox, RadioButton, ScrollViewer, DatePicker & TimePicker, ToggleSwitch, grid with dynamic number of rows or columns
+// TODO - new Stsw data grid column controls
+// TODO - new custom Calendar, ColorPicker, Expander, GroupBox, PasswordBox, RadioButton, ScrollViewer, DatePicker & TimePicker, ToggleSwitch
+// TODO - new custom Grid with dynamic number of rows or columns with auto height and width
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
 // TODO - StswToggleButton with third state and better looking (StswToggleSwitch propably will work this way)
+// TODO - StswProgressBar could show different colors at the same time when there was some error but process was still going
+			(then ProgressBar should be by default green and some parts inside red)
 
 /// Changes difficult to implement so have lower priority for now:
 // TODO - null filter in StswColumnFilter should completely hide filter field
@@ -18,4 +19,3 @@
 // TODO - StswColumnFilter needs to refresh data on Enter click
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
 // TODO - StswNavigationButton should work with Expanders (something like sub buttons)
-// TODO - edit instance from instances list with basic binding in context

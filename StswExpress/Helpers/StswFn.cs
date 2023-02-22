@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -27,6 +28,8 @@ public static class StswFn
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
             app.Resources.MergedDictionaries.Add(new Theme());
         ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = Settings.Default.Theme < 0 ? (ThemeColor)GetWindowsTheme() : (ThemeColor)Settings.Default.Theme;
+
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => ((StswWindow)s).Fullscreen = !((StswWindow)s).Fullscreen));
 
         app.Exit += (sender, e) => Settings.Default.Save();
     }

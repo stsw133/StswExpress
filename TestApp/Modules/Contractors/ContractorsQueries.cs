@@ -149,7 +149,7 @@ internal static class ContractorsQueries
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object?)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.AsBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
@@ -172,7 +172,7 @@ internal static class ContractorsQueries
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary, 8000).Value = (object?)item.Icon ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.AsBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);

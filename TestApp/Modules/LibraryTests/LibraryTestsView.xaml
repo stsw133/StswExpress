@@ -14,140 +14,167 @@
         <DockPanel VerticalAlignment="Top">
             <DockPanel.Resources>
                 <Style TargetType="{x:Type se:StswButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswCheckBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                     <Setter Property="IsThreeState" Value="True"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswComboBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswDatePicker}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswHeader}">
                     <Setter Property="IconScale" Value="1.25"/>
                     <Setter Property="Padding" Value="0"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswIcon}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswNavigationButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswNumericBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswProgressBar}">
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswTextBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswToggleButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
                 </Style>
             </DockPanel.Resources>
+            
             <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsChecked="True" IsEnabled="True" FontWeight="Bold"/>
             <se:StswSeparator DockPanel.Dock="Top" Margin="5"/>
             <!-- buttons -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswButton Margin="5">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Positive}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Negative}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Neutral}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Modify}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Structure}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
-                </se:StswButton>
-                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Designer}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
-                </se:StswButton>
-            </UniformGrid>
-            <!-- buttons with hyperlinks -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswButton Margin="5" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com"/>
-                <se:StswButton Margin="5" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com" Foreground="Blue"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswButton:">
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1">
+                        <se:StswButton Margin="5">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Positive}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Negative}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Neutral}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Modify}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Structure}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
+                        </se:StswButton>
+                        <se:StswButton Margin="5" Background="{x:Static se:StswColors.Designer}" Foreground="White">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
+                        </se:StswButton>
+                    </UniformGrid>
+                    <!-- buttons with hyperlinks -->
+                    <UniformGrid DockPanel.Dock="Top" Rows="1">
+                        <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com"/>
+                        <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com" Foreground="Blue"/>
+                    </UniformGrid>
+                </DockPanel>
+            </GroupBox>
             <!-- checkboxes -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True" IsHitTestVisible="False"/>
-                <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}"/>
-                <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False"/>
-                <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswCheckBox:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}" IsHitTestVisible="False"/>
+                    <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False" IsHitTestVisible="False"/>
+                    <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True" IsHitTestVisible="False"/>
+                    <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}"/>
+                    <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False"/>
+                    <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True"/>
+                </UniformGrid>
+            </GroupBox>
             <!-- comboboxes -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsEditable="True"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswComboBox:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsEditable="True"/>
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
+                    <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
+                </UniformGrid>
+            </GroupBox>
             <!-- datepickers -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
-                <se:StswDatePicker Margin="5" SelectedDate="2023-01-13"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswDatePicker:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
+                    <se:StswDatePicker Margin="5" SelectedDate="2023-01-13"/>
+                </UniformGrid>
+            </GroupBox>
             <!-- headers -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader Content="Account" BorderBrush="Gray"/>
-                </Border>
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}"/>
-                </Border>
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
-                </Border>
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}"/>
-                </Border>
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red"/>
-                </Border>
-                <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalAlignment="Top" VerticalContentAlignment="Top">
-                        <se:StswHeader.SubTexts>
-                            <TextBlock Text="TEST" Foreground="Blue" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
-                        </se:StswHeader.SubTexts>
-                    </se:StswHeader>
-                </Border>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswHeader:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader Content="Account" BorderBrush="Gray"/>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}"/>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}"/>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red"/>
+                    </Border>
+                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalAlignment="Top" VerticalContentAlignment="Top">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST" Foreground="Blue" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                    </Border>
+                </UniformGrid>
+            </GroupBox>
             <!-- icons -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice5}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice6}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.BatteryOff}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery10}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery20}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery30}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery40}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery50}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery60}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery70}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery80}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery90}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Battery}" Scale="2"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswIcon:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice2}"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice5}" Scale="4"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice6}" Scale="6"/>
+                </UniformGrid>
+            </GroupBox>
+            <!-- images -->
+            <GroupBox DockPanel.Dock="Top" Header="StswImage:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1" MinHeight="20" MaxHeight="200">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswImage Stretch="None"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswImage Stretch="None"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswImage Stretch="None"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswImage Stretch="None"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswImage Stretch="None"/>
+                    </ScrollViewer>
+                </UniformGrid>
+            </GroupBox>
             <!-- navigation -->
-            <StackPanel DockPanel.Dock="Top" Margin="5">
-                <se:StswNavigation BorderThickness="1">
+            <GroupBox DockPanel.Dock="Top" Header="StswNavigation:">
+                <se:StswNavigation BorderThickness="1" Margin="5">
                     <se:StswNavigation.Buttons>
                         <se:StswNavigationButton GroupName="TEST" Content="TEST 1"/>
                         <se:StswNavigationButton GroupName="TEST" Content="TEST 2"/>
@@ -155,41 +182,105 @@
                         <se:StswNavigationButton GroupName="TEST" Content="TEST 4"/>
                     </se:StswNavigation.Buttons>
                 </se:StswNavigation>
-            </StackPanel>
+            </GroupBox>
             <!-- numericboxes -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox Margin="5" Value="133" IsReadOnly="True"/>
-                <se:StswNumericBox Margin="5" Value="133"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswNumericBox:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" IsReadOnly="True"/>
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}"/>
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" ButtonClearVisibility="Visible"/>
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" ButtonClearVisibility="Visible">
+                        <se:StswNumericBox.CustomControls>
+                            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}"/>
+                            </se:StswButton>
+                        </se:StswNumericBox.CustomControls>
+                    </se:StswNumericBox>
+                </UniformGrid>
+            </GroupBox>
+            <!-- progressbars -->
+            <GroupBox DockPanel.Dock="Top" Header="StswProgressBar:">
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1">
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Error"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Error"/>
+                    </UniformGrid>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1">
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Error"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Error"/>
+                    </UniformGrid>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1">
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Error"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Ready"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Running"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Paused"/>
+                        <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Error"/>
+                    </UniformGrid>
+                </DockPanel>
+            </GroupBox>
+            <!-- separators -->
+            <GroupBox DockPanel.Dock="Top" Header="StswSeparator:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1" Height="50">
+                    <se:StswSeparator Margin="5" Orientation="Horizontal"/>
+                    <se:StswSeparator Margin="5" Orientation="Vertical"/>
+                </UniformGrid>
+            </GroupBox>
             <!-- textboxes -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
-                <se:StswTextBox Margin="5" Text="TEST"/>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswTextBox:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
+                    <se:StswTextBox Margin="5" Text="TEST"/>
+                    <se:StswTextBox Margin="5" Text="TEST" ButtonClearVisibility="Visible"/>
+                    <se:StswTextBox Margin="5" Text="TEST" ButtonClearVisibility="Visible">
+                        <se:StswTextBox.CustomControls>
+                            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}"/>
+                            </se:StswButton>
+                        </se:StswTextBox.CustomControls>
+                    </se:StswTextBox>
+                </UniformGrid>
+            </GroupBox>
             <!-- togglebuttons -->
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleButton Margin="5">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Positive}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Negative}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Neutral}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Modify}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Structure}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Designer}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
-                </se:StswToggleButton>
-            </UniformGrid>
+            <GroupBox DockPanel.Dock="Top" Header="StswToggleButton:">
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <se:StswToggleButton Margin="5">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Positive}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Negative}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Neutral}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Modify}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Structure}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
+                    </se:StswToggleButton>
+                    <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Designer}" Foreground="White">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
+                    </se:StswToggleButton>
+                </UniformGrid>
+            </GroupBox>
         </DockPanel>
     </ScrollViewer>
 </Page>

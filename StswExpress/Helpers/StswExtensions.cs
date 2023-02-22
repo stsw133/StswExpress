@@ -15,6 +15,22 @@ namespace StswExpress;
 
 public static class StswExtensions
 {
+    #region Convert extensions
+    /// Converts ImageSource to byte[]
+    public static byte[] AsBytes(this ImageSource imageSource)
+    {
+        var encoder = new PngBitmapEncoder();
+        var frame = BitmapFrame.Create(imageSource as BitmapSource);
+
+        encoder.Frames.Add(frame);
+
+        using (var memoryStream = new MemoryStream())
+        {
+            encoder.Save(memoryStream);
+            return memoryStream.ToArray();
+        }
+    }
+
     /// Converts byte[] to BitmapImage
     public static BitmapImage? AsImage(this byte[] imageData)
     {
@@ -52,7 +68,9 @@ public static class StswExtensions
                 {
                     var propertyInfo = obj.GetType().GetProperty(prop.Name);
 
-                    if (propertyInfo?.PropertyType != typeof(object))
+                    if (propertyInfo?.PropertyType == typeof(ImageSource))
+                        propertyInfo.SetValue(obj, ((byte[])row[prop.Name]).AsImage(), null);
+                    else if (propertyInfo?.PropertyType != typeof(object))
                         propertyInfo?.SetValue(obj, row[prop.Name].ConvertTo(propertyInfo.PropertyType), null);
                     else
                         propertyInfo?.SetValue(obj, row[prop.Name], null);
@@ -69,12 +87,6 @@ public static class StswExtensions
         return result;
     }
 
-    /// Returns true if start <= item <= end
-    public static bool Between<T>(this T item, T start, T end) => Comparer<T>.Default.Compare(item, start) >= 0 && Comparer<T>.Default.Compare(item, end) <= 0;
-
-    /// Sets first letter to upper case and rest to lower case.
-    public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
-
     /// Changes object to different type.
     public static object? ConvertTo(this object o, Type t)
     {
@@ -89,7 +101,27 @@ public static class StswExtensions
         }
     }
 
-    /// Finds all visual children or first visual child of T type inside specific control.
+    /// Converts one type of list structure to another one.
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : INotifyPropertyChanged => new StswCollection<T>(value);
+    public static StswDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
+
+    /// Converts string to Nullable.
+    public static T? ToNullable<T>(this string s) where T : struct
+    {
+        T? result = new();
+
+        if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
+        {
+            var conv = TypeDescriptor.GetConverter(typeof(T));
+            result = (T?)conv.ConvertFrom(s);
+        }
+        return result;
+    }
+    #endregion
+
+    #region Finding extensions
+    /// Finds first visual child of T type inside specific control.
     public static T? FindVisualChild<T>(DependencyObject parent) where T : Visual
     {
         T? child = default;
@@ -108,6 +140,8 @@ public static class StswExtensions
 
         return child;
     }
+
+    /// Finds all visual children of T type inside specific control.
     public static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
     {
         if (parent != null)
@@ -121,8 +155,10 @@ public static class StswExtensions
                     yield return childOfChild;
             }
     }
+    #endregion
 
-    /// Gets or clears data from controls of "ColumnFilter" type in ExtDictionary.
+    #region StswColumnFilters extensions
+    /// Gets data from controls of "ColumnFilter" type in ExtDictionary.
     public static void GetColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
@@ -146,33 +182,24 @@ public static class StswExtensions
         if (string.IsNullOrWhiteSpace(filter))
             filter = "1=1";
     }
+
+    /// Clears data from controls of "ColumnFilter" type in ExtDictionary.
     public static void ClearColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict)
     {
         foreach (var pair in dict)
             dict[pair.Key]?.Clear();
     }
+    #endregion
+
+    /// Returns true if start <= item <= end
+    public static bool Between<T>(this T item, T start, T end) => Comparer<T>.Default.Compare(item, start) >= 0 && Comparer<T>.Default.Compare(item, end) <= 0;
+
+    /// Sets first letter to upper case and rest to lower case.
+    public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
 
     /// Returns true if parameter list or array contains given value.
     public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
-
-    /// Converts one type of list structure to another one.
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : INotifyPropertyChanged => new StswCollection<T>(value);
-    public static StswDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
-    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
-
-    /// Converts string to Nullable.
-    public static T? ToNullable<T>(this string s) where T : struct
-    {
-        T? result = new();
-
-        if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
-        {
-            var conv = TypeDescriptor.GetConverter(typeof(T));
-            result = (T?)conv.ConvertFrom(s);
-        }
-        return result;
-    }
 
     /// Trim start or end of string.
     public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));

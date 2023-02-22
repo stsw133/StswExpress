@@ -7,9 +7,9 @@
       xmlns:local="clr-namespace:TestApp.Modules.ContractorsSingle" 
       mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750"
       Title="Contractor">
-    <Page.DataContext>
+    <d:Page.DataContext>
         <local:ContractorsSingleContext/>
-    </Page.DataContext>
+    </d:Page.DataContext>
     <Grid>
         <TextBlock Text="{Binding ID}"/>
     </Grid>

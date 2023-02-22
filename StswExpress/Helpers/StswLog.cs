@@ -15,7 +15,7 @@ public static class StswLog
         if (!Directory.Exists(LogFileDirectory))
             Directory.CreateDirectory(LogFileDirectory);
 
-        using var sw = new StreamWriter(Path.Combine(LogFileDirectory, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true, Encoding.GetEncoding("Windows-1250"));
+        using var sw = new StreamWriter(Path.Combine(LogFileDirectory, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
         sw.WriteLine($"{DateTime.Now:yyyy-MM-dd  HH:mm:ss.fff} | {text}");
     }
 }

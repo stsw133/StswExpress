@@ -1,68 +1,110 @@
-﻿<se:StswTextBoxBase x:Class="StswExpress.StswTextBox"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                    xmlns:se="clr-namespace:StswExpress"
-                    mc:Ignorable="d">
+﻿<TextBox x:Class="StswExpress.StswTextBox"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:se="clr-namespace:StswExpress"
+         mc:Ignorable="d" d:DesignWidth="200">
 
-    <se:StswTextBoxBase.Template>
-        <ControlTemplate TargetType="{x:Type se:StswTextBoxBase}">
-            <Border x:Name="PART_MainBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    SnapsToDevicePixels="True">
-                <Grid>
-                    <TextBlock IsHitTestVisible="False"
-                               Foreground="{TemplateBinding ForegroundPlaceholder}"
-                               Margin="{TemplateBinding Padding}"
-                               Text="{TemplateBinding Placeholder}"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                               Visibility="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBoxBase}}, Converter={se:conv_Compare}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}" />
-                    <ScrollViewer x:Name="PART_ContentHost" 
-                                  Focusable="False" 
-                                  HorizontalScrollBarVisibility="Hidden" 
-                                  VerticalScrollBarVisibility="Hidden"/>
-                </Grid>
-            </Border>
+    <TextBox.Template>
+        <ControlTemplate TargetType="{x:Type TextBox}">
+            <se:ClippingBorder x:Name="PART_MainBorder"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                               SnapsToDevicePixels="True">
+                <DockPanel>
+                    <!-- buttons -->
+                    <se:StswButton x:Name="PART_ButtonClear"
+                                   DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                                   BorderThickness="0" CornerRadius="0" BackgroundMouseOver="#BE11"
+                                   IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}"
+                                   Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
+                                   Visibility="{Binding ButtonClearVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Click="PART_ButtonClear_Click">
+                        <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}">
+                            <se:StswIcon.Style>
+                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                            </se:StswIcon.Style>
+                        </se:StswIcon>
+                        <se:StswButton.Style>
+                            <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
+                        </se:StswButton.Style>
+                    </se:StswButton>
+
+                    <ItemsControl x:Name="PART_CustomControls"
+                                  DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                                  IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}"
+                                  ItemsSource="{Binding CustomControls, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <!-- subborder -->
+                    <Border x:Name="PART_SubBorder"
+                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ButtonClearVisibility, RelativeSource={RelativeSource TemplatedParent}}" Value="Collapsed"/>
+                                            <Condition Binding="{Binding CustomControls.Count, RelativeSource={RelativeSource TemplatedParent}}" Value="0"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <!-- content -->
+                    <Grid x:Name="PART_ContentGrid">
+                        <TextBlock IsHitTestVisible="False"
+                                   Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Margin="{TemplateBinding Padding}"
+                                   Text="{Binding Placeholder, RelativeSource={RelativeSource TemplatedParent}}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}" />
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                      Focusable="False" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden"/>
+                    </Grid>
+                </DockPanel>
+            </se:ClippingBorder>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentGrid" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentGrid" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundFocused, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
                 <Trigger Property="IsReadOnly" Value="True">
-                    <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentGrid" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_CustomControls" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentGrid" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_CustomControls" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-    </se:StswTextBoxBase.Template>
-    <!--
-    <Validation.ErrorTemplate>
-        <ControlTemplate>
-            <DockPanel>
-                <Border x:Name="border"
-                        Background="Transparent"
-                        BorderBrush="Red"
-                        BorderThickness="1"
-                        CornerRadius="0"
-                        SnapsToDevicePixels="True"
-                        IsHitTestVisible="False">
-                    <AdornedElementPlaceholder x:Name="ErrorAdorner"/>
-                </Border>
-            </DockPanel>
-        </ControlTemplate>
-    </Validation.ErrorTemplate>
-    -->
-</se:StswTextBoxBase>
+    </TextBox.Template>
+</TextBox>

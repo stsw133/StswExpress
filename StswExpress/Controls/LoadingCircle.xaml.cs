@@ -12,6 +12,7 @@ public partial class LoadingCircle : UserControl
         InitializeComponent();
     }
 
+    #region Properties
     /// Scale
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
@@ -25,4 +26,5 @@ public partial class LoadingCircle : UserControl
         get => (double)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
+    #endregion
 }

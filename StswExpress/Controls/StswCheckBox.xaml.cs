@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswCheckBox.xaml
 /// </summary>
-public partial class StswCheckBox : StswCheckBoxBase
+public partial class StswCheckBox : CheckBox
 {
     public StswCheckBox()
     {
@@ -17,17 +17,14 @@ public partial class StswCheckBox : StswCheckBoxBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
-}
 
-public class StswCheckBoxBase : CheckBox
-{
     #region Style
     /// GlyphBrush
     public static readonly DependencyProperty GlyphBrushProperty
         = DependencyProperty.Register(
             nameof(GlyphBrush),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush GlyphBrush
@@ -41,7 +38,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -54,7 +51,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -67,7 +64,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(GlyphBrushDisabled),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush GlyphBrushDisabled
@@ -81,7 +78,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -94,7 +91,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -107,7 +104,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(GlyphBrushMouseOver),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush GlyphBrushMouseOver
@@ -121,7 +118,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundPressed
@@ -134,7 +131,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushPressed
@@ -147,7 +144,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(GlyphBrushPressed),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush GlyphBrushPressed
@@ -161,7 +158,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(StyleColorReadOnlyBackground),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorReadOnlyBackground
@@ -175,7 +172,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(StyleColorReadOnlyBorder),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorReadOnlyBorder
@@ -189,7 +186,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(StyleColorReadOnlyGlyph),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush StyleColorReadOnlyGlyph
@@ -203,7 +200,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(SymbolUnchecked),
             typeof(char),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(char))
         );
     public char SymbolUnchecked
@@ -216,7 +213,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundUnchecked),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundUnchecked
@@ -230,7 +227,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(SymbolChecked),
             typeof(char),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(char))
         );
     public char SymbolChecked
@@ -243,7 +240,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundChecked),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundChecked
@@ -257,7 +254,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(SymbolIndeterminate),
             typeof(char),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(char))
         );
     public char SymbolIndeterminate
@@ -270,7 +267,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(BackgroundIndeterminate),
             typeof(Brush),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundIndeterminate
@@ -280,12 +277,13 @@ public class StswCheckBoxBase : CheckBox
     }
     #endregion
 
+    #region Properties
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -299,7 +297,7 @@ public class StswCheckBoxBase : CheckBox
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswCheckBoxBase),
+            typeof(StswCheckBox),
             new PropertyMetadata(default(bool))
         );
     public bool IsReadOnly
@@ -308,4 +306,5 @@ public class StswCheckBoxBase : CheckBox
         set => SetValue(IsReadOnlyProperty, value);
     }
     */
+    #endregion
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,7 +14,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswImage.xaml
 /// </summary>
-public partial class StswImage : StswImageBase
+public partial class StswImage : UserControl
 {
     public StswImage()
     {
@@ -23,16 +24,14 @@ public partial class StswImage : StswImageBase
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
     }
-}
 
-public class StswImageBase : UserControl
-{
+    #region Properties
     /// ContextMenuVisibility
     public static readonly DependencyProperty ContextMenuVisibilityProperty
         = DependencyProperty.Register(
             nameof(ContextMenuVisibility),
             typeof(Visibility),
-            typeof(StswImageBase),
+            typeof(StswImage),
             new PropertyMetadata(default(Visibility))
         );
     public Visibility ContextMenuVisibility
@@ -46,7 +45,7 @@ public class StswImageBase : UserControl
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswImageBase),
+            typeof(StswImage),
             new PropertyMetadata(default(bool))
         );
     public bool IsReadOnly
@@ -59,13 +58,15 @@ public class StswImageBase : UserControl
     public static readonly DependencyProperty SourceProperty
         = DependencyProperty.Register(
             nameof(Source),
-            typeof(object),
-            typeof(StswImageBase),
-            new PropertyMetadata(default(object?))
+            typeof(ImageSource),
+            typeof(StswImage),
+            new FrameworkPropertyMetadata(default(ImageSource?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public object? Source
+    public ImageSource? Source
     {
-        get => (object?)GetValue(SourceProperty) ?? DependencyProperty.UnsetValue;
+        get => (ImageSource?)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
 
@@ -74,7 +75,7 @@ public class StswImageBase : UserControl
         = DependencyProperty.Register(
             nameof(Stretch),
             typeof(Stretch),
-            typeof(StswImageBase),
+            typeof(StswImage),
             new PropertyMetadata(default(Stretch))
         );
     public Stretch Stretch
@@ -82,7 +83,9 @@ public class StswImageBase : UserControl
         get => (Stretch)GetValue(StretchProperty);
         set => SetValue(StretchProperty, value);
     }
+    #endregion
 
+    #region Events
     /// Cut
     protected void MnuItmCut_Click(object sender, RoutedEventArgs e)
     {
@@ -143,19 +146,18 @@ public class StswImageBase : UserControl
             encoder.Save(fileStream);
         }
     }
+    #endregion
 
     #region ImageFromClipboard
     /// ImageFromClipboardDib
     public static ImageSource ImageFromClipboard()
     {
-        MemoryStream ms = Clipboard.GetData("DeviceIndependentBitmap") as MemoryStream;
-        if (ms != null)
+        if (Clipboard.GetData("DeviceIndependentBitmap") is MemoryStream ms)
         {
             byte[] dibBuffer = new byte[ms.Length];
             ms.Read(dibBuffer, 0, dibBuffer.Length);
 
-            BITMAPINFOHEADER infoHeader =
-                BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);
+            BITMAPINFOHEADER infoHeader = BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);
 
             int fileHeaderSize = Marshal.SizeOf(typeof(BITMAPFILEHEADER));
             int infoHeaderSize = infoHeader.biSize;
@@ -168,8 +170,7 @@ public class StswImageBase : UserControl
             fileHeader.bfReserved2 = 0;
             fileHeader.bfOffBits = fileHeaderSize + infoHeaderSize + infoHeader.biClrUsed * 4;
 
-            byte[] fileHeaderBytes =
-                BinaryStructConverter.ToByteArray<BITMAPFILEHEADER>(fileHeader);
+            byte[] fileHeaderBytes = BinaryStructConverter.ToByteArray<BITMAPFILEHEADER>(fileHeader);
 
             MemoryStream msBitmap = new MemoryStream();
             msBitmap.Write(fileHeaderBytes, 0, fileHeaderSize);
@@ -178,6 +179,7 @@ public class StswImageBase : UserControl
 
             return BitmapFrame.Create(msBitmap);
         }
+
         return null;
     }
 

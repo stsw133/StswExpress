@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 
 namespace TestApp.Modules.Contractors;
 
@@ -21,8 +22,8 @@ public class ContractorModel : StswObservableObject
     }
 
     /// Icon
-    private byte[]? icon;
-    public byte[]? Icon
+    private ImageSource? icon;
+    public ImageSource? Icon
     {
         get => icon;
         set => SetProperty(ref icon, value);

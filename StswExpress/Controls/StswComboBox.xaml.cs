@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswComboBox.xaml
 /// </summary>
-public partial class StswComboBox : StswComboBoxBase
+public partial class StswComboBox : ComboBox
 {
     private readonly PropertyInfo? prop;
 
@@ -151,17 +151,14 @@ public partial class StswComboBox : StswComboBoxBase
                 prop?.SetValue(this, item, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         }
     }
-}
 
-public class StswComboBoxBase : ComboBox
-{
     #region Style
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -174,7 +171,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -187,7 +184,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -201,7 +198,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -214,7 +211,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -228,7 +225,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundPressed
@@ -241,7 +238,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushPressed
@@ -255,7 +252,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundReadOnly
@@ -269,7 +266,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness PopupBorderThickness
@@ -282,7 +279,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness SubBorderThickness
@@ -292,12 +289,13 @@ public class StswComboBoxBase : ComboBox
     }
     #endregion
 
+    #region Properties
     /// ButtonAlignment
     public static readonly DependencyProperty ButtonAlignmentProperty
         = DependencyProperty.Register(
             nameof(ButtonAlignment),
             typeof(Dock),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(Dock.Right)
         );
     public Dock ButtonAlignment
@@ -311,7 +309,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -325,7 +323,7 @@ public class StswComboBoxBase : ComboBox
         = DependencyProperty.Register(
             nameof(SelectionMode),
             typeof(SelectionMode),
-            typeof(StswComboBoxBase),
+            typeof(StswComboBox),
             new PropertyMetadata(default(SelectionMode))
         );
     public SelectionMode SelectionMode
@@ -333,4 +331,5 @@ public class StswComboBoxBase : ComboBox
         get => (SelectionMode)GetValue(SelectionModeProperty);
         set => SetValue(SelectionModeProperty, value);
     }
+    #endregion
 }

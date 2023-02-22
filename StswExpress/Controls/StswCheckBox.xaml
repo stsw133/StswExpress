@@ -1,13 +1,13 @@
-﻿<se:StswCheckBoxBase x:Class="StswExpress.StswCheckBox"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                     xmlns:se="clr-namespace:StswExpress"
-                     mc:Ignorable="d">
+﻿<CheckBox x:Class="StswExpress.StswCheckBox"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:se="clr-namespace:StswExpress"
+          mc:Ignorable="d">
 
-    <se:StswCheckBoxBase.Template>
-        <ControlTemplate TargetType="{x:Type se:StswCheckBoxBase}">
+    <CheckBox.Template>
+        <ControlTemplate TargetType="{x:Type CheckBox}">
             <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -17,19 +17,22 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
+                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                         Padding="{TemplateBinding Padding}">
                     <Grid>
                         <TextBlock/>
-                        <TextBlock x:Name="textmark" Foreground="{TemplateBinding GlyphBrush}"
+                        <TextBlock x:Name="textmark" Foreground="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontSize="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Multiply}, ConverterParameter=0.9}"/>
                     </Grid>
                 </Border>
                 <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
-                                  Focusable="False" RecognizesAccessKey="True"
-                                  Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                  Focusable="False"
+                                  Margin="{TemplateBinding Padding}"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="HasContent" Value="False">
@@ -75,5 +78,5 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-    </se:StswCheckBoxBase.Template>
-</se:StswCheckBoxBase>
+    </CheckBox.Template>
+</CheckBox>

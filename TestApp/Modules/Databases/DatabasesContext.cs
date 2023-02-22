@@ -13,18 +13,18 @@ public class DatabasesContext : StswObservableObject
         set => SetProperty(ref currentDB, value);
     }
 
-    /// IsLoading
-    private int countActions = 0;
-    public int CountActions
+    /// Loading
+    private int loadingActions = 0;
+    public int LoadingActions
     {
-        get => countActions;
+        get => loadingActions;
         set
         {
-            SetProperty(ref countActions, value);
-            NotifyPropertyChanged(nameof(IsLoading));
+            SetProperty(ref loadingActions, value);
+            NotifyPropertyChanged(nameof(LoadingState));
         }
     }
-    public bool IsLoading => CountActions > 0;
+    public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
 
     /// Commands
     public StswRelayCommand ImportCommand { get; set; }
@@ -41,16 +41,16 @@ public class DatabasesContext : StswObservableObject
     /// Import
     private void Import()
     {
-        CountActions++;
+        LoadingActions++;
         StswFn.AppDB = CurrentDB = StswDB.ImportDatabases().FirstOrDefault() ?? new();
-        CountActions--;
+        LoadingActions--;
     }
 
     /// Export
     private void Export()
     {
-        CountActions++;
+        LoadingActions++;
         StswDB.ExportDatabases(new List<StswDB>() { CurrentDB });
-        CountActions--;
+        LoadingActions--;
     }
 }

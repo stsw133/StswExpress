@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Math;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,31 +8,26 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswHeader.xaml
 /// </summary>
-public partial class StswHeader : StswHeaderBase
+public partial class StswHeader : UserControl
 {
     public StswHeader()
     {
         InitializeComponent();
+
+        SetValue(SubTextsProperty, new ObservableCollection<UIElement>());
     }
     static StswHeader()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
-}
 
-public class StswHeaderBase : UserControl
-{
-    public StswHeaderBase()
-    {
-        SetValue(SubTextsProperty, new ObservableCollection<UIElement>());
-    }
-
+    #region Properties
     /// HideText
     public static readonly DependencyProperty HideTextProperty
         = DependencyProperty.Register(
             nameof(HideText),
             typeof(bool),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(bool))
         );
     public bool HideText
@@ -47,7 +41,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(Geometry?))
         );
     public Geometry? IconData
@@ -60,7 +54,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(IconForeground),
             typeof(Brush),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(Brush))
         );
     public Brush IconForeground
@@ -72,13 +66,13 @@ public class StswHeaderBase : UserControl
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(double?),
-            typeof(StswHeaderBase),
-            new PropertyMetadata(default(double?))
+            typeof(GridLength?),
+            typeof(StswHeader),
+            new PropertyMetadata(default(GridLength?))
         );
-    public double? IconScale
+    public GridLength? IconScale
     {
-        get => (double?)GetValue(IconScaleProperty);
+        get => (GridLength?)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     /// IconSource
@@ -86,7 +80,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(ImageSource?))
         );
     public ImageSource? IconSource
@@ -100,7 +94,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(bool))
         );
     public bool IsBusy
@@ -114,7 +108,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(Orientation))
         );
     public Orientation Orientation
@@ -126,11 +120,11 @@ public class StswHeaderBase : UserControl
     /// SubTexts
     public static readonly DependencyProperty SubTextsProperty
         = DependencyProperty.Register(
-              nameof(SubTexts),
-              typeof(ObservableCollection<UIElement>),
-              typeof(StswHeaderBase),
-              new PropertyMetadata(default(ObservableCollection<UIElement>))
-          );
+            nameof(SubTexts),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswHeader),
+            new PropertyMetadata(default(ObservableCollection<UIElement>))
+        );
     public ObservableCollection<UIElement> SubTexts
     {
         get => (ObservableCollection<UIElement>)GetValue(SubTextsProperty);
@@ -142,7 +136,7 @@ public class StswHeaderBase : UserControl
         = DependencyProperty.Register(
             nameof(TextPadding),
             typeof(Thickness),
-            typeof(StswHeaderBase),
+            typeof(StswHeader),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness TextPadding
@@ -150,4 +144,5 @@ public class StswHeaderBase : UserControl
         get => (Thickness)GetValue(TextPaddingProperty);
         set => SetValue(TextPaddingProperty, value);
     }
+    #endregion
 }

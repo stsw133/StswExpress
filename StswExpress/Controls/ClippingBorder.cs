@@ -28,12 +28,12 @@ public class ClippingBorder : Border
             if (Child != value)
             {
                 if (Child != null)
-                    Child.SetValue(ClipProperty, _oldClip); /// Restore original clipping
+                    Child.SetValue(ClipProperty, _oldClip);
 
                 if (value != null)
                     _oldClip = value.ReadLocalValue(ClipProperty);
                 else
-                    _oldClip = null; /// If we dont set it to null we could leak a Geometry object
+                    _oldClip = null;
 
                 base.Child = value;
             }

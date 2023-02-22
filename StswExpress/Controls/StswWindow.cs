@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Shell;
 
@@ -14,7 +15,6 @@ public class StswWindow : Window
 {
     private double DefaultHeight, DefaultWidth;
     private FrameworkElement TitleBar;
-    private StswHeader MoveRectangle;
 
     /// Constructors
     public StswWindow()
@@ -34,8 +34,8 @@ public class StswWindow : Window
             typeof(CornerRadius),
             typeof(StswWindow),
             new FrameworkPropertyMetadata(default(CornerRadius),
-              FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-              CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public CornerRadius CornerRadius
     {
@@ -61,21 +61,42 @@ public class StswWindow : Window
         get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
         set => SetValue(CustomControlsProperty, value);
     }
-    /*
+    
     /// Fullscreen
     public static readonly DependencyProperty FullscreenProperty
         = DependencyProperty.Register(
             nameof(Fullscreen),
             typeof(bool),
             typeof(StswWindow),
-            new PropertyMetadata(default(bool))
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public bool Fullscreen
     {
         get => (bool)GetValue(FullscreenProperty);
         set => SetValue(FullscreenProperty, value);
     }
-    */
+    public static void FullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswWindow window)
+        {
+            if (window.Fullscreen)
+            {
+                if (window.WindowState == WindowState.Maximized)
+                    window.WindowState = WindowState.Normal;
+
+                window.TitleBar.Visibility = Visibility.Collapsed;
+                window.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                window.TitleBar.Visibility = Visibility.Visible;
+                window.WindowState = WindowState.Normal;
+            }
+        }
+    }
+
     /// SubTitle
     public static readonly DependencyProperty SubTitleProperty
         = DependencyProperty.Register(
@@ -99,6 +120,7 @@ public class StswWindow : Window
         SourceInitialized += OnSourceInitialized;
         Loaded += OnLoaded;
         Closed += OnClosed;
+        //MouseEnter += OnMouseEnter;
         base.OnInitialized(e);
 
         DefaultHeight = Height;
@@ -109,6 +131,17 @@ public class StswWindow : Window
         _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
         IntPtr handle = (new WindowInteropHelper(this)).Handle;
         HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
+    }
+    private void OnMouseEnter(object sender, MouseEventArgs e)
+    {
+        if (Fullscreen)
+        {
+            var pos = Mouse.GetPosition(this);
+            if (pos.Y <= 15 || pos.Y < (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).ActualHeight)
+                (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).Visibility = Visibility.Visible;
+            else
+                (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).Visibility = Visibility.Collapsed;
+        }
     }
     #endregion
 
@@ -143,12 +176,13 @@ public class StswWindow : Window
     #endregion
 
     #region Avoid hiding task bar upon maximization
-    private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         switch (msg)
         {
             case 0x0024:
-                WmGetMinMaxInfo(hwnd, lParam);
+                if (!Fullscreen)
+                    WmGetMinMaxInfo(hwnd, lParam);
                 handled = false;
                 break;
         }
@@ -276,13 +310,12 @@ public class StswWindow : Window
                 if (themeMenuItem.Items[2] is MenuItem theme1MenuItem)
                     theme1MenuItem.Click += (s, e) => ChangeTheme(1);
             }
-            /// hideSubTitle
-            if (interfaceMenuItem.Items[2] is MenuItem hideSubTitle)
-                hideSubTitle.Click += (s, e) =>
-                {
-                    if (!string.IsNullOrEmpty(SubTitle))
-                        MoveRectangle.SubTexts[0].Visibility = Settings.Default.ShowSubTitle ? Visibility.Visible : Visibility.Collapsed;
-                };
+            /// showSubTitle
+            if (interfaceMenuItem.Items[2] is MenuItem showSubTitle)
+                showSubTitle.Click += ShowSubTitle;
+            /// fullscreen
+            if (interfaceMenuItem.Items[3] is MenuItem fullscreen)
+                fullscreen.Click += (s, e) => Fullscreen = !Fullscreen;
         }
         /// centerMenuItem
         if (TitleBar.ContextMenu.Items[2] is MenuItem centerMenuItem)
@@ -301,26 +334,46 @@ public class StswWindow : Window
             closeMenuItem.Click += CloseClick;
 
         /// Chrome change
-        MoveRectangle = (StswHeader)GetTemplateChild("moveRectangle");
-        MoveRectangle.SizeChanged += MoveRectangle_SizeChanged;
-        StateChanged += (s, e) => MoveRectangle_SizeChanged(MoveRectangle, null);
+        TitleBar.SizeChanged += (s, e) => UpdateChrome();
+        TitleBar.IsVisibleChanged += (s, e) => UpdateChrome();
+        StateChanged += (s, e) => UpdateChrome();
 
         base.OnApplyTemplate();
         UpdateLayout();
     }
 
     /// Chrome change
-    private void MoveRectangle_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
-        WindowChrome.SetWindowChrome(this, new WindowChrome()
+
+        if (Fullscreen)
         {
-            CornerRadius = chrome.CornerRadius,
-            CaptionHeight = TitleBar.ActualHeight - (WindowState == WindowState.Maximized ? 2 : 0),
-            GlassFrameThickness = chrome.GlassFrameThickness,
-            ResizeBorderThickness = chrome.ResizeBorderThickness,
-            UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
-        });
+            WindowChrome.SetWindowChrome(this, null);
+        }
+        else if (chrome != null)
+        {
+            chrome.CornerRadius = CornerRadius;
+            chrome.CaptionHeight = (TitleBar.ActualHeight - 2) >= 0 ? TitleBar.ActualHeight - 2 : 0;
+            chrome.GlassFrameThickness = new Thickness(0);
+            chrome.ResizeBorderThickness = new Thickness(5);
+            chrome.UseAeroCaptionButtons = false;
+
+            WindowChrome.SetWindowChrome(this, chrome);
+        }
+        else
+        {
+            chrome = new WindowChrome()
+            {
+                CornerRadius = CornerRadius,
+                CaptionHeight = (TitleBar.ActualHeight - 2) >= 0 ? TitleBar.ActualHeight - 2 : 0,
+                GlassFrameThickness = new Thickness(0),
+                ResizeBorderThickness = new Thickness(5),
+                UseAeroCaptionButtons = false
+            };
+
+            WindowChrome.SetWindowChrome(this, chrome);
+        }
     }
 
     #region ContextMenu
@@ -339,6 +392,13 @@ public class StswWindow : Window
         else
             theme.Color = (ThemeColor)themeID;
         Settings.Default.Theme = themeID;
+    }
+
+    /// ShowSubTitle
+    private void ShowSubTitle(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(SubTitle))
+            ((StswHeader)GetTemplateChild("moveRectangle")).SubTexts[0].Visibility = Settings.Default.ShowSubTitle ? Visibility.Visible : Visibility.Collapsed;
     }
 
     /// CenterClick

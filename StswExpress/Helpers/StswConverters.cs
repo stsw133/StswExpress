@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
@@ -153,9 +154,9 @@ public class conv_NotNull : MarkupExtension, IValueConverter
 /// Use "?" at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.
 /// Use "@" at the end of converter parameter with value between 00 and FF to set alpha of output color.
 /// Use "#" at the beginning of converter parameter to automatically generate color in output based on value string.
-/// Use "$" at the beginning of converter parameter to set color to system if is default.
 /// Use value between -1.0 and 1.0 to set brightness of output color.
 /// </summary>
+[Obsolete]
 public class conv_Color : MarkupExtension, IValueConverter
 {
     private static conv_Color? _conv;
@@ -171,8 +172,7 @@ public class conv_Color : MarkupExtension, IValueConverter
              contrastColor = pmr.Contains('‼'),
              desaturateColor = pmr.Contains('↓'),
              autoBrightness = pmr.Contains('?'),
-             generateColor = pmr.Contains('#'),
-             systemColor = pmr.Contains('$');
+             generateColor = pmr.Contains('#');
         int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr[(pmr.IndexOf('@') + 1)..], 16) : -1;
 
         if (invertColor) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
@@ -180,7 +180,6 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (desaturateColor) pmr = pmr.Remove(pmr.IndexOf('↓'), 1);
         if (autoBrightness) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
         if (generateColor) pmr = pmr.Remove(pmr.IndexOf('#'), 1);
-        if (systemColor) pmr = pmr.Remove(pmr.IndexOf('$'), 1);
         if (setAlpha >= 0) pmr = pmr.Remove(pmr.IndexOf('@'));
 
         var generatedColor = string.Empty;
@@ -190,13 +189,6 @@ public class conv_Color : MarkupExtension, IValueConverter
         Color color = generateColor
             ? Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90))
             : ColorTranslator.FromHtml(val);
-
-        /// system color
-        if (systemColor && color.ToArgb() == default(Color).ToArgb())
-        {
-            var s = SystemParameters.WindowGlassColor;
-            color = Color.FromArgb(s.R, s.G, s.B);
-        }
 
         /// desaturate color
         if (desaturateColor)
@@ -220,6 +212,75 @@ public class conv_Color : MarkupExtension, IValueConverter
         g += System.Convert.ToInt32((pmrVal > 0 ? 255 - g : g) * pmrVal);
         b += System.Convert.ToInt32((pmrVal > 0 ? 255 - b : b) * pmrVal);
         color = Color.FromArgb(setAlpha.Between(0, 255) ? setAlpha : color.A, r, g, b);
+
+        return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
+    }
+
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+/// <summary>
+/// Changes brightness of hex color using converter parameters described below:
+/// Use nothing or "+" at the beginning of converter parameter to increase brightness of output color.
+/// Use "-" at the beginning of converter parameter to decrease brightness of output color.
+/// Use "?" at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.
+/// Use "%" at the end of converter parameter to use percent values.
+/// Use value in parameter between -255 and 255 (or -100 to 100 in case of percents) to set brightness of output color.
+/// EXAMPLES:  '16'  '+25'  '-36'  '?49'  '8%'  '+13%'  '-18%'  '?25%'
+/// </summary>
+public class conv_ColorBrightness : MarkupExtension, IValueConverter
+{
+    private static conv_ColorBrightness? _conv;
+    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_ColorBrightness();
+
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var pmr = parameter?.ToString() ?? string.Empty;
+        var val = value?.ToString() ?? string.Empty;
+
+        /// parameters
+        bool isAuto = pmr.Contains('?'),
+             isPercent = pmr.Contains('%');
+
+        if (isAuto) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
+        if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
+
+        /// value as color and parameter as number
+        var color = ColorTranslator.FromHtml(val);
+
+        if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
+            pmrVal = 0;
+
+        if (isAuto)
+            pmrVal = color.GetBrightness() < 0.5 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
+
+        /// calculate new color
+        double r = color.R, g = color.G, b = color.B;
+
+        if (isPercent)
+        {
+            r += (pmrVal > 0 ? 255 - r : r) * pmrVal / 100;
+            g += (pmrVal > 0 ? 255 - g : g) * pmrVal / 100;
+            b += (pmrVal > 0 ? 255 - b : b) * pmrVal / 100;
+        }
+        else
+        {
+            var minMax = pmrVal > 0 ? new[] { r, g, b }.Min() : new[] { r, g, b }.Max();
+            var multiplier = pmrVal > 0 ? 255 - minMax : minMax;
+
+            if ((pmrVal > 0 && minMax != 255) || (pmrVal < 0 && minMax != 0))
+            {
+                r += (pmrVal > 0 ? 255 - r : r) / multiplier * pmrVal;
+                g += (pmrVal > 0 ? 255 - g : g) / multiplier * pmrVal;
+                b += (pmrVal > 0 ? 255 - b : b) / multiplier * pmrVal;
+            }
+        }
+        r = Math.Clamp(r, 0, 255);
+        g = Math.Clamp(g, 0, 255);
+        b = Math.Clamp(b, 0, 255);
+
+        color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
 
         return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
     }
@@ -265,11 +326,14 @@ public class conv_Add : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         parameter ??= 0;
+        if (!double.TryParse(parameter.ToString(), out var pmr))
+            pmr = 0;
+
         var val = System.Convert.ToDouble(value, culture);
 
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
-            var pmrArray = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new CornerRadius(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
@@ -280,7 +344,7 @@ public class conv_Add : MarkupExtension, IValueConverter
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
-            var pmrArray = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new Thickness(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
@@ -289,11 +353,7 @@ public class conv_Add : MarkupExtension, IValueConverter
                 _ => new Thickness(val)
             };
         }
-        else
-        {
-            var pmr = System.Convert.ToDouble(parameter, culture);
-            return val + pmr;
-        }
+        else return val + System.Convert.ToDouble(pmr, culture);
     }
 
     /// ConvertBack
@@ -311,11 +371,16 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
     /// Convert
     public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (value.Any(x => x == null))
+            return new object[] { Binding.DoNothing };
+
         var a = value.Length > 0 ? string.Join(parameter?.ToString(), value).Replace(",", ".") : "1";
         var b = a.Contains('{') ? 0 : System.Convert.ToDouble(new DataTable().Compute(a, string.Empty), culture);
 
         if (targetType.In(typeof(Thickness), typeof(Thickness?)))
             return new Thickness(b);
+        else if (targetType == typeof(string))
+            return b.ToString();
         else
             return b;
     }
@@ -337,11 +402,14 @@ public class conv_Multiply : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         parameter ??= 1;
+        if (!double.TryParse(parameter.ToString(), out var pmr))
+            pmr = 1;
+
         var val = System.Convert.ToDouble(value, culture);
 
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
-            var pmrArray = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new CornerRadius(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
@@ -352,7 +420,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
-            var pmrArray = Array.ConvertAll(parameter.ToString().Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new Thickness(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
@@ -361,11 +429,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
                 _ => new Thickness(val)
             };
         }
-        else
-        {
-            var pmr = System.Convert.ToDouble(parameter, culture);
-            return val * pmr;
-        }
+        else return val * System.Convert.ToDouble(pmr, culture);
     }
 
     /// ConvertBack
