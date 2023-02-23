@@ -14,43 +14,45 @@
         <DockPanel VerticalAlignment="Top">
             <DockPanel.Resources>
                 <Style TargetType="{x:Type se:StswButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswCheckBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                     <Setter Property="IsThreeState" Value="True"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswComboBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswDatePicker}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswHeader}">
-                    <Setter Property="IconScale" Value="1.25"/>
-                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswIcon}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
+                </Style>
+                <Style TargetType="{x:Type se:StswImage}">
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswNavigationButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswNumericBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswProgressBar}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswTextBox}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswToggleButton}">
-                    <Setter Property="IsEnabled" Value="{Binding IsChecked, ElementName=EnableButtons, FallbackValue=True}"/>
+                    <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
             </DockPanel.Resources>
-            
-            <se:StswToggleButton Name="EnableButtons" DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" IsChecked="True" IsEnabled="True" FontWeight="Bold"/>
+
+            <se:StswToggleButton DockPanel.Dock="Top" Margin="5" Content="Enable all buttons" FontWeight="Bold" IsChecked="{Binding AreControlsEnabled}" IsEnabled="True"/>
             <se:StswSeparator DockPanel.Dock="Top" Margin="5"/>
             <!-- buttons -->
             <GroupBox DockPanel.Dock="Top" Header="StswButton:">
@@ -116,36 +118,63 @@
             </GroupBox>
             <!-- headers -->
             <GroupBox DockPanel.Dock="Top" Header="StswHeader:">
-                <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader Content="Account" BorderBrush="Gray"/>
-                    </Border>
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}"/>
-                    </Border>
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
-                    </Border>
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}"/>
-                    </Border>
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red"/>
-                    </Border>
-                    <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalAlignment="Top" VerticalContentAlignment="Top">
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}">
                             <se:StswHeader.SubTexts>
-                                <TextBlock Text="TEST" Foreground="Blue" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                                <TextBlock Text="TEST"/>
                             </se:StswHeader.SubTexts>
                         </se:StswHeader>
-                    </Border>
-                </UniformGrid>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="auto"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                    </UniformGrid>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="{x:Null}">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="auto"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                    </UniformGrid>
+                    <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="{x:Null}">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="auto"/>
+                        <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                            <se:StswHeader.SubTexts>
+                                <TextBlock Text="TEST"/>
+                            </se:StswHeader.SubTexts>
+                        </se:StswHeader>
+                    </UniformGrid>
+                </DockPanel>
             </GroupBox>
             <!-- icons -->
             <GroupBox DockPanel.Dock="Top" Header="StswIcon:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                     <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
-                    <se:StswIcon Data="{x:Static se:StswIcons.Dice2}"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Foreground="Red"/>
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
                     <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
                     <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
                     <se:StswIcon Data="{x:Static se:StswIcons.Dice5}" Scale="4"/>
@@ -156,19 +185,19 @@
             <GroupBox DockPanel.Dock="Top" Header="StswImage:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1" MinHeight="20" MaxHeight="200">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <se:StswImage Stretch="None"/>
+                        <se:StswImage Stretch="None" MenuMode="Full"/>
                     </ScrollViewer>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <se:StswImage Stretch="None"/>
+                        <se:StswImage Stretch="None" MenuMode="Full"/>
                     </ScrollViewer>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <se:StswImage Stretch="None"/>
+                        <se:StswImage Stretch="None" MenuMode="Full"/>
                     </ScrollViewer>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <se:StswImage Stretch="None"/>
+                        <se:StswImage Stretch="None" MenuMode="Full"/>
                     </ScrollViewer>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <se:StswImage Stretch="None"/>
+                        <se:StswImage Stretch="None" MenuMode="ReadOnly"/>
                     </ScrollViewer>
                 </UniformGrid>
             </GroupBox>
@@ -189,12 +218,12 @@
                     <se:StswNumericBox Margin="5" Value="{Binding Number}" IsReadOnly="True"/>
                     <se:StswNumericBox Margin="5" Value="{Binding Number}"/>
                     <se:StswNumericBox Margin="5" Value="{Binding Number}" ButtonClearVisibility="Visible"/>
-                    <se:StswNumericBox Margin="5" Value="{Binding Number}" ButtonClearVisibility="Visible">
-                        <se:StswNumericBox.CustomControls>
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50" ButtonClearVisibility="Visible">
+                        <se:StswNumericBox.Buttons>
                             <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                             </se:StswButton>
-                        </se:StswNumericBox.CustomControls>
+                        </se:StswNumericBox.Buttons>
                     </se:StswNumericBox>
                 </UniformGrid>
             </GroupBox>
@@ -243,16 +272,17 @@
             <!-- textboxes -->
             <GroupBox DockPanel.Dock="Top" Header="StswTextBox:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <se:StswTextBox Margin="5" Text="TEST" IsReadOnly="True"/>
-                    <se:StswTextBox Margin="5" Text="TEST"/>
-                    <se:StswTextBox Margin="5" Text="TEST" ButtonClearVisibility="Visible"/>
-                    <se:StswTextBox Margin="5" Text="TEST" ButtonClearVisibility="Visible">
-                        <se:StswTextBox.CustomControls>
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" IsReadOnly="True"/>
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST"/>
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" ButtonClearVisibility="Visible"/>
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" ButtonClearVisibility="Visible">
+                        <se:StswTextBox.Buttons>
                             <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                             </se:StswButton>
-                        </se:StswTextBox.CustomControls>
+                        </se:StswTextBox.Buttons>
                     </se:StswTextBox>
+                    <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="TEST" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto" ButtonClearVisibility="Visible"/>
                 </UniformGrid>
             </GroupBox>
             <!-- togglebuttons -->

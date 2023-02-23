@@ -8,20 +8,28 @@
 
     <ToggleButton.Template>
         <ControlTemplate TargetType="{x:Type ToggleButton}">
-            <Border x:Name="PART_MainBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
-                    SnapsToDevicePixels="True">
-                <ContentPresenter x:Name="contentPresenter"
-                                  Focusable="False"
-                                  Margin="{TemplateBinding Padding}"
-                                  RecognizesAccessKey="True"
-                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </Border>
+            <se:ClippingBorder x:Name="PART_MainBorder"
+                               Background="{TemplateBinding Background}"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                               SnapsToDevicePixels="True">
+                <Grid>
+                    <Border x:Name="PART_SubBorder"
+                            BorderBrush="{Binding SubBorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                            BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                            CornerRadius="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                            Visibility="{Binding SubBorderVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    <ContentPresenter x:Name="contentPresenter"
+                                      Focusable="False"
+                                      Margin="{TemplateBinding Padding}"
+                                      RecognizesAccessKey="True"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Grid>
+            </se:ClippingBorder>
             <ControlTemplate.Triggers>
                 <Trigger Property="Button.IsDefaulted" Value="True">
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDefaulted, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />

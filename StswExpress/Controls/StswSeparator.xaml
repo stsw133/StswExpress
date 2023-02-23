@@ -12,22 +12,17 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
-                    SnapsToDevicePixels="False">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}" Value="Horizontal">
-                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}" Value="Vertical">
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="VerticalAlignment" Value="Stretch"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>
+                    SnapsToDevicePixels="False"/>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Horizontal">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_MainBorder" />
+                    <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_MainBorder" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Vertical">
+                    <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_MainBorder" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder" />
+                </DataTrigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </Separator.Template>
 </Separator>

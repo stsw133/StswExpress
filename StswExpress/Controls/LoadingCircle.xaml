@@ -4,24 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress" 
-             mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="100">
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50">
     
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
             <Viewbox>
-                <Viewbox.Height>
-                    <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
-                        <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                        <Binding Path="Scale" RelativeSource="{RelativeSource TemplatedParent}"/>
-                    </MultiBinding>
-                </Viewbox.Height>
-                <Viewbox.Width>
-                    <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
-                        <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                        <Binding Path="Scale" RelativeSource="{RelativeSource TemplatedParent}"/>
-                    </MultiBinding>
-                </Viewbox.Width>
-                <Ellipse Width="12" Height="12" StrokeDashArray="24" Stroke="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0.5">
+                <Ellipse x:Name="PART_Ellipse"
+                         Width="12" Height="12" StrokeDashArray="24" RenderTransformOrigin="0.5 0.5"
+                         Stroke="{TemplateBinding Foreground}">
                     <Ellipse.RenderTransform>
                         <RotateTransform x:Name="PART_Rotation" Angle="0" />
                     </Ellipse.RenderTransform>
@@ -38,6 +28,11 @@
                     </Ellipse.Triggers>
                 </Ellipse>
             </Viewbox>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Stroke" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Ellipse" />
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Template>
 </UserControl>

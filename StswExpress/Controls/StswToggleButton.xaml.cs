@@ -196,6 +196,59 @@ public partial class StswToggleButton : ToggleButton
         get => (Brush)GetValue(BorderBrushDefaultedProperty);
         set => SetValue(BorderBrushDefaultedProperty, value);
     }
+
+    /// SubBorderBrush
+    public static readonly DependencyProperty SubBorderBrushProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderBrush),
+            typeof(Brush),
+            typeof(StswToggleButton),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush SubBorderBrush
+    {
+        get => (Brush)GetValue(SubBorderBrushProperty);
+        set => SetValue(SubBorderBrushProperty, value);
+    }
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswToggleButton),
+            new PropertyMetadata(default(Thickness))
+        );
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    /// SubCornerRadius
+    public static readonly DependencyProperty SubCornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(SubCornerRadius),
+            typeof(CornerRadius),
+            typeof(StswToggleButton),
+            new PropertyMetadata(default(CornerRadius))
+        );
+    public CornerRadius SubCornerRadius
+    {
+        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
+        set => SetValue(SubCornerRadiusProperty, value);
+    }
+    /// SubBorderVisibility
+    public static readonly DependencyProperty SubBorderVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderVisibility),
+            typeof(Visibility),
+            typeof(StswToggleButton),
+            new PropertyMetadata(default(Visibility))
+        );
+    public Visibility SubBorderVisibility
+    {
+        get => (Visibility)GetValue(SubBorderVisibilityProperty);
+        set => SetValue(SubBorderVisibilityProperty, value);
+    }
     #endregion
 
     #region Properties

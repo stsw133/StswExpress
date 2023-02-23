@@ -14,12 +14,28 @@ public partial class StswHeader : UserControl
     {
         InitializeComponent();
 
-        SetValue(SubTextsProperty, new ObservableCollection<UIElement>());
+        SetValue(SubTextsProperty, new ObservableCollection<TextBlock>());
     }
     static StswHeader()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
+
+    #region Style
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswHeader),
+            new PropertyMetadata(default(Brush))
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
+    #endregion
 
     #region Properties
     /// HideText
@@ -121,28 +137,28 @@ public partial class StswHeader : UserControl
     public static readonly DependencyProperty SubTextsProperty
         = DependencyProperty.Register(
             nameof(SubTexts),
-            typeof(ObservableCollection<UIElement>),
+            typeof(ObservableCollection<TextBlock>),
             typeof(StswHeader),
-            new PropertyMetadata(default(ObservableCollection<UIElement>))
+            new PropertyMetadata(default(ObservableCollection<TextBlock>))
         );
-    public ObservableCollection<UIElement> SubTexts
+    public ObservableCollection<TextBlock> SubTexts
     {
-        get => (ObservableCollection<UIElement>)GetValue(SubTextsProperty);
+        get => (ObservableCollection<TextBlock>)GetValue(SubTextsProperty);
         set => SetValue(SubTextsProperty, value);
     }
 
-    /// TextPadding
-    public static readonly DependencyProperty TextPaddingProperty
+    /// TextMargin
+    public static readonly DependencyProperty TextMarginProperty
         = DependencyProperty.Register(
-            nameof(TextPadding),
+            nameof(TextMargin),
             typeof(Thickness),
             typeof(StswHeader),
             new PropertyMetadata(default(Thickness))
         );
-    public Thickness TextPadding
+    public Thickness TextMargin
     {
-        get => (Thickness)GetValue(TextPaddingProperty);
-        set => SetValue(TextPaddingProperty, value);
+        get => (Thickness)GetValue(TextMarginProperty);
+        set => SetValue(TextMarginProperty, value);
     }
     #endregion
 }

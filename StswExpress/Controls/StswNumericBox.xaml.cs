@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,17 +12,18 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswNumericBox.xaml
 /// </summary>
-public partial class StswNumericBox : UserControl
+public partial class StswNumericBox : TextBox
 {
     public StswNumericBox()
     {
         InitializeComponent();
 
-        SetValue(CustomControlsProperty, new ObservableCollection<UIElement>());
+        SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
     }
     static StswNumericBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
+        TextProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(null, OnTextChanged));
     }
 
     #region Style
@@ -202,7 +204,19 @@ public partial class StswNumericBox : UserControl
         get => (Visibility)GetValue(ButtonClearVisibilityProperty);
         set => SetValue(ButtonClearVisibilityProperty, value);
     }
-
+    /// Buttons
+    public static readonly DependencyProperty ButtonsProperty
+        = DependencyProperty.Register(
+            nameof(Buttons),
+            typeof(ObservableCollection<ButtonBase>),
+            typeof(StswNumericBox),
+            new PropertyMetadata(default(ObservableCollection<ButtonBase>))
+        );
+    public ObservableCollection<ButtonBase> Buttons
+    {
+        get => (ObservableCollection<ButtonBase>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
+    }
     /// ButtonsAlignment
     public static readonly DependencyProperty ButtonsAlignmentProperty
         = DependencyProperty.Register(
@@ -231,20 +245,6 @@ public partial class StswNumericBox : UserControl
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// CustomControls
-    public static readonly DependencyProperty CustomControlsProperty
-        = DependencyProperty.Register(
-            nameof(CustomControls),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(ObservableCollection<UIElement>))
-        );
-    public ObservableCollection<UIElement> CustomControls
-    {
-        get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
-        set => SetValue(CustomControlsProperty, value);
-    }
-
     /// Increment
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(
@@ -258,21 +258,6 @@ public partial class StswNumericBox : UserControl
         get => (double)GetValue(IncrementProperty);
         set => SetValue(IncrementProperty, value);
     }
-
-    /// IsReadOnly
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(bool))
-        );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    
     /// Maximum
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
@@ -286,7 +271,6 @@ public partial class StswNumericBox : UserControl
         get => (double?)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
-
     /// Minimum
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
@@ -332,37 +316,63 @@ public partial class StswNumericBox : UserControl
     }
     public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw && stsw.Value != null)
+        if (obj is StswNumericBox stsw)
         {
-            if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
-                stsw.Value = (double)stsw.Minimum;
-            if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
-                stsw.Value = (double)stsw.Maximum;
+            if (stsw.Value != null)
+            {
+                if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
+                    stsw.Value = stsw.Minimum;
+                if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
+                    stsw.Value = stsw.Maximum;
+            }
+            stsw.Text = stsw.Value?.ToString();
+        }
+    }
+    public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNumericBox stsw)
+        {
+            if (double.TryParse(stsw.Text, out double value))
+                stsw.Value = value;
+            else
+            {
+                stsw.Value = null;
+                if (!string.IsNullOrEmpty(stsw.Text) && stsw.GetBindingExpression(ValueProperty) is not null and BindingExpression binding)
+                    Validation.MarkInvalid(binding, new ValidationError(new ExceptionValidationRule(), ValueProperty, "Incorrect value!", null));
+            }
         }
     }
     #endregion
 
     #region Events
-    /// Btn_Click
-    private void Btn_Click(double increment)
-    {
-        Value += increment;
-        if (Value == null)
-        {
-            if (((double?)0).Between(Minimum, Maximum))
-                Value = 0;
-            else
-                Value = Math.Min(Math.Abs(Minimum ?? 0d), Math.Abs(Maximum ?? 0d));
-        }
-    }
-    private void BtnDown_Click(object sender, RoutedEventArgs e) => Btn_Click(-Increment);
-    private void BtnUp_Click(object sender, RoutedEventArgs e) => Btn_Click(Increment);
+    /// BtnUp_Click
+    private void BtnUp_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value + Increment;
 
-    /// TextBox_KeyDown
-    private void TextBox_KeyDown(object sender, KeyEventArgs e)
+    /// BtnDown_Click
+    private void BtnDown_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value - Increment;
+
+    /// PART_ButtonClear_Click
+    private void PART_ButtonClear_Click(object sender, RoutedEventArgs e)
     {
-        if (e.Key == Key.Enter && double.TryParse(((TextBox)sender).Text, out var value))
-            Value = value;
+        var bindingExpression = BindingOperations.GetBindingExpression(this, ValueProperty);
+        var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
+        if (boundType != null && Nullable.GetUnderlyingType(boundType) != null)
+            Value = null;
+        else
+            Value = 0;
+
+        Text = Value?.ToString();
+    }
+
+    /// PART_ContentHost_MouseWheel
+    private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (e.Delta > 0)
+            Value++;
+        else
+            Value--;
+
+        e.Handled = true;
     }
     #endregion
 }

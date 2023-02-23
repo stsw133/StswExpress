@@ -1,13 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 
 namespace TestApp.Modules.LibraryTests;
 
 public class LibraryTestsContext : StswObservableObject
 {
+    /// AreControlsEnabled
+    private bool areControlsEnabled = true;
+    public bool AreControlsEnabled
+    {
+        get => areControlsEnabled;
+        set => SetProperty(ref areControlsEnabled, value);
+    }
     /// Number
-    private int number = 0;
-    public int Number
+    private double number = 0;
+    public double Number
     {
         get => number;
         set => SetProperty(ref number, value);
@@ -28,7 +36,6 @@ public class LibraryTestsContext : StswObservableObject
     /// SearchCommand
     private void Search()
     {
-        if (Number < 100)
-            Number++;
+        MessageBox.Show("TEST");
     }
 }

@@ -4,106 +4,93 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d">
+             mc:Ignorable="d" d:DesignHeight="50" d:DesignWidth="50">
 
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
-            <Border Background="{TemplateBinding Background}"
+            <Border x:Name="PART_MainBorder"
+                    Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}" ContextMenuOpening="PART_MainBorder_ContextMenuOpening">
                 <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NullToUnset}}"
                        Stretch="{Binding Stretch, RelativeSource={RelativeSource TemplatedParent}}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                 <Border.ContextMenu>
-                    <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Visibility="{Binding ContextMenuVisibility, RelativeSource={RelativeSource TemplatedParent}}">
+                    <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
+                                 Visibility="{Binding MenuMode, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=!Disabled}">
                         <!-- cut -->
-                        <MenuItem Header="Wytnij" IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmCut_Click">
+                        <MenuItem x:Name="PART_Cut" Header="Wytnij" Click="MnuItmCut_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="✂️" FontWeight="Heavy" HorizontalAlignment="Center">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Neutral}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                    <Setter Property="Foreground" Value="#7777"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- copy -->
-                        <MenuItem Header="Kopiuj" Click="MnuItmCopy_Click">
+                        <MenuItem x:Name="PART_Copy" Header="Kopiuj" Click="MnuItmCopy_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="📄" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswColors.Positive}"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- paste -->
-                        <MenuItem Header="Wklej" IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmPaste_Click">
+                        <MenuItem x:Name="PART_Paste" Header="Wklej" Click="MnuItmPaste_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="📝" FontWeight="Heavy" HorizontalAlignment="Center">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Neutral}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                    <Setter Property="Foreground" Value="#7777"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- delete -->
-                        <MenuItem Header="Usuń" IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmDelete_Click">
+                        <MenuItem x:Name="PART_Delete" Header="Usuń" Click="MnuItmDelete_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="❌" FontWeight="Heavy" HorizontalAlignment="Center">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Negative}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                    <Setter Property="Foreground" Value="#7777"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Foreground="{x:Static se:StswColors.Negative}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- separator -->
                         <Separator/>
                         <!-- load -->
-                        <MenuItem Header="Wczytaj" IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Bool}, ConverterParameter=!}" Click="MnuItmLoad_Click">
+                        <MenuItem x:Name="PART_Load" Header="Wczytaj" Click="MnuItmLoad_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="📁" FontWeight="Heavy" HorizontalAlignment="Center">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Foreground" Value="{x:Static se:StswColors.Structure}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                    <Setter Property="Foreground" Value="#7777"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Foreground="{x:Static se:StswColors.Structure}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- save-->
-                        <MenuItem Header="Zapisz" Click="MnuItmSave_Click">
+                        <MenuItem x:Name="PART_Save" Header="Zapisz" Click="MnuItmSave_Click">
                             <MenuItem.Icon>
-                                <TextBlock Text="💾" FontWeight="Heavy" HorizontalAlignment="Center" Foreground="{x:Static se:StswColors.Modify}"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Foreground="{x:Static se:StswColors.Positive}">
+                                    <se:StswIcon.Style>
+                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                                    </se:StswIcon.Style>
+                                </se:StswIcon>
                             </MenuItem.Icon>
                         </MenuItem>
                     </ContextMenu>
                 </Border.ContextMenu>
             </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Template>
 </UserControl>

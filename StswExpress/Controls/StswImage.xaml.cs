@@ -25,33 +25,78 @@ public partial class StswImage : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
     }
 
-    #region Properties
-    /// ContextMenuVisibility
-    public static readonly DependencyProperty ContextMenuVisibilityProperty
+    #region Style
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
         = DependencyProperty.Register(
-            nameof(ContextMenuVisibility),
-            typeof(Visibility),
+            nameof(OpacityDisabled),
+            typeof(double),
             typeof(StswImage),
-            new PropertyMetadata(default(Visibility))
+            new PropertyMetadata(default(double))
         );
-    public Visibility ContextMenuVisibility
+    public double OpacityDisabled
     {
-        get => (Visibility)GetValue(ContextMenuVisibilityProperty);
-        set => SetValue(ContextMenuVisibilityProperty, value);
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
+    }
+    #endregion
+
+    #region Properties
+    /// MenuMode
+    public enum MenuModes
+    {
+        Disabled,
+        ReadOnly,
+        Full
+    }
+    public static readonly DependencyProperty MenuModeProperty
+        = DependencyProperty.Register(
+            nameof(MenuMode),
+            typeof(MenuModes),
+            typeof(StswImage),
+            new PropertyMetadata(default(MenuModes))
+        );
+    public MenuModes MenuMode
+    {
+        get => (MenuModes)GetValue(MenuModeProperty);
+        set => SetValue(MenuModeProperty, value);
     }
 
-    /// IsReadOnly
-    public static readonly DependencyProperty IsReadOnlyProperty
+    /// Scale
+    public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
+            nameof(Scale),
+            typeof(GridLength),
             typeof(StswImage),
-            new PropertyMetadata(default(bool))
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnScaleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool IsReadOnly
+    public GridLength Scale
     {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswImage stsw)
+        {
+            if (stsw.Scale == GridLength.Auto)
+            {
+                stsw.Height = double.NaN;
+                stsw.Width = double.NaN;
+            }
+            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
+            {
+                var multiBinding = new MultiBinding();
+                multiBinding.Bindings.Add(new Binding(nameof(Settings.Default.iSize)) { Source = Settings.Default });
+                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
+                multiBinding.Converter = new conv_Calculate();
+                multiBinding.ConverterParameter = "*";
+                stsw.SetBinding(HeightProperty, multiBinding);
+                stsw.SetBinding(WidthProperty, multiBinding);
+            }
+        }
     }
 
     /// Source
@@ -86,8 +131,19 @@ public partial class StswImage : UserControl
     #endregion
 
     #region Events
+    /// PART_MainBorder_ContextMenuOpening
+    private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+    {
+        ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == MenuModes.Full;
+        ((MenuItem)GetTemplateChild("PART_Copy")).IsEnabled = MenuMode != MenuModes.Disabled;
+        ((MenuItem)GetTemplateChild("PART_Paste")).IsEnabled = MenuMode == MenuModes.Full;
+        ((MenuItem)GetTemplateChild("PART_Delete")).IsEnabled = MenuMode == MenuModes.Full;
+        ((MenuItem)GetTemplateChild("PART_Load")).IsEnabled = MenuMode == MenuModes.Full;
+        ((MenuItem)GetTemplateChild("PART_Save")).IsEnabled = MenuMode != MenuModes.Disabled;
+    }
+
     /// Cut
-    protected void MnuItmCut_Click(object sender, RoutedEventArgs e)
+    private void MnuItmCut_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
@@ -95,14 +151,14 @@ public partial class StswImage : UserControl
     }
 
     /// Copy
-    protected void MnuItmCopy_Click(object sender, RoutedEventArgs e)
+    private void MnuItmCopy_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
     }
 
     /// Paste
-    protected void MnuItmPaste_Click(object sender, RoutedEventArgs e)
+    private void MnuItmPaste_Click(object sender, RoutedEventArgs e)
     {
         if (Clipboard.GetImage().GetType() == typeof(InteropBitmap))
             Source = ImageFromClipboard();
@@ -111,10 +167,10 @@ public partial class StswImage : UserControl
     }
 
     /// Delete
-    protected void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
+    private void MnuItmDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
     /// Load
-    protected void MnuItmLoad_Click(object sender, RoutedEventArgs e)
+    private void MnuItmLoad_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog()
         {
@@ -129,7 +185,7 @@ public partial class StswImage : UserControl
     }
 
     /// Save
-    protected void MnuItmSave_Click(object sender, RoutedEventArgs e)
+    private void MnuItmSave_Click(object sender, RoutedEventArgs e)
     {
         if (Source == null)
             return;

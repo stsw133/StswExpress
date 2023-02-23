@@ -179,28 +179,28 @@ public partial class StswButton : Button
             typeof(StswButton),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                HyperlinkChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnHyperlinkChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public string? Hyperlink
     {
         get => (string?)GetValue(HyperlinkProperty);
         set => SetValue(HyperlinkProperty, value);
     }
-    public static void HyperlinkChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnHyperlinkChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswButton button)
         {
             if (e.OldValue != null)
-                button.Click -= StswButtonBaseHyperlink_Click;
+                button.Click -= StswButtonHyperlink_Click;
             if (e.NewValue != null)
-                button.Click += StswButtonBaseHyperlink_Click;
+                button.Click += StswButtonHyperlink_Click;
         }
     }
     #endregion
 
     #region Events
-    /// StswButtonBaseHyperlink_Click
-    private static void StswButtonBaseHyperlink_Click(object sender, RoutedEventArgs e)
+    /// StswButtonHyperlink_Click
+    private static void StswButtonHyperlink_Click(object sender, RoutedEventArgs e)
     {
         if (sender is StswButton button && !string.IsNullOrEmpty(button.Hyperlink))
         {

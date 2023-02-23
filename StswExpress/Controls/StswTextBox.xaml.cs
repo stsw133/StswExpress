@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -14,7 +17,7 @@ public partial class StswTextBox : TextBox
     {
         InitializeComponent();
 
-        SetValue(CustomControlsProperty, new ObservableCollection<UIElement>());
+        SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
     }
     static StswTextBox()
     {
@@ -199,7 +202,19 @@ public partial class StswTextBox : TextBox
         get => (Visibility)GetValue(ButtonClearVisibilityProperty);
         set => SetValue(ButtonClearVisibilityProperty, value);
     }
-
+    /// Buttons
+    public static readonly DependencyProperty ButtonsProperty
+        = DependencyProperty.Register(
+            nameof(Buttons),
+            typeof(ObservableCollection<ButtonBase>),
+            typeof(StswTextBox),
+            new PropertyMetadata(default(ObservableCollection<ButtonBase>))
+        );
+    public ObservableCollection<ButtonBase> Buttons
+    {
+        get => (ObservableCollection<ButtonBase>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
+    }
     /// ButtonsAlignment
     public static readonly DependencyProperty ButtonsAlignmentProperty
         = DependencyProperty.Register(
@@ -227,36 +242,7 @@ public partial class StswTextBox : TextBox
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// CustomControls
-    public static readonly DependencyProperty CustomControlsProperty
-        = DependencyProperty.Register(
-            nameof(CustomControls),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswTextBox),
-            new PropertyMetadata(default(ObservableCollection<UIElement>))
-        );
-    public ObservableCollection<UIElement> CustomControls
-    {
-        get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
-        set => SetValue(CustomControlsProperty, value);
-    }
-    /*
-    /// IsReadOnly
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswTextBox),
-            new PropertyMetadata(default(bool))
-        );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    */
-
+    
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
@@ -274,6 +260,14 @@ public partial class StswTextBox : TextBox
 
     #region Events
     /// PART_ButtonClear_Click
-    private void PART_ButtonClear_Click(object sender, RoutedEventArgs e) => Clear();
+    private void PART_ButtonClear_Click(object sender, RoutedEventArgs e)
+    {
+        var bindingExpression = BindingOperations.GetBindingExpression(this, TextProperty);
+        var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
+        if (boundType != null && Nullable.GetUnderlyingType(boundType) != null)
+            Text = null;
+        else
+            Text = string.Empty;
+    }
     #endregion
 }

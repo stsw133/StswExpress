@@ -8,147 +8,148 @@
 
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
-            <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}">
+            <Border x:Name="PART_MainBorder"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Padding="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}">
 
-                <!-- icon -->
-                <Control Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter=0.1}"
-                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                    <Control.Style>
-                        <Style TargetType="{x:Type Control}">
-                            <Style.Triggers>
-                                <!-- StswIcon -->
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
-                                        <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
-                                        <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                                             Foreground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                    <se:StswIcon.Style>
-                                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
-                                                                    <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                    <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
-                                                                    <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </se:StswIcon.Style>
-                                                </se:StswIcon>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </MultiDataTrigger>
-                                <!-- Image -->
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
-                                        <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <Image Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                    <Image.Style>
-                                                        <Style TargetType="{x:Type Image}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
-                                                                    <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                    <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={se:conv_NotNull}}" Value="True">
-                                                                    <Setter Property="Height">
-                                                                        <Setter.Value>
-                                                                            <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
-                                                                                <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                                                                                <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                                                            </MultiBinding>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                    <Setter Property="Width">
-                                                                        <Setter.Value>
-                                                                            <MultiBinding Converter="{se:conv_Calculate}" ConverterParameter="*">
-                                                                                <Binding Path="iSize" Source="{x:Static se:Settings.Default}"/>
-                                                                                <Binding Path="IconScale" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                                                            </MultiBinding>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Image.Style>
-                                                </Image>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </MultiDataTrigger>
-                                <!-- LoadingCircle -->
-                                <DataTrigger Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <se:LoadingCircle Foreground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                    <se:LoadingCircle.Style>
-                                                        <Style TargetType="{x:Type se:LoadingCircle}" BasedOn="{StaticResource {x:Type se:LoadingCircle}}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
-                                                                    <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                    <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
-                                                                    <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </se:LoadingCircle.Style>
-                                                </se:LoadingCircle>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Control.Style>
-                </Control>
+                    <!-- icon -->
+                    <Control x:Name="PART_Icon"
+                             Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter=0.1}"
+                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Control.Style>
+                            <Style TargetType="{x:Type Control}">
+                                <Style.Triggers>
+                                    <!-- StswIcon -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
+                                            <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                                 Foreground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                        <se:StswIcon.Style>
+                                                            <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
+                                                                        <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                        <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
+                                                                        <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </se:StswIcon.Style>
+                                                    </se:StswIcon>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                    <!-- Image -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
+                                            <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <se:StswImage MenuMode="Disabled"
+                                                                  Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                        <se:StswImage.Style>
+                                                            <Style TargetType="{x:Type se:StswImage}" BasedOn="{StaticResource {x:Type se:StswImage}}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
+                                                                        <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                        <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={se:conv_NotNull}}" Value="True">
+                                                                        <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </se:StswImage.Style>
+                                                    </se:StswImage>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                    <!-- LoadingCircle -->
+                                    <DataTrigger Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <se:LoadingCircle Foreground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                        <se:LoadingCircle.Style>
+                                                            <Style TargetType="{x:Type se:LoadingCircle}" BasedOn="{StaticResource {x:Type se:LoadingCircle}}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Value="{x:Null}">
+                                                                        <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                        <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
+                                                                        <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </se:LoadingCircle.Style>
+                                                    </se:LoadingCircle>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Control.Style>
+                    </Control>
 
-                <!-- text -->
-                <Grid Margin="{Binding TextPadding, RelativeSource={RelativeSource TemplatedParent}}"
-                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                    <StackPanel x:Name="PART_Text">
+                    <!-- text -->
+                    <StackPanel x:Name="PART_Text"
+                                Margin="{Binding TextMargin, RelativeSource={RelativeSource TemplatedParent}}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <!-- main text -->
                         <ContentPresenter/>
                         <!-- sub texts -->
                         <ItemsControl ItemsSource="{Binding SubTexts, RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default},Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                                                <Setter Property="Opacity" Value="0.8"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                    </StackPanel>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </StackPanel>
-                    <Grid.Style>
-                        <Style TargetType="{x:Type Grid}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding HideText, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                </Grid>
 
-            </StackPanel>
+                </StackPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource Self}}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HideText, RelativeSource={RelativeSource Self}}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
+                </DataTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Text" />
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Template>
 </UserControl>

@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
     
+    <!-- LoadingCircle -->
+    <Style TargetType="{x:Type se:LoadingCircle}" BasedOn="{StaticResource {x:Type se:LoadingCircle}}">
+        <Setter Property="ForegroundDisabled" Value="#7777"/>
+        
+        <Setter Property="Scale" Value="auto"/>
+    </Style>
+    
     <!-- StswButton -->
     <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource Button.Static.Background}"/>
@@ -31,7 +38,7 @@
     </Style>
 
     <!-- StswCheckBox -->
-    <Style TargetType="{x:Type se:StswCheckBox}">
+    <Style TargetType="{x:Type se:StswCheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="GlyphBrush" Value="{DynamicResource OptionMark.Static.Glyph}"/>
@@ -109,7 +116,7 @@
     </Style>
 
     <!-- StswDatePicker -->
-    <Style TargetType="{x:Type se:StswDatePicker}">
+    <Style TargetType="{x:Type se:StswDatePicker}" BasedOn="{StaticResource {x:Type DatePicker}}">
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -144,31 +151,36 @@
 
     <!-- StswHeader -->
     <Style TargetType="{x:Type se:StswHeader}">
+        <Setter Property="ForegroundDisabled" Value="#7777"/>
+        
         <Setter Property="IconForeground" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
 
-        <Setter Property="Margin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
-        <Setter Property="TextPadding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.4 0.1}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
+        <Setter Property="TextMargin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.3 0.1}"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <!-- StswIcon -->
     <Style TargetType="{x:Type se:StswIcon}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundDisabled" Value="#7777"/>
         
         <Setter Property="CanvasSize" Value="24"/>
-        <Setter Property="Scale" Value="1.5"/>
+        <Setter Property="Scale" Value="auto"/>
     </Style>
 
     <!-- StswImage -->
     <Style TargetType="{x:Type se:StswImage}">
         <Setter Property="Background" Value="Transparent"/>
+        
+        <Setter Property="OpacityDisabled" Value="0.3"/>
+
+        <Setter Property="MenuMode" Value="Disabled"/>
+        <Setter Property="Scale" Value="auto"/>
         <Setter Property="Stretch" Value="Uniform"/>
     </Style>
 
@@ -213,7 +225,7 @@
     </Style>
 
     <!-- StswNumericBox -->
-    <Style TargetType="{x:Type se:StswNumericBox}">
+    <Style TargetType="{x:Type se:StswNumericBox}" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -237,8 +249,8 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="ButtonsAlignment" Value="Right"/>
         <Setter Property="ButtonClearVisibility" Value="Collapsed"/>
+        <Setter Property="ButtonsAlignment" Value="Right"/>
         <Setter Property="Increment" Value="1"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -261,6 +273,7 @@
         <Setter Property="ForegroundPaused" Value="#9BB2"/>
         <Setter Property="ForegroundError" Value="#9C33"/>
 
+        <Setter Property="IsTrackTransparent" Value="False"/>
         <Setter Property="State" Value="Running"/>
         <Setter Property="TextInPercents" Value="True"/>
 
@@ -305,7 +318,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Static.Border}"/>
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.075}"/>
         <Setter Property="CornerRadius" Value="1"/>
-
+        
         <Setter Property="Orientation" Value="Horizontal"/>
     </Style>
     
@@ -334,8 +347,8 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
-        <Setter Property="ButtonsAlignment" Value="Right"/>
         <Setter Property="ButtonClearVisibility" Value="Collapsed"/>
+        <Setter Property="ButtonsAlignment" Value="Right"/>
         
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -359,14 +372,19 @@
         <Setter Property="BorderBrushPressed" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
         <Setter Property="ForegroundPressed" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}"/>
 
-        <Setter Property="BackgroundChecked" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-40}"/>
-        <Setter Property="BorderBrushChecked" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-40}"/>
+        <Setter Property="BackgroundChecked" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-50}"/>
+        <Setter Property="BorderBrushChecked" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-50}"/>
         <Setter Property="ForegroundChecked" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BorderBrushDefaulted" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
 
+        <Setter Property="SubBorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=!}"/>
+        <Setter Property="SubBorderVisibility" Value="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_Bool}}"/>
+
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter=1.35}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
+        <Setter Property="SubCornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.60}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
