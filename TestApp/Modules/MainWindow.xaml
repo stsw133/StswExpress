@@ -1,4 +1,4 @@
-﻿<se:StswWindow x:Class="TestApp.Modules.MainWindow"
+﻿<se:StswWindow x:Class="TestApp.MainWindow"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,15 +17,15 @@
     <se:StswNavigation BorderThickness="1" Padding="5">
         <se:StswNavigation.Buttons>
             
-            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.Databases.DatabasesView">
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.DatabasesContext">
                 <se:StswHeader Content="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}"/>
             </se:StswNavigationButton>
             
             <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Content="Account" IconData="{x:Static se:StswIcons.Account}"/>
             </se:StswNavigationButton>
-            
-            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.Contractors.ContractorsView">
+
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.ContractorsContext">
                 <se:StswHeader Content="Contractors" IconData="{x:Static se:StswIcons.Domain}"/>
             </se:StswNavigationButton>
             
@@ -52,8 +52,8 @@
             <se:StswNavigationButton GroupName="Main" Visibility="Collapsed">
                 <se:StswHeader Content="Config" IconData="{x:Static se:StswIcons.Cog}"/>
             </se:StswNavigationButton>
-            
-            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.Modules.LibraryTests.LibraryTestsView">
+
+            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.LibraryTestsContext">
                 <se:StswHeader Content="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
             </se:StswNavigationButton>
             

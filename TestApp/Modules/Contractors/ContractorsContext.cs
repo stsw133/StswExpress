@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace TestApp.Modules.Contractors;
+namespace TestApp;
 
 public class ContractorsContext : StswObservableObject
 {
@@ -187,9 +187,9 @@ public class ContractorsContext : StswObservableObject
 
         /// ...
         var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-        navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+        navi?.PageChange(new ContractorsSingleView()
         {
-            DataContext = new ContractorsSingle.ContractorsSingleContext()
+            DataContext = new ContractorsSingleContext()
         }, true);
 
         // or (if you set DataContext in XAML):
@@ -217,9 +217,9 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+            navi?.PageChange(new ContractorsSingleView()
             {
-                DataContext = new ContractorsSingle.ContractorsSingleContext()
+                DataContext = new ContractorsSingleContext()
                 {
                     ID = selectedItem.ID,
                     DoClone = true
@@ -257,9 +257,9 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.PageChange(new ContractorsSingle.ContractorsSingleView()
+            navi?.PageChange(new ContractorsSingleView()
             {
-                DataContext = new ContractorsSingle.ContractorsSingleContext()
+                DataContext = new ContractorsSingleContext()
                 {
                     ID = selectedItem.ID,
                     DoClone = false

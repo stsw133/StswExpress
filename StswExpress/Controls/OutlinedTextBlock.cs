@@ -193,9 +193,9 @@ public class OutlinedTextBlock : FrameworkElement
     }
     #endregion
 
-    private FormattedText _FormattedText;
-    private Geometry _TextGeometry;
-    private Pen _Pen;
+    private FormattedText? _FormattedText;
+    private Geometry? _TextGeometry;
+    private Pen? _Pen;
 
     private void UpdatePen()
     {
@@ -261,7 +261,7 @@ public class OutlinedTextBlock : FrameworkElement
         if (_FormattedText != null)
             return;
 
-        _FormattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black);
+        _FormattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
         UpdateFormattedText();
     }

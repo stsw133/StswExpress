@@ -1,4 +1,4 @@
-﻿namespace TestApp.Modules.LibraryTests;
+﻿namespace TestApp;
 
 internal static class LibraryTestsQueries
 {

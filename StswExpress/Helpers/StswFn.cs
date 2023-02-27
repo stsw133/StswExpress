@@ -22,15 +22,22 @@ public static class StswFn
     /// Starting functions that should be placed in constructor of App class (if you want to have light and dark theme)
     public static void AppStart(Application app, string saltKey, string hashKey)
     {
+        /// hash keys
         StswSecurity.SaltKey = saltKey;
         StswSecurity.HashKey = hashKey;
 
+        /// merged dictionaries
         if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
             app.Resources.MergedDictionaries.Add(new Theme());
         ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = Settings.Default.Theme < 0 ? (ThemeColor)GetWindowsTheme() : (ThemeColor)Settings.Default.Theme;
 
+        if (!app.Resources.MergedDictionaries.Any(x => x.Source == new System.Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
+            app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
+
+        /// global commands
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => ((StswWindow)s).Fullscreen = !((StswWindow)s).Fullscreen));
 
+        /// on exit
         app.Exit += (sender, e) => Settings.Default.Save();
     }
 

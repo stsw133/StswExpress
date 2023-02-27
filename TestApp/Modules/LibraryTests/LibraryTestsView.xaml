@@ -1,15 +1,14 @@
-﻿<Page x:Class="TestApp.Modules.LibraryTests.LibraryTestsView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-      xmlns:local="clr-namespace:TestApp.Modules.LibraryTests"
-      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750"
-      Title="Library tests">
-    <Page.DataContext>
+﻿<UserControl x:Class="TestApp.LibraryTestsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
         <local:LibraryTestsContext/>
-    </Page.DataContext>
+    </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <DockPanel.Resources>
@@ -313,4 +312,4 @@
             </GroupBox>
         </DockPanel>
     </ScrollViewer>
-</Page>
+</UserControl>

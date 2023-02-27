@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace TestApp.Modules.LibraryTests;
+namespace TestApp;
 
 public class LibraryTestsContext : StswObservableObject
 {

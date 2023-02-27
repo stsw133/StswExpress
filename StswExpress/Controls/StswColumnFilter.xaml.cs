@@ -435,7 +435,7 @@ public partial class StswColumnFilter : UserControl
 
         var btnSymbol = (ButtonBase)GetTemplateChild("PART_Symbol");
         var btnSymbolItems = btnSymbol.ContextMenu.Items.OfType<MenuItem>().ToList();
-        MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], null);
+        MnuItmFilterMode_Click(btnSymbolItems[(int)(FilterMode ?? 0)], new RoutedEventArgs());
         SetData();
         UpdateLayout();
     }

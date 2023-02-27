@@ -1,4 +1,4 @@
-﻿namespace TestApp.Modules.ContractorsSingle;
+﻿namespace TestApp;
 
 public class ContractorsSingleContext : StswObservableObject
 {

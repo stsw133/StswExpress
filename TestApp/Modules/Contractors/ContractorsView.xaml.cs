@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace TestApp.Modules.Contractors;
+namespace TestApp;
 /// <summary>
 /// Interaction logic for ContractorsView.xaml
 /// </summary>
-public partial class ContractorsView : Page
+public partial class ContractorsView : UserControl
 {
     public ContractorsView()
     {

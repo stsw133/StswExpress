@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TestApp.Modules.Databases;
+namespace TestApp;
 
 public class DatabasesContext : StswObservableObject
 {

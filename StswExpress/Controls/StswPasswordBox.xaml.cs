@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
-
 /// <summary>
-/// Interaction logic for StswNumericBox.xaml
+/// Interaction logic for StswPasswordBox.xaml
 /// </summary>
-public partial class StswNumericBox : TextBox
+public partial class StswPasswordBox : UserControl
 {
-    public StswNumericBox()
+    public StswPasswordBox()
     {
         InitializeComponent();
 
         SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
     }
-    static StswNumericBox()
+    static StswPasswordBox()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
-        TextProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(null, OnTextChanged));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(typeof(StswPasswordBox)));
     }
 
     #region Style
@@ -32,7 +28,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -45,7 +41,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -58,7 +54,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -72,7 +68,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -85,7 +81,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -98,7 +94,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundMouseOver
@@ -112,7 +108,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundFocused
@@ -125,7 +121,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushFocused
@@ -138,7 +134,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundFocused
@@ -152,7 +148,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundReadOnly
@@ -166,7 +162,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundPlaceholder
@@ -180,7 +176,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness SubBorderThickness
@@ -196,7 +192,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ButtonClearVisibility),
             typeof(Visibility),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(Visibility))
         );
     public Visibility ButtonClearVisibility
@@ -204,12 +200,25 @@ public partial class StswNumericBox : TextBox
         get => (Visibility)GetValue(ButtonClearVisibilityProperty);
         set => SetValue(ButtonClearVisibilityProperty, value);
     }
+    /// ButtonShowPasswordVisibility
+    public static readonly DependencyProperty ButtonShowPasswordVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ButtonShowPasswordVisibility),
+            typeof(Visibility),
+            typeof(StswPasswordBox),
+            new PropertyMetadata(default(Visibility))
+        );
+    public Visibility ButtonShowPasswordVisibility
+    {
+        get => (Visibility)GetValue(ButtonShowPasswordVisibilityProperty);
+        set => SetValue(ButtonShowPasswordVisibilityProperty, value);
+    }
     /// Buttons
     public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
             nameof(Buttons),
             typeof(ObservableCollection<ButtonBase>),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(ObservableCollection<ButtonBase>))
         );
     public ObservableCollection<ButtonBase> Buttons
@@ -220,11 +229,11 @@ public partial class StswNumericBox : TextBox
     /// ButtonsAlignment
     public static readonly DependencyProperty ButtonsAlignmentProperty
         = DependencyProperty.Register(
-              nameof(ButtonsAlignment),
-              typeof(Dock),
-              typeof(StswNumericBox),
-              new PropertyMetadata(default(Dock))
-          );
+            nameof(ButtonsAlignment),
+            typeof(Dock),
+            typeof(StswPasswordBox),
+            new PropertyMetadata(default(Dock))
+        );
     public Dock ButtonsAlignment
     {
         get => (Dock)GetValue(ButtonsAlignmentProperty);
@@ -236,7 +245,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -244,53 +253,27 @@ public partial class StswNumericBox : TextBox
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// Increment
-    public static readonly DependencyProperty IncrementProperty
-        = DependencyProperty.Register(
-              nameof(Increment),
-              typeof(double),
-              typeof(StswNumericBox),
-              new PropertyMetadata(default(double))
-          );
-    public double Increment
-    {
-        get => (double)GetValue(IncrementProperty);
-        set => SetValue(IncrementProperty, value);
-    }
-    /// Maximum
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(double?))
-        );
-    public double? Maximum
-    {
-        get => (double?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    /// Minimum
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(double?))
-        );
-    public double? Minimum
-    {
-        get => (double?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
     
+    /// IsReadOnly
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswPasswordBox),
+            new PropertyMetadata(default(bool))
+        );
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswNumericBox),
+            typeof(StswPasswordBox),
             new PropertyMetadata(default(string?))
         );
     public string? Placeholder
@@ -299,83 +282,71 @@ public partial class StswNumericBox : TextBox
         set => SetValue(PlaceholderProperty, value);
     }
 
-    /// Value
-    public static readonly DependencyProperty ValueProperty
+    /// Password
+    public static readonly DependencyProperty PasswordProperty
         = DependencyProperty.Register(
-            nameof(Value),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
+            nameof(Password),
+            typeof(string),
+            typeof(StswPasswordBox),
+            new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                ValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnPasswordChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public double? Value
+    public string? Password
     {
-        get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        get => (string?)GetValue(PasswordProperty);
+        set => SetValue(PasswordProperty, value);
     }
-    public static void ValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
-        {
-            if (stsw.Value != null)
-            {
-                if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
-                    stsw.Value = stsw.Minimum;
-                if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
-                    stsw.Value = stsw.Maximum;
-            }
-            stsw.Text = stsw.Value?.ToString();
-        }
+        if (obj is StswPasswordBox stsw && stsw.partPasswordBox != null && !stsw.isPasswordChanging)
+            stsw.partPasswordBox.Password = stsw.Password;
     }
-    public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// ShowPassword
+    public static readonly DependencyProperty ShowPasswordProperty
+        = DependencyProperty.Register(
+            nameof(ShowPassword),
+            typeof(bool),
+            typeof(StswPasswordBox),
+            new PropertyMetadata(default(bool))
+        );
+    public bool ShowPassword
     {
-        if (obj is StswNumericBox stsw)
-        {
-            if (double.TryParse(stsw.Text, out double value))
-                stsw.Value = value;
-            else
-            {
-                stsw.Value = null;
-                if (!string.IsNullOrEmpty(stsw.Text) && stsw.GetBindingExpression(ValueProperty) is not null and BindingExpression binding)
-                    Validation.MarkInvalid(binding, new ValidationError(new ExceptionValidationRule(), ValueProperty, "Incorrect value!", null));
-            }
-        }
+        get => (bool)GetValue(ShowPasswordProperty);
+        set => SetValue(ShowPasswordProperty, value);
     }
     #endregion
 
     #region Events
-    /// BtnUp_Click
-    private void BtnUp_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value + Increment;
+    private bool isPasswordChanging;
+    private PasswordBox partPasswordBox;
+    private TextBox partTextBox;
+    
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        partPasswordBox = (PasswordBox)GetTemplateChild("PART_PasswordBox");
+        partTextBox = (TextBox)GetTemplateChild("PART_TextBox");
 
-    /// BtnDown_Click
-    private void BtnDown_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value - Increment;
+        OnPasswordChanged(this, new DependencyPropertyChangedEventArgs());
+
+        base.OnApplyTemplate();
+    }
 
     /// PART_ButtonClear_Click
     private void PART_ButtonClear_Click(object sender, RoutedEventArgs e)
     {
-        var bindingExpression = BindingOperations.GetBindingExpression(this, ValueProperty);
-        var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
-        if (boundType != null && Nullable.GetUnderlyingType(boundType) != null)
-            Value = null;
-        else
-            Value = 0;
-
-        Text = Value?.ToString();
+        partPasswordBox.Clear();
+        partTextBox.Clear();
     }
 
-    /// PART_ContentHost_MouseWheel
-    private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
+    /// PART_PasswordBox_PasswordChanged
+    private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
-        if (IsKeyboardFocused)
-        {
-            if (e.Delta > 0)
-                Value += Increment;
-            else
-                Value -= Increment;
-
-            e.Handled = true;
-        }
+        isPasswordChanging = true;
+        Password = ((PasswordBox)sender).Password;
+        isPasswordChanging = false;
     }
     #endregion
 }

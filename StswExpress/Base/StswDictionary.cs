@@ -87,11 +87,11 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
     #endregion
 
     #region INotifyCollectionChanged Members
-    public event NotifyCollectionChangedEventHandler CollectionChanged;
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
     #endregion
 
     #region INotifyPropertyChanged Members
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
     public void AddRange(IDictionary<TKey, TValue> items)
@@ -118,7 +118,7 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
     {
         if (key == null) throw new ArgumentNullException("key");
 
-        if (Dictionary.TryGetValue(key, out TValue item))
+        if (Dictionary.TryGetValue(key, out TValue? item))
         {
             if (add) throw new ArgumentException("An item with the same key has already been added.");
             if (Equals(item, value)) return;

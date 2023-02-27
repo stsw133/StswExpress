@@ -1,4 +1,4 @@
-﻿namespace TestApp.Modules;
+﻿namespace TestApp;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

@@ -277,7 +277,7 @@ public partial class StswImage : UserControl
                 int size = Marshal.SizeOf(typeof(T));
                 ptr = Marshal.AllocHGlobal(size);
                 Marshal.Copy(bytes, 0, ptr, size);
-                object obj = Marshal.PtrToStructure(ptr, typeof(T));
+                object? obj = Marshal.PtrToStructure(ptr, typeof(T));
                 return (T)obj;
             }
             finally

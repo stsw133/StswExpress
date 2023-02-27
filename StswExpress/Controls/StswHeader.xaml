@@ -19,6 +19,7 @@
 
                     <!-- icon -->
                     <Control x:Name="PART_Icon"
+                             Focusable="False"
                              Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter=0.1}"
                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -121,7 +122,7 @@
                         <!-- main text -->
                         <ContentPresenter/>
                         <!-- sub texts -->
-                        <ItemsControl ItemsSource="{Binding SubTexts, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ItemsControl Focusable="False" ItemsSource="{Binding SubTexts, RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Vertical">

@@ -20,7 +20,7 @@ public partial class StswNavigation : UserControl, INotifyPropertyChanged
         InitializeComponent();
 
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
-        SetValue(PagesProperty, new StswDictionary<string, Page?>());
+        SetValue(PagesProperty, new StswDictionary<string, object?>());
 
         if (DesignerProperties.GetIsInDesignMode(this)) return;
 
@@ -130,21 +130,19 @@ public partial class StswNavigation : UserControl, INotifyPropertyChanged
     public static readonly DependencyProperty PagesProperty
         = DependencyProperty.Register(
             nameof(Pages),
-            typeof(StswDictionary<string, Page?>),
+            typeof(StswDictionary<string, object?>),
             typeof(StswNavigation),
-            new PropertyMetadata(default(StswDictionary<string, Page?>))
+            new PropertyMetadata(default(StswDictionary<string, object?>))
         );
-    public StswDictionary<string, Page?> Pages
+    public StswDictionary<string, object?> Pages
     {
-        get => (StswDictionary<string, Page?>)GetValue(PagesProperty);
+        get => (StswDictionary<string, object?>)GetValue(PagesProperty);
         set => SetValue(PagesProperty, value);
     }
     #endregion
 
     /// ...
-    private Frame? partFrame;
-
-    public object? PageChange(Page? parameter, bool createNewInstance)
+    public object? PageChange(object? parameter, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this))
             return null;
@@ -160,7 +158,7 @@ public partial class StswNavigation : UserControl, INotifyPropertyChanged
         if (createNewInstance && Pages.ContainsKey(pageFullname))
             Pages.Remove(pageFullname);
         if (!Pages.ContainsKey(pageFullname))
-            Pages.Add(new KeyValuePair<string, Page?>(pageFullname, parameter));
+            Pages.Add(new KeyValuePair<string, object?>(pageFullname, parameter));
         Content = Pages[pageFullname];
 
         Cursor = null;
@@ -170,24 +168,26 @@ public partial class StswNavigation : UserControl, INotifyPropertyChanged
     public object? PageChange(string parameter, bool createNewInstance)
     {
         if (parameter != null)
-            return PageChange(Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap() as Page, createNewInstance);
+            return PageChange(Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap(), createNewInstance);
         else
             return Content = null;
     }
 
     #region Events
-    /// StswNavigationButton_Click
-    private void StswNavigationButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is StswNavigationButton button)
-            PageChange(button.PageNamespace, button.CreateNewInstance);
-    }
-
+    private Frame partFrame;
+    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
         partFrame = GetTemplateChild("PART_Frame") as Frame;
         base.OnApplyTemplate();
+    }
+
+    /// StswNavigationButton_Click
+    private void StswNavigationButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is StswNavigationButton button)
+            PageChange(button.PageNamespace, button.CreateNewInstance);
     }
 
 

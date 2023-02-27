@@ -1,4 +1,4 @@
-﻿namespace TestApp.Modules.Settings;
+﻿namespace TestApp;
 
 /// <summary>
 /// Interaction logic for SettingsView.xaml

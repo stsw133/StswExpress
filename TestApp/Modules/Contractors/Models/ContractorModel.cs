@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 
-namespace TestApp.Modules.Contractors;
+namespace TestApp;
 
 public class ContractorModel : StswObservableObject
 {

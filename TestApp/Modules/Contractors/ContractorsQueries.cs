@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Windows;
 
-namespace TestApp.Modules.Contractors;
+namespace TestApp;
 
 internal static class ContractorsQueries
 {

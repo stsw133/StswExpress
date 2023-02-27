@@ -1,4 +1,22 @@
 ﻿<Application x:Class="TestApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Modules\MainWindow.xaml" DispatcherUnhandledException="Application_DispatcherUnhandledException" />
+             xmlns:local="clr-namespace:TestApp"
+             Startup="Application_Startup" DispatcherUnhandledException="Application_DispatcherUnhandledException">
+    <Application.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type local:ContractorsContext}">
+                <local:ContractorsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:ContractorsSingleContext}">
+                <local:ContractorsSingleView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:DatabasesContext}">
+                <local:DatabasesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:LibraryTestsContext}">
+                <local:LibraryTestsView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -88,9 +88,7 @@
                 <Border BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Visibility="{Binding FrameVisibility, RelativeSource={RelativeSource TemplatedParent}}">
-                    <Frame x:Name="PART_Frame" NavigationUIVisibility="Hidden"
-                           Content="{TemplateBinding Content}"
-                           Margin="{TemplateBinding Padding}"/>
+                    <ContentControl Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
                 </Border>
             </DockPanel>
         </ControlTemplate>

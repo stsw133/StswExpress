@@ -1,4 +1,4 @@
-﻿namespace TestApp.Modules.Settings;
+﻿namespace TestApp;
 
 internal static class SettingsQueries
 {

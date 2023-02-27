@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace TestApp.Modules.Databases;
+namespace TestApp;
 /// <summary>
 /// Interaction logic for DatabasesView.xaml
 /// </summary>
-public partial class DatabasesView : Page
+public partial class DatabasesView : UserControl
 {
     public DatabasesView()
     {

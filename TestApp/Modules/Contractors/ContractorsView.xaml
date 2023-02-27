@@ -1,16 +1,15 @@
-﻿<Page x:Class="TestApp.Modules.Contractors.ContractorsView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-      xmlns:local="clr-namespace:TestApp.Modules.Contractors"
-      mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750"
-      Title="Contractors">
-    <Page.DataContext>
+﻿<UserControl x:Class="TestApp.ContractorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
         <local:ContractorsContext/>
-    </Page.DataContext>
+    </d:UserControl.DataContext>
     <DockPanel>
         <!-- button panel -->
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
@@ -213,4 +212,4 @@
             -->
         </se:StswDataGrid>
     </DockPanel>
-</Page>
+</UserControl>
