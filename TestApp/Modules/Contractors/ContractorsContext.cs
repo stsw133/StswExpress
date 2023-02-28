@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -61,6 +64,7 @@ public class ContractorsContext : StswObservableObject
     public ICommand CloneCommand { get; set; }
     public ICommand EditCommand { get; set; }
     public ICommand DeleteCommand { get; set; }
+    public ICommand AddPdfCommand { get; set; }
 
     public ContractorsContext()
     {
@@ -73,6 +77,7 @@ public class ContractorsContext : StswObservableObject
         CloneCommand = new StswRelayCommand(Clone, CloneCondition);
         EditCommand = new StswRelayCommand(Edit, EditCondition);
         DeleteCommand = new StswRelayCommand(Delete, DeleteCondition);
+        AddPdfCommand = new StswRelayCommand(AddPdf, AddPdfCondition);
     }
     
     /// Clear
@@ -307,6 +312,33 @@ public class ContractorsContext : StswObservableObject
         IsBusy[nameof(Delete)] = false;
     }
     private bool DeleteCondition() => SelectedItem is ContractorModel and not null;
+
+    /// AddPdf
+    private void AddPdf()
+    {
+        if (IsBusy[nameof(AddPdf)]) return;
+
+        IsBusy[nameof(AddPdf)] = true;
+        LoadingActions++;
+        Thread.Sleep(100);
+
+        /// ...
+        var selectedItem = SelectedItem as ContractorModel;
+        if (selectedItem?.ID > 0)
+        {
+            var dialog = new OpenFileDialog()
+            {
+                Filter = "PDF files|*.pdf"
+            };
+            if (dialog.ShowDialog() == true)
+                ContractorsQueries.AddPdf(selectedItem.ID, File.ReadAllBytes(dialog.FileName));
+        }
+        /// ...
+
+        LoadingActions--;
+        IsBusy[nameof(AddPdf)] = false;
+    }
+    private bool AddPdfCondition() => SelectedItem is ContractorModel m and not null && m.ID > 0;
 
     #endregion
 }

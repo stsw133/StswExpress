@@ -35,7 +35,8 @@ internal static class ContractorsQueries
                             City varchar(30),
                             Street varchar(60),
                             IsArchival bit,
-                            CreateDT datetime
+                            CreateDT datetime,
+                            Pdf varbinary(max)
 				        )";
                 using (var sqlCmd = new SqlCommand(query, sqlConn))
                     sqlCmd.ExecuteNonQuery();
@@ -142,10 +143,10 @@ internal static class ContractorsQueries
                     var query = $@"
                         insert into dbo.StswExpressTEST_Contractors
                             (Type, Icon, Name, Country, PostCode, City, Street,
-                             IsArchival, CreateDT)
+                             IsArchival, CreateDT, Pdf)
                         values
                             (@Type, @Icon, @Name, @Country, @PostCode, @City, @Street,
-                             @IsArchival, @CreateDT)";
+                             @IsArchival, @CreateDT, @Pdf)";
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
@@ -227,6 +228,73 @@ internal static class ContractorsQueries
                 }
 
                 result = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+        return result;
+    }
+
+    /// AddPdf
+    internal static bool AddPdf(int id, byte[] file)
+    {
+        var result = false;
+        
+        try
+        {
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            {
+                sqlConn.Open();
+
+                var query = $@"
+                    update dbo.StswExpressTEST_Contractors
+                    set Pdf=@Pdf
+                    where ID=@ID";
+                using (var sqlCmd = new SqlCommand(query, sqlConn))
+                {
+                    sqlCmd.Parameters.AddWithValue("@ID", id);
+                    sqlCmd.Parameters.AddWithValue("@Pdf", file);
+                    sqlCmd.ExecuteNonQuery();
+                }
+
+                result = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        
+        return result;
+    }
+
+    /// GetPdf
+    internal static byte[]? GetPdf(int id)
+    {
+        byte[]? result = null;
+        
+        try
+        {
+            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            {
+                sqlConn.Open();
+
+                var query = $@"
+                    select Pdf
+                    from dbo.StswExpressTEST_Contractors with(nolock)
+                    where ID=@ID";
+                using (var sqlCmd = new SqlCommand(query, sqlConn))
+                {
+                    sqlCmd.Parameters.AddWithValue("@ID", id);
+                    using (var sqlDR = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDR.Read() && !Convert.IsDBNull(sqlDR[0]))
+                            result = (byte[])sqlDR[0];
+                    }
+                }
             }
         }
         catch (Exception ex)

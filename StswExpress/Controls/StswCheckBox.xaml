@@ -4,7 +4,7 @@
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
           xmlns:se="clr-namespace:StswExpress"
-          mc:Ignorable="d">
+          mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="40">
 
     <CheckBox.Template>
         <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -21,9 +21,14 @@
                         Padding="{TemplateBinding Padding}">
                     <Grid>
                         <TextBlock/>
-                        <TextBlock x:Name="textmark" Foreground="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   FontSize="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Multiply}, ConverterParameter=0.9}"/>
+                        <se:StswIcon x:Name="textmark"
+                                     Foreground="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Scale="1.5"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <se:StswIcon.Style>
+                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                            </se:StswIcon.Style>
+                        </se:StswIcon>
                     </Grid>
                 </Border>
                 <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
@@ -36,44 +41,91 @@
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="HasContent" Value="False">
-                    <Setter Property="Grid.ColumnSpan" Value="2" TargetName="checkBoxBorder"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="checkBoxBorder"/>
-                    <Setter Property="VerticalAlignment" Value="Stretch" TargetName="checkBoxBorder"/>
-                    <Setter Property="Visibility" Value="Collapsed" TargetName="contentPresenter"/>
+                    <Setter Property="Grid.ColumnSpan" Value="2" TargetName="checkBoxBorder" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="checkBoxBorder" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" TargetName="checkBoxBorder" />
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="contentPresenter" />
                 </Trigger>
                 <Trigger Property="HasContent" Value="True">
-                    <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder"/>
-                    <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder"/>
-                    <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="checkBoxBorder"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="Foreground" Value="{Binding GlyphBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="Foreground" Value="{Binding GlyphBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                    <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="checkBoxBorder" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="False">
                     <Setter Property="Background" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="Text" Value="{Binding SymbolUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="Text" Value="{Binding SymbolChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="{x:Null}">
                     <Setter Property="Background" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
-                    <Setter Property="Text" Value="{Binding SymbolIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
-                <Trigger Property="IsHitTestVisible" Value="False">
-                    <Setter Property="Foreground" Value="{Binding GlyphBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
+                    <Setter Property="Foreground" Value="{Binding GlyphBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsChecked" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundUncheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushUncheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsChecked" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundCheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushCheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                        <Condition Property="IsChecked" Value="{x:Null}"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundIndeterminateMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminateMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Self}}" />
+                    <Setter Property="Foreground" Value="{Binding GlyphBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsPressed" Value="True"/>
+                        <Condition Property="IsChecked" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundUncheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushUncheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsPressed" Value="True"/>
+                        <Condition Property="IsChecked" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundCheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushCheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsPressed" Value="True"/>
+                        <Condition Property="IsChecked" Value="{x:Null}"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="{Binding BackgroundIndeterminatePressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminatePressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                </MultiTrigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />
+                    <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
                     <Setter Property="Foreground" Value="{Binding GlyphBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="textmark" />
                 </Trigger>
             </ControlTemplate.Triggers>

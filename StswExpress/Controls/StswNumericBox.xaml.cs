@@ -367,7 +367,7 @@ public partial class StswNumericBox : TextBox
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused)
+        if (IsKeyboardFocused && !IsReadOnly)
         {
             if (e.Delta > 0)
                 Value += Increment;

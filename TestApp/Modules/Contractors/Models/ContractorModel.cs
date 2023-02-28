@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Media;
 
 namespace TestApp;
@@ -90,6 +92,27 @@ public class ContractorModel : StswObservableObject
     public bool ShowDetails
     {
         get => showDetails;
-        set => SetProperty(ref showDetails, value);
+        set
+        {
+            SetProperty(ref showDetails, value);
+            if (value)
+            {
+                var path = Path.Combine(Path.GetTempPath(), $"Contractor_{ID}.pdf");
+                var file = ContractorsQueries.GetPdf(ID);
+                if (file != null)
+                {
+                    File.WriteAllBytes(path, file);
+                    Pdf = path;
+                }
+            }
+        }
+    }
+
+    /// Pdf
+    private string? pdf;
+    public string? Pdf
+    {
+        get => pdf;
+        set => SetProperty(ref pdf, value);
     }
 }

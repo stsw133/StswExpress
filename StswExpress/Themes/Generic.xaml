@@ -40,29 +40,42 @@
     <!-- StswCheckBox -->
     <Style TargetType="{x:Type se:StswCheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}"/>
+        <Setter Property="BackgroundUnchecked" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundChecked" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundIndeterminate" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
-        <Setter Property="GlyphBrush" Value="{DynamicResource OptionMark.Static.Glyph}"/>
+        <Setter Property="BorderBrushUnchecked" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
+        <Setter Property="BorderBrushChecked" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
+        <Setter Property="BorderBrushIndeterminate" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BackgroundDisabled" Value="#2777"/>
         <Setter Property="BorderBrushDisabled" Value="#3777"/>
+        <Setter Property="ForegroundDisabled" Value="#7777"/>
         <Setter Property="GlyphBrushDisabled" Value="#7777"/>
 
-        <Setter Property="BackgroundMouseOver" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BackgroundUncheckedMouseOver" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BackgroundCheckedMouseOver" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BackgroundIndeterminateMouseOver" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BorderBrushUncheckedMouseOver" Value="{Binding BorderBrushUnchecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BorderBrushCheckedMouseOver" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="BorderBrushIndeterminateMouseOver" Value="{Binding BorderBrushIndeterminate, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="GlyphBrushMouseOver" Value="{Binding GlyphBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
 
-        <Setter Property="BackgroundPressed" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
-        <Setter Property="BorderBrushPressed" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BackgroundUncheckedPressed" Value="{Binding BackgroundUncheckedMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BackgroundCheckedPressed" Value="{Binding BackgroundCheckedMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BackgroundIndeterminatePressed" Value="{Binding BackgroundIndeterminateMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BorderBrushUncheckedPressed" Value="{Binding BorderBrushUncheckedMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BorderBrushCheckedPressed" Value="{Binding BorderBrushCheckedMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="BorderBrushIndeterminatePressed" Value="{Binding BorderBrushIndeterminateMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
+        <Setter Property="ForegroundPressed" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="GlyphBrushPressed" Value="{Binding GlyphBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
 
-        <Setter Property="SymbolUnchecked" Value="❌"/>
-        <Setter Property="BackgroundUnchecked" Value="#AA32"/>
-
-        <Setter Property="SymbolChecked" Value="✔"/>
-        <Setter Property="BackgroundChecked" Value="#A3A2"/>
-
-        <Setter Property="SymbolIndeterminate" Value="❔"/>
-        <Setter Property="BackgroundIndeterminate" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="IconIndeterminate" Value="{x:Static se:StswIcons.Minus}"/>
+        <Setter Property="IconUnchecked" Value="{x:Null}"/>
+        <Setter Property="IconChecked" Value="{x:Static se:StswIcons.Check}"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
