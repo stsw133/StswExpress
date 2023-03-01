@@ -1,8 +1,8 @@
-﻿<TextBox x:Class="StswExpress.StswNumericBox"
+﻿<TextBox x:Class="StswExpress.StswCalendarPicker"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
          xmlns:se="clr-namespace:StswExpress"
          mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="200">
 
@@ -16,27 +16,19 @@
                                SnapsToDevicePixels="True">
                 <DockPanel>
                     <!-- buttons -->
-                    <UniformGrid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}" Columns="1"
-                                 Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}">
-                        <se:StswRepeatButton x:Name="PART_ButtonUp"
-                                             Content="▲" BorderThickness="0" CornerRadius="0"
-                                             FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
-                                             Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
-                                             Click="BtnUp_Click">
-                            <se:StswRepeatButton.Style>
-                                <Style TargetType="{x:Type se:StswRepeatButton}" BasedOn="{StaticResource {x:Type se:StswRepeatButton}}"/>
-                            </se:StswRepeatButton.Style>
-                        </se:StswRepeatButton>
-                        <se:StswRepeatButton x:Name="PART_ButtonDown"
-                                             Content="▼" BorderThickness="0" CornerRadius="0"
-                                             FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5}"
-                                             Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.5 0}"
-                                             Click="BtnDown_Click">
-                            <se:StswRepeatButton.Style>
-                                <Style TargetType="{x:Type se:StswRepeatButton}" BasedOn="{StaticResource {x:Type se:StswRepeatButton}}"/>
-                            </se:StswRepeatButton.Style>
-                        </se:StswRepeatButton>
-                    </UniformGrid>
+                    <se:StswToggleButton x:Name="PART_Button"
+                                         DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                                         BorderThickness="0" CornerRadius="0" Padding="0"
+                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Calendar}" Scale="1.5">
+                            <se:StswIcon.Style>
+                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
+                            </se:StswIcon.Style>
+                        </se:StswIcon>
+                        <se:StswToggleButton.Style>
+                            <Style TargetType="{x:Type se:StswToggleButton}" BasedOn="{StaticResource {x:Type se:StswToggleButton}}"/>
+                        </se:StswToggleButton.Style>
+                    </se:StswToggleButton>
                     <!-- subborder -->
                     <Border x:Name="PART_SubBorder1"
                             DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
@@ -89,6 +81,34 @@
                             </Style>
                         </Border.Style>
                     </Border>
+                    <!-- popup -->
+                    <Popup x:Name="PART_Popup"
+                           AllowsTransparency="True"
+                           IsOpen="{Binding IsChecked, ElementName=PART_Button}"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=PART_Button}"
+                           StaysOpen="False">
+                        <Calendar SelectedDate="{Binding SelectedDate, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </Popup>
+                    <Popup x:Name="PART_IncrementType"
+                           AllowsTransparency="True"
+                           Placement="Bottom"
+                           PlacementTarget="{Binding ElementName=PART_ContentHost}"
+                           StaysOpen="False">
+                        <UniformGrid Rows="1">
+                            <se:StswToggleButton Content="YY" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Year}"/>
+                            <se:StswToggleButton Content="MM" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Month}"/>
+                            <se:StswToggleButton Content="DD" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Day}"/>
+                            <se:StswToggleButton Content="hh" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Hour}"/>
+                            <se:StswToggleButton Content="mm" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Minute}"/>
+                            <se:StswToggleButton Content="ss" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=Second}"/>
+                            <UniformGrid.Resources>
+                                <Style TargetType="{x:Type se:StswToggleButton}">
+                                    <EventSetter Event="Click" Handler="PART_IncrementType_Click"/>
+                                </Style>
+                            </UniformGrid.Resources>
+                        </UniformGrid>
+                    </Popup>
                     <!-- content -->
                     <Grid>
                         <TextBlock IsHitTestVisible="False"
@@ -103,7 +123,8 @@
                                       HorizontalScrollBarVisibility="Hidden" 
                                       VerticalScrollBarVisibility="Hidden"
                                       LostFocus="PART_ContentHost_LostFocus"
-                                      MouseWheel="PART_ContentHost_MouseWheel"/>
+                                      MouseWheel="PART_ContentHost_MouseWheel"
+                                      MouseDown="PART_ContentHost_MouseDown"/>
                     </Grid>
                 </DockPanel>
             </se:ClippingBorder>
@@ -124,12 +145,10 @@
                 </Trigger>
                 <Trigger Property="IsReadOnly" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonUp" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonDown" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Button" />
                     <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
                     <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Buttons" />
-                    <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonUp" />
-                    <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonDown" />
+                    <Setter Property="IsEnabled" Value="False" TargetName="PART_Button" />
                     <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonClear" />
                     <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                 </Trigger>
@@ -138,8 +157,7 @@
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder1" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder2" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonUp" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonDown" />
+                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Button" />
                     <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
                     <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Buttons" />
                     <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />

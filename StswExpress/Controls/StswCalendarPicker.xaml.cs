@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,20 +11,20 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Interaction logic for StswNumericBox.xaml
+/// Interaction logic for StswCalendarPicker.xaml
 /// </summary>
-public partial class StswNumericBox : TextBox
+public partial class StswCalendarPicker : TextBox
 {
-    public StswNumericBox()
+    public StswCalendarPicker()
     {
         InitializeComponent();
 
         SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
     }
-    static StswNumericBox()
+    static StswCalendarPicker()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
-        TextProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(null, OnTextChanged));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCalendarPicker), new FrameworkPropertyMetadata(typeof(StswCalendarPicker)));
+        TextProperty.OverrideMetadata(typeof(StswCalendarPicker), new FrameworkPropertyMetadata(null, OnTextChanged));
     }
 
     #region Style
@@ -32,7 +33,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundDisabled
@@ -45,7 +46,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushDisabled
@@ -58,7 +59,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundDisabled
@@ -72,7 +73,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundMouseOver
@@ -85,7 +86,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushMouseOver
@@ -98,7 +99,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundMouseOver
@@ -112,7 +113,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundFocused
@@ -125,7 +126,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BorderBrushFocused
@@ -138,7 +139,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundFocused
@@ -152,7 +153,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush BackgroundReadOnly
@@ -166,7 +167,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Brush))
         );
     public Brush ForegroundPlaceholder
@@ -180,7 +181,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Thickness))
         );
     public Thickness SubBorderThickness
@@ -196,7 +197,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ButtonClearVisibility),
             typeof(Visibility),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(Visibility))
         );
     public Visibility ButtonClearVisibility
@@ -209,7 +210,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(Buttons),
             typeof(ObservableCollection<ButtonBase>),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(ObservableCollection<ButtonBase>))
         );
     public ObservableCollection<ButtonBase> Buttons
@@ -220,11 +221,11 @@ public partial class StswNumericBox : TextBox
     /// ButtonsAlignment
     public static readonly DependencyProperty ButtonsAlignmentProperty
         = DependencyProperty.Register(
-              nameof(ButtonsAlignment),
-              typeof(Dock),
-              typeof(StswNumericBox),
-              new PropertyMetadata(default(Dock))
-          );
+            nameof(ButtonsAlignment),
+            typeof(Dock),
+            typeof(StswCalendarPicker),
+            new PropertyMetadata(default(Dock))
+        );
     public Dock ButtonsAlignment
     {
         get => (Dock)GetValue(ButtonsAlignmentProperty);
@@ -236,7 +237,7 @@ public partial class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(CornerRadius))
         );
     public CornerRadius CornerRadius
@@ -245,52 +246,87 @@ public partial class StswNumericBox : TextBox
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// Increment
-    public static readonly DependencyProperty IncrementProperty
+    /// Format
+    public static readonly DependencyProperty FormatProperty
         = DependencyProperty.Register(
-              nameof(Increment),
-              typeof(double),
-              typeof(StswNumericBox),
-              new PropertyMetadata(default(double))
-          );
-    public double Increment
+            nameof(Format),
+            typeof(string),
+            typeof(StswCalendarPicker),
+            new FrameworkPropertyMetadata(default(DateTime?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFormatChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public string? Format
     {
-        get => (double)GetValue(IncrementProperty);
-        set => SetValue(IncrementProperty, value);
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswCalendarPicker stsw)
+        {
+            if (stsw.Format == null)
+                stsw.Text = stsw.SelectedDate?.ToString(CultureInfo.CurrentCulture);
+            else
+                stsw.Text = stsw.SelectedDate?.ToString(stsw.Format);
+        }
+    }
+
+    /// IncrementType
+    public enum IncrementTypes
+    {
+        Year,
+        Month,
+        Day,
+        Hour,
+        Minute,
+        Second
+    }
+    public static readonly DependencyProperty IncrementTypeProperty
+        = DependencyProperty.Register(
+              nameof(IncrementType),
+              typeof(IncrementTypes),
+              typeof(StswCalendarPicker),
+              new PropertyMetadata(default(IncrementTypes))
+          );
+    public IncrementTypes IncrementType
+    {
+        get => (IncrementTypes)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
     }
     /// Maximum
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(double?))
+            typeof(DateTime?),
+            typeof(StswCalendarPicker),
+            new PropertyMetadata(default(DateTime?))
         );
-    public double? Maximum
+    public DateTime? Maximum
     {
-        get => (double?)GetValue(MaximumProperty);
+        get => (DateTime?)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
     /// Minimum
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(double?))
+            typeof(DateTime?),
+            typeof(StswCalendarPicker),
+            new PropertyMetadata(default(DateTime?))
         );
-    public double? Minimum
+    public DateTime? Minimum
     {
-        get => (double?)GetValue(MinimumProperty);
+        get => (DateTime?)GetValue(MinimumProperty);
         set => SetValue(MinimumProperty, value);
     }
-    
+
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswNumericBox),
+            typeof(StswCalendarPicker),
             new PropertyMetadata(default(string?))
         );
     public string? Placeholder
@@ -299,51 +335,56 @@ public partial class StswNumericBox : TextBox
         set => SetValue(PlaceholderProperty, value);
     }
 
-    /// Value
-    public static readonly DependencyProperty ValueProperty
+    /// SelectedDate
+    public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(
-            nameof(Value),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
+            nameof(SelectedDate),
+            typeof(DateTime?),
+            typeof(StswCalendarPicker),
+            new FrameworkPropertyMetadata(default(DateTime?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public double? Value
+    public DateTime? SelectedDate
     {
-        get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
     }
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
+        if (obj is StswCalendarPicker stsw)
         {
-            if (stsw.Value != null)
+            if (stsw.SelectedDate != null)
             {
-                if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
-                    stsw.Value = stsw.Minimum;
-                if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
-                    stsw.Value = stsw.Maximum;
+                if (stsw.Minimum != null && stsw.SelectedDate < stsw.Minimum)
+                    stsw.SelectedDate = stsw.Minimum;
+                if (stsw.Maximum != null && stsw.SelectedDate > stsw.Maximum)
+                    stsw.SelectedDate = stsw.Maximum;
             }
-            stsw.Text = stsw.Value?.ToString();
+            OnFormatChanged(stsw, e);
+
+            if (stsw.GetTemplateChild("PART_Popup") is Popup p && p.IsOpen)
+                p.IsOpen = false;
         }
     }
     public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
+        if (obj is StswCalendarPicker stsw)
         {
-            if (double.TryParse(stsw.Text, out double value))
-                stsw.Value = value;
+            if (stsw.Format != null && DateTime.TryParseExact(stsw.Text, stsw.Format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime selectedDate))
+                stsw.SelectedDate = selectedDate;
+            else if (DateTime.TryParse(stsw.Text, out selectedDate))
+                stsw.SelectedDate = selectedDate;
             else
             {
-                var bindingExpression = BindingOperations.GetBindingExpression(stsw, ValueProperty);
+                var bindingExpression = BindingOperations.GetBindingExpression(stsw, SelectedDateProperty);
                 var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
                 if (boundType != null)
                 {
                     if (Nullable.GetUnderlyingType(boundType) != null || (!boundType.IsValueType && string.IsNullOrEmpty(stsw.Text)))
-                        stsw.Value = null;
+                        stsw.SelectedDate = null;
                     else
-                        Validation.MarkInvalid(bindingExpression, new ValidationError(new ExceptionValidationRule(), ValueProperty, "Incorrect value!", null));
+                        Validation.MarkInvalid(bindingExpression, new ValidationError(new ExceptionValidationRule(), SelectedDateProperty, "Incorrect value!", null));
                 }
             }
         }
@@ -351,37 +392,100 @@ public partial class StswNumericBox : TextBox
     #endregion
 
     #region Events
-    /// BtnUp_Click
-    private void BtnUp_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value + Increment;
-
-    /// BtnDown_Click
-    private void BtnDown_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value - Increment;
-
     /// PART_ButtonClear_Click
     private void PART_ButtonClear_Click(object sender, RoutedEventArgs e)
     {
-        var bindingExpression = BindingOperations.GetBindingExpression(this, ValueProperty);
+        var bindingExpression = BindingOperations.GetBindingExpression(this, SelectedDateProperty);
         var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
         if (boundType != null && Nullable.GetUnderlyingType(boundType) != null)
-            Value = null;
+            SelectedDate = null;
         else
-            Value = 0;
+            SelectedDate = DateTime.Now;
 
-        Text = Value?.ToString();
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// PART_IncrementType_Checked
+    private void PART_IncrementType_Click(object sender, RoutedEventArgs e)
+    {
+        IncrementType = ((ButtonBase)sender).Content.ToString() switch
+        {
+            "YY" => IncrementTypes.Year,
+            "MM" => IncrementTypes.Month,
+            "DD" => IncrementTypes.Day,
+            "hh" => IncrementTypes.Hour,
+            "mm" => IncrementTypes.Minute,
+            "ss" => IncrementTypes.Second,
+            _ => IncrementTypes.Day
+        };
+        if (GetTemplateChild("PART_IncrementType") is Popup p && p.IsOpen)
+            p.IsOpen = false;
+        
+        Focus();
     }
 
     /// PART_ContentHost_LostFocus
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e) => Text = Value?.ToString();
+    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e) => OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+
+    /// PART_ContentHost_MouseDown
+    private void PART_ContentHost_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.MiddleButton == MouseButtonState.Pressed && !IsReadOnly)
+        {
+            if (GetTemplateChild("PART_IncrementType") is Popup p && !p.IsOpen)
+                p.IsOpen = true;
+        }
+    }
 
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused && !IsReadOnly && Value != null)
+        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue)
         {
             if (e.Delta > 0)
-                Value += Increment;
+                switch (IncrementType)
+                {
+                    case IncrementTypes.Year:
+                        SelectedDate = SelectedDate.Value.AddYears(1);
+                        break;
+                    case IncrementTypes.Month:
+                        SelectedDate = SelectedDate.Value.AddMonths(1);
+                        break;
+                    case IncrementTypes.Day:
+                        SelectedDate = SelectedDate.Value.AddDays(1);
+                        break;
+                    case IncrementTypes.Hour:
+                        SelectedDate = SelectedDate.Value.AddHours(1);
+                        break;
+                    case IncrementTypes.Minute:
+                        SelectedDate = SelectedDate.Value.AddMinutes(1);
+                        break;
+                    case IncrementTypes.Second:
+                        SelectedDate = SelectedDate.Value.AddSeconds(1);
+                        break;
+                }
             else
-                Value -= Increment;
+                switch (IncrementType)
+                {
+                    case IncrementTypes.Year:
+                        SelectedDate = SelectedDate.Value.AddYears(-1);
+                        break;
+                    case IncrementTypes.Month:
+                        SelectedDate = SelectedDate.Value.AddMonths(-1);
+                        break;
+                    case IncrementTypes.Day:
+                        SelectedDate = SelectedDate.Value.AddDays(-1);
+                        break;
+                    case IncrementTypes.Hour:
+                        SelectedDate = SelectedDate.Value.AddHours(-1);
+                        break;
+                    case IncrementTypes.Minute:
+                        SelectedDate = SelectedDate.Value.AddMinutes(-1);
+                        break;
+                    case IncrementTypes.Second:
+                        SelectedDate = SelectedDate.Value.AddSeconds(-1);
+                        break;
+                }
 
             e.Handled = true;
         }

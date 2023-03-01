@@ -41,8 +41,8 @@
     <Style TargetType="{x:Type se:StswCheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
         <Setter Property="Background" Value="{DynamicResource OptionMark.Static.Background}"/>
         <Setter Property="BackgroundUnchecked" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="BackgroundChecked" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="BackgroundIndeterminate" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundChecked" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BackgroundIndeterminate" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="BorderBrushUnchecked" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="BorderBrushChecked" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
@@ -128,36 +128,39 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <!-- StswDatePicker -->
-    <Style TargetType="{x:Type se:StswDatePicker}" BasedOn="{StaticResource {x:Type DatePicker}}">
+    <!-- StswCalendarPicker -->
+    <Style TargetType="{x:Type se:StswCalendarPicker}" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?85}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundPlaceholder" Value="#7777"/>
+        <Setter Property="Placeholder" Value="Wybierz datę..."/>
 
+        <Setter Property="BackgroundReadOnly" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?15}"/>
         <Setter Property="BackgroundDisabled" Value="#2777"/>
         <Setter Property="BorderBrushDisabled" Value="#3777"/>
         <Setter Property="ForegroundDisabled" Value="#7777"/>
 
         <Setter Property="BackgroundMouseOver" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="BorderBrushMouseOver" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-30}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BackgroundFocused" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="BorderBrushFocused" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=-20}"/>
-
-        <Setter Property="BackgroundReadOnly" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_ColorBrightness}, ConverterParameter=?15}"/>
-
-        <Setter Property="Placeholder" Value="Wybierz datę..."/>
-        <Setter Property="ForegroundPlaceholder" Value="#7777"/>
+        <Setter Property="ForegroundFocused" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter='1 0 0 0'}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.25}"/>
 
+        <Setter Property="ButtonClearVisibility" Value="Collapsed"/>
+        <Setter Property="ButtonsAlignment" Value="Right"/>
+        <Setter Property="Format" Value="d"/>
+        <Setter Property="IncrementType" Value="Day"/>
+
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
-        <Setter Property="SelectedDateFormat" Value="Short"/>
     </Style>
 
     <!-- StswDataGrid (in xaml file) -->

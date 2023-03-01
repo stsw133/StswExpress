@@ -22,7 +22,7 @@
                 <Style TargetType="{x:Type se:StswComboBox}">
                     <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
-                <Style TargetType="{x:Type se:StswDatePicker}">
+                <Style TargetType="{x:Type se:StswCalendarPicker}">
                     <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswHeader}">
@@ -89,9 +89,9 @@
             <!-- checkboxes -->
             <GroupBox DockPanel.Dock="Top" Header="StswCheckBox:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Indeterminate" IsChecked="{x:Null}"/>
-                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Unchecked" IsChecked="False"/>
-                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Checked" IsChecked="True"/>
+                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Indeterminate" IsChecked="{x:Null}" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Unchecked" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                    <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Checked" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
                     <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}"/>
                     <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False"/>
                     <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True"/>
@@ -108,11 +108,13 @@
                     <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
                 </UniformGrid>
             </GroupBox>
-            <!-- datepickers -->
-            <GroupBox DockPanel.Dock="Top" Header="StswDatePicker:">
+            <!-- calendarpickers -->
+            <GroupBox DockPanel.Dock="Top" Header="StswCalendarPicker:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <se:StswDatePicker Margin="5" SelectedDate="2023-01-13" IsReadOnly="True"/>
-                    <se:StswDatePicker Margin="5" SelectedDate="2023-01-13"/>
+                    <se:StswCalendarPicker Margin="5" Text="2023-01-13" IsReadOnly="True"/>
+                    <se:StswCalendarPicker Margin="5" SelectedDate="{Binding Date}"/>
+                    <se:StswCalendarPicker Margin="5" Format="yyyy-MM-dd HH:mm:ss"/>
+                    <DatePicker Margin="5" Text="2023-01-13"/>
                 </UniformGrid>
             </GroupBox>
             <!-- headers -->

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,6 +20,13 @@ public class LibraryTestsContext : StswObservableObject
     {
         get => number;
         set => SetProperty(ref number, value);
+    }
+    /// Date
+    private DateTime date = DateTime.Now;
+    public DateTime Date
+    {
+        get => date;
+        set => SetProperty(ref date, value);
     }
 
     /// ComboLists
