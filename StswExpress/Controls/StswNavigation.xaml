@@ -28,37 +28,16 @@
                             <UniformGrid Rows="1">
 
                                 <se:StswToggleButton x:Name="PART_Menu" BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <se:StswToggleButton.Style>
-                                        <Style TargetType="{x:Type se:StswToggleButton}" BasedOn="{StaticResource {x:Type se:StswToggleButton}}"/>
-                                    </se:StswToggleButton.Style>
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Menu}">
-                                        <se:StswHeader.Style>
-                                            <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
-                                        </se:StswHeader.Style>
-                                    </se:StswHeader>
+                                    <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                 </se:StswToggleButton>
                                 <!--
                                 <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}">
-                                    <se:StswButton.Style>
-                                        <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
-                                    </se:StswButton.Style>
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Magnify}">
-                                        <se:StswHeader.Style>
-                                            <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
-                                        </se:StswHeader.Style>
-                                    </se:StswHeader>
+                                    <se:StswHeader IconData="{x:Static se:StswIcons.Magnify}"/>
                                 </se:StswButton>
 
                                 <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}"
                                                Click="PART_Options_Checked">
-                                    <se:StswButton.Style>
-                                        <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
-                                    </se:StswButton.Style>
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Cog}">
-                                        <se:StswHeader.Style>
-                                            <Style TargetType="{x:Type se:StswHeader}" BasedOn="{StaticResource {x:Type se:StswHeader}}"/>
-                                        </se:StswHeader.Style>
-                                    </se:StswHeader>
+                                    <se:StswHeader IconData="{x:Static se:StswIcons.Cog}"/>
                                 </se:StswButton>
                                 -->
                             </UniformGrid>

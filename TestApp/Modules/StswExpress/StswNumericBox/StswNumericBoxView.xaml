@@ -11,8 +11,32 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox Margin="5" Value="{Binding Number}" IsReadOnly="True"/>
+                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number}"/>
+                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number}" Format="N2"/>
+                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number}" Minimum="-100" Maximum="-50">
+                    <se:StswNumericBox.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswNumericBox.Buttons>
+                </se:StswNumericBox>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number}"/>
+                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number}" Format="N2"/>
+                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50">
+                    <se:StswNumericBox.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswNumericBox.Buttons>
+                </se:StswNumericBox>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswNumericBox Margin="5" Value="{Binding Number}"/>
                 <se:StswNumericBox Margin="5" Value="{Binding Number}" Format="N2"/>
                 <se:StswNumericBox Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50">

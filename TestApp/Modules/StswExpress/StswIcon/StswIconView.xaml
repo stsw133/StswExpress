@@ -11,6 +11,17 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Foreground="Red"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice5}" Scale="4"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice6}" Scale="6"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Foreground="Red"/>

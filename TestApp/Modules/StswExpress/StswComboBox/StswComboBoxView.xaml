@@ -11,11 +11,23 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
+                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsEditable="True"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled (single choice):"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled (multiple choices):"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}"/>
                 <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
             </UniformGrid>

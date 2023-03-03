@@ -11,7 +11,14 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswButton Margin="5" IsEnabled="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
+                </se:StswButton>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
                 <se:StswButton Margin="5">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswButton>
@@ -34,7 +41,7 @@
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswButton>
             </UniformGrid>
-            <!-- buttons with hyperlinks -->
+            <Label DockPanel.Dock="Top" Content="With hyperlinks:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com"/>
                 <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com" Foreground="Blue"/>

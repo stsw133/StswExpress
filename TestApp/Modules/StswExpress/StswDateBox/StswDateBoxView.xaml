@@ -11,8 +11,18 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswDateBox Margin="5" Text="2023-01-13" IsReadOnly="True"/>
+                <se:StswDateBox Margin="5" IsEnabled="False" SelectedDate="{Binding Date}"/>
+                <se:StswDateBox Margin="5" IsEnabled="False" Format="yyyy-MM-dd HH:mm:ss"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswDateBox Margin="5" IsReadOnly="True" SelectedDate="{Binding Date}"/>
+                <se:StswDateBox Margin="5" IsReadOnly="True" Format="yyyy-MM-dd HH:mm:ss"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswDateBox Margin="5" SelectedDate="{Binding Date}"/>
                 <se:StswDateBox Margin="5" Format="yyyy-MM-dd HH:mm:ss"/>
             </UniformGrid>

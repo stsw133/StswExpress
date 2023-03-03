@@ -37,9 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Modules\StswExpress\LibraryTestsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -91,10 +88,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Modules\StswExpress\LibraryTestsView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

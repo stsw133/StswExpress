@@ -11,7 +11,14 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswToggleButton Margin="5" IsEnabled="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
+                </se:StswToggleButton>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
                 <se:StswToggleButton Margin="5">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswToggleButton>

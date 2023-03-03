@@ -11,23 +11,18 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
-            <StackPanel DockPanel.Dock="Top">
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                    <se:StswImage Stretch="None" MenuMode="Full"/>
-                </ScrollViewer>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                    <se:StswImage Stretch="None" MenuMode="Full"/>
-                </ScrollViewer>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                    <se:StswImage Stretch="None" MenuMode="Full"/>
-                </ScrollViewer>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                    <se:StswImage Stretch="None" MenuMode="Full"/>
-                </ScrollViewer>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                    <se:StswImage Stretch="None" MenuMode="ReadOnly"/>
-                </ScrollViewer>
-            </StackPanel>
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                <se:StswImage IsEnabled="False" MenuMode="Disabled" Source="/Resources/icon.ico" Stretch="None"/>
+            </ScrollViewer>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                <se:StswImage MenuMode="ReadOnly" Source="/Resources/icon.ico" Stretch="None"/>
+            </ScrollViewer>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                <se:StswImage MenuMode="Full" Source="/Resources/icon.ico" Stretch="None"/>
+            </ScrollViewer>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

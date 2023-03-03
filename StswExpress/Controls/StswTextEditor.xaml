@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:se="clr-namespace:StswExpress"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="200">
+    
     <RichTextBox.Template>
         <ControlTemplate TargetType="{x:Type RichTextBox}">
             <se:ClippingBorder x:Name="PART_MainBorder"

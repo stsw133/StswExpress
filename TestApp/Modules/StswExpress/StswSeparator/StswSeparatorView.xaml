@@ -10,11 +10,11 @@
         <local:StswSeparatorContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <UniformGrid DockPanel.Dock="Top" Rows="1" Height="50">
-                <se:StswSeparator Margin="5" Orientation="Horizontal"/>
-                <se:StswSeparator Margin="5" Orientation="Vertical"/>
-            </UniformGrid>
+        <DockPanel VerticalAlignment="Stretch">
+            <Label DockPanel.Dock="Top" Content="Horizontal:"/>
+            <se:StswSeparator DockPanel.Dock="Top" Margin="5" Orientation="Horizontal"/>
+            <Label DockPanel.Dock="Top" Content="Vertical:"/>
+            <se:StswSeparator DockPanel.Dock="Top" Margin="5" Orientation="Vertical"/>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

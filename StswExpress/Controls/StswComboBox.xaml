@@ -61,11 +61,7 @@
                                                         Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Conv}}">
-                                            <se:StswTextBox.Style>
-                                                <Style TargetType="{x:Type se:StswTextBox}" BasedOn="{StaticResource {x:Type se:StswTextBox}}"/>
-                                            </se:StswTextBox.Style>
-                                        </se:StswTextBox>
+                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Conv}}"/>
                                     </Grid>
                                 </DockPanel>
                             </se:ClippingBorder>

@@ -11,9 +11,46 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" IsReadOnly="True"/>
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST"/>
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="TEST"/>
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="TEST">
+                    <se:StswTextBox.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextBox.Buttons>
+                </se:StswTextBox>
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                    <se:StswTextBox.Buttons>
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='1 0 0 0'}"
+                                           CornerRadius="0" Command="{Binding ClearCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextBox.Buttons>
+                </se:StswTextBox>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="TEST"/>
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="TEST">
+                    <se:StswTextBox.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextBox.Buttons>
+                </se:StswTextBox>
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                    <se:StswTextBox.Buttons>
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='1 0 0 0'}"
+                                           CornerRadius="0" Command="{Binding ClearCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextBox.Buttons>
+                </se:StswTextBox>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST"/>
                 <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST">
                     <se:StswTextBox.Buttons>

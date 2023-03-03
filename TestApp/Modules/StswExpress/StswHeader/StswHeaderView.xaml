@@ -11,6 +11,58 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled (with icon):"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="auto"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Disabled (with image):"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="auto"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Disabled (with loading circle):"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="auto"/>
+                <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled (with icon):"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}"/>
@@ -27,6 +79,7 @@
                     </se:StswHeader.SubTexts>
                 </se:StswHeader>
             </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled (with image):"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico"/>
@@ -43,6 +96,7 @@
                     </se:StswHeader.SubTexts>
                 </se:StswHeader>
             </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled (with loading circle):"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True"/>

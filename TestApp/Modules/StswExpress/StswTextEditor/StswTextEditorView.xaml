@@ -10,11 +10,57 @@
         <local:StswTextEditorContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Stretch">
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
+        <Grid VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Disabled:"/>
+            <UniformGrid Grid.Row="1" Rows="1">
+                <se:StswTextEditor Margin="5" IsEnabled="False"/>
+                <se:StswTextEditor Margin="5" IsEnabled="False">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+                <se:StswTextEditor Margin="5" IsEnabled="False" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='0 0 0 1'}"
+                                       CornerRadius="0" Command="{Binding ClearCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+            </UniformGrid>
+            <Label Grid.Row="2" Content="Read only:"/>
+            <UniformGrid Grid.Row="3" Rows="1">
                 <se:StswTextEditor Margin="5" IsReadOnly="True"/>
+                <se:StswTextEditor Margin="5" IsReadOnly="True">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+                <se:StswTextEditor Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='0 0 0 1'}"
+                                       CornerRadius="0" Command="{Binding ClearCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+            </UniformGrid>
+            <Label Grid.Row="4" Content="Enabled:"/>
+            <UniformGrid Grid.Row="5" Rows="1">
                 <se:StswTextEditor Margin="5"/>
-                <se:StswTextEditor Margin="5" Document="{Binding Text}">
+                <se:StswTextEditor Margin="5">
                     <se:StswTextEditor.Buttons>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
@@ -30,6 +76,6 @@
                     </se:StswTextEditor.Buttons>
                 </se:StswTextEditor>
             </UniformGrid>
-        </DockPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

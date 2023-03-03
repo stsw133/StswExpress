@@ -11,7 +11,17 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
-            <se:StswNavigation BorderThickness="1" Margin="5">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <se:StswNavigation DockPanel.Dock="Top" IsEnabled="False" BorderThickness="1" Margin="5">
+                <se:StswNavigation.Buttons>
+                    <se:StswNavigationButton GroupName="TEST" Content="TEST 1"/>
+                    <se:StswNavigationButton GroupName="TEST" Content="TEST 2"/>
+                    <se:StswNavigationButton GroupName="TEST" Content="TEST 3"/>
+                    <se:StswNavigationButton GroupName="TEST" Content="TEST 4"/>
+                </se:StswNavigation.Buttons>
+            </se:StswNavigation>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <se:StswNavigation DockPanel.Dock="Top" BorderThickness="1" Margin="5">
                 <se:StswNavigation.Buttons>
                     <se:StswNavigationButton GroupName="TEST" Content="TEST 1"/>
                     <se:StswNavigationButton GroupName="TEST" Content="TEST 2"/>
