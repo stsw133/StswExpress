@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="TestApp.StswTextEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswTextEditorContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Stretch">
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswTextEditor Margin="5" IsReadOnly="True"/>
+                <se:StswTextEditor Margin="5"/>
+                <se:StswTextEditor Margin="5" Document="{Binding Text}">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+                <se:StswTextEditor Margin="5" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">
+                    <se:StswTextEditor.Buttons>
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='0 0 0 1'}"
+                                       CornerRadius="0" Command="{Binding ClearCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                        </se:StswButton>
+                    </se:StswTextEditor.Buttons>
+                </se:StswTextEditor>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

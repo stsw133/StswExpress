@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="TestApp.StswRadioBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswRadioBoxContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 1" IsChecked="{x:Null}" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 2" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 3" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 4" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 5" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+            </UniformGrid>
+            <se:StswSeparator DockPanel.Dock="Top" Orientation="Horizontal"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswRadioBox Margin="5" Content="Option 1" IsChecked="{x:Null}"/>
+                <se:StswRadioBox Margin="5" Content="Option 2" IsChecked="False"/>
+                <se:StswRadioBox Margin="5" Content="Option 3" IsChecked="False"/>
+                <se:StswRadioBox Margin="5" Content="Option 4" IsChecked="True"/>
+                <se:StswRadioBox Margin="5" Content="Option 5" IsChecked="False"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

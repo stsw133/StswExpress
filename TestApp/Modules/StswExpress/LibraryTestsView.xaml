@@ -22,7 +22,7 @@
                 <Style TargetType="{x:Type se:StswComboBox}">
                     <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
-                <Style TargetType="{x:Type se:StswCalendarPicker}">
+                <Style TargetType="{x:Type se:StswDateBox}">
                     <Setter Property="IsEnabled" Value="{Binding AreControlsEnabled}"/>
                 </Style>
                 <Style TargetType="{x:Type se:StswHeader}">
@@ -108,13 +108,12 @@
                     <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" SelectionMode="Multiple" SelectedItems="{Binding SelectedTypes}" IsEditable="True"/>
                 </UniformGrid>
             </GroupBox>
-            <!-- calendarpickers -->
-            <GroupBox DockPanel.Dock="Top" Header="StswCalendarPicker:">
+            <!-- dateboxes -->
+            <GroupBox DockPanel.Dock="Top" Header="StswDateBox:">
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <se:StswCalendarPicker Margin="5" Text="2023-01-13" IsReadOnly="True"/>
-                    <se:StswCalendarPicker Margin="5" SelectedDate="{Binding Date}"/>
-                    <se:StswCalendarPicker Margin="5" Format="yyyy-MM-dd HH:mm:ss"/>
-                    <DatePicker Margin="5" Text="2023-01-13"/>
+                    <se:StswDateBox Margin="5" Text="2023-01-13" IsReadOnly="True"/>
+                    <se:StswDateBox Margin="5" SelectedDate="{Binding Date}"/>
+                    <se:StswDateBox Margin="5" Format="yyyy-MM-dd HH:mm:ss"/>
                 </UniformGrid>
             </GroupBox>
             <!-- headers -->
@@ -218,10 +217,10 @@
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
                     <se:StswNumericBox Margin="5" Value="{Binding Number}" IsReadOnly="True"/>
                     <se:StswNumericBox Margin="5" Value="{Binding Number}"/>
-                    <se:StswNumericBox Margin="5" Value="{Binding Number}" ButtonClearVisibility="Visible"/>
-                    <se:StswNumericBox Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50" ButtonClearVisibility="Visible">
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" Format="N2"/>
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50">
                         <se:StswNumericBox.Buttons>
-                            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
+                            <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                             </se:StswButton>
                         </se:StswNumericBox.Buttons>
@@ -275,15 +274,22 @@
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
                     <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" IsReadOnly="True"/>
                     <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST"/>
-                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" ButtonClearVisibility="Visible"/>
-                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" ButtonClearVisibility="Visible">
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST"/>
+                    <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST">
                         <se:StswTextBox.Buttons>
-                            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}" Command="{Binding SearchCommand}">
+                            <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                             </se:StswButton>
                         </se:StswTextBox.Buttons>
                     </se:StswTextBox>
-                    <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="TEST" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto" ButtonClearVisibility="Visible"/>
+                    <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                        <se:StswTextBox.Buttons>
+                            <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='1 0 0 0'}"
+                                           CornerRadius="0" Command="{Binding ClearCommand}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
+                            </se:StswButton>
+                        </se:StswTextBox.Buttons>
+                    </se:StswTextBox>
                 </UniformGrid>
             </GroupBox>
             <!-- togglebuttons -->

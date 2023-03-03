@@ -9,6 +9,7 @@
     <Separator.Template>
         <ControlTemplate TargetType="{x:Type Separator}">
             <Border x:Name="PART_MainBorder"
+                    Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"

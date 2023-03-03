@@ -21,30 +21,13 @@ public partial class StswHeader : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
 
-    #region Style
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-    #endregion
-
     #region Properties
     /// HideText
     public static readonly DependencyProperty HideTextProperty
         = DependencyProperty.Register(
             nameof(HideText),
             typeof(bool),
-            typeof(StswHeader),
-            new PropertyMetadata(default(bool))
+            typeof(StswHeader)
         );
     public bool HideText
     {
@@ -57,8 +40,7 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Geometry?))
+            typeof(StswHeader)
         );
     public Geometry? IconData
     {
@@ -70,8 +52,7 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(IconForeground),
             typeof(Brush),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Brush))
+            typeof(StswHeader)
         );
     public Brush IconForeground
     {
@@ -83,8 +64,7 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
-            typeof(StswHeader),
-            new PropertyMetadata(default(GridLength?))
+            typeof(StswHeader)
         );
     public GridLength? IconScale
     {
@@ -96,8 +76,7 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
-            typeof(StswHeader),
-            new PropertyMetadata(default(ImageSource?))
+            typeof(StswHeader)
         );
     public ImageSource? IconSource
     {
@@ -110,22 +89,20 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
-            typeof(StswHeader),
-            new PropertyMetadata(default(bool))
+            typeof(StswHeader)
         );
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
         set => SetValue(IsBusyProperty, value);
     }
-    
+
     /// Orientation
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Orientation))
+            typeof(StswHeader)
         );
     public Orientation Orientation
     {
@@ -138,8 +115,7 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(SubTexts),
             typeof(ObservableCollection<TextBlock>),
-            typeof(StswHeader),
-            new PropertyMetadata(default(ObservableCollection<TextBlock>))
+            typeof(StswHeader)
         );
     public ObservableCollection<TextBlock> SubTexts
     {
@@ -152,13 +128,27 @@ public partial class StswHeader : UserControl
         = DependencyProperty.Register(
             nameof(TextMargin),
             typeof(Thickness),
-            typeof(StswHeader),
-            new PropertyMetadata(default(Thickness))
+            typeof(StswHeader)
         );
     public Thickness TextMargin
     {
         get => (Thickness)GetValue(TextMarginProperty);
         set => SetValue(TextMarginProperty, value);
+    }
+    #endregion
+
+    #region Style
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswHeader)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 }

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
@@ -21,19 +20,26 @@ namespace StswExpress;
 /// </summary>
 public class conv_Bool : MarkupExtension, IValueConverter
 {
-    private static conv_Bool? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Bool();
+    private static conv_Bool? conv;
+    public static conv_Bool Conv => conv ??= new conv_Bool();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-        var val = System.Convert.ToBoolean(value, culture);
+        bool.TryParse(value?.ToString(), out var val);
+        var pmr = parameter?.ToString() ?? string.Empty;
 
+        /// parameters
+        bool isReversed = pmr.Contains('!');
+
+        //if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+
+        /// result
         if (targetType == typeof(Visibility))
-            return (val ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+            return (val ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
         else
-            return (val ^ rev);
+            return (val ^ isReversed);
     }
 
     /// ConvertBack
@@ -48,20 +54,26 @@ public class conv_Bool : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Compare : MarkupExtension, IValueConverter
 {
-    private static conv_Compare? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Compare();
+    private static conv_Compare? conv;
+    public static conv_Compare Conv => conv ??= new conv_Compare();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-        var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
-        var val = System.Convert.ToString(value, culture);
+        var val = value?.ToString() ?? string.Empty;
+        var pmr = parameter?.ToString() ?? string.Empty;
 
+        /// parameters
+        bool isReversed = pmr.Contains('!');
+
+        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+
+        /// result
         if (targetType == typeof(Visibility))
-            return ((val == pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+            return ((val == pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
         else
-            return ((val == pmr) ^ rev);
+            return ((val == pmr) ^ isReversed);
     }
 
     /// ConvertBack
@@ -76,21 +88,28 @@ public class conv_Compare : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Contains : MarkupExtension, IValueConverter
 {
-    private static conv_Contains? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Contains();
+    private static conv_Contains? conv;
+    public static conv_Contains Conv => conv ??= new conv_Contains();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var rev = parameter?.ToString()?.StartsWith('!') ?? false;
-        var pmr = parameter?.ToString()?.TrimStart('!') ?? string.Empty;
+        //var val = value?.ToString() ?? string.Empty;
+        var pmr = parameter?.ToString() ?? string.Empty;
 
-        if (value is IEnumerable val)
+        /// parameters
+        bool isReversed = pmr.Contains('!');
+
+        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+
+        /// result
+        if (value is IEnumerable enumerable)
         {
             var genArgList = value.GetType().GetGenericArguments();
             var type1 = genArgList.First();
 
-            var e = val.GetEnumerator();
+            var e = enumerable.GetEnumerator();
             var list = new List<string>();
             while (e.MoveNext())
             {
@@ -102,17 +121,17 @@ public class conv_Contains : MarkupExtension, IValueConverter
             if (type1 != null)
             {
                 if (targetType == typeof(Visibility))
-                    return (list.Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+                    return (list.Contains(pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
                 else
-                    return (list.Contains(pmr) ^ rev);
+                    return (list.Contains(pmr) ^ isReversed);
             }
         }
         else if (value?.ToString() != null)
         {
             if (targetType == typeof(Visibility))
-                return (value.ToString().Contains(pmr) ^ rev) ? Visibility.Visible : Visibility.Collapsed;
+                return (value?.ToString()?.Contains(pmr) == true ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return (value.ToString().Contains(pmr) ^ rev);
+                return (value?.ToString()?.Contains(pmr) == true ^ isReversed);
         }
         return false;
     }
@@ -128,16 +147,18 @@ public class conv_Contains : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_NotNull : MarkupExtension, IValueConverter
 {
-    private static conv_NotNull? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NotNull();
+    private static conv_NotNull? conv;
+    public static conv_NotNull Conv => conv ??= new conv_NotNull();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        /// result
         if (targetType == typeof(Visibility))
-            return value != null ? Visibility.Visible : Visibility.Collapsed;
+            return value is not null ? Visibility.Visible : Visibility.Collapsed;
         else
-            return value != null;
+            return value is not null;
     }
 
     /// ConvertBack
@@ -159,8 +180,9 @@ public class conv_NotNull : MarkupExtension, IValueConverter
 [Obsolete]
 public class conv_Color : MarkupExtension, IValueConverter
 {
-    private static conv_Color? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Color();
+    private static conv_Color? conv;
+    public static conv_Color Conv => conv ??= new conv_Color();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -168,6 +190,7 @@ public class conv_Color : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString() ?? string.Empty;
         var val = value?.ToString() ?? string.Empty;
 
+        /// parameters
         bool invertColor = pmr.Contains('!'),
              contrastColor = pmr.Contains('‼'),
              desaturateColor = pmr.Contains('↓'),
@@ -230,8 +253,9 @@ public class conv_Color : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_ColorBrightness : MarkupExtension, IValueConverter
 {
-    private static conv_ColorBrightness? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_ColorBrightness();
+    private static conv_ColorBrightness? conv;
+    public static conv_ColorBrightness Conv => conv ??= new conv_ColorBrightness();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -280,6 +304,7 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
         g = Math.Clamp(g, 0, 255);
         b = Math.Clamp(b, 0, 255);
 
+        /// result
         color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
 
         return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
@@ -296,12 +321,14 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 {
-    private static conv_MultiCultureNumber? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_MultiCultureNumber();
+    private static conv_MultiCultureNumber? conv;
+    public static conv_MultiCultureNumber Conv => conv ??= new conv_MultiCultureNumber();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        /// result
         var ci = (CultureInfo)CultureInfo.InvariantCulture.Clone();
         ci.NumberFormat.NumberDecimalSeparator = ",";
         return ((decimal)value).ToString(ci);
@@ -319,21 +346,20 @@ public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Add : MarkupExtension, IValueConverter
 {
-    private static conv_Add? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Add();
+    private static conv_Add? conv;
+    public static conv_Add Conv => conv ??= new conv_Add();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        parameter ??= 0;
-        if (!double.TryParse(parameter.ToString(), NumberStyles.Number, culture, out var pmr))
-            pmr = 0;
+        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
+        double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
-        var val = System.Convert.ToDouble(value, culture);
-
+        /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
-            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new CornerRadius(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
@@ -344,7 +370,7 @@ public class conv_Add : MarkupExtension, IValueConverter
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
-            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new Thickness(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
@@ -353,7 +379,7 @@ public class conv_Add : MarkupExtension, IValueConverter
                 _ => new Thickness(val)
             };
         }
-        else return val + System.Convert.ToDouble(pmr, culture);
+        else return val + pmr;
     }
 
     /// ConvertBack
@@ -363,14 +389,17 @@ public class conv_Add : MarkupExtension, IValueConverter
 /// <summary>
 /// Converts doubles -> value calculated by parameter.
 /// </summary>
+[Obsolete]
 public class conv_Calculate : MarkupExtension, IMultiValueConverter
 {
-    private static conv_Calculate? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Calculate();
+    private static conv_Calculate? conv;
+    public static conv_Calculate Conv => conv ??= new conv_Calculate();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
     {
+        /// result
         if (value.Any(x => x == null))
             return new object[] { Binding.DoNothing };
 
@@ -395,21 +424,20 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
 /// </summary>
 public class conv_Multiply : MarkupExtension, IValueConverter
 {
-    private static conv_Multiply? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Multiply();
+    private static conv_Multiply? conv;
+    public static conv_Multiply Conv => conv ??= new conv_Multiply();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        parameter ??= 1;
-        if (!double.TryParse(parameter.ToString(), NumberStyles.Number, culture, out var pmr))
-            pmr = 1;
+        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
+        double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
-        var val = System.Convert.ToDouble(value, culture);
-
+        /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
-            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new CornerRadius(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
@@ -420,7 +448,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
-            var pmrArray = Array.ConvertAll((parameter.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
             return pmrArray.Length switch
             {
                 4 => new Thickness(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
@@ -429,7 +457,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
                 _ => new Thickness(val)
             };
         }
-        else return val * System.Convert.ToDouble(pmr, culture);
+        else return val * pmr;
     }
 
     /// ConvertBack
@@ -441,22 +469,32 @@ public class conv_Multiply : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Sum : MarkupExtension, IValueConverter
 {
-    private static conv_Sum? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_Sum();
+    private static conv_Sum? conv;
+    public static conv_Sum Conv => conv ??= new conv_Sum();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var val = value as dynamic;
-        var res = 0d;
+        var pmr = parameter?.ToString() ?? string.Empty;
 
-        if (val != null)
-            foreach (var item in val)
+        /// result
+        var result = 0d;
+        
+        if (value is IEnumerable enumerable)
+            foreach (var item in enumerable)
             {
-                var fld = item?.GetType().GetProperty(parameter.ToString());
-                res += System.Convert.ToDouble(fld?.GetValue(item));
+                if (item.GetType().GetProperty(pmr) is not null and System.Reflection.PropertyInfo prop)
+                    result += System.Convert.ToDouble(prop.GetValue(item), culture);
             }
-        return res;
+        else if (value is DataTable dataTable)
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if (double.TryParse(row?[pmr]?.ToString(), NumberStyles.Number, culture, out var val))
+                    result += val;
+            }
+
+        return result;
     }
 
     /// ConvertBack
@@ -470,8 +508,9 @@ public class conv_Sum : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_NullToUnset : MarkupExtension, IValueConverter
 {
-    private static conv_NullToUnset? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_NullToUnset();
+    private static conv_NullToUnset? conv;
+    public static conv_NullToUnset Conv => conv ??= new conv_NullToUnset();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
@@ -489,19 +528,18 @@ public class conv_NullToUnset : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_IfElse : MarkupExtension, IValueConverter
 {
-    private static conv_IfElse? _conv;
-    public override object ProvideValue(IServiceProvider serviceProvider) => _conv ??= new conv_IfElse();
+    private static conv_IfElse? conv;
+    public static conv_IfElse Conv => conv ??= new conv_IfElse();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var pmrArray = parameter?.ToString()?.Split('~');
-        if (pmrArray?.Length != 3)
-            pmrArray = new string[3];
+        var val = value?.ToString() ?? string.Empty;
+        var pmr = parameter?.ToString()?.Split('~') ?? new string[3];
 
-        var val = System.Convert.ToString(value, culture);
-
-        return (val == pmrArray[0]) ? pmrArray[1] : pmrArray[2];
+        /// result
+        return ((val == pmr?[0]) ? pmr?[1] : pmr?[2]) ?? string.Empty;
     }
 
     /// ConvertBack

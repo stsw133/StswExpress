@@ -26,125 +26,24 @@ public partial class StswProgressBar : ProgressBar
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(typeof(StswProgressBar)));
     }
 
-    #region Style
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BackgroundDisabled
+    #region Events
+    /// TextChanged
+    private void OnTextChanged(object sender, EventArgs e)
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
-    }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(double))
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-
-    /// ForegroundReady
-    public static readonly DependencyProperty ForegroundReadyProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundReady),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundReady
-    {
-        get => (Brush)GetValue(ForegroundReadyProperty);
-        set => SetValue(ForegroundReadyProperty, value);
-    }
-    /// ForegroundRunning
-    public static readonly DependencyProperty ForegroundRunningProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundRunning),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundRunning
-    {
-        get => (Brush)GetValue(ForegroundRunningProperty);
-        set => SetValue(ForegroundRunningProperty, value);
-    }
-    /// ForegroundPaused
-    public static readonly DependencyProperty ForegroundPausedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundPaused),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundPaused
-    {
-        get => (Brush)GetValue(ForegroundPausedProperty);
-        set => SetValue(ForegroundPausedProperty, value);
-    }
-    /// ForegroundError
-    public static readonly DependencyProperty ForegroundErrorProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundError),
-            typeof(Brush),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundError
-    {
-        get => (Brush)GetValue(ForegroundErrorProperty);
-        set => SetValue(ForegroundErrorProperty, value);
-    }
-
-    /// IsTrackTransparent
-    public static readonly DependencyProperty IsTrackTransparentProperty
-        = DependencyProperty.Register(
-            nameof(IsTrackTransparent),
-            typeof(bool),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(bool))
-        );
-    public bool IsTrackTransparent
-    {
-        get => (bool)GetValue(IsTrackTransparentProperty);
-        set => SetValue(IsTrackTransparentProperty, value);
+        if (Maximum != Minimum)
+        {
+            if (TextInPercents == true)
+            {
+                Text = $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %";
+                return;
+            }
+            else if (TextInPercents == false)
+            {
+                Text = $"{Value - Minimum} / {Maximum - Minimum}";
+                return;
+            }
+        }
+        Text = string.Empty;
     }
     #endregion
 
@@ -154,8 +53,7 @@ public partial class StswProgressBar : ProgressBar
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(CornerRadius))
+            typeof(StswProgressBar)
         );
     public CornerRadius CornerRadius
     {
@@ -175,36 +73,33 @@ public partial class StswProgressBar : ProgressBar
         = DependencyProperty.Register(
             nameof(State),
             typeof(States),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(States))
+            typeof(StswProgressBar)
         );
     public States State
     {
         get => (States)GetValue(StateProperty);
         set => SetValue(StateProperty, value);
     }
-    
+
     /// Text
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(string?))
+            typeof(StswProgressBar)
         );
     public string? Text
     {
         get => (string?)GetValue(TextProperty);
         private set => SetValue(TextProperty, value);
     }
-    
+
     /// TextInPercents
     public static readonly DependencyProperty TextInPercentsProperty
         = DependencyProperty.Register(
             nameof(TextInPercents),
             typeof(bool?),
-            typeof(StswProgressBar),
-            new PropertyMetadata(default(bool?))
+            typeof(StswProgressBar)
         );
     public bool? TextInPercents
     {
@@ -213,24 +108,116 @@ public partial class StswProgressBar : ProgressBar
     }
     #endregion
 
-    #region Events
-    /// TextChanged
-    private void OnTextChanged(object sender, EventArgs e)
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundDisabled),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush BackgroundDisabled
     {
-        if (Maximum != Minimum)
-        {
-            if (TextInPercents == true)
-            {
-                Text = $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %";
-                return;
-            }
-            else if (TextInPercents == false)
-            {
-                Text = $"{Value - Minimum} / {Maximum - Minimum}";
-                return;
-            }
-        }
-        Text = string.Empty;
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
+    }
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswProgressBar)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
+    }
+
+    /// ForegroundReady
+    public static readonly DependencyProperty ForegroundReadyProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundReady),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush ForegroundReady
+    {
+        get => (Brush)GetValue(ForegroundReadyProperty);
+        set => SetValue(ForegroundReadyProperty, value);
+    }
+    /// ForegroundRunning
+    public static readonly DependencyProperty ForegroundRunningProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundRunning),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush ForegroundRunning
+    {
+        get => (Brush)GetValue(ForegroundRunningProperty);
+        set => SetValue(ForegroundRunningProperty, value);
+    }
+    /// ForegroundPaused
+    public static readonly DependencyProperty ForegroundPausedProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundPaused),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush ForegroundPaused
+    {
+        get => (Brush)GetValue(ForegroundPausedProperty);
+        set => SetValue(ForegroundPausedProperty, value);
+    }
+    /// ForegroundError
+    public static readonly DependencyProperty ForegroundErrorProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundError),
+            typeof(Brush),
+            typeof(StswProgressBar)
+        );
+    public Brush ForegroundError
+    {
+        get => (Brush)GetValue(ForegroundErrorProperty);
+        set => SetValue(ForegroundErrorProperty, value);
+    }
+
+    /// IsTrackTransparent
+    public static readonly DependencyProperty IsTrackTransparentProperty
+        = DependencyProperty.Register(
+            nameof(IsTrackTransparent),
+            typeof(bool),
+            typeof(StswProgressBar)
+        );
+    public bool IsTrackTransparent
+    {
+        get => (bool)GetValue(IsTrackTransparentProperty);
+        set => SetValue(IsTrackTransparentProperty, value);
     }
     #endregion
 }

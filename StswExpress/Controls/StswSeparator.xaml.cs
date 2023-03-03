@@ -23,8 +23,7 @@ public partial class StswSeparator : Separator
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSeparator),
-            new PropertyMetadata(default(CornerRadius))
+            typeof(StswSeparator)
         );
     public CornerRadius CornerRadius
     {
@@ -37,8 +36,7 @@ public partial class StswSeparator : Separator
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSeparator),
-            new PropertyMetadata(default(Orientation))
+            typeof(StswSeparator)
         );
     public Orientation Orientation
     {

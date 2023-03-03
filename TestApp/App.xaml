@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TestApp"
-             Startup="Application_Startup" DispatcherUnhandledException="Application_DispatcherUnhandledException">
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"
+             Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
@@ -14,8 +15,53 @@
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:LibraryTestsContext}">
-                <local:LibraryTestsView/>
+            <DataTemplate DataType="{x:Type local:StswButtonContext}">
+                <local:StswButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
+                <local:StswCheckBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
+                <local:StswComboBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswDateBoxContext}">
+                <local:StswDateBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswHeaderContext}">
+                <local:StswHeaderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswIconContext}">
+                <local:StswIconView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswImageContext}">
+                <local:StswImageView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswNavigationContext}">
+                <local:StswNavigationView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswNumericBoxContext}">
+                <local:StswNumericBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
+                <local:StswProgressBarView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRepeatButtonContext}">
+                <local:StswRepeatButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
+                <local:StswRadioBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
+                <local:StswSeparatorView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTextBoxContext}">
+                <local:StswTextBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTextEditorContext}">
+                <local:StswTextEditorView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
+                <local:StswToggleButtonView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
@@ -13,14 +12,26 @@ public partial class StswToggleButton : ToggleButton
     public StswToggleButton()
     {
         InitializeComponent();
-
-        if (DesignerProperties.GetIsInDesignMode(this))
-            SetValue(BackgroundProperty, new SolidColorBrush(Colors.LightGray));
     }
     static StswToggleButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleButton), new FrameworkPropertyMetadata(typeof(StswToggleButton)));
     }
+
+    #region Properties
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswToggleButton)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
 
     #region Style
     /// BackgroundDisabled
@@ -28,8 +39,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BackgroundDisabled
     {
@@ -41,8 +51,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BorderBrushDisabled
     {
@@ -54,8 +63,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush ForegroundDisabled
     {
@@ -68,8 +76,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BackgroundMouseOver
     {
@@ -81,8 +88,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BorderBrushMouseOver
     {
@@ -94,8 +100,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush ForegroundMouseOver
     {
@@ -108,8 +113,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BackgroundPressed
     {
@@ -121,8 +125,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BorderBrushPressed
     {
@@ -134,8 +137,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundPressed),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush ForegroundPressed
     {
@@ -148,8 +150,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundChecked),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BackgroundChecked
     {
@@ -161,8 +162,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushChecked),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BorderBrushChecked
     {
@@ -174,8 +174,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundChecked),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush ForegroundChecked
     {
@@ -188,8 +187,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush BorderBrushDefaulted
     {
@@ -202,8 +200,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(SubBorderBrush),
             typeof(Brush),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswToggleButton)
         );
     public Brush SubBorderBrush
     {
@@ -215,8 +212,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Thickness))
+            typeof(StswToggleButton)
         );
     public Thickness SubBorderThickness
     {
@@ -228,8 +224,7 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(SubCornerRadius),
             typeof(CornerRadius),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(CornerRadius))
+            typeof(StswToggleButton)
         );
     public CornerRadius SubCornerRadius
     {
@@ -241,29 +236,12 @@ public partial class StswToggleButton : ToggleButton
         = DependencyProperty.Register(
             nameof(SubBorderVisibility),
             typeof(Visibility),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(Visibility))
+            typeof(StswToggleButton)
         );
     public Visibility SubBorderVisibility
     {
         get => (Visibility)GetValue(SubBorderVisibilityProperty);
         set => SetValue(SubBorderVisibilityProperty, value);
-    }
-    #endregion
-
-    #region Properties
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswToggleButton),
-            new PropertyMetadata(default(CornerRadius))
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

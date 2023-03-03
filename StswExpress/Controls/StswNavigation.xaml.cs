@@ -13,14 +13,13 @@ namespace StswExpress;
 /// <summary>
 /// Interaction logic for StswNavigation.xaml
 /// </summary>
-public partial class StswNavigation : UserControl, INotifyPropertyChanged
+public partial class StswNavigation : UserControl
 {
     public StswNavigation()
     {
         InitializeComponent();
 
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
-        SetValue(PagesProperty, new StswDictionary<string, object?>());
 
         if (DesignerProperties.GetIsInDesignMode(this)) return;
 
@@ -125,73 +124,53 @@ public partial class StswNavigation : UserControl, INotifyPropertyChanged
         get => (Orientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
     }
-
-    /// Pages
-    public static readonly DependencyProperty PagesProperty
-        = DependencyProperty.Register(
-            nameof(Pages),
-            typeof(StswDictionary<string, object?>),
-            typeof(StswNavigation),
-            new PropertyMetadata(default(StswDictionary<string, object?>))
-        );
-    public StswDictionary<string, object?> Pages
-    {
-        get => (StswDictionary<string, object?>)GetValue(PagesProperty);
-        set => SetValue(PagesProperty, value);
-    }
     #endregion
 
     /// ...
-    public object? PageChange(object? parameter, bool createNewInstance)
+    private readonly Dictionary<string, object> _contexts = new();
+    
+    public object? PageChange(object parameter, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this))
             return null;
 
-        var pageFullname = parameter?.GetType()?.FullName ?? string.Empty;
-        if (pageFullname == null)
-            return Content = null;
-
+        object? newContent = null;
         Cursor = Cursors.Wait;
 
-        if (partFrame != null && partFrame.BackStack != null)
-            partFrame.RemoveBackEntry();
-        if (createNewInstance && Pages.ContainsKey(pageFullname))
-            Pages.Remove(pageFullname);
-        if (!Pages.ContainsKey(pageFullname))
-            Pages.Add(new KeyValuePair<string, object?>(pageFullname, parameter));
-        Content = Pages[pageFullname];
+        if (parameter is string name1)
+        {
+            if (createNewInstance || !_contexts.ContainsKey(name1))
+            {
+                if (_contexts.ContainsKey(name1))
+                    _contexts.Remove(name1);
+                _contexts.Add(name1, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
+            }
+            newContent = _contexts[name1];
+        }
+        else if (parameter?.GetType()?.FullName is string name2 && parameter?.GetType()?.IsValueType == false)
+        {
+            if (createNewInstance || !_contexts.ContainsKey(name2))
+            {
+                if (_contexts.ContainsKey(name2))
+                    _contexts.Remove(name2);
+                _contexts.Add(name2, parameter);
+            }
+            newContent = _contexts[name2];
+        }
+        else newContent = null;
+
+        Content = newContent;
 
         Cursor = null;
-
-        return Content;
-    }
-    public object? PageChange(string parameter, bool createNewInstance)
-    {
-        if (parameter != null)
-            return PageChange(Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, parameter)?.Unwrap(), createNewInstance);
-        else
-            return Content = null;
+        return newContent;
     }
 
     #region Events
-    private Frame partFrame;
-    
-    /// OnApplyTemplate
-    public override void OnApplyTemplate()
-    {
-        partFrame = GetTemplateChild("PART_Frame") as Frame;
-        base.OnApplyTemplate();
-    }
-
     /// StswNavigationButton_Click
     private void StswNavigationButton_Click(object sender, RoutedEventArgs e)
     {
         if (sender is StswNavigationButton button)
             PageChange(button.PageNamespace, button.CreateNewInstance);
     }
-
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    public void NotifyPropertyChanged([CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     #endregion
 }

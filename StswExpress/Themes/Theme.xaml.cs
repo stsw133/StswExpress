@@ -16,7 +16,8 @@ partial class Theme
         get => color;
         set
         {
-            if (color == value) return;
+            if (color == value)
+                return;
             color = value;
             SetColor(color);
         }

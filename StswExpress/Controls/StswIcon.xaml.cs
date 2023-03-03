@@ -19,30 +19,13 @@ public partial class StswIcon : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
     }
 
-    #region Style
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswIcon),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-    #endregion
-
     #region Properties
     /// CanvasSize
     public static readonly DependencyProperty CanvasSizeProperty
         = DependencyProperty.Register(
             nameof(CanvasSize),
             typeof(double),
-            typeof(StswIcon),
-            new PropertyMetadata(default(double))
+            typeof(StswIcon)
         );
     public double CanvasSize
     {
@@ -55,8 +38,7 @@ public partial class StswIcon : UserControl
         = DependencyProperty.Register(
             nameof(Data),
             typeof(Geometry),
-            typeof(StswIcon),
-            new PropertyMetadata(default(Geometry?))
+            typeof(StswIcon)
         );
     public Geometry? Data
     {
@@ -99,6 +81,21 @@ public partial class StswIcon : UserControl
                 stsw.SetBinding(WidthProperty, multiBinding);
             }
         }
+    }
+    #endregion
+
+    #region Style
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswIcon)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 }

@@ -18,22 +18,6 @@ public partial class LoadingCircle : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(LoadingCircle), new FrameworkPropertyMetadata(typeof(LoadingCircle)));
     }
 
-    #region Style
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(LoadingCircle),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-    #endregion
-
     #region Properties
     /// Scale
     public static readonly DependencyProperty ScaleProperty
@@ -41,9 +25,7 @@ public partial class LoadingCircle : UserControl
             nameof(Scale),
             typeof(GridLength),
             typeof(LoadingCircle),
-            new FrameworkPropertyMetadata(default(GridLength),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnScaleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(OnScaleChanged)
         );
     public GridLength Scale
     {
@@ -70,6 +52,21 @@ public partial class LoadingCircle : UserControl
                 stsw.SetBinding(WidthProperty, multiBinding);
             }
         }
+    }
+    #endregion
+
+    #region Style
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(LoadingCircle)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 }

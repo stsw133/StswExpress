@@ -496,18 +496,18 @@ public partial class StswColumnFilter : UserControl
             
             case Types.Date:
                 {
-                    var cont1 = new StswCalendarPicker()
+                    var cont1 = new StswDateBox()
                     {
                         BorderThickness = new Thickness(0),
                         CornerRadius = new CornerRadius(0),
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     cont1.InputBindings.Add(inputbinding);
-                    cont1.SetBinding(StswCalendarPicker.SelectedDateProperty, binding1);
-                    cont1.SetBinding(StswCalendarPicker.SubBorderThicknessProperty, subborderThickness);
+                    cont1.SetBinding(StswDateBox.SelectedDateProperty, binding1);
+                    cont1.SetBinding(StswDateBox.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont1);
 
-                    var cont2 = new StswCalendarPicker()
+                    var cont2 = new StswDateBox()
                     {
                         //BorderThickness = new Thickness(0),
                         CornerRadius = new CornerRadius(0),
@@ -515,8 +515,8 @@ public partial class StswColumnFilter : UserControl
                     };
                     cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
                     cont2.InputBindings.Add(inputbinding);
-                    cont2.SetBinding(StswCalendarPicker.SelectedDateProperty, binding2);
-                    cont1.SetBinding(StswCalendarPicker.SubBorderThicknessProperty, subborderThickness);
+                    cont2.SetBinding(StswDateBox.SelectedDateProperty, binding2);
+                    cont1.SetBinding(StswDateBox.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont2);
                     break;
                 }

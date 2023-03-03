@@ -7,8 +7,8 @@
           mc:Ignorable="d"
                      
           AutoGenerateColumns="False"
-          BorderBrush="{Binding Background, RelativeSource={RelativeSource Self}, Converter={se:conv_Color}, ConverterParameter=?0.3}"
-          BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.15}"
+          BorderBrush="{Binding Background, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Color.Conv}, ConverterParameter=?0.3}"
+          BorderThickness="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.15}"
           FrozenColumnCount="1"
           HeadersVisibility="Column"
 		  HorizontalGridLinesBrush="#5777"
@@ -24,15 +24,15 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <!-- <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.3}"/> -->
+            <!-- <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.3}"/> -->
             <Style.Triggers>
-                <DataTrigger Binding="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={se:conv_NotNull}}" Value="True">
+                <DataTrigger Binding="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={se:conv_NotNull}}" Value="True">
+                <DataTrigger Binding="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ForegroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={se:conv_NotNull}}" Value="True">
+                <DataTrigger Binding="{Binding ForegroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                     <Setter Property="Foreground" Value="{Binding ForegroundHeader, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -43,11 +43,11 @@
         <!-- special column -->
         <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-                <UniformGrid Columns="1" Visibility="{Binding IsSpecialColumnHeaderVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={se:conv_Bool}, FallbackValue=Collapsed}">
+                <UniformGrid Columns="1" Visibility="{Binding IsSpecialColumnHeaderVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={x:Static se:conv_Bool.Conv}, FallbackValue=Collapsed}">
                     <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue=False}">
                         <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
                     </se:StswToggleButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Visibility="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={se:conv_Bool}, FallbackValue=Collapsed}" Click="BtnClearFilters_Click">
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Visibility="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={x:Static se:conv_Bool.Conv}, FallbackValue=Collapsed}" Click="BtnClearFilters_Click">
                         <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
                     </se:StswButton>
                 </UniformGrid>

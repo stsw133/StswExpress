@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -15,215 +14,47 @@ public partial class StswPasswordBox : UserControl
     {
         InitializeComponent();
 
-        SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
+        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
     }
     static StswPasswordBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(typeof(StswPasswordBox)));
     }
 
-    #region Style
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BackgroundDisabled
+    #region Events
+    private bool isPasswordChanging;
+    private PasswordBox partPasswordBox;
+
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
-    }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
+        partPasswordBox = (PasswordBox)GetTemplateChild("PART_PasswordBox");
+
+        OnPasswordChanged(this, new DependencyPropertyChangedEventArgs());
+
+        base.OnApplyTemplate();
     }
 
-    /// BackgroundMouseOver
-    public static readonly DependencyProperty BackgroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundMouseOver),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BackgroundMouseOver
+    /// PART_PasswordBox_PasswordChanged
+    private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
-        get => (Brush)GetValue(BackgroundMouseOverProperty);
-        set => SetValue(BackgroundMouseOverProperty, value);
-    }
-    /// BorderBrushMouseOver
-    public static readonly DependencyProperty BorderBrushMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushMouseOver),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BorderBrushMouseOver
-    {
-        get => (Brush)GetValue(BorderBrushMouseOverProperty);
-        set => SetValue(BorderBrushMouseOverProperty, value);
-    }
-    /// ForegroundMouseOver
-    public static readonly DependencyProperty ForegroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundMouseOver),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundMouseOver
-    {
-        get => (Brush)GetValue(ForegroundMouseOverProperty);
-        set => SetValue(ForegroundMouseOverProperty, value);
-    }
-
-    /// BackgroundFocused
-    public static readonly DependencyProperty BackgroundFocusedProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundFocused),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BackgroundFocused
-    {
-        get => (Brush)GetValue(BackgroundFocusedProperty);
-        set => SetValue(BackgroundFocusedProperty, value);
-    }
-    /// BorderBrushFocused
-    public static readonly DependencyProperty BorderBrushFocusedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushFocused),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BorderBrushFocused
-    {
-        get => (Brush)GetValue(BorderBrushFocusedProperty);
-        set => SetValue(BorderBrushFocusedProperty, value);
-    }
-    /// ForegroundFocused
-    public static readonly DependencyProperty ForegroundFocusedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundFocused),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundFocused
-    {
-        get => (Brush)GetValue(ForegroundFocusedProperty);
-        set => SetValue(ForegroundFocusedProperty, value);
-    }
-
-    /// BackgroundReadOnly
-    public static readonly DependencyProperty BackgroundReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundReadOnly),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush BackgroundReadOnly
-    {
-        get => (Brush)GetValue(BackgroundReadOnlyProperty);
-        set => SetValue(BackgroundReadOnlyProperty, value);
-    }
-
-    /// ForegroundPlaceholder
-    public static readonly DependencyProperty ForegroundPlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundPlaceholder),
-            typeof(Brush),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Brush))
-        );
-    public Brush ForegroundPlaceholder
-    {
-        get => (Brush)GetValue(ForegroundPlaceholderProperty);
-        set => SetValue(ForegroundPlaceholderProperty, value);
-    }
-
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Thickness))
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        isPasswordChanging = true;
+        Password = ((PasswordBox)sender).Password;
+        isPasswordChanging = false;
     }
     #endregion
 
     #region Properties
-    /// ButtonClearVisibility
-    public static readonly DependencyProperty ButtonClearVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ButtonClearVisibility),
-            typeof(Visibility),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Visibility))
-        );
-    public Visibility ButtonClearVisibility
-    {
-        get => (Visibility)GetValue(ButtonClearVisibilityProperty);
-        set => SetValue(ButtonClearVisibilityProperty, value);
-    }
-    /// ButtonShowPasswordVisibility
-    public static readonly DependencyProperty ButtonShowPasswordVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ButtonShowPasswordVisibility),
-            typeof(Visibility),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Visibility))
-        );
-    public Visibility ButtonShowPasswordVisibility
-    {
-        get => (Visibility)GetValue(ButtonShowPasswordVisibilityProperty);
-        set => SetValue(ButtonShowPasswordVisibilityProperty, value);
-    }
     /// Buttons
     public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
             nameof(Buttons),
-            typeof(ObservableCollection<ButtonBase>),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(ObservableCollection<ButtonBase>))
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswPasswordBox)
         );
-    public ObservableCollection<ButtonBase> Buttons
+    public ObservableCollection<UIElement> Buttons
     {
-        get => (ObservableCollection<ButtonBase>)GetValue(ButtonsProperty);
+        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
         set => SetValue(ButtonsProperty, value);
     }
     /// ButtonsAlignment
@@ -231,8 +62,7 @@ public partial class StswPasswordBox : UserControl
         = DependencyProperty.Register(
             nameof(ButtonsAlignment),
             typeof(Dock),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(Dock))
+            typeof(StswPasswordBox)
         );
     public Dock ButtonsAlignment
     {
@@ -245,8 +75,7 @@ public partial class StswPasswordBox : UserControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(CornerRadius))
+            typeof(StswPasswordBox)
         );
     public CornerRadius CornerRadius
     {
@@ -254,27 +83,12 @@ public partial class StswPasswordBox : UserControl
         set => SetValue(CornerRadiusProperty, value);
     }
     
-    /// IsReadOnly
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(bool))
-        );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(string?))
+            typeof(StswPasswordBox)
         );
     public string? Placeholder
     {
@@ -308,8 +122,7 @@ public partial class StswPasswordBox : UserControl
         = DependencyProperty.Register(
             nameof(ShowPassword),
             typeof(bool),
-            typeof(StswPasswordBox),
-            new PropertyMetadata(default(bool))
+            typeof(StswPasswordBox)
         );
     public bool ShowPassword
     {
@@ -318,35 +131,142 @@ public partial class StswPasswordBox : UserControl
     }
     #endregion
 
-    #region Events
-    private bool isPasswordChanging;
-    private PasswordBox partPasswordBox;
-    private TextBox partTextBox;
-    
-    /// OnApplyTemplate
-    public override void OnApplyTemplate()
+    #region Style
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundDisabled),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BackgroundDisabled
     {
-        partPasswordBox = (PasswordBox)GetTemplateChild("PART_PasswordBox");
-        partTextBox = (TextBox)GetTemplateChild("PART_TextBox");
-
-        OnPasswordChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
+    }
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
 
-    /// PART_ButtonClear_Click
-    private void PART_ButtonClear_Click(object sender, RoutedEventArgs e)
+    /// BackgroundMouseOver
+    public static readonly DependencyProperty BackgroundMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundMouseOver),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BackgroundMouseOver
     {
-        partPasswordBox.Clear();
-        partTextBox.Clear();
+        get => (Brush)GetValue(BackgroundMouseOverProperty);
+        set => SetValue(BackgroundMouseOverProperty, value);
+    }
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushMouseOver),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BorderBrushMouseOver
+    {
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
+    }
+    /// ForegroundMouseOver
+    public static readonly DependencyProperty ForegroundMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundMouseOver),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush ForegroundMouseOver
+    {
+        get => (Brush)GetValue(ForegroundMouseOverProperty);
+        set => SetValue(ForegroundMouseOverProperty, value);
     }
 
-    /// PART_PasswordBox_PasswordChanged
-    private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    /// BackgroundFocused
+    public static readonly DependencyProperty BackgroundFocusedProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundFocused),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BackgroundFocused
     {
-        isPasswordChanging = true;
-        Password = ((PasswordBox)sender).Password;
-        isPasswordChanging = false;
+        get => (Brush)GetValue(BackgroundFocusedProperty);
+        set => SetValue(BackgroundFocusedProperty, value);
+    }
+    /// BorderBrushFocused
+    public static readonly DependencyProperty BorderBrushFocusedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushFocused),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BorderBrushFocused
+    {
+        get => (Brush)GetValue(BorderBrushFocusedProperty);
+        set => SetValue(BorderBrushFocusedProperty, value);
+    }
+    /// ForegroundFocused
+    public static readonly DependencyProperty ForegroundFocusedProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundFocused),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush ForegroundFocused
+    {
+        get => (Brush)GetValue(ForegroundFocusedProperty);
+        set => SetValue(ForegroundFocusedProperty, value);
+    }
+
+    /// BackgroundReadOnly
+    public static readonly DependencyProperty BackgroundReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundReadOnly),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush BackgroundReadOnly
+    {
+        get => (Brush)GetValue(BackgroundReadOnlyProperty);
+        set => SetValue(BackgroundReadOnlyProperty, value);
+    }
+
+    /// ForegroundPlaceholder
+    public static readonly DependencyProperty ForegroundPlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundPlaceholder),
+            typeof(Brush),
+            typeof(StswPasswordBox)
+        );
+    public Brush ForegroundPlaceholder
+    {
+        get => (Brush)GetValue(ForegroundPlaceholderProperty);
+        set => SetValue(ForegroundPlaceholderProperty, value);
     }
     #endregion
 }

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="TestApp.StswProgressBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswProgressBarContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" State="Error"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="{x:Null}" IsIndeterminate="True" State="Error"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" State="Error"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="False" IsIndeterminate="True" State="Error"/>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" State="Error"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Ready"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Running"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Paused"/>
+                <se:StswProgressBar Margin="5" Value="{Binding Number}" Minimum="-50" Maximum="200" TextInPercents="True" IsIndeterminate="True" State="Error"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

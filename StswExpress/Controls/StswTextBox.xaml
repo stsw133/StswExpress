@@ -15,23 +15,7 @@
                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                SnapsToDevicePixels="True">
                 <DockPanel>
-                    <!-- buttons -->
-                    <se:StswButton x:Name="PART_ButtonClear"
-                                   DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
-                                   BorderThickness="0" CornerRadius="0" Padding="0"
-                                   Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=2}"
-                                   Visibility="{Binding ButtonClearVisibility, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Click="PART_ButtonClear_Click">
-                        <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5">
-                            <se:StswIcon.Style>
-                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                            </se:StswIcon.Style>
-                        </se:StswIcon>
-                        <se:StswButton.Style>
-                            <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
-                        </se:StswButton.Style>
-                    </se:StswButton>
-
+                    <!-- custom buttons -->
                     <ItemsControl x:Name="PART_Buttons"
                                   DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
                                   ItemsSource="{Binding Buttons, RelativeSource={RelativeSource TemplatedParent}}">
@@ -41,35 +25,15 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
-                    <!-- subborder -->
-                    <Border x:Name="PART_SubBorder"
-                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                            SnapsToDevicePixels="True">
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding ButtonClearVisibility, RelativeSource={RelativeSource TemplatedParent}}" Value="Collapsed"/>
-                                            <Condition Binding="{Binding Buttons.Count, RelativeSource={RelativeSource TemplatedParent}}" Value="0"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                    </Border>
                     <!-- content -->
                     <Grid>
-                        <TextBlock IsHitTestVisible="False"
-                                   Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource TemplatedParent}}"
+                        <TextBlock Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource TemplatedParent}}"
+                                   IsHitTestVisible="False"
                                    Margin="{TemplateBinding Padding}"
                                    Text="{Binding Placeholder, RelativeSource={RelativeSource TemplatedParent}}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}" />
+                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}"/>
                         <ScrollViewer x:Name="PART_ContentHost" 
                                       Focusable="False" 
                                       HorizontalScrollBarVisibility="Hidden" 
@@ -81,28 +45,20 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
                     <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocused" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
                     <Setter Property="TextElement.Foreground" Value="{Binding ForegroundFocused, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
                 <Trigger Property="IsReadOnly" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Buttons" />
-                    <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonClear" />
                     <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                     <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                    <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SubBorder" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ButtonClear" />
-                    <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Buttons" />
                     <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
             </ControlTemplate.Triggers>

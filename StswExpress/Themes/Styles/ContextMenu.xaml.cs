@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace StswExpress.Styles;
+namespace StswExpress;
 
 partial class ContextMenu
 {

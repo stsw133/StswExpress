@@ -13,52 +13,37 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalAlignment}" ContextMenuOpening="PART_MainBorder_ContextMenuOpening">
-                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NullToUnset}}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    ContextMenuOpening="PART_MainBorder_ContextMenuOpening">
+                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NullToUnset.Conv}}"
                        Stretch="{Binding Stretch, RelativeSource={RelativeSource TemplatedParent}}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                 <Border.ContextMenu>
                     <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                 Visibility="{Binding MenuMode, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_Compare}, ConverterParameter=!Disabled}">
+                                 Visibility="{Binding MenuMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!Disabled}">
                         <!-- cut -->
                         <MenuItem x:Name="PART_Cut" Header="Wytnij" Click="MnuItmCut_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- copy -->
                         <MenuItem x:Name="PART_Copy" Header="Kopiuj" Click="MnuItmCopy_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- paste -->
                         <MenuItem x:Name="PART_Paste" Header="Wklej" Click="MnuItmPaste_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- delete -->
                         <MenuItem x:Name="PART_Delete" Header="Usuń" Click="MnuItmDelete_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Foreground="{x:Static se:StswColors.Negative}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Foreground="{x:Static se:StswColors.Negative}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- separator -->
@@ -66,21 +51,13 @@
                         <!-- load -->
                         <MenuItem x:Name="PART_Load" Header="Wczytaj" Click="MnuItmLoad_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Foreground="{x:Static se:StswColors.Structure}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Foreground="{x:Static se:StswColors.Structure}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <!-- save-->
                         <MenuItem x:Name="PART_Save" Header="Zapisz" Click="MnuItmSave_Click">
                             <MenuItem.Icon>
-                                <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Foreground="{x:Static se:StswColors.Positive}">
-                                    <se:StswIcon.Style>
-                                        <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                                    </se:StswIcon.Style>
-                                </se:StswIcon>
+                                <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Foreground="{x:Static se:StswColors.Positive}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </ContextMenu>

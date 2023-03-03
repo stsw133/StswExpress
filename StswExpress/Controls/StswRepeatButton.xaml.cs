@@ -18,14 +18,28 @@ public partial class StswRepeatButton : RepeatButton
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRepeatButton), new FrameworkPropertyMetadata(typeof(StswRepeatButton)));
     }
 
+    #region Properties
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswRepeatButton)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
+
     #region Style
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BackgroundDisabled
     {
@@ -37,8 +51,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BorderBrushDisabled
     {
@@ -50,8 +63,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush ForegroundDisabled
     {
@@ -64,8 +76,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BackgroundMouseOver
     {
@@ -77,8 +88,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BorderBrushMouseOver
     {
@@ -90,8 +100,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush ForegroundMouseOver
     {
@@ -104,8 +113,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BackgroundPressed
     {
@@ -117,8 +125,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BorderBrushPressed
     {
@@ -130,8 +137,7 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(ForegroundPressed),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush ForegroundPressed
     {
@@ -144,29 +150,12 @@ public partial class StswRepeatButton : RepeatButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(Brush))
+            typeof(StswRepeatButton)
         );
     public Brush BorderBrushDefaulted
     {
         get => (Brush)GetValue(BorderBrushDefaultedProperty);
         set => SetValue(BorderBrushDefaultedProperty, value);
-    }
-    #endregion
-
-    #region Properties
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswRepeatButton),
-            new PropertyMetadata(default(CornerRadius))
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

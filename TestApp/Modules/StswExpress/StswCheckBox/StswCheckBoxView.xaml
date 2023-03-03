@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="TestApp.StswCheckBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswCheckBoxContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Indeterminate" IsChecked="{x:Null}" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Unchecked" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswCheckBox Margin="5" IsHitTestVisible="False" Content="Checked" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswCheckBox Margin="5" Content="Indeterminate" IsChecked="{x:Null}"/>
+                <se:StswCheckBox Margin="5" Content="Unchecked" IsChecked="False"/>
+                <se:StswCheckBox Margin="5" Content="Checked" IsChecked="True"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

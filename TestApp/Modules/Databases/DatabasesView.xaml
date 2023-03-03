@@ -28,22 +28,36 @@
             </UniformGrid>
         </ScrollViewer>
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
-        <!-- db data -->
+        
+        <!-- server -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Server:"/>
             <se:StswTextBox Text="{Binding CurrentDB.Server}"/>
         </StackPanel>
+        
+        <!-- database -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Database:"/>
             <se:StswTextBox Text="{Binding CurrentDB.Database}"/>
         </StackPanel>
+        
+        <!-- login -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Login:"/>
             <se:StswTextBox Text="{Binding CurrentDB.Login}"/>
         </StackPanel>
+        
+        <!-- password -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Password:"/>
-            <se:StswPasswordBox Password="{Binding CurrentDB.Password}" ButtonShowPasswordVisibility="Visible"/>
+            <se:StswPasswordBox Password="{Binding CurrentDB.Password}">
+                <se:StswPasswordBox.Buttons>
+                    <se:StswCheckBox Background="Transparent" ForegroundMouseOver="Gray" Padding="0"
+                                     IconUnchecked="{x:Static se:StswIcons.EyeOff}" IconChecked="{x:Static se:StswIcons.Eye}"
+                                     IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
+                </se:StswPasswordBox.Buttons>
+            </se:StswPasswordBox>
         </StackPanel>
+        
     </DockPanel>
 </UserControl>

@@ -4,16 +4,9 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-               mc:Ignorable="d" Height="540" Width="960" WindowStartupLocation="CenterScreen"
+               mc:Ignorable="d" Height="450" Width="750" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
                Icon="/TestApp;component/Resources/icon.ico">
-    <!--
-    <se:StswWindow.CustomControls>
-        <Button Command="{x:Static se:StswCommands.Settings}">
-            <se:OutlinedTextBlock Text="🔧"/>
-        </Button>
-    </se:StswWindow.CustomControls>
-    -->
     <se:StswNavigation BorderThickness="1" Padding="5">
         <se:StswNavigation.Buttons>
             
@@ -53,10 +46,62 @@
                 <se:StswHeader Content="Config" IconData="{x:Static se:StswIcons.Cog}"/>
             </se:StswNavigationButton>
 
-            <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.LibraryTestsContext">
-                <se:StswHeader Content="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
-            </se:StswNavigationButton>
-            
+            <Expander>
+                <Expander.Header>
+                    <se:StswHeader Content="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
+                </Expander.Header>
+                <StackPanel>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswButtonContext">
+                        <se:StswHeader Content="StswButton" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswCheckBoxContext">
+                        <se:StswHeader Content="StswCheckBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswComboBoxContext">
+                        <se:StswHeader Content="StswComboBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswDateBoxContext">
+                        <se:StswHeader Content="StswDateBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswHeaderContext">
+                        <se:StswHeader Content="StswHeader" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswIconContext">
+                        <se:StswHeader Content="StswIcon" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswImageContext">
+                        <se:StswHeader Content="StswImage" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswNavigationContext">
+                        <se:StswHeader Content="StswNavigation" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswNumericBoxContext">
+                        <se:StswHeader Content="StswNumericBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswProgressBarContext">
+                        <se:StswHeader Content="StswProgressBar" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswRadioBoxContext">
+                        <se:StswHeader Content="StswRadioBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswRepeatButtonContext">
+                        <se:StswHeader Content="StswRepeatButton" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswSeparatorContext">
+                        <se:StswHeader Content="StswSeparator" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswTextBoxContext">
+                        <se:StswHeader Content="StswTextBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswTextEditorContext">
+                        <se:StswHeader Content="StswTextEditor" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswToggleButtonContext">
+                        <se:StswHeader Content="StswToggleButton" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                </StackPanel>
+            </Expander>
+
         </se:StswNavigation.Buttons>
     </se:StswNavigation>
 </se:StswWindow>

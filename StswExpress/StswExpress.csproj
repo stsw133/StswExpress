@@ -19,7 +19,7 @@
     <Compile Update="Controls\StswRepeatButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\StswCalendarPicker.xaml.cs">
+    <Compile Update="Controls\StswDateBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\StswButton.xaml.cs">
@@ -48,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\StswRadioButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\StswToggleButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -56,7 +59,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswCalendarPicker.xaml">
+    <Page Update="Controls\StswDateBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

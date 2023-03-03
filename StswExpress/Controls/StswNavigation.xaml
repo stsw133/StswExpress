@@ -9,12 +9,20 @@
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
             <DockPanel>
-                <se:ClippingBorder DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Background="{TemplateBinding Background}"
+                <se:ClippingBorder Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                    SnapsToDevicePixels="True">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}" Value="Horizontal">
+                                    <Setter Property="DockPanel.Dock" Value="Top"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}">
                             <UniformGrid Rows="1">
@@ -30,7 +38,7 @@
                                     </se:StswHeader>
                                 </se:StswToggleButton>
                                 <!--
-                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={se:conv_Bool}}">
+                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}">
                                     <se:StswButton.Style>
                                         <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>
                                     </se:StswButton.Style>
@@ -41,7 +49,7 @@
                                     </se:StswHeader>
                                 </se:StswButton>
 
-                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={se:conv_Bool}}"
+                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}"
                                                Click="PART_Options_Checked">
                                     <se:StswButton.Style>
                                         <Style TargetType="{x:Type se:StswButton}" BasedOn="{StaticResource {x:Type se:StswButton}}"/>

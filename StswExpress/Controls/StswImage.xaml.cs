@@ -25,111 +25,6 @@ public partial class StswImage : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
     }
 
-    #region Style
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswImage),
-            new PropertyMetadata(default(double))
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-    #endregion
-
-    #region Properties
-    /// MenuMode
-    public enum MenuModes
-    {
-        Disabled,
-        ReadOnly,
-        Full
-    }
-    public static readonly DependencyProperty MenuModeProperty
-        = DependencyProperty.Register(
-            nameof(MenuMode),
-            typeof(MenuModes),
-            typeof(StswImage),
-            new PropertyMetadata(default(MenuModes))
-        );
-    public MenuModes MenuMode
-    {
-        get => (MenuModes)GetValue(MenuModeProperty);
-        set => SetValue(MenuModeProperty, value);
-    }
-
-    /// Scale
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswImage),
-            new FrameworkPropertyMetadata(default(GridLength),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnScaleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswImage stsw)
-        {
-            if (stsw.Scale == GridLength.Auto)
-            {
-                stsw.Height = double.NaN;
-                stsw.Width = double.NaN;
-            }
-            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
-            {
-                var multiBinding = new MultiBinding();
-                multiBinding.Bindings.Add(new Binding(nameof(Settings.Default.iSize)) { Source = Settings.Default });
-                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
-                multiBinding.Converter = new conv_Calculate();
-                multiBinding.ConverterParameter = "*";
-                stsw.SetBinding(HeightProperty, multiBinding);
-                stsw.SetBinding(WidthProperty, multiBinding);
-            }
-        }
-    }
-
-    /// Source
-    public static readonly DependencyProperty SourceProperty
-        = DependencyProperty.Register(
-            nameof(Source),
-            typeof(ImageSource),
-            typeof(StswImage),
-            new FrameworkPropertyMetadata(default(ImageSource?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public ImageSource? Source
-    {
-        get => (ImageSource?)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-
-    /// Stretch
-    public static readonly DependencyProperty StretchProperty
-        = DependencyProperty.Register(
-            nameof(Stretch),
-            typeof(Stretch),
-            typeof(StswImage),
-            new PropertyMetadata(default(Stretch))
-        );
-    public Stretch Stretch
-    {
-        get => (Stretch)GetValue(StretchProperty);
-        set => SetValue(StretchProperty, value);
-    }
-    #endregion
-
     #region Events
     /// PART_MainBorder_ContextMenuOpening
     private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -305,6 +200,105 @@ public partial class StswImage : UserControl
                     Marshal.FreeHGlobal(ptr);
             }
         }
+    }
+    #endregion
+
+    #region Properties
+    /// MenuMode
+    public enum MenuModes
+    {
+        Disabled,
+        ReadOnly,
+        Full
+    }
+    public static readonly DependencyProperty MenuModeProperty
+        = DependencyProperty.Register(
+            nameof(MenuMode),
+            typeof(MenuModes),
+            typeof(StswImage)
+        );
+    public MenuModes MenuMode
+    {
+        get => (MenuModes)GetValue(MenuModeProperty);
+        set => SetValue(MenuModeProperty, value);
+    }
+
+    /// Scale
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswImage),
+            new FrameworkPropertyMetadata(default(GridLength),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnScaleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswImage stsw)
+        {
+            if (stsw.Scale == GridLength.Auto)
+            {
+                stsw.Height = double.NaN;
+                stsw.Width = double.NaN;
+            }
+            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
+            {
+                var multiBinding = new MultiBinding();
+                multiBinding.Bindings.Add(new Binding(nameof(Settings.Default.iSize)) { Source = Settings.Default });
+                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
+                multiBinding.Converter = new conv_Calculate();
+                multiBinding.ConverterParameter = "*";
+                stsw.SetBinding(HeightProperty, multiBinding);
+                stsw.SetBinding(WidthProperty, multiBinding);
+            }
+        }
+    }
+
+    /// Source
+    public static readonly DependencyProperty SourceProperty
+        = DependencyProperty.Register(
+            nameof(Source),
+            typeof(ImageSource),
+            typeof(StswImage)
+        );
+    public ImageSource? Source
+    {
+        get => (ImageSource?)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+
+    /// Stretch
+    public static readonly DependencyProperty StretchProperty
+        = DependencyProperty.Register(
+            nameof(Stretch),
+            typeof(Stretch),
+            typeof(StswImage)
+        );
+    public Stretch Stretch
+    {
+        get => (Stretch)GetValue(StretchProperty);
+        set => SetValue(StretchProperty, value);
+    }
+    #endregion
+
+    #region Style
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswImage)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

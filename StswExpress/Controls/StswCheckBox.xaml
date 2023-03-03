@@ -8,7 +8,8 @@
 
     <CheckBox.Template>
         <ControlTemplate TargetType="{x:Type CheckBox}">
-            <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+            <Grid x:Name="templateRoot"
+                  SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -23,12 +24,9 @@
                         <TextBlock/>
                         <se:StswIcon x:Name="textmark"
                                      Foreground="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
-                                     Scale="1.5"
-                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <se:StswIcon.Style>
-                                <Style TargetType="{x:Type se:StswIcon}" BasedOn="{StaticResource {x:Type se:StswIcon}}"/>
-                            </se:StswIcon.Style>
-                        </se:StswIcon>
+                                     Scale="1.25"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
                 <ContentPresenter x:Name="contentPresenter" Grid.Column="1"

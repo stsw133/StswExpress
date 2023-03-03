@@ -27,7 +27,7 @@
                 <se:StswButton Margin="3" Background="{x:Static se:StswColors.Positive}" Command="{Binding ExportToExcelCommand}">
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" Content="Export to Excel" IsBusy="{Binding IsBusy[ExportToExcel]}">
                         <se:StswHeader.SubTexts>
-                            <TextBlock Text="Only visible data" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                            <TextBlock Text="Only visible data" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
                         </se:StswHeader.SubTexts>
                     </se:StswHeader>
                 </se:StswButton>
@@ -97,8 +97,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <se:StswImage MenuMode="Full" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={se:conv_Add}, ConverterParameter=-4}"
-                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={se:conv_Add}, ConverterParameter=-4}"/>
+                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Conv}, ConverterParameter=-4}"
+                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Conv}, ConverterParameter=-4}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -170,8 +170,8 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding Proxy.AddPdfCommand, Source={StaticResource proxy}}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.FilePdfBox}" Scale="1.5"/>
+                            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Command="{Binding Proxy.AddPdfCommand, Source={StaticResource proxy}}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FilePdfBox}" Scale="1.25"/>
                             </se:StswButton>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

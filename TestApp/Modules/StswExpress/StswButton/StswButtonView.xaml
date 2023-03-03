@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="TestApp.StswButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswButtonContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswButton Margin="5">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Positive}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Negative}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Neutral}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Modify}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Structure}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
+                </se:StswButton>
+                <se:StswButton Margin="5" Background="{x:Static se:StswColors.Designer}" Foreground="White">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
+                </se:StswButton>
+            </UniformGrid>
+            <!-- buttons with hyperlinks -->
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com"/>
+                <se:StswButton Margin="5" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0" Content="{Binding Hyperlink, RelativeSource={RelativeSource Self}}" Hyperlink="https://www.google.com" Foreground="Blue"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

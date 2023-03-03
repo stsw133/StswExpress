@@ -11,8 +11,7 @@ public class BindingProxy : Freezable
         = DependencyProperty.Register(
             nameof(Proxy),
             typeof(object),
-            typeof(BindingProxy),
-            new UIPropertyMetadata(null)
+            typeof(BindingProxy)
         );
     public object Proxy
     {

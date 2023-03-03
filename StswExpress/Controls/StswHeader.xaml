@@ -20,7 +20,7 @@
                     <!-- icon -->
                     <Control x:Name="PART_Icon"
                              Focusable="False"
-                             Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={se:conv_Multiply}, ConverterParameter=0.1}"
+                             Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.1}"
                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                         <Control.Style>
@@ -29,7 +29,7 @@
                                     <!-- StswIcon -->
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
+                                            <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True"/>
                                             <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
                                             <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
                                         </MultiDataTrigger.Conditions>
@@ -45,7 +45,7 @@
                                                                         <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                         <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                                                                         <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
@@ -59,7 +59,7 @@
                                     <!-- Image -->
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={se:conv_NotNull}}" Value="True"/>
+                                            <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True"/>
                                             <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Template">
@@ -74,7 +74,7 @@
                                                                         <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                         <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={se:conv_NotNull}}" Value="True">
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                                                                         <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
@@ -98,7 +98,7 @@
                                                                         <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                         <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={se:conv_NotNull}}" Value="True">
+                                                                    <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Converter={x:Static se:conv_NotNull.Conv}}" Value="True">
                                                                         <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
@@ -128,7 +128,7 @@
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel.Resources>
                                             <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default},Converter={se:conv_Multiply}, ConverterParameter=0.8}"/>
+                                                <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default},Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
                                                 <Setter Property="Opacity" Value="0.8"/>
                                             </Style>
                                         </StackPanel.Resources>

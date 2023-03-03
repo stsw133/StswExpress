@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="TestApp.StswHeaderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswHeaderContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="auto"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="auto"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="{x:Null}">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="auto"/>
+                <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" Foreground="Red" VerticalContentAlignment="Top">
+                    <se:StswHeader.SubTexts>
+                        <TextBlock Text="TEST"/>
+                    </se:StswHeader.SubTexts>
+                </se:StswHeader>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>
