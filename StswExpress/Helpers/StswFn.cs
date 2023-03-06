@@ -37,6 +37,11 @@ public static class StswFn
         /// global commands
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => ((StswWindow)s).Fullscreen = !((StswWindow)s).Fullscreen));
 
+        /// global culture (does not work with converters)
+        //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
+        //Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentCulture;
+        //FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
         /// on exit
         app.Exit += (sender, e) => Settings.Default.Save();
     }

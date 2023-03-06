@@ -63,6 +63,9 @@
                     <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswDateBoxContext">
                         <se:StswHeader Content="StswDateBox" IconData="M0 0"/>
                     </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswGroupBoxContext">
+                        <se:StswHeader Content="StswGroupBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
                     <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswHeaderContext">
                         <se:StswHeader Content="StswHeader" IconData="M0 0"/>
                     </se:StswNavigationButton>

@@ -61,6 +61,9 @@
     <Compile Update="Modules\StswExpress\StswHeader\StswHeaderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\StswExpress\StswGroupBox\StswGroupBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\StswExpress\StswTextEditor\StswTextEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,6 +120,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Modules\StswExpress\StswHeader\StswHeaderView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\StswExpress\StswGroupBox\StswGroupBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

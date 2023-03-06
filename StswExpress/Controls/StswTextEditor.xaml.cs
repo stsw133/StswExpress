@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -21,6 +25,108 @@ public partial class StswTextEditor : RichTextBox
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
     }
+
+    #region Events
+    private StswToggleButton btnBold, btnItalic, btnUnderline;
+    private StswComboBox cmbFontFamily, cmbFontSize;
+    
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        ((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
+
+        btnBold = (StswToggleButton)GetTemplateChild("PART_ButtonFormatBold");
+        btnItalic = (StswToggleButton)GetTemplateChild("PART_ButtonFormatItalic");
+        btnUnderline = (StswToggleButton)GetTemplateChild("PART_ButtonFormatUnderline");
+        cmbFontFamily = (StswComboBox)GetTemplateChild("PART_FontFamilies");
+        cmbFontSize = (StswComboBox)GetTemplateChild("PART_FontSizes");
+
+        cmbFontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
+        cmbFontSize.ItemsSource = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+
+        SelectionChanged += PART_Editor_SelectionChanged;
+
+        base.OnApplyTemplate();
+    }
+
+    /// PART_Editor_SelectionChanged
+    private void PART_Editor_SelectionChanged(object sender, RoutedEventArgs e)
+    {
+        object temp = Selection.GetPropertyValue(Inline.FontWeightProperty);
+        btnBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
+        temp = Selection.GetPropertyValue(Inline.FontStyleProperty);
+        btnItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
+        temp = Selection.GetPropertyValue(Inline.TextDecorationsProperty);
+        btnUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
+
+        temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
+        cmbFontFamily.SelectedItem = temp;
+        temp = Selection.GetPropertyValue(Inline.FontSizeProperty);
+        cmbFontSize.Text = temp.ToString();
+    }
+
+    /// PART_ButtonLoad_Click
+    private void PART_ButtonLoad_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFileDialog
+        {
+            Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*"
+        };
+        if (dialog.ShowDialog() == true)
+        {
+            var fileStream = new FileStream(dialog.FileName, FileMode.Open);
+            var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+            range.Load(fileStream, DataFormats.Rtf);
+        }
+    }
+
+    /// PART_ButtonSave_Click
+    private void PART_ButtonSave_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new SaveFileDialog
+        {
+            Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*"
+        };
+        if (dialog.ShowDialog() == true)
+        {
+            var fileStream = new FileStream(dialog.FileName, FileMode.Create);
+            var range = new TextRange(Document.ContentStart, Document.ContentEnd);
+            range.Save(fileStream, DataFormats.Rtf);
+        }
+    }
+
+    /// PART_ButtonFormatBold_Click
+    private void PART_ButtonFormatBold_Click(object sender, RoutedEventArgs e)
+    {
+        Selection.ApplyPropertyValue(Inline.FontWeightProperty, btnBold.IsChecked == true ? FontWeights.Bold : FontWeights.Normal);
+    }
+
+    /// PART_ButtonFormatItalic_Click
+    private void PART_ButtonFormatItalic_Click(object sender, RoutedEventArgs e)
+    {
+        Selection.ApplyPropertyValue(Inline.FontStyleProperty, btnItalic.IsChecked == true ? FontStyles.Italic : FontStyles.Normal);
+    }
+
+    /// PART_ButtonFormatUnderline_Click
+    private void PART_ButtonFormatUnderline_Click(object sender, RoutedEventArgs e)
+    {
+        Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, btnUnderline.IsChecked == true ? TextDecorations.Underline : null);
+    }
+
+    /// PART_FontFamilies_SelectionChanged
+    private void PART_FontFamilies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (cmbFontFamily.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
+    }
+
+    /// PART_FontSizes_SelectionChanged
+    private void PART_FontSizes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (cmbFontSize.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.SelectedItem);
+    }
+    #endregion
 
     #region Properties
     /// Buttons
@@ -59,19 +165,6 @@ public partial class StswTextEditor : RichTextBox
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
-    }
-
-    /// Placeholder
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswTextEditor)
-        );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
     }
     #endregion
 
@@ -200,17 +293,17 @@ public partial class StswTextEditor : RichTextBox
         set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
-    /// ForegroundPlaceholder
-    public static readonly DependencyProperty ForegroundPlaceholderProperty
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(ForegroundPlaceholder),
-            typeof(Brush),
+            nameof(SubBorderThickness),
+            typeof(Thickness),
             typeof(StswTextEditor)
         );
-    public Brush ForegroundPlaceholder
+    public Thickness SubBorderThickness
     {
-        get => (Brush)GetValue(ForegroundPlaceholderProperty);
-        set => SetValue(ForegroundPlaceholderProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
 }

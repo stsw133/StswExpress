@@ -15,6 +15,43 @@
                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                SnapsToDevicePixels="True">
                 <DockPanel>
+                    <Grid DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                          Background="#1777">
+                        <!-- buttons -->
+                        <StackPanel x:Name="PART_Button"
+                                    Margin="{TemplateBinding Padding}"
+                                    Orientation="Horizontal">
+                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Click="PART_ButtonLoad_Click">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Foreground="{x:Static se:StswColors.Structure}"/>
+                            </se:StswButton>
+                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Click="PART_ButtonSave_Click">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Scale="1.5" Foreground="{x:Static se:StswColors.Positive}"/>
+                            </se:StswButton>
+                            <se:StswSeparator Margin="{TemplateBinding Padding}" Orientation="Vertical"/>
+                            <se:StswToggleButton x:Name="PART_ButtonFormatBold" CornerRadius="0" Margin="{TemplateBinding Padding}" Click="PART_ButtonFormatBold_Click">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}" Scale="1.5"/>
+                            </se:StswToggleButton>
+                            <se:StswToggleButton x:Name="PART_ButtonFormatItalic" CornerRadius="0" Margin="{TemplateBinding Padding}" Click="PART_ButtonFormatItalic_Click">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}" Scale="1.5"/>
+                            </se:StswToggleButton>
+                            <se:StswToggleButton x:Name="PART_ButtonFormatUnderline" CornerRadius="0" Margin="{TemplateBinding Padding}" Click="PART_ButtonFormatUnderline_Click">
+                                <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}" Scale="1.5"/>
+                            </se:StswToggleButton>
+                            <se:StswSeparator Margin="{TemplateBinding Padding}" Orientation="Vertical"/>
+                            <se:StswComboBox x:Name="PART_FontFamilies" CornerRadius="0" Margin="{TemplateBinding Padding}" IsEditable="True"
+                                             Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=15}"
+                                             SelectionChanged="PART_FontFamilies_SelectionChanged"/>
+                            <se:StswComboBox x:Name="PART_FontSizes" CornerRadius="0" Margin="{TemplateBinding Padding}" IsEditable="True"
+                                             Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=5}"
+                                             SelectionChanged="PART_FontSizes_SelectionChanged"/>
+                        </StackPanel>
+                    </Grid>
+                    <!-- subborder -->
+                    <Border x:Name="PART_SubBorder"
+                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                            BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                            BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                            SnapsToDevicePixels="True"/>
                     <!-- custom buttons -->
                     <ItemsControl x:Name="PART_Buttons"
                                   DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
@@ -26,19 +63,10 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                     <!-- content -->
-                    <Grid>
-                        <TextBlock Foreground="{Binding ForegroundPlaceholder, RelativeSource={RelativeSource TemplatedParent}}"
-                                   IsHitTestVisible="False"
-                                   Margin="{TemplateBinding Padding}"
-                                   Text="{Binding Placeholder, RelativeSource={RelativeSource TemplatedParent}}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}"/>
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                      Focusable="False" 
-                                      HorizontalScrollBarVisibility="Hidden" 
-                                      VerticalScrollBarVisibility="Hidden"/>
-                    </Grid>
+                    <ScrollViewer x:Name="PART_ContentHost" 
+                                  Focusable="False" 
+                                  HorizontalScrollBarVisibility="Hidden" 
+                                  VerticalScrollBarVisibility="Hidden"/>
                 </DockPanel>
             </se:ClippingBorder>
             <ControlTemplate.Triggers>
@@ -54,6 +82,7 @@
                 </Trigger>
                 <Trigger Property="IsReadOnly" Value="True">
                     <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                    <Setter Property="IsEnabled" Value="False" TargetName="PART_Button" />
                     <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
