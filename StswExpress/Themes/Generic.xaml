@@ -164,6 +164,39 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
     
+    <!-- StswExpander -->
+    <Style TargetType="{x:Type se:StswExpander}" BasedOn="{StaticResource {x:Type Expander}}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="SubBackground" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=?85}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+
+        <Setter Property="SubBackgroundDisabled" Value="#2777"/>
+        <Setter Property="BorderBrushDisabled" Value="#3777"/>
+        <Setter Property="SubForegroundDisabled" Value="#7777"/>
+
+        <Setter Property="SubBackgroundMouseOver" Value="{Binding SubBackground, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-30}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-30}"/>
+        <Setter Property="SubForegroundMouseOver" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="SubBackgroundPressed" Value="{Binding SubBackgroundMouseOver, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-20}"/>
+        <Setter Property="BorderBrushPressed" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-20}"/>
+        <Setter Property="SubForegroundPressed" Value="{Binding SubForegroundMouseOver, RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="SubBackgroundChecked" Value="{Binding SubBackground, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-50}"/>
+        <Setter Property="BorderBrushChecked" Value="{Binding BorderBrush, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=-50}"/>
+        <Setter Property="SubForegroundChecked" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter='0 0 0 1'}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.25}"/>
+        <Setter Property="SubPadding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.25}"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </Style>
+
     <!-- StswGroupBox -->
     <Style TargetType="{x:Type se:StswGroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -251,7 +284,7 @@
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.5}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.25}"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -563,13 +596,13 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <!-- title bar -->
-                            <Grid x:Name="titleBar" Background="{TemplateBinding Background}">
+                            <Grid x:Name="PART_TitleBar" Background="{TemplateBinding Background}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- icon & title -->
-                                <se:StswHeader x:Name="moveRectangle" Grid.ColumnSpan="2" Content="{TemplateBinding Title}" IconSource="{TemplateBinding Icon}" IconScale="{x:Null}">
+                                <se:StswHeader x:Name="PART_MoveRectangle" Grid.ColumnSpan="2" Content="{TemplateBinding Title}" IconSource="{TemplateBinding Icon}" IconScale="{x:Null}">
                                     <se:StswHeader.SubTexts>
                                         <TextBlock Text="{TemplateBinding SubTitle}"
                                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:conv_ColorBrightness.Conv}, ConverterParameter=?40%}"
@@ -606,7 +639,7 @@
                                     </se:StswHeader.Style>
                                 </se:StswHeader>
                                 <!-- buttons panel -->
-                                <StackPanel x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal">
+                                <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <!-- buttons style -->
                                         <Style TargetType="{x:Type Button}">
@@ -640,7 +673,7 @@
                                                 <MultiTrigger>
                                                     <MultiTrigger.Conditions>
                                                         <Condition Property="IsMouseOver" Value="True"/>
-                                                        <Condition Property="Name" Value="closeButton"/>
+                                                        <Condition Property="Name" Value="PART_ButtonClose"/>
                                                     </MultiTrigger.Conditions>
                                                     <MultiTrigger.Setters>
                                                         <Setter Property="Background" Value="Red"/>
@@ -656,24 +689,24 @@
                                         </Style>
                                     </StackPanel.Resources>
                                     <!-- buttons -->
-                                    <ItemsControl x:Name="customControls" ItemsSource="{TemplateBinding CustomControls}">
+                                    <ItemsControl ItemsSource="{TemplateBinding Buttons}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel Orientation="Horizontal"/>
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                    <Button x:Name="minimizeButton"
+                                    <Button x:Name="PART_ButtonMinimize"
                                             ToolTip="Minimalizuj"
                                             Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!NoResize}">
                                         <se:OutlinedTextBlock Text="🗕"/>
                                     </Button>
-                                    <Button x:Name="restoreButton"
+                                    <Button x:Name="PART_ButtonRestore"
                                             ToolTip="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
                                             Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Conv}, ConverterParameter=CanResize}">
                                         <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter=Maximized~🗗~🗖}"/>
                                     </Button>
-                                    <Button x:Name="closeButton"
+                                    <Button x:Name="PART_ButtonClose"
                                             ToolTip="Zamknij">
                                         <se:OutlinedTextBlock Text="🗙"/>
                                     </Button>
@@ -682,13 +715,13 @@
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
                                         <MenuItem Header="Dodatkowe opcje">
-                                            <MenuItem Header="Rozmiar">
+                                            <MenuItem x:Name="PART_MenuScaling" Header="Rozmiar">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                                 <Slider Width="220" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"/>
                                             </MenuItem>
-                                            <MenuItem Header="Motyw">
+                                            <MenuItem x:Name="PART_MenuTheme" Header="Motyw">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
@@ -708,40 +741,40 @@
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </MenuItem>
-                                            <MenuItem Header="Podtytuł okna" IsCheckable="True" IsChecked="{Binding ShowSubTitle, Mode=TwoWay, Source={x:Static se:Settings.Default}}">
+                                            <MenuItem x:Name="PART_MenuSubtitle" Header="Podtytuł okna" IsCheckable="True" IsChecked="{Binding ShowSubTitle, Mode=TwoWay, Source={x:Static se:Settings.Default}}">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="⚎" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
-                                            <MenuItem Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
+                                            <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
                                         </MenuItem>
                                         <Separator/>
-                                        <MenuItem Header="Wyśrodkuj na ekranie">
+                                        <MenuItem x:Name="PART_MenuCenter" Header="Wyśrodkuj na ekranie">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Conv}, ConverterParameter=CanResize}">
+                                        <MenuItem x:Name="PART_MenuDefaultSize" Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Conv}, ConverterParameter=CanResize}">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="↕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Minimalizuj" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!NoResize}">
+                                        <MenuItem x:Name="PART_MenuMinimize" Header="Minimalizuj" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!NoResize}">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                        <MenuItem x:Name="PART_MenuRestore" Header="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
-                                        <MenuItem Header="Zamknij">
+                                        <MenuItem x:Name="PART_MenuClose" Header="Zamknij">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
@@ -750,29 +783,77 @@
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                             </Grid>
-                            <!-- content -->
+                            <!-- content grid -->
                             <Grid Background="{TemplateBinding Background}" Grid.Row="1">
-                                
-                                <StackPanel x:Name="buttonsFullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
-                                    <Button x:Name="minimizeFullScreenButton"
+                                <AdornerDecorator>
+                                    <ContentPresenter/>
+                                </AdornerDecorator>
+
+                                <!-- fullscreen button panel -->
+                                <StackPanel x:Name="PART_FullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
+                                    <StackPanel.Resources>
+                                        <!-- buttons style -->
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                SnapsToDevicePixels="True">
+                                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                              Content="{TemplateBinding Content}"
+										                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
+										                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										                                      Margin="{TemplateBinding Padding}"
+										                                      RecognizesAccessKey="True"
+										                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=1.25}"/>
+                                            <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.25}"/>
+                                            <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=3.75}"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#7777"/>
+                                                </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="Name" Value="PART_FsButtonClose"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <MultiTrigger.Setters>
+                                                        <Setter Property="Background" Value="Red"/>
+                                                    </MultiTrigger.Setters>
+                                                </MultiTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                        <Style TargetType="{x:Type se:OutlinedTextBlock}">
+                                            <Setter Property="Fill" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter=True~White~#B777}"/>
+                                            <Setter Property="FontFamily" Value="Arial"/>
+                                            <Setter Property="Stroke" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter=True~Black~Transparent}"/>
+                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.15}"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <!-- buttons -->
+                                    <Button x:Name="PART_FsButtonMinimize"
                                             ToolTip="Minimalizuj"
                                             Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!NoResize}">
                                         <se:OutlinedTextBlock Text="🗕"/>
                                     </Button>
-                                    <Button x:Name="restoreFullScreenButton"
-                                            ToolTip="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
-                                            Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Conv}, ConverterParameter=CanResize}">
-                                        <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Conv}, ConverterParameter=Maximized~🗗~🗖}"/>
+                                    <Button x:Name="PART_FsButtonRestore"
+                                            ToolTip="Wyłącz pełny ekran">
+                                        <se:OutlinedTextBlock Text="⛶"/>
                                     </Button>
-                                    <Button x:Name="closeFullScreenButton"
+                                    <Button x:Name="PART_FsButtonClose"
                                             ToolTip="Zamknij">
                                         <se:OutlinedTextBlock Text="🗙"/>
                                     </Button>
                                 </StackPanel>
-                                
-                                <AdornerDecorator>
-                                    <ContentPresenter/>
-                                </AdornerDecorator>
                             </Grid>
                         </Grid>
                     </se:ClippingBorder>

@@ -46,10 +46,10 @@
                 <se:StswHeader Content="Config" IconData="{x:Static se:StswIcons.Cog}"/>
             </se:StswNavigationButton>
 
-            <Expander>
-                <Expander.Header>
+            <se:StswExpander BorderThickness="0" CornerRadius="0" Padding="0">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Library tests" IconData="{x:Static se:StswIcons.TestTube}"/>
-                </Expander.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswButtonContext">
                         <se:StswHeader Content="StswButton" IconData="M0 0"/>
@@ -62,6 +62,9 @@
                     </se:StswNavigationButton>
                     <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswDateBoxContext">
                         <se:StswHeader Content="StswDateBox" IconData="M0 0"/>
+                    </se:StswNavigationButton>
+                    <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswExpanderContext">
+                        <se:StswHeader Content="StswExpander" IconData="M0 0"/>
                     </se:StswNavigationButton>
                     <se:StswNavigationButton GroupName="Main" PageNamespace="TestApp.StswGroupBoxContext">
                         <se:StswHeader Content="StswGroupBox" IconData="M0 0"/>
@@ -103,7 +106,7 @@
                         <se:StswHeader Content="StswToggleButton" IconData="M0 0"/>
                     </se:StswNavigationButton>
                 </StackPanel>
-            </Expander>
+            </se:StswExpander>
 
         </se:StswNavigation.Buttons>
     </se:StswNavigation>

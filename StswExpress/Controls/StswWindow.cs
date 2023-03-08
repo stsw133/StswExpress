@@ -13,20 +13,198 @@ namespace StswExpress;
 
 public class StswWindow : Window
 {
-    private double DefaultHeight, DefaultWidth;
-    private FrameworkElement TitleBar;
-
-    /// Constructors
     public StswWindow()
     {
-        SetValue(CustomControlsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
+        SetValue(ButtonsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
     }
     static StswWindow()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
     }
 
+    #region Events
+    private double defaultHeight, defaultWidth;
+    private FrameworkElement partFullscreenPanel, partTitleBar;
+    private WindowState preFullscreenState;
+
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        /// Button: minimize
+        if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize && ResizeMode != ResizeMode.NoResize)
+            btnMinimize.Click += MinimizeClick;
+        /// Button: restore
+        if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+            btnRestore.Click += RestoreClick;
+        /// Button: close
+        if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
+            btnClose.Click += CloseClick;
+
+        /// Fullscreen Button: minimize
+        if (GetTemplateChild("PART_FsButtonMinimize") is Button btnFsMinimize && ResizeMode != ResizeMode.NoResize)
+            btnFsMinimize.Click += MinimizeClick;
+        /// Fullscreen Button: restore
+        if (GetTemplateChild("PART_FsButtonRestore") is Button btnFsRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+            btnFsRestore.Click += FullscreenClick;
+        /// Fullscreen Button: close
+        if (GetTemplateChild("PART_FsButtonClose") is Button btnFsClose)
+            btnFsClose.Click += CloseClick;
+
+        /// Menu: scaling
+        if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
+            mniScaling.Click += (s, e) => Settings.Default.iSize = 12;
+        /// Menu: theme
+        if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
+            foreach (MenuItem mni in mniTheme.Items)
+                mni.Click += (s, e) => ThemeClick(mniTheme.Items.IndexOf(mni) - 1);
+        /// Menu: fullscreen
+        if (GetTemplateChild("PART_MenuFullscreen") is MenuItem mniFullscreen)
+            mniFullscreen.Click += FullscreenClick;
+        /// Menu: center
+        if (GetTemplateChild("PART_MenuCenter") is MenuItem mniCenter)
+            mniCenter.Click += CenterClick;
+        /// Menu: default
+        if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+            mniDefault.Click += DefaultClick;
+        /// Menu: minimize
+        if (GetTemplateChild("PART_MenuMinimize") is MenuItem mniMinimize && ResizeMode != ResizeMode.NoResize)
+            mniMinimize.Click += MinimizeClick;
+        /// Menu: restore
+        if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+            mniRestore.Click += RestoreClick;
+        /// Menu: close
+        if (GetTemplateChild("PART_MenuClose") is MenuItem mniClose)
+            mniClose.Click += CloseClick;
+
+        /// Chrome change
+        partTitleBar = (FrameworkElement)GetTemplateChild("PART_TitleBar");
+        partTitleBar.SizeChanged += (s, e) => UpdateChrome();
+        partTitleBar.IsVisibleChanged += (s, e) => UpdateChrome();
+        StateChanged += (s, e) => UpdateChrome();
+
+        /// Fullscreen panel
+        partFullscreenPanel = (FrameworkElement)GetTemplateChild("PART_FullscreenPanel");
+        MouseMove += OnMouseMove;
+
+        base.OnApplyTemplate();
+        UpdateLayout();
+    }
+
+    /// Chrome change
+    private void UpdateChrome()
+    {
+        var chrome = WindowChrome.GetWindowChrome(this);
+
+        if (Fullscreen)
+        {
+            WindowChrome.SetWindowChrome(this, null);
+        }
+        else if (chrome != null)
+        {
+            chrome.CornerRadius = CornerRadius;
+            chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) >= 0 ? partTitleBar.ActualHeight - 2 : 0;
+            chrome.GlassFrameThickness = new Thickness(0);
+            chrome.ResizeBorderThickness = new Thickness(5);
+            chrome.UseAeroCaptionButtons = false;
+
+            WindowChrome.SetWindowChrome(this, chrome);
+        }
+        else
+        {
+            chrome = new WindowChrome()
+            {
+                CornerRadius = CornerRadius,
+                CaptionHeight = (partTitleBar.ActualHeight - 2) >= 0 ? partTitleBar.ActualHeight - 2 : 0,
+                GlassFrameThickness = new Thickness(0),
+                ResizeBorderThickness = new Thickness(5),
+                UseAeroCaptionButtons = false
+            };
+
+            WindowChrome.SetWindowChrome(this, chrome);
+        }
+    }
+
+    /// OnMouseEnter
+    private void OnMouseMove(object sender, MouseEventArgs e)
+    {
+        if (Fullscreen)
+        {
+            var pos = Mouse.GetPosition(this);
+            if (pos.Y <= 15 || pos.Y < partFullscreenPanel.ActualHeight)
+                partFullscreenPanel.Visibility = Visibility.Visible;
+            else
+                partFullscreenPanel.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    /// ThemeClick
+    private void ThemeClick(int themeID)
+    {
+        if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
+            Application.Current.Resources.MergedDictionaries.Add(new Theme());
+        var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
+
+        if (themeID < 0)
+            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
+        else
+            theme.Color = (ThemeColor)themeID;
+
+        Settings.Default.Theme = themeID;
+    }
+
+    /// FullscreenClick
+    private void FullscreenClick(object sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
+
+    /// CenterClick
+    protected void CenterClick(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+            WindowState = WindowState.Normal;
+
+        int MONITOR_DEFAULTTONEAREST = 0x00000002;
+        var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+        if (monitor != IntPtr.Zero)
+        {
+            var monitorInfo = new MONITORINFO();
+            GetMonitorInfo(monitor, monitorInfo);
+            var rcWorkArea = monitorInfo.rcWork;
+            Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
+            Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+        }
+    }
+
+    /// DefaultClick
+    protected void DefaultClick(object sender, RoutedEventArgs e)
+    {
+        Height = defaultHeight;
+        Width = defaultWidth;
+        //CenterClick(sender, e);
+    }
+
+    /// MinimizeClick
+    protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    /// RestoreClick
+    protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+
+    /// CloseClick
+    protected void CloseClick(object sender, RoutedEventArgs e) => Close();
+    #endregion
+
     #region Properties
+    /// Buttons
+    public static readonly DependencyProperty ButtonsProperty
+        = DependencyProperty.Register(
+            nameof(Buttons),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswWindow)
+        );
+    public ObservableCollection<UIElement> Buttons
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
+    }
+
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
@@ -44,24 +222,10 @@ public class StswWindow : Window
     }
     public static void CornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow window && !window.IsLoaded)
-            window.AllowsTransparency = window.CornerRadius.TopLeft != 0;
+        if (obj is StswWindow stsw && !stsw.IsLoaded)
+            stsw.AllowsTransparency = stsw.CornerRadius.TopLeft != 0;
     }
 
-    /// CustomControls
-    public static readonly DependencyProperty CustomControlsProperty
-        = DependencyProperty.Register(
-            nameof(CustomControls),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswWindow),
-            new PropertyMetadata(default(ObservableCollection<UIElement>))
-        );
-    public ObservableCollection<UIElement> CustomControls
-    {
-        get => (ObservableCollection<UIElement>)GetValue(CustomControlsProperty);
-        set => SetValue(CustomControlsProperty, value);
-    }
-    
     /// Fullscreen
     public static readonly DependencyProperty FullscreenProperty
         = DependencyProperty.Register(
@@ -79,21 +243,32 @@ public class StswWindow : Window
     }
     public static void FullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow window)
+        if (obj is StswWindow stsw)
         {
-            if (window.Fullscreen)
-            {
-                if (window.WindowState == WindowState.Maximized)
-                    window.WindowState = WindowState.Normal;
+            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
+                return;
 
-                window.TitleBar.Visibility = Visibility.Collapsed;
-                window.WindowState = WindowState.Maximized;
+            if (stsw.Fullscreen)
+            {
+                stsw.preFullscreenState = stsw.WindowState;
+
+                if (stsw.WindowState == WindowState.Maximized)
+                    stsw.WindowState = WindowState.Minimized;
+
+                stsw.partTitleBar.Visibility = Visibility.Collapsed;
+                stsw.WindowState = WindowState.Maximized;
             }
             else
             {
-                window.TitleBar.Visibility = Visibility.Visible;
-                window.WindowState = WindowState.Normal;
+                stsw.partTitleBar.Visibility = Visibility.Visible;
+                stsw.partFullscreenPanel.Visibility = Visibility.Collapsed;
+
+                if (stsw.preFullscreenState == WindowState.Maximized)
+                    stsw.WindowState = WindowState.Minimized;
+
+                stsw.WindowState = stsw.preFullscreenState;
             }
+            stsw.Focus();
         }
     }
 
@@ -102,8 +277,7 @@ public class StswWindow : Window
         = DependencyProperty.Register(
             nameof(SubTitle),
             typeof(string),
-            typeof(StswWindow),
-            new PropertyMetadata(default(string))
+            typeof(StswWindow)
         );
     public string SubTitle
     {
@@ -120,33 +294,23 @@ public class StswWindow : Window
         SourceInitialized += OnSourceInitialized;
         Loaded += OnLoaded;
         Closed += OnClosed;
-        //MouseEnter += OnMouseEnter;
         base.OnInitialized(e);
 
-        DefaultHeight = Height;
-        DefaultWidth = Width;
+        defaultHeight = Height;
+        defaultWidth = Width;
     }
+
     void OnSourceInitialized(object sender, EventArgs e)
     {
         _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
         IntPtr handle = (new WindowInteropHelper(this)).Handle;
         HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
     }
-    private void OnMouseEnter(object sender, MouseEventArgs e)
-    {
-        if (Fullscreen)
-        {
-            var pos = Mouse.GetPosition(this);
-            if (pos.Y <= 15 || pos.Y < (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).ActualHeight)
-                (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).Visibility = Visibility.Visible;
-            else
-                (GetTemplateChild("buttonsFullscreenPanel") as FrameworkElement).Visibility = Visibility.Collapsed;
-        }
-    }
     #endregion
 
     #region Hide default context menu and show custom
     private HwndSourceHook _hook;
+
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
@@ -161,14 +325,11 @@ public class StswWindow : Window
             hwndSource.RemoveHook(_hook);
     }
 
-    private const uint WM_SYSTEMMENU = 0xa4;
-    private const uint WP_SYSTEMMENU = 0x02;
-
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        if ((msg == WM_SYSTEMMENU && wParam.ToInt32() == WP_SYSTEMMENU) || msg == 165)
+        if ((msg == 0xa4 && wParam.ToInt32() == 0x02) || msg == 165)
         {
-            TitleBar.ContextMenu.IsOpen = true;
+            partTitleBar.ContextMenu.IsOpen = true;
             handled = true;
         }
         return IntPtr.Zero;
@@ -274,167 +435,6 @@ public class StswWindow : Window
         public static bool operator ==(RECT rect1, RECT rect2) => rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
         public static bool operator !=(RECT rect1, RECT rect2) => !(rect1 == rect2);
     }
-    #endregion
-
-    /// OnApplyTemplate
-    public override void OnApplyTemplate()
-    {
-        /// minimizeButton
-        if (GetTemplateChild("minimizeButton") is Button minimizeButton && ResizeMode != ResizeMode.NoResize)
-            minimizeButton.Click += MinimizeClick;
-        /// restoreButton
-        if (GetTemplateChild("restoreButton") is Button restoreButton && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
-            restoreButton.Click += RestoreClick;
-        /// closeButton
-        if (GetTemplateChild("closeButton") is Button closeButton)
-            closeButton.Click += CloseClick;
-
-        TitleBar = (FrameworkElement)GetTemplateChild("titleBar");
-
-        /// interfaceMenuItem
-        if (TitleBar.ContextMenu.Items[0] is MenuItem interfaceMenuItem)
-        {
-            /// isizeMenuItem
-            if (interfaceMenuItem.Items[0] is MenuItem isizeMenuItem)
-                isizeMenuItem.Click += iSizeClick;
-            /// themeMenuItem
-            if (interfaceMenuItem.Items[1] is MenuItem themeMenuItem)
-            {
-                /// themeAutoMenuItem
-                if (themeMenuItem.Items[0] is MenuItem themeAutoMenuItem)
-                    themeAutoMenuItem.Click += (s, e) => ChangeTheme(-1);
-                /// theme0MenuItem
-                if (themeMenuItem.Items[1] is MenuItem theme0MenuItem)
-                    theme0MenuItem.Click += (s, e) => ChangeTheme(0);
-                /// theme1MenuItem
-                if (themeMenuItem.Items[2] is MenuItem theme1MenuItem)
-                    theme1MenuItem.Click += (s, e) => ChangeTheme(1);
-            }
-            /// showSubTitle
-            if (interfaceMenuItem.Items[2] is MenuItem showSubTitle)
-                showSubTitle.Click += ShowSubTitle;
-            /// fullscreen
-            if (interfaceMenuItem.Items[3] is MenuItem fullscreen)
-                fullscreen.Click += (s, e) => Fullscreen = !Fullscreen;
-        }
-        /// centerMenuItem
-        if (TitleBar.ContextMenu.Items[2] is MenuItem centerMenuItem)
-            centerMenuItem.Click += CenterClick;
-        /// defaultMenuItem
-        if (TitleBar.ContextMenu.Items[3] is MenuItem defaultMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
-            defaultMenuItem.Click += DefaultClick;
-        /// minimizeMenuItem
-        if (TitleBar.ContextMenu.Items[4] is MenuItem minimizeMenuItem && ResizeMode != ResizeMode.NoResize)
-            minimizeMenuItem.Click += MinimizeClick;
-        /// restoreMenuItem
-        if (TitleBar.ContextMenu.Items[5] is MenuItem restoreMenuItem && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
-            restoreMenuItem.Click += RestoreClick;
-        /// closeMenuItem
-        if (TitleBar.ContextMenu.Items[7] is MenuItem closeMenuItem)
-            closeMenuItem.Click += CloseClick;
-
-        /// Chrome change
-        TitleBar.SizeChanged += (s, e) => UpdateChrome();
-        TitleBar.IsVisibleChanged += (s, e) => UpdateChrome();
-        StateChanged += (s, e) => UpdateChrome();
-
-        base.OnApplyTemplate();
-        UpdateLayout();
-    }
-
-    /// Chrome change
-    private void UpdateChrome()
-    {
-        var chrome = WindowChrome.GetWindowChrome(this);
-
-        if (Fullscreen)
-        {
-            WindowChrome.SetWindowChrome(this, null);
-        }
-        else if (chrome != null)
-        {
-            chrome.CornerRadius = CornerRadius;
-            chrome.CaptionHeight = (TitleBar.ActualHeight - 2) >= 0 ? TitleBar.ActualHeight - 2 : 0;
-            chrome.GlassFrameThickness = new Thickness(0);
-            chrome.ResizeBorderThickness = new Thickness(5);
-            chrome.UseAeroCaptionButtons = false;
-
-            WindowChrome.SetWindowChrome(this, chrome);
-        }
-        else
-        {
-            chrome = new WindowChrome()
-            {
-                CornerRadius = CornerRadius,
-                CaptionHeight = (TitleBar.ActualHeight - 2) >= 0 ? TitleBar.ActualHeight - 2 : 0,
-                GlassFrameThickness = new Thickness(0),
-                ResizeBorderThickness = new Thickness(5),
-                UseAeroCaptionButtons = false
-            };
-
-            WindowChrome.SetWindowChrome(this, chrome);
-        }
-    }
-
-    #region ContextMenu
-    /// iSizeClick
-    protected void iSizeClick(object sender, RoutedEventArgs e) => Settings.Default.iSize = 12;
-
-    /// ChangeTheme
-    private void ChangeTheme(int themeID)
-    {
-        if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
-            Application.Current.Resources.MergedDictionaries.Add(new Theme());
-        var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
-
-        if (themeID < 0)
-            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
-        else
-            theme.Color = (ThemeColor)themeID;
-        Settings.Default.Theme = themeID;
-    }
-
-    /// ShowSubTitle
-    private void ShowSubTitle(object sender, RoutedEventArgs e)
-    {
-        if (!string.IsNullOrEmpty(SubTitle))
-            ((StswHeader)GetTemplateChild("moveRectangle")).SubTexts[0].Visibility = Settings.Default.ShowSubTitle ? Visibility.Visible : Visibility.Collapsed;
-    }
-
-    /// CenterClick
-    protected void CenterClick(object sender, RoutedEventArgs e)
-    {
-        if (WindowState == WindowState.Maximized)
-            WindowState = WindowState.Normal;
-
-        int MONITOR_DEFAULTTONEAREST = 0x00000002;
-        var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-        if (monitor != IntPtr.Zero)
-        {
-            var monitorInfo = new MONITORINFO();
-            GetMonitorInfo(monitor, monitorInfo);
-            var rcWorkArea = monitorInfo.rcWork;
-            Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
-            Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
-        }
-    }
-
-    /// DefaultClick
-    protected void DefaultClick(object sender, RoutedEventArgs e)
-    {
-        Height = DefaultHeight;
-        Width = DefaultWidth;
-        //CenterClick(sender, e);
-    }
-
-    /// MinimizeClick
-    protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-
-    /// RestoreClick
-    protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
-
-    /// CloseClick
-    protected void CloseClick(object sender, RoutedEventArgs e) => Close();
     #endregion
 
     [DllImport("user32")]

@@ -35,7 +35,10 @@ public static class StswFn
             app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
 
         /// global commands
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => ((StswWindow)s).Fullscreen = !((StswWindow)s).Fullscreen));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => {
+            if (s is StswWindow stsw)
+                stsw.Fullscreen = !stsw.Fullscreen;
+        }));
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswGroupBoxView"
+﻿<UserControl x:Class="TestApp.StswExpanderView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,10 +7,10 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswGroupBoxContext/>
+        <local:StswExpanderContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid VerticalAlignment="Stretch">
+        <Grid VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -19,23 +19,27 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="Disabled:"/>
             <UniformGrid Grid.Row="1" Rows="1">
-                <se:StswGroupBox Margin="5" IsEnabled="False"/>
-                <se:StswGroupBox Margin="5" IsEnabled="False">
-                    <se:StswGroupBox.Header>
+                <se:StswExpander Margin="5" IsEnabled="False"/>
+                <se:StswExpander Margin="5" IsEnabled="False">
+                    <se:StswExpander.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
-                    </se:StswGroupBox.Header>
-                    <Border Background="#2777" BorderBrush="#5777" BorderThickness="2"/>
-                </se:StswGroupBox>
+                    </se:StswExpander.Header>
+                    <DockPanel>
+                        <Border Background="#2777" BorderBrush="#5777" BorderThickness="2" Height="100"/>
+                    </DockPanel>
+                </se:StswExpander>
             </UniformGrid>
             <Label Grid.Row="2" Content="Enabled:"/>
             <UniformGrid Grid.Row="3" Rows="1">
-                <se:StswGroupBox Margin="5"/>
-                <se:StswGroupBox Margin="5">
-                    <se:StswGroupBox.Header>
+                <se:StswExpander Margin="5"/>
+                <se:StswExpander Margin="5">
+                    <se:StswExpander.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
-                    </se:StswGroupBox.Header>
-                    <Border Background="#2777" BorderBrush="#5777" BorderThickness="2"/>
-                </se:StswGroupBox>
+                    </se:StswExpander.Header>
+                    <DockPanel>
+                        <Border Background="#2777" BorderBrush="#5777" BorderThickness="2" Height="100"/>
+                    </DockPanel>
+                </se:StswExpander>
             </UniformGrid>
         </Grid>
     </ScrollViewer>

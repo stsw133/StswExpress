@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\StswRadioButton.xaml">
+    <Page Update="Controls\StswRadioBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\StswToggleButton.xaml">
