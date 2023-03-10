@@ -121,6 +121,42 @@ public static class StswExtensions
     #endregion
 
     #region Finding extensions
+    /// Finds first visual ancestor of T type outside specific control.
+    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
+    {
+        if (obj != null)
+        {
+            var dependObj = obj;
+            do
+            {
+                dependObj = GetParent(dependObj);
+                if (dependObj is T)
+                    return dependObj as T;
+            }
+            while (dependObj != null);
+        }
+
+        return null;
+    }
+
+    /// Finds visual parent of specific control.
+    public static DependencyObject? GetParent(DependencyObject obj)
+    {
+        if (obj == null)
+            return null;
+        if (obj is ContentElement)
+        {
+            var parent = ContentOperations.GetParent(obj as ContentElement);
+            if (parent != null)
+                return parent;
+            if (obj is FrameworkContentElement)
+                return (obj as FrameworkContentElement)?.Parent;
+            return null;
+        }
+
+        return VisualTreeHelper.GetParent(obj);
+    }
+
     /// Finds first visual child of T type inside specific control.
     public static T? FindVisualChild<T>(DependencyObject parent) where T : Visual
     {

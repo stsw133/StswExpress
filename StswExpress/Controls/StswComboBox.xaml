@@ -167,7 +167,11 @@
     <ComboBox.Resources>
         <Style TargetType="{x:Type ComboBoxItem}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectionMode, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="Multiple">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding SelectionMode, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="Multiple"/>
+                        <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -182,7 +186,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="StswComboBoxItemStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">

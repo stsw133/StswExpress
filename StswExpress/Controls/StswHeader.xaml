@@ -116,37 +116,19 @@
 
                     <!-- text -->
                     <StackPanel x:Name="PART_Text"
-                                Margin="{Binding TextMargin, RelativeSource={RelativeSource TemplatedParent}}"
+                                Margin="{Binding ContentMargin, RelativeSource={RelativeSource TemplatedParent}}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <!-- main text -->
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{Binding ContentVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                         <ContentPresenter/>
-                        <!-- sub texts -->
-                        <ItemsControl Focusable="False" ItemsSource="{Binding SubTexts, RelativeSource={RelativeSource TemplatedParent}}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        <StackPanel.Resources>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default},Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
-                                                <Setter Property="Opacity" Value="0.8"/>
-                                            </Style>
-                                        </StackPanel.Resources>
-                                    </StackPanel>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
                     </StackPanel>
 
                 </StackPanel>
             </Border>
             <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource Self}}" Value="False">
+                <Trigger Property="HasContent" Value="False">
                     <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding HideText, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
-                </DataTrigger>
+                </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Text" />
                 </Trigger>

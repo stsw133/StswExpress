@@ -22,7 +22,7 @@ public partial class StswComboBox : ComboBox
         InitializeComponent();
         Loaded += (s, e) =>
         {
-            if (SelectionMode == SelectionMode.Multiple)
+            if (SelectionMode == SelectionMode.Multiple && !IsEditable)
             {
                 SelectedItems ??= new List<object>();
                 SetText();
@@ -134,7 +134,7 @@ public partial class StswComboBox : ComboBox
     internal void SetText()
     {
         if (SelectedItems?.Count > 1)
-            prop?.SetValue(this, $"< {SelectedItems?.Count} >", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+            prop?.SetValue(this, $"< {SelectedItems?.Count} wybrano >", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         else if (SelectedItems?.Count == 0)
             prop?.SetValue(this, string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
         else

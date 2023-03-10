@@ -130,7 +130,7 @@ public class StswWindow : Window
         if (Fullscreen)
         {
             var pos = Mouse.GetPosition(this);
-            if (pos.Y <= 15 || pos.Y < partFullscreenPanel.ActualHeight)
+            if (pos.Y <= 10 || pos.Y < partFullscreenPanel.ActualHeight)
                 partFullscreenPanel.Visibility = Visibility.Visible;
             else
                 partFullscreenPanel.Visibility = Visibility.Collapsed;
@@ -213,14 +213,14 @@ public class StswWindow : Window
             typeof(StswWindow),
             new FrameworkPropertyMetadata(default(CornerRadius),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                CornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnCornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public CornerRadius CornerRadius
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-    public static void CornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswWindow stsw && !stsw.IsLoaded)
             stsw.AllowsTransparency = stsw.CornerRadius.TopLeft != 0;
@@ -234,14 +234,14 @@ public class StswWindow : Window
             typeof(StswWindow),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                FullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnFullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public bool Fullscreen
     {
         get => (bool)GetValue(FullscreenProperty);
         set => SetValue(FullscreenProperty, value);
     }
-    public static void FullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswWindow stsw)
         {

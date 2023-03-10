@@ -4,45 +4,72 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:se="clr-namespace:StswExpress"
-             mc:Ignorable="d">
+             mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="100">
 
     <UserControl.Template>
         <ControlTemplate TargetType="{x:Type UserControl}">
             <DockPanel>
-                <se:ClippingBorder Background="{TemplateBinding Background}"
+                
+                <!-- navigation part -->
+                <se:ClippingBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   BorderThickness="0"
                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                    SnapsToDevicePixels="True">
-                    <Border.Style>
-                        <Style TargetType="{x:Type Border}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}" Value="Horizontal">
-                                    <Setter Property="DockPanel.Dock" Value="Top"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource TemplatedParent}}">
-                            <UniformGrid Rows="1">
+                    <DockPanel Loaded="PART_Buttons_Loaded">
 
-                                <se:StswToggleButton x:Name="PART_Menu" BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
-                                </se:StswToggleButton>
-                                <!--
-                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}">
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Magnify}"/>
-                                </se:StswButton>
+                        <!-- special buttons -->
+                        <DockPanel x:Name="PART_ButtonsSpecial"
+                                   DockPanel.Dock="Top"
+                                   HorizontalAlignment="Left">
+                            <se:StswToggleButton BorderThickness="0"
+                                                 SubBorderThickness="0"
+                                                 CornerRadius="0"
+                                                 IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
+                                <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
+                            </se:StswToggleButton>
+                            <Border x:Name="PART_SeparatorSpecial"
+                                    DockPanel.Dock="Top"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Visibility="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Bool.Conv}}"/>
+                        </DockPanel>
+                        <Border x:Name="PART_SeparatorFirst"
+                                DockPanel.Dock="Top"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                <se:StswButton BorderThickness="0" CornerRadius="0" Visibility="{Binding IsChecked, ElementName=PART_Menu, Converter={x:Static se:conv_Bool.Conv}}"
-                                               Click="PART_Options_Checked">
-                                    <se:StswHeader IconData="{x:Static se:StswIcons.Cog}"/>
-                                </se:StswButton>
-                                -->
-                            </UniformGrid>
-                            <se:StswSeparator BorderBrush="{TemplateBinding BorderBrush}" Margin="0"/>
+                        <!-- navigation special buttons -->
+                        <DockPanel x:Name="PART_ButtonsLast"
+                                   DockPanel.Dock="Bottom">
+                            <Border x:Name="PART_SeparatorLast"
+                                    DockPanel.Dock="Top"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!0}"/>
+                            <ItemsControl ItemsSource="{Binding ButtonsLast, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.Resources>
+                                    <Style TargetType="{x:Type se:StswNavigationElement}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
+                                                <Setter Property="IsCompact" Value="True"/>
+                                                <Setter Property="TextVisibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <EventSetter Event="Click" Handler="StswNavigationElement_Click"/>
+                                    </Style>
+                                </ItemsControl.Resources>
+                            </ItemsControl>
+                        </DockPanel>
 
+                        <!-- navigation buttons -->
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <ItemsControl ItemsSource="{Binding Buttons, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -50,34 +77,49 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.Resources>
-                                    <Style TargetType="{x:Type se:StswNavigationButton}">
-                                        <EventSetter Event="Click" Handler="StswNavigationButton_Click"/>
-                                    </Style>
-                                    <Style TargetType="{x:Type se:StswHeader}">
+                                    <Style TargetType="{x:Type se:StswNavigationElement}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Menu}" Value="False">
-                                                <Setter Property="HideText" Value="True"/>
+                                            <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
+                                                <Setter Property="IsCompact" Value="True"/>
+                                                <Setter Property="TextVisibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Horizontal">
+                                                <Setter Property="IsCompact" Value="True"/>
                                             </DataTrigger>
                                         </Style.Triggers>
-                                    </Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Menu}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
+                                        <EventSetter Event="Click" Handler="StswNavigationElement_Click"/>
                                     </Style>
                                 </ItemsControl.Resources>
                             </ItemsControl>
-                        </StackPanel>
-                    </ScrollViewer>
+                        </ScrollViewer>
+
+                    </DockPanel>
                 </se:ClippingBorder>
-                <Border BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        Visibility="{Binding FrameVisibility, RelativeSource={RelativeSource TemplatedParent}}">
-                    <ContentControl Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
-                </Border>
+
+                <!-- frame separator -->
+                <Border x:Name="PART_FrameSeparator"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                        SnapsToDevicePixels="True"/>
+
+                <!-- frame part -->
+                <ContentControl Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                Margin="{TemplateBinding Padding}"/>
+
             </DockPanel>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Horizontal">
+                    <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_MainBorder" />
+                    <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_ButtonsSpecial" />
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SeparatorSpecial" />
+                    <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorFirst" />
+                    <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ButtonsLast" />
+                    <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorLast" />
+                    <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FrameSeparator" />
+                </DataTrigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Template>
 </UserControl>

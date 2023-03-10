@@ -2,10 +2,10 @@
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
 // TODO - MessageBox and NotifyIcon builded in window
-// TODO - new Stsw data grid column controls
-// TODO - new custom Calendar, ColorPicker, Expander, GroupBox, ScrollViewer, ToggleSwitch
+// TODO - new custom Calendar, ColorPicker, ScrollViewer, ToggleSwitch
 // TODO - new custom Grid with dynamic number of rows or columns with auto height and width
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
+// TODO - StswDataGrid should have its own auto generated columns
 
 /// Changes difficult to implement so have lower priority for now:
 // TODO - null filter in StswColumnFilter should completely hide filter field
@@ -15,4 +15,4 @@
 /// Changes to do for now:
 // TODO - StswColumnFilter needs to refresh data on Enter click
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
-// TODO - StswNavigationButton should work with Expanders (something like sub buttons)
+// TODO - StswNavigationElement should work with Expanders (something like sub buttons)

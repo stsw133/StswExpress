@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -13,8 +12,6 @@ public partial class StswHeader : UserControl
     public StswHeader()
     {
         InitializeComponent();
-
-        SetValue(SubTextsProperty, new ObservableCollection<TextBlock>());
     }
     static StswHeader()
     {
@@ -22,17 +19,29 @@ public partial class StswHeader : UserControl
     }
 
     #region Properties
-    /// HideText
-    public static readonly DependencyProperty HideTextProperty
+    /// ContentMargin
+    public static readonly DependencyProperty ContentMarginProperty
         = DependencyProperty.Register(
-            nameof(HideText),
-            typeof(bool),
+            nameof(ContentMargin),
+            typeof(Thickness),
             typeof(StswHeader)
         );
-    public bool HideText
+    public Thickness ContentMargin
     {
-        get => (bool)GetValue(HideTextProperty);
-        set => SetValue(HideTextProperty, value);
+        get => (Thickness)GetValue(ContentMarginProperty);
+        set => SetValue(ContentMarginProperty, value);
+    }
+    /// ContentVisibility
+    public static readonly DependencyProperty ContentVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ContentVisibility),
+            typeof(Visibility),
+            typeof(StswHeader)
+        );
+    public Visibility ContentVisibility
+    {
+        get => (Visibility)GetValue(ContentVisibilityProperty);
+        set => SetValue(ContentVisibilityProperty, value);
     }
 
     /// IconData
@@ -108,32 +117,6 @@ public partial class StswHeader : UserControl
     {
         get => (Orientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
-    }
-
-    /// SubTexts
-    public static readonly DependencyProperty SubTextsProperty
-        = DependencyProperty.Register(
-            nameof(SubTexts),
-            typeof(ObservableCollection<TextBlock>),
-            typeof(StswHeader)
-        );
-    public ObservableCollection<TextBlock> SubTexts
-    {
-        get => (ObservableCollection<TextBlock>)GetValue(SubTextsProperty);
-        set => SetValue(SubTextsProperty, value);
-    }
-
-    /// TextMargin
-    public static readonly DependencyProperty TextMarginProperty
-        = DependencyProperty.Register(
-            nameof(TextMargin),
-            typeof(Thickness),
-            typeof(StswHeader)
-        );
-    public Thickness TextMargin
-    {
-        get => (Thickness)GetValue(TextMarginProperty);
-        set => SetValue(TextMarginProperty, value);
     }
     #endregion
 

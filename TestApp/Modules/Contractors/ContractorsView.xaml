@@ -25,10 +25,11 @@
                     <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.ContentSave}" Content="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Background="{x:Static se:StswColors.Positive}" Command="{Binding ExportToExcelCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" Content="Export to Excel" IsBusy="{Binding IsBusy[ExportToExcel]}">
-                        <se:StswHeader.SubTexts>
-                            <TextBlock Text="Only visible data" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
-                        </se:StswHeader.SubTexts>
+                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IsBusy="{Binding IsBusy[ExportToExcel]}">
+                        <StackPanel>
+                            <TextBlock Text="Export to Excel"/>
+                            <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
+                        </StackPanel>
                     </se:StswHeader>
                 </se:StswButton>
             </UniformGrid>
