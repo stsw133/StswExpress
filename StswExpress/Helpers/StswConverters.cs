@@ -353,7 +353,7 @@ public class conv_Add : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
+        var val = System.Convert.ToDouble(value, culture);
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result
@@ -431,7 +431,7 @@ public class conv_Multiply : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
+        var val = System.Convert.ToDouble(value, culture);
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result

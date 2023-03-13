@@ -54,24 +54,50 @@
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
-                        <se:StswToggleButton.Resources>
-                            <Style TargetType="{x:Type se:StswToggleButton}">
+                    <Grid>
+                        <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}">
+                            <se:StswToggleButton.Resources>
+                                <Style TargetType="{x:Type se:StswToggleButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="Collapsed">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ShowDetails, FallbackValue={x:Null}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Added">
+                                            <Setter Property="Background" Value="#737B"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Modified">
+                                            <Setter Property="Background" Value="#7BB3"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Deleted">
+                                            <Setter Property="Background" Value="#7B33"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </se:StswToggleButton.Resources>
+                            <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
+                        </se:StswToggleButton>
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Grid}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="Collapsed">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Added">
+                                        <Setter Property="Background" Value="#737B"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Modified">
+                                        <Setter Property="Background" Value="#7B93"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding ShowDetails, FallbackValue={x:Null}}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    <DataTrigger Binding="{Binding ItemState, FallbackValue={x:Null}}" Value="Deleted">
+                                        <Setter Property="Background" Value="#7B33"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </se:StswToggleButton.Resources>
-                        <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
-                    </se:StswToggleButton>
+                        </Grid.Resources>
+                    </Grid>
                 </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>

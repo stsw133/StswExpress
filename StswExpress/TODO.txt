@@ -15,4 +15,3 @@
 /// Changes to do for now:
 // TODO - StswColumnFilter needs to refresh data on Enter click
 // TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
-// TODO - StswNavigationElement should work with Expanders (something like sub buttons)

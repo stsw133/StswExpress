@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
 using System.Windows.Media;
 
 namespace TestApp;
 
-public class ContractorModel : StswObservableObject
+public class ContractorModel : StswCollectionItem
 {
     /// ID
     private int id;
@@ -89,7 +88,7 @@ public class ContractorModel : StswObservableObject
 
     /// ShowDetails
     private bool showDetails;
-    public bool ShowDetails
+    public new bool ShowDetails
     {
         get => showDetails;
         set

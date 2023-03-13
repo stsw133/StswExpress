@@ -102,7 +102,7 @@ public static class StswExtensions
     }
 
     /// Converts one type of list structure to another one.
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : INotifyPropertyChanged => new StswCollection<T>(value);
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : StswCollectionItem => new StswCollection<T>(value);
     public static StswDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 

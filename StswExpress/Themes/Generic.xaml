@@ -613,7 +613,12 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- icon & title -->
-                                <se:StswHeader x:Name="PART_MoveRectangle" Grid.ColumnSpan="2" IconSource="{TemplateBinding Icon}" IconScale="{x:Null}">
+                                <se:StswHeader x:Name="PART_MoveRectangle"
+                                               Grid.ColumnSpan="2"
+                                               BorderBrush="{DynamicResource TextBox.Static.Border}"
+                                               BorderThickness="0 0 0 0.5"
+                                               IconSource="{TemplateBinding Icon}"
+                                               IconScale="{x:Null}">
                                     <StackPanel>
                                         <TextBlock Text="{TemplateBinding Title}"/>
                                         <TextBlock Text="{TemplateBinding SubTitle}"
