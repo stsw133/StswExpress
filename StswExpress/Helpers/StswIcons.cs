@@ -1,15 +1,16 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 
 namespace StswExpress;
 
 public static class StswColors
 {
-    public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromArgb(220, 50, 140, 50));
-    public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromArgb(220, 160, 40, 20));
-    public readonly static SolidColorBrush Neutral = new SolidColorBrush(Color.FromArgb(220, 0, 80, 160));
-    public readonly static SolidColorBrush Modify = new SolidColorBrush(Color.FromArgb(220, 100, 40, 120));
-    public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromArgb(220, 140, 120, 40));
-    public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromArgb(220, 15, 135, 150));
+    public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromRgb(61, 148, 56));  //(56, 138, 52)
+    public readonly static SolidColorBrush Negative = new SolidColorBrush(Color.FromRgb(189, 44, 15));  //(161, 38, 13)
+    public readonly static SolidColorBrush Neutral = new SolidColorBrush(Color.FromRgb(0, 109, 204));  //(0, 83, 156)
+    public readonly static SolidColorBrush Modify = new SolidColorBrush(Color.FromRgb(131, 51, 153));  //(103, 40, 120)
+    public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromRgb(180, 143, 24));  //(194, 156, 26)
+    public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromRgb(4, 160, 200));  //(4, 160, 200)
 }
 public static class StswIcons
 {

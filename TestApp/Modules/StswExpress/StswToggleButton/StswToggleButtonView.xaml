@@ -11,34 +11,16 @@
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
                 <se:StswToggleButton Margin="5" IsEnabled="False">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
                 </se:StswToggleButton>
             </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
                 <se:StswToggleButton Margin="5">
                     <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Positive}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaPBox}" Content="Positive"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Negative}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Negative"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Neutral}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaNBox}" Content="Neutral"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Modify}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaMBox}" Content="Modify"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Structure}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSBox}" Content="Structure"/>
-                </se:StswToggleButton>
-                <se:StswToggleButton Margin="5" Background="{x:Static se:StswColors.Designer}" Foreground="White">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaDBox}" Content="Designer"/>
                 </se:StswToggleButton>
             </UniformGrid>
         </DockPanel>

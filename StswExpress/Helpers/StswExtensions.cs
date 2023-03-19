@@ -31,6 +31,13 @@ public static class StswExtensions
         }
     }
 
+    /// Converts System.Windows.Media.Brush to System.Drawing.Color
+    public static System.Drawing.Color AsColor(this Brush brush)
+    {
+        var solid = (SolidColorBrush)brush;
+        return System.Drawing.Color.FromArgb(solid.Color.A, solid.Color.R, solid.Color.G, solid.Color.B);
+    }
+
     /// Converts byte[] to BitmapImage
     public static BitmapImage? AsImage(this byte[] imageData)
     {

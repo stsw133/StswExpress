@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Material/DarkColors.xaml"/>
-        <ResourceDictionary Source="Material/Brushes.xaml"/>
+        <ResourceDictionary Source="Material/_brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

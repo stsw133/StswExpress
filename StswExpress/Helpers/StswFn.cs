@@ -1,9 +1,11 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -48,6 +50,9 @@ public static class StswFn
         /// on exit
         app.Exit += (sender, e) => Settings.Default.Save();
     }
+
+    /// Calculate string into double
+    public static double CalculateString(string expression) => Convert.ToDouble(new System.Data.DataTable().Compute(expression, string.Empty));
 
     /// Gets system theme
     public static int GetWindowsTheme()

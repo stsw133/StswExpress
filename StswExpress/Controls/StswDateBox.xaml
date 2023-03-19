@@ -19,7 +19,7 @@
                     <se:StswToggleButton x:Name="PART_Button"
                                          DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource TemplatedParent}}"
                                          BorderThickness="0" CornerRadius="0" Padding="0"
-                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=2}">
+                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
                         <se:StswIcon Data="{x:Static se:StswIcons.Calendar}" Scale="1.5"/>
                     </se:StswToggleButton>
                     <!-- subborder -->
@@ -54,12 +54,12 @@
                            PlacementTarget="{Binding ElementName=PART_ContentHost}"
                            StaysOpen="False">
                         <UniformGrid Rows="1">
-                            <se:StswToggleButton Content="YY" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Year}"/>
-                            <se:StswToggleButton Content="MM" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Month}"/>
-                            <se:StswToggleButton Content="DD" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Day}"/>
-                            <se:StswToggleButton Content="hh" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Hour}"/>
-                            <se:StswToggleButton Content="mm" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Minute}"/>
-                            <se:StswToggleButton Content="ss" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=Second}"/>
+                            <se:StswToggleButton Content="YY" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Year}"/>
+                            <se:StswToggleButton Content="MM" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Month}"/>
+                            <se:StswToggleButton Content="DD" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Day}"/>
+                            <se:StswToggleButton Content="hh" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Hour}"/>
+                            <se:StswToggleButton Content="mm" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Minute}"/>
+                            <se:StswToggleButton Content="ss" IsChecked="{Binding IncrementType, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Second}"/>
                             <UniformGrid.Resources>
                                 <Style TargetType="{x:Type se:StswToggleButton}">
                                     <EventSetter Event="Click" Handler="PART_IncrementType_Click"/>
@@ -75,7 +75,7 @@
                                    Text="{Binding Placeholder, RelativeSource={RelativeSource TemplatedParent}}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}"/>
+                                   Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter={x:Null}, UpdateSourceTrigger=PropertyChanged}"/>
                         <ScrollViewer x:Name="PART_ContentHost" 
                                       Focusable="False" 
                                       HorizontalScrollBarVisibility="Hidden" 

@@ -1,0 +1,113 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswNumericBox}">
+
+        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
+        <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
+        <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
+        <Setter Property="BackgroundReadOnly" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
+
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswBox.MouseOver.Border}"/>
+        <Setter Property="BorderBrushFocused" Value="{DynamicResource StswBox.Focused.Border}"/>
+
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
+        <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundPlaceholder" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+
+        <Setter Property="Increment" Value="1"/>
+
+        <Setter Property="ButtonsAlignment" Value="Right"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswNumericBox}">
+                    <se:ClippingBorder x:Name="PART_MainBorder"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <!-- buttons -->
+                            <UniformGrid x:Name="PART_Button"
+                                         DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
+                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
+                                <se:StswRepeatButton x:Name="PART_ButtonUp"
+                                                     Content="▲" BorderThickness="0" CornerRadius="0" Padding="0"
+                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
+                                <se:StswRepeatButton x:Name="PART_ButtonDown"
+                                                     Content="▼" BorderThickness="0" CornerRadius="0" Padding="0"
+                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
+                            </UniformGrid>
+                            <!-- subborder -->
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
+                                    SnapsToDevicePixels="True"/>
+                            <!-- custom buttons -->
+                            <ItemsControl x:Name="PART_Buttons" DockPanel.Dock="{TemplateBinding ButtonsAlignment}" ItemsSource="{TemplateBinding Buttons}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <!-- content -->
+                            <Grid>
+                                <TextBlock Foreground="{TemplateBinding ForegroundPlaceholder}"
+                                           IsHitTestVisible="False"
+                                           Margin="{TemplateBinding Padding}"
+                                           Text="{TemplateBinding Placeholder}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           Visibility="{TemplateBinding Text, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter={x:Null}}"/>
+                                <ScrollViewer x:Name="PART_ContentHost" 
+                                              Focusable="False" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"/>
+                            </Grid>
+                        </DockPanel>
+                    </se:ClippingBorder>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundFocused, RelativeSource={RelativeSource Self}}" />
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Button" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

@@ -35,14 +35,6 @@
                 <se:StswRadioBox Margin="5" Content="Option 4" IsChecked="True"/>
                 <se:StswRadioBox Margin="5" Content="Option 5" IsChecked="False"/>
             </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled (colored):"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" Content="Option 1" IsChecked="{x:Null}" IconIndeterminate="{x:Static se:StswIcons.Minus}" BackgroundChecked="{x:Static se:StswColors.Neutral}" BackgroundIndeterminate="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" BorderBrushIndeterminate="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" Content="Option 2" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" Content="Option 3" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" Content="Option 4" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" Content="Option 5" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-            </UniformGrid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

@@ -15,20 +15,20 @@
         <!-- button panel -->
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
-                <se:StswButton Margin="3" Background="{x:Static se:StswColors.Neutral}" Command="{Binding ClearCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Broom}" Content="Clear table" IsBusy="{Binding IsBusy[Clear]}"/>
+                <se:StswButton Margin="3" Command="{Binding ClearCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Neutral}" IconData="{x:Static se:StswIcons.Broom}" IconScale="2" Content="Clear table" IsBusy="{Binding IsBusy[Clear]}"/>
                 </se:StswButton>
-                <se:StswButton Margin="3" Background="{x:Static se:StswColors.Neutral}" Command="{Binding RefreshCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Refresh}" Content="Refresh data" IsBusy="{Binding IsBusy[Refresh]}"/>
+                <se:StswButton Margin="3" Command="{Binding RefreshCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Neutral}" IconData="{x:Static se:StswIcons.Refresh}" IconScale="2" Content="Refresh data" IsBusy="{Binding IsBusy[Refresh]}"/>
                 </se:StswButton>
-                <se:StswButton Margin="3" Background="{x:Static se:StswColors.Modify}" Command="{Binding SaveCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.ContentSave}" Content="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
+                <se:StswButton Margin="3" Command="{Binding SaveCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Modify}" IconData="{x:Static se:StswIcons.ContentSave}" IconScale="2" Content="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
                 </se:StswButton>
-                <se:StswButton Margin="3" Background="{x:Static se:StswColors.Positive}" Command="{Binding ExportToExcelCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IsBusy="{Binding IsBusy[ExportToExcel]}">
+                <se:StswButton Margin="3" Command="{Binding ExportToExcelCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconScale="2" IsBusy="{Binding IsBusy[ExportToExcel]}">
                         <StackPanel>
                             <TextBlock Text="Export to Excel"/>
-                            <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=0.8}"/>
+                            <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.8}"/>
                         </StackPanel>
                     </se:StswHeader>
                 </se:StswButton>
@@ -38,17 +38,17 @@
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
         <DockPanel DockPanel.Dock="Bottom">
             <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
-                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding AddCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Add]}"/>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding AddCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Add]}"/>
                 </se:StswButton>
-                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding CloneCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Clone]}"/>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding CloneCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Clone]}"/>
                 </se:StswButton>
-                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Positive}" Command="{Binding EditCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Edit]}"/>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding EditCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Edit]}"/>
                 </se:StswButton>
-                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Background="{x:Static se:StswColors.Negative}" Command="{Binding DeleteCommand}">
-                    <se:StswHeader Foreground="White" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Delete]}"/>
+                <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding DeleteCommand}">
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Delete]}"/>
                 </se:StswButton>
             </UniformGrid>
             <TextBlock Margin="3">
@@ -98,8 +98,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <se:StswImage MenuMode="Full" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Conv}, ConverterParameter=-4}"
-                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Conv}, ConverterParameter=-4}"/>
+                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=-4}"
+                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=-4}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -10,7 +10,7 @@
         <local:StswGroupBoxContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid VerticalAlignment="Stretch">
+        <Grid VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -19,22 +19,20 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="Disabled:"/>
             <UniformGrid Grid.Row="1" Rows="1">
-                <se:StswGroupBox Margin="5" IsEnabled="False"/>
                 <se:StswGroupBox Margin="5" IsEnabled="False">
                     <se:StswGroupBox.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
                     </se:StswGroupBox.Header>
-                    <Border Background="#2777" BorderBrush="#5777" BorderThickness="2"/>
+                    <Label Content="TEST"/>
                 </se:StswGroupBox>
             </UniformGrid>
             <Label Grid.Row="2" Content="Enabled:"/>
             <UniformGrid Grid.Row="3" Rows="1">
-                <se:StswGroupBox Margin="5"/>
                 <se:StswGroupBox Margin="5">
                     <se:StswGroupBox.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
                     </se:StswGroupBox.Header>
-                    <Border Background="#2777" BorderBrush="#5777" BorderThickness="2"/>
+                    <Label Content="TEST"/>
                 </se:StswGroupBox>
             </UniformGrid>
         </Grid>

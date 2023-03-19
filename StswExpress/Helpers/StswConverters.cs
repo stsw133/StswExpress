@@ -20,9 +20,9 @@ namespace StswExpress;
 /// </summary>
 public class conv_Bool : MarkupExtension, IValueConverter
 {
-    private static conv_Bool? conv;
-    public static conv_Bool Conv => conv ??= new conv_Bool();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Bool? instance;
+    public static conv_Bool Instance => instance ??= new conv_Bool();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -54,9 +54,9 @@ public class conv_Bool : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Compare : MarkupExtension, IValueConverter
 {
-    private static conv_Compare? conv;
-    public static conv_Compare Conv => conv ??= new conv_Compare();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Compare? instance;
+    public static conv_Compare Instance => instance ??= new conv_Compare();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -88,9 +88,9 @@ public class conv_Compare : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Contains : MarkupExtension, IValueConverter
 {
-    private static conv_Contains? conv;
-    public static conv_Contains Conv => conv ??= new conv_Contains();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Contains? instance;
+    public static conv_Contains Instance => instance ??= new conv_Contains();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -147,9 +147,9 @@ public class conv_Contains : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_NotNull : MarkupExtension, IValueConverter
 {
-    private static conv_NotNull? conv;
-    public static conv_NotNull Conv => conv ??= new conv_NotNull();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_NotNull? instance;
+    public static conv_NotNull Instance => instance ??= new conv_NotNull();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -180,21 +180,22 @@ public class conv_NotNull : MarkupExtension, IValueConverter
 [Obsolete]
 public class conv_Color : MarkupExtension, IValueConverter
 {
-    private static conv_Color? conv;
-    public static conv_Color Conv => conv ??= new conv_Color();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Color? instance;
+    public static conv_Color Instance => instance ??= new conv_Color();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        var val = value?.ToString() ?? string.Empty;
+        //var val = value?.ToString() ?? string.Empty;
 
         /// parameters
         bool invertColor = pmr.Contains('!'),
              contrastColor = pmr.Contains('‼'),
              desaturateColor = pmr.Contains('↓'),
              autoBrightness = pmr.Contains('?'),
+             percentBrightness = pmr.Contains('%'),
              generateColor = pmr.Contains('#');
         int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr[(pmr.IndexOf('@') + 1)..], 16) : -1;
 
@@ -202,6 +203,7 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (contrastColor) pmr = pmr.Remove(pmr.IndexOf('‼'), 1);
         if (desaturateColor) pmr = pmr.Remove(pmr.IndexOf('↓'), 1);
         if (autoBrightness) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
+        if (percentBrightness) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
         if (generateColor) pmr = pmr.Remove(pmr.IndexOf('#'), 1);
         if (setAlpha >= 0) pmr = pmr.Remove(pmr.IndexOf('@'));
 
@@ -209,9 +211,18 @@ public class conv_Color : MarkupExtension, IValueConverter
         var pmrVal = System.Convert.ToDouble(string.IsNullOrEmpty(pmr) ? "0" : pmr, culture);
 
         /// generate color
-        Color color = generateColor
-            ? Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90))
-            : ColorTranslator.FromHtml(val);
+        Color color;
+        if (generateColor)
+        {
+            var val = value?.ToString() ?? string.Empty;
+            color = Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90));
+        }
+        else if (value is Color c)
+            color = c;
+        else if (value is System.Windows.Media.Brush br)
+            color = br.AsColor();
+        else
+            color = ColorTranslator.FromHtml(value?.ToString() ?? string.Empty);
 
         /// desaturate color
         if (desaturateColor)
@@ -225,16 +236,9 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (contrastColor)
             color = color.GetBrightness() < 0.5 ? Color.White : Color.Black;
 
-        /// auto brightness
-        if (autoBrightness)
-            pmrVal = color.GetBrightness() < 0.5 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
-
-        /// calculate new color
-        int r = color.R, g = color.G, b = color.B;
-        r += System.Convert.ToInt32((pmrVal > 0 ? 255 - r : r) * pmrVal);
-        g += System.Convert.ToInt32((pmrVal > 0 ? 255 - g : g) * pmrVal);
-        b += System.Convert.ToInt32((pmrVal > 0 ? 255 - b : b) * pmrVal);
-        color = Color.FromArgb(setAlpha.Between(0, 255) ? setAlpha : color.A, r, g, b);
+        /// brightness
+        color = ColorTranslator.FromHtml(conv_ColorBrightness.Instance.Convert(ColorTranslator.ToHtml(color), targetType, $"{(autoBrightness ? "?" : string.Empty)}{pmrVal}{(percentBrightness ? "%" : string.Empty)}", culture).ToString());
+        color = Color.FromArgb(setAlpha.Between(0, 255) ? setAlpha : color.A, color.R, color.G, color.B);
 
         return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
     }
@@ -253,15 +257,15 @@ public class conv_Color : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_ColorBrightness : MarkupExtension, IValueConverter
 {
-    private static conv_ColorBrightness? conv;
-    public static conv_ColorBrightness Conv => conv ??= new conv_ColorBrightness();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_ColorBrightness? instance;
+    public static conv_ColorBrightness Instance => instance ??= new conv_ColorBrightness();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        var val = value?.ToString() ?? string.Empty;
+        //var val = value?.ToString() ?? string.Empty;
 
         /// parameters
         bool isAuto = pmr.Contains('?'),
@@ -271,7 +275,13 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
         if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
 
         /// value as color and parameter as number
-        var color = ColorTranslator.FromHtml(val);
+        Color color;
+        if (value is Color c)
+            color = c;
+        else if (value is System.Windows.Media.Brush br)
+            color = br.AsColor();
+        else
+            color = ColorTranslator.FromHtml(value?.ToString() ?? string.Empty);
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 0;
@@ -321,9 +331,9 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 {
-    private static conv_MultiCultureNumber? conv;
-    public static conv_MultiCultureNumber Conv => conv ??= new conv_MultiCultureNumber();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_MultiCultureNumber? instance;
+    public static conv_MultiCultureNumber Instance => instance ??= new conv_MultiCultureNumber();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -346,9 +356,9 @@ public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Add : MarkupExtension, IValueConverter
 {
-    private static conv_Add? conv;
-    public static conv_Add Conv => conv ??= new conv_Add();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Add? instance;
+    public static conv_Add Instance => instance ??= new conv_Add();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -392,9 +402,9 @@ public class conv_Add : MarkupExtension, IValueConverter
 [Obsolete]
 public class conv_Calculate : MarkupExtension, IMultiValueConverter
 {
-    private static conv_Calculate? conv;
-    public static conv_Calculate Conv => conv ??= new conv_Calculate();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Calculate? instance;
+    public static conv_Calculate Instance => instance ??= new conv_Calculate();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
@@ -424,9 +434,9 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
 /// </summary>
 public class conv_Multiply : MarkupExtension, IValueConverter
 {
-    private static conv_Multiply? conv;
-    public static conv_Multiply Conv => conv ??= new conv_Multiply();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Multiply? instance;
+    public static conv_Multiply Instance => instance ??= new conv_Multiply();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -469,9 +479,9 @@ public class conv_Multiply : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_Sum : MarkupExtension, IValueConverter
 {
-    private static conv_Sum? conv;
-    public static conv_Sum Conv => conv ??= new conv_Sum();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_Sum? instance;
+    public static conv_Sum Instance => instance ??= new conv_Sum();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -508,9 +518,9 @@ public class conv_Sum : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_NullToUnset : MarkupExtension, IValueConverter
 {
-    private static conv_NullToUnset? conv;
-    public static conv_NullToUnset Conv => conv ??= new conv_NullToUnset();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_NullToUnset? instance;
+    public static conv_NullToUnset Instance => instance ??= new conv_NullToUnset();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
@@ -528,9 +538,9 @@ public class conv_NullToUnset : MarkupExtension, IValueConverter
 /// </summary>
 public class conv_IfElse : MarkupExtension, IValueConverter
 {
-    private static conv_IfElse? conv;
-    public static conv_IfElse Conv => conv ??= new conv_IfElse();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Conv;
+    private static conv_IfElse? instance;
+    public static conv_IfElse Instance => instance ??= new conv_IfElse();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

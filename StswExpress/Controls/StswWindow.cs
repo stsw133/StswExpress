@@ -24,7 +24,7 @@ public class StswWindow : Window
 
     #region Events
     private double defaultHeight, defaultWidth;
-    private FrameworkElement partFullscreenPanel, partTitleBar;
+    private FrameworkElement? partFullscreenPanel, partTitleBar;
     private WindowState preFullscreenState;
 
     /// OnApplyTemplate
@@ -87,7 +87,7 @@ public class StswWindow : Window
         MouseMove += OnMouseMove;
 
         base.OnApplyTemplate();
-        UpdateLayout();
+        //UpdateLayout();
     }
 
     /// Chrome change
@@ -99,7 +99,7 @@ public class StswWindow : Window
         {
             WindowChrome.SetWindowChrome(this, null);
         }
-        else if (chrome != null)
+        else if (chrome != null && partTitleBar is not null)
         {
             chrome.CornerRadius = CornerRadius;
             chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) >= 0 ? partTitleBar.ActualHeight - 2 : 0;
@@ -109,7 +109,7 @@ public class StswWindow : Window
 
             WindowChrome.SetWindowChrome(this, chrome);
         }
-        else
+        else if (partTitleBar is not null)
         {
             chrome = new WindowChrome()
             {
@@ -287,7 +287,7 @@ public class StswWindow : Window
     #endregion
 
     #region OnInitialized
-    private HwndSource _hwndSource;
+    private HwndSource? _hwndSource;
 
     protected override void OnInitialized(EventArgs e)
     {
@@ -309,7 +309,7 @@ public class StswWindow : Window
     #endregion
 
     #region Hide default context menu and show custom
-    private HwndSourceHook _hook;
+    private HwndSourceHook? _hook;
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {

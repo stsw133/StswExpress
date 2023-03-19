@@ -43,7 +43,7 @@
                                                    ContentVisibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                    ForegroundDisabled="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                    IconData="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                   IconForeground="{Binding IconForeground, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
+                                                   IconFill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                    IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                    IconSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                    IsBusy="{Binding IsBusy, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
@@ -103,7 +103,7 @@
                                                                       Margin="0"
                                                                       HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                                       VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                      Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Conv}}"/>
+                                                                      Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Instance}}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -125,7 +125,7 @@
                                                                             Margin="0"
                                                                             HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                                             VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                            Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Conv}}"/>
+                                                                            Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Instance}}"/>
                                                         </se:ClippingBorder>
                                                     </Popup>
                                                 </DataTemplate>

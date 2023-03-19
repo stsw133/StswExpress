@@ -24,7 +24,6 @@
                                    DockPanel.Dock="Top"
                                    HorizontalAlignment="Left">
                             <se:StswToggleButton BorderThickness="0"
-                                                 SubBorderThickness="0"
                                                  CornerRadius="0"
                                                  IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
@@ -33,7 +32,7 @@
                                     DockPanel.Dock="Top"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Visibility="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Bool.Conv}}"/>
+                                    Visibility="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Bool.Instance}}"/>
                         </DockPanel>
                         <Border x:Name="PART_SeparatorFirst"
                                 DockPanel.Dock="Top"
@@ -47,7 +46,7 @@
                                     DockPanel.Dock="Top"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Conv}, ConverterParameter=!0}"/>
+                                    Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!0}"/>
                             <ItemsControl ItemsSource="{Binding ButtonsLast, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>

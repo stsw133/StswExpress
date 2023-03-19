@@ -17,7 +17,9 @@
                 <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number}" Format="N2"/>
                 <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Buttons>
-                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
+                                       BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
+                                       ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
                     </se:StswNumericBox.Buttons>
@@ -29,7 +31,9 @@
                 <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number}" Format="N2"/>
                 <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Buttons>
-                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
+                                       BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
+                                       ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
                     </se:StswNumericBox.Buttons>
@@ -41,7 +45,9 @@
                 <se:StswNumericBox Margin="5" Value="{Binding Number}" Format="N2"/>
                 <se:StswNumericBox Margin="5" Value="{Binding Number}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Buttons>
-                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent" ForegroundMouseOver="Gray" Padding="0" Command="{Binding SearchCommand}">
+                        <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
+                                       BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
+                                       ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
                     </se:StswNumericBox.Buttons>

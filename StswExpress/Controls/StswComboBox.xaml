@@ -32,9 +32,9 @@
                                     <Label x:Name="Arrow" Focusable="False"
                                            DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                            Content="▼" Padding="0"
-                                           IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Conv}, ConverterParameter=!}"
+                                           IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                           Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Conv}, ConverterParameter=2}"
+                                           Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}"
                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                     <Border x:Name="PART_SubBorder"
                                             DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
@@ -52,7 +52,7 @@
                                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                           HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                                           VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                          Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Conv}, ConverterParameter=!}"/>
+                                                          Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"/>
                                         <se:StswTextBox x:Name="PART_EditableTextBox"
                                                         AllowDrop="True"
                                                         BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0"
@@ -61,7 +61,7 @@
                                                         Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Conv}}"/>
+                                                        Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}}"/>
                                     </Grid>
                                 </DockPanel>
                             </se:ClippingBorder>
@@ -181,7 +181,7 @@
                                               Margin="0"
                                               Padding="{TemplateBinding Padding}"
                                               Style="{DynamicResource StswComboBoxItemStyle}">
-                                    <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Add.Conv}, ConverterParameter=2}"/>
+                                    <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=2}"/>
                                 </ToggleButton>
                             </ControlTemplate>
                         </Setter.Value>

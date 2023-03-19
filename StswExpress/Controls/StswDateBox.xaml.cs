@@ -296,6 +296,42 @@ public partial class StswDateBox : TextBox
     #endregion
 
     #region Style
+    /// StyleBrush
+    public static readonly DependencyProperty StyleBrushProperty
+        = DependencyProperty.Register(
+            nameof(StyleBrush),
+            typeof(Brush),
+            typeof(StswDateBox),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnStyleBrushChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public Brush StyleBrush
+    {
+        get => (Brush)GetValue(StyleBrushProperty);
+        set => SetValue(StyleBrushProperty, value);
+    }
+    public static void OnStyleBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswDateBox stsw)
+        {
+            if (e.NewValue.Equals(e.OldValue)) return;
+
+            var val = (Brush)e.NewValue;
+            var culture = CultureInfo.InvariantCulture;
+
+            stsw.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
+            stsw.BackgroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
+            stsw.BackgroundFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
+            stsw.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?65", culture).ToString()));
+            stsw.BorderBrushMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?80", culture).ToString()));
+            stsw.BorderBrushFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?95", culture).ToString()));
+            stsw.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+            stsw.ForegroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+            stsw.ForegroundFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+        }
+    }
+
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(

@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Linq;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace StswExpress;
 /// <summary>
@@ -82,17 +84,17 @@ public partial class StswNavigationElement : RadioButton
         get => (Geometry?)GetValue(IconDataProperty);
         set => SetValue(IconDataProperty, value);
     }
-    /// IconForeground
-    public static readonly DependencyProperty IconForegroundProperty
+    /// IconFill
+    public static readonly DependencyProperty IconFillProperty
         = DependencyProperty.Register(
-            nameof(IconForeground),
+            nameof(IconFill),
             typeof(Brush),
             typeof(StswNavigationElement)
         );
-    public Brush IconForeground
+    public Brush IconFill
     {
-        get => (Brush)GetValue(IconForegroundProperty);
-        set => SetValue(IconForegroundProperty, value);
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
     }
     /// IconScale
     public static readonly DependencyProperty IconScaleProperty
@@ -208,6 +210,45 @@ public partial class StswNavigationElement : RadioButton
     #endregion
 
     #region Style
+    /// StyleBrush
+    public static readonly DependencyProperty StyleBrushProperty
+        = DependencyProperty.Register(
+            nameof(StyleBrush),
+            typeof(Brush),
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(Brush),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnStyleBrushChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public Brush StyleBrush
+    {
+        get => (Brush)GetValue(StyleBrushProperty);
+        set => SetValue(StyleBrushProperty, value);
+    }
+    public static void OnStyleBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNavigationElement stsw)
+        {
+            if (e.NewValue.Equals(e.OldValue)) return;
+
+            var val = (Brush)e.NewValue;
+            var culture = CultureInfo.InvariantCulture;
+
+            stsw.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
+            stsw.BackgroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?30", culture).ToString()));
+            stsw.BackgroundPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?40", culture).ToString()));
+            stsw.BackgroundChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?50", culture).ToString()));
+            stsw.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?65", culture).ToString()));
+            stsw.BorderBrushMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?80", culture).ToString()));
+            stsw.BorderBrushPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?85", culture).ToString()));
+            stsw.BorderBrushChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?90", culture).ToString()));
+            stsw.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+            stsw.ForegroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+            stsw.ForegroundPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+            stsw.ForegroundChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
+        }
+    }
+
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(

@@ -29,12 +29,6 @@
                 <se:StswCheckBox Margin="5" IsThreeState="True" Content="Unchecked" IsChecked="False"/>
                 <se:StswCheckBox Margin="5" IsThreeState="True" Content="Checked" IsChecked="True"/>
             </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled (colored):"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Indeterminate" IsChecked="{x:Null}" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Unchecked" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Checked" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-            </UniformGrid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

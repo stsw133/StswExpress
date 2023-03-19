@@ -3,6 +3,7 @@ using System.Windows;
 
 namespace StswExpress;
 
+/// Theme
 partial class Theme
 {
     public Theme()
@@ -10,7 +11,7 @@ partial class Theme
         InitializeComponent();
     }
 
-    ThemeColor color;
+    private ThemeColor color = ThemeColor.Default;
     public ThemeColor Color
     {
         get => color;
@@ -23,8 +24,17 @@ partial class Theme
         }
     }
 
-    void SetColor(ThemeColor color)
+    private void SetColor(ThemeColor color)
     {
         MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{color}.xaml", UriKind.Relative) };
+
     }
+}
+
+/// ThemeColor
+public enum ThemeColor
+{
+    Default = -1,
+    Light,
+    Dark
 }
