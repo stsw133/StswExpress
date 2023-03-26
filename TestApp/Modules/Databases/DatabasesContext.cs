@@ -6,8 +6,8 @@ namespace TestApp;
 public class DatabasesContext : StswObservableObject
 {
     /// CurrentDB
-    private StswDB? currentDB;
-    public StswDB? CurrentDB
+    private StswDatabase? currentDB;
+    public StswDatabase? CurrentDB
     {
         get => currentDB;
         set => SetProperty(ref currentDB, value);
@@ -42,7 +42,7 @@ public class DatabasesContext : StswObservableObject
     private void Import()
     {
         LoadingActions++;
-        StswFn.AppDB = CurrentDB = StswDB.ImportDatabases().FirstOrDefault() ?? new();
+        StswFn.AppDB = CurrentDB = StswDatabase.ImportDatabases().FirstOrDefault() ?? new();
         LoadingActions--;
     }
 
@@ -50,7 +50,7 @@ public class DatabasesContext : StswObservableObject
     private void Export()
     {
         LoadingActions++;
-        StswDB.ExportDatabases(new List<StswDB>() { CurrentDB });
+        StswDatabase.ExportDatabases(new List<StswDatabase>() { CurrentDB });
         LoadingActions--;
     }
 }

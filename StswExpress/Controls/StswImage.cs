@@ -124,7 +124,7 @@ public class StswImage : UserControl
 
     #region ImageFromClipboard
     /// ImageFromClipboardDib
-    public static ImageSource ImageFromClipboard()
+    public static ImageSource? ImageFromClipboard()
     {
         if (Clipboard.GetData("DeviceIndependentBitmap") is MemoryStream ms)
         {

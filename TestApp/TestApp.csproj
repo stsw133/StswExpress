@@ -40,10 +40,13 @@
     <Compile Update="Modules\StswExpress\StswExpander\StswExpanderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\StswExpress\StswRadioButton\StswRadioButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswDateBox\StswDateBoxView.xaml.cs">
+    <Compile Update="Modules\StswExpress\StswDatePicker\StswDatePickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\StswExpress\StswComboBox\StswComboBoxView.xaml.cs">
@@ -98,11 +101,15 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Modules\StswExpress\StswRadioButton\StswRadioButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswDateBox\StswDateBoxView.xaml">
+    <Page Update="Modules\StswExpress\StswDatePicker\StswDatePickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

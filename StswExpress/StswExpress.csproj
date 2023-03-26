@@ -13,9 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\StswDateBox.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -39,15 +36,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\StswDateBox.xaml">
+    <Page Update="Controls\Styles\StswDataGrid.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Styles\StswComboBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Styles\StswFilter.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Styles\StswGroupBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\Styles\StswNavigation.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Styles\StswLoadingCircle.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Styles\StswDatePicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -70,6 +79,13 @@
     <Page Update="Controls\Styles\StswPasswordBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Styles\StswRadioButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Styles\StswNavigationElement.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Styles\StswToggleButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
@@ -116,9 +132,6 @@
     </Page>
     <Page Update="Themes\Brushes\Material\LightColors.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Themes\Generic.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
 

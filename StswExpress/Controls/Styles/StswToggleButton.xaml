@@ -39,13 +39,12 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             SnapsToDevicePixels="True">
-                        <ContentPresenter x:Name="contentPresenter"
-                                  Focusable="False"
-                                  Margin="{TemplateBinding Padding}"
-                                  RecognizesAccessKey="True"
-                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter Focusable="False"
+                                          Margin="{TemplateBinding Padding}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Button.IsDefaulted" Value="True">

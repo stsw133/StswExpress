@@ -11,7 +11,7 @@
 
         <Setter Property="ContentMargin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.3 0.1}"/>
         <Setter Property="ContentVisibility" Value="Visible"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.1}"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>

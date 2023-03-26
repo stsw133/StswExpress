@@ -29,8 +29,8 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDateBoxContext}">
-                <local:StswDateBoxView/>
+            <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
+                <local:StswDatePickerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
@@ -61,6 +61,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRadioButtonContext}">
+                <local:StswRadioButtonView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>

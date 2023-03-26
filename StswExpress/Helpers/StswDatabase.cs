@@ -5,7 +5,7 @@ using System.IO;
 namespace StswExpress;
 
 /// Model for Database Connection
-public class StswDB
+public class StswDatabase
 {
     public enum Types
     {
@@ -40,9 +40,9 @@ public class StswDB
     /// Loads list of encrypted databases from file.
     /// </summary>
     /// <returns>List of databases</returns>
-    public static List<StswDB> ImportDatabases()
+    public static List<StswDatabase> ImportDatabases()
     {
-        var result = new List<StswDB>();
+        var result = new List<StswDatabase>();
 
         if (!File.Exists(FilePath))
             File.Create(FilePath).Close();
@@ -54,7 +54,7 @@ public class StswDB
             if (line != null)
             {
                 var data = line.Split('|');
-                result.Add(new StswDB()
+                result.Add(new StswDatabase()
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
@@ -73,7 +73,7 @@ public class StswDB
     /// Saves list of encrypted databases to file.
     /// </summary>
     /// <param name="databases">List of databases</param>
-    public static void ExportDatabases(List<StswDB> databases)
+    public static void ExportDatabases(List<StswDatabase> databases)
     {
         using var stream = new StreamWriter(FilePath);
         foreach (var db in databases)

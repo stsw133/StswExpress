@@ -46,8 +46,15 @@
             <Label Content="Password:"/>
             <se:StswPasswordBox Password="{Binding CurrentDB.Password}">
                 <se:StswPasswordBox.Buttons>
-                    <se:StswCheckBox Background="Transparent" ForegroundMouseOver="Gray" Padding="0"
-                                     IconUnchecked="{x:Static se:StswIcons.EyeOff}" IconChecked="{x:Static se:StswIcons.Eye}"
+                    <se:StswCheckBox BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent"
+                                     BackgroundUnchecked="Transparent" BackgroundChecked="Transparent" BackgroundIndeterminate="Transparent"
+                                     BackgroundUncheckedMouseOver="Transparent" BackgroundCheckedMouseOver="Transparent" BackgroundIndeterminateMouseOver="Transparent"
+                                     BackgroundUncheckedPressed="Transparent" BackgroundCheckedPressed="Transparent" BackgroundIndeterminatePressed="Transparent"
+                                     BorderBrushUnchecked="Transparent" BorderBrushChecked="Transparent" BorderBrushIndeterminate="Transparent"
+                                     BorderBrushUncheckedMouseOver="Transparent" BorderBrushCheckedMouseOver="Transparent" BorderBrushIndeterminateMouseOver="Transparent"
+                                     BorderBrushUncheckedPressed="Transparent" BorderBrushCheckedPressed="Transparent" BorderBrushIndeterminatePressed="Transparent"
+                                     GlyphBrushMouseOver="#F777" GlyphBrushPressed="#B777" Padding="0"
+                                     IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}"
                                      IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
                 </se:StswPasswordBox.Buttons>
             </se:StswPasswordBox>

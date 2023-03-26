@@ -6,8 +6,8 @@ using System.Net;
 
 namespace StswExpress;
 
-/// Model for Mail Client
-public class StswMC
+/// Model for Mail Config
+public class StswMailConfig
 {
     public string Name { get; set; } = string.Empty;
     public string Host { get; set; } = string.Empty;
@@ -25,9 +25,9 @@ public class StswMC
     /// </summary>
     /// <param name="path"></param>
     /// <returns>List of mail configs</returns>
-    public static List<StswMC> LoadAllMailConfigs()
+    public static List<StswMailConfig> LoadAllMailConfigs()
     {
-        var result = new List<StswMC>();
+        var result = new List<StswMailConfig>();
 
         if (!File.Exists(FilePath))
             File.Create(FilePath).Close();
@@ -39,7 +39,7 @@ public class StswMC
             if (line != null)
             {
                 var data = line.Split('|');
-                result.Add(new StswMC()
+                result.Add(new StswMailConfig()
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Host = StswSecurity.Decrypt(data[1]),
@@ -60,7 +60,7 @@ public class StswMC
     /// </summary>
     /// <param name="mailConfigs">Mail configs</param>
     /// <param name="path"></param>
-    public static void SaveAllMailConfigs(List<StswMC> mailConfigs)
+    public static void SaveAllMailConfigs(List<StswMailConfig> mailConfigs)
     {
         using var stream = new StreamWriter(FilePath);
         foreach (var mc in mailConfigs)

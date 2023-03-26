@@ -6,8 +6,9 @@
 
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{x:Static SystemParameters.WindowGlassBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
         <Setter Property="WindowStyle" Value="None"/>
 
@@ -15,36 +16,25 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- window border -->
-                    <se:ClippingBorder>
-                        <se:ClippingBorder.Resources>
-                            <Style TargetType="{x:Type se:ClippingBorder}">
-                                <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <Setter Property="CornerRadius" Value="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
-                                        <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_ColorBrightness.Instance}, ConverterParameter=?10%}"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource TemplatedParent}}" Value="Maximized">
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="CornerRadius" Value="0"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </se:ClippingBorder.Resources>
+                    <se:ClippingBorder x:Name="PART_MainBorder"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <!-- title bar -->
-                            <Grid x:Name="PART_TitleBar" Background="{TemplateBinding Background}">
+                            <Grid x:Name="PART_TitleBar">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <!-- icon & title -->
-                                <se:StswHeader x:Name="PART_MoveRectangle"
+                                <se:StswHeader x:Name="PART_Header"
                                                Grid.ColumnSpan="2"
                                                BorderBrush="{DynamicResource TextBox.Static.Border}"
                                                BorderThickness="0 0 0 0.5"
@@ -52,91 +42,24 @@
                                                IconScale="{x:Null}">
                                     <StackPanel>
                                         <TextBlock Text="{TemplateBinding Title}"/>
-                                        <TextBlock Text="{TemplateBinding SubTitle}"
-                                                   Opacity="0.6"
-                                                   FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.8}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SubTitle, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="False">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding SubTitle, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NotNull.Instance}}" Value="True"/>
-                                                                <Condition Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="True"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.8}"/>
                                     </StackPanel>
-                                    <se:StswHeader.Style>
-                                        <Style TargetType="{x:Type se:StswHeader}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
-                                                    <Setter Property="Foreground" Value="#B777"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </se:StswHeader.Style>
                                 </se:StswHeader>
                                 <!-- buttons panel -->
                                 <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
                                     <StackPanel.Resources>
-                                        <!-- buttons style -->
-                                        <Style TargetType="{x:Type Button}">
-                                            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type ButtonBase}">
-                                                        <Border Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                SnapsToDevicePixels="True">
-                                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                              Content="{TemplateBinding Content}"
-										                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
-										                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										                                      Margin="{TemplateBinding Padding}"
-										                                      RecognizesAccessKey="True"
-										                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-										                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=1.25}"/>
-                                            <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                            <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=3.75}"/>
+                                        <Style TargetType="{x:Type se:OutlinedTextBlock}">
+                                            <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+                                            <Setter Property="Stroke" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
                                             <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#7777"/>
-                                                </Trigger>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsMouseOver" Value="True"/>
-                                                        <Condition Property="Name" Value="PART_ButtonClose"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <MultiTrigger.Setters>
-                                                        <Setter Property="Background" Value="Red"/>
-                                                    </MultiTrigger.Setters>
-                                                </MultiTrigger>
+                                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
+                                                    <Setter Property="Fill" Value="#B777"/>
+                                                    <Setter Property="Stroke" Value="Transparent"/>
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                        <Style TargetType="{x:Type se:OutlinedTextBlock}">
-                                            <Setter Property="Fill" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=True~White~#B777}"/>
-                                            <Setter Property="FontFamily" Value="Arial"/>
-                                            <Setter Property="Stroke" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=True~Black~Transparent}"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-                                        </Style>
                                     </StackPanel.Resources>
-                                    <!-- buttons -->
                                     <ItemsControl ItemsSource="{TemplateBinding Buttons}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -144,18 +67,13 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                    <Button x:Name="PART_ButtonMinimize"
-                                            ToolTip="Minimalizuj"
-                                            Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!NoResize}">
+                                    <Button x:Name="PART_ButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
                                         <se:OutlinedTextBlock Text="🗕"/>
                                     </Button>
-                                    <Button x:Name="PART_ButtonRestore"
-                                            ToolTip="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}"
-                                            Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Instance}, ConverterParameter=CanResize}">
+                                    <Button x:Name="PART_ButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Maksymalizuj">
                                         <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
                                     </Button>
-                                    <Button x:Name="PART_ButtonClose"
-                                            ToolTip="Zamknij">
+                                    <Button x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij" Tag="Close">
                                         <se:OutlinedTextBlock Text="🗙"/>
                                     </Button>
                                 </StackPanel>
@@ -194,7 +112,7 @@
                                                     <TextBlock Text="⚎" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
                                             </MenuItem>
-                                            <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                            <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
@@ -206,17 +124,17 @@
                                                 <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem x:Name="PART_MenuDefault" Header="Domyślny rozmiar" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Contains.Instance}, ConverterParameter=CanResize}">
+                                        <MenuItem x:Name="PART_MenuDefault" Header="Domyślny rozmiar">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="↕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem x:Name="PART_MenuMinimize" Header="Minimalizuj" Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!NoResize}">
+                                        <MenuItem x:Name="PART_MenuMinimize" Header="Minimalizuj">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem x:Name="PART_MenuRestore" Header="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter='Maximized~Przywróć w dół~Maksymalizuj'}" Visibility="{TemplateBinding ResizeMode, Converter={se:conv_Contains}, ConverterParameter=CanResize}">
+                                        <MenuItem x:Name="PART_MenuRestore" Header="Maksymalizuj">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
@@ -224,7 +142,7 @@
                                         <Separator/>
                                         <MenuItem x:Name="PART_MenuClose" Header="Zamknij">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Static se:StswColors.Negative}"/>
                                             </MenuItem.Icon>
                                             <MenuItem.InputGestureText>Alt + F4</MenuItem.InputGestureText>
                                         </MenuItem>
@@ -232,7 +150,7 @@
                                 </Grid.ContextMenu>
                             </Grid>
                             <!-- content grid -->
-                            <Grid Background="{TemplateBinding Background}" Grid.Row="1">
+                            <Grid Grid.Row="1">
                                 <AdornerDecorator>
                                     <ContentPresenter/>
                                 </AdornerDecorator>
@@ -240,74 +158,110 @@
                                 <!-- fullscreen button panel -->
                                 <StackPanel x:Name="PART_FullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
                                     <StackPanel.Resources>
-                                        <!-- buttons style -->
-                                        <Style TargetType="{x:Type Button}">
-                                            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type ButtonBase}">
-                                                        <Border Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                SnapsToDevicePixels="True">
-                                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                              Content="{TemplateBinding Content}"
-										                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
-										                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										                                      Margin="{TemplateBinding Padding}"
-										                                      RecognizesAccessKey="True"
-										                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-										                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=1.25}"/>
-                                            <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                            <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=3.75}"/>
+                                        <Style TargetType="{x:Type se:OutlinedTextBlock}">
+                                            <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+                                            <Setter Property="Stroke" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
                                             <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#7777"/>
-                                                </Trigger>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsMouseOver" Value="True"/>
-                                                        <Condition Property="Name" Value="PART_FsButtonClose"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <MultiTrigger.Setters>
-                                                        <Setter Property="Background" Value="Red"/>
-                                                    </MultiTrigger.Setters>
-                                                </MultiTrigger>
+                                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
+                                                    <Setter Property="Fill" Value="#B777"/>
+                                                    <Setter Property="Stroke" Value="Transparent"/>
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                        <Style TargetType="{x:Type se:OutlinedTextBlock}">
-                                            <Setter Property="Fill" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=True~White~#B777}"/>
-                                            <Setter Property="FontFamily" Value="Arial"/>
-                                            <Setter Property="Stroke" Value="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=True~Black~Transparent}"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-                                        </Style>
                                     </StackPanel.Resources>
-                                    <!-- buttons -->
-                                    <Button x:Name="PART_FsButtonMinimize"
-                                            ToolTip="Minimalizuj"
-                                            Visibility="{TemplateBinding ResizeMode, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!NoResize}">
+                                    <Button x:Name="PART_FsButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
                                         <se:OutlinedTextBlock Text="🗕"/>
                                     </Button>
-                                    <Button x:Name="PART_FsButtonRestore"
-                                            ToolTip="Wyłącz pełny ekran">
+                                    <Button x:Name="PART_FsButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Wyłącz tryb pełnego ekranu">
                                         <se:OutlinedTextBlock Text="⛶"/>
                                     </Button>
-                                    <Button x:Name="PART_FsButtonClose"
-                                            ToolTip="Zamknij">
+                                    <Button x:Name="PART_FsButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij" Tag="Close">
                                         <se:OutlinedTextBlock Text="🗙"/>
                                     </Button>
                                 </StackPanel>
                             </Grid>
                         </Grid>
                     </se:ClippingBorder>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Foreground" Value="#B777" TargetName="PART_Header" />
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonMinimize" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore" />
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="CanMinimize">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore" />
+                        </Trigger>
+                        <Trigger Property="SubTitle" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle" />
+                        </DataTrigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder" />
+                            <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder" />
+                            <Setter Property="ToolTip" Value="Przywróć w dół" TargetName="PART_ButtonRestore" />
+                            <Setter Property="Header" Value="Przywróć w dół" TargetName="PART_MenuRestore" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- StswWindowButton -->
+    <Style x:Name="StswWindowButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+										  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  RecognizesAccessKey="True"
+										  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=1.25}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=3.75}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#7777"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="Tag" Value="Close"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Background" Value="Red"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

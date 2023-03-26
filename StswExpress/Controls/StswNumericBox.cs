@@ -35,6 +35,7 @@ public class StswNumericBox : TextBox
         /// Content
         if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
         {
+            content.KeyDown += PART_ContentHost_KeyDown;
             content.LostFocus += PART_ContentHost_LostFocus;
             content.MouseWheel += PART_ContentHost_MouseWheel;
         }
@@ -48,8 +49,30 @@ public class StswNumericBox : TextBox
     /// PART_ButtonDown_Click
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value - Increment;
 
+    /// PART_ContentHost_KeyDown
+    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            try
+            {
+                Value = StswFn.CalculateString(Text);
+            }
+            catch { }
+        }
+    }
+
     /// PART_ContentHost_LostFocus
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e) => OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Value = StswFn.CalculateString(Text);
+        }
+        catch { }
+
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+    }
 
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -134,10 +157,10 @@ public class StswNumericBox : TextBox
     /// Increment
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(
-              nameof(Increment),
-              typeof(double),
-              typeof(StswNumericBox)
-          );
+            nameof(Increment),
+            typeof(double),
+            typeof(StswNumericBox)
+        );
     public double Increment
     {
         get => (double)GetValue(IncrementProperty);
@@ -218,21 +241,14 @@ public class StswNumericBox : TextBox
                 stsw.Value = value;
             else
             {
-                try
+                var bindingExpression = BindingOperations.GetBindingExpression(stsw, ValueProperty);
+                var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
+                if (boundType != null)
                 {
-                    stsw.Value = StswFn.CalculateString(stsw.Text);
-                }
-                catch
-                {
-                    var bindingExpression = BindingOperations.GetBindingExpression(stsw, ValueProperty);
-                    var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
-                    if (boundType != null)
-                    {
-                        if (Nullable.GetUnderlyingType(boundType) != null || (!boundType.IsValueType && string.IsNullOrEmpty(stsw.Text)))
-                            stsw.Value = null;
-                        else
-                            Validation.MarkInvalid(bindingExpression, new ValidationError(new ExceptionValidationRule(), ValueProperty, "Incorrect value!", null));
-                    }
+                    if (Nullable.GetUnderlyingType(boundType) != null || (!boundType.IsValueType && string.IsNullOrEmpty(stsw.Text)))
+                        stsw.Value = null;
+                    else
+                        Validation.MarkInvalid(bindingExpression, new ValidationError(new ExceptionValidationRule(), ValueProperty, "Incorrect value!", null));
                 }
             }
         }

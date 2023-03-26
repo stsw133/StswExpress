@@ -10,24 +10,47 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
-/// <summary>
-/// Interaction logic for StswDateBox.xaml
-/// </summary>
-public partial class StswDateBox : TextBox
+public class StswDatePicker : TextBox
 {
-    public StswDateBox()
+    public StswDatePicker()
     {
-        InitializeComponent();
-
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
     }
-    static StswDateBox()
+    static StswDatePicker()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDateBox), new FrameworkPropertyMetadata(typeof(StswDateBox)));
-        TextProperty.OverrideMetadata(typeof(StswDateBox), new FrameworkPropertyMetadata(null, OnTextChanged));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
+        TextProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(null, OnTextChanged));
     }
 
     #region Events
+    private Popup? partCalendar, partIncrement;
+    
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        /// Popup: calendar
+        if (GetTemplateChild("PART_Popup") is Popup popCalendar)
+            partCalendar = popCalendar;
+        /// Popup: increment type
+        if (GetTemplateChild("PART_IncrementType") is Popup popIncrement)
+        {
+            if (popIncrement.Child is UniformGrid grid)
+                foreach (StswRadioButton button in grid.Children)
+                    button.Click += PART_IncrementType_Click;
+            partIncrement = popIncrement;
+        }
+
+        /// Content
+        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
+        {
+            content.LostFocus += PART_ContentHost_LostFocus;
+            content.MouseDown += PART_ContentHost_MouseDown;
+            content.MouseWheel += PART_ContentHost_MouseWheel;
+        }
+        
+        base.OnApplyTemplate();
+    }
+
     /// PART_IncrementType_Checked
     private void PART_IncrementType_Click(object sender, RoutedEventArgs e)
     {
@@ -41,8 +64,8 @@ public partial class StswDateBox : TextBox
             "ss" => IncrementTypes.Second,
             _ => IncrementTypes.Day
         };
-        if (GetTemplateChild("PART_IncrementType") is Popup p && p.IsOpen)
-            p.IsOpen = false;
+        if (partIncrement?.IsOpen == true)
+            partIncrement.IsOpen = false;
 
         Focus();
     }
@@ -55,8 +78,8 @@ public partial class StswDateBox : TextBox
     {
         if (e.MiddleButton == MouseButtonState.Pressed && !IsReadOnly)
         {
-            if (GetTemplateChild("PART_IncrementType") is Popup p && !p.IsOpen)
-                p.IsOpen = true;
+            if (partIncrement?.IsOpen == false)
+                partIncrement.IsOpen = true;
         }
     }
 
@@ -121,7 +144,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(Buttons),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public ObservableCollection<UIElement> Buttons
     {
@@ -133,7 +156,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(ButtonsAlignment),
             typeof(Dock),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Dock ButtonsAlignment
     {
@@ -146,7 +169,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public CornerRadius CornerRadius
     {
@@ -159,7 +182,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
-            typeof(StswDateBox),
+            typeof(StswDatePicker),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFormatChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -171,7 +194,7 @@ public partial class StswDateBox : TextBox
     }
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDateBox stsw)
+        if (obj is StswDatePicker stsw)
         {
             if (stsw.Format == null)
                 stsw.Text = stsw.SelectedDate?.ToString(CultureInfo.CurrentCulture);
@@ -194,7 +217,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
               nameof(IncrementType),
               typeof(IncrementTypes),
-              typeof(StswDateBox)
+              typeof(StswDatePicker)
           );
     public IncrementTypes IncrementType
     {
@@ -206,7 +229,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(Maximum),
             typeof(DateTime?),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public DateTime? Maximum
     {
@@ -218,7 +241,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(Minimum),
             typeof(DateTime?),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public DateTime? Minimum
     {
@@ -231,7 +254,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public string? Placeholder
     {
@@ -244,7 +267,7 @@ public partial class StswDateBox : TextBox
         = DependencyProperty.Register(
             nameof(SelectedDate),
             typeof(DateTime?),
-            typeof(StswDateBox),
+            typeof(StswDatePicker),
             new FrameworkPropertyMetadata(default(DateTime?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
@@ -256,7 +279,7 @@ public partial class StswDateBox : TextBox
     }
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDateBox stsw)
+        if (obj is StswDatePicker stsw)
         {
             if (stsw.SelectedDate != null)
             {
@@ -267,13 +290,13 @@ public partial class StswDateBox : TextBox
             }
             OnFormatChanged(stsw, e);
 
-            if (stsw.GetTemplateChild("PART_Popup") is Popup p && p.IsOpen)
-                p.IsOpen = false;
+            if (stsw.partCalendar?.IsOpen == true)
+                stsw.partCalendar.IsOpen = false;
         }
     }
     public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswDateBox stsw)
+        if (obj is StswDatePicker stsw)
         {
             if (stsw.Format != null && DateTime.TryParseExact(stsw.Text, stsw.Format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime selectedDate))
                 stsw.SelectedDate = selectedDate;
@@ -296,159 +319,49 @@ public partial class StswDateBox : TextBox
     #endregion
 
     #region Style
-    /// StyleBrush
-    public static readonly DependencyProperty StyleBrushProperty
-        = DependencyProperty.Register(
-            nameof(StyleBrush),
-            typeof(Brush),
-            typeof(StswDateBox),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnStyleBrushChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public Brush StyleBrush
-    {
-        get => (Brush)GetValue(StyleBrushProperty);
-        set => SetValue(StyleBrushProperty, value);
-    }
-    public static void OnStyleBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswDateBox stsw)
-        {
-            if (e.NewValue.Equals(e.OldValue)) return;
-
-            var val = (Brush)e.NewValue;
-            var culture = CultureInfo.InvariantCulture;
-
-            stsw.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
-            stsw.BackgroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
-            stsw.BackgroundFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
-            stsw.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?65", culture).ToString()));
-            stsw.BorderBrushMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?80", culture).ToString()));
-            stsw.BorderBrushFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?95", culture).ToString()));
-            stsw.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-            stsw.ForegroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-            stsw.ForegroundFocused = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-        }
-    }
-
+    /// > Background ...
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Brush BackgroundDisabled
     {
         get => (Brush)GetValue(BackgroundDisabledProperty);
         set => SetValue(BackgroundDisabledProperty, value);
     }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Brush BackgroundMouseOver
     {
         get => (Brush)GetValue(BackgroundMouseOverProperty);
         set => SetValue(BackgroundMouseOverProperty, value);
     }
-    /// BorderBrushMouseOver
-    public static readonly DependencyProperty BorderBrushMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushMouseOver),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush BorderBrushMouseOver
-    {
-        get => (Brush)GetValue(BorderBrushMouseOverProperty);
-        set => SetValue(BorderBrushMouseOverProperty, value);
-    }
-    /// ForegroundMouseOver
-    public static readonly DependencyProperty ForegroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundMouseOver),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush ForegroundMouseOver
-    {
-        get => (Brush)GetValue(ForegroundMouseOverProperty);
-        set => SetValue(ForegroundMouseOverProperty, value);
-    }
-
     /// BackgroundFocused
     public static readonly DependencyProperty BackgroundFocusedProperty
         = DependencyProperty.Register(
             nameof(BackgroundFocused),
             typeof(Brush),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Brush BackgroundFocused
     {
         get => (Brush)GetValue(BackgroundFocusedProperty);
         set => SetValue(BackgroundFocusedProperty, value);
     }
-    /// BorderBrushFocused
-    public static readonly DependencyProperty BorderBrushFocusedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushFocused),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush BorderBrushFocused
-    {
-        get => (Brush)GetValue(BorderBrushFocusedProperty);
-        set => SetValue(BorderBrushFocusedProperty, value);
-    }
-    /// ForegroundFocused
-    public static readonly DependencyProperty ForegroundFocusedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundFocused),
-            typeof(Brush),
-            typeof(StswDateBox)
-        );
-    public Brush ForegroundFocused
-    {
-        get => (Brush)GetValue(ForegroundFocusedProperty);
-        set => SetValue(ForegroundFocusedProperty, value);
-    }
-
     /// BackgroundReadOnly
     public static readonly DependencyProperty BackgroundReadOnlyProperty
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Brush BackgroundReadOnly
     {
@@ -456,12 +369,87 @@ public partial class StswDateBox : TextBox
         set => SetValue(BackgroundReadOnlyProperty, value);
     }
 
+    /// > BorderBrush ...
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushMouseOver),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush BorderBrushMouseOver
+    {
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
+    }
+    /// BorderBrushFocused
+    public static readonly DependencyProperty BorderBrushFocusedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushFocused),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush BorderBrushFocused
+    {
+        get => (Brush)GetValue(BorderBrushFocusedProperty);
+        set => SetValue(BorderBrushFocusedProperty, value);
+    }
+
+    /// > Foreground ...
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
+    /// ForegroundMouseOver
+    public static readonly DependencyProperty ForegroundMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundMouseOver),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush ForegroundMouseOver
+    {
+        get => (Brush)GetValue(ForegroundMouseOverProperty);
+        set => SetValue(ForegroundMouseOverProperty, value);
+    }
+    /// ForegroundFocused
+    public static readonly DependencyProperty ForegroundFocusedProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundFocused),
+            typeof(Brush),
+            typeof(StswDatePicker)
+        );
+    public Brush ForegroundFocused
+    {
+        get => (Brush)GetValue(ForegroundFocusedProperty);
+        set => SetValue(ForegroundFocusedProperty, value);
+    }
     /// ForegroundPlaceholder
     public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Brush ForegroundPlaceholder
     {
@@ -469,12 +457,13 @@ public partial class StswDateBox : TextBox
         set => SetValue(ForegroundPlaceholderProperty, value);
     }
 
+    /// > BorderThickness ...
     /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswDateBox)
+            typeof(StswDatePicker)
         );
     public Thickness SubBorderThickness
     {

@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="TestApp.StswRadioButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswRadioButtonContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswRadioButton Margin="5" IsEnabled="False" IsChecked="{x:Null}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric1}" Content="Option 1"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsEnabled="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric2}" Content="Option 2"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsEnabled="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric3}" Content="Option 3"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsEnabled="False" IsChecked="True">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric4}" Content="Option 4"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsEnabled="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric5}" Content="Option 5"/>
+                </se:StswRadioButton>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswRadioButton Margin="5" IsHitTestVisible="False" IsChecked="{x:Null}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric1}" Content="Option 1"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsHitTestVisible="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric2}" Content="Option 2"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsHitTestVisible="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric3}" Content="Option 3"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsHitTestVisible="False" IsChecked="True">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric4}" Content="Option 4"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsHitTestVisible="False" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric5}" Content="Option 5"/>
+                </se:StswRadioButton>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswRadioButton Margin="5" IsChecked="{x:Null}">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric1}" Content="Option 1"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric2}" Content="Option 2"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric3}" Content="Option 3"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsChecked="True">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric4}" Content="Option 4"/>
+                </se:StswRadioButton>
+                <se:StswRadioButton Margin="5" IsChecked="False">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Numeric5}" Content="Option 5"/>
+                </se:StswRadioButton>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

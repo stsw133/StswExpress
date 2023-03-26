@@ -102,3 +102,31 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
     /// GetItemsByState
     public List<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key).ToList();
 }
+
+public class StswCollectionItem : StswObservableObject
+{
+    /// ErrorMessage
+    private string? errorMessage;
+    public string? ErrorMessage
+    {
+        get => errorMessage;
+        set => SetProperty(ref errorMessage, value);
+    }
+
+    /// ItemState
+    private DataRowState itemState = DataRowState.Unchanged;
+    public DataRowState ItemState
+    {
+        get => itemState;
+        set => SetProperty(ref itemState, value);
+    }
+
+    /// ShowDetails
+    public bool ShowDetails { get; set; }
+}
+
+public class StswComboItem
+{
+    public object? Display { get; set; }
+    public object? Value { get; set; }
+}

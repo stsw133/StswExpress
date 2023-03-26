@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace StswExpress;
-/// <summary>
-/// Interaction logic for StswNavigation.xaml
-/// </summary>
-public partial class StswNavigation : UserControl
+
+public class StswNavigation : UserControl
 {
     public StswNavigation()
     {
-        InitializeComponent();
-
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
         SetValue(ButtonsLastProperty, new ObservableCollection<UIElement>());
     }
@@ -27,43 +24,66 @@ public partial class StswNavigation : UserControl
     }
 
     #region Events
+    /// OnApplyTemplate
+    public override void OnApplyTemplate()
+    {
+        /// Button: minimize
+        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
+            mainBorder.Loaded += PART_Buttons_Loaded;
+
+        base.OnApplyTemplate();
+    }
+
     /// PART_Buttons_Loaded
     private void PART_Buttons_Loaded(object sender, RoutedEventArgs e)
     {
-        var allButtons = new List<UIElement>();
-        allButtons.AddRange(Buttons);
-        allButtons.AddRange(ButtonsLast);
+        /// get ALL StswNavigationElements in StswNavigation
+        var allNaviElements = new List<StswNavigationElement>();
+        allNaviElements.AddRange(Buttons.OfType<StswNavigationElement>());
+        allNaviElements.AddRange(ButtonsLast.OfType<StswNavigationElement>());
 
-        var checkedButton = (allButtons.FirstOrDefault(x => x is StswNavigationElement r && r.IsChecked == true) as StswNavigationElement);
-        var button = checkedButton ?? allButtons.FirstOrDefault(x => x is StswNavigationElement r && r.IsVisible && r.IsEnabled) as StswNavigationElement;
-
-        if (button?.HasContent == true)
-            button = ((Panel)button.Content).Children.OfType<StswNavigationElement>().FirstOrDefault(r => r.IsVisible && r.IsEnabled);
-
-        if (button != null)
+        while (allNaviElements.Any(x => x.HasContent))
         {
-            StswNavigationElement_Click(button, new RoutedEventArgs());
-            button.IsChecked = true;
+            var elementsWithContents = allNaviElements.Where(x => x.HasContent).ToList();
+            foreach (var naviElement in elementsWithContents)
+                allNaviElements.AddRange(StswExtensions.FindVisualChildren<StswNavigationElement>((FrameworkElement)naviElement.Content));
+            allNaviElements.RemoveAll(x => elementsWithContents.Contains(x));
+        }
+        
+        /// for every StswNavigationElement assign click event
+        foreach (var naviElement in allNaviElements)
+            naviElement.Click += StswNavigationElement_Click;
+
+        /// find any checked elements and if none is checked then check first that is visible and enabled
+        var firstCheckedElement = allNaviElements.FirstOrDefault(x => x.IsChecked == true) ?? allNaviElements.FirstOrDefault(x => x.IsVisible && x.IsEnabled);
+        if (firstCheckedElement != null)
+        {
+            StswNavigationElement_Click(firstCheckedElement, new RoutedEventArgs());
+            firstCheckedElement.IsChecked = true;
         }
     }
 
     /// StswNavigationElement_Click
-    private void StswNavigationElement_Click(object sender, RoutedEventArgs e)
+    private async void StswNavigationElement_Click(object sender, RoutedEventArgs e)
     {
         if (sender is StswNavigationElement stsw)
-            PageChange(stsw.ContextNamespace, stsw.CreateNewInstance);
+        {
+            stsw.IsBusy = true;
+            await Task.Run(() => Thread.Sleep(50));
+            ContextChange(stsw.ContextNamespace, stsw.CreateNewInstance);
+            stsw.IsBusy = false;
+        }
     }
 
     /// ...
-    private readonly Dictionary<string, object> _contexts = new();
+    private readonly StswDictionary<string, object> _contexts = new();
 
-    public object? PageChange(object parameter, bool createNewInstance)
+    public object? ContextChange(object parameter, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || parameter is null)
             return null;
 
-        object? newContent = null;
-        Cursor = Cursors.Wait;
+        object? newContent;
 
         if (parameter is string name1)
         {
@@ -89,7 +109,6 @@ public partial class StswNavigation : UserControl
 
         Content = newContent;
 
-        Cursor = null;
         return newContent;
     }
     #endregion
@@ -125,8 +144,7 @@ public partial class StswNavigation : UserControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigation),
-            new PropertyMetadata(default(CornerRadius))
+            typeof(StswNavigation)
         );
     public CornerRadius CornerRadius
     {
@@ -139,8 +157,7 @@ public partial class StswNavigation : UserControl
         = DependencyProperty.Register(
             nameof(ExtendedMode),
             typeof(bool),
-            typeof(StswNavigation),
-            new PropertyMetadata(default(bool))
+            typeof(StswNavigation)
         );
     public bool ExtendedMode
     {
@@ -153,8 +170,7 @@ public partial class StswNavigation : UserControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswNavigation),
-            new PropertyMetadata(Orientation.Vertical)
+            typeof(StswNavigation)
         );
     public Orientation Orientation
     {
@@ -164,7 +180,7 @@ public partial class StswNavigation : UserControl
     #endregion
 
     #region Style
-    /// SubBorderThickness
+    /// > BorderThickness ...
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),

@@ -15,7 +15,7 @@ public class StswWindow : Window
 {
     public StswWindow()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>()); /// without this controls move into newly opened window
+        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
     }
     static StswWindow()
     {
@@ -31,20 +31,20 @@ public class StswWindow : Window
     public override void OnApplyTemplate()
     {
         /// Button: minimize
-        if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize && ResizeMode != ResizeMode.NoResize)
+        if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
             btnMinimize.Click += MinimizeClick;
         /// Button: restore
-        if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore)
             btnRestore.Click += RestoreClick;
         /// Button: close
         if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
             btnClose.Click += CloseClick;
 
         /// Fullscreen Button: minimize
-        if (GetTemplateChild("PART_FsButtonMinimize") is Button btnFsMinimize && ResizeMode != ResizeMode.NoResize)
+        if (GetTemplateChild("PART_FsButtonMinimize") is Button btnFsMinimize)
             btnFsMinimize.Click += MinimizeClick;
         /// Fullscreen Button: restore
-        if (GetTemplateChild("PART_FsButtonRestore") is Button btnFsRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (GetTemplateChild("PART_FsButtonRestore") is Button btnFsRestore)
             btnFsRestore.Click += FullscreenClick;
         /// Fullscreen Button: close
         if (GetTemplateChild("PART_FsButtonClose") is Button btnFsClose)
@@ -64,26 +64,30 @@ public class StswWindow : Window
         if (GetTemplateChild("PART_MenuCenter") is MenuItem mniCenter)
             mniCenter.Click += CenterClick;
         /// Menu: default
-        if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault)
             mniDefault.Click += DefaultClick;
         /// Menu: minimize
-        if (GetTemplateChild("PART_MenuMinimize") is MenuItem mniMinimize && ResizeMode != ResizeMode.NoResize)
+        if (GetTemplateChild("PART_MenuMinimize") is MenuItem mniMinimize)
             mniMinimize.Click += MinimizeClick;
         /// Menu: restore
-        if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore && ResizeMode.In(ResizeMode.CanResizeWithGrip, ResizeMode.CanResize))
+        if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore)
             mniRestore.Click += RestoreClick;
         /// Menu: close
         if (GetTemplateChild("PART_MenuClose") is MenuItem mniClose)
             mniClose.Click += CloseClick;
 
         /// Chrome change
-        partTitleBar = (FrameworkElement)GetTemplateChild("PART_TitleBar");
-        partTitleBar.SizeChanged += (s, e) => UpdateChrome();
-        partTitleBar.IsVisibleChanged += (s, e) => UpdateChrome();
+        if (GetTemplateChild("PART_TitleBar") is FrameworkElement fmeTitlebar)
+        {
+            fmeTitlebar.SizeChanged += (s, e) => UpdateChrome();
+            fmeTitlebar.IsVisibleChanged += (s, e) => UpdateChrome();
+            partTitleBar = fmeTitlebar;
+        }
         StateChanged += (s, e) => UpdateChrome();
 
         /// Fullscreen panel
-        partFullscreenPanel = (FrameworkElement)GetTemplateChild("PART_FullscreenPanel");
+        if (GetTemplateChild("PART_FullscreenPanel") is FrameworkElement fmeFullscreen)
+            partFullscreenPanel = fmeFullscreen;
         MouseMove += OnMouseMove;
 
         base.OnApplyTemplate();
@@ -127,7 +131,7 @@ public class StswWindow : Window
     /// OnMouseEnter
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
-        if (Fullscreen)
+        if (Fullscreen && partFullscreenPanel is not null)
         {
             var pos = Mouse.GetPosition(this);
             if (pos.Y <= 10 || pos.Y < partFullscreenPanel.ActualHeight)
@@ -138,7 +142,7 @@ public class StswWindow : Window
     }
 
     /// ThemeClick
-    private void ThemeClick(int themeID)
+    private static void ThemeClick(int themeID)
     {
         if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
             Application.Current.Resources.MergedDictionaries.Add(new Theme());
@@ -243,7 +247,7 @@ public class StswWindow : Window
     }
     public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw)
+        if (obj is StswWindow stsw && stsw.partFullscreenPanel is not null && stsw.partTitleBar is not null)
         {
             if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                 return;

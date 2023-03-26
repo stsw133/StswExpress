@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -18,8 +17,8 @@ public static class StswFn
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
 
     /// App: database connection & mail config
-    public static StswDB? AppDB { get; set; } = new();
-    public static StswMC? AppMC { get; set; } = new();
+    public static StswDatabase? AppDB { get; set; } = new();
+    public static StswMailConfig? AppMC { get; set; } = new();
 
     /// Starting functions that should be placed in constructor of App class (if you want to have light and dark theme)
     public static void AppStart(Application app, string saltKey, string hashKey)
@@ -33,8 +32,8 @@ public static class StswFn
             app.Resources.MergedDictionaries.Add(new Theme());
         ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = Settings.Default.Theme < 0 ? (ThemeColor)GetWindowsTheme() : (ThemeColor)Settings.Default.Theme;
 
-        if (!app.Resources.MergedDictionaries.Any(x => x.Source == new System.Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
-            app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
+        if (!app.Resources.MergedDictionaries.Any(x => x.Source == new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
+            app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
 
         /// global commands
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(StswGlobalCommands.Fullscreen, (s, e) => {

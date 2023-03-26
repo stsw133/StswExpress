@@ -202,7 +202,7 @@ public static class StswExtensions
 
     #region StswColumnFilters extensions
     /// Gets data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void GetColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
+    public static void GetColumnFilters(this StswDictionary<string, StswFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
     {
         filter = string.Empty;
         parameters = new List<(string, object)>();
@@ -227,7 +227,7 @@ public static class StswExtensions
     }
 
     /// Clears data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void ClearColumnFilters(this StswDictionary<string, StswColumnFilterBindingData> dict)
+    public static void ClearColumnFilters(this StswDictionary<string, StswFilterBindingData> dict)
     {
         foreach (var pair in dict)
             dict[pair.Key]?.Clear();

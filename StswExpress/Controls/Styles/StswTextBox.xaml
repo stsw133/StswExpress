@@ -40,9 +40,7 @@
                                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- custom buttons -->
-                            <ItemsControl x:Name="PART_Buttons"
-                                          DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
-                                          ItemsSource="{TemplateBinding Buttons}">
+                            <ItemsControl x:Name="PART_Buttons" DockPanel.Dock="{TemplateBinding ButtonsAlignment}" ItemsSource="{TemplateBinding Buttons}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>

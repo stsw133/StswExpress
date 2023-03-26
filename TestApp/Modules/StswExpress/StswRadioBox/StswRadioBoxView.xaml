@@ -13,15 +13,15 @@
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 1" IsChecked="{x:Null}" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White" IconIndeterminate="{x:Static se:StswIcons.Minus}"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 2" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 3" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 4" IsChecked="True" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 5" IsChecked="False" BackgroundChecked="{x:Static se:StswColors.Neutral}" BorderBrushChecked="{x:Static se:StswColors.Neutral}" GlyphBrush="White"/>
+                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 1" IsChecked="{x:Null}"/>
+                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 2" IsChecked="False"/>
+                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 3" IsChecked="False"/>
+                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 4" IsChecked="True"/>
+                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 5" IsChecked="False"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 1" IsChecked="{x:Null}" IconIndeterminate="{x:Static se:StswIcons.Minus}"/>
+                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 1" IsChecked="{x:Null}"/>
                 <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 2" IsChecked="False"/>
                 <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 3" IsChecked="False"/>
                 <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 4" IsChecked="True"/>
@@ -29,7 +29,7 @@
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" Content="Option 1" IsChecked="{x:Null}" IconIndeterminate="{x:Static se:StswIcons.Minus}"/>
+                <se:StswRadioBox Margin="5" Content="Option 1" IsChecked="{x:Null}"/>
                 <se:StswRadioBox Margin="5" Content="Option 2" IsChecked="False"/>
                 <se:StswRadioBox Margin="5" Content="Option 3" IsChecked="False"/>
                 <se:StswRadioBox Margin="5" Content="Option 4" IsChecked="True"/>

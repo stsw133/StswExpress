@@ -11,8 +11,8 @@ namespace TestApp;
 public class ContractorsContext : StswObservableObject
 {
     /// ColumnFilters
-    private StswDictionary<string, StswColumnFilterBindingData> columnFilters = new();
-    public StswDictionary<string, StswColumnFilterBindingData> ColumnFilters
+    private StswDictionary<string, StswFilterBindingData> columnFilters = new();
+    public StswDictionary<string, StswFilterBindingData> ColumnFilters
     {
         get => columnFilters;
         set => SetProperty(ref columnFilters, value);
@@ -191,7 +191,7 @@ public class ContractorsContext : StswObservableObject
 
         /// ...
         var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-        navi?.PageChange(new ContractorsSingleView()
+        navi?.ContextChange(new ContractorsSingleView()
         {
             DataContext = new ContractorsSingleContext()
         }, true);
@@ -221,7 +221,7 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.PageChange(new ContractorsSingleView()
+            navi?.ContextChange(new ContractorsSingleView()
             {
                 DataContext = new ContractorsSingleContext()
                 {
@@ -261,7 +261,7 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.PageChange(new ContractorsSingleView()
+            navi?.ContextChange(new ContractorsSingleView()
             {
                 DataContext = new ContractorsSingleContext()
                 {

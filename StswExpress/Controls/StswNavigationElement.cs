@@ -1,21 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Linq;
-using System.Globalization;
-using System.Windows.Data;
 
 namespace StswExpress;
-/// <summary>
-/// Interaction logic for StswNavigationElement.xaml
-/// </summary>
-public partial class StswNavigationElement : RadioButton
+
+public class StswNavigationElement : RadioButton
 {
-    public StswNavigationElement()
-    {
-        InitializeComponent();
-    }
     static StswNavigationElement()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
@@ -210,45 +200,7 @@ public partial class StswNavigationElement : RadioButton
     #endregion
 
     #region Style
-    /// StyleBrush
-    public static readonly DependencyProperty StyleBrushProperty
-        = DependencyProperty.Register(
-            nameof(StyleBrush),
-            typeof(Brush),
-            typeof(StswNavigationElement),
-            new FrameworkPropertyMetadata(default(Brush),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnStyleBrushChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public Brush StyleBrush
-    {
-        get => (Brush)GetValue(StyleBrushProperty);
-        set => SetValue(StyleBrushProperty, value);
-    }
-    public static void OnStyleBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswNavigationElement stsw)
-        {
-            if (e.NewValue.Equals(e.OldValue)) return;
-
-            var val = (Brush)e.NewValue;
-            var culture = CultureInfo.InvariantCulture;
-
-            stsw.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "0", culture).ToString()));
-            stsw.BackgroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?30", culture).ToString()));
-            stsw.BackgroundPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?40", culture).ToString()));
-            stsw.BackgroundChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?50", culture).ToString()));
-            stsw.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?65", culture).ToString()));
-            stsw.BorderBrushMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?80", culture).ToString()));
-            stsw.BorderBrushPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?85", culture).ToString()));
-            stsw.BorderBrushChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_ColorBrightness.Instance.Convert(val, typeof(Brush), "?90", culture).ToString()));
-            stsw.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-            stsw.ForegroundMouseOver = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-            stsw.ForegroundPressed = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-            stsw.ForegroundChecked = new SolidColorBrush((Color)ColorConverter.ConvertFromString(conv_Color.Instance.Convert(val, typeof(Brush), "‼", culture).ToString()));
-        }
-    }
-
+    /// > Background ...
     /// BackgroundDisabled
     public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
@@ -261,31 +213,6 @@ public partial class StswNavigationElement : RadioButton
         get => (Brush)GetValue(BackgroundDisabledProperty);
         set => SetValue(BackgroundDisabledProperty, value);
     }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
@@ -297,6 +224,44 @@ public partial class StswNavigationElement : RadioButton
     {
         get => (Brush)GetValue(BackgroundMouseOverProperty);
         set => SetValue(BackgroundMouseOverProperty, value);
+    }
+    /// BackgroundPressed
+    public static readonly DependencyProperty BackgroundPressedProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundPressed),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush BackgroundPressed
+    {
+        get => (Brush)GetValue(BackgroundPressedProperty);
+        set => SetValue(BackgroundPressedProperty, value);
+    }
+    /// BackgroundChecked
+    public static readonly DependencyProperty BackgroundCheckedProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundChecked),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush BackgroundChecked
+    {
+        get => (Brush)GetValue(BackgroundCheckedProperty);
+        set => SetValue(BackgroundCheckedProperty, value);
+    }
+
+    /// > BorderBrush ...
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
     /// BorderBrushMouseOver
     public static readonly DependencyProperty BorderBrushMouseOverProperty
@@ -310,31 +275,6 @@ public partial class StswNavigationElement : RadioButton
         get => (Brush)GetValue(BorderBrushMouseOverProperty);
         set => SetValue(BorderBrushMouseOverProperty, value);
     }
-    /// ForegroundMouseOver
-    public static readonly DependencyProperty ForegroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundMouseOver),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush ForegroundMouseOver
-    {
-        get => (Brush)GetValue(ForegroundMouseOverProperty);
-        set => SetValue(ForegroundMouseOverProperty, value);
-    }
-
-    /// BackgroundPressed
-    public static readonly DependencyProperty BackgroundPressedProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundPressed),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush BackgroundPressed
-    {
-        get => (Brush)GetValue(BackgroundPressedProperty);
-        set => SetValue(BackgroundPressedProperty, value);
-    }
     /// BorderBrushPressed
     public static readonly DependencyProperty BorderBrushPressedProperty
         = DependencyProperty.Register(
@@ -347,31 +287,6 @@ public partial class StswNavigationElement : RadioButton
         get => (Brush)GetValue(BorderBrushPressedProperty);
         set => SetValue(BorderBrushPressedProperty, value);
     }
-    /// ForegroundPressed
-    public static readonly DependencyProperty ForegroundPressedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundPressed),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush ForegroundPressed
-    {
-        get => (Brush)GetValue(ForegroundPressedProperty);
-        set => SetValue(ForegroundPressedProperty, value);
-    }
-
-    /// BackgroundChecked
-    public static readonly DependencyProperty BackgroundCheckedProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundChecked),
-            typeof(Brush),
-            typeof(StswNavigationElement)
-        );
-    public Brush BackgroundChecked
-    {
-        get => (Brush)GetValue(BackgroundCheckedProperty);
-        set => SetValue(BackgroundCheckedProperty, value);
-    }
     /// BorderBrushChecked
     public static readonly DependencyProperty BorderBrushCheckedProperty
         = DependencyProperty.Register(
@@ -383,6 +298,44 @@ public partial class StswNavigationElement : RadioButton
     {
         get => (Brush)GetValue(BorderBrushCheckedProperty);
         set => SetValue(BorderBrushCheckedProperty, value);
+    }
+
+    /// > Foreground ...
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
+    /// ForegroundMouseOver
+    public static readonly DependencyProperty ForegroundMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundMouseOver),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush ForegroundMouseOver
+    {
+        get => (Brush)GetValue(ForegroundMouseOverProperty);
+        set => SetValue(ForegroundMouseOverProperty, value);
+    }
+    /// ForegroundPressed
+    public static readonly DependencyProperty ForegroundPressedProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundPressed),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+    public Brush ForegroundPressed
+    {
+        get => (Brush)GetValue(ForegroundPressedProperty);
+        set => SetValue(ForegroundPressedProperty, value);
     }
     /// ForegroundChecked
     public static readonly DependencyProperty ForegroundCheckedProperty
@@ -397,6 +350,7 @@ public partial class StswNavigationElement : RadioButton
         set => SetValue(ForegroundCheckedProperty, value);
     }
 
+    /// > BorderThickness ...
     /// PopupBorderThickness
     public static readonly DependencyProperty PopupBorderThicknessProperty
         = DependencyProperty.Register(
@@ -422,13 +376,4 @@ public partial class StswNavigationElement : RadioButton
         set => SetValue(SubBorderThicknessProperty, value);
     }
     #endregion
-
-    private void Popup_Opened(object sender, EventArgs e)
-    {
-        if (StswExtensions.FindVisualAncestor<ItemsControl>(this) is ItemsControl i)
-        {
-            var source = i?.ItemsSource?.Cast<object>()?.ToList();
-            InExpander = source?.Any(x => x.GetType().Name == nameof(StswNavigationElement)) == true;
-        }
-    }
 }

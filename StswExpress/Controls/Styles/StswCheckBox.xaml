@@ -70,8 +70,8 @@
                                              VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
-                        <ContentPresenter x:Name="contentPresenter" Grid.Column="1"
-                                          Focusable="False"
+                        <ContentPresenter Focusable="False"
+                                          Grid.Column="1"
                                           Margin="{TemplateBinding Padding}"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -81,9 +81,6 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="checkBoxBorder" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="checkBoxBorder" />
-                            <Setter Property="VerticalAlignment" Value="Stretch" TargetName="checkBoxBorder" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="contentPresenter" />
                         </Trigger>
                         <Trigger Property="HasContent" Value="True">
                             <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="checkBoxBorder" />

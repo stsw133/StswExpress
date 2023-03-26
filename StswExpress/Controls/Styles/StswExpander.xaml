@@ -2,6 +2,126 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
+    <Style TargetType="{x:Type se:StswExpander}">
+
+        <Setter Property="HeaderBackground" Value="{DynamicResource StswExpander.Static.Background}"/>
+        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
+        <Setter Property="HeaderBackgroundMouseOver" Value="{DynamicResource StswExpander.MouseOver.Background}"/>
+        <Setter Property="HeaderBackgroundPressed" Value="{DynamicResource StswExpander.Pressed.Background}"/>
+        <Setter Property="HeaderBackgroundChecked" Value="{DynamicResource StswExpander.Checked.Background}"/>
+
+        <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswExpander.MouseOver.Border}"/>
+        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswExpander.Pressed.Border}"/>
+        <Setter Property="BorderBrushChecked" Value="{DynamicResource StswExpander.Checked.Border}"/>
+
+        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
+        <Setter Property="HeaderForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HeaderForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HeaderForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="HeaderBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="HeaderPadding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswExpander}">
+                    <se:ClippingBorder x:Name="PART_MainBorder"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <ToggleButton x:Name="HeaderSite"
+                                          DockPanel.Dock="Top"
+                                          Background="{TemplateBinding HeaderBackground}"
+                                          BorderThickness="0"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                          FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
+                                          FontFamily="{TemplateBinding FontFamily}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          FontStyle="{TemplateBinding FontStyle}"
+                                          FontStretch="{TemplateBinding FontStretch}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Margin="0" MinHeight="0" MinWidth="0"
+                                          Padding="{TemplateBinding HeaderPadding}"
+                                          Style="{DynamicResource StswExpanderDownHeaderStyle}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="Top"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                    BorderThickness="{TemplateBinding HeaderBorderThickness}"
+                                    SnapsToDevicePixels="True"
+                                    Visibility="Collapsed"/>
+                            <ContentPresenter x:Name="ExpandSite"
+                                              DockPanel.Dock="Bottom"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Visibility="Collapsed"/>
+                        </DockPanel>
+                    </se:ClippingBorder>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite" />
+                        </Trigger>
+                        <Trigger Property="ExpandDirection" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="ExpandSite" />
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="HeaderSite" />
+                            <Setter Property="Style" Value="{DynamicResource StswExpanderLeftHeaderStyle}" TargetName="HeaderSite" />
+                        </Trigger>
+                        <Trigger Property="ExpandDirection" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="ExpandSite" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="HeaderSite" />
+                            <Setter Property="Style" Value="{DynamicResource StswExpanderRightHeaderStyle}" TargetName="HeaderSite" />
+                        </Trigger>
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="ExpandSite" />
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="HeaderSite" />
+                            <Setter Property="Style" Value="{DynamicResource StswExpanderUpHeaderStyle}" TargetName="HeaderSite" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=HeaderSite}" Value="True">
+                            <Setter Property="Background" Value="{Binding HeaderBackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPressed, ElementName=HeaderSite}" Value="True">
+                            <Setter Property="Background" Value="{Binding HeaderBackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=HeaderSite}" Value="True">
+                            <Setter Property="Background" Value="{Binding HeaderBackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                        </DataTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding HeaderBackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- StswExpanderHeader -->
     <Style x:Key="StswExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -113,125 +233,6 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="arrow" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type se:StswExpander}">
-
-        <Setter Property="HeaderBackground" Value="{DynamicResource StswExpander.Static.Background}"/>
-        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
-        <Setter Property="HeaderBackgroundMouseOver" Value="{DynamicResource StswExpander.MouseOver.Background}"/>
-        <Setter Property="HeaderBackgroundPressed" Value="{DynamicResource StswExpander.Pressed.Background}"/>
-        <Setter Property="HeaderBackgroundChecked" Value="{DynamicResource StswExpander.Checked.Background}"/>
-
-        <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswExpander.MouseOver.Border}"/>
-        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswExpander.Pressed.Border}"/>
-        <Setter Property="BorderBrushChecked" Value="{DynamicResource StswExpander.Checked.Border}"/>
-
-        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-        <Setter Property="HeaderForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HeaderForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HeaderForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="HeaderBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-        <Setter Property="HeaderPadding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswExpander}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
-                        <DockPanel>
-                            <ToggleButton x:Name="HeaderSite"
-                                          DockPanel.Dock="Top"
-                                          Background="{TemplateBinding HeaderBackground}"
-                                          BorderThickness="0"
-                                          Content="{TemplateBinding Header}"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                          FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
-                                          FontFamily="{TemplateBinding FontFamily}"
-                                          FontSize="{TemplateBinding FontSize}"
-                                          FontStyle="{TemplateBinding FontStyle}"
-                                          FontStretch="{TemplateBinding FontStretch}"
-                                          FontWeight="{TemplateBinding FontWeight}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Margin="0" MinHeight="0" MinWidth="0"
-                                          Padding="{TemplateBinding HeaderPadding}"
-                                          Style="{DynamicResource StswExpanderDownHeaderStyle}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="Top"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding HeaderBorderThickness}"
-                                    CornerRadius="0"
-                                    Visibility="Collapsed"/>
-                            <ContentPresenter x:Name="ExpandSite"
-                                              DockPanel.Dock="Bottom"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Visibility="Collapsed"/>
-                        </DockPanel>
-                    </se:ClippingBorder>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder" />
-                            <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite" />
-                        </Trigger>
-                        <Trigger Property="ExpandDirection" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="ExpandSite" />
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="HeaderSite" />
-                            <Setter Property="Style" Value="{DynamicResource StswExpanderLeftHeaderStyle}" TargetName="HeaderSite" />
-                        </Trigger>
-                        <Trigger Property="ExpandDirection" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="ExpandSite" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="HeaderSite" />
-                            <Setter Property="Style" Value="{DynamicResource StswExpanderRightHeaderStyle}" TargetName="HeaderSite" />
-                        </Trigger>
-                        <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="ExpandSite" />
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="HeaderSite" />
-                            <Setter Property="Style" Value="{DynamicResource StswExpanderUpHeaderStyle}" TargetName="HeaderSite" />
-                        </Trigger>
-                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsPressed, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                        </DataTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

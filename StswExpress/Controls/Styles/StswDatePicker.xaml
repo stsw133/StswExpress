@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswNumericBox}">
+    <Style TargetType="{x:Type se:StswDatePicker}">
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
@@ -26,7 +26,9 @@
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
 
-        <Setter Property="Increment" Value="1"/>
+        <Setter Property="Format" Value="d"/>
+        <Setter Property="IncrementType" Value="Day"/>
+        <Setter Property="Placeholder" Value="Wybierz datę..."/>
 
         <Setter Property="ButtonsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -34,7 +36,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswNumericBox}">
+                <ControlTemplate TargetType="{x:Type se:StswDatePicker}">
                     <se:ClippingBorder x:Name="PART_MainBorder"
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
@@ -43,16 +45,12 @@
                                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- buttons -->
-                            <UniformGrid x:Name="PART_ButtonSpecial"
-                                         DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
-                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
-                                <se:StswRepeatButton x:Name="PART_ButtonUp"
-                                                     Content="▲" BorderThickness="0" CornerRadius="0" Padding="0"
-                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
-                                <se:StswRepeatButton x:Name="PART_ButtonDown"
-                                                     Content="▼" BorderThickness="0" CornerRadius="0" Padding="0"
-                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
-                            </UniformGrid>
+                            <se:StswToggleButton x:Name="PART_ButtonSpecial"
+                                                 DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
+                                                 BorderThickness="0" CornerRadius="0" Padding="0"
+                                                 Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.Calendar}" Scale="1.5"/>
+                            </se:StswToggleButton>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
                                     DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
@@ -67,6 +65,30 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+                            <!-- popup: calendar -->
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding IsChecked, ElementName=PART_ButtonSpecial}"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_ButtonSpecial}"
+                                   StaysOpen="False">
+                                <Calendar SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePicker}}}"/>
+                            </Popup>
+                            <!-- popup: increment type -->
+                            <Popup x:Name="PART_IncrementType"
+                                   AllowsTransparency="True"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_ContentHost}"
+                                   StaysOpen="False">
+                                <UniformGrid Rows="1">
+                                    <se:StswRadioButton Content="YY" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Year}"/>
+                                    <se:StswRadioButton Content="MM" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Month}"/>
+                                    <se:StswRadioButton Content="DD" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Day}"/>
+                                    <se:StswRadioButton Content="hh" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Hour}"/>
+                                    <se:StswRadioButton Content="mm" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Minute}"/>
+                                    <se:StswRadioButton Content="ss" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Second}"/>
+                                </UniformGrid>
+                            </Popup>
                             <!-- content -->
                             <Grid>
                                 <TextBlock Foreground="{TemplateBinding ForegroundPlaceholder}"

@@ -53,7 +53,7 @@
                                     DockPanel.Dock="Top"
                                     BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                     BorderThickness="{TemplateBinding HeaderBorderThickness}"
-                                    CornerRadius="0"/>
+                                    SnapsToDevicePixels="True"/>
                             <ContentPresenter x:Name="ExpandSite"
                                               DockPanel.Dock="Bottom"
                                               Focusable="False"

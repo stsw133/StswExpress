@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswDateBoxContext : StswObservableObject
+public class StswDatePickerContext : StswObservableObject
 {
     private DateTime date = DateTime.Now;
     public DateTime Date
