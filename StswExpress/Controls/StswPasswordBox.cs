@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
 
-public class StswPasswordBox : UserControl
+public class StswPasswordBox : TextBox
 {
     public StswPasswordBox()
     {
@@ -18,29 +18,17 @@ public class StswPasswordBox : UserControl
     }
 
     #region Events
-    private bool isPasswordChanging;
-    private PasswordBox partPasswordBox;
-
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// Box: password
-        if (GetTemplateChild("PART_PasswordBox") is PasswordBox boxPassword)
+        InputBindings.Add(new KeyBinding(ApplicationCommands.NotACommand, Key.C, ModifierKeys.Control));
+        InputBindings.Add(new KeyBinding(ApplicationCommands.NotACommand, Key.X, ModifierKeys.Control));
+        ContextMenu = new System.Windows.Controls.ContextMenu()
         {
-            boxPassword.PasswordChanged += PART_PasswordBox_PasswordChanged;
-            partPasswordBox = boxPassword;
-        }
-        OnPasswordChanged(this, new DependencyPropertyChangedEventArgs());
+            Visibility = Visibility.Collapsed
+        };
 
         base.OnApplyTemplate();
-    }
-
-    /// PART_PasswordBox_PasswordChanged
-    private void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-    {
-        isPasswordChanging = true;
-        Password = ((PasswordBox)sender).Password;
-        isPasswordChanging = false;
     }
     #endregion
 
@@ -94,27 +82,6 @@ public class StswPasswordBox : UserControl
     {
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
-    }
-
-    /// Password
-    public static readonly DependencyProperty PasswordProperty
-        = DependencyProperty.Register(
-            nameof(Password),
-            typeof(string),
-            typeof(StswPasswordBox),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnPasswordChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public string? Password
-    {
-        get => (string?)GetValue(PasswordProperty);
-        set => SetValue(PasswordProperty, value);
-    }
-    public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswPasswordBox stsw && stsw.partPasswordBox != null && !stsw.isPasswordChanging)
-            stsw.partPasswordBox.Password = stsw.Password;
     }
 
     /// ShowPassword

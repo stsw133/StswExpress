@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Themes\Fonts\password.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -33,6 +37,10 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.100.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\Fonts\password.ttf" />
   </ItemGroup>
 
   <ItemGroup>
