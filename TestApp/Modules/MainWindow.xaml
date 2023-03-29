@@ -21,6 +21,7 @@
             <se:StswNavigationElement GroupName="Main" Text="Library tests" IconData="{x:Static se:StswIcons.TestTube}">
                 <StackPanel>
                     <se:StswNavigationElement GroupName="Main" Text="StswButton" IconData="M0 0" ContextNamespace="TestApp.StswButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswCalendar" IconData="M0 0" ContextNamespace="TestApp.StswCalendarContext"/>
                     <se:StswNavigationElement GroupName="Main" Text="StswCheckBox" IconData="M0 0" ContextNamespace="TestApp.StswCheckBoxContext"/>
                     <se:StswNavigationElement GroupName="Main" Text="StswComboBox" IconData="M0 0" ContextNamespace="TestApp.StswComboBoxContext"/>
                     <se:StswNavigationElement GroupName="Main" Text="StswDatePicker" IconData="M0 0" ContextNamespace="TestApp.StswDatePickerContext"/>

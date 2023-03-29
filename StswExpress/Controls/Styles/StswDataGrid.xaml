@@ -12,9 +12,10 @@
         
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="IsSpecialColumnHeaderVisible" Value="True"/>
-        <Setter Property="IsSpecialColumnVisible" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        
+        <Setter Property="AreFiltersVisible" Value="True"/>
+        <Setter Property="SpecialColumnVisibility" Value="All"/>
 
         <Setter Property="HorizontalGridLinesBrush" Value="#5777"/>
         <Setter Property="VerticalGridLinesBrush" Value="#5777"/>
@@ -24,11 +25,13 @@
     <Style x:Key="StswColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
 
         <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
+        
         <Setter Property="BorderThickness" Value="0 0 0.5 0.5"/>
+        <!-- <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.3}"/> -->
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <!-- <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.3}"/> -->
 
         <Style.Triggers>
             <DataTrigger Binding="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:conv_NotNull.Instance}}" Value="True">
@@ -42,5 +45,60 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+
+    <!-- StswDataGridSpecialColumn -->
+    <UniformGrid x:Key="StswDataGridSpecialColumnHeader" Columns="1">
+        <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+            <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
+        </se:StswToggleButton>
+        <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0" Visibility="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={x:Static se:conv_Bool.Instance}}">
+            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
+        </se:StswButton>
+    </UniformGrid>
+
+    <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
+        <Grid>
+            <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">
+                <se:StswToggleButton.Resources>
+                    <Style TargetType="{x:Type se:StswToggleButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="Collapsed">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </se:StswToggleButton.Resources>
+                <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
+            </se:StswToggleButton>
+            <se:StswIcon Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" Scale="1.25">
+                <se:StswIcon.Resources>
+                    <Style TargetType="{x:Type se:StswIcon}">
+                        <Setter Property="Fill" Value="Transparent"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ErrorMessage, Converter={x:Static se:conv_NotNull.Instance}}" Value="True">
+                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Error.Fill}"/>
+                                <Setter Property="ToolTip" Value="{Binding ErrorMessage}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ItemState}" Value="Added">
+                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ItemState}" Value="Modified">
+                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
+                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </se:StswIcon.Resources>
+            </se:StswIcon>
+        </Grid>
+    </DataTemplate>
 
 </ResourceDictionary>

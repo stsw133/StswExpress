@@ -122,7 +122,7 @@ public class StswCollectionItem : StswObservableObject
     }
 
     /// ShowDetails
-    public bool ShowDetails { get; set; }
+    public bool? ShowDetails { get; set; } = false;
 }
 
 public class StswComboItem

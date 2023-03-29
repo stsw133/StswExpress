@@ -59,6 +59,6 @@
                 </se:StswPasswordBox.Buttons>
             </se:StswPasswordBox>
         </StackPanel>
-        
+
     </DockPanel>
 </UserControl>

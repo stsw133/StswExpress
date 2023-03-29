@@ -44,7 +44,7 @@ public class StswDatePicker : TextBox
         if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
         {
             content.LostFocus += PART_ContentHost_LostFocus;
-            content.MouseDown += PART_ContentHost_MouseDown;
+            //content.MouseDown += PART_ContentHost_MouseDown;
             content.MouseWheel += PART_ContentHost_MouseWheel;
         }
         
@@ -290,8 +290,8 @@ public class StswDatePicker : TextBox
             }
             OnFormatChanged(stsw, e);
 
-            if (stsw.partCalendar?.IsOpen == true)
-                stsw.partCalendar.IsOpen = false;
+            //if (stsw.partCalendar?.IsOpen == true)
+            //    stsw.partCalendar.IsOpen = false;
         }
     }
     public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

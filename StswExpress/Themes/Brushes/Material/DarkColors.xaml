@@ -62,10 +62,10 @@
     <SolidColorBrush x:Key="StswExpander.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:conv_ColorBrightness.Instance}, ConverterParameter=0}" />
     <SolidColorBrush x:Key="StswExpander.Checked.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:conv_ColorBrightness.Instance}, ConverterParameter=-15%}" />
 
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#622" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#264" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#652" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#632" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#B11" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#16B" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#B91" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#B31" />
     
     <SolidColorBrush x:Key="StswIcon.Disabled.Fill" Color="#7777" />
 

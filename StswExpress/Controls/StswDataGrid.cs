@@ -20,12 +20,6 @@ public class StswDataGrid : DataGrid
     {
         ColumnHeaderStyle = (Style)FindResource("StswColumnHeaderStyle");
 
-        /// Button: clear filters
-        if (Columns[0] is StswDataGridSpecialColumn specialColumn)
-            if (specialColumn.Header is UniformGrid grid)
-                if (grid.Children?[1] is StswButton button)
-                    button.Click += BtnClearFilters_Click;
-
         base.OnApplyTemplate();
     }
 
@@ -47,8 +41,7 @@ public class StswDataGrid : DataGrid
         = DependencyProperty.Register(
             nameof(AreFiltersVisible),
             typeof(bool),
-            typeof(StswDataGrid),
-            new PropertyMetadata(true)
+            typeof(StswDataGrid)
         );
     public bool AreFiltersVisible
     {
@@ -56,57 +49,60 @@ public class StswDataGrid : DataGrid
         set => SetValue(AreFiltersVisibleProperty, value);
     }
 
-    /// IsSpecialColumnHeaderVisible
-    public static readonly DependencyProperty IsSpecialColumnHeaderVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsSpecialColumnHeaderVisible),
-            typeof(bool),
-            typeof(StswDataGrid)
-        );
-    public bool IsSpecialColumnHeaderVisible
+    /// SpecialColumnVisibility
+    public enum SpecialColumnVisibilities
     {
-        get => (bool)GetValue(IsSpecialColumnHeaderVisibleProperty);
-        set => SetValue(IsSpecialColumnHeaderVisibleProperty, value);
+        Collapsed,
+        All,
+        OnlyRows
     }
-
-    /// IsSpecialColumnVisible
-    public static readonly DependencyProperty IsSpecialColumnVisibleProperty
+    public static readonly DependencyProperty SpecialColumnVisibilityProperty
         = DependencyProperty.Register(
-            nameof(IsSpecialColumnVisible),
-            typeof(bool),
+            nameof(SpecialColumnVisibility),
+            typeof(SpecialColumnVisibilities),
             typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(bool),
+            new FrameworkPropertyMetadata(default(SpecialColumnVisibilities),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsSpecialColumnVisibleChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSpecialColumnVisibilityChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool IsSpecialColumnVisible
+    public SpecialColumnVisibilities SpecialColumnVisibility
     {
-        get => (bool)GetValue(IsSpecialColumnVisibleProperty);
-        set => SetValue(IsSpecialColumnVisibleProperty, value);
+        get => (SpecialColumnVisibilities)GetValue(SpecialColumnVisibilityProperty);
+        set => SetValue(SpecialColumnVisibilityProperty, value);
     }
-    public static void OnIsSpecialColumnVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSpecialColumnVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDataGrid stsw)
         {
-            if ((bool)e.NewValue)
+            var specialColumnHeader = stsw.FindResource("StswDataGridSpecialColumnHeader") as UniformGrid;
+            var specialColumnTemplate = stsw.FindResource("StswDataGridSpecialColumnCellTemplate") as DataTemplate;
+            var specialColumn = stsw.Columns.FirstOrDefault(x => x is DataGridTemplateColumn specialColumn && specialColumn.CellTemplate == specialColumnTemplate);
+
+            if (stsw.SpecialColumnVisibility != SpecialColumnVisibilities.Collapsed)
             {
-                stsw.Columns.Insert(0, new StswDataGridSpecialColumn());
-                if (stsw.IsLoaded)
-                    ((StswButton)((UniformGrid)stsw.Columns[0].Header).Children[1]).Click += stsw.BtnClearFilters_Click;
-                stsw.FrozenColumnCount++;
+                if (specialColumn == null)
+                {
+                    /// create special column
+                    stsw.Columns.Insert(0, new DataGridTemplateColumn() { CellTemplate = specialColumnTemplate, Header = specialColumnHeader });
+                    if (stsw.Columns[0].Header is UniformGrid grid && grid.Children[1] is StswButton button)
+                        button.Click += stsw.BtnClearFilters_Click;
+                    stsw.FrozenColumnCount++;
+
+                    specialColumn = stsw.Columns[0];
+                }
+
+                /// set visibility for header
+                if (specialColumn?.Header is not null and UniformGrid header)
+                    header.Visibility = stsw.SpecialColumnVisibility == SpecialColumnVisibilities.All ? Visibility.Visible : Visibility.Collapsed;
             }
-            else if (stsw.Columns.Any(x => x is StswDataGridSpecialColumn))
+            else if (specialColumn != null)
             {
+                /// remove special column
                 stsw.FrozenColumnCount--;
-                if (stsw.IsLoaded)
-                    ((StswButton)((UniformGrid)stsw.Columns[0].Header).Children[1]).Click -= stsw.BtnClearFilters_Click;
-                stsw.Columns.RemoveAt(0);
+                if (stsw.Columns[0].Header is UniformGrid grid && grid.Children[1] is StswButton button)
+                    button.Click -= stsw.BtnClearFilters_Click;
+                stsw.Columns.Remove(specialColumn);
             }
-            /*
-            stsw.Columns[0].MinWidth = (bool)e.NewValue ? stsw.MinColumnWidth : 0;
-            stsw.Columns[0].Width = (bool)e.NewValue ? DataGridLength.Auto : 0;
-            stsw.Columns[0].CanUserResize = (bool)e.NewValue;
-            */
         }
     }
     /*

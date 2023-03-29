@@ -102,10 +102,16 @@
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
                             <!-- frame part -->
-                            <ContentControl Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                            Margin="{TemplateBinding Padding}"/>
+                            <!--
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                            -->
+                                <ContentControl Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                Margin="{TemplateBinding Padding}"/>
+                            <!--
+                            </ScrollViewer>
+                            -->
                         </DockPanel>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
