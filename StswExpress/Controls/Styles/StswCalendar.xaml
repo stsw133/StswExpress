@@ -38,14 +38,12 @@
                                 <se:StswRepeatButton x:Name="PART_ButtonNextMonth" DockPanel.Dock="Right" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding Padding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronRight}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswButton x:Name="PART_ButtonSelectionMode" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" ForegroundDisabled="#B777" Margin="{TemplateBinding Padding}">
-                                    <TextBlock/>
-                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonSelectionMode" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding Padding}"/>
                             </DockPanel>
                             <!-- content -->
-                            <Grid DockPanel.Dock="Top" Height="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=15}" Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=20}">
+                            <Grid DockPanel.Dock="Top" MinHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=15}" MinWidth="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=20}">
                                 <!-- months (selection mode: year) -->
-                                <UniformGrid x:Name="PART_SelectionModeYear" DockPanel.Dock="Top" Columns="4" Margin="{TemplateBinding Padding}" Visibility="Hidden">
+                                <UniformGrid x:Name="PART_SelectionModeYear" Columns="4" Margin="{TemplateBinding Padding}" Visibility="Hidden">
                                     <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" Command="{Binding OnClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
                                     <se:StswButton Content="{Binding Month2, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" Command="{Binding OnClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2"/>
                                     <se:StswButton Content="{Binding Month3, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" Command="{Binding OnClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
@@ -60,22 +58,31 @@
                                     <se:StswButton Content="{Binding Month12, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" Command="{Binding OnClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="12"/>
                                 </UniformGrid>
                                 <!-- days (selection mode: month) -->
-                                <DockPanel x:Name="PART_SelectionModeMonth" Visibility="Hidden">
+                                <Grid x:Name="PART_SelectionModeMonth" Margin="{TemplateBinding Padding}" Visibility="Hidden">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
                                     <!-- days of week -->
-                                    <UniformGrid DockPanel.Dock="Top" Columns="7" Margin="{TemplateBinding Padding}">
-                                        <TextBlock Text="{Binding DayOfWeek1, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek2, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek3, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek4, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek5, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek6, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-                                        <TextBlock Text="{Binding DayOfWeek7, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                    <UniformGrid DockPanel.Dock="Top" Columns="7">
+                                        <TextBlock Text="{Binding DayOfWeek1, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek2, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek3, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek4, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek5, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek6, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+                                        <TextBlock Text="{Binding DayOfWeek7, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
                                     </UniformGrid>
                                     <!-- days of month -->
-                                    <ItemsControl DockPanel.Dock="Top" ItemsSource="{TemplateBinding Buttons}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                    <ItemsControl DockPanel.Dock="Top" Grid.Row="1" Grid.RowSpan="6" ItemsSource="{TemplateBinding Buttons}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <UniformGrid Columns="7" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
+                                                <UniformGrid Columns="7"/>
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
@@ -88,14 +95,15 @@
                                                             <Setter Property="BorderBrush" Value="Transparent"/>
                                                             <Setter Property="BorderBrushDisabled" Value="Transparent"/>
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IsInMonth}" Value="True">
+                                                                <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
                                                                     <Setter Property="FontWeight" Value="Medium"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Date.DayOfWeek}" Value="Sunday">
-                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IsInMonth}" Value="False">
-                                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                                <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource StswCalendar.InCurrentMonth.Foreground}"/>
+                                                                    <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsSelectedDay}" Value="True">
                                                                     <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Background}"/>
@@ -106,10 +114,10 @@
                                                                     <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.Checked.Border}"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
-                                                                    <Setter Property="BorderBrush" Value="Gray"/>
-                                                                    <Setter Property="BorderBrushMouseOver" Value="Gray"/>
+                                                                    <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
+                                                                    <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IsInRange}" Value="False">
+                                                                <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
                                                                     <Setter Property="Visibility" Value="Hidden"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -119,16 +127,18 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </DockPanel>
+                                </Grid>
                             </Grid>
                         </DockPanel>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="SelectionMode" Value="Year">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonSelectionMode" />
+                        <Trigger Property="SelectionMode" Value="ByYear">
+                            <!--
+                            <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_ButtonSelectionMode" />
+                            -->
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionModeYear" />
                         </Trigger>
-                        <Trigger Property="SelectionMode" Value="Month">
+                        <Trigger Property="SelectionMode" Value="ByMonth">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionModeMonth" />
                         </Trigger>
                     </ControlTemplate.Triggers>

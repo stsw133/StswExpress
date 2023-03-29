@@ -49,19 +49,19 @@ public class StswCalendar : UserControl
     }
 
     /// PART_ButtonPreviousYear_Click
-    public void PART_ButtonPreviousYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.Year ? -120 : -12);
+    public void PART_ButtonPreviousYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -120 : -12);
 
     /// PART_ButtonNextYear_Click
-    private void PART_ButtonNextYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.Year ? 120 : 12);
+    private void PART_ButtonNextYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 120 : 12);
 
     /// PART_ButtonPreviousMonth_Click
-    private void PART_ButtonPreviousMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.Year ? -12 : -1);
+    private void PART_ButtonPreviousMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -12 : -1);
 
     /// PART_ButtonNextMonth_Click
-    private void PART_ButtonNextMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.Year ? 12 : 1);
+    private void PART_ButtonNextMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 12 : 1);
 
     /// PART_ButtonNextMonth_Click
-    private void PART_ButtonSelectionMode_Click(object sender, RoutedEventArgs e) => SelectionMode = SelectionModes.Year;
+    private void PART_ButtonSelectionMode_Click(object sender, RoutedEventArgs e) => SelectionMode = StswFn.GetNextEnumValue(SelectionMode);
 
     /// CheckNewDate
     private DateTime CheckNewDate(int months)
@@ -78,12 +78,12 @@ public class StswCalendar : UserControl
         }
 
         /// check if new date is between range of Minimum and Maximum
-        var min = new DateTime(newDate.Value.Year, newDate.Value.Month, 1);
         var max = new DateTime(newDate.Value.Year, newDate.Value.Month, DateTime.DaysInMonth(newDate.Value.Year, newDate.Value.Month));
+        var min = new DateTime(newDate.Value.Year, newDate.Value.Month, 1);
 
-        if (months > 0 && Maximum.HasValue && max > Maximum.Value)
+        if (months > 0 && max > Maximum)
             return Maximum.Value;
-        else if (months < 0 && Minimum.HasValue && min < Minimum.Value)
+        else if (months < 0 && min < Minimum)
             return Minimum.Value;
 
         return newDate.Value;
@@ -92,10 +92,10 @@ public class StswCalendar : UserControl
     /// OnClick
     public void OnClick(object date)
     {
-        if (SelectionMode == SelectionModes.Year)
+        if (SelectionMode == SelectionModes.ByYear)
         {
             SelectedMonth = new DateTime(SelectedMonth.Year, Convert.ToInt32(date), 1);
-            SelectionMode = SelectionModes.Month;
+            SelectionMode = SelectionModes.ByMonth;
         }
         else
         {
@@ -208,49 +208,67 @@ public class StswCalendar : UserControl
     {
         if (obj is StswCalendar stsw)
         {
-            if (stsw.SelectionMode == SelectionModes.Year)
+            if (stsw.SelectionMode == SelectionModes.ByYear)
             {
                 /// display year
-                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS && buttonS.Content is TextBlock block)
-                    block.Text = stsw.SelectedMonth.Year.ToString();
+                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS)
+                    buttonS.Content = stsw.SelectedMonth.Year.ToString();
 
                 /// hide months when not in range of Minimum and Maximum
                 if (stsw.GetTemplateChild("PART_SelectionModeYear") is UniformGrid grid)
                 {
-                    var min = stsw.Minimum ?? DateTime.MinValue; min = new DateTime(min.Year, min.Month, 1);
                     var max = stsw.Maximum ?? DateTime.MaxValue; max = new DateTime(max.Year, max.Month, DateTime.DaysInMonth(max.Year, max.Month));
+                    var min = stsw.Minimum ?? DateTime.MinValue; min = new DateTime(min.Year, min.Month, 1);
 
                     for (int i = 0; i < 12; i++)
                         if (grid.Children[i] is StswButton button)
                             button.Visibility = new DateTime(stsw.SelectedMonth.Year, i + 1, 1).Between(min, max) ? Visibility.Visible : Visibility.Hidden;
                 }
             }
-            else if (stsw.SelectionMode == SelectionModes.Month)
+            else if (stsw.SelectionMode == SelectionModes.ByMonth)
             {
                 /// display month and year
-                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS && buttonS.Content is TextBlock block)
-                    block.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
+                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS)
+                    buttonS.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
+
+                /// clear previous 42 buttons in grid
+                var newButtons = new List<StswCalendarItem>();
 
                 /// calculate first button in grid
-                var dateForButton = new DateTime(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month, DateTime.DaysInMonth(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month) / 2);
-                dateForButton = dateForButton.AddDays(-21);
-                while (dateForButton.DayOfWeek != DayOfWeek.Monday)
-                    dateForButton = dateForButton.AddDays(1);
+                DateTime dateForButton;
+
+                if (stsw.SelectedMonth.Year == DateTime.MinValue.Year && stsw.SelectedMonth.Month == DateTime.MinValue.Month)
+                {
+                    dateForButton = new DateTime(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month, 1);
+                    while ((newButtons.Count + (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek) % 7 != (int)dateForButton.DayOfWeek)
+                        newButtons.Add(new StswCalendarItem() { Date = DateTime.MinValue });
+                }
+                else
+                {
+                    dateForButton = new DateTime(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month, DateTime.DaysInMonth(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month) / 2);
+                    dateForButton = dateForButton.AddDays(-21);
+                    while (dateForButton.DayOfWeek != CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek)
+                        dateForButton = dateForButton.AddDays(1);
+                }
 
                 /// put all 42 buttons to grid
-                var newButtons = new List<StswCalendarItem>();
-                while (newButtons.Count < 42)
+                var daysToRender = (stsw.SelectedMonth.Year == DateTime.MaxValue.Year && stsw.SelectedMonth.Month == DateTime.MaxValue.Month ? (DateTime.MaxValue - dateForButton).TotalDays : 42);
+                while (newButtons.Count < daysToRender)
                 {
                     newButtons.Add(new StswCalendarItem()
                     {
                         Date = dateForButton,
                         IsCurrentDay = DateTime.Now.Date == dateForButton,
-                        IsInMonth = dateForButton.Month == stsw.SelectedMonth.Month,
-                        IsInRange = dateForButton >= (stsw.Minimum ?? DateTime.MinValue) && dateForButton <= (stsw.Maximum ?? DateTime.MaxValue),
-                        IsSelectedDay = stsw.SelectedDate.HasValue ? dateForButton.Date == stsw.SelectedDate.Value.Date : false
+                        InCurrentMonth = dateForButton.Month == stsw.SelectedMonth.Month,
+                        InMinMaxRange = dateForButton >= (stsw.Minimum ?? DateTime.MinValue) && dateForButton <= (stsw.Maximum ?? DateTime.MaxValue),
+                        IsSelectedDay = stsw.SelectedDate.HasValue && dateForButton.Date == stsw.SelectedDate.Value.Date
                     });
-                    dateForButton = dateForButton.AddDays(1);
+                    if (newButtons.Count < daysToRender)
+                        dateForButton = dateForButton.AddDays(1);
                 }
+                while (newButtons.Count < 42)
+                    newButtons.Add(new StswCalendarItem() { Date = DateTime.MaxValue });
+
                 stsw.Buttons = newButtons;
             }
         }
@@ -258,15 +276,15 @@ public class StswCalendar : UserControl
     /// SelectionMode
     public enum SelectionModes
     {
-        Year,
-        Month
+        ByYear,
+        ByMonth
     }
     public static readonly DependencyProperty SelectionModeProperty
         = DependencyProperty.Register(
             nameof(SelectionMode),
             typeof(SelectionModes),
             typeof(StswCalendar),
-            new FrameworkPropertyMetadata(SelectionModes.Month,
+            new FrameworkPropertyMetadata(SelectionModes.ByMonth,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -277,13 +295,13 @@ public class StswCalendar : UserControl
     }
 
     /// Names for days of week
-    public string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Monday).Capitalize();
-    public string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Tuesday).Capitalize();
-    public string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Wednesday).Capitalize();
-    public string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Thursday).Capitalize();
-    public string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Friday).Capitalize();
-    public string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Saturday).Capitalize();
-    public string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(DayOfWeek.Sunday).Capitalize();
+    public string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek).Capitalize();
+    public string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 1)).Capitalize();
+    public string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 2)).Capitalize();
+    public string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 3)).Capitalize();
+    public string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 4)).Capitalize();
+    public string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 5)).Capitalize();
+    public string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 6)).Capitalize();
 
     /// Names for months
     public string Month1 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(1);
@@ -296,8 +314,8 @@ public class StswCalendar : UserControl
     public string Month8 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(8);
     public string Month9 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(9);
     public string Month10 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(10);
-    public string Month11 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(10);
-    public string Month12 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(10);
+    public string Month11 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(11);
+    public string Month12 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(12);
     #endregion
 }
 
@@ -305,8 +323,8 @@ public class StswCalendarItem : StswObservableObject
 {
     public DateTime Date { get; internal set; }
     public bool IsCurrentDay { get; internal set; }
-    public bool IsInMonth { get; internal set; }
-    public bool IsInRange { get; internal set; }
+    public bool InCurrentMonth { get; internal set; }
+    public bool InMinMaxRange { get; internal set; }
 
     private bool isSelectedDay;
     public bool IsSelectedDay { get => isSelectedDay; internal set => SetProperty(ref isSelectedDay, value); }

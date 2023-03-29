@@ -53,22 +53,22 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundChecked, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

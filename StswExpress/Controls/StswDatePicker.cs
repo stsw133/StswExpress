@@ -31,6 +31,7 @@ public class StswDatePicker : TextBox
         /// Popup: calendar
         if (GetTemplateChild("PART_Popup") is Popup popCalendar)
             partCalendar = popCalendar;
+        /*
         /// Popup: increment type
         if (GetTemplateChild("PART_IncrementType") is Popup popIncrement)
         {
@@ -39,6 +40,7 @@ public class StswDatePicker : TextBox
                     button.Click += PART_IncrementType_Click;
             partIncrement = popIncrement;
         }
+        */
 
         /// Content
         if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
@@ -50,7 +52,7 @@ public class StswDatePicker : TextBox
         
         base.OnApplyTemplate();
     }
-
+    /*
     /// PART_IncrementType_Checked
     private void PART_IncrementType_Click(object sender, RoutedEventArgs e)
     {
@@ -69,10 +71,10 @@ public class StswDatePicker : TextBox
 
         Focus();
     }
-
+    */
     /// PART_ContentHost_LostFocus
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e) => OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-
+    /*
     /// PART_ContentHost_MouseDown
     private void PART_ContentHost_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -82,56 +84,28 @@ public class StswDatePicker : TextBox
                 partIncrement.IsOpen = true;
         }
     }
-
+    */
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue)
         {
-            if (e.Delta > 0)
-                switch (IncrementType)
+            var step = e.Delta > 0 ? 1 : -1;
+
+            try
+            {
+                SelectedDate = IncrementType switch
                 {
-                    case IncrementTypes.Year:
-                        SelectedDate = SelectedDate.Value.AddYears(1);
-                        break;
-                    case IncrementTypes.Month:
-                        SelectedDate = SelectedDate.Value.AddMonths(1);
-                        break;
-                    case IncrementTypes.Day:
-                        SelectedDate = SelectedDate.Value.AddDays(1);
-                        break;
-                    case IncrementTypes.Hour:
-                        SelectedDate = SelectedDate.Value.AddHours(1);
-                        break;
-                    case IncrementTypes.Minute:
-                        SelectedDate = SelectedDate.Value.AddMinutes(1);
-                        break;
-                    case IncrementTypes.Second:
-                        SelectedDate = SelectedDate.Value.AddSeconds(1);
-                        break;
-                }
-            else
-                switch (IncrementType)
-                {
-                    case IncrementTypes.Year:
-                        SelectedDate = SelectedDate.Value.AddYears(-1);
-                        break;
-                    case IncrementTypes.Month:
-                        SelectedDate = SelectedDate.Value.AddMonths(-1);
-                        break;
-                    case IncrementTypes.Day:
-                        SelectedDate = SelectedDate.Value.AddDays(-1);
-                        break;
-                    case IncrementTypes.Hour:
-                        SelectedDate = SelectedDate.Value.AddHours(-1);
-                        break;
-                    case IncrementTypes.Minute:
-                        SelectedDate = SelectedDate.Value.AddMinutes(-1);
-                        break;
-                    case IncrementTypes.Second:
-                        SelectedDate = SelectedDate.Value.AddSeconds(-1);
-                        break;
-                }
+                    IncrementTypes.Year => SelectedDate.Value.AddYears(step),
+                    IncrementTypes.Month => SelectedDate.Value.AddMonths(step),
+                    IncrementTypes.Day => SelectedDate.Value.AddDays(step),
+                    IncrementTypes.Hour => SelectedDate.Value.AddHours(step),
+                    IncrementTypes.Minute => SelectedDate.Value.AddMinutes(step),
+                    IncrementTypes.Second => SelectedDate.Value.AddSeconds(step),
+                    _ => SelectedDate
+                };
+            }
+            catch { }
 
             e.Handled = true;
         }
@@ -289,9 +263,6 @@ public class StswDatePicker : TextBox
                     stsw.SelectedDate = stsw.Maximum;
             }
             OnFormatChanged(stsw, e);
-
-            //if (stsw.partCalendar?.IsOpen == true)
-            //    stsw.partCalendar.IsOpen = false;
         }
     }
     public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

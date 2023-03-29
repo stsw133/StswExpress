@@ -28,6 +28,10 @@
     <SolidColorBrush x:Key="StswButton.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:conv_ColorBrightness.Instance}, ConverterParameter=0}" />
     <SolidColorBrush x:Key="StswButton.Checked.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:conv_ColorBrightness.Instance}, ConverterParameter=-15%}" />
 
+    <SolidColorBrush x:Key="StswCalendar.InCurrentMonth.Foreground" Color="#999" />
+    <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#555" />
+    <SolidColorBrush x:Key="StswCalendar.SpecialDay.Foreground" Color="#B11" />
+    
     <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#2777" />
     <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#3777" />
     <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#7777" />

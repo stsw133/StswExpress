@@ -53,6 +53,15 @@ public static class StswFn
     /// Calculate string into double
     public static double CalculateString(string expression) => Convert.ToDouble(new System.Data.DataTable().Compute(expression, string.Empty));
 
+    /// Gets next value of T type enum
+    public static T GetNextEnumValue<T>(T value, int count = 1) where T : Enum
+    {
+        var values = (T[])Enum.GetValues(typeof(T));
+        var index = Array.IndexOf(values, value);
+        var nextIndex = (index + count) % values.Length;
+        return values[nextIndex];
+    }
+
     /// Gets system theme
     public static int GetWindowsTheme()
     {
