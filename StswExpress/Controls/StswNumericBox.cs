@@ -56,7 +56,7 @@ public class StswNumericBox : TextBox
         {
             try
             {
-                Value = StswFn.CalculateString(Text);
+                Text = StswFn.CalculateString(Text).ToString();
             }
             catch { }
         }
@@ -67,7 +67,7 @@ public class StswNumericBox : TextBox
     {
         try
         {
-            Value = StswFn.CalculateString(Text);
+            Text = StswFn.CalculateString(Text).ToString();
         }
         catch { }
 
