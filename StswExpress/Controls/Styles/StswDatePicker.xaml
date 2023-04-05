@@ -1,9 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswDatePicker}">
 
+        <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>

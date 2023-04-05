@@ -86,6 +86,26 @@ public class conv_Compare : MarkupExtension, IValueConverter
 /// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
 /// When targetType is anything else then returns bool depending on converter result.
 /// </summary>
+[Obsolete]
+public class conv_ContainItem : MarkupExtension, IValueConverter
+{
+    private static conv_ContainItem? instance;
+    public static conv_ContainItem Instance => instance ??= new conv_ContainItem();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
+
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => ((StswComboBox)parameter).DoContainItem(value);
+
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>
+/// Checks if value parameter contains converter parameter : value parameter has to be a IEnumerable of string.
+/// Use "!" at the beginning of converter parameter to invert output value.
+/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
+/// When targetType is anything else then returns bool depending on converter result.
+/// </summary>
 public class conv_Contains : MarkupExtension, IValueConverter
 {
     private static conv_Contains? instance;

@@ -37,7 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Home\HomeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\StswExpress\StswCalendar\StswCalendarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\StswExpress\StswColorPicker\StswColorPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\StswExpress\StswExpander\StswExpanderView.xaml.cs">
@@ -100,7 +106,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Home\HomeView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Modules\StswExpress\StswCalendar\StswCalendarView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\StswExpress\StswColorPicker\StswColorPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

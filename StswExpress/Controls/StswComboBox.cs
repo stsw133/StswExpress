@@ -6,13 +6,19 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
 
 public class StswComboBox : ComboBox
 {
+    public ICommand ComboBoxItemClickCommand { get; set; }
+
+    public StswComboBox()
+    {
+        ComboBoxItemClickCommand = new StswRelayCommand<object>(ComboBoxItemClick);
+    }
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
@@ -24,14 +30,11 @@ public class StswComboBox : ComboBox
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        Loaded += (s, e) =>
+        if (SelectionMode == SelectionMode.Multiple && !IsEditable)
         {
-            if (SelectionMode == SelectionMode.Multiple && !IsEditable)
-            {
-                SelectedItems ??= new List<object>();
-                SetText();
-            }
-        };
+            SelectedItems ??= new List<object>();
+            SetText();
+        }
 
         prop = GetType()?.GetProperty(nameof(SelectionBoxItem));
         prop = prop?.DeclaringType?.GetProperty(nameof(SelectionBoxItem));
@@ -40,7 +43,7 @@ public class StswComboBox : ComboBox
     }
 
     /// DoContainItem
-    private bool DoContainItem(object item)
+    internal bool DoContainItem(object item)
     {
         object? prop = null;
         if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string) && item?.GetType()?.GetProperty(SelectedValuePath) != null)
@@ -83,10 +86,10 @@ public class StswComboBox : ComboBox
         SetText();
     }
 
-    /// ToggleButton_Click
-    private void ToggleButton_Click(object sender, RoutedEventArgs e)
+    /// ComboBoxItemClick
+    private void ComboBoxItemClick(object parameter)
     {
-        var tgb = (ToggleButton)sender;
+        var tgb = (ToggleButton)parameter;
         var item = tgb.DataContext;
         var found = DoContainItem(item);
 

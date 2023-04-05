@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -19,72 +17,44 @@ public class StswDatePicker : TextBox
     static StswDatePicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
-        TextProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(null, OnTextChanged));
     }
 
     #region Events
-    private Popup? partCalendar, partIncrement;
-    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// Popup: calendar
-        if (GetTemplateChild("PART_Popup") is Popup popCalendar)
-            partCalendar = popCalendar;
-        /*
-        /// Popup: increment type
-        if (GetTemplateChild("PART_IncrementType") is Popup popIncrement)
-        {
-            if (popIncrement.Child is UniformGrid grid)
-                foreach (StswRadioButton button in grid.Children)
-                    button.Click += PART_IncrementType_Click;
-            partIncrement = popIncrement;
-        }
-        */
-
         /// Content
         if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
         {
+            content.KeyDown += PART_ContentHost_KeyDown;
             content.LostFocus += PART_ContentHost_LostFocus;
-            //content.MouseDown += PART_ContentHost_MouseDown;
             content.MouseWheel += PART_ContentHost_MouseWheel;
         }
         
         base.OnApplyTemplate();
     }
-    /*
-    /// PART_IncrementType_Checked
-    private void PART_IncrementType_Click(object sender, RoutedEventArgs e)
-    {
-        IncrementType = ((ButtonBase)sender).Content.ToString() switch
-        {
-            "YY" => IncrementTypes.Year,
-            "MM" => IncrementTypes.Month,
-            "DD" => IncrementTypes.Day,
-            "hh" => IncrementTypes.Hour,
-            "mm" => IncrementTypes.Minute,
-            "ss" => IncrementTypes.Second,
-            _ => IncrementTypes.Day
-        };
-        if (partIncrement?.IsOpen == true)
-            partIncrement.IsOpen = false;
 
-        Focus();
-    }
-    */
-    /// PART_ContentHost_LostFocus
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e) => OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-    /*
-    /// PART_ContentHost_MouseDown
-    private void PART_ContentHost_MouseDown(object sender, MouseButtonEventArgs e)
+    /// PART_ContentHost_KeyDown
+    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.MiddleButton == MouseButtonState.Pressed && !IsReadOnly)
-        {
-            if (partIncrement?.IsOpen == false)
-                partIncrement.IsOpen = true;
-        }
+        if (e.Key == Key.Enter)
+            PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
     }
-    */
+
+    /// PART_ContentHost_LostFocus
+    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(Text))
+            SelectedDate = null;
+        else if (DateTime.TryParse(Text, out var result))
+            SelectedDate = result;
+
+        Text = SelectedDate?.ToString();
+        var bindingExpression = GetBindingExpression(TextProperty);
+        if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
+            bindingExpression.UpdateSource();
+    }
+    
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
@@ -170,10 +140,20 @@ public class StswDatePicker : TextBox
     {
         if (obj is StswDatePicker stsw)
         {
-            if (stsw.Format == null)
-                stsw.Text = stsw.SelectedDate?.ToString(CultureInfo.CurrentCulture);
-            else
-                stsw.Text = stsw.SelectedDate?.ToString(stsw.Format);
+            var binding = stsw.GetBindingExpression(TextProperty)?.ParentBinding;
+            if (binding != null)
+            {
+                var newBinding = new Binding()
+                {
+                    ConverterCulture = binding.ConverterCulture,
+                    Mode = binding.Mode,
+                    Path = binding.Path,
+                    RelativeSource = binding.RelativeSource,
+                    StringFormat = stsw.Format,
+                    UpdateSourceTrigger = binding.UpdateSourceTrigger
+                };
+                stsw.SetBinding(TextProperty, newBinding);
+            }
         }
     }
 
@@ -261,29 +241,6 @@ public class StswDatePicker : TextBox
                     stsw.SelectedDate = stsw.Minimum;
                 if (stsw.Maximum != null && stsw.SelectedDate > stsw.Maximum)
                     stsw.SelectedDate = stsw.Maximum;
-            }
-            OnFormatChanged(stsw, e);
-        }
-    }
-    public static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswDatePicker stsw)
-        {
-            if (stsw.Format != null && DateTime.TryParseExact(stsw.Text, stsw.Format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime selectedDate))
-                stsw.SelectedDate = selectedDate;
-            else if (DateTime.TryParse(stsw.Text, out selectedDate))
-                stsw.SelectedDate = selectedDate;
-            else
-            {
-                var bindingExpression = BindingOperations.GetBindingExpression(stsw, SelectedDateProperty);
-                var boundType = bindingExpression?.ResolvedSource?.GetType().GetProperty(bindingExpression.ResolvedSourcePropertyName)?.PropertyType;
-                if (boundType != null)
-                {
-                    if (Nullable.GetUnderlyingType(boundType) != null || (!boundType.IsValueType && string.IsNullOrEmpty(stsw.Text)))
-                        stsw.SelectedDate = null;
-                    else
-                        Validation.MarkInvalid(bindingExpression, new ValidationError(new ExceptionValidationRule(), SelectedDateProperty, "Incorrect value!", null));
-                }
             }
         }
     }

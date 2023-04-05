@@ -2,16 +2,16 @@
 
 namespace StswExpress;
 
-public class BindingProxy : Freezable
+public class StswBindingProxy : Freezable
 {
-    protected override Freezable CreateInstanceCore() => new BindingProxy();
+    protected override Freezable CreateInstanceCore() => new StswBindingProxy();
 
     /// Proxy
     public static readonly DependencyProperty ProxyProperty
         = DependencyProperty.Register(
             nameof(Proxy),
             typeof(object),
-            typeof(BindingProxy)
+            typeof(StswBindingProxy)
         );
     public object Proxy
     {

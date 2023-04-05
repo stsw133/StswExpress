@@ -150,7 +150,7 @@
                                 </Grid.ContextMenu>
                             </Grid>
                             <!-- content grid -->
-                            <Grid Grid.Row="1">
+                            <Grid x:Name="PART_Content" Grid.Row="1" Focusable="False" IsEnabled="False" IsHitTestVisible="False">
                                 <AdornerDecorator>
                                     <ContentPresenter/>
                                 </AdornerDecorator>
@@ -181,9 +181,20 @@
                                     </Button>
                                 </StackPanel>
                             </Grid>
+                            
+                            <!-- content dialog -->
+                            <Grid x:Name="PART_ContentDialog" Grid.Row="1" Background="#7000">
+                                <ContentControl Content="{TemplateBinding ContentDialog}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
                         </Grid>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="ContentDialog" Value="{x:Null}">
+                            <Setter Property="Focusable" Value="True" TargetName="PART_Content" />
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Content" />
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentDialog" />
+                        </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder" />
                             <Setter Property="Foreground" Value="#B777" TargetName="PART_Header" />

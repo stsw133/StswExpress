@@ -28,15 +28,15 @@
                             <DockPanel>
 
                                 <!-- special buttons -->
-                                <DockPanel x:Name="PART_ButtonsSpecial" DockPanel.Dock="Top" HorizontalAlignment="Left">
-                                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
-                                    </se:StswToggleButton>
+                                <DockPanel x:Name="PART_ButtonsSpecial" DockPanel.Dock="Top" HorizontalAlignment="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter='True~Left~Stretch'}">
                                     <Border x:Name="PART_SeparatorSpecial"
                                             DockPanel.Dock="Top"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding SubBorderThickness}"
                                             Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
+                                    </se:StswToggleButton>
                                 </DockPanel>
                                 <Border x:Name="PART_SeparatorFirst"
                                         DockPanel.Dock="Top"
@@ -107,8 +107,7 @@
                             -->
                                 <ContentControl Content="{TemplateBinding Content}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                                Margin="{TemplateBinding Padding}"/>
+                                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
                             <!--
                             </ScrollViewer>
                             -->

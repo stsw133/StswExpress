@@ -12,8 +12,9 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
 {
     private readonly Dictionary<T, DataRowState> _itemStates = new();
 
-    public StswCollection() : base() { }
-
+    public StswCollection() : base()
+    {
+    }
     public StswCollection(IEnumerable<T> items) : base(items)
     {
         foreach (var item in items)
@@ -22,7 +23,6 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
             item.PropertyChanged += Item_PropertyChanged;
         }
     }
-
     public StswCollection(IList<T> items) : base(items)
     {
         foreach (var item in items)

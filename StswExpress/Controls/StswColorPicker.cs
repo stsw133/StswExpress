@@ -7,44 +7,30 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
-public class StswNumericBox : TextBox
+public class StswColorPicker : TextBox
 {
-    public StswNumericBox()
+    public StswColorPicker()
     {
         SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
     }
-    static StswNumericBox()
+    static StswColorPicker()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
     }
 
     #region Events
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
-            btnUp.Click += PART_ButtonUp_Click;
-        /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
-            btnDown.Click += PART_ButtonDown_Click;
-
         /// Content
         if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
         {
             content.KeyDown += PART_ContentHost_KeyDown;
             content.LostFocus += PART_ContentHost_LostFocus;
-            content.MouseWheel += PART_ContentHost_MouseWheel;
         }
-
+        
         base.OnApplyTemplate();
     }
-
-    /// PART_ButtonUp_Click
-    private void PART_ButtonUp_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value + Increment;
-
-    /// PART_ButtonDown_Click
-    private void PART_ButtonDown_Click(object sender, RoutedEventArgs e) => Value = Value == null ? 0 : Value - Increment;
 
     /// PART_ContentHost_KeyDown
     protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
@@ -57,33 +43,20 @@ public class StswNumericBox : TextBox
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrEmpty(Text))
-            Value = null;
-        else if (StswFn.TryCalculateString(Text, out var result))
-            Value = result;
-        else if (double.TryParse(Text, out result))
-            Value = result;
+            SelectedColor = default;
+        else
+        {
+            try
+            {
+                SelectedColor = System.Drawing.ColorTranslator.FromHtml(Text);
+            }
+            catch { }
+        }
 
-        Text = Value?.ToString();
+        Text = System.Drawing.ColorTranslator.ToHtml(SelectedColor);
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
             bindingExpression.UpdateSource();
-    }
-
-    /// PART_ContentHost_MouseWheel
-    private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
-    {
-        if (IsKeyboardFocused && !IsReadOnly && Value != null)
-        {
-            var step = e.Delta > 0 ? 1 : -1;
-
-            try
-            {
-                Value += step;
-            }
-            catch { }
-
-            e.Handled = true;
-        }
     }
     #endregion
 
@@ -93,7 +66,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(Buttons),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public ObservableCollection<UIElement> Buttons
     {
@@ -105,7 +78,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ButtonsAlignment),
             typeof(Dock),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Dock ButtonsAlignment
     {
@@ -118,7 +91,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public CornerRadius CornerRadius
     {
@@ -126,85 +99,12 @@ public class StswNumericBox : TextBox
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// Format
-    public static readonly DependencyProperty FormatProperty
-        = DependencyProperty.Register(
-            nameof(Format),
-            typeof(string),
-            typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
-    public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswNumericBox stsw)
-        {
-            var binding = stsw.GetBindingExpression(TextProperty)?.ParentBinding;
-            if (binding != null)
-            {
-                var newBinding = new Binding()
-                {
-                    ConverterCulture = binding.ConverterCulture,
-                    Mode = binding.Mode,
-                    Path = binding.Path,
-                    RelativeSource = binding.RelativeSource,
-                    StringFormat = stsw.Format,
-                    UpdateSourceTrigger = binding.UpdateSourceTrigger
-                };
-                stsw.SetBinding(TextProperty, newBinding);
-            }
-        }
-    }
-
-    /// Increment
-    public static readonly DependencyProperty IncrementProperty
-        = DependencyProperty.Register(
-            nameof(Increment),
-            typeof(double),
-            typeof(StswNumericBox)
-        );
-    public double Increment
-    {
-        get => (double)GetValue(IncrementProperty);
-        set => SetValue(IncrementProperty, value);
-    }
-    /// Maximum
-    public static readonly DependencyProperty MaximumProperty
-        = DependencyProperty.Register(
-            nameof(Maximum),
-            typeof(double?),
-            typeof(StswNumericBox)
-        );
-    public double? Maximum
-    {
-        get => (double?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-    /// Minimum
-    public static readonly DependencyProperty MinimumProperty
-        = DependencyProperty.Register(
-            nameof(Minimum),
-            typeof(double?),
-            typeof(StswNumericBox)
-        );
-    public double? Minimum
-    {
-        get => (double?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
-
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public string? Placeholder
     {
@@ -212,33 +112,86 @@ public class StswNumericBox : TextBox
         set => SetValue(PlaceholderProperty, value);
     }
 
-    /// Value
-    public static readonly DependencyProperty ValueProperty
+    /// SelectedColor
+    public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
-            nameof(Value),
-            typeof(double?),
-            typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
+            nameof(SelectedColor),
+            typeof(System.Drawing.Color),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(System.Drawing.Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public double? Value
+    public System.Drawing.Color SelectedColor
     {
-        get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        get => (System.Drawing.Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
     }
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
-        {
-            if (stsw.Value != null)
-            {
-                if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
-                    stsw.Value = stsw.Minimum;
-                if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
-                    stsw.Value = stsw.Maximum;
-            }
-        }
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColorR, stsw.SelectedColorG, stsw.SelectedColorB);
+    }
+
+    /// SelectedColorA
+    public static readonly DependencyProperty SelectedColorAProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorA),
+            typeof(short),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(short),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public short SelectedColorA
+    {
+        get => (short)GetValue(SelectedColorAProperty);
+        private set => SetValue(SelectedColorAProperty, value);
+    }
+    /// SelectedColorR
+    public static readonly DependencyProperty SelectedColorRProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorR),
+            typeof(short),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(short),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public short SelectedColorR
+    {
+        get => (short)GetValue(SelectedColorRProperty);
+        private set => SetValue(SelectedColorRProperty, value);
+    }
+    /// SelectedColorG
+    public static readonly DependencyProperty SelectedColorGProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorG),
+            typeof(short),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(short),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public short SelectedColorG
+    {
+        get => (short)GetValue(SelectedColorGProperty);
+        private set => SetValue(SelectedColorGProperty, value);
+    }
+    /// SelectedColorB
+    public static readonly DependencyProperty SelectedColorBProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorB),
+            typeof(short),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(short),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public short SelectedColorB
+    {
+        get => (short)GetValue(SelectedColorBProperty);
+        private set => SetValue(SelectedColorBProperty, value);
     }
     #endregion
 
@@ -249,7 +202,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BackgroundDisabled
     {
@@ -261,7 +214,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BackgroundMouseOver
     {
@@ -273,7 +226,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BackgroundFocused
     {
@@ -285,7 +238,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BackgroundReadOnly
     {
@@ -299,7 +252,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BorderBrushDisabled
     {
@@ -311,7 +264,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BorderBrushMouseOver
     {
@@ -323,7 +276,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(BorderBrushFocused),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush BorderBrushFocused
     {
@@ -337,7 +290,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush ForegroundDisabled
     {
@@ -349,7 +302,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush ForegroundMouseOver
     {
@@ -361,7 +314,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundFocused),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush ForegroundFocused
     {
@@ -373,7 +326,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Brush ForegroundPlaceholder
     {
@@ -387,7 +340,7 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswNumericBox)
+            typeof(StswColorPicker)
         );
     public Thickness SubBorderThickness
     {

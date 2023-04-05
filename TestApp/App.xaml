@@ -11,6 +11,9 @@
                 <ResourceDictionary Source="/StswExpress;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
+            <DataTemplate DataType="{x:Type local:HomeContext}">
+                <local:HomeView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
@@ -28,6 +31,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
                 <local:StswCheckBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswColorPickerContext}">
+                <local:StswColorPickerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>

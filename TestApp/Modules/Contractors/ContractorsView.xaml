@@ -68,7 +68,7 @@
         <!-- data grid -->
         <se:StswDataGrid ItemsSource="{Binding ListContractors}" Margin="3" SelectedItem="{Binding SelectedItem}">
             <DataGrid.Resources>
-                <se:BindingProxy x:Key="proxy" Proxy="{Binding}"/>
+                <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
 

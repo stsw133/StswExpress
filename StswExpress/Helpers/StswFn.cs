@@ -53,85 +53,97 @@ public static class StswFn
     }
 
     /// Calculate string into double
-    public static double CalculateString(string expression, CultureInfo? culture = null)
+    public static bool TryCalculateString(string expression, out double result, CultureInfo? culture = null)
     {
-        /// get culture
-        culture ??= CultureInfo.CurrentCulture;
-        var decSign = culture.NumberFormat.NumberDecimalSeparator[0];
-        var negSign = culture.NumberFormat.NegativeSign[0];
-
-        /// remove unnecessary characters
-        expression = Regex.Replace(expression, @"[^0-9.,^*()\-\+\/]+", "");
-
-        /// find first and last number
-        int i1, i2;
-        int findFirstAndLastIndex(char[] signs)
+        try
         {
-            var iSign = (expression[0] == negSign ? "_" + expression[1..] : expression).IndexOfAny(signs);
-            i1 = iSign;
-            while (i1 > 0
-                    && (char.IsDigit(expression[i1 - 1])
-                     || expression[i1 - 1] == decSign
-                     || (expression[i1 - 1] == negSign && (i1 < 2 || !char.IsDigit(expression[i1 - 2]))))
-                  )
-                i1--;
+            /// get culture
+            culture ??= CultureInfo.CurrentCulture;
+            var decSign = culture.NumberFormat.NumberDecimalSeparator[0];
+            var negSign = culture.NumberFormat.NegativeSign[0];
 
-            i2 = iSign;
-            do { i2++; } while (i2 == expression.Length - 1
-                            || (i2 < expression.Length && (char.IsDigit(expression[i2]) || expression[i2] == decSign || (!char.IsDigit(expression[i2 - 1]) && expression[i2] == negSign))));
+            /// remove unnecessary characters
+            expression = expression
+                .Replace(Environment.NewLine, string.Empty)
+                .Replace("\t", string.Empty)
+                .Replace(" ", string.Empty);
 
-            return iSign;
-        }
-        /// replace
-        double result;
-        void expressionReplace()
-        {
-            var addPlusSign = i1 > 0 && char.IsDigit(expression[i1 - 1]);
-            expression = expression.Remove(i1, i2 - i1);
-            expression = expression.Insert(i1, $"{(result > 0 && addPlusSign ? "+" : string.Empty)}{result}");
-        }
+            /// find first and last number
+            int i1, i2;
+            int findFirstAndLastIndex(char[] signs)
+            {
+                var iSign = (expression[0] == negSign ? "_" + expression[1..] : expression).IndexOfAny(signs);
+                i1 = iSign;
+                while (i1 > 0
+                        && (char.IsDigit(expression[i1 - 1])
+                         || expression[i1 - 1] == decSign
+                         || (expression[i1 - 1] == negSign && (i1 < 2 || !char.IsDigit(expression[i1 - 2]))))
+                      )
+                    i1--;
 
-        /// first ( )
-        while (expression.Any(x => x.In('(', ')')))
-        {
-            /// indexes
-            i2 = expression.IndexOf(')') + 1;
-            i1 = expression[..i2].LastIndexOf('(');
+                i2 = iSign;
+                do { i2++; } while (i2 == expression.Length - 1
+                                || (i2 < expression.Length && (char.IsDigit(expression[i2]) || expression[i2] == decSign || (!char.IsDigit(expression[i2 - 1]) && expression[i2] == negSign))));
 
-            /// result
-            var part0 = expression[i1..i2];
-            result = CalculateString(part0[1..^1]);
-            expressionReplace();
-        }
-        /// next ^
-        while (expression[1..].Any(x => x.In('^')))
-        {
-            var iSign = findFirstAndLastIndex(new char[] { '^' });
-            var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-            var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
-            result = Math.Pow(number1, number2);
-            expressionReplace();
-        }
-        /// next * /
-        while (expression[1..].Any(x => x.In('*', '/')))
-        {
-            var iSign = findFirstAndLastIndex(new char[] { '*', '/' });
-            var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-            var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
-            result = expression[iSign] == '*' ? number1 * number2 : number1 / number2;
-            expressionReplace();
-        }
-        /// next + -
-        while (expression[1..].Any(x => x.In('+', '-')))
-        {
-            var iSign = findFirstAndLastIndex(new char[] { '+', '-' });
-            var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-            var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
-            result = expression[iSign] == '+' ? number1 + number2 : number1 - number2;
-            expressionReplace();
-        }
+                return iSign;
+            }
+            /// replace
+            double value;
+            void expressionReplace()
+            {
+                var addPlusSign = i1 > 0 && char.IsDigit(expression[i1 - 1]);
+                expression = expression.Remove(i1, i2 - i1);
+                expression = expression.Insert(i1, $"{(value > 0 && addPlusSign ? "+" : string.Empty)}{value}");
+            }
 
-        return Convert.ToDouble(expression, culture);
+            /// first ( )
+            while (expression.Any(x => x.In('(', ')')))
+            {
+                /// indexes
+                i2 = expression.IndexOf(')') + 1;
+                i1 = expression[..i2].LastIndexOf('(');
+
+                /// result
+                var part0 = expression[i1..i2];
+                TryCalculateString(part0[1..^1], out value);
+                expressionReplace();
+            }
+            /// next ^
+            while (expression[1..].Any(x => x.In('^')))
+            {
+                var iSign = findFirstAndLastIndex(new char[] { '^' });
+                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
+                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
+                value = Math.Pow(number1, number2);
+                expressionReplace();
+            }
+            /// next * /
+            while (expression[1..].Any(x => x.In('*', '/')))
+            {
+                var iSign = findFirstAndLastIndex(new char[] { '*', '/' });
+                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
+                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
+                value = expression[iSign] == '*' ? number1 * number2 : number1 / number2;
+                expressionReplace();
+            }
+            /// next + -
+            while (expression[1..].Any(x => x.In('+', '-')))
+            {
+                var iSign = findFirstAndLastIndex(new char[] { '+', '-' });
+                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
+                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
+                value = expression[iSign] == '+' ? number1 + number2 : number1 - number2;
+                expressionReplace();
+            }
+
+            result = Convert.ToDouble(expression, culture);
+            return true;
+        }
+        catch
+        {
+            result = 0;
+            return false;
+        }
     }
 
     /// Gets next value of T type enum
@@ -190,5 +202,16 @@ public static class StswFn
         process.StartInfo.UseShellExecute = true;
         process.StartInfo.Verb = "open";
         process.Start();
+    }
+
+    /// Remove multiple instances of string in input when they are next to each other.
+    public static string RemoveMultipleInstances(string input, string remove)
+    {
+        var result = input;
+
+        while (result.Contains(remove + remove))
+            result = result.Replace(remove + remove, remove);
+
+        return result;
     }
 }

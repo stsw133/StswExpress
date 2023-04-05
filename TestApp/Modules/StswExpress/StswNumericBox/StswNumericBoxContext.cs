@@ -5,31 +5,36 @@ namespace TestApp;
 
 public class StswNumericBoxContext : StswObservableObject
 {
-    private double number = 0;
-    public double Number
+    private double number1 = 0;
+    public double Number1
     {
-        get => number;
-        set => SetProperty(ref number, value);
+        get => number1;
+        set => SetProperty(ref number1, value);
+    }
+    private double number2 = 0;
+    public double Number2
+    {
+        get => number2;
+        set => SetProperty(ref number2, value);
+    }
+    private double number3 = 0;
+    public double Number3
+    {
+        get => number3;
+        set => SetProperty(ref number3, value);
     }
 
     /// ...
-    public ICommand ClearCommand { get; set; }
     public ICommand SearchCommand { get; set; }
 
     public StswNumericBoxContext()
     {
-        ClearCommand = new StswRelayCommand(Clear);
         SearchCommand = new StswRelayCommand(Search);
     }
 
-    /// ClearCommand
-    private void Clear()
-    {
-        Number = 0;
-    }
     /// SearchCommand
     private void Search()
     {
-        MessageBox.Show(Number.ToString());
+        MessageBox.Show(Number3.ToString());
     }
 }

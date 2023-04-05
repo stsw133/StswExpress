@@ -53,81 +53,81 @@
                                                        Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                        SnapsToDevicePixels="True">
                                         <DockPanel x:Name="splitBorder">
                                             <Label x:Name="Arrow" Focusable="False"
-                                                   DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                   DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                    Content="▼" Padding="0"
-                                                   IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"
-                                                   Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                   IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"
+                                                   Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}"
                                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                             <Border x:Name="PART_SubBorder"
-                                                    DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                    DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                    BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                     SnapsToDevicePixels="True"/>
                                             <Grid>
                                                 <ContentPresenter x:Name="contentPresenter"
-                                                                  Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                  ContentTemplate="{Binding SelectionBoxItemTemplate, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                  ContentTemplateSelector="{Binding ItemTemplateSelector, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                  ContentStringFormat="{Binding SelectionBoxItemStringFormat, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                                  Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                  ContentTemplate="{Binding SelectionBoxItemTemplate, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                  ContentTemplateSelector="{Binding ItemTemplateSelector, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                  ContentStringFormat="{Binding SelectionBoxItemStringFormat, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                                   IsHitTestVisible="false"
                                                                   Margin="{TemplateBinding Padding}"
                                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                  HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                  VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                  Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"/>
+                                                                  HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                  VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                  Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"/>
                                                 <se:StswTextBox x:Name="PART_EditableTextBox"
                                                                 AllowDrop="True"
                                                                 BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0"
-                                                                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
+                                                                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                                 Padding="{TemplateBinding Padding}"
-                                                                Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"
-                                                                Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                                                Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                                Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}}"/>
                                             </Grid>
                                         </DockPanel>
                                     </se:ClippingBorder>
                                     <ControlTemplate.Triggers>
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="True"/>
+                                                <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" Value="True"/>
                                                 <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="False"/>
                                                 <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="False"/>
                                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="True"/>
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Background}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Border}" TargetName="PART_SubBorder" />
-                                            <Setter Property="Background" Value="{DynamicResource ComboBox.Static.Editable.Button.Background}" TargetName="Arrow" />
-                                            <Setter Property="BorderBrush" Value="{DynamicResource ComboBox.Static.Editable.Button.Border}" TargetName="Arrow" />
+                                            <Setter Property="Background" Value="{DynamicResource se:StswComboBox.Static.Editable.Background}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource se:StswComboBox.Static.Editable.Border}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource se:StswComboBox.Static.Editable.Border}" TargetName="PART_SubBorder" />
+                                            <Setter Property="Background" Value="{DynamicResource se:StswComboBox.Static.Editable.Button.Background}" TargetName="Arrow" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource se:StswComboBox.Static.Editable.Button.Border}" TargetName="Arrow" />
                                         </MultiDataTrigger>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="PART_SubBorder" />
-                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="PART_SubBorder" />
+                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" />
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="PART_SubBorder" />
-                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="PART_SubBorder" />
+                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" />
                                         </Trigger>
                                         <Trigger Property="IsHitTestVisible" Value="False">
-                                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="Arrow" />
+                                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="Arrow" />
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">
                                             <Setter Property="Background" Value="Transparent" TargetName="PART_EditableTextBox" />
-                                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="templateRoot" />
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="PART_SubBorder" />
-                                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" TargetName="Arrow" />
-                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="templateRoot" />
+                                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="PART_SubBorder" />
+                                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="Arrow" />
+                                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -210,6 +210,8 @@
                                           HorizontalContentAlignment="Left"
                                           Margin="0"
                                           Padding="{TemplateBinding Padding}"
+                                          Command="{Binding ComboBoxItemClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                           Style="{DynamicResource StswComboBoxItemButtonStyle}">
                                 <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=2}"/>
                             </ToggleButton>

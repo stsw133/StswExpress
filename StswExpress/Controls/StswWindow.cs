@@ -209,6 +209,19 @@ public class StswWindow : Window
         set => SetValue(ButtonsProperty, value);
     }
 
+    /// ContentDialog
+    public static readonly DependencyProperty ContentDialogProperty
+        = DependencyProperty.Register(
+            nameof(ContentDialog),
+            typeof(UIElement),
+            typeof(StswWindow)
+        );
+    public UIElement? ContentDialog
+    {
+        get => (UIElement?)GetValue(ContentDialogProperty);
+        set => SetValue(ContentDialogProperty, value);
+    }
+
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
