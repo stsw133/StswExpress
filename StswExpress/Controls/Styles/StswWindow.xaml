@@ -9,7 +9,7 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
+        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
         <Setter Property="WindowStyle" Value="None"/>
 
         <Setter Property="Template">
@@ -42,16 +42,16 @@
                                                IconScale="{x:Null}">
                                     <StackPanel>
                                         <TextBlock Text="{TemplateBinding Title}"/>
-                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.8}"/>
+                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
                                     </StackPanel>
                                 </se:StswHeader>
                                 <!-- buttons panel -->
                                 <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type se:OutlinedTextBlock}">
-                                            <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-                                            <Setter Property="Stroke" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
+                                            <Setter Property="Fill" Value="White"/>
+                                            <Setter Property="Stroke" Value="Black"/>
+                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
                                                     <Setter Property="Fill" Value="#B777"/>
@@ -71,7 +71,7 @@
                                         <se:OutlinedTextBlock Text="🗕"/>
                                     </Button>
                                     <Button x:Name="PART_ButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Maksymalizuj">
-                                        <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
+                                        <se:OutlinedTextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
                                     </Button>
                                     <Button x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij" Tag="Close">
                                         <se:OutlinedTextBlock Text="🗙"/>
@@ -83,34 +83,29 @@
                                         <MenuItem Header="Dodatkowe opcje">
                                             <MenuItem x:Name="PART_MenuScaling" Header="Rozmiar">
                                                 <MenuItem.Icon>
-                                                    <TextBlock Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding iSize, Source={x:Static se:StswSettings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <Slider Width="220" Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                                <Slider Width="220" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"/>
                                             </MenuItem>
                                             <MenuItem x:Name="PART_MenuTheme" Header="Motyw">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=-1}">
+                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=-1}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text=" " FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=0}">
+                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=1}">
+                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=1}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                            </MenuItem>
-                                            <MenuItem x:Name="PART_MenuSubtitle" Header="Podtytuł okna" IsCheckable="True" IsChecked="{Binding ShowSubTitle, Mode=TwoWay, Source={x:Static se:Settings.Default}}">
-                                                <MenuItem.Icon>
-                                                    <TextBlock Text="⚎" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
                                             </MenuItem>
                                             <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
                                                 <MenuItem.Icon>
@@ -136,7 +131,7 @@
                                         </MenuItem>
                                         <MenuItem x:Name="PART_MenuRestore" Header="Maksymalizuj">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
@@ -159,9 +154,9 @@
                                 <StackPanel x:Name="PART_FullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type se:OutlinedTextBlock}">
-                                            <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-                                            <Setter Property="Stroke" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
+                                            <Setter Property="Fill" Value="White"/>
+                                            <Setter Property="Stroke" Value="Black"/>
+                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
                                                     <Setter Property="Fill" Value="#B777"/>
@@ -219,9 +214,6 @@
                         <Trigger Property="SubTitle" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding ShowSubTitle, Source={x:Static se:Settings.Default}}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle" />
-                        </DataTrigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder" />
                             <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder" />
@@ -256,9 +248,9 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=1.25}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
-        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=3.75}"/>
+        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=3.75}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#7777"/>

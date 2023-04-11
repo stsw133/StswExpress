@@ -104,7 +104,7 @@ public class ContractorsContext : StswObservableObject
     {
         if (IsBusy[nameof(Refresh)]) return;
         
-        ColumnFilters.GetColumnFilters(out var filter, out var parameters);
+        StswFilter.GetColumnFilters(ColumnFilters, out var filter, out var parameters);
         await Task.Run(() =>
         {
             IsBusy[nameof(Refresh)] = true;

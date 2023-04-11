@@ -24,10 +24,10 @@
         <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
 
         <Setter Property="Placeholder" Value="Wybierz kolor..."/>
 
@@ -49,7 +49,7 @@
                             <se:StswToggleButton x:Name="PART_ButtonSpecial"
                                                  DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
                                                  BorderThickness="0" CornerRadius="0" Padding="0"
-                                                 Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
+                                                 Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}" Scale="1.5"/>
                             </se:StswToggleButton>
                             <!-- subborder -->
@@ -85,7 +85,7 @@
                                             <Slider x:Name="PART_SliderA"
                                                     IsSnapToTickEnabled="True" TickFrequency="1"
                                                     Maximum="255" Value="{Binding SelectedColorA, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=10}"
+                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
                                         <!-- R -->
@@ -98,7 +98,7 @@
                                             <Slider x:Name="PART_SliderR"
                                                     IsSnapToTickEnabled="True" TickFrequency="1"
                                                     Maximum="255" Value="{Binding SelectedColorR, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=10}"
+                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
                                         <!-- G -->
@@ -111,7 +111,7 @@
                                             <Slider x:Name="PART_SliderG"
                                                     IsSnapToTickEnabled="True" TickFrequency="1"
                                                     Maximum="255" Value="{Binding SelectedColorG, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=10}"
+                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
                                         <!-- B -->
@@ -124,7 +124,7 @@
                                             <Slider x:Name="PART_SliderB"
                                                     IsSnapToTickEnabled="True" TickFrequency="1"
                                                     Maximum="255" Value="{Binding SelectedColorB, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=10}"
+                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
                                     </DockPanel>
@@ -137,7 +137,7 @@
                                          StrokeThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                          Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Ellipse.Fill>
-                                        <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_ColorBrightness.Instance}}"/>
+                                        <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorBrightnessConverter.Instance}}"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <Grid>
@@ -147,7 +147,7 @@
                                                Text="{TemplateBinding Placeholder}"
                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               Visibility="{TemplateBinding Text, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter={x:Null}}"/>
+                                               Visibility="{TemplateBinding Text, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter={x:Null}}"/>
                                     <ScrollViewer x:Name="PART_ContentHost" 
                                                   Focusable="False" 
                                                   HorizontalScrollBarVisibility="Hidden" 

@@ -31,7 +31,7 @@ public class StswDataGrid : DataGrid
         for (int i = 0; i < bindingDatas.Count; i++)
             extDict.Add(i.ToString(), bindingDatas[i]);
 
-        extDict.ClearColumnFilters();
+        StswFilter.ClearColumnFilters(extDict);
     }
     #endregion
 

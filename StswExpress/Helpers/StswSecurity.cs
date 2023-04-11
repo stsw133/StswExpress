@@ -1,94 +1,112 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Net;
-using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace StswExpress;
 
+/// <summary>
+/// Provides methods for encryption and decryption of text.
+/// </summary>
 public static class StswSecurity
 {
-    private static string? saltKey = null;
-    public static string SaltKey { set => saltKey = value; }
+    private static string? key = null;
+    /// <summary>
+    /// Property to set the encryption key, which must be at least 16 characters long.
+    /// </summary>
+    [MinLength(16)]
+    public static string Key { set => key = value; }
 
-    private static string? hashKey = null;
-    public static string HashKey { set => hashKey = value; }
-
-    /// New secure string
-    public static SecureString NewSecureString(string text) => new NetworkCredential(string.Empty, text).SecurePassword;
-
-    /// Secure string to byte array
-    public static byte[] SecureStringToBytea(SecureString text) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, text).Password);
-
-    /// Generate salt
-    private static byte[] GenerateSalt(bool random)
+    /// <summary>
+    /// Gets hashed <see cref="byte"/>[] using SHA256 algorithm.
+    /// </summary>
+    /// <param name="text">Text to hash.</param>
+    /// <returns>Hashed text.</returns>
+    public static byte[] GetHash(string text)
     {
-        if (random)
-        {
-            using var generator = RandomNumberGenerator.Create();
-            var salt = new byte[16];
-            generator.GetBytes(salt);
-            return salt;
-        }
-        else return Encoding.UTF8.GetBytes(saltKey);
+        using (HashAlgorithm algorithm = SHA256.Create())
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(text));
     }
 
-    /// Generate hash
-    public static byte[] GenerateHash(SecureString password)
+    /// <summary>
+    /// Gets hashed <see cref="string"/> using SHA256 algorithm.
+    /// </summary>
+    /// <param name="text">Text to hash.</param>
+    /// <returns>Hashed text.</returns>
+    public static string GetHashString(string text)
     {
-        using var deriveBytes = new Rfc2898DeriveBytes(SecureStringToBytea(password), GenerateSalt(false), 1000);
-        return deriveBytes.GetBytes(16);
+        var sb = new StringBuilder();
+        foreach (byte b in GetHash(text))
+            sb.Append(b.ToString("X2"));
+        return sb.ToString();
     }
 
-    /// Encrypt text
+    /// <summary>
+    /// Encrypts <see cref="string"/> using AES.
+    /// </summary>
+    /// <param name="text">Text to encrypt.</param>
+    /// <returns>Encrypted text.</returns>
+    /// <exception cref="ArgumentNullException"/>
     public static string Encrypt(string text)
     {
+        if (key == null)
+            throw new ArgumentNullException(nameof(Key));
+
         if (string.IsNullOrEmpty(text))
             return text;
 
-        var clearBytes = Encoding.Unicode.GetBytes(text);
-        using (var encryptor = Aes.Create())
+        var iv = new byte[16];
+        byte[] array;
+
+        using (var aes = Aes.Create())
         {
-            var pdb = new Rfc2898DeriveBytes(hashKey, GenerateSalt(false));
-            encryptor.Key = pdb.GetBytes(32);
-            encryptor.IV = pdb.GetBytes(16);
-            using (var ms = new MemoryStream())
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+
+            var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            using (var memoryStream = new MemoryStream())
+            using (var scryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
             {
-                using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                {
-                    cs.Write(clearBytes, 0, clearBytes.Length);
-                    cs.Close();
-                }
-                text = Convert.ToBase64String(ms.ToArray());
+                using (var streamWriter = new StreamWriter(scryptoStream))
+                    streamWriter.Write(text);
+
+                array = memoryStream.ToArray();
             }
         }
-        return text;
+
+        return Convert.ToBase64String(array);
     }
 
-    /// Decrypt text
+    /// <summary>
+    /// Decrypts <see cref="string"/> using AES.
+    /// </summary>
+    /// <param name="text">Text to decrypt.</param>
+    /// <returns>Decrypted text.</returns>
+    /// <exception cref="ArgumentNullException"/>
     public static string Decrypt(string text)
     {
+        if (key == null)
+            throw new ArgumentNullException(nameof(Key));
+
         if (string.IsNullOrEmpty(text))
             return text;
 
-        text = text.Replace(" ", "+");
-        var cipherBytes = Convert.FromBase64String(text);
-        using (var encryptor = Aes.Create())
+        var iv = new byte[16];
+        var buffer = Convert.FromBase64String(text);
+
+        using (var aes = Aes.Create())
         {
-            var pdb = new Rfc2898DeriveBytes(hashKey, GenerateSalt(false));
-            encryptor.Key = pdb.GetBytes(32);
-            encryptor.IV = pdb.GetBytes(16);
-            using (var ms = new MemoryStream())
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+
+            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            using (var memoryStream = new MemoryStream(buffer))
+            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
             {
-                using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                {
-                    cs.Write(cipherBytes, 0, cipherBytes.Length);
-                    cs.Close();
-                }
-                text = Encoding.Unicode.GetString(ms.ToArray());
+                using (var streamReader = new StreamReader(cryptoStream))
+                    return streamReader.ReadToEnd();
             }
         }
-        return text;
     }
 }

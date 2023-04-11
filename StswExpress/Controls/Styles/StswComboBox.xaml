@@ -20,11 +20,11 @@
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter='1 0 0 0'}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
 
         <Setter Property="ButtonAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -59,9 +59,9 @@
                                             <Label x:Name="Arrow" Focusable="False"
                                                    DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                    Content="▼" Padding="0"
-                                                   IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"
+                                                   IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"
                                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                                   Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}"
+                                                   Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
                                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                             <Border x:Name="PART_SubBorder"
                                                     DockPanel.Dock="{Binding ButtonAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
@@ -79,7 +79,7 @@
                                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                                   HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                                   VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                                                  Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}, ConverterParameter=!}"/>
+                                                                  Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
                                                 <se:StswTextBox x:Name="PART_EditableTextBox"
                                                                 AllowDrop="True"
                                                                 BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0"
@@ -88,7 +88,7 @@
                                                                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                                 VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                                                Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                                                Visibility="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                             </Grid>
                                         </DockPanel>
                                     </se:ClippingBorder>
@@ -213,7 +213,7 @@
                                           Command="{Binding ComboBoxItemClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                           Style="{DynamicResource StswComboBoxItemButtonStyle}">
-                                <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=2}"/>
+                                <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=2}"/>
                             </ToggleButton>
                         </ControlTemplate>
                     </Setter.Value>

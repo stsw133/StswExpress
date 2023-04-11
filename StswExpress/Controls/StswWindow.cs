@@ -52,7 +52,7 @@ public class StswWindow : Window
 
         /// Menu: scaling
         if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
-            mniScaling.Click += (s, e) => Settings.Default.iSize = 12;
+            mniScaling.Click += (s, e) => StswSettings.Default.iSize = 12;
         /// Menu: theme
         if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
             foreach (MenuItem mni in mniTheme.Items)
@@ -149,11 +149,11 @@ public class StswWindow : Window
         var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
 
         if (themeID < 0)
-            theme.Color = (ThemeColor)StswFn.GetWindowsTheme();
+            theme.Color = StswFn.GetWindowsTheme();
         else
             theme.Color = (ThemeColor)themeID;
 
-        Settings.Default.Theme = themeID;
+        StswSettings.Default.Theme = themeID;
     }
 
     /// FullscreenClick

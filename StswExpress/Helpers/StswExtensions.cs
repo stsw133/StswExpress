@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
@@ -13,17 +15,36 @@ using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
+/// <summary>
+/// Collection of extension methods for various types and objects. These methods simplify common tasks and provide additional functionality beyond what is available in the standard WPF API.
+/// </summary>
 public static class StswExtensions
 {
-    #region Convert extensions
-    /// Converts ImageSource to byte[]
-    public static byte[] AsBytes(this ImageSource imageSource)
+    #region Bool extensions
+    /// <summary>
+    /// Returns <c>true</c> if a value is between two other values (inclusive), <c>false</c> otherwise.
+    /// </summary>
+    public static bool Between<T>(this T value, T start, T end) => Comparer<T>.Default.Compare(value, start) >= 0 && Comparer<T>.Default.Compare(value, end) <= 0;
+
+    /// <summary>
+    /// Returns <c>true</c> if a value is contained in a collection, <c>false</c> otherwise.
+    /// </summary>
+    public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
+
+    /// <summary>
+    /// Returns <c>true</c> if a value is contained in a collection, <c>false</c> otherwise.
+    /// </summary>
+    public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
+    #endregion
+
+    #region Byte[] extensions
+    /// <summary>
+    /// Converts <see cref="ImageSource"/> to <see cref="byte"/>[].
+    /// </summary>
+    public static byte[] ToBytes(this ImageSource value)
     {
         var encoder = new PngBitmapEncoder();
-        var frame = BitmapFrame.Create(imageSource as BitmapSource);
-
-        encoder.Frames.Add(frame);
-
+        encoder.Frames.Add(BitmapFrame.Create(value as BitmapSource));
         using (var memoryStream = new MemoryStream())
         {
             encoder.Save(memoryStream);
@@ -31,52 +52,32 @@ public static class StswExtensions
         }
     }
 
-    /// Converts System.Windows.Media.Brush to System.Drawing.Color
-    public static System.Drawing.Color AsColor(this Brush brush)
-    {
-        var solid = (SolidColorBrush)brush;
-        return System.Drawing.Color.FromArgb(solid.Color.A, solid.Color.R, solid.Color.G, solid.Color.B);
-    }
+    /// <summary>
+    /// Converts <see cref="SecureString"/> to <see cref="byte"/>[].
+    /// </summary>
+    public static byte[] ToBytes(this SecureString value) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, value).Password);
+    #endregion
 
-    /// Converts byte[] to BitmapImage
-    public static BitmapImage? AsImage(this byte[] imageData)
-    {
-        if (!imageData.Any())
-            return null;
-
-        var result = new BitmapImage();
-        using (var mem = new MemoryStream(imageData))
-        {
-            mem.Position = 0;
-            result.BeginInit();
-            result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-            result.CacheOption = BitmapCacheOption.OnLoad;
-            result.UriSource = null;
-            result.StreamSource = mem;
-            result.EndInit();
-        }
-        result.Freeze();
-
-        return result;
-    }
-
-    /// Converts DataTable to list of T objects
-    public static List<T> AsList<T>(this DataTable table) where T : class, new()
+    #region Collection extensions
+    /// <summary>
+    /// Converts <see cref="DataTable"/> to <see cref="List{T}"/>.
+    /// </summary>
+    public static List<T> ToObjectList<T>(this DataTable value) where T : class, new()
     {
         var result = new List<T>();
 
-        foreach (var row in table.AsEnumerable())
+        foreach (var row in value.AsEnumerable())
         {
             var obj = new T();
 
-            foreach (var prop in obj.GetType().GetProperties().Where(p => p.Name.ToLower().In(table.Columns.Cast<DataColumn>().Select(x => x.ColumnName.ToLower()))))
+            foreach (var prop in obj.GetType().GetProperties().Where(p => p.Name.ToLower().In(value.Columns.Cast<DataColumn>().Select(x => x.ColumnName.ToLower()))))
             {
                 try
                 {
                     var propertyInfo = obj.GetType().GetProperty(prop.Name);
 
                     if (propertyInfo?.PropertyType == typeof(ImageSource))
-                        propertyInfo.SetValue(obj, ((byte[])row[prop.Name]).AsImage(), null);
+                        propertyInfo.SetValue(obj, ((byte[])row[prop.Name]).ToBitmapImage(), null);
                     else if (propertyInfo?.PropertyType != typeof(object))
                         propertyInfo?.SetValue(obj, row[prop.Name].ConvertTo(propertyInfo.PropertyType), null);
                     else
@@ -94,41 +95,162 @@ public static class StswExtensions
         return result;
     }
 
-    /// Changes object to different type.
-    public static object? ConvertTo(this object o, Type t)
-    {
-        if (o == null || o == DBNull.Value)
-            return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
-        else
-        {
-            var underlyingType = Nullable.GetUnderlyingType(t);
-            return underlyingType == null
-                ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
-                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
-        }
-    }
-
-    /// Converts one type of list structure to another one.
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : StswCollectionItem => new StswCollection<T>(value);
-    public static StswDictionary<T1, T2> ToExtDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
+    /// <summary>
+    /// Converts <see cref="IEnumerable{T}"/> to <see cref="ObservableCollection{T}"/>.
+    /// </summary>
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 
-    /// Converts string to Nullable.
-    public static T? ToNullable<T>(this string s) where T : struct
-    {
-        T? result = new();
+    /// <summary>
+    /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswCollection{T}"/>.
+    /// </summary>
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : StswCollectionItem => new StswCollection<T>(value);
 
-        if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
+    /// <summary>
+    /// Converts <see cref="IDictionary{TKey, TValue}"/> to <see cref="StswDictionary{TKey, TValue}"/>.
+    /// </summary>
+    public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
+    #endregion
+
+    #region Color extensions
+    /// <summary>
+    /// Makes color from HSL values.
+    /// </summary>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 100.</param>
+    /// <param name="lightness">Between 0 and 100.</param>
+    /// <returns></returns>
+    public static Color FromHsl(int hue, int saturation, int lightness)
+    {
+        double h = hue / 360.0;
+        double s = saturation / 100.0;
+        double l = lightness / 100.0;
+
+        double c = (1 - Math.Abs(2 * l - 1)) * s;
+        double x = c * (1 - Math.Abs((h * 6) % 2 - 1));
+        double m = l - c / 2;
+
+        double r, g, b;
+        if (h < 1.0 / 6)
         {
-            var conv = TypeDescriptor.GetConverter(typeof(T));
-            result = (T?)conv.ConvertFrom(s);
+            r = c;
+            g = x;
+            b = 0;
         }
+        else if (h < 2.0 / 6)
+        {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (h < 3.0 / 6)
+        {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (h < 4.0 / 6)
+        {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (h < 5.0 / 6)
+        {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else
+        {
+            r = c;
+            g = 0;
+            b = x;
+        }
+
+        byte red = (byte)((r + m) * 255);
+        byte green = (byte)((g + m) * 255);
+        byte blue = (byte)((b + m) * 255);
+
+        return Color.FromRgb(red, green, blue);
+    }
+
+    /// <summary>
+    /// Gets HSL values from color.
+    /// </summary>
+    public static void GetHsl(this Color color, out double hue, out double saturation, out double lightness)
+    {
+        double r = (double)color.R / 255.0;
+        double g = (double)color.G / 255.0;
+        double b = (double)color.B / 255.0;
+
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double delta = max - min;
+
+        /// calculate hue
+        if (delta == 0)
+            hue = 0;
+        else if (max == r)
+            hue = ((g - b) / delta) % 6;
+        else if (max == g)
+            hue = ((b - r) / delta) + 2;
+        else
+            hue = ((r - g) / delta) + 4;
+
+        hue = Math.Round(hue * 60);
+
+        /// make sure hue is positive
+        if (hue < 0)
+            hue += 360;
+
+        /// calculate lightness
+        lightness = (max + min) / 2;
+
+        /// calculate saturation
+        if (delta == 0)
+            saturation = 0;
+        else
+            saturation = delta / (1 - Math.Abs(2 * lightness - 1));
+
+        hue = Math.Round(hue);
+        saturation = Math.Round(saturation * 100);
+        lightness = Math.Round(lightness * 100);
+    }
+
+    /// <summary>
+    /// Converts <see cref="byte"/>[] to <see cref="BitmapImage"/>.
+    /// </summary>
+    public static BitmapImage? ToBitmapImage(this byte[] value)
+    {
+        if (!value.Any())
+            return null;
+
+        var result = new BitmapImage();
+        using (var mem = new MemoryStream(value))
+        {
+            mem.Position = 0;
+            result.BeginInit();
+            result.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+            result.CacheOption = BitmapCacheOption.OnLoad;
+            result.UriSource = null;
+            result.StreamSource = mem;
+            result.EndInit();
+        }
+        result.Freeze();
+
         return result;
     }
+
+    /// <summary>
+    /// Converts <see cref="SolidColorBrush"/> to <see cref="System.Drawing.Color"/>.
+    /// </summary>
+    public static Color ToColor(this SolidColorBrush value) => Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
     #endregion
 
     #region Finding extensions
-    /// Finds first visual ancestor of T type outside specific control.
+    /// <summary>
+    /// Finds the first visual ancestor of a specific type for the given control.
+    /// </summary>
     public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
     {
         if (obj != null)
@@ -146,7 +268,48 @@ public static class StswExtensions
         return null;
     }
 
-    /// Finds visual parent of specific control.
+    /// <summary>
+    /// Finds the first visual child of a specific type for the given control.
+    /// </summary>
+    public static T? FindVisualChild<T>(DependencyObject obj) where T : Visual
+    {
+        T? child = default;
+
+        var numVisuals = VisualTreeHelper.GetChildrenCount(obj);
+        for (int i = 0; i < numVisuals; i++)
+        {
+            var v = (Visual)VisualTreeHelper.GetChild(obj, i);
+            child = v as T;
+
+            child ??= FindVisualChild<T>(v);
+
+            if (child != null)
+                break;
+        }
+
+        return child;
+    }
+
+    /// <summary>
+    /// Finds all visual children of a specific type for the given control.
+    /// </summary>
+    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : DependencyObject
+    {
+        if (obj != null)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child and not null)
+                {
+                    if (child is T t)
+                        yield return t;
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                        yield return childOfChild;
+                }
+    }
+
+    /// <summary>
+    /// Gets the parent of the given control.
+    /// </summary>
     public static DependencyObject? GetParent(DependencyObject obj)
     {
         if (obj == null)
@@ -163,92 +326,12 @@ public static class StswExtensions
 
         return VisualTreeHelper.GetParent(obj);
     }
-
-    /// Finds first visual child of T type inside specific control.
-    public static T? FindVisualChild<T>(DependencyObject parent) where T : Visual
-    {
-        T? child = default;
-
-        var numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-        for (int i = 0; i < numVisuals; i++)
-        {
-            var v = (Visual)VisualTreeHelper.GetChild(parent, i);
-            child = v as T;
-
-            child ??= FindVisualChild<T>(v);
-
-            if (child != null)
-                break;
-        }
-
-        return child;
-    }
-
-    /// Finds all visual children of T type inside specific control.
-    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
-    {
-        if (parent != null)
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child != null && child is T t)
-                    yield return t;
-
-                foreach (T childOfChild in FindVisualChildren<T>(child))
-                    yield return childOfChild;
-            }
-    }
     #endregion
 
-    #region StswColumnFilters extensions
-    /// Gets data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void GetColumnFilters(this StswDictionary<string, StswFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
-    {
-        filter = string.Empty;
-        parameters = new List<(string, object)>();
-
-        foreach (var elem in dict)
-        {
-            /// Header is StswColumnFilterData
-            if (elem.Value?.SqlString != null)
-            {
-                filter += " and " + elem.Value.SqlString;
-                if (elem.Value.Value1 != null && elem.Value.SqlParam != null)
-                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "1", (elem.Value.Value1 is List<object> ? null : elem.Value.Value1) ?? DBNull.Value));
-                if (elem.Value.Value2 != null && elem.Value.SqlParam != null)
-                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "2", (elem.Value.Value2 is List<object> ? null : elem.Value.Value2) ?? DBNull.Value));
-            }
-        }
-
-        if (filter.StartsWith(" and "))
-            filter = filter[5..];
-        if (string.IsNullOrWhiteSpace(filter))
-            filter = "1=1";
-    }
-
-    /// Clears data from controls of "ColumnFilter" type in ExtDictionary.
-    public static void ClearColumnFilters(this StswDictionary<string, StswFilterBindingData> dict)
-    {
-        foreach (var pair in dict)
-            dict[pair.Key]?.Clear();
-    }
-    #endregion
-
-    /// Returns true if start <= item <= end
-    public static bool Between<T>(this T item, T start, T end) => Comparer<T>.Default.Compare(item, start) >= 0 && Comparer<T>.Default.Compare(item, end) <= 0;
-
-    /// Sets first letter to upper case and rest to lower case.
-    public static string Capitalize(this string value) => char.ToUpper(value.First()) + value[1..].ToLower();
-
-    /// Returns true if parameter list or array contains given value.
-    public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
-    public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
-
-    /// Trim start or end of string.
-    public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));
-    public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source[value.Length..];
-
-    /// Tries to do action or func a few times in case a single time could not work.
+    #region Function extensions
+    /// <summary>
+    /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
+    /// </summary>
     public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)
@@ -267,6 +350,10 @@ public static class StswExtensions
             }
         }
     }
+
+    /// <summary>
+    /// Tries to execute a function multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
+    /// </summary>
     public static T? TryMultipleTimes<T>(this Func<T> func, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)
@@ -285,4 +372,53 @@ public static class StswExtensions
         }
         return default;
     }
+    #endregion
+
+    #region Text extensions
+    /// <summary>
+    /// Capitalizes the first letter of a string and makes the rest lowercase.
+    /// </summary>
+    public static string Capitalize(this string text) => char.ToUpper(text.First()) + text[1..].ToLower();
+
+    /// <summary>
+    /// Converts <see cref="Color"/> to <see cref="string"/>.
+    /// </summary>
+    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
+
+    /// <summary>
+    /// Converts <see cref="string"/> to <see cref="SecureString"/>.
+    /// </summary>
+    public static SecureString ToSecureString(this string value) => new NetworkCredential(string.Empty, value).SecurePassword;
+
+    /// <summary>
+    /// Trims a string of a specified substring at the end.
+    /// </summary>
+    public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));
+
+    /// <summary>
+    /// Trims a string of a specified substring at the start.
+    /// </summary>
+    public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source[value.Length..];
+    #endregion
+
+    #region Universal extensions
+    /// <summary>
+    /// Converts <see cref="object"/> to different type.
+    /// </summary>
+    /// <param name="o">Object to convert.</param>
+    /// <param name="t">Type to convert to.</param>
+    /// <returns>Object of different type.</returns>
+    public static object? ConvertTo(this object o, Type t)
+    {
+        if (o == null || o == DBNull.Value)
+            return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
+        else
+        {
+            var underlyingType = Nullable.GetUnderlyingType(t);
+            return underlyingType == null
+                ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
+                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+        }
+    }
+    #endregion
 }

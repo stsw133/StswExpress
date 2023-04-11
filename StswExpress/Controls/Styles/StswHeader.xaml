@@ -9,9 +9,9 @@
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
 
-        <Setter Property="ContentMargin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.3 0.1}"/>
+        <Setter Property="ContentMargin" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.3 0.1}"/>
         <Setter Property="ContentVisibility" Value="Visible"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.1}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -33,7 +33,7 @@
                             <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
-                                            Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.1}"
+                                            Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <ContentControl.Style>
@@ -42,7 +42,7 @@
                                             <!-- StswIcon -->
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NotNull.Instance}}" Value="True"/>
+                                                    <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True"/>
                                                     <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
                                                     <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
                                                 </MultiDataTrigger.Conditions>
@@ -58,7 +58,7 @@
                                                                                 <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                                 <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:conv_NotNull.Instance}}" Value="True">
+                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
@@ -72,7 +72,7 @@
                                             <!-- Image -->
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_NotNull.Instance}}" Value="True"/>
+                                                    <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True"/>
                                                     <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="ContentTemplate">
@@ -87,7 +87,7 @@
                                                                                 <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                                 <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:conv_NotNull.Instance}}" Value="True">
+                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
@@ -111,7 +111,7 @@
                                                                                 <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                                 <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:conv_NotNull.Instance}}" Value="True">
+                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>

@@ -2,26 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace StswExpress;
 
-#region BoolConverters
+#region Bool converters
 /// <summary>
-/// Converts bool -> targetType : value parameter has to be a bool.
-/// Use "!" at the beginning of converter parameter to invert output value.
-/// When targetType == "Visibility" then output is "Visible" when true or "Collapsed" when false.
-/// When targetType is anything else then returns bool depending on converter result.
+/// Converts <see cref="bool"/> → targetType.<br/>
+/// Use '<c>!</c>' at the beginning of converter parameter to reverse output value.<br/>
+/// <br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
-public class conv_Bool : MarkupExtension, IValueConverter
+public class StswBoolConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Bool? instance;
-    public static conv_Bool Instance => instance ??= new conv_Bool();
+    private static StswBoolConverter? instance;
+    public static StswBoolConverter Instance => instance ??= new StswBoolConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -33,13 +34,15 @@ public class conv_Bool : MarkupExtension, IValueConverter
         /// parameters
         bool isReversed = pmr.Contains('!');
 
-        //if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
 
         /// result
-        if (targetType == typeof(Visibility))
+        if (targetType == typeof(bool))
+            return (val ^ isReversed);
+        else if (targetType == typeof(Visibility))
             return (val ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
         else
-            return (val ^ isReversed);
+            return Binding.DoNothing;
     }
 
     /// ConvertBack
@@ -47,15 +50,16 @@ public class conv_Bool : MarkupExtension, IValueConverter
 }
 
 /// <summary>
-/// Compares value parameter to converter parameter.
-/// Use "!" at the beginning of converter parameter to invert output value.
-/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
-/// When targetType is anything else then returns bool depending on converter result.
+/// Compares value parameter to converter parameter.<br/>
+/// Use '<c>!</c>' at the beginning of converter parameter to invert output value.<br/>
+/// <br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
-public class conv_Compare : MarkupExtension, IValueConverter
+public class StswCompareConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Compare? instance;
-    public static conv_Compare Instance => instance ??= new conv_Compare();
+    private static StswCompareConverter? instance;
+    public static StswCompareConverter Instance => instance ??= new StswCompareConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -81,35 +85,16 @@ public class conv_Compare : MarkupExtension, IValueConverter
 }
 
 /// <summary>
-/// Checks if value parameter contains converter parameter : value parameter has to be a IEnumerable of string.
-/// Use "!" at the beginning of converter parameter to invert output value.
-/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
-/// When targetType is anything else then returns bool depending on converter result.
+/// Checks if value parameter contains converter parameter.<br/>
+/// Use '<c>!</c>' at the beginning of converter parameter to invert output value.<br/>
+/// <br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
-[Obsolete]
-public class conv_ContainItem : MarkupExtension, IValueConverter
+public class StswContainsConverter : MarkupExtension, IValueConverter
 {
-    private static conv_ContainItem? instance;
-    public static conv_ContainItem Instance => instance ??= new conv_ContainItem();
-    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
-
-    /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => ((StswComboBox)parameter).DoContainItem(value);
-
-    /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
-}
-
-/// <summary>
-/// Checks if value parameter contains converter parameter : value parameter has to be a IEnumerable of string.
-/// Use "!" at the beginning of converter parameter to invert output value.
-/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
-/// When targetType is anything else then returns bool depending on converter result.
-/// </summary>
-public class conv_Contains : MarkupExtension, IValueConverter
-{
-    private static conv_Contains? instance;
-    public static conv_Contains Instance => instance ??= new conv_Contains();
+    private static StswContainsConverter? instance;
+    public static StswContainsConverter Instance => instance ??= new StswContainsConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -126,32 +111,21 @@ public class conv_Contains : MarkupExtension, IValueConverter
         /// result
         if (value is IEnumerable enumerable)
         {
-            var genArgList = value.GetType().GetGenericArguments();
-            var type1 = genArgList.First();
+            var stringValues = enumerable.Cast<object>().Select(x => x?.ToString() ?? string.Empty).ToList();
 
-            var e = enumerable.GetEnumerator();
-            var list = new List<string>();
-            while (e.MoveNext())
-            {
-                if (e.Current == null)
-                    continue;
-
-                list.Add(System.Convert.ChangeType(e.Current, type1).ToString() ?? string.Empty);
-            }
-            if (type1 != null)
-            {
-                if (targetType == typeof(Visibility))
-                    return (list.Contains(pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
-                else
-                    return (list.Contains(pmr) ^ isReversed);
-            }
+            if (targetType == typeof(Visibility))
+                return (stringValues.Contains(pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
+            else
+                return (stringValues.Contains(pmr) ^ isReversed);
         }
         else if (value?.ToString() != null)
         {
+            var stringValue = value.ToString();
+
             if (targetType == typeof(Visibility))
-                return (value?.ToString()?.Contains(pmr) == true ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
+                return (stringValue?.Contains(pmr) == true ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return (value?.ToString()?.Contains(pmr) == true ^ isReversed);
+                return (stringValue?.Contains(pmr) == true ^ isReversed);
         }
         return false;
     }
@@ -161,14 +135,15 @@ public class conv_Contains : MarkupExtension, IValueConverter
 }
 
 /// <summary>
-/// Checks if value parameter is not null.
-/// When targetType = "Visibility" then output is Visible when true or Collapsed when false.
-/// When targetType is anything else then returns bool depending on converter result.
+/// Checks if value parameter is not null.<br/>
+/// <br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
-public class conv_NotNull : MarkupExtension, IValueConverter
+public class StswNotNullConverter : MarkupExtension, IValueConverter
 {
-    private static conv_NotNull? instance;
-    public static conv_NotNull Instance => instance ??= new conv_NotNull();
+    private static StswNotNullConverter? instance;
+    public static StswNotNullConverter Instance => instance ??= new StswNotNullConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -186,22 +161,23 @@ public class conv_NotNull : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region ColorConverters
+#region Color converters
 /// <summary>
-/// Changes brightness of hex color using converter parameters described below:
-/// Use "!" at the beginning of converter parameter to invert output color.
-/// Use "‼" at the beginning of converter parameter to set black color (when input color is bright) or white color (when input color is dark) as output.
-/// Use "↓" at the beginning of converter parameter to desaturate output color.
-/// Use "?" at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.
-/// Use "@" at the end of converter parameter with value between 00 and FF to set alpha of output color.
-/// Use "#" at the beginning of converter parameter to automatically generate color in output based on value string.
-/// Use value between -1.0 and 1.0 to set brightness of output color.
+/// Used for color manipulation and conversion based on the provided parameters:<br/>
+/// <br/>
+/// Use '<c>!</c>' at the beginning of converter parameter to invert output color.<br/>
+/// Use '<c>‼</c>' at the beginning of converter parameter to set black color (when input color is bright) or white color (when input color is dark) as output.<br/>
+/// Use '<c>↓</c>' at the beginning of converter parameter to desaturate output color.<br/>
+/// Use '<c>?</c>' at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.<br/>
+/// Use '<c>@</c>' at the end of converter parameter with value between 00 and FF to set alpha of output color.<br/>
+/// Use '<c>#</c>' at the beginning of converter parameter to automatically generate color in output based on value string.<br/>
+/// Use value between -1.0 and 1.0 to set brightness of output color.<br/>
 /// </summary>
 [Obsolete]
-public class conv_Color : MarkupExtension, IValueConverter
+public class StswColorConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Color? instance;
-    public static conv_Color Instance => instance ??= new conv_Color();
+    private static StswColorConverter? instance;
+    public static StswColorConverter Instance => instance ??= new StswColorConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -235,50 +211,55 @@ public class conv_Color : MarkupExtension, IValueConverter
         if (generateColor)
         {
             var val = value?.ToString() ?? string.Empty;
-            color = Color.FromArgb(255, 220 - (val.Sum(x => x) * 9797 % 90), 220 - (val.Sum(x => x) * 8989 % 90), 220 - (val.Sum(x => x) * 8383 % 90));
+            color = Color.FromArgb(255, (byte)(220 - (val.Sum(x => x) * 9797 % 90)), (byte)(220 - (val.Sum(x => x) * 8989 % 90)), (byte)(220 - (val.Sum(x => x) * 8383 % 90)));
         }
         else if (value is Color c)
             color = c;
-        else if (value is System.Windows.Media.Brush br)
-            color = br.AsColor();
+        else if (value is SolidColorBrush br)
+            color = br.ToColor();
         else
-            color = ColorTranslator.FromHtml(value?.ToString() ?? string.Empty);
+            color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
 
         /// desaturate color
         if (desaturateColor)
-            color = Color.FromArgb(color.A, (color.R + color.G + color.B) / 3, (color.R + color.G + color.B) / 3, (color.R + color.G + color.B) / 3);
+            color = Color.FromArgb(color.A, (byte)((color.R + color.G + color.B) / 3), (byte)((color.R + color.G + color.B) / 3), (byte)((color.R + color.G + color.B) / 3));
 
         /// invert color
         if (invertColor)
-            color = Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
+            color = Color.FromArgb(color.A, (byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B));
 
         /// contrast color
         if (contrastColor)
-            color = color.GetBrightness() < 0.5 ? Color.White : Color.Black;
+        {
+            color.GetHsl(out var h, out var s, out var l);
+            color = l < 50 ? Color.FromRgb(255, 255 ,255) : Color.FromRgb(0, 0, 0);
+        }
 
         /// brightness
-        color = ColorTranslator.FromHtml(conv_ColorBrightness.Instance.Convert(ColorTranslator.ToHtml(color), targetType, $"{(autoBrightness ? "?" : string.Empty)}{pmrVal}{(percentBrightness ? "%" : string.Empty)}", culture).ToString());
-        color = Color.FromArgb(setAlpha.Between(0, 255) ? setAlpha : color.A, color.R, color.G, color.B);
+        color = (Color)ColorConverter.ConvertFromString(StswColorBrightnessConverter.Instance.Convert(color.ToHtml(), targetType, $"{(autoBrightness ? "?" : string.Empty)}{pmrVal}{(percentBrightness ? "%" : string.Empty)}", culture).ToString());
+        color = Color.FromArgb((byte)(setAlpha.Between(0, 255) ? setAlpha : color.A), color.R, color.G, color.B);
 
-        return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
+        return color.ToHtml();
     }
 
     /// ConvertBack
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
+
 /// <summary>
-/// Changes brightness of hex color using converter parameters described below:
-/// Use nothing or "+" at the beginning of converter parameter to increase brightness of output color.
-/// Use "-" at the beginning of converter parameter to decrease brightness of output color.
-/// Use "?" at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.
-/// Use "%" at the end of converter parameter to use percent values.
-/// Use value in parameter between -255 and 255 (or -100 to 100 in case of percents) to set brightness of output color.
+/// Takes a color value as input and changes its brightness based on the provided parameters:<br/>
+/// <br/>
+/// Use nothing or '<c>+</c>' at the beginning of converter parameter to increase brightness of output color.<br/>
+/// Use '<c>-</c>' at the beginning of converter parameter to decrease brightness of output color.<br/>
+/// Use '<c>?</c>' at the beginning of converter parameter to automatically decide if converter needs to increase or decrease brightness of output color.<br/>
+/// Use '<c>%</c>' at the end of converter parameter to use percent values.<br/>
+/// Use value in parameter between -255 and 255 (or -100 to 100 in case of percents) to set brightness of output color.<br/>
 /// EXAMPLES:  '16'  '+25'  '-36'  '?49'  '8%'  '+13%'  '-18%'  '?25%'
 /// </summary>
-public class conv_ColorBrightness : MarkupExtension, IValueConverter
+public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
 {
-    private static conv_ColorBrightness? instance;
-    public static conv_ColorBrightness Instance => instance ??= new conv_ColorBrightness();
+    private static StswColorBrightnessConverter? instance;
+    public static StswColorBrightnessConverter Instance => instance ??= new StswColorBrightnessConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -298,16 +279,19 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
         Color color;
         if (value is Color c)
             color = c;
-        else if (value is System.Windows.Media.Brush br)
-            color = br.AsColor();
+        else if (value is SolidColorBrush br)
+            color = br.ToColor();
         else
-            color = ColorTranslator.FromHtml(value?.ToString() ?? string.Empty);
+            color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 0;
 
         if (isAuto)
-            pmrVal = color.GetBrightness() < 0.5 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
+        {
+            color.GetHsl(out var h, out var s, out var l);
+            pmrVal = l < 50 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
+        }
 
         /// calculate new color
         double r = color.R, g = color.G, b = color.B;
@@ -337,7 +321,7 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
         /// result
         color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
 
-        return ColorTranslator.ToHtml(color).Insert(1, color.A.ToString("X2", null));
+        return color.ToHtml();
     }
 
     /// ConvertBack
@@ -345,14 +329,14 @@ public class conv_ColorBrightness : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region FormatConverters
+#region Format converters
 /// <summary>
-/// Converts decimal independent of using dot or comma.
+/// Converts a numeric value into a string with a decimal separator that is appropriate for a given culture.
 /// </summary>
-public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
+public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
 {
-    private static conv_MultiCultureNumber? instance;
-    public static conv_MultiCultureNumber Instance => instance ??= new conv_MultiCultureNumber();
+    private static StswMultiCultureNumberConverter? instance;
+    public static StswMultiCultureNumberConverter Instance => instance ??= new StswMultiCultureNumberConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -369,15 +353,15 @@ public class conv_MultiCultureNumber : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region NumericConverters
+#region Numeric converters
 /// <summary>
-/// Converts double -> value + parameter.
-/// Convert Thickness(double, double, double, double) -> Thickness(value + parameter, value + parameter, value + parameter, value + parameter).
+/// Adds a numerical value to another numerical value or a set of values.<br/>
+/// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
 /// </summary>
-public class conv_Add : MarkupExtension, IValueConverter
+public class StswAddConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Add? instance;
-    public static conv_Add Instance => instance ??= new conv_Add();
+    private static StswAddConverter? instance;
+    public static StswAddConverter Instance => instance ??= new StswAddConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -417,13 +401,14 @@ public class conv_Add : MarkupExtension, IValueConverter
 }
 
 /// <summary>
-/// Converts doubles -> value calculated by parameter.
+/// Calculates a mathematical expression based on input values passed as an array and a separator string.
+/// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
 /// </summary>
 [Obsolete]
-public class conv_Calculate : MarkupExtension, IMultiValueConverter
+public class StswCalculateConverter : MarkupExtension, IMultiValueConverter
 {
-    private static conv_Calculate? instance;
-    public static conv_Calculate Instance => instance ??= new conv_Calculate();
+    private static StswCalculateConverter? instance;
+    public static StswCalculateConverter Instance => instance ??= new StswCalculateConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -434,14 +419,16 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
             return new object[] { Binding.DoNothing };
 
         var a = value.Length > 0 ? string.Join(parameter?.ToString(), value).Replace(",", ".") : "1";
-        var b = a.Contains('{') ? 0 : System.Convert.ToDouble(new DataTable().Compute(a, string.Empty), culture);
+        StswFn.TryCalculateString(a, out var result, culture);
 
-        if (targetType.In(typeof(Thickness), typeof(Thickness?)))
-            return new Thickness(b);
+        if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
+            return new CornerRadius(result);
+        else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
+            return new Thickness(result);
         else if (targetType == typeof(string))
-            return b.ToString();
+            return result.ToString();
         else
-            return b;
+            return result;
     }
 
     /// ConvertBack
@@ -449,13 +436,13 @@ public class conv_Calculate : MarkupExtension, IMultiValueConverter
 }
 
 /// <summary>
-/// Converts double -> value * parameter.
-/// Convert Thickness(double, double, double, double) -> Thickness(value * parameter, value * parameter, value * parameter, value * parameter).
+/// Multiplies a numerical value to another numerical value or a set of values.<br/>
+/// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
 /// </summary>
-public class conv_Multiply : MarkupExtension, IValueConverter
+public class StswMultiplyConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Multiply? instance;
-    public static conv_Multiply Instance => instance ??= new conv_Multiply();
+    private static StswMultiplyConverter? instance;
+    public static StswMultiplyConverter Instance => instance ??= new StswMultiplyConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -495,12 +482,12 @@ public class conv_Multiply : MarkupExtension, IValueConverter
 }
 
 /// <summary>
-/// Sum values of certain field (name in parameter) in list of elements.
+/// Allows the user to sum up the values of a specified property of each item in a collection or a DataTable.
 /// </summary>
-public class conv_Sum : MarkupExtension, IValueConverter
+public class StswSumConverter : MarkupExtension, IValueConverter
 {
-    private static conv_Sum? instance;
-    public static conv_Sum Instance => instance ??= new conv_Sum();
+    private static StswSumConverter? instance;
+    public static StswSumConverter Instance => instance ??= new StswSumConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -532,14 +519,14 @@ public class conv_Sum : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region SpecialConverters
+#region Special converters
 /// <summary>
-/// Checks if value parameter is null and returns UnsetValue if it is.
+/// Provides a way to convert <c>null</c> values to <see cref="DependencyProperty.UnsetValue"/>.
 /// </summary>
-public class conv_NullToUnset : MarkupExtension, IValueConverter
+public class StswNullToUnsetConverter : MarkupExtension, IValueConverter
 {
-    private static conv_NullToUnset? instance;
-    public static conv_NullToUnset Instance => instance ??= new conv_NullToUnset();
+    private static StswNullToUnsetConverter? instance;
+    public static StswNullToUnsetConverter Instance => instance ??= new StswNullToUnsetConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -550,16 +537,17 @@ public class conv_NullToUnset : MarkupExtension, IValueConverter
 }
 #endregion
 
-#region UniversalConverters
+#region Universal converters
 /// <summary>
-/// Compares binded value to first element of parameter, then displays second or third element based on compare result
-/// Converter parameter has to be like 'valueToCompare~whatToDisplayWhenTrue~whatToDisplayWhenFalse'.
-/// If binded value is equal to "valueToCompare" then displays "whatToDisplayWhenTrue" else displays "whatToDisplayWhenFalse".
+/// Takes in an input value and a set of parameters in the form of a string separated by a tilde (~) character, which contains three parts:
+/// the first part is the condition to evaluate against the input value,
+/// the second part is the value to return if the condition is <c>true</c>,
+/// and the third part is the value to return if the condition is <c>false</c>.
 /// </summary>
-public class conv_IfElse : MarkupExtension, IValueConverter
+public class StswIfElseConverter : MarkupExtension, IValueConverter
 {
-    private static conv_IfElse? instance;
-    public static conv_IfElse Instance => instance ??= new conv_IfElse();
+    private static StswIfElseConverter? instance;
+    public static StswIfElseConverter Instance => instance ??= new StswIfElseConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert

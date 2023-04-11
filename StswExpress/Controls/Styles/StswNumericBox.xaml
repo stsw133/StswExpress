@@ -24,10 +24,10 @@
         <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
 
         <Setter Property="Increment" Value="1"/>
 
@@ -48,13 +48,13 @@
                             <!-- buttons -->
                             <UniformGrid x:Name="PART_ButtonSpecial"
                                          DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
-                                         Width="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=2}">
+                                         Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
                                 <se:StswRepeatButton x:Name="PART_ButtonUp"
                                                      Content="▲" BorderThickness="0" CornerRadius="0" Padding="0"
-                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
+                                                     FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.6}"/>
                                 <se:StswRepeatButton x:Name="PART_ButtonDown"
                                                      Content="▼" BorderThickness="0" CornerRadius="0" Padding="0"
-                                                     FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.6}"/>
+                                                     FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.6}"/>
                             </UniformGrid>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
@@ -78,7 +78,7 @@
                                            Text="{TemplateBinding Placeholder}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           Visibility="{TemplateBinding Text, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter={x:Null}}"/>
+                                           Visibility="{TemplateBinding Text, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter={x:Null}}"/>
                                 <ScrollViewer x:Name="PART_ContentHost" 
                                               Focusable="False" 
                                               HorizontalScrollBarVisibility="Hidden" 

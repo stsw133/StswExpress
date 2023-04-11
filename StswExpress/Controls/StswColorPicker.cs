@@ -118,7 +118,7 @@ public class StswColorPicker : TextBox
             nameof(SelectedColor),
             typeof(System.Drawing.Color),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(System.Drawing.Color),
+            new FrameworkPropertyMetadata(System.Drawing.Color.FromArgb(0),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, null, false, UpdateSourceTrigger.PropertyChanged)
         );

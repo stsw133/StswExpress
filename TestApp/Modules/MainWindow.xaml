@@ -5,7 +5,7 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="450" Width="750" WindowStartupLocation="CenterScreen"
-               Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}" SubTitle="{Binding Source={x:Static se:StswFn.AppCopyright}}"
+               Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
 
     <se:StswNavigation Padding="5">
@@ -47,6 +47,7 @@
             </se:StswNavigationElement>
         </se:StswNavigation.Buttons>
         <se:StswNavigation.ButtonsLast>
+            <se:StswNavigationElement GroupName="Main" Text="Wiki" IconData="{x:Static se:StswIcons.BookOpenPageVariantOutline}" ContextNamespace="TestApp.WikiContext"/>
             <se:StswNavigationElement GroupName="Main" Text="Config" IconData="{x:Static se:StswIcons.Cog}"/>
         </se:StswNavigation.ButtonsLast>
     </se:StswNavigation>

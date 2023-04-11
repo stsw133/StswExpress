@@ -26,25 +26,25 @@
         <!-- server -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Server:"/>
-            <se:StswTextBox Text="{Binding CurrentDB.Server}"/>
+            <se:StswTextBox Text="{Binding Server, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
         </StackPanel>
         
         <!-- database -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Database:"/>
-            <se:StswTextBox Text="{Binding CurrentDB.Database}"/>
+            <se:StswTextBox Text="{Binding Database, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
         </StackPanel>
         
         <!-- login -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Login:"/>
-            <se:StswTextBox Text="{Binding CurrentDB.Login}"/>
+            <se:StswTextBox Text="{Binding Login, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
         </StackPanel>
         
         <!-- password -->
         <StackPanel DockPanel.Dock="Top" Margin="3">
             <Label Content="Password:"/>
-            <se:StswPasswordBox Text="{Binding CurrentDB.Password}">
+            <se:StswPasswordBox Text="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
                 <se:StswPasswordBox.Buttons>
                     <se:StswCheckBox BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent"
                                      BackgroundUnchecked="Transparent" BackgroundChecked="Transparent" BackgroundIndeterminate="Transparent"

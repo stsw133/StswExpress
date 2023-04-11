@@ -63,12 +63,14 @@ public class StswFilter : UserControl
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
+        /*
         /// Binding for RefreshCommand
         var inputbinding = new KeyBinding()
         {
             Command = StswGlobalCommands.Refresh,
             Key = Key.Return
         };
+        */
 
         /// create control based on FilterType
         switch (FilterType)
@@ -82,7 +84,7 @@ public class StswFilter : UserControl
                         CornerRadius = new CornerRadius(0),
                         IsThreeState = true
                     };
-                    cont1.InputBindings.Add(inputbinding);
+                    //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswCheckBox.IsCheckedProperty, binding1);
                     partControls.Children.Add(cont1);
                     break;
@@ -96,7 +98,7 @@ public class StswFilter : UserControl
                         CornerRadius = new CornerRadius(0),
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
-                    cont1.InputBindings.Add(inputbinding);
+                    //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswDatePicker.SelectedDateProperty, binding1);
                     cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont1);
@@ -108,7 +110,7 @@ public class StswFilter : UserControl
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
-                    cont2.InputBindings.Add(inputbinding);
+                    //cont2.InputBindings.Add(inputbinding);
                     cont2.SetBinding(StswDatePicker.SelectedDateProperty, binding2);
                     cont1.SetBinding(StswDatePicker.SubBorderThicknessProperty, subborderThickness);
                     partControls.Children.Add(cont2);
@@ -123,7 +125,7 @@ public class StswFilter : UserControl
                         CornerRadius = new CornerRadius(0),
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
-                    cont1.InputBindings.Add(inputbinding);
+                    //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
                     cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
                     //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
@@ -136,7 +138,7 @@ public class StswFilter : UserControl
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
                     cont2.BorderThickness = new Thickness(0, cont2.BorderThickness.Top, 0, 0);
-                    cont2.InputBindings.Add(inputbinding);
+                    //cont2.InputBindings.Add(inputbinding);
                     cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
                     cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
                     //cont2.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
@@ -152,7 +154,7 @@ public class StswFilter : UserControl
                         CornerRadius = new CornerRadius(0),
                         HorizontalAlignment = HorizontalAlignment.Stretch
                     };
-                    cont1.InputBindings.Add(inputbinding);
+                    //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswTextBox.TextProperty, binding1);
                     //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
@@ -175,7 +177,7 @@ public class StswFilter : UserControl
                         SelectionMode = SelectionMode.Multiple,
                         SelectedValuePath = SelectedValuePath
                     };
-                    cont1.InputBindings.Add(inputbinding);
+                    //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswComboBox.SelectedItemsProperty, binding1);
                     cont1.SetBinding(StswComboBox.SubBorderThicknessProperty, subborderThickness);
                     //cont1.SetBinding(StswComboBox.MinWidthProperty, bindingMinWidth);
@@ -375,6 +377,38 @@ public class StswFilter : UserControl
             symbolText.Fill = newSymbolText.Fill;
             symbolText.Text = newSymbolText.Text;
         }
+    }
+
+    /// Gets data from controls of "ColumnFilter" type in ExtDictionary.
+    public static void GetColumnFilters(StswDictionary<string, StswFilterBindingData> dict, out string filter, out List<(string name, object val)> parameters)
+    {
+        filter = string.Empty;
+        parameters = new List<(string, object)>();
+
+        foreach (var elem in dict)
+        {
+            /// Header is StswColumnFilterData
+            if (elem.Value?.SqlString != null)
+            {
+                filter += " and " + elem.Value.SqlString;
+                if (elem.Value.Value1 != null && elem.Value.SqlParam != null)
+                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "1", (elem.Value.Value1 is List<object> ? null : elem.Value.Value1) ?? DBNull.Value));
+                if (elem.Value.Value2 != null && elem.Value.SqlParam != null)
+                    parameters.Add((elem.Value.SqlParam[..(elem.Value.SqlParam.Length > 120 ? 120 : elem.Value.SqlParam.Length)] + "2", (elem.Value.Value2 is List<object> ? null : elem.Value.Value2) ?? DBNull.Value));
+            }
+        }
+
+        if (filter.StartsWith(" and "))
+            filter = filter[5..];
+        if (string.IsNullOrWhiteSpace(filter))
+            filter = "1=1";
+    }
+
+    /// Clears data from controls of "ColumnFilter" type in ExtDictionary.
+    public static void ClearColumnFilters(StswDictionary<string, StswFilterBindingData> dict)
+    {
+        foreach (var pair in dict)
+            dict[pair.Key]?.Clear();
     }
     #endregion
 

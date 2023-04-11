@@ -6,21 +6,25 @@ using System.Linq;
 
 namespace StswExpress;
 
+/// <summary>
+/// Provides a method for exporting data to various file formats.
+/// </summary>
 public static class StswExport
 {
-    /// ExportToExcel
+    /// <summary>
+    /// Exports an <see cref="IEnumerable{T}"/> to an Excel file in form of a table.
+    /// </summary>
     public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExportColumn>? customColumns)
     {
         if (filePath == null)
         {
             var dialog = new SaveFileDialog()
             {
-                Filter = "Excel file (XLSX)|*.xlsx"
+                Filter = "Excel file (*.xlsx)|*.xlsx"
             };
             if (dialog.ShowDialog() == true)
                 filePath = dialog.FileName;
-            else
-                return;
+            else return;
         }
 
         using (var wb = new XLWorkbook())
@@ -70,6 +74,9 @@ public static class StswExport
     }
 }
 
+/// <summary>
+/// A class that is a model for <see cref="StswExport.ExportToExcel"/> function.
+/// </summary>
 public class StswExportColumn
 {
     public string? FieldName { get; set; }

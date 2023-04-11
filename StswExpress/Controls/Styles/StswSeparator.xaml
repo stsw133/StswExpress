@@ -7,7 +7,7 @@
         <Setter Property="Background" Value="{DynamicResource StswSeparator.Static.Border}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.075}"/>
+        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.075}"/>
         <Setter Property="CornerRadius" Value="1"/>
 
         <Setter Property="Orientation" Value="Horizontal"/>

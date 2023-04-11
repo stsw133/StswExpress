@@ -1,9 +1,9 @@
 ﻿namespace StswExpress;
 
-public sealed partial class Settings
+public sealed partial class StswSettings
 {
     
-    public Settings()
+    public StswSettings()
     {
     }
 

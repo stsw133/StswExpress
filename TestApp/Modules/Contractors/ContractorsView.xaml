@@ -28,7 +28,7 @@
                     <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconScale="2" IsBusy="{Binding IsBusy[ExportToExcel]}">
                         <StackPanel>
                             <TextBlock Text="Export to Excel"/>
-                            <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.8}"/>
+                            <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
                         </StackPanel>
                     </se:StswHeader>
                 </se:StswButton>
@@ -98,8 +98,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <se:StswImage MenuMode="Full" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=-4}"
-                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:conv_Add.Instance}, ConverterParameter=-4}"/>
+                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=-4}"
+                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=-4}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

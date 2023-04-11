@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace TestApp;
 
 public class DatabasesContext : StswObservableObject
 {
-    /// CurrentDB
-    private StswDatabase? currentDB;
-    public StswDatabase? CurrentDB
-    {
-        get => currentDB;
-        set => SetProperty(ref currentDB, value);
-    }
-
     /// Loading
     private int loadingActions = 0;
     public int LoadingActions
@@ -34,15 +25,14 @@ public class DatabasesContext : StswObservableObject
     {
         ImportCommand = new StswRelayCommand(Import);
         ExportCommand = new StswRelayCommand(Export);
-
-        Import();
     }
 
     /// Import
     private void Import()
     {
         LoadingActions++;
-        StswFn.AppDB = CurrentDB = StswDatabase.ImportDatabases().FirstOrDefault() ?? new();
+        StswDatabase.ImportDatabases();
+        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault().Value ?? new();
         LoadingActions--;
     }
 
@@ -50,7 +40,9 @@ public class DatabasesContext : StswObservableObject
     private void Export()
     {
         LoadingActions++;
-        StswDatabase.ExportDatabases(new List<StswDatabase>() { CurrentDB });
+        StswDatabase.AllDatabases = new();
+        StswDatabase.AllDatabases.Add(string.Empty, StswDatabase.CurrentDatabase);
+        StswDatabase.ExportDatabases();
         LoadingActions--;
     }
 }

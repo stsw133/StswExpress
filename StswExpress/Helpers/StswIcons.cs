@@ -1,8 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// These color values are commonly used in software user interfaces to represent different types of actions or elements.
+/// </summary>
 public static class StswColors
 {
     public readonly static SolidColorBrush Positive = new SolidColorBrush(Color.FromRgb(61, 148, 56));  //(56, 138, 52)
@@ -12,6 +14,10 @@ public static class StswColors
     public readonly static SolidColorBrush Structure = new SolidColorBrush(Color.FromRgb(180, 143, 24));  //(194, 156, 26)
     public readonly static SolidColorBrush Designer = new SolidColorBrush(Color.FromRgb(4, 160, 200));  //(4, 160, 200)
 }
+
+/// <summary>
+/// Represents vector graphics icons. Each icon has a Geometry property that holds the vector path data for the icon.
+/// </summary>
 public static class StswIcons
 {
     private static Geometry? abTesting;

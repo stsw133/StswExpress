@@ -25,7 +25,7 @@
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter='1 0 0 0'}"
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                        CornerRadius="0" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>
@@ -46,7 +46,7 @@
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter='1 0 0 0'}"
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                            CornerRadius="0" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>
@@ -67,7 +67,7 @@
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter='1 0 0 0'}"
+                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                            CornerRadius="0" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>

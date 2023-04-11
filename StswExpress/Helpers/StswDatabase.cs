@@ -1,51 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace StswExpress;
 
-/// Model for Database Connection
-public class StswDatabase
+/// <summary>
+/// Provides functionality for managing database connections and methods to import and export them.
+/// </summary>
+public static class StswDatabase
 {
-    public enum Types
-    {
-        MSSQL,
-        PostgreSQL
-    }
-
-    public string Name { get; set; } = string.Empty;
-    public Types Type { get; set; } = default;
-    public string Server { get; set; } = string.Empty;
-    public int Port { get; set; } = 0;
-    public string Database { get; set; } = string.Empty;
-    public string Login { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Version { get; set; } = string.Empty;
-
-    /// FilePath
-    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases.stsw");
-
-    /// GetConnString
-    public string? GetConnString()
-    {
-        return Type switch
-        {
-            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            _ => null
-        };
-    }
+    /// <summary>
+    /// The dictionary that contains all declared database connections for application.
+    /// </summary>
+    public static StswDictionary<string, StswDatabaseModel> AllDatabases { get; set; } = new();
 
     /// <summary>
-    /// Loads list of encrypted databases from file.
+    /// Default instance of database connection (that is currently in use by application). 
     /// </summary>
-    /// <returns>List of databases</returns>
-    public static List<StswDatabase> ImportDatabases()
+    public static StswDatabaseModel? CurrentDatabase { get; set; }
+
+    /// <summary>
+    /// Specifies the location of the file where database connections are stored.
+    /// </summary>
+    public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
+
+    /// <summary>
+    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="AllMailboxes"/>.
+    /// </summary>
+    public static void ImportDatabases()
     {
-        var result = new List<StswDatabase>();
+        AllDatabases.Clear();
 
         if (!File.Exists(FilePath))
+        {
+            (new FileInfo(FilePath))?.Directory?.Create();
             File.Create(FilePath).Close();
+        }
 
         using var stream = new StreamReader(FilePath);
         while (!stream.EndOfStream)
@@ -54,9 +43,8 @@ public class StswDatabase
             if (line != null)
             {
                 var data = line.Split('|');
-                result.Add(new StswDatabase()
+                AllDatabases.Add(StswSecurity.Decrypt(data[0]), new StswDatabaseModel()
                 {
-                    Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
                     Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
                     Database = StswSecurity.Decrypt(data[3]),
@@ -65,23 +53,57 @@ public class StswDatabase
                 });
             }
         }
-
-        return result;
     }
 
     /// <summary>
-    /// Saves list of encrypted databases to file.
+    /// Writes database connections to a file specified by <see cref="FilePath"/>.
     /// </summary>
-    /// <param name="databases">List of databases</param>
-    public static void ExportDatabases(List<StswDatabase> databases)
+    public static void ExportDatabases()
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var db in databases)
-            stream.WriteLine(StswSecurity.Encrypt(db.Name)
-                + "|" + StswSecurity.Encrypt(db.Server)
-                + "|" + StswSecurity.Encrypt(db.Port.ToString())
-                + "|" + StswSecurity.Encrypt(db.Database)
-                + "|" + StswSecurity.Encrypt(db.Login)
-                + "|" + StswSecurity.Encrypt(db.Password));
+        foreach (var db in AllDatabases)
+            stream.WriteLine(StswSecurity.Encrypt(db.Key)
+                    + "|" + StswSecurity.Encrypt(db.Value.Server)
+                    + "|" + StswSecurity.Encrypt(db.Value.Port.ToString())
+                    + "|" + StswSecurity.Encrypt(db.Value.Database)
+                    + "|" + StswSecurity.Encrypt(db.Value.Login)
+                    + "|" + StswSecurity.Encrypt(db.Value.Password)
+                );
+    }
+}
+
+/// <summary>
+/// Represents a model for database connection.
+/// </summary>
+public class StswDatabaseModel
+{
+    /// <summary>
+    /// Supported database systems.
+    /// </summary>
+    public enum Types
+    {
+        MSSQL,
+        PostgreSQL
+    }
+
+    public Types Type { get; set; } = default;
+    public string Server { get; set; } = string.Empty;
+    public int Port { get; set; } = 0;
+    public string Database { get; set; } = string.Empty;
+    public string Login { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Puts together all the model's properties to create a database connection string in the form of a string.
+    /// </summary>
+    public string? GetConnString()
+    {
+        return Type switch
+        {
+            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            _ => null
+        };
     }
 }

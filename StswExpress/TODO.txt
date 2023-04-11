@@ -10,7 +10,6 @@
 /// Changes difficult to implement so have lower priority for now:
 // TODO - null filter in StswColumnFilter should completely hide filter field
 // TODO - new option in StswColumnFilters to download or not data from database
-// TODO - ExtCollection with RowState functionality - this is ready, just needs some improvements
 
 /// Changes to do for now:
 // TODO - StswColumnFilter needs to refresh data on Enter click

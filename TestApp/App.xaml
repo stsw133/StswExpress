@@ -10,10 +10,7 @@
                 <ResourceDictionary Source="/StswExpress;component/Themes/Theme.xaml"/>
                 <ResourceDictionary Source="/StswExpress;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
-            <DataTemplate DataType="{x:Type local:HomeContext}">
-                <local:HomeView/>
-            </DataTemplate>
+
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
@@ -22,6 +19,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:HomeContext}">
+                <local:HomeView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
@@ -85,6 +85,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
                 <local:StswToggleButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:WikiContext}">
+                <local:WikiView/>
             </DataTemplate>
 
         </ResourceDictionary>

@@ -28,12 +28,12 @@
                             <DockPanel>
 
                                 <!-- special buttons -->
-                                <DockPanel x:Name="PART_ButtonsSpecial" DockPanel.Dock="Top" HorizontalAlignment="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_IfElse.Instance}, ConverterParameter='True~Left~Stretch'}">
+                                <DockPanel x:Name="PART_ButtonsSpecial" DockPanel.Dock="Top" HorizontalAlignment="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='True~Left~Stretch'}">
                                     <Border x:Name="PART_SeparatorSpecial"
                                             DockPanel.Dock="Top"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                            Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                     <se:StswToggleButton BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
                                     </se:StswToggleButton>
@@ -48,7 +48,7 @@
                                             DockPanel.Dock="Top"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!0}"/>
+                                            Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!0}"/>
                                     <ItemsControl ItemsSource="{TemplateBinding ButtonsLast}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>

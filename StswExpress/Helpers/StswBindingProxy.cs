@@ -2,6 +2,9 @@
 
 namespace StswExpress;
 
+/// <summary>
+/// Allows creating a proxy object for data binding purposes.
+/// </summary>
 public class StswBindingProxy : Freezable
 {
     protected override Freezable CreateInstanceCore() => new StswBindingProxy();

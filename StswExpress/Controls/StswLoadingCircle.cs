@@ -40,9 +40,9 @@ public class StswLoadingCircle : UserControl
             else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
             {
                 var multiBinding = new MultiBinding();
-                multiBinding.Bindings.Add(new Binding(nameof(Settings.Default.iSize)) { Source = Settings.Default });
+                multiBinding.Bindings.Add(new Binding(nameof(StswSettings.Default.iSize)) { Source = StswSettings.Default });
                 multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
-                multiBinding.Converter = new conv_Calculate();
+                multiBinding.Converter = new StswCalculateConverter();
                 multiBinding.ConverterParameter = "*";
                 stsw.SetBinding(HeightProperty, multiBinding);
                 stsw.SetBinding(WidthProperty, multiBinding);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +6,9 @@ using System.Linq;
 
 namespace StswExpress;
 
-public delegate void ListedItemPropertyChangedEventHandler(IList sourceList, object item, PropertyChangedEventArgs e);
+/// <summary>
+/// An extension of <see cref="ObservableCollection{T}"/> that adds tracking of changes to the collection items' states.
+/// </summary>
 public class StswCollection<T> : ObservableCollection<T> where T : StswCollectionItem
 {
     private readonly Dictionary<T, DataRowState> _itemStates = new();
@@ -103,6 +104,9 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
     public List<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key).ToList();
 }
 
+/// <summary>
+/// Provides properties for tracking the state and error message of collection items.
+/// </summary>
 public class StswCollectionItem : StswObservableObject
 {
     /// ErrorMessage
@@ -125,6 +129,9 @@ public class StswCollectionItem : StswObservableObject
     public bool? ShowDetails { get; set; } = false;
 }
 
+/// <summary>
+/// Provides a way to store and display pairs of display and value objects for use in combo boxes.
+/// </summary>
 public class StswComboItem
 {
     public object? Display { get; set; }

@@ -13,12 +13,12 @@ internal static class ContractorsQueries
     /// InitializeTables
     internal static void InitializeTables()
     {
-        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswFn.AppDB?.Server))
+        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswDatabase.CurrentDatabase?.Server))
             return;
 
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -62,7 +62,7 @@ internal static class ContractorsQueries
 
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -92,7 +92,7 @@ internal static class ContractorsQueries
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -124,7 +124,7 @@ internal static class ContractorsQueries
             MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
-        return result.AsList<ContractorModel>().ToStswCollection();
+        return result.ToObjectList<ContractorModel>().ToStswCollection();
     }
 
     /// SetContractors
@@ -134,7 +134,7 @@ internal static class ContractorsQueries
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -143,14 +143,14 @@ internal static class ContractorsQueries
                     var query = $@"
                         insert into dbo.StswExpressTEST_Contractors
                             (Type, Icon, Name, Country, PostCode, City, Street,
-                             IsArchival, CreateDT, Pdf)
+                             IsArchival, CreateDT)
                         values
                             (@Type, @Icon, @Name, @Country, @PostCode, @City, @Street,
-                             @IsArchival, @CreateDT, @Pdf)";
+                             @IsArchival, @CreateDT)";
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.AsBytes() ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.ToBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
@@ -173,7 +173,7 @@ internal static class ContractorsQueries
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.AsBytes() ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.ToBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
@@ -214,7 +214,7 @@ internal static class ContractorsQueries
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -245,7 +245,7 @@ internal static class ContractorsQueries
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -278,7 +278,7 @@ internal static class ContractorsQueries
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswFn.AppDB?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
             {
                 sqlConn.Open();
 

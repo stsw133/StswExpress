@@ -21,13 +21,13 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                        <Image Source="{TemplateBinding Source, Converter={x:Static se:conv_NullToUnset.Instance}}"
+                        <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
                                Stretch="{TemplateBinding Stretch}"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <Border.ContextMenu>
                             <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                         Visibility="{TemplateBinding MenuMode, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=!Disabled}">
+                                         Visibility="{TemplateBinding MenuMode, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Disabled}">
                                 <!-- cut -->
                                 <MenuItem x:Name="PART_Cut" Header="Wytnij">
                                     <MenuItem.Icon>

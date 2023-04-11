@@ -23,14 +23,14 @@
         <Setter Property="ForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
         <Setter Property="BorderThickness" Value="0.5"/>
-        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource Self}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
-        <Setter Property="TextMargin" Value="{Binding iSize, Source={x:Static se:Settings.Default}, Converter={x:Static se:conv_Multiply.Instance}, ConverterParameter=0.3 0.1}"/>
+        <Setter Property="TextMargin" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.3 0.1}"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -135,7 +135,7 @@
                                                                               Margin="0"
                                                                               HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                                               VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                                                              Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                                         </DataTemplate>
                                                     </Setter.Value>
                                                 </Setter>
@@ -158,7 +158,7 @@
                                                                                     Margin="0"
                                                                                     HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
                                                                                     VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:conv_Bool.Instance}}"/>
+                                                                                    Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                                                 </se:ClippingBorder>
                                                             </se:StswPopup>
                                                         </DataTemplate>
