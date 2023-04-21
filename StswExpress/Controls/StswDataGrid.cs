@@ -27,7 +27,7 @@ public class StswDataGrid : DataGrid
     private void BtnClearFilters_Click(object sender, RoutedEventArgs e)
     {
         var extDict = new StswDictionary<string, StswFilterBindingData>();
-        var bindingDatas = StswExtensions.FindVisualChildren<StswFilter>(this).Select(x => x.BindingData).ToList();
+        var bindingDatas = StswFn.FindVisualChildren<StswFilter>(this).Select(x => x.BindingData).ToList();
         for (int i = 0; i < bindingDatas.Count; i++)
             extDict.Add(i.ToString(), bindingDatas[i]);
 

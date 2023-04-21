@@ -46,7 +46,7 @@ public class StswNavigation : UserControl
         {
             var elementsWithContents = allNaviElements.Where(x => x.HasContent).ToList();
             foreach (var naviElement in elementsWithContents)
-                allNaviElements.AddRange(StswExtensions.FindVisualChildren<StswNavigationElement>((FrameworkElement)naviElement.Content));
+                allNaviElements.AddRange(StswFn.FindVisualChildren<StswNavigationElement>((FrameworkElement)naviElement.Content));
             allNaviElements.RemoveAll(x => elementsWithContents.Contains(x));
         }
         

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -94,6 +95,89 @@ public static class StswFn
         process.StartInfo.UseShellExecute = true;
         process.StartInfo.Verb = "open";
         process.Start();
+    }
+    #endregion
+
+    #region Finding functions
+    /// <summary>
+    /// Finds the first visual ancestor of a specific type for the given control.
+    /// </summary>
+    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
+    {
+        if (obj != null)
+        {
+            var dependObj = obj;
+            do
+            {
+                dependObj = GetParent(dependObj);
+                if (dependObj is T)
+                    return dependObj as T;
+            }
+            while (dependObj != null);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the first visual child of a specific type for the given control.
+    /// </summary>
+    public static T? FindVisualChild<T>(DependencyObject obj) where T : Visual
+    {
+        if (obj == null)
+            return null;
+
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        {
+            var child = VisualTreeHelper.GetChild(obj, i);
+            if (child is T result)
+                return result;
+            else
+            {
+                var descendent = FindVisualChild<T>(child);
+                if (descendent != null)
+                    return descendent;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds all visual children of a specific type for the given control.
+    /// </summary>
+    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : DependencyObject
+    {
+        if (obj != null)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child and not null)
+                {
+                    if (child is T t)
+                        yield return t;
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                        yield return childOfChild;
+                }
+    }
+
+    /// <summary>
+    /// Gets the parent of the given control.
+    /// </summary>
+    public static DependencyObject? GetParent(DependencyObject obj)
+    {
+        if (obj == null)
+            return null;
+        if (obj is ContentElement)
+        {
+            var parent = ContentOperations.GetParent(obj as ContentElement);
+            if (parent != null)
+                return parent;
+            if (obj is FrameworkContentElement)
+                return (obj as FrameworkContentElement)?.Parent;
+            return null;
+        }
+
+        return VisualTreeHelper.GetParent(obj);
     }
     #endregion
 
@@ -230,27 +314,6 @@ public static class StswFn
     #endregion
 
     #region Text functions
-    /// <summary>
-    /// Takes a string and adds a specified substring repeatedly to the end of the string until the resulting string reaches a desired length.
-    /// </summary>
-    public static string AddTextUntilLength(string originalText, string additionalText, int desiredLength)
-    {
-        if (originalText.Length >= desiredLength)
-            return originalText;
-
-        var remainingLength = desiredLength - originalText.Length;
-        var additionalTextLength = additionalText.Length;
-        var numberOfRepetitions = remainingLength / additionalTextLength;
-
-        var sb = new StringBuilder(originalText);
-        for (int i = 0; i < numberOfRepetitions; i++)
-            sb.Append(additionalText);
-
-        sb.Append(additionalText[..(remainingLength % additionalTextLength)]);
-
-        return sb.ToString();
-    }
-
     /// <summary>
     /// Removes consecutive occurrences of a specified string in another string.
     /// </summary>

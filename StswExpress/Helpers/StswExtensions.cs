@@ -247,87 +247,6 @@ public static class StswExtensions
     public static Color ToColor(this SolidColorBrush value) => Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
     #endregion
 
-    #region Finding extensions
-    /// <summary>
-    /// Finds the first visual ancestor of a specific type for the given control.
-    /// </summary>
-    public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
-    {
-        if (obj != null)
-        {
-            var dependObj = obj;
-            do
-            {
-                dependObj = GetParent(dependObj);
-                if (dependObj is T)
-                    return dependObj as T;
-            }
-            while (dependObj != null);
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Finds the first visual child of a specific type for the given control.
-    /// </summary>
-    public static T? FindVisualChild<T>(DependencyObject obj) where T : Visual
-    {
-        T? child = default;
-
-        var numVisuals = VisualTreeHelper.GetChildrenCount(obj);
-        for (int i = 0; i < numVisuals; i++)
-        {
-            var v = (Visual)VisualTreeHelper.GetChild(obj, i);
-            child = v as T;
-
-            child ??= FindVisualChild<T>(v);
-
-            if (child != null)
-                break;
-        }
-
-        return child;
-    }
-
-    /// <summary>
-    /// Finds all visual children of a specific type for the given control.
-    /// </summary>
-    public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : DependencyObject
-    {
-        if (obj != null)
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child and not null)
-                {
-                    if (child is T t)
-                        yield return t;
-
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                        yield return childOfChild;
-                }
-    }
-
-    /// <summary>
-    /// Gets the parent of the given control.
-    /// </summary>
-    public static DependencyObject? GetParent(DependencyObject obj)
-    {
-        if (obj == null)
-            return null;
-        if (obj is ContentElement)
-        {
-            var parent = ContentOperations.GetParent(obj as ContentElement);
-            if (parent != null)
-                return parent;
-            if (obj is FrameworkContentElement)
-                return (obj as FrameworkContentElement)?.Parent;
-            return null;
-        }
-
-        return VisualTreeHelper.GetParent(obj);
-    }
-    #endregion
-
     #region Function extensions
     /// <summary>
     /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
@@ -379,6 +298,42 @@ public static class StswExtensions
     /// Capitalizes the first letter of a string and makes the rest lowercase.
     /// </summary>
     public static string Capitalize(this string text) => char.ToUpper(text.First()) + text[1..].ToLower();
+
+    /// <summary>
+    /// Returns a new string of a specified length in which the beginning of the current string is padded with a specified text.
+    /// </summary>
+    public static string? PadLeft(this string text, int totalWidth, string paddingString)
+    {
+        if (paddingString == null)
+            throw new ArgumentNullException(nameof(paddingString));
+
+        if (totalWidth < 0)
+            throw new ArgumentOutOfRangeException(nameof(totalWidth), "The total width cannot be negative.");
+
+        if (text == null || text.Length >= totalWidth)
+            return text;
+
+        int paddingCount = (totalWidth - text.Length + paddingString.Length - 1) / paddingString.Length;
+        return paddingString[..paddingCount] + text;
+    }
+
+    /// <summary>
+    /// Returns a new string of a specified length in which the end of the current string is padded with a specified text.
+    /// </summary>
+    public static string? PadRight(this string text, int totalWidth, string paddingString)
+    {
+        if (paddingString == null)
+            throw new ArgumentNullException(nameof(paddingString));
+
+        if (totalWidth < 0)
+            throw new ArgumentOutOfRangeException(nameof(totalWidth), "The total width cannot be negative.");
+
+        if (text == null || text.Length >= totalWidth)
+            return text;
+
+        int paddingCount = (totalWidth - text.Length + paddingString.Length - 1) / paddingString.Length;
+        return text + paddingString[..paddingCount];
+    }
 
     /// <summary>
     /// Converts <see cref="Color"/> to <see cref="string"/>.

@@ -86,6 +86,9 @@
             <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
                 <local:StswToggleButtonView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswToggleSelectorContext}">
+                <local:StswToggleSelectorView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>
             </DataTemplate>

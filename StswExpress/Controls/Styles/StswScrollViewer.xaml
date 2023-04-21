@@ -23,7 +23,7 @@
                             <RowDefinition />
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" Margin="{TemplateBinding Padding}"/>
+                        <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}"/>
                         <ScrollBar x:Name="PART_VerticalScrollBar"
                                    Grid.Row="0" Grid.Column="1"
                                    Maximum="{TemplateBinding ScrollableHeight}"

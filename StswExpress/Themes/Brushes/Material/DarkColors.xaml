@@ -14,6 +14,7 @@
     <SolidColorBrush x:Key="StswBox.MouseOver.Border" Color="#777" />
     <SolidColorBrush x:Key="StswBox.Focused.Background" Color="#111" />
     <SolidColorBrush x:Key="StswBox.Focused.Border" Color="#999" />
+    <SolidColorBrush x:Key="StswBox.Placeholder.Foreground" Color="#B777" />
     <SolidColorBrush x:Key="StswBox.ReadOnly.Background" Color="#222" />
     
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#333" />

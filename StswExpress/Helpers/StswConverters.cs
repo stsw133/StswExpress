@@ -215,6 +215,8 @@ public class StswColorConverter : MarkupExtension, IValueConverter
         }
         else if (value is Color c)
             color = c;
+        else if (value is System.Drawing.Color d)
+            color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
         else
@@ -279,6 +281,8 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
         Color color;
         if (value is Color c)
             color = c;
+        else if (value is System.Drawing.Color d)
+            color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
         else

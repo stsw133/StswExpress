@@ -22,7 +22,7 @@
         <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
+        <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
@@ -97,13 +97,14 @@
                             -->
                             <!-- content -->
                             <Grid>
-                                <TextBlock Foreground="{TemplateBinding ForegroundPlaceholder}"
+                                <TextBlock x:Name="PART_Placeholder"
+                                           Foreground="{TemplateBinding ForegroundPlaceholder}"
                                            IsHitTestVisible="False"
                                            Margin="{TemplateBinding Padding}"
                                            Text="{TemplateBinding Placeholder}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           Visibility="{TemplateBinding Text, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter={x:Null}}"/>
+                                           Visibility="Collapsed"/>
                                 <ScrollViewer x:Name="PART_ContentHost" 
                                               Focusable="False" 
                                               HorizontalScrollBarVisibility="Hidden" 
@@ -112,6 +113,12 @@
                         </DockPanel>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
@@ -131,6 +138,7 @@
                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

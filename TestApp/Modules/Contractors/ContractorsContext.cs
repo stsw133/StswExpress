@@ -190,7 +190,7 @@ public class ContractorsContext : StswObservableObject
         Thread.Sleep(100);
 
         /// ...
-        var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+        var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
         navi?.ContextChange(new ContractorsSingleView()
         {
             DataContext = new ContractorsSingleContext()
@@ -220,7 +220,7 @@ public class ContractorsContext : StswObservableObject
         var selectedItem = SelectedItem as ContractorModel;
         if (selectedItem?.ID > 0)
         {
-            var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+            var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
             navi?.ContextChange(new ContractorsSingleView()
             {
                 DataContext = new ContractorsSingleContext()
@@ -260,7 +260,7 @@ public class ContractorsContext : StswObservableObject
         var selectedItem = SelectedItem as ContractorModel;
         if (selectedItem?.ID > 0)
         {
-            var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
+            var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
             navi?.ContextChange(new ContractorsSingleView()
             {
                 DataContext = new ContractorsSingleContext()

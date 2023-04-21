@@ -29,6 +29,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTextEditor.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswToggleButton.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswToggleSelector.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

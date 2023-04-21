@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Wiki\WikiView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +112,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Modules\Wiki\WikiView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

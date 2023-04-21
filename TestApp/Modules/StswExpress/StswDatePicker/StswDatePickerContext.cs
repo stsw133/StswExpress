@@ -10,4 +10,11 @@ public class StswDatePickerContext : StswObservableObject
         get => date;
         set => SetProperty(ref date, value);
     }
+
+    private DateTime? nullableDate;
+    public DateTime? NullableDate
+    {
+        get => nullableDate;
+        set => SetProperty(ref nullableDate, value);
+    }
 }

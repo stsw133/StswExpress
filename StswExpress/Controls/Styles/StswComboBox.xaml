@@ -30,7 +30,36 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource StswComboBoxItemStyle}"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding SelectionMode, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="Multiple"/>
+                                <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                        <ToggleButton Background="Transparent"
+                                                      BorderThickness="0"
+                                                      HorizontalContentAlignment="Left"
+                                                      Margin="0"
+                                                      Padding="{TemplateBinding Padding}"
+                                                      Command="{Binding ComboBoxItemClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
+                                                      CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                                      Style="{DynamicResource StswComboBoxItemButtonStyle}">
+                                            <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=2}"/>
+                                        </ToggleButton>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -195,32 +224,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="StswComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
-        <Style.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding SelectionMode, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="Multiple"/>
-                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="False"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                            <ToggleButton Background="Transparent"
-                                          BorderThickness="0"
-                                          HorizontalContentAlignment="Left"
-                                          Margin="0"
-                                          Padding="{TemplateBinding Padding}"
-                                          Command="{Binding ComboBoxItemClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                                          Style="{DynamicResource StswComboBoxItemButtonStyle}">
-                                <ContentPresenter MinHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=2}"/>
-                            </ToggleButton>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </MultiDataTrigger>
-        </Style.Triggers>
-    </Style>
     <Style x:Key="StswComboBoxItemButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">

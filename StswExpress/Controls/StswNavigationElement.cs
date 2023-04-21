@@ -15,7 +15,7 @@ public class StswNavigationElement : RadioButton
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        foreach (var stsw in StswExtensions.FindVisualChildren<StswNavigationElement>(Content as DependencyObject))
+        foreach (var stsw in StswFn.FindVisualChildren<StswNavigationElement>(Content as DependencyObject))
             stsw.InExpander = true;
 
         base.OnApplyTemplate();

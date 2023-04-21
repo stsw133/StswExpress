@@ -43,6 +43,7 @@
                     <se:StswNavigationElement GroupName="Main" Text="StswTextBox" IconData="M0 0" ContextNamespace="TestApp.StswTextBoxContext"/>
                     <se:StswNavigationElement GroupName="Main" Text="StswTextEditor" IconData="M0 0" ContextNamespace="TestApp.StswTextEditorContext"/>
                     <se:StswNavigationElement GroupName="Main" Text="StswToggleButton" IconData="M0 0" ContextNamespace="TestApp.StswToggleButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswToggleSelector" IconData="M0 0" ContextNamespace="TestApp.StswToggleSelectorContext"/>
                 </StackPanel>
             </se:StswNavigationElement>
         </se:StswNavigation.Buttons>
