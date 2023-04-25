@@ -1,161 +1,47 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
 
 public class StswComboBox : ComboBox
 {
-    public ICommand ComboBoxItemClickCommand { get; set; }
-
-    public StswComboBox()
-    {
-        ComboBoxItemClickCommand = new StswRelayCommand<object>(ComboBoxItemClick);
-    }
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
     }
 
-    #region Events
-    private PropertyInfo? prop;
-
-    /// OnApplyTemplate
-    public override void OnApplyTemplate()
-    {
-        if (SelectionMode == SelectionMode.Multiple && !IsEditable)
-        {
-            SelectedItems ??= new List<object>();
-            SetText();
-        }
-
-        prop = GetType()?.GetProperty(nameof(SelectionBoxItem));
-        prop = prop?.DeclaringType?.GetProperty(nameof(SelectionBoxItem));
-
-        base.OnApplyTemplate();
-    }
-
-    /// DoContainItem
-    internal bool DoContainItem(object item)
-    {
-        object? prop = null;
-        if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string) && item?.GetType()?.GetProperty(SelectedValuePath) != null)
-            prop = item.GetType()?.GetProperty(SelectedValuePath)?.GetValue(item);
-
-        var found = false;
-        foreach (var itm in SelectedItems)
-        {
-            if (prop != null)
-            {
-                var itmValue = itm.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm);
-                if (itmValue?.Equals(prop) == true)
-                {
-                    found = true;
-                    break;
-                }
-            }
-            else
-            {
-                if (itm == item)
-                {
-                    found = true;
-                    break;
-                }
-            }
-        }
-
-        return found;
-    }
-
-    /// ToggleButton_Loaded
-    private void ToggleButton_Loaded(object sender, EventArgs e)
-    {
-        var tgb = (ToggleButton)sender;
-        var item = tgb.DataContext;
-        var found = DoContainItem(item);
-
-        tgb.IsChecked = found;
-
-        SetText();
-    }
-
-    /// ComboBoxItemClick
-    private void ComboBoxItemClick(object parameter)
-    {
-        var tgb = (ToggleButton)parameter;
-        var item = tgb.DataContext;
-        var found = DoContainItem(item);
-
-        if (tgb.IsChecked == true && !found)
-            SelectedItems?.Add(item);
-        else if (tgb.IsChecked == false && found)
-        {
-            object? itemToDelete = null;
-
-            foreach (var itm in SelectedItems)
-            {
-                if (!itm?.GetType()?.IsValueType == true && itm?.GetType() != typeof(string))
-                {
-                    if (itm?.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm)?.Equals(item?.GetType()?.GetProperty(SelectedValuePath)?.GetValue(item)) == true)
-                        itemToDelete = itm;
-                }
-                else if (itm == item)
-                    itemToDelete = itm;
-            }
-
-            SelectedItems?.Remove(itemToDelete);
-        }
-
-        var newSelectedItems = new List<object>();
-        foreach (var selectedItem in SelectedItems)
-            newSelectedItems.Add(selectedItem);
-        SelectedItems = newSelectedItems;
-
-        SetText();
-    }
-
-    /// SetText
-    internal void SetText()
-    {
-        if (SelectedItems?.Count > 1)
-            prop?.SetValue(this, $"< {SelectedItems?.Count} wybrano >", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
-        else if (SelectedItems?.Count == 0)
-            prop?.SetValue(this, string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
-        else
-        {
-            object? item = SelectedItems?.OfType<object?>()?.FirstOrDefault();
-
-            if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string))
-            {
-                var displayProperty = item?.GetType()?.GetProperty(DisplayMemberPath);
-                var display = displayProperty != null ? displayProperty.GetValue(item) : item?.ToString();
-                prop?.SetValue(this, display ?? string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
-            }
-            else
-                prop?.SetValue(this, item, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
-        }
-    }
-    #endregion
-
     #region Properties
-    /// ButtonAlignment
-    public static readonly DependencyProperty ButtonAlignmentProperty
+    /// Buttons
+    public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
-            nameof(ButtonAlignment),
+            nameof(Buttons),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswComboBox)
+        );
+    public ObservableCollection<UIElement> Buttons
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
+    }
+    /// ButtonsAlignment
+    public static readonly DependencyProperty ButtonsAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(ButtonsAlignment),
             typeof(Dock),
             typeof(StswComboBox)
         );
-    public Dock ButtonAlignment
+    public Dock ButtonsAlignment
     {
-        get => (Dock)GetValue(ButtonAlignmentProperty);
-        set => SetValue(ButtonAlignmentProperty, value);
+        get => (Dock)GetValue(ButtonsAlignmentProperty);
+        set => SetValue(ButtonsAlignmentProperty, value);
     }
 
     /// CornerRadius
@@ -171,40 +57,17 @@ public class StswComboBox : ComboBox
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// SelectedItems
-    public static readonly DependencyProperty SelectedItemsProperty
+    /// Placeholder
+    public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
-            nameof(SelectedItems),
-            typeof(IList),
-            typeof(StswComboBox)/*,
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedItemsChanged, null, false, UpdateSourceTrigger.PropertyChanged)*/
-        );
-    public IList SelectedItems
-    {
-        get => (IList)GetValue(SelectedItemsProperty);
-        set => SetValue(SelectedItemsProperty, value);
-    }
-    public static void OnSelectedItemsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswComboBox stsw && !stsw.IsLoaded)
-        {
-            //stsw.AllowsTransparency = stsw.CornerRadius.TopLeft != 0;
-        }
-    }
-
-    /// SelectionMode
-    public static readonly DependencyProperty SelectionModeProperty
-        = DependencyProperty.Register(
-            nameof(SelectionMode),
-            typeof(SelectionMode),
+            nameof(Placeholder),
+            typeof(string),
             typeof(StswComboBox)
         );
-    public SelectionMode SelectionMode
+    public string? Placeholder
     {
-        get => (SelectionMode)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
     }
     #endregion
 
@@ -333,6 +196,18 @@ public class StswComboBox : ComboBox
     {
         get => (Brush)GetValue(ForegroundPressedProperty);
         set => SetValue(ForegroundPressedProperty, value);
+    }
+    /// ForegroundPlaceholder
+    public static readonly DependencyProperty ForegroundPlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundPlaceholder),
+            typeof(Brush),
+            typeof(StswComboBox)
+        );
+    public Brush ForegroundPlaceholder
+    {
+        get => (Brush)GetValue(ForegroundPlaceholderProperty);
+        set => SetValue(ForegroundPlaceholderProperty, value);
     }
 
     /// > BorderThickness ...
