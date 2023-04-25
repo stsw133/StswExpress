@@ -85,6 +85,8 @@
     <SolidColorBrush x:Key="StswProgressBar.Error.Foreground" Color="#D55" />
 
     <SolidColorBrush x:Key="StswSeparator.Static.Border" Color="#BBB" />
+    
+    <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7BBB" />
 
     <!-- . . . -->
     <!-- Button -->

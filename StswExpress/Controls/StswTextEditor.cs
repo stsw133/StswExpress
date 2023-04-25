@@ -22,8 +22,8 @@ public class StswTextEditor : RichTextBox
     }
 
     #region Events
-    private StswToggleButton btnFormatBold, btnFormatItalic, btnFormatUnderline;
-    private StswComboBox cmbFontFamily, cmbFontSize;
+    private StswToggleButton? btnFormatBold, btnFormatItalic, btnFormatUnderline;
+    private StswComboBox? cmbFontFamily, cmbFontSize;
 
     /// OnApplyTemplate
     public override void OnApplyTemplate()
@@ -80,16 +80,24 @@ public class StswTextEditor : RichTextBox
     private void PART_Editor_SelectionChanged(object sender, RoutedEventArgs e)
     {
         object temp = Selection.GetPropertyValue(Inline.FontWeightProperty);
-        btnFormatBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
+        if (btnFormatBold != null)
+            btnFormatBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
+
         temp = Selection.GetPropertyValue(Inline.FontStyleProperty);
-        btnFormatItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
+        if (btnFormatItalic != null)
+            btnFormatItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
+
         temp = Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-        btnFormatUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
+        if (btnFormatUnderline != null)
+            btnFormatUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
 
         temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
-        cmbFontFamily.SelectedItem = temp;
+        if (cmbFontFamily != null)
+            cmbFontFamily.SelectedItem = temp;
+
         temp = Selection.GetPropertyValue(Inline.FontSizeProperty);
-        cmbFontSize.Text = temp.ToString();
+        if (cmbFontSize != null)
+            cmbFontSize.Text = temp.ToString();
     }
 
     /// PART_ButtonLoad_Click
@@ -125,32 +133,32 @@ public class StswTextEditor : RichTextBox
     /// PART_ButtonFormatBold_Click
     private void PART_ButtonFormatBold_Click(object sender, RoutedEventArgs e)
     {
-        Selection.ApplyPropertyValue(Inline.FontWeightProperty, btnFormatBold.IsChecked == true ? FontWeights.Bold : FontWeights.Normal);
+        Selection.ApplyPropertyValue(Inline.FontWeightProperty, btnFormatBold?.IsChecked == true ? FontWeights.Bold : FontWeights.Normal);
     }
 
     /// PART_ButtonFormatItalic_Click
     private void PART_ButtonFormatItalic_Click(object sender, RoutedEventArgs e)
     {
-        Selection.ApplyPropertyValue(Inline.FontStyleProperty, btnFormatItalic.IsChecked == true ? FontStyles.Italic : FontStyles.Normal);
+        Selection.ApplyPropertyValue(Inline.FontStyleProperty, btnFormatItalic?.IsChecked == true ? FontStyles.Italic : FontStyles.Normal);
     }
 
     /// PART_ButtonFormatUnderline_Click
     private void PART_ButtonFormatUnderline_Click(object sender, RoutedEventArgs e)
     {
-        Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, btnFormatUnderline.IsChecked == true ? TextDecorations.Underline : null);
+        Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, btnFormatUnderline?.IsChecked == true ? TextDecorations.Underline : null);
     }
 
     /// PART_FontFamilies_SelectionChanged
     private void PART_BoxFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (cmbFontFamily.SelectedItem != null)
+        if (cmbFontFamily?.SelectedItem != null)
             Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
     }
 
     /// PART_FontSizes_SelectionChanged
     private void PART_BoxFontSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (cmbFontSize.SelectedItem != null)
+        if (cmbFontSize?.SelectedItem != null)
             Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.SelectedItem);
     }
     #endregion

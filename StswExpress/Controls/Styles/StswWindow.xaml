@@ -36,10 +36,10 @@
                                 <!-- icon & title -->
                                 <se:StswHeader x:Name="PART_Header"
                                                Grid.ColumnSpan="2"
-                                               BorderBrush="{DynamicResource TextBox.Static.Border}"
-                                               BorderThickness="0 0 0 0.5"
-                                               IconSource="{TemplateBinding Icon}"
-                                               IconScale="{x:Null}">
+                                               BorderBrush="{DynamicResource StswWindow.Separator.Border}"
+                                               BorderThickness="0 0 0 1"
+                                               IconScale="2"
+                                               IconSource="{TemplateBinding Icon}">
                                     <StackPanel>
                                         <TextBlock Text="{TemplateBinding Title}"/>
                                         <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>

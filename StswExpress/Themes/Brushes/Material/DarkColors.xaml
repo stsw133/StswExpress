@@ -86,6 +86,8 @@
 
     <SolidColorBrush x:Key="StswSeparator.Static.Border" Color="#555" />
 
+    <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7555" />
+
     <!-- . . . -->
     <Color x:Key="Color50">#fffcfcfc</Color>
     <Color x:Key="Color100">#fff8f8f8</Color>
