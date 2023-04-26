@@ -8,9 +8,12 @@
 // TODO - StswDataGrid should have its own auto generated columns
 
 /// Changes difficult to implement so have lower priority for now:
-// TODO - null filter in StswColumnFilter should completely hide filter field
-// TODO - new option in StswColumnFilters to download or not data from database
+// TODO - null filter in StswFilter should completely hide filter field
+// TODO - new option in StswFilters to download or not data from database
 
 /// Changes to do for now:
-// TODO - StswColumnFilter needs to refresh data on Enter click
-// TODO - StswColumnFilter needs template improvements (there is so much unnecessary code behind)
+// TODO - StswFilter needs to refresh data on Enter click
+// TODO - StswFilter needs template improvements (there is so much unnecessary code behind)
+// TODO - StswNavigation and StswNavigationElement needs improvements and bugfixes
+// TODO - StswTabControl and StswTabItem needs new functionalities: Control to hide tab panel if there is only one and Item so it can be closed if its necessary
+// TODO - all Stsw boxes and pickers needs improvements (StswColorPicker also needs to be completed)

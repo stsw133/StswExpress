@@ -37,6 +37,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\StswExpress\StswFilter\StswFilterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\StswExpress\StswDataGrid\StswDataGridView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\StswExpress\StswPasswordBox\StswPasswordBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\StswExpress\StswTabControl\StswTabControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +124,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\StswExpress\StswFilter\StswFilterView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\StswExpress\StswDataGrid\StswDataGridView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\StswExpress\StswPasswordBox\StswPasswordBoxView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\StswExpress\StswTabControl\StswTabControlView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

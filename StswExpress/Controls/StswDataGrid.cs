@@ -3,12 +3,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StswExpress;
 
 public class StswDataGrid : DataGrid
 {
+    public ICommand ClearFiltersCommand { get; set; }
+
+    public StswDataGrid()
+    {
+        ClearFiltersCommand = new StswRelayCommand(ClearFilters);
+    }
     static StswDataGrid()
     {
         //DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
@@ -23,8 +30,8 @@ public class StswDataGrid : DataGrid
         base.OnApplyTemplate();
     }
 
-    /// BtnClearFilters_Click
-    private void BtnClearFilters_Click(object sender, RoutedEventArgs e)
+    /// ClearFilters
+    private void ClearFilters()
     {
         var extDict = new StswDictionary<string, StswFilterBindingData>();
         var bindingDatas = StswFn.FindVisualChildren<StswFilter>(this).Select(x => x.BindingData).ToList();
@@ -74,33 +81,32 @@ public class StswDataGrid : DataGrid
     {
         if (obj is StswDataGrid stsw)
         {
-            var specialColumnHeader = stsw.FindResource("StswDataGridSpecialColumnHeader") as UniformGrid;
-            var specialColumnTemplate = stsw.FindResource("StswDataGridSpecialColumnCellTemplate") as DataTemplate;
-            var specialColumn = stsw.Columns.FirstOrDefault(x => x is DataGridTemplateColumn specialColumn && specialColumn.CellTemplate == specialColumnTemplate);
+            var specialColumnCellTemplate = stsw.FindResource("StswDataGridSpecialColumnCellTemplate") as DataTemplate;
+            var specialColumnHeaderTemplate = stsw.FindResource("StswDataGridSpecialColumnHeaderTemplate") as DataTemplate;
+
+            var specialColumn = stsw.Columns.FirstOrDefault(x => x is DataGridTemplateColumn specialColumn
+                && specialColumn.CellTemplate == specialColumnCellTemplate
+                && specialColumn.HeaderTemplate == specialColumnHeaderTemplate);
 
             if (stsw.SpecialColumnVisibility != SpecialColumnVisibilities.Collapsed)
             {
                 if (specialColumn == null)
                 {
                     /// create special column
-                    stsw.Columns.Insert(0, new DataGridTemplateColumn() { CellTemplate = specialColumnTemplate, Header = specialColumnHeader });
-                    if (stsw.Columns[0].Header is UniformGrid grid && grid.Children[1] is StswButton button)
-                        button.Click += stsw.BtnClearFilters_Click;
+                    stsw.Columns.Insert(0, new DataGridTemplateColumn() { CellTemplate = specialColumnCellTemplate, HeaderTemplate = specialColumnHeaderTemplate });
                     stsw.FrozenColumnCount++;
 
                     specialColumn = stsw.Columns[0];
                 }
 
                 /// set visibility for header
-                if (specialColumn?.Header is not null and UniformGrid header)
+                if (specialColumn?.Header is UniformGrid header and not null)
                     header.Visibility = stsw.SpecialColumnVisibility == SpecialColumnVisibilities.All ? Visibility.Visible : Visibility.Collapsed;
             }
             else if (specialColumn != null)
             {
                 /// remove special column
                 stsw.FrozenColumnCount--;
-                if (stsw.Columns[0].Header is UniformGrid grid && grid.Children[1] is StswButton button)
-                    button.Click -= stsw.BtnClearFilters_Click;
                 stsw.Columns.Remove(specialColumn);
             }
         }

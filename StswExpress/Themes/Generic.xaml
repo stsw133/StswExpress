@@ -26,6 +26,8 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswScrollViewer.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswSeparator.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswSlider.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTabControl.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTabItem.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswTextEditor.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswToggleButton.xaml"/>

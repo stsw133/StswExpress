@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="TestApp.StswTabControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswTabControlContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <se:StswTabControl DockPanel.Dock="Top" Margin="5" IsEnabled="False">
+                <se:StswTabItem>
+                    <se:StswTabItem.Header>
+                        <se:StswHeader IconData="{x:Static se:StswIcons.TestTubeOff}" Content="TEST"/>
+                    </se:StswTabItem.Header>
+                    <Label Content="TEST"/>
+                </se:StswTabItem>
+            </se:StswTabControl>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <se:StswTabControl DockPanel.Dock="Top" Margin="5">
+                <se:StswTabItem>
+                    <se:StswTabItem.Header>
+                        <se:StswHeader IconData="{x:Static se:StswIcons.TestTube}" Content="TEST"/>
+                    </se:StswTabItem.Header>
+                    <Label Content="TEST"/>
+                </se:StswTabItem>
+            </se:StswTabControl>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

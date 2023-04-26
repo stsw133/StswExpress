@@ -23,7 +23,7 @@ public class StswProgressBar : ProgressBar
 
     #region Events
     /// OnTextChanged
-    private void OnTextChanged(object sender, EventArgs e)
+    private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum)
         {

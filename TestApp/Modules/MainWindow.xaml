@@ -22,28 +22,32 @@
             <se:StswNavigationElement GroupName="Main" Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}" Visibility="Collapsed"/>
             <se:StswNavigationElement GroupName="Main" Text="Library tests" IconData="{x:Static se:StswIcons.TestTube}">
                 <StackPanel>
-                    <se:StswNavigationElement GroupName="Main" Text="StswButton" IconData="M0 0" ContextNamespace="TestApp.StswButtonContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswCalendar" IconData="M0 0" ContextNamespace="TestApp.StswCalendarContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswCheckBox" IconData="M0 0" ContextNamespace="TestApp.StswCheckBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswColorPicker" IconData="M0 0" ContextNamespace="TestApp.StswColorPickerContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswComboBox" IconData="M0 0" ContextNamespace="TestApp.StswComboBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswDatePicker" IconData="M0 0" ContextNamespace="TestApp.StswDatePickerContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswExpander" IconData="M0 0" ContextNamespace="TestApp.StswExpanderContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswGroupBox" IconData="M0 0" ContextNamespace="TestApp.StswGroupBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswHeader" IconData="M0 0" ContextNamespace="TestApp.StswHeaderContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswIcon" IconData="M0 0" ContextNamespace="TestApp.StswIconContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswImage" IconData="M0 0" ContextNamespace="TestApp.StswImageContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswNavigation" IconData="M0 0" ContextNamespace="TestApp.StswNavigationContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswNumericBox" IconData="M0 0" ContextNamespace="TestApp.StswNumericBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswProgressBar" IconData="M0 0" ContextNamespace="TestApp.StswProgressBarContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswRadioBox" IconData="M0 0" ContextNamespace="TestApp.StswRadioBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswRadioButton" IconData="M0 0" ContextNamespace="TestApp.StswRadioButtonContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswRepeatButton" IconData="M0 0" ContextNamespace="TestApp.StswRepeatButtonContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswSeparator" IconData="M0 0" ContextNamespace="TestApp.StswSeparatorContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswTextBox" IconData="M0 0" ContextNamespace="TestApp.StswTextBoxContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswTextEditor" IconData="M0 0" ContextNamespace="TestApp.StswTextEditorContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswToggleButton" IconData="M0 0" ContextNamespace="TestApp.StswToggleButtonContext"/>
-                    <se:StswNavigationElement GroupName="Main" Text="StswToggleSelector" IconData="M0 0" ContextNamespace="TestApp.StswToggleSelectorContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswCalendar" IconData="{x:Static se:StswIcons.Calendar}" ContextNamespace="TestApp.StswCalendarContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswCheckBox" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}" ContextNamespace="TestApp.StswCheckBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswColorPicker" IconData="{x:Static se:StswIcons.SelectColor}" ContextNamespace="TestApp.StswColorPickerContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswComboBox" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswComboBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswDataGrid" IconData="{x:Static se:StswIcons.Grid}" ContextNamespace="TestApp.StswDataGridContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswDatePicker" IconData="{x:Static se:StswIcons.CalendarCursor}" ContextNamespace="TestApp.StswDatePickerContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswExpander" IconData="{x:Static se:StswIcons.ArrowExpandDown}" ContextNamespace="TestApp.StswExpanderContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswFilter" IconData="{x:Static se:StswIcons.TableFilter}" ContextNamespace="TestApp.StswFilterContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswGroupBox" IconData="{x:Static se:StswIcons.Group}" ContextNamespace="TestApp.StswGroupBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswHeader" IconData="{x:Static se:StswIcons.PageLayoutHeader}" ContextNamespace="TestApp.StswHeaderContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswIcon" IconData="{x:Static se:StswIcons.Emoticon}" ContextNamespace="TestApp.StswIconContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswImage" IconData="{x:Static se:StswIcons.ImageOutline}" ContextNamespace="TestApp.StswImageContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswNavigation" IconData="{x:Static se:StswIcons.NavigationVariantOutline}" ContextNamespace="TestApp.StswNavigationContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswNumericBox" IconData="{x:Static se:StswIcons.Numeric}" ContextNamespace="TestApp.StswNumericBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswPasswordBox" IconData="{x:Static se:StswIcons.FormTextboxPassword}" ContextNamespace="TestApp.StswPasswordBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswProgressBar" IconData="{x:Static se:StswIcons.ProgressHelper}" ContextNamespace="TestApp.StswProgressBarContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswRadioBox" IconData="{x:Static se:StswIcons.RadioboxMarked}" ContextNamespace="TestApp.StswRadioBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswRadioButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswRadioButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswRepeatButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswRepeatButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswSeparator" IconData="{x:Static se:StswIcons.BorderHorizontal}" ContextNamespace="TestApp.StswSeparatorContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswTabControl" IconData="{x:Static se:StswIcons.Tab}" ContextNamespace="TestApp.StswTabControlContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswTextBox" IconData="{x:Static se:StswIcons.FormTextbox}" ContextNamespace="TestApp.StswTextBoxContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswTextEditor" IconData="{x:Static se:StswIcons.ReceiptTextEdit}" ContextNamespace="TestApp.StswTextEditorContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswToggleButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswToggleButtonContext"/>
+                    <se:StswNavigationElement GroupName="Main" Text="StswToggleSelector" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswToggleSelectorContext"/>
                 </StackPanel>
             </se:StswNavigationElement>
         </se:StswNavigation.Buttons>

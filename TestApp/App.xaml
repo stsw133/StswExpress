@@ -38,11 +38,17 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswDataGridContext}">
+                <local:StswDataGridView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
                 <local:StswDatePickerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswFilterContext}">
+                <local:StswFilterView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
                 <local:StswGroupBoxView/>
@@ -62,6 +68,9 @@
             <DataTemplate DataType="{x:Type local:StswNumericBoxContext}">
                 <local:StswNumericBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswPasswordBoxContext}">
+                <local:StswPasswordBoxView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
                 <local:StswProgressBarView/>
             </DataTemplate>
@@ -76,6 +85,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTabControlContext}">
+                <local:StswTabControlView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTextBoxContext}">
                 <local:StswTextBoxView/>
