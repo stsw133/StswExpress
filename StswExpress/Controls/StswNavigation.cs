@@ -164,6 +164,20 @@ public class StswNavigation : UserControl
         get => (bool)GetValue(ExtendedModeProperty);
         set => SetValue(ExtendedModeProperty, value);
     }
+    
+    /// GroupName
+    public static readonly DependencyProperty GroupNameProperty
+        = DependencyProperty.Register(
+            nameof(GroupName),
+            typeof(string),
+            typeof(StswNavigation),
+            new PropertyMetadata(Guid.NewGuid().ToString())
+        );
+    public string? GroupName
+    {
+        get => (string?)GetValue(GroupNameProperty);
+        set => SetValue(GroupNameProperty, value);
+    }
 
     /// Orientation
     public static readonly DependencyProperty OrientationProperty

@@ -4,10 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(SelectedDate))]
 public class StswDatePicker : TextBox
 {
     public StswDatePicker()
@@ -243,6 +245,13 @@ public class StswDatePicker : TextBox
                     stsw.SelectedDate = stsw.Maximum;
             }
         }
+    }
+
+    /// Text
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value;
     }
     #endregion
 

@@ -42,31 +42,100 @@
                             <Grid DockPanel.Dock="{TemplateBinding ButtonsAlignment}">
                                 <!-- buttons -->
                                 <ToolBar x:Name="PART_ToolBar">
-                                    
-                                    <se:StswButton x:Name="PART_ButtonLoad" CornerRadius="0" Margin="{TemplateBinding Padding}">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Fill="{x:Static se:StswColors.Structure}"/>
-                                    </se:StswButton>
-                                    <se:StswButton x:Name="PART_ButtonSave" CornerRadius="0" Margin="{TemplateBinding Padding}">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Scale="1.5" Fill="{x:Static se:StswColors.Positive}"/>
-                                    </se:StswButton>
-                                    
+
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton x:Name="PART_ButtonLoad" CornerRadius="0" Margin="{TemplateBinding Padding}" ToolTip="Wczytaj z pliku">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Fill="{x:Static se:StswColors.Structure}"/>
+                                            </se:StswButton>
+                                            <se:StswButton x:Name="PART_ButtonSave" CornerRadius="0" Margin="{TemplateBinding Padding}" ToolTip="Eksportuj do pliku">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Scale="1.5" Fill="{x:Static se:StswColors.Positive}"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.Undo" ToolTip="Cofnij (Ctrl + Z)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.Redo" ToolTip="Przywróć (Ctrl + Y)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.SelectAll" ToolTip="Zaznacz wszystko (Ctrl + A)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.SelectAll}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.Cut" ToolTip="Wytnij (Ctrl + X)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.Copy" ToolTip="Kopiuj (Ctrl + C)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="ApplicationCommands.Paste" ToolTip="Wklej (Ctrl + V)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}" Scale="1.5"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                    </DockPanel>
+
                                     <se:StswSeparator Margin="{TemplateBinding Padding}" Orientation="Vertical"/>
-                                    
-                                    <se:StswToggleButton x:Name="PART_ButtonFormatBold" CornerRadius="0" Margin="{TemplateBinding Padding}">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}" Scale="1.5"/>
-                                    </se:StswToggleButton>
-                                    <se:StswToggleButton x:Name="PART_ButtonFormatItalic" CornerRadius="0" Margin="{TemplateBinding Padding}">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}" Scale="1.5"/>
-                                    </se:StswToggleButton>
-                                    <se:StswToggleButton x:Name="PART_ButtonFormatUnderline" CornerRadius="0" Margin="{TemplateBinding Padding}">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}" Scale="1.5"/>
-                                    </se:StswToggleButton>
-                                    
+
+                                    <DockPanel>
+                                        <se:StswComboBox x:Name="PART_BoxFontFamily" DockPanel.Dock="Top" CornerRadius="0" Height="{Binding ActualHeight, ElementName=PART_ButtonLoad}" IsEditable="True" Margin="{TemplateBinding Padding}"/>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.ToggleBold" ToolTip="Pogrubienie (Ctrl + B)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.ToggleItalic" ToolTip="Kursywa (Ctrl + I)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.ToggleUnderline" ToolTip="Podkreślenie (Ctrl + U)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}" Scale="1.5"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                    </DockPanel>
+
+                                    <DockPanel>
+                                        <se:StswComboBox x:Name="PART_BoxFontSize" DockPanel.Dock="Top" CornerRadius="0" Height="{Binding ActualHeight, ElementName=PART_ButtonLoad}" IsEditable="True" Margin="{TemplateBinding Padding}"/>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.IncreaseFontSize" ToolTip="Zwiększ cziokę">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeIncrease}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.DecreaseFontSize" ToolTip="Zmniejsz czcionkę">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeDecrease}" Scale="1.5"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                    </DockPanel>
+
                                     <se:StswSeparator Margin="{TemplateBinding Padding}" Orientation="Vertical"/>
-                                    
-                                    <se:StswComboBox x:Name="PART_BoxFontFamily" CornerRadius="0" IsEditable="True" Margin="{TemplateBinding Padding}" Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=15}"/>
-                                    <se:StswComboBox x:Name="PART_BoxFontSize" CornerRadius="0" IsEditable="True" Margin="{TemplateBinding Padding}" Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=5}"/>
-                                    
+
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.IncreaseIndentation" ToolTip="Zwiększ wcięcie">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentIncrease}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.DecreaseIndentation" ToolTip="Zmniejsz wcięcie">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.ToggleBullets" ToolTip="Punktory">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatListBulleted}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.ToggleNumbering" ToolTip="Numerowanie">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatListNumbered}" Scale="1.5"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.AlignLeft" ToolTip="Wyrównaj tekst do lewej (Ctrl + L)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignLeft}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.AlignCenter" ToolTip="Wyśrodkuj (Ctrl + E)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignCenter}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.AlignRight" ToolTip="Wyrównaj tekst do prawej (Ctrl + R)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignRight}" Scale="1.5"/>
+                                            </se:StswButton>
+                                            <se:StswButton CornerRadius="0" Margin="{TemplateBinding Padding}" Command="EditingCommands.AlignJustify" ToolTip="Wyjustuj (Ctrl + J)">
+                                                <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignJustify}" Scale="1.5"/>
+                                            </se:StswButton>
+                                        </StackPanel>
+                                    </DockPanel>
+
                                 </ToolBar>
                             </Grid>
                             <!-- subborder -->

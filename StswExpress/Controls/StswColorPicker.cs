@@ -3,10 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(SelectedColor))]
 public class StswColorPicker : TextBox
 {
     public StswColorPicker()
@@ -192,6 +194,13 @@ public class StswColorPicker : TextBox
     {
         get => (short)GetValue(SelectedColorBProperty);
         private set => SetValue(SelectedColorBProperty, value);
+    }
+
+    /// Text
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value;
     }
     #endregion
 

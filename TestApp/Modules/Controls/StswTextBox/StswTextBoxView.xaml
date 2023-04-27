@@ -13,8 +13,8 @@
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="TEST"/>
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="TEST">
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
                     <se:StswTextBox.Buttons>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
@@ -23,7 +23,7 @@
                         </se:StswButton>
                     </se:StswTextBox.Buttons>
                 </se:StswTextBox>
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
                         <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                        CornerRadius="0" Command="{Binding ClearCommand}">
@@ -34,8 +34,8 @@
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="TEST"/>
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="TEST">
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
                     <se:StswTextBox.Buttons>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
@@ -44,7 +44,7 @@
                         </se:StswButton>
                     </se:StswTextBox.Buttons>
                 </se:StswTextBox>
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
                         <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                            CornerRadius="0" Command="{Binding ClearCommand}">
@@ -55,8 +55,8 @@
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST" Placeholder="Wpisz coś..."/>
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="TEST">
+                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}" Placeholder="Wpisz coś..."/>
+                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
                     <se:StswTextBox.Buttons>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
@@ -65,7 +65,7 @@
                         </se:StswButton>
                     </se:StswTextBox.Buttons>
                 </se:StswTextBox>
-                <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
+                <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
                     <se:StswTextBox.Buttons>
                         <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
                                            CornerRadius="0" Command="{Binding ClearCommand}">

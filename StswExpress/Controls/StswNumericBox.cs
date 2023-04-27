@@ -3,10 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(Value))]
 public class StswNumericBox : TextBox
 {
     public StswNumericBox()
@@ -210,6 +212,13 @@ public class StswNumericBox : TextBox
     {
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
+    }
+
+    /// Text
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value;
     }
 
     /// Value

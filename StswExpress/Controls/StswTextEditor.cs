@@ -22,7 +22,6 @@ public class StswTextEditor : RichTextBox
     }
 
     #region Events
-    private StswToggleButton? btnFormatBold, btnFormatItalic, btnFormatUnderline;
     private StswComboBox? cmbFontFamily, cmbFontSize;
 
     /// OnApplyTemplate
@@ -36,7 +35,7 @@ public class StswTextEditor : RichTextBox
         /// Button: save
         if (GetTemplateChild("PART_ButtonSave") is Button btnSave)
             btnSave.Click += PART_ButtonSave_Click;
-
+        /*
         /// Button: format bold
         if (GetTemplateChild("PART_ButtonFormatBold") is StswToggleButton btnFormatBold)
         {
@@ -55,7 +54,7 @@ public class StswTextEditor : RichTextBox
             btnFormatUnderline.Click += PART_ButtonFormatItalic_Click;
             this.btnFormatUnderline = btnFormatUnderline;
         }
-
+        */
         /// Box: font families
         if (GetTemplateChild("PART_BoxFontFamily") is StswComboBox cmbFontFamily)
         {
@@ -79,6 +78,7 @@ public class StswTextEditor : RichTextBox
     /// PART_Editor_SelectionChanged
     private void PART_Editor_SelectionChanged(object sender, RoutedEventArgs e)
     {
+        /*
         object temp = Selection.GetPropertyValue(Inline.FontWeightProperty);
         if (btnFormatBold != null)
             btnFormatBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
@@ -90,8 +90,8 @@ public class StswTextEditor : RichTextBox
         temp = Selection.GetPropertyValue(Inline.TextDecorationsProperty);
         if (btnFormatUnderline != null)
             btnFormatUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
-
-        temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
+        */
+        var temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
         if (cmbFontFamily != null)
             cmbFontFamily.SelectedItem = temp;
 
@@ -128,24 +128,6 @@ public class StswTextEditor : RichTextBox
             var range = new TextRange(Document.ContentStart, Document.ContentEnd);
             range.Save(fileStream, DataFormats.Rtf);
         }
-    }
-
-    /// PART_ButtonFormatBold_Click
-    private void PART_ButtonFormatBold_Click(object sender, RoutedEventArgs e)
-    {
-        Selection.ApplyPropertyValue(Inline.FontWeightProperty, btnFormatBold?.IsChecked == true ? FontWeights.Bold : FontWeights.Normal);
-    }
-
-    /// PART_ButtonFormatItalic_Click
-    private void PART_ButtonFormatItalic_Click(object sender, RoutedEventArgs e)
-    {
-        Selection.ApplyPropertyValue(Inline.FontStyleProperty, btnFormatItalic?.IsChecked == true ? FontStyles.Italic : FontStyles.Normal);
-    }
-
-    /// PART_ButtonFormatUnderline_Click
-    private void PART_ButtonFormatUnderline_Click(object sender, RoutedEventArgs e)
-    {
-        Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, btnFormatUnderline?.IsChecked == true ? TextDecorations.Underline : null);
     }
 
     /// PART_FontFamilies_SelectionChanged

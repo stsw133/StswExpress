@@ -2,10 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(Password))]
 public class StswPasswordBox : TextBox
 {
     public StswPasswordBox()
@@ -71,6 +73,19 @@ public class StswPasswordBox : TextBox
         set => SetValue(CornerRadiusProperty, value);
     }
 
+    /// Password
+    public static readonly DependencyProperty PasswordProperty
+        = DependencyProperty.Register(
+            nameof(Password),
+            typeof(string),
+            typeof(StswPasswordBox)
+        );
+    public string? Password
+    {
+        get => (string?)GetValue(PasswordProperty);
+        set => SetValue(PasswordProperty, value);
+    }
+    
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
@@ -95,6 +110,13 @@ public class StswPasswordBox : TextBox
     {
         get => (bool)GetValue(ShowPasswordProperty);
         set => SetValue(ShowPasswordProperty, value);
+    }
+
+    /// Text
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value;
     }
     #endregion
 

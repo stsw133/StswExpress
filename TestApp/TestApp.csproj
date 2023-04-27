@@ -37,19 +37,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Modules\StswExpress\StswFilter\StswFilterView.xaml.cs">
+    <Compile Update="Modules\Controls\StswFilter\StswFilterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswDataGrid\StswDataGridView.xaml.cs">
+    <Compile Update="Modules\Controls\StswDataGrid\StswDataGridView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswPasswordBox\StswPasswordBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswTabControl\StswTabControlView.xaml.cs">
+    <Compile Update="Modules\Controls\StswTabControl\StswTabControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\StswToggleSelector\StswToggleSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Wiki\WikiView.xaml.cs">
@@ -58,89 +58,89 @@
     <Compile Update="Modules\Home\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswCalendar\StswCalendarView.xaml.cs">
+    <Compile Update="Modules\Controls\StswCalendar\StswCalendarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswColorPicker\StswColorPickerView.xaml.cs">
+    <Compile Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswExpander\StswExpanderView.xaml.cs">
+    <Compile Update="Modules\Controls\StswExpander\StswExpanderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswRadioButton\StswRadioButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\StswRadioButton\StswRadioButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswRadioBox\StswRadioBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswDatePicker\StswDatePickerView.xaml.cs">
+    <Compile Update="Modules\Controls\StswDatePicker\StswDatePickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswComboBox\StswComboBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswComboBox\StswComboBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswCheckBox\StswCheckBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswCheckBox\StswCheckBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswNavigation\StswNavigationView.xaml.cs">
+    <Compile Update="Modules\Controls\StswNavigation\StswNavigationView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswImage\StswImageView.xaml.cs">
+    <Compile Update="Modules\Controls\StswImage\StswImageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswIcon\StswIconView.xaml.cs">
+    <Compile Update="Modules\Controls\StswIcon\StswIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswHeader\StswHeaderView.xaml.cs">
+    <Compile Update="Modules\Controls\StswHeader\StswHeaderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswGroupBox\StswGroupBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswGroupBox\StswGroupBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswTextEditor\StswTextEditorView.xaml.cs">
+    <Compile Update="Modules\Controls\StswTextEditor\StswTextEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswToggleButton\StswToggleButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\StswToggleButton\StswToggleButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswTextBox\StswTextBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswTextBox\StswTextBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswNumericBox\StswNumericBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\StswNumericBox\StswNumericBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswProgressBar\StswProgressBarView.xaml.cs">
+    <Compile Update="Modules\Controls\StswProgressBar\StswProgressBarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswSeparator\StswSeparatorView.xaml.cs">
+    <Compile Update="Modules\Controls\StswSeparator\StswSeparatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswRepeatButton\StswRepeatButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\StswRepeatButton\StswRepeatButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\StswExpress\StswButton\StswButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\StswButton\StswButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Modules\StswExpress\StswFilter\StswFilterView.xaml">
+    <Page Update="Modules\Controls\StswFilter\StswFilterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswDataGrid\StswDataGridView.xaml">
+    <Page Update="Modules\Controls\StswDataGrid\StswDataGridView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswPasswordBox\StswPasswordBoxView.xaml">
+    <Page Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswTabControl\StswTabControlView.xaml">
+    <Page Update="Modules\Controls\StswTabControl\StswTabControlView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswToggleSelector\StswToggleSelectorView.xaml">
+    <Page Update="Modules\Controls\StswToggleSelector\StswToggleSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -152,87 +152,87 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswCalendar\StswCalendarView.xaml">
+    <Page Update="Modules\Controls\StswCalendar\StswCalendarView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswColorPicker\StswColorPickerView.xaml">
+    <Page Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswExpander\StswExpanderView.xaml">
+    <Page Update="Modules\Controls\StswExpander\StswExpanderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswRadioButton\StswRadioButtonView.xaml">
+    <Page Update="Modules\Controls\StswRadioButton\StswRadioButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswRadioBox\StswRadioBoxView.xaml">
+    <Page Update="Modules\Controls\StswRadioBox\StswRadioBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswDatePicker\StswDatePickerView.xaml">
+    <Page Update="Modules\Controls\StswDatePicker\StswDatePickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswComboBox\StswComboBoxView.xaml">
+    <Page Update="Modules\Controls\StswComboBox\StswComboBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswCheckBox\StswCheckBoxView.xaml">
+    <Page Update="Modules\Controls\StswCheckBox\StswCheckBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswNavigation\StswNavigationView.xaml">
+    <Page Update="Modules\Controls\StswNavigation\StswNavigationView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswImage\StswImageView.xaml">
+    <Page Update="Modules\Controls\StswImage\StswImageView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswIcon\StswIconView.xaml">
+    <Page Update="Modules\Controls\StswIcon\StswIconView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswHeader\StswHeaderView.xaml">
+    <Page Update="Modules\Controls\StswHeader\StswHeaderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswGroupBox\StswGroupBoxView.xaml">
+    <Page Update="Modules\Controls\StswGroupBox\StswGroupBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswTextEditor\StswTextEditorView.xaml">
+    <Page Update="Modules\Controls\StswTextEditor\StswTextEditorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswToggleButton\StswToggleButtonView.xaml">
+    <Page Update="Modules\Controls\StswToggleButton\StswToggleButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswTextBox\StswTextBoxView.xaml">
+    <Page Update="Modules\Controls\StswTextBox\StswTextBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswNumericBox\StswNumericBoxView.xaml">
+    <Page Update="Modules\Controls\StswNumericBox\StswNumericBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswProgressBar\StswProgressBarView.xaml">
+    <Page Update="Modules\Controls\StswProgressBar\StswProgressBarView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswSeparator\StswSeparatorView.xaml">
+    <Page Update="Modules\Controls\StswSeparator\StswSeparatorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswRepeatButton\StswRepeatButtonView.xaml">
+    <Page Update="Modules\Controls\StswRepeatButton\StswRepeatButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\StswExpress\StswButton\StswButtonView.xaml">
+    <Page Update="Modules\Controls\StswButton\StswButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

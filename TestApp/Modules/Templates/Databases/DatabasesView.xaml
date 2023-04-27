@@ -46,7 +46,7 @@
             <!-- password -->
             <StackPanel DockPanel.Dock="Top" Margin="3">
                 <Label Content="Password:"/>
-                <se:StswPasswordBox Text="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
+                <se:StswPasswordBox Password="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
                     <se:StswPasswordBox.Buttons>
                         <se:StswCheckBox BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent"
                                          BackgroundUnchecked="Transparent" BackgroundChecked="Transparent" BackgroundIndeterminate="Transparent"

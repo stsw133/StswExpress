@@ -32,6 +32,8 @@
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="TextMargin" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.3 0.1}"/>
 
+        <Setter Property="GroupName" Value="{Binding GroupName, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
