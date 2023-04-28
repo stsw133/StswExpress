@@ -48,7 +48,7 @@
                                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- buttons -->
-                            <se:StswToggleButton x:Name="PART_ButtonSpecial"
+                            <se:StswToggleButton x:Name="PART_FunctionButton"
                                                  DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
                                                  BorderThickness="0" CornerRadius="0" Padding="0"
                                                  Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
@@ -71,30 +71,13 @@
                             <!-- popup: calendar -->
                             <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
-                                   IsOpen="{Binding IsChecked, ElementName=PART_ButtonSpecial}"
+                                   IsOpen="{Binding IsChecked, ElementName=PART_FunctionButton}"
                                    Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_ButtonSpecial}"
+                                   PlacementTarget="{Binding ElementName=PART_FunctionButton}"
                                    StaysOpen="False">
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type se:StswDatePicker}}}"/>
                             </Popup>
-                            <!-- popup: increment type -->
-                            <!--
-                            <Popup x:Name="PART_IncrementType"
-                                   AllowsTransparency="True"
-                                   Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_ContentHost}"
-                                   StaysOpen="False">
-                                <UniformGrid Rows="1">
-                                    <se:StswRadioButton Content="YY" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Year}"/>
-                                    <se:StswRadioButton Content="MM" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Month}"/>
-                                    <se:StswRadioButton Content="DD" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Day}"/>
-                                    <se:StswRadioButton Content="hh" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Hour}"/>
-                                    <se:StswRadioButton Content="mm" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Minute}"/>
-                                    <se:StswRadioButton Content="ss" CornerRadius="0" IsChecked="{TemplateBinding IncrementType, Converter={x:Static se:conv_Compare.Instance}, ConverterParameter=Second}"/>
-                                </UniformGrid>
-                            </Popup>
-                            -->
                             <!-- content -->
                             <Grid>
                                 <TextBlock x:Name="PART_Placeholder"
@@ -131,7 +114,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonSpecial" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

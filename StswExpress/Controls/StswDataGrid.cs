@@ -16,10 +16,6 @@ public class StswDataGrid : DataGrid
     {
         ClearFiltersCommand = new StswRelayCommand(ClearFilters);
     }
-    static StswDataGrid()
-    {
-        //DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
-    }
 
     #region Events
     /// OnApplyTemplate

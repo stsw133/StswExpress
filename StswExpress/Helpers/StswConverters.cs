@@ -285,8 +285,8 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else
-            color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
+        else if (value?.ToString() != null)
+            color = (Color)ColorConverter.ConvertFromString(value.ToString());
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 0;

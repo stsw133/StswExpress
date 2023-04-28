@@ -46,7 +46,7 @@
                                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- buttons -->
-                            <se:StswToggleButton x:Name="PART_ButtonSpecial"
+                            <se:StswToggleButton x:Name="PART_FunctionButton"
                                                  DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
                                                  BorderThickness="0" CornerRadius="0" Padding="0"
                                                  Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
@@ -69,9 +69,9 @@
                             <!-- popup: palette -->
                             <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
-                                   IsOpen="{Binding IsChecked, ElementName=PART_ButtonSpecial}"
+                                   IsOpen="{Binding IsChecked, ElementName=PART_FunctionButton}"
                                    Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_ButtonSpecial}"
+                                   PlacementTarget="{Binding ElementName=PART_FunctionButton}"
                                    StaysOpen="False">
                                 <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                                     <DockPanel>
@@ -81,10 +81,9 @@
                                                 <Rectangle Fill="Transparent" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
                                             </Border>
                                             <Label DockPanel.Dock="Left" Content="A"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding Value, ElementName=PART_SliderA}"/>
-                                            <Slider x:Name="PART_SliderA"
-                                                    IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorA, RelativeSource={RelativeSource TemplatedParent}}"
+                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                                    Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                     Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
@@ -94,10 +93,9 @@
                                                 <Rectangle Fill="Red" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
                                             </Border>
                                             <Label DockPanel.Dock="Left" Content="R"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding Value, ElementName=PART_SliderR}"/>
-                                            <Slider x:Name="PART_SliderR"
-                                                    IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorR, RelativeSource={RelativeSource TemplatedParent}}"
+                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                                    Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                     Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
@@ -107,10 +105,9 @@
                                                 <Rectangle Fill="Green" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
                                             </Border>
                                             <Label DockPanel.Dock="Left" Content="G"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding Value, ElementName=PART_SliderG}"/>
-                                            <Slider x:Name="PART_SliderG"
-                                                    IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorG, RelativeSource={RelativeSource TemplatedParent}}"
+                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                                    Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                     Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
@@ -120,10 +117,9 @@
                                                 <Rectangle Fill="Blue" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
                                             </Border>
                                             <Label DockPanel.Dock="Left" Content="B"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding Value, ElementName=PART_SliderB}"/>
-                                            <Slider x:Name="PART_SliderB"
-                                                    IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorB, RelativeSource={RelativeSource TemplatedParent}}"
+                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                                    Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                     Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
                                                     VerticalAlignment="Center"/>
                                         </DockPanel>
@@ -176,7 +172,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonSpecial" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

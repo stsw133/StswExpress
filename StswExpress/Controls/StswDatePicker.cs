@@ -142,8 +142,7 @@ public class StswDatePicker : TextBox
     {
         if (obj is StswDatePicker stsw)
         {
-            var binding = stsw.GetBindingExpression(TextProperty)?.ParentBinding;
-            if (binding != null)
+            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
             {
                 var newBinding = new Binding()
                 {

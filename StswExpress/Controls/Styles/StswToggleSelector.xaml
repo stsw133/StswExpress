@@ -88,7 +88,7 @@
                                                        SnapsToDevicePixels="True">
                                         <DockPanel>
                                             <!-- buttons -->
-                                            <ContentControl x:Name="PART_ButtonSpecial"
+                                            <ContentControl x:Name="PART_FunctionButton"
                                                             DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
                                                             Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
@@ -148,7 +148,7 @@
                                         </Trigger>
                                         <Trigger Property="IsHitTestVisible" Value="False">
                                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}" TargetName="PART_MainBorder" />
-                                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonSpecial" />
+                                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
                                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">

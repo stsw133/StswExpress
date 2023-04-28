@@ -46,7 +46,7 @@
                                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- buttons -->
-                            <UniformGrid x:Name="PART_ButtonSpecial"
+                            <UniformGrid x:Name="PART_FunctionButton"
                                          DockPanel.Dock="{TemplateBinding ButtonsAlignment}" Columns="1"
                                          Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
                                 <se:StswRepeatButton x:Name="PART_ButtonUp"
@@ -106,7 +106,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ButtonSpecial" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

@@ -5,8 +5,8 @@ namespace TestApp;
 
 public class StswNumericBoxContext : StswObservableObject
 {
-    private double number1 = 0;
-    public double Number1
+    private double? number1 = null;
+    public double? Number1
     {
         get => number1;
         set => SetProperty(ref number1, value);

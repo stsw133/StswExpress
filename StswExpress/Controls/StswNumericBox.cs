@@ -64,7 +64,7 @@ public class StswNumericBox : TextBox
             Value = result;
         else if (double.TryParse(Text, out result))
             Value = result;
-
+        
         Text = Value?.ToString();
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
@@ -74,9 +74,9 @@ public class StswNumericBox : TextBox
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused && !IsReadOnly && Value != null)
+        if (IsKeyboardFocused && !IsReadOnly && Value != null && Increment != 0)
         {
-            var step = e.Delta > 0 ? 1 : -1;
+            var step = e.Delta > 0 ? Increment : -Increment;
 
             try
             {
@@ -147,8 +147,7 @@ public class StswNumericBox : TextBox
     {
         if (obj is StswNumericBox stsw)
         {
-            var binding = stsw.GetBindingExpression(TextProperty)?.ParentBinding;
-            if (binding != null)
+            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
             {
                 var newBinding = new Binding()
                 {

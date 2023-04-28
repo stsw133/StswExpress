@@ -63,14 +63,13 @@ public class StswFilter : UserControl
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
-        /*
+        
         /// Binding for RefreshCommand
         var inputbinding = new KeyBinding()
         {
-            Command = StswGlobalCommands.Refresh,
+            Command = NavigationCommands.Refresh,
             Key = Key.Return
         };
-        */
 
         /// create control based on FilterType
         switch (FilterType)
@@ -350,10 +349,8 @@ public class StswFilter : UserControl
     /// Refresh
     protected void PART_Controls_KeyDown(object sender, KeyEventArgs e)
     {
-        /*
-        if (e.Key == Key.Enter && RefreshCommand != null)
-            RefreshCommand.Execute(null);
-        */
+        if (e.Key == Key.Enter)
+            NavigationCommands.Refresh.Execute(null, this);
     }
 
     /// FilterMode click

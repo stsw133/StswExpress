@@ -44,21 +44,21 @@ public class StswColorPicker : TextBox
     /// PART_ContentHost_LostFocus
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(Text))
-            SelectedColor = default;
-        else
-        {
-            try
-            {
-                SelectedColor = System.Drawing.ColorTranslator.FromHtml(Text);
-            }
-            catch { }
-        }
-
-        Text = System.Drawing.ColorTranslator.ToHtml(SelectedColor);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
-            bindingExpression.UpdateSource();
+        //if (string.IsNullOrEmpty(Text))
+        //    SelectedColor = default;
+        //else
+        //{
+        //    try
+        //    {
+        //        SelectedColor = System.Drawing.ColorTranslator.FromHtml(Text);
+        //    }
+        //    catch { }
+        //}
+        
+        //Text = SelectedColor.Name;
+        //var bindingExpression = GetBindingExpression(TextProperty);
+        //if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
+        //    bindingExpression.UpdateSource();
     }
     #endregion
 
@@ -120,9 +120,9 @@ public class StswColorPicker : TextBox
             nameof(SelectedColor),
             typeof(System.Drawing.Color),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(System.Drawing.Color.FromArgb(0),
+            new FrameworkPropertyMetadata(default(System.Drawing.Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public System.Drawing.Color SelectedColor
     {
@@ -132,68 +132,93 @@ public class StswColorPicker : TextBox
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColorR, stsw.SelectedColorG, stsw.SelectedColorB);
+        {
+            stsw.SelectedColorA = stsw.SelectedColor.A;
+            stsw.SelectedColorR = stsw.SelectedColor.R;
+            stsw.SelectedColorG = stsw.SelectedColor.G;
+            stsw.SelectedColorB = stsw.SelectedColor.B;
+        }
     }
 
     /// SelectedColorA
     public static readonly DependencyProperty SelectedColorAProperty
         = DependencyProperty.Register(
             nameof(SelectedColorA),
-            typeof(short),
+            typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(short),
+            new FrameworkPropertyMetadata(default(byte),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorAChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public short SelectedColorA
+    internal byte SelectedColorA
     {
-        get => (short)GetValue(SelectedColorAProperty);
-        private set => SetValue(SelectedColorAProperty, value);
+        get => (byte)GetValue(SelectedColorAProperty);
+        set => SetValue(SelectedColorAProperty, value);
+    }
+    public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorR
     public static readonly DependencyProperty SelectedColorRProperty
         = DependencyProperty.Register(
             nameof(SelectedColorR),
-            typeof(short),
+            typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(short),
+            new FrameworkPropertyMetadata(default(byte),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorRChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public short SelectedColorR
+    internal byte SelectedColorR
     {
-        get => (short)GetValue(SelectedColorRProperty);
-        private set => SetValue(SelectedColorRProperty, value);
+        get => (byte)GetValue(SelectedColorRProperty);
+        set => SetValue(SelectedColorRProperty, value);
+    }
+    public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColorR, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorG
     public static readonly DependencyProperty SelectedColorGProperty
         = DependencyProperty.Register(
             nameof(SelectedColorG),
-            typeof(short),
+            typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(short),
+            new FrameworkPropertyMetadata(default(byte),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorGChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public short SelectedColorG
+    internal byte SelectedColorG
     {
-        get => (short)GetValue(SelectedColorGProperty);
-        private set => SetValue(SelectedColorGProperty, value);
+        get => (byte)GetValue(SelectedColorGProperty);
+        set => SetValue(SelectedColorGProperty, value);
+    }
+    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColorG, stsw.SelectedColor.B);
     }
     /// SelectedColorB
     public static readonly DependencyProperty SelectedColorBProperty
         = DependencyProperty.Register(
             nameof(SelectedColorB),
-            typeof(short),
+            typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(short),
+            new FrameworkPropertyMetadata(default(byte),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorBChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public short SelectedColorB
+    internal byte SelectedColorB
     {
-        get => (short)GetValue(SelectedColorBProperty);
-        private set => SetValue(SelectedColorBProperty, value);
+        get => (byte)GetValue(SelectedColorBProperty);
+        set => SetValue(SelectedColorBProperty, value);
+    }
+    public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColorB);
     }
 
     /// Text

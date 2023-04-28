@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -78,7 +79,10 @@ public class StswPasswordBox : TextBox
         = DependencyProperty.Register(
             nameof(Password),
             typeof(string),
-            typeof(StswPasswordBox)
+            typeof(StswPasswordBox),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public string? Password
     {
