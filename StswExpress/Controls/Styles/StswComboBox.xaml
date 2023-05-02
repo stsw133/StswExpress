@@ -65,7 +65,7 @@
                                             <!-- subborder -->
                                             <Border x:Name="PART_SubBorder"
                                                     DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                    BorderBrush="{Binding BorderBrush, ElementName=templateRoot}"
                                                     BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
                                                     SnapsToDevicePixels="True"/>
                                             <!-- custom buttons -->
