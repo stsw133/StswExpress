@@ -85,7 +85,7 @@
                                          StrokeThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                          Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Ellipse.Fill>
-                                        <SolidColorBrush Color="{Binding SelectedColor, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorBox}}}"/>
+                                        <SolidColorBrush Color="{Binding SelectedColor, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <Grid>

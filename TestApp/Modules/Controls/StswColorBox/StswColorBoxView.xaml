@@ -13,11 +13,11 @@
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswColorBox Margin="5" IsEnabled="False" SelectedColor="{Binding Color}"/>
+                <se:StswColorBox Margin="5" SelectedColor="{Binding Color}" IsEnabled="False"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswColorBox Margin="5" IsReadOnly="True" SelectedColor="{Binding Color}"/>
+                <se:StswColorBox Margin="5" SelectedColor="{Binding Color}" IsReadOnly="True"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">

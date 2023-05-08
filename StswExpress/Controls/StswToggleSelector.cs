@@ -65,7 +65,7 @@ public class StswToggleSelector : ComboBox
         {
             if (prop != null)
             {
-                var itmValue = itm.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm);
+                var itmValue = itm == null ? itm : itm.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm);
                 if (itmValue?.Equals(prop) == true)
                 {
                     found = true;

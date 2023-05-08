@@ -13,15 +13,15 @@
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" IsEnabled="False"/>
+                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="False"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" IsReadOnly="True"/>
+                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsReadOnly="True"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}"/>
+                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
             </UniformGrid>
         </DockPanel>
     </ScrollViewer>

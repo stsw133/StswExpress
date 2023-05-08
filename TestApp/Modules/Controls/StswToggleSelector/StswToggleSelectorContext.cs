@@ -4,6 +4,6 @@ namespace TestApp;
 
 public class StswToggleSelectorContext : StswObservableObject
 {
-    public List<string?> ListTypes => new List<string?>() { "Test1", "Test2", "Test3", null };
-    public List<string?> SelectedTypes => new List<string?>() { "Test2", "Test3", null };
+    public List<StswComboItem?> ListTypes => new() { new() { Display = "Test1", Value = 1 }, new() { Display = "Test2", Value = 2 }, new() { Display = "Test3", Value = 3 }, null };
+    public List<StswComboItem?> SelectedTypes => new() { new() { Display = "Test2", Value = 2 }, new() { Display = "Test3", Value = 3 }, null };
 }
