@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\StswFilter\StswFilterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,7 +64,7 @@
     <Compile Update="Modules\Controls\StswCalendar\StswCalendarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml.cs">
+    <Compile Update="Modules\Controls\StswColorBox\StswColorBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StswExpander\StswExpanderView.xaml.cs">
@@ -124,6 +127,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Modules\Controls\StswFilter\StswFilterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -156,7 +163,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml">
+    <Page Update="Modules\Controls\StswColorBox\StswColorBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

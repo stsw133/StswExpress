@@ -1,20 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorPicker : TextBox
+public class StswColorPicker : UserControl
 {
-    public StswColorPicker()
-    {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
-    }
     static StswColorPicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
@@ -24,70 +21,53 @@ public class StswColorPicker : TextBox
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// Content
-        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
+        /// ColorRectangle
+        if (GetTemplateChild("PART_ColorRectangle") is Border rect)
         {
-            content.KeyDown += PART_ContentHost_KeyDown;
-            content.LostFocus += PART_ContentHost_LostFocus;
+            rect.MouseDown += PART_ColorRectangle_MouseDown;
+            rect.MouseMove += PART_ColorRectangle_MouseMove;
         }
         
         base.OnApplyTemplate();
     }
 
-    /// PART_ContentHost_KeyDown
-    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
+    /// PART_ColorBorder_MouseDown
+    private void PART_ColorRectangle_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.Key == Key.Enter)
-            PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
+        if (e.LeftButton == MouseButtonState.Pressed)
+            PART_ColorRectangle_MouseMove(sender, e);
     }
 
-    /// PART_ContentHost_LostFocus
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    /// PART_ColorBorder_MouseMove
+    private void PART_ColorRectangle_MouseMove(object sender, MouseEventArgs e)
     {
-        //if (string.IsNullOrEmpty(Text))
-        //    SelectedColor = default;
-        //else
-        //{
-        //    try
-        //    {
-        //        SelectedColor = System.Drawing.ColorTranslator.FromHtml(Text);
-        //    }
-        //    catch { }
-        //}
-        
-        //Text = SelectedColor.Name;
-        //var bindingExpression = GetBindingExpression(TextProperty);
-        //if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
-        //    bindingExpression.UpdateSource();
+        var rect = (Border)sender;
+
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            try
+            {
+                var position = e.GetPosition(rect);
+
+                int x = (int)Math.Floor(position.X);
+                int y = (int)Math.Floor(position.Y);
+
+                if (x <= rect.BorderThickness.Left + rect.Margin.Left || y <= rect.BorderThickness.Top + rect.Margin.Top) return;
+
+                var rtb = new RenderTargetBitmap((int)rect.RenderSize.Width, (int)rect.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
+                rtb.Render(rect);
+
+                var pixels = new byte[4];
+                rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
+
+                SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
+            }
+            catch { }
+        }
     }
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
-        = DependencyProperty.Register(
-            nameof(Buttons),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswColorPicker)
-        );
-    public ObservableCollection<UIElement> Buttons
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
-    }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
-            typeof(Dock),
-            typeof(StswColorPicker)
-        );
-    public Dock ButtonsAlignment
-    {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
@@ -101,32 +81,19 @@ public class StswColorPicker : TextBox
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// Placeholder
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswColorPicker)
-        );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-
     /// SelectedColor
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
-            typeof(System.Drawing.Color),
+            typeof(Color),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(System.Drawing.Color),
+            new FrameworkPropertyMetadata(default(Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public System.Drawing.Color SelectedColor
+    public Color SelectedColor
     {
-        get => (System.Drawing.Color)GetValue(SelectedColorProperty);
+        get => (Color)GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
     }
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -158,7 +125,7 @@ public class StswColorPicker : TextBox
     public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorR
     public static readonly DependencyProperty SelectedColorRProperty
@@ -178,7 +145,7 @@ public class StswColorPicker : TextBox
     public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColorR, stsw.SelectedColor.G, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColorR, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorG
     public static readonly DependencyProperty SelectedColorGProperty
@@ -198,7 +165,7 @@ public class StswColorPicker : TextBox
     public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColorG, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColorG, stsw.SelectedColor.B);
     }
     /// SelectedColorB
     public static readonly DependencyProperty SelectedColorBProperty
@@ -218,154 +185,23 @@ public class StswColorPicker : TextBox
     public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = System.Drawing.Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColorB);
-    }
-
-    /// Text
-    public new string? Text
-    {
-        get => base.Text;
-        internal set => base.Text = value;
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColorB);
     }
     #endregion
 
     #region Style
-    /// > Background ...
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
         = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
+            nameof(OpacityDisabled),
+            typeof(double),
             typeof(StswColorPicker)
         );
-    public Brush BackgroundDisabled
+    public double OpacityDisabled
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
-    }
-    /// BackgroundMouseOver
-    public static readonly DependencyProperty BackgroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundMouseOver),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BackgroundMouseOver
-    {
-        get => (Brush)GetValue(BackgroundMouseOverProperty);
-        set => SetValue(BackgroundMouseOverProperty, value);
-    }
-    /// BackgroundFocused
-    public static readonly DependencyProperty BackgroundFocusedProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundFocused),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BackgroundFocused
-    {
-        get => (Brush)GetValue(BackgroundFocusedProperty);
-        set => SetValue(BackgroundFocusedProperty, value);
-    }
-    /// BackgroundReadOnly
-    public static readonly DependencyProperty BackgroundReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundReadOnly),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BackgroundReadOnly
-    {
-        get => (Brush)GetValue(BackgroundReadOnlyProperty);
-        set => SetValue(BackgroundReadOnlyProperty, value);
-    }
-
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// BorderBrushMouseOver
-    public static readonly DependencyProperty BorderBrushMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushMouseOver),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BorderBrushMouseOver
-    {
-        get => (Brush)GetValue(BorderBrushMouseOverProperty);
-        set => SetValue(BorderBrushMouseOverProperty, value);
-    }
-    /// BorderBrushFocused
-    public static readonly DependencyProperty BorderBrushFocusedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushFocused),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush BorderBrushFocused
-    {
-        get => (Brush)GetValue(BorderBrushFocusedProperty);
-        set => SetValue(BorderBrushFocusedProperty, value);
-    }
-
-    /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-    /// ForegroundMouseOver
-    public static readonly DependencyProperty ForegroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundMouseOver),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush ForegroundMouseOver
-    {
-        get => (Brush)GetValue(ForegroundMouseOverProperty);
-        set => SetValue(ForegroundMouseOverProperty, value);
-    }
-    /// ForegroundFocused
-    public static readonly DependencyProperty ForegroundFocusedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundFocused),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush ForegroundFocused
-    {
-        get => (Brush)GetValue(ForegroundFocusedProperty);
-        set => SetValue(ForegroundFocusedProperty, value);
-    }
-    /// ForegroundPlaceholder
-    public static readonly DependencyProperty ForegroundPlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundPlaceholder),
-            typeof(Brush),
-            typeof(StswColorPicker)
-        );
-    public Brush ForegroundPlaceholder
-    {
-        get => (Brush)GetValue(ForegroundPlaceholderProperty);
-        set => SetValue(ForegroundPlaceholderProperty, value);
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
 
     /// > BorderThickness ...
@@ -380,6 +216,20 @@ public class StswColorPicker : TextBox
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > Padding ...
+    /// SubPadding
+    public static readonly DependencyProperty SubPaddingProperty
+        = DependencyProperty.Register(
+            nameof(SubPadding),
+            typeof(Thickness),
+            typeof(StswColorPicker)
+        );
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
     }
     #endregion
 }

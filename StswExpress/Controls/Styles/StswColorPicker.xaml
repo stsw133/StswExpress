@@ -5,36 +5,20 @@
 
     <Style TargetType="{x:Type se:StswColorPicker}">
 
-        <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
-        
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
-        <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
-        <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
-        <Setter Property="BackgroundReadOnly" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswBox.MouseOver.Border}"/>
-        <Setter Property="BorderBrushFocused" Value="{DynamicResource StswBox.Focused.Border}"/>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-        <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
-
+        
+        <Setter Property="OpacityDisabled" Value="0.3"/>
+        
         <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"/>
         <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="SubPadding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
 
-        <Setter Property="Placeholder" Value="Wybierz kolor..."/>
-
-        <Setter Property="ButtonsAlignment" Value="Right"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
@@ -43,143 +27,157 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                       Padding="{TemplateBinding Padding}"
                                        SnapsToDevicePixels="True">
-                        <DockPanel>
-                            <!-- buttons -->
-                            <se:StswToggleButton x:Name="PART_FunctionButton"
-                                                 DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
-                                                 BorderThickness="0" CornerRadius="0" Padding="0"
-                                                 Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}" Scale="1.5"/>
-                            </se:StswToggleButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto" MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <!-- color rectangle -->
+                            <Border x:Name="PART_ColorRectangle" Grid.Column="0" Grid.Row="0"
+                                    Background="White"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
-                            <!-- custom buttons -->
-                            <ItemsControl x:Name="PART_Buttons" DockPanel.Dock="{TemplateBinding ButtonsAlignment}" ItemsSource="{TemplateBinding Buttons}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                            <!-- popup: palette -->
-                            <Popup x:Name="PART_Popup"
-                                   AllowsTransparency="True"
-                                   IsOpen="{Binding IsChecked, ElementName=PART_FunctionButton}"
-                                   Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_FunctionButton}"
-                                   StaysOpen="False">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                    <DockPanel>
-                                        <!-- A -->
-                                        <DockPanel DockPanel.Dock="Top">
-                                            <Border DockPanel.Dock="Left" BorderBrush="#7777" BorderThickness="1">
-                                                <Rectangle Fill="Transparent" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                            </Border>
-                                            <Label DockPanel.Dock="Left" Content="A"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
-                                                    VerticalAlignment="Center"/>
-                                        </DockPanel>
-                                        <!-- R -->
-                                        <DockPanel DockPanel.Dock="Top">
-                                            <Border DockPanel.Dock="Left" BorderBrush="#7777" BorderThickness="1">
-                                                <Rectangle Fill="Red" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                            </Border>
-                                            <Label DockPanel.Dock="Left" Content="R"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
-                                                    VerticalAlignment="Center"/>
-                                        </DockPanel>
-                                        <!-- G -->
-                                        <DockPanel DockPanel.Dock="Top">
-                                            <Border DockPanel.Dock="Left" BorderBrush="#7777" BorderThickness="1">
-                                                <Rectangle Fill="Green" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                            </Border>
-                                            <Label DockPanel.Dock="Left" Content="G"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
-                                                    VerticalAlignment="Center"/>
-                                        </DockPanel>
-                                        <!-- B -->
-                                        <DockPanel DockPanel.Dock="Top">
-                                            <Border DockPanel.Dock="Left" BorderBrush="#7777" BorderThickness="1">
-                                                <Rectangle Fill="Blue" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                            </Border>
-                                            <Label DockPanel.Dock="Left" Content="B"/>
-                                            <Label DockPanel.Dock="Right" Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                    Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
-                                                    VerticalAlignment="Center"/>
-                                        </DockPanel>
-                                    </DockPanel>
+                                    Margin="{TemplateBinding SubPadding}"
+                                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+                                <Rectangle>
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                            <GradientStop Color="#F00" Offset="0"/>
+                                            <GradientStop Color="#FF0" Offset="0.1666666666"/>
+                                            <GradientStop Color="#0F0" Offset="0.3333333333"/>
+                                            <GradientStop Color="#0FF" Offset="0.5"/>
+                                            <GradientStop Color="#00F" Offset="0.6666666666"/>
+                                            <GradientStop Color="#F0F" Offset="0.8333333333"/>
+                                            <GradientStop Color="#F00" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                            <GradientStop Color="#FFFF" Offset="0"/>
+                                            <GradientStop Color="#0FFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Border>
+                            <!-- selected color -->
+                            <Border Grid.Column="1" Grid.Row="0"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
+                                    Margin="{TemplateBinding SubPadding}">
+                                <Border.Background>
+                                    <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
+                                        <VisualBrush.Visual>
+                                            <UniformGrid Height="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
+                                                         Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
+                                                <Rectangle Fill="#3777"/>
+                                                <Rectangle Fill="#7777"/>
+                                                <Rectangle Fill="#7777"/>
+                                                <Rectangle Fill="#3777"/>
+                                            </UniformGrid>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Border.Background>
+                                <Rectangle>
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Border>
+                            <!-- A -->
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding SubBorderThickness}"
+                                        Margin="{TemplateBinding SubPadding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                    <Border.Background>
+                                        <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
+                                            <VisualBrush.Visual>
+                                                <UniformGrid Height="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
+                                                             Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
+                                                    <Rectangle Fill="#3777"/>
+                                                    <Rectangle Fill="#7777"/>
+                                                    <Rectangle Fill="#7777"/>
+                                                    <Rectangle Fill="#3777"/>
+                                                </UniformGrid>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Border.Background>
                                 </Border>
-                            </Popup>
-                            <!-- content -->
-                            <DockPanel>
-                                <Ellipse Margin="{TemplateBinding Padding}"
-                                         Stroke="{TemplateBinding BorderBrush}"
-                                         StrokeThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
-                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-                                    <Ellipse.Fill>
-                                        <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorBrightnessConverter.Instance}}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <Grid>
-                                    <TextBlock x:Name="PART_Placeholder"
-                                               Foreground="{TemplateBinding ForegroundPlaceholder}"
-                                               IsHitTestVisible="False"
-                                               Margin="{TemplateBinding Padding}"
-                                               Text="{TemplateBinding Placeholder}"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               Visibility="Collapsed"/>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                                  Focusable="False" 
-                                                  HorizontalScrollBarVisibility="Hidden" 
-                                                  VerticalScrollBarVisibility="Hidden"/>
-                                </Grid>
+                                <Label Content="A"/>
+                                <Label DockPanel.Dock="Right"
+                                       Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       HorizontalContentAlignment="Right"/>
+                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                        Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        VerticalAlignment="Center"/>
                             </DockPanel>
-                        </DockPanel>
+                            <!-- R -->
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                                <Border Background="#F00"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding SubBorderThickness}"
+                                        Margin="{TemplateBinding SubPadding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <Label Content="R"/>
+                                <Label DockPanel.Dock="Right"
+                                       Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       HorizontalContentAlignment="Right"/>
+                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                        Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <!-- G -->
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+                                <Border Background="#0F0"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding SubBorderThickness}"
+                                        Margin="{TemplateBinding SubPadding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <Label Content="G"/>
+                                <Label DockPanel.Dock="Right"
+                                       Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       HorizontalContentAlignment="Right"/>
+                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                        Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <!-- B -->
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
+                                <Border Background="#00F"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding SubBorderThickness}"
+                                        Margin="{TemplateBinding SubPadding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <Label Content="B"/>
+                                <Label DockPanel.Dock="Right"
+                                       Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       HorizontalContentAlignment="Right"/>
+                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
+                                        Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </Grid>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
-                        </Trigger>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundFocused, RelativeSource={RelativeSource Self}}" />
-                        </Trigger>
-                        <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder" />
+                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -32,6 +32,9 @@
             <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
                 <local:StswCheckBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswColorBoxContext}">
+                <local:StswColorBoxView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswColorPickerContext}">
                 <local:StswColorPickerView/>
             </DataTemplate>
