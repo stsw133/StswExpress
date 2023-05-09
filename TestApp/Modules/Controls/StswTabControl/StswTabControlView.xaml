@@ -12,22 +12,12 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswTabControl DockPanel.Dock="Top" Margin="5" IsEnabled="False">
-                <se:StswTabItem>
-                    <se:StswTabItem.Header>
-                        <se:StswHeader IconData="{x:Static se:StswIcons.TestTubeOff}" Content="TEST"/>
-                    </se:StswTabItem.Header>
-                    <Label Content="TEST"/>
-                </se:StswTabItem>
-            </se:StswTabControl>
+            <se:StswTabControl DockPanel.Dock="Top" Margin="5" AreTabsVisible="True" ItemsSource="{Binding ItemsDisabled}" SelectedIndex="0" IsEnabled="False"/>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswTabControl DockPanel.Dock="Top" Margin="5">
-                <se:StswTabItem>
-                    <se:StswTabItem.Header>
-                        <se:StswHeader IconData="{x:Static se:StswIcons.TestTube}" Content="TEST"/>
-                    </se:StswTabItem.Header>
-                    <Label Content="TEST"/>
-                </se:StswTabItem>
+            <se:StswTabControl DockPanel.Dock="Top" Margin="5" AreTabsVisible="True" ItemsSource="{Binding Items}" SelectedIndex="0">
+                <se:StswTabControl.NewTabTemplate>
+                    <se:StswTabItemModel Icon="{x:Static se:StswIcons.Glasses}" Name="New tab" Type="{x:Type local:ContractorsContext}"/>
+                </se:StswTabControl.NewTabTemplate>
             </se:StswTabControl>
         </DockPanel>
     </ScrollViewer>

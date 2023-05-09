@@ -17,6 +17,8 @@
         <!-- <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/> -->
         <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
 
+        <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
+        
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -35,14 +37,23 @@
                             <RowDefinition x:Name="RowDefinition0" Height="auto"/>
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
-                        <TabPanel x:Name="HeaderPanel"
-                                  Background="Transparent"
-                                  Grid.Column="0"
-                                  Grid.Row="0"
-                                  IsItemsHost="True"
-                                  KeyboardNavigation.TabIndex="1"
-                                  Margin="2 2 2 0"
-                                  Panel.ZIndex="1"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TabPanel x:Name="HeaderPanel"
+                                      Background="Transparent"
+                                      Grid.Column="0"
+                                      Grid.Row="0"
+                                      IsItemsHost="True"
+                                      KeyboardNavigation.TabIndex="1"
+                                      Margin="2 2 0 0"
+                                      Panel.ZIndex="1"/>
+                            <se:StswButton x:Name="PART_FunctionButton"
+                                           BorderThickness="0 1 1 0"
+                                           CornerRadius="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 0.75 0 0'}"
+                                           Margin="0 2 0 0"
+                                           Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
+                            </se:StswButton>
+                        </StackPanel>
                         <Border x:Name="ContentPanel"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -90,6 +101,9 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" TargetName="templateRoot" />
+                        </Trigger>
+                        <Trigger Property="AreTabsVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="HeaderPanel" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
