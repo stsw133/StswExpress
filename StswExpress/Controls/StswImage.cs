@@ -265,21 +265,8 @@ public class StswImage : UserControl
     {
         if (obj is StswImage stsw)
         {
-            if (stsw.Scale == GridLength.Auto)
-            {
-                stsw.Height = double.NaN;
-                stsw.Width = double.NaN;
-            }
-            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
-            {
-                var multiBinding = new MultiBinding();
-                multiBinding.Bindings.Add(new Binding(nameof(StswSettings.Default.iSize)) { Source = StswSettings.Default });
-                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
-                multiBinding.Converter = new StswCalculateConverter();
-                multiBinding.ConverterParameter = "*";
-                stsw.SetBinding(HeightProperty, multiBinding);
-                stsw.SetBinding(WidthProperty, multiBinding);
-            }
+            stsw.Height = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
+            stsw.Width = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
         }
     }
 

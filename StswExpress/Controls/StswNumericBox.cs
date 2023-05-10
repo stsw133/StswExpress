@@ -80,7 +80,8 @@ public class StswNumericBox : TextBox
 
             try
             {
-                Value += step;
+                if ((Value + step).Between(Minimum ?? double.MinValue, Maximum ?? double.MaxValue))
+                    Value += step;
             }
             catch { }
 

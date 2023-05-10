@@ -58,21 +58,8 @@ public class StswIcon : UserControl
     {
         if (obj is StswIcon stsw)
         {
-            if (stsw.Scale == GridLength.Auto)
-            {
-                stsw.Height = double.NaN;
-                stsw.Width = double.NaN;
-            }
-            else if (BindingOperations.GetBindingBase(stsw, HeightProperty) == null || BindingOperations.GetBindingBase(stsw, WidthProperty) == null)
-            {
-                var multiBinding = new MultiBinding();
-                multiBinding.Bindings.Add(new Binding(nameof(StswSettings.Default.iSize)) { Source = StswSettings.Default });
-                multiBinding.Bindings.Add(new Binding(nameof(Scale)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
-                multiBinding.Converter = new StswCalculateConverter();
-                multiBinding.ConverterParameter = "*";
-                stsw.SetBinding(HeightProperty, multiBinding);
-                stsw.SetBinding(WidthProperty, multiBinding);
-            }
+            stsw.Height = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
+            stsw.Width = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
         }
     }
     #endregion
@@ -102,6 +89,20 @@ public class StswIcon : UserControl
     {
         get => (Brush)GetValue(FillDisabledProperty);
         set => SetValue(FillDisabledProperty, value);
+    }
+
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswIcon)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

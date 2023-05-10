@@ -19,14 +19,14 @@
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="auto"/>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>
@@ -38,14 +38,14 @@
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="auto"/>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>
@@ -57,14 +57,14 @@
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="auto"/>
                 <se:StswHeader IsEnabled="False" BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>
@@ -76,14 +76,14 @@
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Content="Account" IconScale="auto"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconData="{x:Static se:StswIcons.Account}" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>
@@ -95,14 +95,14 @@
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Content="Account" IconScale="auto"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IconSource="/Resources/icon.ico" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>
@@ -114,14 +114,14 @@
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" IconScale="{x:Null}">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Content="Account" IconScale="auto"/>
                 <se:StswHeader BorderBrush="#7777" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsBusy="True" Foreground="Red" VerticalContentAlignment="Top">
                     <StackPanel>
                         <TextBlock Text="Account"/>
-                        <TextBlock Text="TEST" Opacity="0.6" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                        <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
                     </StackPanel>
                 </se:StswHeader>
             </UniformGrid>

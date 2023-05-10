@@ -6,12 +6,12 @@ using System.Windows;
 namespace StswExpress;
 
 /// <Remarks>
-/// As a side effect ClippingBorder will surpress any databinding or animation of 
-///  its childs UIElement.Clip property until the child is removed from ClippingBorder
+/// As a side effect <see cref="ClippingBorder"/> will surpress any databinding or animation of 
+/// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="ClippingBorder"/>.
 /// </Remarks>
 public class ClippingBorder : Border
 {
-    private RectangleGeometry _clipRect = new RectangleGeometry();
+    private readonly RectangleGeometry _clipRect = new RectangleGeometry();
     private object? _oldClip;
 
     protected override void OnRender(DrawingContext dc)
@@ -42,7 +42,7 @@ public class ClippingBorder : Border
 
     protected virtual void OnApplyChildClip()
     {
-        UIElement child = Child;
+        var child = Child;
         if (child != null)
         {
             _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - (BorderThickness.Left * 0.5));

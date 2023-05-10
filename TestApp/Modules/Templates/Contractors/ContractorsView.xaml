@@ -18,26 +18,21 @@
         <!-- <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden"> -->
         <UniformGrid DockPanel.Dock="Top" Rows="1" HorizontalAlignment="Left">
             <se:StswButton Margin="3" Command="{Binding ClearCommand}">
-                <se:StswHeader IconFill="{x:Static se:StswColors.Neutral}" IconData="{x:Static se:StswIcons.Broom}" IconScale="2" Content="Clear table" IsBusy="{Binding IsBusy[Clear]}"/>
+                <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{x:Static se:StswColors.Neutral}" IconScale="2" IsBusy="{Binding IsBusy[Clear]}"/>
             </se:StswButton>
             <se:StswButton Margin="3" Command="{Binding RefreshCommand}">
-                <se:StswHeader IconFill="{x:Static se:StswColors.Neutral}" IconData="{x:Static se:StswIcons.Refresh}" IconScale="2" Content="Refresh data" IsBusy="{Binding IsBusy[Refresh]}"/>
+                <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IconScale="2" IsBusy="{Binding IsBusy[Refresh]}"/>
             </se:StswButton>
             <se:StswButton Margin="3" Command="{Binding SaveCommand}">
-                <se:StswHeader IconFill="{x:Static se:StswColors.Modify}" IconData="{x:Static se:StswIcons.ContentSave}" IconScale="2" Content="Save changes" IsBusy="{Binding IsBusy[Save]}"/>
+                <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{x:Static se:StswColors.Modify}" IconScale="2" IsBusy="{Binding IsBusy[Save]}"/>
             </se:StswButton>
-            <se:StswButton Margin="3" Command="{Binding ExportToExcelCommand}">
-                <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconScale="2" IsBusy="{Binding IsBusy[ExportToExcel]}">
-                    <StackPanel>
-                        <TextBlock Text="Export to Excel"/>
-                        <TextBlock Text="Only visible data" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
-                    </StackPanel>
-                </se:StswHeader>
+            <se:StswButton Margin="3" Command="{Binding ExportCommand}">
+                <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{x:Static se:StswColors.Positive}" IconScale="2" IsBusy="{Binding IsBusy[Export]}"/>
             </se:StswButton>
         </UniformGrid>
         <!-- </ScrollViewer> -->
         <!-- progress panel -->
-        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
         <DockPanel DockPanel.Dock="Bottom">
             <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding AddCommand}">
@@ -53,7 +48,7 @@
                     <se:StswHeader IconFill="{x:Static se:StswColors.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Delete]}"/>
                 </se:StswButton>
             </UniformGrid>
-            <TextBlock Margin="3">
+            <TextBlock Margin="3" VerticalAlignment="Center">
                 <Run Text="Displayed: "/>
                 <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <!--

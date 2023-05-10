@@ -21,11 +21,11 @@
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="PopupBorderThickness" Value="1"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="3"/>
 
         <Setter Property="ButtonsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -59,7 +59,7 @@
                                             <!-- buttons -->
                                             <ContentControl x:Name="PART_FunctionButton"
                                                             DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}"
-                                                            Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
+                                                            Width="24">
                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                                             </ContentControl>
                                             <!-- subborder -->

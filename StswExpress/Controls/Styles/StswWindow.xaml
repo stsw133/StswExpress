@@ -9,20 +9,23 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="WindowStyle" Value="None"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- window border -->
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <Border x:Name="PART_MainBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            SnapsToDevicePixels="True">
                         <Grid>
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}" ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                            </Grid.LayoutTransform>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition/>
@@ -42,7 +45,7 @@
                                                IconSource="{TemplateBinding Icon}">
                                     <StackPanel>
                                         <TextBlock Text="{TemplateBinding Title}"/>
-                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"/>
+                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="10"/>
                                     </StackPanel>
                                 </se:StswHeader>
                                 <!-- buttons panel -->
@@ -51,7 +54,7 @@
                                         <Style TargetType="{x:Type se:OutlinedTextBlock}">
                                             <Setter Property="Fill" Value="White"/>
                                             <Setter Property="Stroke" Value="Black"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+                                            <Setter Property="StrokeThickness" Value="2"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
                                                     <Setter Property="Fill" Value="#B777"/>
@@ -80,13 +83,22 @@
                                 <!-- context menu -->
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
-                                        <MenuItem Header="Dodatkowe opcje">
+                                        <!-- gui -->
+                                        <MenuItem Header="Interfejs graficzny">
+                                            <!-- scaling -->
                                             <MenuItem x:Name="PART_MenuScaling" Header="Rozmiar">
                                                 <MenuItem.Icon>
-                                                    <TextBlock Text="{Binding iSize, Source={x:Static se:StswSettings.Default}, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="🗚" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <Slider Width="220" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                                <DockPanel>
+                                                    <Slider Width="220" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, UpdateSourceTrigger=PropertyChanged}" Minimum="0.5" Maximum="5" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                                                    <TextBlock Margin="5 0 0 0" Width="40" VerticalAlignment="Center">
+                                                        <Run Text="{Binding iSize, Source={x:Static se:StswSettings.Default}, StringFormat={}{0:N0}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=100}"/>
+                                                        <Run Text="%"/>
+                                                    </TextBlock>
+                                                </DockPanel>
                                             </MenuItem>
+                                            <!-- theme -->
                                             <MenuItem x:Name="PART_MenuTheme" Header="Motyw">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -107,6 +119,7 @@
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </MenuItem>
+                                            <!-- fullscreen -->
                                             <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -114,27 +127,32 @@
                                             </MenuItem>
                                         </MenuItem>
                                         <Separator/>
+                                        <!-- center -->
                                         <MenuItem x:Name="PART_MenuCenter" Header="Wyśrodkuj na ekranie">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
+                                        <!-- default -->
                                         <MenuItem x:Name="PART_MenuDefault" Header="Domyślny rozmiar">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="↕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
+                                        <!-- minimize -->
                                         <MenuItem x:Name="PART_MenuMinimize" Header="Minimalizuj">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
+                                        <!-- restore -->
                                         <MenuItem x:Name="PART_MenuRestore" Header="Maksymalizuj">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
+                                        <!-- close -->
                                         <MenuItem x:Name="PART_MenuClose" Header="Zamknij">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Static se:StswColors.Negative}"/>
@@ -156,7 +174,7 @@
                                         <Style TargetType="{x:Type se:OutlinedTextBlock}">
                                             <Setter Property="Fill" Value="White"/>
                                             <Setter Property="Stroke" Value="Black"/>
-                                            <Setter Property="StrokeThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+                                            <Setter Property="StrokeThickness" Value="2"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
                                                     <Setter Property="Fill" Value="#B777"/>
@@ -182,7 +200,7 @@
                                 <ContentControl Content="{TemplateBinding ContentDialog}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </Grid>
-                    </se:ClippingBorder>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ContentDialog" Value="{x:Null}">
                             <Setter Property="Focusable" Value="True" TargetName="PART_Content" />
@@ -248,9 +266,9 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
-        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=3.75}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Width" Value="45"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#7777"/>

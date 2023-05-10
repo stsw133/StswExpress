@@ -10,55 +10,12 @@ namespace TestApp;
 
 public class ContractorsContext : StswObservableObject
 {
-    /// ColumnFilters
-    private StswDictionary<string, StswFilterBindingData> columnFilters = new();
-    public StswDictionary<string, StswFilterBindingData> ColumnFilters
-    {
-        get => columnFilters;
-        set => SetProperty(ref columnFilters, value);
-    }
-
-    /// IsBusy
-    private StswDictionary<string, bool> isBusy = new();
-    public StswDictionary<string, bool> IsBusy
-    {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
-    }
-
-    /// Loading
-    private int loadingActions = 0;
-    public int LoadingActions
-    {
-        get => loadingActions;
-        set
-        {
-            SetProperty(ref loadingActions, value);
-            NotifyPropertyChanged(nameof(LoadingState));
-        }
-    }
-    public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
-
-    /// ComboLists
-    public List<string?> ListTypes => ContractorsQueries.ListOfTypes();
-
-    /// ListContractors
-    private StswCollection<ContractorModel> listContractors = new();
-    public StswCollection<ContractorModel> ListContractors
-    {
-        get => listContractors;
-        set => SetProperty(ref listContractors, value);
-    }
-    //public int ListContractors_Added => ListContractors.GetItemsByState(System.Data.DataRowState.Added).Count;
-    //public int ListContractors_Modified => ListContractors.GetItemsByState(System.Data.DataRowState.Modified).Count;
-    //public int ListContractors_Deleted => ListContractors.GetItemsByState(System.Data.DataRowState.Deleted).Count;
-
     #region Commands
 
     public ICommand ClearCommand { get; set; }
     public ICommand RefreshCommand { get; set; }
     public ICommand SaveCommand { get; set; }
-    public ICommand ExportToExcelCommand { get; set; }
+    public ICommand ExportCommand { get; set; }
     public ICommand AddCommand { get; set; }
     public ICommand CloneCommand { get; set; }
     public ICommand EditCommand { get; set; }
@@ -71,19 +28,19 @@ public class ContractorsContext : StswObservableObject
         ClearCommand = new StswRelayCommand(Clear);
         RefreshCommand = new StswRelayCommand(Refresh);
         SaveCommand = new StswRelayCommand(Save);
-        ExportToExcelCommand = new StswRelayCommand(ExportToExcel);
+        ExportCommand = new StswRelayCommand(Export);
         AddCommand = new StswRelayCommand(Add);
         CloneCommand = new StswRelayCommand(Clone, CloneCondition);
         EditCommand = new StswRelayCommand(Edit, EditCondition);
         DeleteCommand = new StswRelayCommand(Delete, DeleteCondition);
         AddPdfCommand = new StswRelayCommand(AddPdf, AddPdfCondition);
     }
-    
+
     /// Clear
     private async void Clear()
     {
         if (IsBusy[nameof(Clear)]) return;
-        
+
         await Task.Run(() =>
         {
             IsBusy[nameof(Clear)] = true;
@@ -103,7 +60,7 @@ public class ContractorsContext : StswObservableObject
     private async void Refresh()
     {
         if (IsBusy[nameof(Refresh)]) return;
-        
+
         StswFilter.GetColumnFilters(ColumnFilters, out var filter, out var parameters);
         await Task.Run(() =>
         {
@@ -141,14 +98,14 @@ public class ContractorsContext : StswObservableObject
         IsBusy[nameof(Save)] = false;
     }
 
-    /// ExportToExcel
-    private async void ExportToExcel()
+    /// Export
+    private async void Export()
     {
-        if (IsBusy[nameof(ExportToExcel)]) return;
-        
+        if (IsBusy[nameof(Export)]) return;
+
         await Task.Run(() =>
         {
-            IsBusy[nameof(ExportToExcel)] = true;
+            IsBusy[nameof(Export)] = true;
             LoadingActions++;
             Thread.Sleep(100);
 
@@ -168,7 +125,7 @@ public class ContractorsContext : StswObservableObject
             /// ...
 
             LoadingActions--;
-            IsBusy[nameof(ExportToExcel)] = false;
+            IsBusy[nameof(Export)] = false;
         });
     }
 
@@ -184,7 +141,7 @@ public class ContractorsContext : StswObservableObject
     private void Add()
     {
         if (IsBusy[nameof(Add)]) return;
-        
+
         IsBusy[nameof(Add)] = true;
         LoadingActions++;
         Thread.Sleep(100);
@@ -246,7 +203,7 @@ public class ContractorsContext : StswObservableObject
         IsBusy[nameof(Clone)] = false;
     }
     private bool CloneCondition() => SelectedItem is ContractorModel and not null;
-    
+
     /// Edit
     private void Edit()
     {
@@ -340,4 +297,47 @@ public class ContractorsContext : StswObservableObject
     private bool AddPdfCondition() => SelectedItem is ContractorModel m and not null && m.ID > 0;
 
     #endregion
+
+    /// ColumnFilters
+    private StswDictionary<string, StswFilterBindingData> columnFilters = new();
+    public StswDictionary<string, StswFilterBindingData> ColumnFilters
+    {
+        get => columnFilters;
+        set => SetProperty(ref columnFilters, value);
+    }
+
+    /// IsBusy
+    private StswDictionary<string, bool> isBusy = new();
+    public StswDictionary<string, bool> IsBusy
+    {
+        get => isBusy;
+        set => SetProperty(ref isBusy, value);
+    }
+
+    /// Loading
+    private int loadingActions = 0;
+    public int LoadingActions
+    {
+        get => loadingActions;
+        set
+        {
+            SetProperty(ref loadingActions, value);
+            NotifyPropertyChanged(nameof(LoadingState));
+        }
+    }
+    public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
+
+    /// ComboLists
+    public static List<string?> ListTypes => ContractorsQueries.ListOfTypes();
+
+    /// ListContractors
+    private StswCollection<ContractorModel> listContractors = new();
+    public StswCollection<ContractorModel> ListContractors
+    {
+        get => listContractors;
+        set => SetProperty(ref listContractors, value);
+    }
+    //public int ListContractors_Added => ListContractors.GetItemsByState(System.Data.DataRowState.Added).Count;
+    //public int ListContractors_Modified => ListContractors.GetItemsByState(System.Data.DataRowState.Modified).Count;
+    //public int ListContractors_Deleted => ListContractors.GetItemsByState(System.Data.DataRowState.Deleted).Count;
 }

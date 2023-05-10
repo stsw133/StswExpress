@@ -13,9 +13,9 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <!-- <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/> -->
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <!-- <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/> -->
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <!-- <Setter Property="CornerRadius" Value="9"/> -->
+        <Setter Property="Padding" Value="3"/>
 
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
         
@@ -48,7 +48,7 @@
                                       Panel.ZIndex="1"/>
                             <se:StswButton x:Name="PART_FunctionButton"
                                            BorderThickness="0 1 1 0"
-                                           CornerRadius="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 0.75 0 0'}"
+                                           CornerRadius="0 9 0 0"
                                            Margin="0 2 0 0"
                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>

@@ -7,9 +7,9 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -166,17 +166,17 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ScrollBar.Static.Border}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="1 0" />
-        <Setter Property="Width" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
-        <Setter Property="MinWidth" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+        <Setter Property="Width" Value="15"/>
+        <Setter Property="MinWidth" Value="15"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid x:Name="Bg" SnapsToDevicePixels="True">
                         <Grid.RowDefinitions>
-                            <RowDefinition MaxHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+                            <RowDefinition MaxHeight="15"/>
                             <RowDefinition Height="0.00001*"/>
-                            <RowDefinition MaxHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+                            <RowDefinition MaxHeight="15"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="1"
                                 Background="{TemplateBinding Background}"
@@ -248,8 +248,8 @@
                 
                 <Setter Property="Width" Value="Auto"/>
                 <Setter Property="MinWidth" Value="0"/>
-                <Setter Property="Height" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
-                <Setter Property="MinHeight" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+                <Setter Property="Height" Value="15"/>
+                <Setter Property="MinHeight" Value="15"/>
                 <Setter Property="BorderThickness" Value="0 1" />
                 
                 <Setter Property="Template">
@@ -257,9 +257,9 @@
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Grid x:Name="Bg" SnapsToDevicePixels="True">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MaxWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+                                    <ColumnDefinition MaxWidth="15"/>
                                     <ColumnDefinition Width="0.00001*"/>
-                                    <ColumnDefinition MaxWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"/>
+                                    <ColumnDefinition MaxWidth="15"/>
                                 </Grid.ColumnDefinitions>
                                 <Border BorderThickness="{TemplateBinding BorderThickness}"
                                         Grid.Column="1"

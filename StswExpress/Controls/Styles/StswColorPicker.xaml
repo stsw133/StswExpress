@@ -10,11 +10,11 @@
         
         <Setter Property="OpacityDisabled" Value="0.3"/>
         
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="SubBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
-        <Setter Property="SubPadding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="SubPadding" Value="3"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -32,7 +32,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto" MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"/>
+                                <ColumnDefinition Width="auto" MinWidth="24"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -76,8 +76,7 @@
                                 <Border.Background>
                                     <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
                                         <VisualBrush.Visual>
-                                            <UniformGrid Height="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
-                                                         Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
+                                            <UniformGrid Height="24" Width="24">
                                                 <Rectangle Fill="#3777"/>
                                                 <Rectangle Fill="#7777"/>
                                                 <Rectangle Fill="#7777"/>
@@ -101,8 +100,7 @@
                                     <Border.Background>
                                         <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
                                             <VisualBrush.Visual>
-                                                <UniformGrid Height="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
-                                                             Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
+                                                <UniformGrid Height="24" Width="24">
                                                     <Rectangle Fill="#3777"/>
                                                     <Rectangle Fill="#7777"/>
                                                     <Rectangle Fill="#7777"/>
@@ -115,11 +113,11 @@
                                 <Label Content="A"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       Width="30"
                                        HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        MinWidth="120"
                                         VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- R -->
@@ -132,11 +130,11 @@
                                 <Label Content="R"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       Width="30"
                                        HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        MinWidth="120"
                                         VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- G -->
@@ -149,11 +147,11 @@
                                 <Label Content="G"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       Width="30"
                                        HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        MinWidth="120"
                                         VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- B -->
@@ -166,11 +164,11 @@
                                 <Label Content="B"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2.5}"
+                                       Width="30"
                                        HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=10}"
+                                        MinWidth="120"
                                         VerticalAlignment="Center"/>
                             </DockPanel>
                         </Grid>

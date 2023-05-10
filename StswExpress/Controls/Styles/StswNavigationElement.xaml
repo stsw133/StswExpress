@@ -23,14 +23,14 @@
         <Setter Property="ForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
         <Setter Property="BorderThickness" Value="0.5"/>
-        <Setter Property="PopupBorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="PopupBorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="Padding" Value="6"/>
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
-        <Setter Property="TextMargin" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.3 0.1}"/>
+        <Setter Property="TextMargin" Value="3 1"/>
 
         <Setter Property="GroupName" Value="{Binding GroupName, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
         

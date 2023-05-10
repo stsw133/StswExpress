@@ -52,7 +52,7 @@ public class StswWindow : Window
 
         /// Menu: scaling
         if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
-            mniScaling.Click += (s, e) => StswSettings.Default.iSize = 12;
+            mniScaling.Click += (s, e) => StswSettings.Default.iSize = 1;
         /// Menu: theme
         if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
             foreach (MenuItem mni in mniTheme.Items)

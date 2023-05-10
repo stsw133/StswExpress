@@ -7,9 +7,9 @@
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
-        <Setter Property="CornerRadius" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.75}"/>
-        <Setter Property="Padding" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="Padding" Value="3"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -41,7 +41,7 @@
                                 <se:StswButton x:Name="PART_ButtonSelectionMode" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding Padding}"/>
                             </DockPanel>
                             <!-- content -->
-                            <Grid DockPanel.Dock="Top" MinHeight="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=15}" MinWidth="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=20}">
+                            <Grid DockPanel.Dock="Top" MinHeight="180" MinWidth="240">
                                 <!-- months (selection mode: year) -->
                                 <UniformGrid x:Name="PART_SelectionModeYear" Columns="4" Margin="{TemplateBinding Padding}" Visibility="Hidden">
                                     <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" Command="{Binding OnClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
@@ -70,13 +70,13 @@
                                     </Grid.RowDefinitions>
                                     <!-- days of week -->
                                     <UniformGrid DockPanel.Dock="Top" Columns="7">
-                                        <TextBlock Text="{Binding DayOfWeek1, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek2, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek3, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek4, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek5, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek6, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
-                                        <TextBlock Text="{Binding DayOfWeek7, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.55}"/>
+                                        <TextBlock Text="{Binding DayOfWeek1, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek2, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek3, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek4, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek5, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek6, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
+                                        <TextBlock Text="{Binding DayOfWeek7, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6.6"/>
                                     </UniformGrid>
                                     <!-- days of month -->
                                     <ItemsControl DockPanel.Dock="Top" Grid.Row="1" Grid.RowSpan="6" ItemsSource="{TemplateBinding Buttons}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">

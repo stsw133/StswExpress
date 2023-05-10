@@ -25,7 +25,7 @@ namespace StswExpress {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public double iSize {
             get {
                 return ((double)(this["iSize"]));

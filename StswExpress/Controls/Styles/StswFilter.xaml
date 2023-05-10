@@ -7,9 +7,9 @@
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="Margin" Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}"/>
+        <Setter Property="Margin" Value="3"/>
 
         <Setter Property="FilterVisibility" Value="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswBoolConverter.Instance}, FallbackValue=Visible}"/>
         <!--
@@ -31,10 +31,10 @@
                                 <!-- symbol -->
                                 <se:StswButton x:Name="PART_Symbol"
                                                BorderThickness="0" CornerRadius="0" Padding="0"
-                                               FontSize="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.25}"
-                                               Width="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
+                                               FontSize="15"
+                                               Width="24"
                                                VerticalContentAlignment="Center">
-                                    <se:OutlinedTextBlock Stroke="Black" StrokeThickness="{Binding iSize, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.15}"/>
+                                    <se:OutlinedTextBlock Stroke="Black" StrokeThickness="2"/>
                                     <se:StswButton.ContextMenu>
                                         <ContextMenu>
                                             <ContextMenu.Resources>

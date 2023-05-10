@@ -23,7 +23,7 @@
                     </se:StswButton>
                 </UniformGrid>
             </ScrollViewer>
-            <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}"/>
+            <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
 
             <!-- server -->
             <StackPanel DockPanel.Dock="Top" Margin="3">
