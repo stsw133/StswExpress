@@ -15,6 +15,7 @@
             <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}">
                 <StackPanel>
                     <se:StswNavigationElement Text="StswButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswButtonContext"/>
+                    <se:StswNavigationElement Text="StswButtonMenu" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswButtonMenuContext"/>
                     <se:StswNavigationElement Text="StswCalendar" IconData="{x:Static se:StswIcons.Calendar}" ContextNamespace="TestApp.StswCalendarContext"/>
                     <se:StswNavigationElement Text="StswCheckBox" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}" ContextNamespace="TestApp.StswCheckBoxContext"/>
                     <se:StswNavigationElement Text="StswColorBox" IconData="{x:Static se:StswIcons.SelectColor}" ContextNamespace="TestApp.StswColorBoxContext"/>

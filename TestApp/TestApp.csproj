@@ -49,6 +49,9 @@
     <Compile Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\StswButtonMenu\StswButtonMenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\StswTabControl\StswTabControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -140,6 +143,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Controls\StswButtonMenu\StswButtonMenuView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

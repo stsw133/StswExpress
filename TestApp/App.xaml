@@ -27,6 +27,9 @@
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswButtonMenuContext}">
+                <local:StswButtonMenuView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswCalendarContext}">
                 <local:StswCalendarView/>
             </DataTemplate>

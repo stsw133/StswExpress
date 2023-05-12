@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TestApp.StswButtonMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswButtonMenuContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswButtonMenu Margin="5" IsEnabled="False">
+                    <se:StswButtonMenu.Header>
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
+                    </se:StswButtonMenu.Header>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
+                    </se:StswButton>
+                </se:StswButtonMenu>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswButtonMenu Margin="5">
+                    <se:StswButtonMenu.Header>
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
+                    </se:StswButtonMenu.Header>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
+                    </se:StswButton>
+                    <se:StswButton Margin="3">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
+                    </se:StswButton>
+                </se:StswButtonMenu>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

@@ -44,6 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\Styles\StswButtonMenu.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Styles\StswCalendar.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
