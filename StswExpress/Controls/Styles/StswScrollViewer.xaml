@@ -8,7 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Template">

@@ -52,17 +52,19 @@ public class StswLoadingCircle : UserControl
         get => (Brush)GetValue(FillProperty);
         set => SetValue(FillProperty, value);
     }
-    /// FillDisabled
-    public static readonly DependencyProperty FillDisabledProperty
+
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
         = DependencyProperty.Register(
-            nameof(FillDisabled),
-            typeof(Brush),
+            nameof(OpacityDisabled),
+            typeof(double),
             typeof(StswLoadingCircle)
         );
-    public Brush FillDisabled
+    public double OpacityDisabled
     {
-        get => (Brush)GetValue(FillDisabledProperty);
-        set => SetValue(FillDisabledProperty, value);
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

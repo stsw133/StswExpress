@@ -52,7 +52,7 @@
                                         <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Fill="{x:Static se:StswColors.Negative}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <!-- separator -->
+                                <!-- ... -->
                                 <Separator/>
                                 <!-- load -->
                                 <MenuItem x:Name="PART_Load" Header="Wczytaj">

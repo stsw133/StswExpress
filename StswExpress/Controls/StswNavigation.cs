@@ -139,19 +139,6 @@ public class StswNavigation : UserControl
         set => SetValue(ButtonsLastProperty, value);
     }
 
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswNavigation)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-
     /// ExtendedMode
     public static readonly DependencyProperty ExtendedModeProperty
         = DependencyProperty.Register(
@@ -195,6 +182,7 @@ public class StswNavigation : UserControl
 
     #region Style
     /// > BorderThickness ...
+    /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
@@ -205,6 +193,20 @@ public class StswNavigation : UserControl
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswNavigation)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

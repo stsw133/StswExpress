@@ -1,15 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(Text))]
 public class StswTextBox : TextBox
 {
     public StswTextBox()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswTextBox()
     {
@@ -17,42 +19,29 @@ public class StswTextBox : TextBox
     }
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswTextBox)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
+            nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswTextBox)
         );
-    public Dock ButtonsAlignment
+    public Dock ComponentsAlignment
     {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswTextBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
 
     /// Placeholder
@@ -206,6 +195,20 @@ public class StswTextBox : TextBox
     {
         get => (Brush)GetValue(ForegroundPlaceholderProperty);
         set => SetValue(ForegroundPlaceholderProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswTextBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

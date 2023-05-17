@@ -6,43 +6,43 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
-[ContentProperty(nameof(Buttons))]
-public class StswButtonMenu : ToggleButton
+[ContentProperty(nameof(Items))]
+public class StswButtonSelector : ToggleButton
 {
-    public StswButtonMenu()
+    public StswButtonSelector()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<ButtonBase>());
+        SetValue(ItemsProperty, new ObservableCollection<ButtonBase>());
     }
-    static StswButtonMenu()
+    static StswButtonSelector()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButtonMenu), new FrameworkPropertyMetadata(typeof(StswButtonMenu)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButtonSelector), new FrameworkPropertyMetadata(typeof(StswButtonSelector)));
     }
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
-        = DependencyProperty.Register(
-            nameof(Buttons),
-            typeof(ObservableCollection<ButtonBase>),
-            typeof(StswButtonMenu)
-        );
-    public ObservableCollection<ButtonBase> Buttons
-    {
-        get => (ObservableCollection<ButtonBase>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
-    }
-
     /// Header
     public static readonly DependencyProperty HeaderProperty
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public object? Header
     {
         get => (object?)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
+    }
+
+    /// Items
+    public static readonly DependencyProperty ItemsProperty
+        = DependencyProperty.Register(
+            nameof(Items),
+            typeof(ObservableCollection<ButtonBase>),
+            typeof(StswButtonSelector)
+        );
+    public ObservableCollection<ButtonBase> Items
+    {
+        get => (ObservableCollection<ButtonBase>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
     }
     #endregion
 
@@ -53,7 +53,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BackgroundDisabled
     {
@@ -65,7 +65,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BackgroundMouseOver
     {
@@ -77,12 +77,24 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BackgroundPressed
     {
         get => (Brush)GetValue(BackgroundPressedProperty);
         set => SetValue(BackgroundPressedProperty, value);
+    }
+    /// PopupBackground
+    public static readonly DependencyProperty PopupBackgroundProperty
+        = DependencyProperty.Register(
+            nameof(PopupBackground),
+            typeof(Brush),
+            typeof(StswButtonSelector)
+        );
+    public Brush PopupBackground
+    {
+        get => (Brush)GetValue(PopupBackgroundProperty);
+        set => SetValue(PopupBackgroundProperty, value);
     }
 
     /// > BorderBrush ...
@@ -91,7 +103,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BorderBrushDisabled
     {
@@ -103,7 +115,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BorderBrushMouseOver
     {
@@ -115,7 +127,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BorderBrushPressed
     {
@@ -127,12 +139,24 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush BorderBrushDefaulted
     {
         get => (Brush)GetValue(BorderBrushDefaultedProperty);
         set => SetValue(BorderBrushDefaultedProperty, value);
+    }
+    /// PopupBorderBrush
+    public static readonly DependencyProperty PopupBorderBrushProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderBrush),
+            typeof(Brush),
+            typeof(StswButtonSelector)
+        );
+    public Brush PopupBorderBrush
+    {
+        get => (Brush)GetValue(PopupBorderBrushProperty);
+        set => SetValue(PopupBorderBrushProperty, value);
     }
 
     /// > Foreground ...
@@ -141,7 +165,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush ForegroundDisabled
     {
@@ -153,7 +177,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush ForegroundMouseOver
     {
@@ -165,7 +189,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundPressed),
             typeof(Brush),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Brush ForegroundPressed
     {
@@ -179,7 +203,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Thickness PopupBorderThickness
     {
@@ -193,7 +217,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public CornerRadius CornerRadius
     {
@@ -205,7 +229,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupCornerRadius),
             typeof(CornerRadius),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public CornerRadius PopupCornerRadius
     {
@@ -219,7 +243,7 @@ public class StswButtonMenu : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupPadding),
             typeof(Thickness),
-            typeof(StswButtonMenu)
+            typeof(StswButtonSelector)
         );
     public Thickness PopupPadding
     {

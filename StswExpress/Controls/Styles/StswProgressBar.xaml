@@ -17,14 +17,14 @@
         <Setter Property="ForegroundPaused" Value="{DynamicResource StswProgressBar.Paused.Foreground}"/>
         <Setter Property="ForegroundError" Value="{DynamicResource StswProgressBar.Error.Foreground}"/>
 
-        <Setter Property="OpacityDisabled" Value="0.15"/>
+        <Setter Property="OpacityDisabled" Value="0.3"/>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="1"/>
+        <Setter Property="Padding" Value="1"/>
 
         <Setter Property="State" Value="Running"/>
         <Setter Property="TextInPercents" Value="True"/>
-
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="1"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -74,13 +74,13 @@
                                 </Rectangle>
                             </Grid>
                             <!-- text -->
-                            <Label x:Name="PART_Text"
-                                   Content="{TemplateBinding Text}"
-                                   FontWeight="Medium"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Padding="{TemplateBinding Padding}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
+                            <TextBlock x:Name="PART_Text"
+                                       FontWeight="Medium"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Padding="{TemplateBinding Padding}"
+                                       Text="{TemplateBinding Text}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -91,31 +91,31 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsIndeterminate" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator" />
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
-                        </Trigger>
-                        <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Ready">
+                        <Trigger Property="State" Value="Ready">
                             <Setter Property="Fill" Value="{Binding ForegroundReady, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="Indicator" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="Animation" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Running">
+                        </Trigger>
+                        <Trigger Property="State" Value="Running">
                             <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
                             <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
                             <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Paused">
+                        </Trigger>
+                        <Trigger Property="State" Value="Paused">
                             <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
                             <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
                             <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding State, RelativeSource={RelativeSource Self}}" Value="Error">
+                        </Trigger>
+                        <Trigger Property="State" Value="Error">
                             <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
                             <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
                             <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
-                        </DataTrigger>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator" />
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />

@@ -11,19 +11,6 @@ public class StswSeparator : Separator
     }
 
     #region Properties
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswSeparator)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-
     /// Orientation
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
@@ -35,6 +22,22 @@ public class StswSeparator : Separator
     {
         get => (Orientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
+    }
+    #endregion
+
+    #region Style
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSeparator)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

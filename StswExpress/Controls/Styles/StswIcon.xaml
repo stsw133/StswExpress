@@ -5,8 +5,7 @@
     <Style TargetType="{x:Type se:StswIcon}">
 
         <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="FillDisabled" Value="{DynamicResource StswIcon.Disabled.Fill}"/>
-        
+
         <Setter Property="OpacityDisabled" Value="0.3"/>
 
         <Setter Property="CanvasSize" Value="24"/>
@@ -23,11 +22,6 @@
                         </Canvas>
                     </Viewbox>
                     <ControlTemplate.Triggers>
-                        <!--
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" Value="{Binding FillDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Path" />
-                        </Trigger>
-                        -->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Path" />
                         </Trigger>

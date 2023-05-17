@@ -15,63 +15,60 @@
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
                 <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Buttons>
+                    <se:StswTextBox.Components>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
                                        ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
-                                       CornerRadius="0" Command="{Binding ClearCommand}">
+                    <se:StswTextBox.Components>
+                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
                 <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Buttons>
+                    <se:StswTextBox.Components>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
                                        ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
-                                           CornerRadius="0" Command="{Binding ClearCommand}">
+                    <se:StswTextBox.Components>
+                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" IsHitTestVisible="False" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}" Placeholder="Wpisz coś..."/>
                 <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Buttons>
+                    <se:StswTextBox.Components>
                         <se:StswButton Background="Transparent" BackgroundDisabled="Transparent" BackgroundMouseOver="Transparent" BackgroundPressed="Transparent"
                                        BorderBrush="Transparent" BorderBrushDisabled="Transparent" BorderBrushMouseOver="Transparent" BorderBrushPressed="Transparent"
                                        ForegroundMouseOver="#F777" ForegroundPressed="#B777" Padding="0" Command="{Binding SearchCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
                 <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Buttons>
-                        <se:StswButton BorderThickness="{Binding BorderThickness.Right, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextBox}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 0'}"
-                                           CornerRadius="0" Command="{Binding ClearCommand}">
+                    <se:StswTextBox.Components>
+                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" Command="{Binding ClearCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
                         </se:StswButton>
-                    </se:StswTextBox.Buttons>
+                    </se:StswTextBox.Components>
                 </se:StswTextBox>
             </UniformGrid>
         </DockPanel>

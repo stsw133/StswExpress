@@ -45,42 +45,30 @@ public class StswColorPicker : UserControl
 
         if (e.LeftButton == MouseButtonState.Pressed)
         {
-            try
-            {
-                var position = e.GetPosition(rect);
+            /// get color from ColorRectangle pixel
+            var position = e.GetPosition(rect);
 
-                int x = (int)Math.Floor(position.X);
-                int y = (int)Math.Floor(position.Y);
+            int x = (int)Math.Floor(position.X);
+            int y = (int)Math.Floor(position.Y);
 
-                if (x <= rect.BorderThickness.Left + rect.Margin.Left || y <= rect.BorderThickness.Top + rect.Margin.Top) return;
+            if (x <= rect.BorderThickness.Left + rect.Margin.Left
+             || x >= rect.ActualWidth - rect.BorderThickness.Right
+             || y <= rect.BorderThickness.Top + rect.Margin.Top
+             || y >= rect.ActualHeight - rect.BorderThickness.Bottom)
+                return;
 
-                var rtb = new RenderTargetBitmap((int)rect.RenderSize.Width, (int)rect.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
-                rtb.Render(rect);
+            var rtb = new RenderTargetBitmap((int)rect.RenderSize.Width, (int)rect.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(rect);
 
-                var pixels = new byte[4];
-                rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
+            var pixels = new byte[4];
+            rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
 
-                SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
-            }
-            catch { }
+            SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
         }
     }
     #endregion
 
     #region Properties
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswColorPicker)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-
     /// SelectedColor
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
@@ -216,6 +204,20 @@ public class StswColorPicker : UserControl
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswColorPicker)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
 
     /// > Padding ...

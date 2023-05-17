@@ -14,7 +14,7 @@ public class StswTextEditor : RichTextBox
 {
     public StswTextEditor()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswTextEditor()
     {
@@ -22,7 +22,7 @@ public class StswTextEditor : RichTextBox
     }
 
     #region Events
-    private StswComboBox? cmbFontFamily, cmbFontSize;
+    private StswComboBox? partBoxFontFamily, partBoxFontSize;
 
     /// OnApplyTemplate
     public override void OnApplyTemplate()
@@ -60,14 +60,14 @@ public class StswTextEditor : RichTextBox
         {
             cmbFontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
             cmbFontFamily.SelectionChanged += PART_BoxFontFamily_SelectionChanged;
-            this.cmbFontFamily = cmbFontFamily;
+            partBoxFontFamily = cmbFontFamily;
         }
         /// Box: font size
         if (GetTemplateChild("PART_BoxFontSize") is StswComboBox cmbFontSize)
         {
             cmbFontSize.ItemsSource = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
             cmbFontSize.SelectionChanged += PART_BoxFontSize_SelectionChanged;
-            this.cmbFontSize = cmbFontSize;
+            partBoxFontSize = cmbFontSize;
         }
 
         SelectionChanged += PART_Editor_SelectionChanged;
@@ -92,12 +92,12 @@ public class StswTextEditor : RichTextBox
             btnFormatUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
         */
         var temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
-        if (cmbFontFamily != null)
-            cmbFontFamily.SelectedItem = temp;
+        if (partBoxFontFamily != null)
+            partBoxFontFamily.SelectedItem = temp;
 
         temp = Selection.GetPropertyValue(Inline.FontSizeProperty);
-        if (cmbFontSize != null)
-            cmbFontSize.Text = temp.ToString();
+        if (partBoxFontSize != null)
+            partBoxFontSize.Text = temp.ToString();
     }
 
     /// PART_ButtonLoad_Click
@@ -133,55 +133,42 @@ public class StswTextEditor : RichTextBox
     /// PART_FontFamilies_SelectionChanged
     private void PART_BoxFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (cmbFontFamily?.SelectedItem != null)
-            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
+        if (partBoxFontFamily?.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, partBoxFontFamily.SelectedItem);
     }
 
     /// PART_FontSizes_SelectionChanged
     private void PART_BoxFontSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (cmbFontSize?.SelectedItem != null)
-            Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.SelectedItem);
+        if (partBoxFontSize?.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontSizeProperty, partBoxFontSize.SelectedItem);
     }
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswTextEditor)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
+            nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswTextEditor)
         );
-    public Dock ButtonsAlignment
+    public Dock ComponentsAlignment
     {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswTextEditor)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
     #endregion
 
@@ -324,6 +311,20 @@ public class StswTextEditor : RichTextBox
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswTextEditor)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

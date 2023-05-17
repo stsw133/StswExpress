@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,7 +14,7 @@ public class StswColorBox : TextBox
 {
     public StswColorBox()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswColorBox()
     {
@@ -25,11 +26,11 @@ public class StswColorBox : TextBox
     public override void OnApplyTemplate()
     {
         /// Content
-        //if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
-        //{
-        //    content.KeyDown += PART_ContentHost_KeyDown;
-        //    content.LostFocus += PART_ContentHost_LostFocus;
-        //}
+        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
+        {
+            content.KeyDown += PART_ContentHost_KeyDown;
+            content.LostFocus += PART_ContentHost_LostFocus;
+        }
         
         base.OnApplyTemplate();
     }
@@ -46,59 +47,44 @@ public class StswColorBox : TextBox
     {
         if (string.IsNullOrEmpty(Text))
             SelectedColor = default;
-        else
-        {
-            try
-            {
-                //SelectedColor = System.Drawing.ColorTranslator.FromHtml(Text);
-            }
-            catch { }
-        }
-        
-        //Text = SelectedColor.Name;
+        else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] argb && argb.Length == 4
+              && byte.TryParse(argb[0], out var a1) && byte.TryParse(argb[1], out var r1) && byte.TryParse(argb[2], out var g1) && byte.TryParse(argb[3], out var b1))
+            SelectedColor = Color.FromArgb(a1, r1, g1, b1);
+        else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] rgb && rgb.Length == 3
+              && byte.TryParse(rgb[0], out var r2) && byte.TryParse(rgb[1], out var g2) && byte.TryParse(rgb[2], out var b2))
+            SelectedColor = Color.FromRgb(r2, g2, b2);
+
+        Text = SelectedColor.ToString();
         var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
+        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
     }
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswColorBox)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
+            nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswColorBox)
         );
-    public Dock ButtonsAlignment
+    public Dock ComponentsAlignment
     {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswColorBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
 
     /// Placeholder
@@ -289,6 +275,20 @@ public class StswColorBox : TextBox
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswColorBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

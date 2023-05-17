@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\Styles\StswButtonMenu.xaml">
+    <Page Update="Controls\Styles\StswButtonSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

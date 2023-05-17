@@ -22,10 +22,10 @@
         <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ButtonsAlignment" Value="Right"/>
+        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -39,8 +39,8 @@
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        SnapsToDevicePixels="True">
                         <DockPanel>
-                            <!-- custom buttons -->
-                            <ItemsControl x:Name="PART_Buttons" DockPanel.Dock="{TemplateBinding ButtonsAlignment}" ItemsSource="{TemplateBinding Buttons}">
+                            <!-- components -->
+                            <ItemsControl x:Name="PART_Components" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -83,7 +83,6 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />

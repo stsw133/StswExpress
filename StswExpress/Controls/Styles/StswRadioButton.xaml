@@ -12,8 +12,8 @@
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
-        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Border}"/>
+        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Border}"/>
         <Setter Property="BorderBrushChecked" Value="{DynamicResource StswButton.Checked.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>

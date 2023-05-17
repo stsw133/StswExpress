@@ -22,10 +22,10 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ButtonsAlignment" Value="Top"/>
+        <Setter Property="ComponentsAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
@@ -39,8 +39,8 @@
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        SnapsToDevicePixels="True">
                         <DockPanel>
-                            <Grid DockPanel.Dock="{TemplateBinding ButtonsAlignment}">
-                                <!-- buttons -->
+                            <Grid DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                <!-- toolbar -->
                                 <ToolBar x:Name="PART_ToolBar">
 
                                     <DockPanel>
@@ -140,14 +140,12 @@
                             </Grid>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
+                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
-                            <!-- custom buttons -->
-                            <ItemsControl x:Name="PART_Buttons"
-                                          DockPanel.Dock="{TemplateBinding ButtonsAlignment}"
-                                          ItemsSource="{TemplateBinding Buttons}">
+                            <!-- components -->
+                            <ItemsControl x:Name="PART_Components" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -175,7 +173,6 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_ToolBar" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />

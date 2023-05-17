@@ -14,7 +14,7 @@ public class StswDatePicker : TextBox
 {
     public StswDatePicker()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswDatePicker()
     {
@@ -32,7 +32,8 @@ public class StswDatePicker : TextBox
             content.LostFocus += PART_ContentHost_LostFocus;
             content.MouseWheel += PART_ContentHost_MouseWheel;
         }
-        
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
+
         base.OnApplyTemplate();
     }
 
@@ -51,16 +52,16 @@ public class StswDatePicker : TextBox
         else if (DateTime.TryParse(Text, out var result))
             SelectedDate = result;
 
-        Text = SelectedDate?.ToString();
+        Text = SelectedDate?.ToString(Format);
         var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
+        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
     }
     
     /// PART_ContentHost_MouseWheel
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue)
+        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue && IncrementType != IncrementTypes.None)
         {
             var step = e.Delta > 0 ? 1 : -1;
 
@@ -85,42 +86,29 @@ public class StswDatePicker : TextBox
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswDatePicker)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
+            nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswDatePicker)
         );
-    public Dock ButtonsAlignment
+    public Dock ComponentsAlignment
     {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDatePicker)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
 
     /// Format
@@ -161,6 +149,7 @@ public class StswDatePicker : TextBox
     /// IncrementType
     public enum IncrementTypes
     {
+        None,
         Year,
         Month,
         Day,
@@ -170,10 +159,10 @@ public class StswDatePicker : TextBox
     }
     public static readonly DependencyProperty IncrementTypeProperty
         = DependencyProperty.Register(
-              nameof(IncrementType),
-              typeof(IncrementTypes),
-              typeof(StswDatePicker)
-          );
+            nameof(IncrementType),
+            typeof(IncrementTypes),
+            typeof(StswDatePicker)
+        );
     public IncrementTypes IncrementType
     {
         get => (IncrementTypes)GetValue(IncrementTypeProperty);
@@ -184,7 +173,10 @@ public class StswDatePicker : TextBox
         = DependencyProperty.Register(
             nameof(Maximum),
             typeof(DateTime?),
-            typeof(StswDatePicker)
+            typeof(StswDatePicker),
+            new FrameworkPropertyMetadata(default(DateTime?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public DateTime? Maximum
     {
@@ -196,7 +188,10 @@ public class StswDatePicker : TextBox
         = DependencyProperty.Register(
             nameof(Minimum),
             typeof(DateTime?),
-            typeof(StswDatePicker)
+            typeof(StswDatePicker),
+            new FrameworkPropertyMetadata(default(DateTime?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public DateTime? Minimum
     {
@@ -405,6 +400,20 @@ public class StswDatePicker : TextBox
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDatePicker)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

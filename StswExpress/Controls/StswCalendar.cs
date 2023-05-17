@@ -6,9 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : UserControl
 {
     public ICommand OnClickCommand { get; set; }
@@ -68,14 +70,10 @@ public class StswCalendar : UserControl
     {
         /// try add months to selected date
         var newDate = SelectedDate;
-        try
-        {
+        if ((months > 0 && DateTime.MaxValue.AddMonths(-months) > SelectedMonth) || (months < 0 && DateTime.MinValue.AddMonths(-months) < SelectedMonth))
             newDate = SelectedMonth.AddMonths(months);
-        }
-        catch
-        {
+        else
             return months > 0 ? DateTime.MaxValue : DateTime.MinValue;
-        }
 
         /// check if new date is between range of Minimum and Maximum
         var max = new DateTime(newDate.Value.Year, newDate.Value.Month, DateTime.DaysInMonth(newDate.Value.Year, newDate.Value.Month));
@@ -90,7 +88,7 @@ public class StswCalendar : UserControl
     }
 
     /// OnClick
-    public void OnClick(object date)
+    public void OnClick(object? date)
     {
         if (SelectionMode == SelectionModes.ByYear)
         {
@@ -99,10 +97,10 @@ public class StswCalendar : UserControl
         }
         else
         {
-            SelectedDate = (DateTime)date;
+            SelectedDate = (DateTime?)date;
             if (Parent is Popup popup)
                 popup.IsOpen = false;
-            else if (SelectedDate.Value.Month != SelectedMonth.Month)
+            else if (SelectedDate.HasValue && SelectedDate.Value.Month != SelectedMonth.Month)
                 SelectedMonth = SelectedDate.Value;
         }
     }
@@ -120,19 +118,6 @@ public class StswCalendar : UserControl
     {
         get => (List<StswCalendarItem>)GetValue(ButtonsProperty);
         private set => SetValue(ButtonsProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswCalendar)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
 
     /// Maximum
@@ -211,8 +196,8 @@ public class StswCalendar : UserControl
             if (stsw.SelectionMode == SelectionModes.ByYear)
             {
                 /// display year
-                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS)
-                    buttonS.Content = stsw.SelectedMonth.Year.ToString();
+                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton btnMode)
+                    btnMode.Content = stsw.SelectedMonth.Year.ToString();
 
                 /// hide months when not in range of Minimum and Maximum
                 if (stsw.GetTemplateChild("PART_SelectionModeYear") is UniformGrid grid)
@@ -228,8 +213,8 @@ public class StswCalendar : UserControl
             else if (stsw.SelectionMode == SelectionModes.ByMonth)
             {
                 /// display month and year
-                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton buttonS)
-                    buttonS.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
+                if (stsw.GetTemplateChild("PART_ButtonSelectionMode") is StswButton btnMode)
+                    btnMode.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
 
                 /// clear previous 42 buttons in grid
                 var newButtons = new List<StswCalendarItem>();
@@ -316,6 +301,65 @@ public class StswCalendar : UserControl
     public string Month10 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(10);
     public string Month11 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(11);
     public string Month12 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(12);
+    #endregion
+
+    #region Style
+    /*
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswCalendar)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
+    }
+    */
+    /// > BorderThickness ...
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswCalendar)
+        );
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswCalendar)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Padding ...
+    /// SubPadding
+    public static readonly DependencyProperty SubPaddingProperty
+        = DependencyProperty.Register(
+            nameof(SubPadding),
+            typeof(Thickness),
+            typeof(StswCalendar)
+        );
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
     #endregion
 }
 

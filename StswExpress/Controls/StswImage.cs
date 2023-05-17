@@ -1,12 +1,9 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows.Data;
-using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress;
@@ -46,7 +43,7 @@ public class StswImage : UserControl
             mniSave.Click += MniSave_Click;
         
         base.OnApplyTemplate();
-        UpdateLayout();
+        //UpdateLayout();
     }
 
     /// PART_MainBorder_ContextMenuOpening
@@ -78,10 +75,13 @@ public class StswImage : UserControl
     /// Paste
     private void MniPaste_Click(object sender, RoutedEventArgs e)
     {
-        if (Clipboard.GetImage().GetType() == typeof(InteropBitmap))
-            Source = ImageFromClipboard();
-        else
+        if (Clipboard.ContainsImage())
             Source = Clipboard.GetImage();
+
+        //if (Clipboard.GetImage()?.GetType() == typeof(InteropBitmap))
+        //    Source = ImageFromClipboard();
+        //else
+        //    Source = Clipboard.GetImage();
     }
 
     /// Delete
@@ -121,7 +121,7 @@ public class StswImage : UserControl
         }
     }
     #endregion
-
+    /*
     #region ImageFromClipboard
     /// ImageFromClipboardDib
     public static ImageSource? ImageFromClipboard()
@@ -225,7 +225,7 @@ public class StswImage : UserControl
         }
     }
     #endregion
-
+    */
     #region Properties
     /// MenuMode
     public enum MenuModes

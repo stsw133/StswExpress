@@ -91,7 +91,7 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
             _itemStates[item] = item.ItemState = DataRowState.Modified;
     }
 
-    /// GetItemState
+    /// GetStateOfItem
     public DataRowState GetStateOfItem(T item)
     {
         if (_itemStates.TryGetValue(item, out var state))

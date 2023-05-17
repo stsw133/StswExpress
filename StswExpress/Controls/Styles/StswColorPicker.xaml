@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswColorPicker}">
@@ -12,13 +11,13 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SubPadding" Value="3"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
@@ -113,12 +112,10 @@
                                 <Label Content="A"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="30"
-                                       HorizontalContentAlignment="Right"/>
+                                       Width="30" HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120"
-                                        VerticalAlignment="Center"/>
+                                        MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- R -->
                             <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
@@ -130,12 +127,10 @@
                                 <Label Content="R"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="30"
-                                       HorizontalContentAlignment="Right"/>
+                                       Width="30" HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120"
-                                        VerticalAlignment="Center"/>
+                                        MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- G -->
                             <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
@@ -147,12 +142,10 @@
                                 <Label Content="G"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="30"
-                                       HorizontalContentAlignment="Right"/>
+                                       Width="30" HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120"
-                                        VerticalAlignment="Center"/>
+                                        MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- B -->
                             <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
@@ -164,12 +157,10 @@
                                 <Label Content="B"/>
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Width="30"
-                                       HorizontalContentAlignment="Right"/>
+                                       Width="30" HorizontalContentAlignment="Right"/>
                                 <Slider IsSnapToTickEnabled="True" TickFrequency="1"
                                         Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120"
-                                        VerticalAlignment="Center"/>
+                                        MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                         </Grid>
                     </se:ClippingBorder>

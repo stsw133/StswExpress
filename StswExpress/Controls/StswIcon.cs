@@ -78,18 +78,6 @@ public class StswIcon : UserControl
         get => (Brush)GetValue(FillProperty);
         set => SetValue(FillProperty, value);
     }
-    /// FillDisabled
-    public static readonly DependencyProperty FillDisabledProperty
-        = DependencyProperty.Register(
-            nameof(FillDisabled),
-            typeof(Brush),
-            typeof(StswIcon)
-        );
-    public Brush FillDisabled
-    {
-        get => (Brush)GetValue(FillDisabledProperty);
-        set => SetValue(FillDisabledProperty, value);
-    }
 
     /// > Opacity ...
     /// OpacityDisabled

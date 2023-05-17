@@ -9,7 +9,7 @@
         <Setter Property="Foreground" Value="{DynamicResource SliderThumb.Static.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Orientation" Value="Horizontal"/>
 
         <Setter Property="Template">

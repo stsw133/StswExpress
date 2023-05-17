@@ -10,7 +10,8 @@ public class StswSlider : Slider
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(typeof(StswSlider)));
     }
 
-    #region Properties
+    #region Style
+    /// > CornerRadius ...
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(

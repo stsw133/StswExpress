@@ -13,7 +13,7 @@ public class StswNumericBox : TextBox
 {
     public StswNumericBox()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswNumericBox()
     {
@@ -38,6 +38,7 @@ public class StswNumericBox : TextBox
             content.LostFocus += PART_ContentHost_LostFocus;
             content.MouseWheel += PART_ContentHost_MouseWheel;
         }
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
     }
@@ -65,9 +66,9 @@ public class StswNumericBox : TextBox
         else if (double.TryParse(Text, out result))
             Value = result;
         
-        Text = Value?.ToString();
+        Text = Value?.ToString(Format);
         var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status == BindingStatus.Active)
+        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
     }
 
@@ -78,12 +79,7 @@ public class StswNumericBox : TextBox
         {
             var step = e.Delta > 0 ? Increment : -Increment;
 
-            try
-            {
-                if ((Value + step).Between(Minimum ?? double.MinValue, Maximum ?? double.MaxValue))
-                    Value += step;
-            }
-            catch { }
+            Value += step;
 
             e.Handled = true;
         }
@@ -91,42 +87,29 @@ public class StswNumericBox : TextBox
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswNumericBox)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
-    /// ButtonsAlignment
-    public static readonly DependencyProperty ButtonsAlignmentProperty
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
-            nameof(ButtonsAlignment),
+            nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswNumericBox)
         );
-    public Dock ButtonsAlignment
+    public Dock ComponentsAlignment
     {
-        get => (Dock)GetValue(ButtonsAlignmentProperty);
-        set => SetValue(ButtonsAlignmentProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswNumericBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
 
     /// Format
@@ -181,7 +164,10 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(Maximum),
             typeof(double?),
-            typeof(StswNumericBox)
+            typeof(StswNumericBox),
+            new FrameworkPropertyMetadata(default(double?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public double? Maximum
     {
@@ -193,7 +179,10 @@ public class StswNumericBox : TextBox
         = DependencyProperty.Register(
             nameof(Minimum),
             typeof(double?),
-            typeof(StswNumericBox)
+            typeof(StswNumericBox),
+            new FrameworkPropertyMetadata(default(double?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public double? Minimum
     {
@@ -402,6 +391,20 @@ public class StswNumericBox : TextBox
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswNumericBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

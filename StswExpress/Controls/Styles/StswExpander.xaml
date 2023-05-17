@@ -23,7 +23,7 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="HeaderBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="HeaderPadding" Value="3"/>
 
@@ -40,6 +40,7 @@
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        SnapsToDevicePixels="True">
                         <DockPanel>
+                            <!-- header -->
                             <ToggleButton x:Name="HeaderSite"
                                           DockPanel.Dock="Top"
                                           Background="{TemplateBinding HeaderBackground}"
@@ -60,12 +61,14 @@
                                           Style="{DynamicResource StswExpanderDownHeaderStyle}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
                                     DockPanel.Dock="Top"
                                     BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                     BorderThickness="{TemplateBinding HeaderBorderThickness}"
                                     SnapsToDevicePixels="True"
                                     Visibility="Collapsed"/>
+                            <!-- content -->
                             <ContentPresenter x:Name="ExpandSite"
                                               DockPanel.Dock="Bottom"
                                               Focusable="False"

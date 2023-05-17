@@ -52,6 +52,19 @@ public class StswDataGrid : DataGrid
         set => SetValue(AreFiltersVisibleProperty, value);
     }
 
+    /// RefreshCommand
+    public static readonly DependencyProperty RefreshCommandProperty
+        = DependencyProperty.Register(
+            nameof(RefreshCommand),
+            typeof(ICommand),
+            typeof(StswDataGrid)
+        );
+    public ICommand RefreshCommand
+    {
+        get => (ICommand)GetValue(RefreshCommandProperty);
+        set => SetValue(RefreshCommandProperty, value);
+    }
+
     /// SpecialColumnVisibility
     public enum SpecialColumnVisibilities
     {
@@ -107,21 +120,6 @@ public class StswDataGrid : DataGrid
             }
         }
     }
-    /*
-    /// RefreshCommand
-    public static readonly DependencyProperty RefreshCommandProperty
-        = DependencyProperty.Register(
-            nameof(RefreshCommand),
-            typeof(ICommand),
-            typeof(StswDataGrid),
-            new PropertyMetadata(default(ICommand))
-        );
-    public ICommand RefreshCommand
-    {
-        get => (ICommand)GetValue(RefreshCommandProperty);
-        set => SetValue(RefreshCommandProperty, value);
-    }
-    */
     #endregion
 
     #region Style

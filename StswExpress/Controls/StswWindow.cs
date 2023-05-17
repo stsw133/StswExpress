@@ -15,7 +15,7 @@ public class StswWindow : Window
 {
     public StswWindow()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswWindow()
     {
@@ -53,6 +53,8 @@ public class StswWindow : Window
         /// Menu: scaling
         if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
             mniScaling.Click += (s, e) => StswSettings.Default.iSize = 1;
+        if (GetTemplateChild("PART_MenuScalingSlider") is Slider sliScaling)
+            sliScaling.ValueChanged += (s, e) => UpdateChrome();
         /// Menu: theme
         if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
             foreach (MenuItem mni in mniTheme.Items)
@@ -98,6 +100,7 @@ public class StswWindow : Window
     private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
+        var iSize = StswSettings.Default.iSize;
 
         if (Fullscreen)
         {
@@ -105,10 +108,10 @@ public class StswWindow : Window
         }
         else if (chrome != null && partTitleBar is not null)
         {
-            chrome.CornerRadius = CornerRadius;
-            chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) >= 0 ? partTitleBar.ActualHeight - 2 : 0;
+            chrome.CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize);
+            chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0;
             chrome.GlassFrameThickness = new Thickness(0);
-            chrome.ResizeBorderThickness = new Thickness(5);
+            chrome.ResizeBorderThickness = new Thickness(5 * iSize);
             chrome.UseAeroCaptionButtons = false;
 
             WindowChrome.SetWindowChrome(this, chrome);
@@ -117,10 +120,10 @@ public class StswWindow : Window
         {
             chrome = new WindowChrome()
             {
-                CornerRadius = CornerRadius,
-                CaptionHeight = (partTitleBar.ActualHeight - 2) >= 0 ? partTitleBar.ActualHeight - 2 : 0,
+                CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize),
+                CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0,
                 GlassFrameThickness = new Thickness(0),
-                ResizeBorderThickness = new Thickness(5),
+                ResizeBorderThickness = new Thickness(5 * iSize),
                 UseAeroCaptionButtons = false
             };
 
@@ -196,17 +199,17 @@ public class StswWindow : Window
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
-            nameof(Buttons),
+            nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswWindow)
         );
-    public ObservableCollection<UIElement> Buttons
+    public ObservableCollection<UIElement> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
     }
 
     /// ContentDialog
@@ -220,27 +223,6 @@ public class StswWindow : Window
     {
         get => (UIElement?)GetValue(ContentDialogProperty);
         set => SetValue(ContentDialogProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswWindow),
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnCornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswWindow stsw && !stsw.IsLoaded)
-            stsw.AllowsTransparency = stsw.CornerRadius.TopLeft != 0;
     }
 
     /// Fullscreen
@@ -300,6 +282,32 @@ public class StswWindow : Window
     {
         get => (string)GetValue(SubTitleProperty);
         set => SetValue(SubTitleProperty, value);
+    }
+    #endregion
+
+    #region Style
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(CornerRadius),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnCornerRadiusChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswWindow stsw && !stsw.IsLoaded)
+            stsw.AllowsTransparency = stsw.CornerRadius.TopLeft > 0
+                                   || stsw.CornerRadius.TopRight > 0
+                                   || stsw.CornerRadius.BottomLeft > 0
+                                   || stsw.CornerRadius.BottomRight > 0;
     }
     #endregion
 

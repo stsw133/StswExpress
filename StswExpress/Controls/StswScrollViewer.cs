@@ -10,7 +10,8 @@ public class StswScrollViewer : ScrollViewer
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollViewer), new FrameworkPropertyMetadata(typeof(StswScrollViewer)));
     }
 
-    #region Properties
+    #region Style
+    /// > CornerRadius ...
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(

@@ -92,7 +92,7 @@
                             </DockPanel>
                             <DockPanel Margin="5">
                                 <Label Content="Content:"/>
-                                <se:StswTextBox Text="{Binding Content, ElementName=Example1, UpdateSourceTrigger=PropertyChanged}"/>
+                                <se:StswTextBox Text="{Binding Content, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
                             </DockPanel>
                             <DockPanel Margin="5">
                                 <Label Content="CornerRadius:"/>

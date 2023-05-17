@@ -24,10 +24,10 @@
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
-        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ButtonsAlignment" Value="Right"/>
+        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -87,22 +87,22 @@
                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
                                                        SnapsToDevicePixels="True">
                                         <DockPanel>
-                                            <!-- buttons -->
+                                            <!-- function button -->
                                             <ContentControl x:Name="PART_FunctionButton"
-                                                            DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
+                                                            DockPanel.Dock="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
                                                             Width="24">
                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                                             </ContentControl>
                                             <!-- subborder -->
                                             <Border x:Name="PART_SubBorder"
-                                                    DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
+                                                    DockPanel.Dock="{Binding ContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
                                                     BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                     BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
                                                     SnapsToDevicePixels="True"/>
-                                            <!-- custom buttons -->
-                                            <ItemsControl x:Name="PART_Buttons"
-                                                          DockPanel.Dock="{Binding ButtonsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
-                                                          ItemsSource="{Binding Buttons, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}">
+                                            <!-- components -->
+                                            <ItemsControl x:Name="PART_Components"
+                                                          DockPanel.Dock="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}"
+                                                          ItemsSource="{Binding Components, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Horizontal"/>
@@ -149,7 +149,6 @@
                                         <Trigger Property="IsHitTestVisible" Value="False">
                                             <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}" TargetName="PART_MainBorder" />
                                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton" />
-                                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Buttons" />
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="False">
                                             <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleSelector}}}" TargetName="PART_MainBorder" />

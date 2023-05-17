@@ -2,7 +2,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswButton.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswButtonMenu.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswButtonSelector.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswCalendar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswCheckBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswColorBox.xaml"/>

@@ -67,7 +67,7 @@ public class StswFilter : UserControl
         /// Binding for RefreshCommand
         var inputbinding = new KeyBinding()
         {
-            Command = NavigationCommands.Refresh,
+            Command = StswFn.FindVisualAncestor<StswDataGrid>(this)?.RefreshCommand,
             Key = Key.Return
         };
 
@@ -350,7 +350,22 @@ public class StswFilter : UserControl
     protected void PART_Controls_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
-            NavigationCommands.Refresh.Execute(null, this);
+        {
+            var focusedControl = Keyboard.FocusedElement;
+            
+            if (focusedControl is StswCheckBox checkBox)
+                checkBox.GetBindingExpression(StswCheckBox.IsCheckedProperty).UpdateTarget();
+            else if (focusedControl is StswDatePicker datePicker)
+                datePicker.GetBindingExpression(StswDatePicker.SelectedDateProperty).UpdateTarget();
+            else if (focusedControl is StswNumericBox numericBox)
+                numericBox.GetBindingExpression(StswNumericBox.ValueProperty).UpdateTarget();
+            else if (focusedControl is StswTextBox textBox)
+                textBox.GetBindingExpression(StswTextBox.TextProperty).UpdateTarget();
+            else if (focusedControl is StswToggleSelector toggleSelector)
+                toggleSelector.GetBindingExpression(StswToggleSelector.SelectedItemsProperty).UpdateTarget();
+            
+            StswFn.FindVisualAncestor<StswDataGrid>(this)?.RefreshCommand?.Execute(null);
+        }
     }
 
     /// FilterMode click
@@ -420,19 +435,6 @@ public class StswFilter : UserControl
     {
         get => (StswFilterBindingData?)GetValue(BindingDataProperty);
         set => SetValue(BindingDataProperty, value);
-    }
-
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswFilter)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
 
     /// DisplayMemberPath
@@ -624,20 +626,7 @@ public class StswFilter : UserControl
         get => (IList)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
-    /*
-    /// RefreshCommand
-    public static readonly DependencyProperty RefreshCommandProperty
-        = DependencyProperty.Register(
-            nameof(RefreshCommand),
-            typeof(ICommand),
-            typeof(StswFilter)
-        );
-    public ICommand RefreshCommand
-    {
-        get => (ICommand)GetValue(RefreshCommandProperty);
-        set => SetValue(RefreshCommandProperty, value);
-    }
-    */
+    
     /// SelectedValuePath
     public static readonly DependencyProperty SelectedValuePathProperty
         = DependencyProperty.Register(
@@ -748,6 +737,20 @@ public class StswFilter : UserControl
     {
         get => (Thickness)GetValue(SubBorderThicknessProperty);
         set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswFilter)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

@@ -25,10 +25,9 @@
     <Style x:Key="StswColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
 
         <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-        
-        <Setter Property="BorderThickness" Value="0 0 0.5 0.5"/>
-        <!-- <Setter Property="Padding" Value="3"/> -->
-        
+
+        <Setter Property="BorderThickness" Value="0 0 1 1"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -81,29 +80,23 @@
                 </se:StswToggleButton.Resources>
                 <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
             </se:StswToggleButton>
-            <se:StswIcon Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" Scale="1.25">
-                <se:StswIcon.Resources>
-                    <Style TargetType="{x:Type se:StswIcon}">
-                        <Setter Property="Fill" Value="Transparent"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ErrorMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Error.Fill}"/>
-                                <Setter Property="ToolTip" Value="{Binding ErrorMessage}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Added">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Modified">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
-                                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </se:StswIcon.Resources>
-            </se:StswIcon>
+            <se:StswIcon x:Name="PART_Icon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.25"/>
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding ErrorMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Error.Fill}" TargetName="PART_Icon" />
+                <Setter Property="ToolTip" Value="{Binding ErrorMessage}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemState}" Value="Added">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Added.Fill}" TargetName="PART_Icon" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemState}" Value="Modified">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}" TargetName="PART_Icon" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}" TargetName="PART_Icon" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
 </ResourceDictionary>

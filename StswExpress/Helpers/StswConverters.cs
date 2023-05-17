@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -241,7 +240,17 @@ public class StswColorConverter : MarkupExtension, IValueConverter
         color = (Color)ColorConverter.ConvertFromString(StswColorBrightnessConverter.Instance.Convert(color.ToHtml(), targetType, $"{(autoBrightness ? "?" : string.Empty)}{pmrVal}{(percentBrightness ? "%" : string.Empty)}", culture).ToString());
         color = Color.FromArgb((byte)(setAlpha.Between(0, 255) ? setAlpha : color.A), color.R, color.G, color.B);
 
-        return color.ToHtml();
+        /// result
+        if (targetType == typeof(Color))
+            return color;
+        else if (targetType == typeof(System.Drawing.Color))
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        else if (targetType == typeof(SolidColorBrush))
+            return new SolidColorBrush(color);
+        else if (targetType == typeof(Brush))
+            return new SolidColorBrush(color);
+        else
+            return color.ToHtml();
     }
 
     /// ConvertBack
