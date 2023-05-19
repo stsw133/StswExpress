@@ -28,6 +28,7 @@
     <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="#999" />
     <SolidColorBrush x:Key="StswButton.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}" />
     <SolidColorBrush x:Key="StswButton.Checked.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}" />
+    <SolidColorBrush x:Key="StswButton.ReadOnly.Background" Color="#EEE" />
 
     <SolidColorBrush x:Key="StswCalendar.InCurrentMonth.Foreground" Color="#777" />
     <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#CCC" />
@@ -55,6 +56,16 @@
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Pressed.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=30%}" />
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Pressed.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=45%}" />
 
+    <SolidColorBrush x:Key="StswComboItem.Static.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="StswComboItem.Static.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswComboItem.Disabled.Background" Color="#2777" />
+    <SolidColorBrush x:Key="StswComboItem.Disabled.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswComboItem.Disabled.Foreground" Color="#7777" />
+    <SolidColorBrush x:Key="StswComboItem.MouseOver.Background" Color="#CCC" />
+    <SolidColorBrush x:Key="StswComboItem.MouseOver.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswComboItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}" />
+    <SolidColorBrush x:Key="StswComboItem.Checked.Border" Color="Transparent" />
+    
     <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#EEE" />
     <SolidColorBrush x:Key="StswExpander.Static.Border" Color="#BBB" />
     <SolidColorBrush x:Key="StswExpander.Disabled.Background" Color="#2777" />

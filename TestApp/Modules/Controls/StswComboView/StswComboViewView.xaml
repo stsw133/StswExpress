@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswToggleSelectorView"
+﻿<UserControl x:Class="TestApp.StswComboViewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,21 +7,21 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswToggleSelectorContext/>
+        <local:StswComboViewContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="False"/>
+                <se:StswComboView Margin="5" ItemsSource="{Binding ListTypes}" SelectedItemsBinding="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="False"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Read only:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsReadOnly="True"/>
+                <se:StswComboView Margin="5" ItemsSource="{Binding ListTypes}" SelectedItemsBinding="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsReadOnly="True"/>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswToggleSelector Margin="5" ItemsSource="{Binding ListTypes}" SelectedItems="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
+                <se:StswComboView Margin="5" ItemsSource="{Binding ListTypes}" SelectedItemsBinding="{Binding SelectedTypes}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
             </UniformGrid>
         </DockPanel>
     </ScrollViewer>

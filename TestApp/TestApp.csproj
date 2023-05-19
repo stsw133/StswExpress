@@ -55,7 +55,7 @@
     <Compile Update="Modules\Controls\StswTabControl\StswTabControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswToggleSelector\StswToggleSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Wiki\WikiView.xaml.cs">
@@ -154,7 +154,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswToggleSelector\StswToggleSelectorView.xaml">
+    <Page Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -21,6 +21,7 @@
                     <se:StswNavigationElement Text="StswColorBox" IconData="{x:Static se:StswIcons.SelectColor}" ContextNamespace="TestApp.StswColorBoxContext"/>
                     <se:StswNavigationElement Text="StswColorPicker" IconData="{x:Static se:StswIcons.SelectColor}" ContextNamespace="TestApp.StswColorPickerContext"/>
                     <se:StswNavigationElement Text="StswComboBox" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswComboBoxContext"/>
+                    <se:StswNavigationElement Text="StswComboView" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswComboViewContext"/>
                     <se:StswNavigationElement Text="StswDataGrid" IconData="{x:Static se:StswIcons.Grid}" ContextNamespace="TestApp.StswDataGridContext"/>
                     <se:StswNavigationElement Text="StswDatePicker" IconData="{x:Static se:StswIcons.CalendarCursor}" ContextNamespace="TestApp.StswDatePickerContext"/>
                     <se:StswNavigationElement Text="StswExpander" IconData="{x:Static se:StswIcons.ArrowExpandDown}" ContextNamespace="TestApp.StswExpanderContext"/>
@@ -41,7 +42,6 @@
                     <se:StswNavigationElement Text="StswTextBox" IconData="{x:Static se:StswIcons.FormTextbox}" ContextNamespace="TestApp.StswTextBoxContext"/>
                     <se:StswNavigationElement Text="StswTextEditor" IconData="{x:Static se:StswIcons.ReceiptTextEdit}" ContextNamespace="TestApp.StswTextEditorContext"/>
                     <se:StswNavigationElement Text="StswToggleButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswToggleButtonContext"/>
-                    <se:StswNavigationElement Text="StswToggleSelector" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswToggleSelectorContext"/>
                 </StackPanel>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}">
@@ -54,6 +54,7 @@
                     <se:StswNavigationElement Text="Attributes" IconData="{x:Static se:StswIcons.Tag}" IsEnabled="False"/>
                     <se:StswNavigationElement Text="Files" IconData="{x:Static se:StswIcons.File}" IsEnabled="False"/>
                     <se:StswNavigationElement Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}" IsEnabled="False"/>
+                    <se:StswNavigationElement Text="Gallery" IconData="{x:Static se:StswIcons.ViewGallery}" IsEnabled="False"/>
                     <se:StswNavigationElement Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}" IsEnabled="False"/>
                 </StackPanel>
             </se:StswNavigationElement>

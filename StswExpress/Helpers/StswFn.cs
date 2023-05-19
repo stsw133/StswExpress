@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -69,6 +70,23 @@ public static class StswFn
     /// Returns the copyright information for the currently executing application.
     /// </summary>
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
+    #endregion
+
+    #region Bool functions
+    /// <summary>
+    /// Checks if element is part of <see cref="Popup"/> control.
+    /// </summary>
+    public static bool IsChildOfPopup(Popup popup, DependencyObject element)
+    {
+        var parent = VisualTreeHelper.GetParent(element);
+        while (parent != null)
+        {
+            if (parent == popup)
+                return true;
+            parent = VisualTreeHelper.GetParent(parent);
+        }
+        return false;
+    }
     #endregion
 
     #region Enum functions

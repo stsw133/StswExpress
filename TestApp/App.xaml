@@ -44,6 +44,9 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComboViewContext}">
+                <local:StswComboViewView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDataGridContext}">
                 <local:StswDataGridView/>
             </DataTemplate>
@@ -103,9 +106,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
                 <local:StswToggleButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswToggleSelectorContext}">
-                <local:StswToggleSelectorView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>

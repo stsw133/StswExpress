@@ -127,7 +127,7 @@ public class StswFilter : UserControl
                     //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswNumericBox.ValueProperty, binding1);
                     cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
-                    //cont1.SetBinding(StswToggleSelector.MinWidthProperty, bindingMinWidth);
+                    //cont1.SetBinding(StswComboView.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
 
                     var cont2 = new StswNumericBox()
@@ -140,7 +140,7 @@ public class StswFilter : UserControl
                     //cont2.InputBindings.Add(inputbinding);
                     cont2.SetBinding(StswNumericBox.ValueProperty, binding2);
                     cont1.SetBinding(StswNumericBox.SubBorderThicknessProperty, subborderThickness);
-                    //cont2.SetBinding(StswToggleSelector.MinWidthProperty, bindingMinWidth);
+                    //cont2.SetBinding(StswComboView.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont2);
                     break;
                 }
@@ -155,7 +155,7 @@ public class StswFilter : UserControl
                     };
                     //cont1.InputBindings.Add(inputbinding);
                     cont1.SetBinding(StswTextBox.TextProperty, binding1);
-                    //cont1.SetBinding(StswToggleSelector.MinWidthProperty, bindingMinWidth);
+                    //cont1.SetBinding(StswComboView.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
                     break;
                 }
@@ -166,7 +166,7 @@ public class StswFilter : UserControl
                     binding1.TargetNullValue = null;
                     binding2.TargetNullValue = null;
 
-                    var cont1 = new StswToggleSelector()
+                    var cont1 = new StswComboView()
                     {
                         BorderThickness = new Thickness(0),
                         CornerRadius = new CornerRadius(0),
@@ -176,9 +176,9 @@ public class StswFilter : UserControl
                         SelectedValuePath = SelectedValuePath
                     };
                     //cont1.InputBindings.Add(inputbinding);
-                    cont1.SetBinding(StswToggleSelector.SelectedItemsProperty, binding1);
-                    cont1.SetBinding(StswToggleSelector.SubBorderThicknessProperty, subborderThickness);
-                    //cont1.SetBinding(StswToggleSelector.MinWidthProperty, bindingMinWidth);
+                    cont1.SetBinding(StswComboView.SelectedItemsProperty, binding1);
+                    cont1.SetBinding(StswComboView.SubBorderThicknessProperty, subborderThickness);
+                    //cont1.SetBinding(StswComboView.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
                 }
 
@@ -320,7 +320,7 @@ public class StswFilter : UserControl
                 foreach (var elem in (IList)DefaultValue1)
                     list1.Add(elem);
             if (ungFilters.Children.Count > 0)
-                ((StswToggleSelector)ungFilters.Children[0]).SetText();
+                ((StswComboView)ungFilters.Children[0]).SetSelectedText();
             OnValueChanged(this, new DependencyPropertyChangedEventArgs());
         }
         else
@@ -333,7 +333,7 @@ public class StswFilter : UserControl
                 foreach (var elem in (IList)DefaultValue2)
                     list2.Add(elem);
             if (ungFilters.Children.Count > 1)
-                ((StswToggleSelector)ungFilters.Children[1]).SetText();
+                ((StswComboView)ungFilters.Children[1]).SetSelectedText();
             OnValueChanged(this, new DependencyPropertyChangedEventArgs());
         }
         else
@@ -361,8 +361,8 @@ public class StswFilter : UserControl
                 numericBox.GetBindingExpression(StswNumericBox.ValueProperty).UpdateTarget();
             else if (focusedControl is StswTextBox textBox)
                 textBox.GetBindingExpression(StswTextBox.TextProperty).UpdateTarget();
-            else if (focusedControl is StswToggleSelector toggleSelector)
-                toggleSelector.GetBindingExpression(StswToggleSelector.SelectedItemsProperty).UpdateTarget();
+            else if (focusedControl is StswComboView toggleSelector)
+                toggleSelector.GetBindingExpression(StswComboView.SelectedItemsProperty).UpdateTarget();
             
             StswFn.FindVisualAncestor<StswDataGrid>(this)?.RefreshCommand?.Execute(null);
         }

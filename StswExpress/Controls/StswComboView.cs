@@ -1,131 +1,70 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
+using System.Collections.Specialized;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StswExpress;
 
-public class StswToggleSelector : ComboBox
+public class StswComboView : ListView
 {
-    public ICommand ComboBoxItemClickCommand { get; set; }
-
-    public StswToggleSelector()
+    static StswComboView()
     {
-        ComboBoxItemClickCommand = new StswRelayCommand<object>(ComboBoxItemClick);
-    }
-    static StswToggleSelector()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSelector), new FrameworkPropertyMetadata(typeof(StswToggleSelector)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboView), new FrameworkPropertyMetadata(typeof(StswComboView)));
     }
 
     #region Events
-    private PropertyInfo? prop;
-
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        Loaded += (s, e) =>
-        {
-            var comboBox = (ComboBox)s;
-            comboBox.ApplyTemplate();
-
-            if (GetTemplateChild("PART_Popup") is Popup popup and not null)
-                popup.Opened += (s, args) =>
-                {
-                    for (int i = 0; i < comboBox.Items.Count; i++)
-                        if (StswFn.FindVisualChild<ToggleButton>(comboBox.ItemContainerGenerator.ContainerFromIndex(i)) is ToggleButton button and not null)
-                            button.IsChecked = DoContainItem(button.DataContext);
-                };
-
-            SelectedItems ??= new List<object>();
-            SetText();
-        };
-
-        prop = GetType()?.GetProperty(nameof(SelectionBoxItem));
-        prop = prop?.DeclaringType?.GetProperty(nameof(SelectionBoxItem));
+        SelectionChanged += OnSelectionChanged;
 
         base.OnApplyTemplate();
     }
 
-    /// DoContainItem
-    internal bool DoContainItem(object item)
+    /// OnSelectionChanged
+    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        object? prop = null;
-        if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string) && item?.GetType()?.GetProperty(SelectedValuePath) != null)
-            prop = item.GetType()?.GetProperty(SelectedValuePath)?.GetValue(item);
-
-        var found = false;
-        foreach (var itm in SelectedItems)
+        if (DataContext != null && SelectedItemsBinding != null)
         {
-            if (prop != null)
+            SelectedItemsBinding.Clear();
+            foreach (var item in SelectedItems)
+                SelectedItemsBinding.Add(item);
+        }
+        SetSelectedText();
+    }
+
+    /// SetSelectedText
+    internal void SetSelectedText()
+    {
+        var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
+        var selectedText = new StringBuilder();
+
+        foreach (var selectedItem in SelectedItems)
+        {
+            var propertyInfo = selectedItem.GetType().GetProperty(DisplayMemberPath);
+            if (propertyInfo != null)
             {
-                var itmValue = itm == null ? itm : itm.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm);
-                if (itmValue?.Equals(prop) == true)
-                {
-                    found = true;
-                    break;
-                }
+                var value = propertyInfo.GetValue(selectedItem);
+                selectedText.Append(value?.ToString());
+                selectedText.Append(listSeparator);
             }
             else
             {
-                if (itm == item)
-                {
-                    found = true;
-                    break;
-                }
+                selectedText.Append(selectedItem);
+                selectedText.Append(listSeparator);
             }
         }
+        if (selectedText.Length > listSeparator.Length)
+            selectedText.Length -= listSeparator.Length;
 
-        return found;
-    }
+        Text = selectedText.ToString();
 
-    /// ComboBoxItemClick
-    private void ComboBoxItemClick(object? parameter)
-    {
-        if (parameter is ToggleButton button)
-        {
-            var item = button.DataContext;
-            var found = DoContainItem(item);
-
-            if (button.IsChecked == true && !found)
-                SelectedItems?.Add(item);
-            else if (button.IsChecked == false && found)
-            {
-                object? itemToDelete = null;
-
-                foreach (var itm in SelectedItems)
-                {
-                    if (!itm?.GetType()?.IsValueType == true && itm?.GetType() != typeof(string))
-                    {
-                        if (itm?.GetType()?.GetProperty(SelectedValuePath)?.GetValue(itm)?.Equals(item?.GetType()?.GetProperty(SelectedValuePath)?.GetValue(item)) == true)
-                            itemToDelete = itm;
-                    }
-                    else if (itm == item)
-                        itemToDelete = itm;
-                }
-
-                SelectedItems?.Remove(itemToDelete);
-            }
-            /*
-            var newSelectedItems = new List<object>();
-            if (SelectedItems != null)
-                foreach (var selectedItem in SelectedItems)
-                    newSelectedItems.Add(selectedItem);
-            SelectedItems = newSelectedItems;
-            */
-            SetText();
-        }
-    }
-
-    /// SetText
-    internal void SetText()
-    {
+        /* /// OTHER METHOD FOR SETTING SELECTED TEXT
         if (SelectedItems?.Count > 0)
         {
             var items = SelectedItems.OfType<object?>().ToList();
@@ -136,11 +75,12 @@ public class StswToggleSelector : ComboBox
             {
                 var displayProperty = item?.GetType()?.GetProperty(DisplayMemberPath);
                 var display = string.Join(listSep, items.Select(x => (displayProperty != null ? displayProperty.GetValue(x) : x)?.ToString()));
-                prop?.SetValue(this, !string.IsNullOrEmpty(display) ? $"[{SelectedItems?.Count}] {display}" : string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+                Text = !string.IsNullOrEmpty(display) ? $"[{SelectedItems?.Count}] {display}" : string.Empty;
             }
-            else prop?.SetValue(this, $"[{SelectedItems?.Count}] {string.Join(listSep, items)}", BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+            else Text = $"[{SelectedItems?.Count}] {string.Join(listSep, items)}";
         }
-        else prop?.SetValue(this, string.Empty, BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+        else Text = string.Empty;
+        */
     }
     #endregion
 
@@ -150,7 +90,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public ObservableCollection<UIElement> Components
     {
@@ -162,7 +102,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Dock ComponentsAlignment
     {
@@ -170,12 +110,25 @@ public class StswToggleSelector : ComboBox
         set => SetValue(ComponentsAlignmentProperty, value);
     }
 
+    /// IsReadOnly
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswComboView)
+        );
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public string? Placeholder
     {
@@ -183,17 +136,40 @@ public class StswToggleSelector : ComboBox
         set => SetValue(PlaceholderProperty, value);
     }
 
-    /// SelectedItems
-    public static readonly DependencyProperty SelectedItemsProperty
+    /// SelectedItemsBinding
+    public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
-            nameof(SelectedItems),
+            nameof(SelectedItemsBinding),
             typeof(IList),
-            typeof(StswToggleSelector)
+            typeof(StswComboView),
+            new FrameworkPropertyMetadata(default(IList),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedItemsBindingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public IList SelectedItems
+    public IList SelectedItemsBinding
     {
-        get => (IList)GetValue(SelectedItemsProperty);
-        set => SetValue(SelectedItemsProperty, value);
+        get => (IList)GetValue(SelectedItemsBindingProperty);
+        set => SetValue(SelectedItemsBindingProperty, value);
+    }
+    private static void OnSelectedItemsBindingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswComboView stsw)
+        {
+            stsw.SetSelectedItems(stsw.SelectedItemsBinding);
+        }
+    }
+
+    /// Text
+    public static readonly DependencyProperty TextProperty
+        = DependencyProperty.Register(
+            nameof(Text),
+            typeof(string),
+            typeof(StswComboView)
+        );
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        internal set => SetValue(TextProperty, value);
     }
     #endregion
 
@@ -204,7 +180,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BackgroundDisabled
     {
@@ -216,7 +192,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BackgroundMouseOver
     {
@@ -228,7 +204,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BackgroundPressed
     {
@@ -240,7 +216,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BackgroundReadOnly),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BackgroundReadOnly
     {
@@ -254,7 +230,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BorderBrushDisabled
     {
@@ -266,7 +242,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BorderBrushMouseOver
     {
@@ -278,7 +254,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush BorderBrushPressed
     {
@@ -292,7 +268,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush ForegroundDisabled
     {
@@ -304,7 +280,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush ForegroundMouseOver
     {
@@ -316,7 +292,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(ForegroundPressed),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush ForegroundPressed
     {
@@ -328,7 +304,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(ForegroundPlaceholder),
             typeof(Brush),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Brush ForegroundPlaceholder
     {
@@ -342,7 +318,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Thickness PopupBorderThickness
     {
@@ -354,7 +330,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public Thickness SubBorderThickness
     {
@@ -368,7 +344,7 @@ public class StswToggleSelector : ComboBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswToggleSelector)
+            typeof(StswComboView)
         );
     public CornerRadius CornerRadius
     {
