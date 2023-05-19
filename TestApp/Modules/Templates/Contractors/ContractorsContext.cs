@@ -328,7 +328,7 @@ public class ContractorsContext : StswObservableObject
     public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
 
     /// ComboLists
-    public static List<string?> ListTypes => ContractorsQueries.ListOfTypes();
+    public List<string?> ListTypes => ContractorsQueries.ListOfTypes();
 
     /// ListContractors
     private StswCollection<ContractorModel> listContractors = new();

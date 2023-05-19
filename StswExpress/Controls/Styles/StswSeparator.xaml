@@ -7,7 +7,7 @@
         <Setter Property="Background" Value="{DynamicResource StswSeparator.Static.Border}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="1"/>
 
         <Setter Property="Orientation" Value="Horizontal"/>
@@ -18,7 +18,6 @@
                     <Border x:Name="PART_MainBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             SnapsToDevicePixels="False"/>
                     <ControlTemplate.Triggers>

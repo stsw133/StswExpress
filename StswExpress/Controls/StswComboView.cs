@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +33,7 @@ public class StswComboView : ListView
             SelectedItemsBinding.Clear();
             foreach (var item in SelectedItems)
                 SelectedItemsBinding.Add(item);
+            GetBindingExpression(SelectedItemsBindingProperty)?.UpdateSource();
         }
         SetSelectedText();
     }
@@ -46,8 +46,7 @@ public class StswComboView : ListView
 
         foreach (var selectedItem in SelectedItems)
         {
-            var propertyInfo = selectedItem.GetType().GetProperty(DisplayMemberPath);
-            if (propertyInfo != null)
+            if (DisplayMemberPath != null && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
             {
                 var value = propertyInfo.GetValue(selectedItem);
                 selectedText.Append(value?.ToString());

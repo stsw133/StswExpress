@@ -21,12 +21,12 @@
                 <ControlTemplate TargetType="{x:Type se:StswFilter}">
                     <DockPanel>
                         <!-- filter part -->
-                        <Border DockPanel.Dock="Bottom"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="True"
-                                Visibility="{TemplateBinding FilterVisibility}">
+                        <se:ClippingBorder DockPanel.Dock="Bottom"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True"
+                                           Visibility="{TemplateBinding FilterVisibility}">
                             <DockPanel>
                                 <!-- symbol -->
                                 <se:StswButton x:Name="PART_Symbol"
@@ -155,7 +155,7 @@
                                         SnapsToDevicePixels="True"/>
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource TextBox.Static.Background}"/>
                             </DockPanel>
-                        </Border>
+                        </se:ClippingBorder>
                         <!-- header part -->
                         <DockPanel>
                             <!-- stats icon -->

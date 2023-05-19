@@ -17,11 +17,11 @@
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- window border -->
                     <se:ClippingBorder x:Name="PART_MainBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            SnapsToDevicePixels="True">
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
                         <se:ClippingBorder.LayoutTransform>
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}" ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </se:ClippingBorder.LayoutTransform>

@@ -8,15 +8,16 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace StswExpress;
 
+[ContentProperty(nameof(Items))]
 public class StswNavigation : UserControl
 {
     public StswNavigation()
     {
-        SetValue(ButtonsProperty, new ObservableCollection<UIElement>());
-        SetValue(ButtonsLastProperty, new ObservableCollection<UIElement>());
+        SetValue(ItemsProperty, new ObservableCollection<UIElement>());
     }
     static StswNavigation()
     {
@@ -39,8 +40,7 @@ public class StswNavigation : UserControl
     {
         /// get ALL StswNavigationElements in StswNavigation
         var allNaviElements = new List<StswNavigationElement>();
-        allNaviElements.AddRange(Buttons.OfType<StswNavigationElement>());
-        allNaviElements.AddRange(ButtonsLast.OfType<StswNavigationElement>());
+        allNaviElements.AddRange(Items.OfType<StswNavigationElement>());
 
         while (allNaviElements.Any(x => x.HasContent))
         {
@@ -114,31 +114,6 @@ public class StswNavigation : UserControl
     #endregion
 
     #region Properties
-    /// Buttons
-    public static readonly DependencyProperty ButtonsProperty
-        = DependencyProperty.Register(
-            nameof(Buttons),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswNavigation)
-        );
-    public ObservableCollection<UIElement> Buttons
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsProperty);
-        set => SetValue(ButtonsProperty, value);
-    }
-    /// ButtonsLast
-    public static readonly DependencyProperty ButtonsLastProperty
-        = DependencyProperty.Register(
-            nameof(ButtonsLast),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswNavigation)
-        );
-    public ObservableCollection<UIElement> ButtonsLast
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ButtonsLastProperty);
-        set => SetValue(ButtonsLastProperty, value);
-    }
-
     /// ExtendedMode
     public static readonly DependencyProperty ExtendedModeProperty
         = DependencyProperty.Register(
@@ -164,6 +139,31 @@ public class StswNavigation : UserControl
     {
         get => (string?)GetValue(GroupNameProperty);
         set => SetValue(GroupNameProperty, value);
+    }
+
+    /// Items
+    public static readonly DependencyProperty ItemsProperty
+        = DependencyProperty.Register(
+            nameof(Items),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswNavigation)
+        );
+    public ObservableCollection<UIElement> Items
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
+    /// ItemsAlignment
+    public static readonly DependencyProperty ItemsAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(ItemsAlignment),
+            typeof(Dock),
+            typeof(StswNavigation)
+        );
+    public Dock ItemsAlignment
+    {
+        get => (Dock)GetValue(ItemsAlignmentProperty);
+        set => SetValue(ItemsAlignmentProperty, value);
     }
 
     /// Orientation

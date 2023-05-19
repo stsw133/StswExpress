@@ -4,7 +4,7 @@
 
     <Style TargetType="{x:Type se:StswNavigation}">
 
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
@@ -24,105 +24,83 @@
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        SnapsToDevicePixels="True">
                         <DockPanel>
-                            <!-- navigation part -->
-                            <DockPanel>
-
-                                <!-- special buttons -->
-                                <DockPanel x:Name="PART_ButtonsSpecial" DockPanel.Dock="Top" HorizontalAlignment="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='True~Left~Stretch'}">
-                                    <Border x:Name="PART_SeparatorSpecial"
-                                            DockPanel.Dock="Top"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                            <!-- navigation list part -->
+                            <DockPanel DockPanel.Dock="{TemplateBinding ItemsAlignment}">
+                                <!-- function button -->
+                                <se:StswToggleButton x:Name="PART_FunctionButton"
+                                                     DockPanel.Dock="Top"
+                                                     BorderThickness="0" CornerRadius="0" Focusable="False"
+                                                     IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <se:StswHeader x:Name="PART_FunctionButtonHeader" IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
+                                </se:StswToggleButton>
+                                <!--
+                                <DockPanel x:Name="PART_FunctionButton" DockPanel.Dock="Top">
+                                    <se:StswSeparator x:Name="PART_SeparatorSpecial"
+                                                      DockPanel.Dock="Top"
+                                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                                      BorderThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                     <se:StswToggleButton BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
                                     </se:StswToggleButton>
                                 </DockPanel>
-                                <Border x:Name="PART_SeparatorFirst"
-                                        DockPanel.Dock="Top"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding SubBorderThickness}"/>
-                                <!-- navigation last buttons -->
-                                <DockPanel x:Name="PART_ButtonsLast" DockPanel.Dock="Bottom">
-                                    <Border x:Name="PART_SeparatorLast"
-                                            DockPanel.Dock="Top"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Visibility="{Binding ButtonsLast.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!0}"/>
-                                    <ItemsControl ItemsSource="{TemplateBinding ButtonsLast}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.Resources>
-                                            <Style TargetType="{x:Type se:StswNavigationElement}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
-                                                        <Setter Property="IsCompact" Value="True"/>
-                                                        <Setter Property="TextVisibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Horizontal">
-                                                        <Setter Property="IsCompact" Value="True"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ItemsControl.Resources>
-                                    </ItemsControl>
-                                </DockPanel>
-                                <!-- navigation buttons -->
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <ItemsControl ItemsSource="{TemplateBinding Buttons}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.Resources>
-                                            <Style TargetType="{x:Type se:StswNavigationElement}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
-                                                        <Setter Property="IsCompact" Value="True"/>
-                                                        <Setter Property="TextVisibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Horizontal">
-                                                        <Setter Property="IsCompact" Value="True"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ItemsControl.Resources>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
+                                -->
+                                <se:StswSeparator x:Name="PART_SeparatorFirst"
+                                                  DockPanel.Dock="Top"
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  BorderThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <!-- navigation items -->
+                                <ItemsControl ItemsSource="{TemplateBinding Items}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <DockPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.Resources>
+                                        <Style TargetType="{x:Type se:StswNavigationElement}">
+                                            <Setter Property="DockPanel.Dock" Value="Top"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
+                                                    <Setter Property="IsCompact" Value="True"/>
+                                                    <Setter Property="TextVisibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Horizontal">
+                                                    <Setter Property="DockPanel.Dock" Value="Left"/>
+                                                    <Setter Property="IsCompact" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ItemsControl.Resources>
+                                </ItemsControl>
                             </DockPanel>
-                            <!-- frame separator -->
-                            <Border x:Name="PART_FrameSeparator"
-                                    DockPanel.Dock="Left"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
+                            <!-- subborder -->
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="{TemplateBinding ItemsAlignment}"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
-                            <!-- frame part -->
-                            <!--
-                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                            -->
-                                <ContentControl Content="{TemplateBinding Content}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
-                            <!--
-                            </ScrollViewer>
-                            -->
+                            <!-- content -->
+                            <ContentControl Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
                         </DockPanel>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Horizontal">
+                        <Trigger Property="ExtendedMode" Value="True">
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
+                            <Setter Property="ContentVisibility" Value="Visible" TargetName="PART_FunctionButtonHeader" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_MainBorder" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_ButtonsSpecial" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton" />
+                            <!--
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SeparatorSpecial" />
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorFirst" />
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ButtonsLast" />
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorLast" />
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FrameSeparator" />
-                        </DataTrigger>
+                            -->
+                            <!-- <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_SubBorder" /> -->
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

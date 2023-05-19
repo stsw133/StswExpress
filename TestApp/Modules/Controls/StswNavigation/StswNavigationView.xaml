@@ -13,21 +13,17 @@
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <se:StswNavigation DockPanel.Dock="Top" IsEnabled="False" BorderThickness="1" Margin="5">
-                <se:StswNavigation.Buttons>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
+                <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
                     <se:StswNavigationElement GroupName="TEST" Content="TEST 2"/>
                     <se:StswNavigationElement GroupName="TEST" Content="TEST 3"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
-                </se:StswNavigation.Buttons>
+                <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
             </se:StswNavigation>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <se:StswNavigation DockPanel.Dock="Top" BorderThickness="1" Margin="5">
-                <se:StswNavigation.Buttons>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
+                <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
                     <se:StswNavigationElement GroupName="TEST" Content="TEST 2"/>
                     <se:StswNavigationElement GroupName="TEST" Content="TEST 3"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
-                </se:StswNavigation.Buttons>
+                <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
             </se:StswNavigation>
         </DockPanel>
     </ScrollViewer>

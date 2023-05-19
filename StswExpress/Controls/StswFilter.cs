@@ -55,6 +55,15 @@ public class StswFilter : UserControl
             Mode = BindingMode.TwoWay,
             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
         };
+        /// Binding for ItemsSource
+        var bindingItemsSource = new Binding()
+        {
+            Path = new PropertyPath(nameof(ItemsSource)),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(StswFilter), 1),
+            TargetNullValue = string.Empty,
+            Mode = BindingMode.TwoWay,
+            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+        };
         /// Binding for SubBorder
         var subborderThickness = new Binding()
         {
@@ -172,11 +181,12 @@ public class StswFilter : UserControl
                         CornerRadius = new CornerRadius(0),
                         DisplayMemberPath = DisplayMemberPath,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                        ItemsSource = /*ItemsHeaders?.ToString()?.Split(';')?.ToList() ??*/ ItemsSource,
+                        //ItemsSource = /*ItemsHeaders?.ToString()?.Split(';')?.ToList() ??*/ ItemsSource,
                         SelectedValuePath = SelectedValuePath
                     };
                     //cont1.InputBindings.Add(inputbinding);
-                    cont1.SetBinding(StswComboView.SelectedItemsProperty, binding1);
+                    cont1.SetBinding(StswComboView.SelectedItemsBindingProperty, binding1);
+                    cont1.SetBinding(StswComboView.ItemsSourceProperty, bindingItemsSource);
                     cont1.SetBinding(StswComboView.SubBorderThicknessProperty, subborderThickness);
                     //cont1.SetBinding(StswComboView.MinWidthProperty, bindingMinWidth);
                     partControls.Children.Add(cont1);
