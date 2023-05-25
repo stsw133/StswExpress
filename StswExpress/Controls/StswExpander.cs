@@ -11,6 +11,21 @@ public class StswExpander : Expander
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
     }
 
+    #region Properties
+    /// ArrowVisibility
+    public static readonly DependencyProperty ArrowVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ArrowVisibility),
+            typeof(Visibility),
+            typeof(StswExpander)
+        );
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
+    #endregion
+
     #region Style
     /// > BorderBrush ...
     /// BorderBrushDisabled

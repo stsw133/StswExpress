@@ -22,18 +22,16 @@
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
-        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Bottom, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="6"/>
+        <Setter Property="Padding" Value="5"/>
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="TextMargin" Value="3 1"/>
 
-        <Setter Property="GroupName" Value="{Binding GroupName, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -42,142 +40,199 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigationElement}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
-                        <DockPanel>
-                            <ToggleButton x:Name="HeaderSite"
-                                          DockPanel.Dock="Top"
-                                          Background="{TemplateBinding Background}"
-                                          BorderThickness="0"
-                                          FontFamily="{TemplateBinding FontFamily}"
-                                          FontSize="{TemplateBinding FontSize}"
-                                          FontStyle="{TemplateBinding FontStyle}"
-                                          FontStretch="{TemplateBinding FontStretch}"
-                                          FontWeight="{TemplateBinding FontWeight}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Margin="0" MinHeight="0" MinWidth="0"
-                                          Padding="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                        <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="False">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <se:StswHeader x:Name="PART_Header" Grid.Column="0"
-                                                           Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           ContentMargin="{Binding TextMargin, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           ContentVisibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           ForegroundDisabled="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           IconData="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           IconFill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           IconSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           IsBusy="{Binding IsBusy, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                           Orientation="Horizontal"
-                                                           Padding="{TemplateBinding Padding}"
-                                                           SnapsToDevicePixels="True"
-                                                           HorizontalAlignment="Left"
-                                                           VerticalAlignment="Center"/>
-                                            <se:StswIcon x:Name="arrow" Grid.Column="1"
-                                                         Data="{x:Static se:StswIcons.MenuDown}"
-                                                         Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                         Margin="{TemplateBinding Padding}"
-                                                         SnapsToDevicePixels="False"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center"
-                                                         Visibility="{Binding TextVisibility, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="False">
-                                                <Setter Property="Focusable" Value="False" />
-                                                <Setter Property="IsHitTestVisible" Value="False" />
-                                                <Setter Property="Visibility" Value="Collapsed" TargetName="arrow" />
-                                            </DataTrigger>
-                                            <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="arrow" />
-                                            </Trigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True"/>
-                                                    <Condition Binding="{Binding InExpander, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="ContentVisibility" Value="Visible" TargetName="PART_Header" />
-                                            </MultiDataTrigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="Top"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    CornerRadius="0"
-                                    Visibility="Collapsed"/>
-                            <ContentControl x:Name="ExpandSite" Content="{Binding}">
-                                <ContentControl.Style>
-                                    <Style TargetType="{x:Type ContentControl}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="False">
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <ContentPresenter DockPanel.Dock="Bottom"
-                                                                              Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              ContentTemplate="{Binding ContentTemplate, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              ContentTemplateSelector="{Binding ContentTemplateSelector, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              Focusable="False"
-                                                                              Margin="0"
-                                                                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                              Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}" Value="True">
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswPopup CloseOnClick="True"
-                                                                          IsOpen="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                          Placement="Relative"
-                                                                          StaysOpen="False">
-                                                                <se:ClippingBorder BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                   BorderThickness="{Binding PopupBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}">
-                                                                    <ContentControl DockPanel.Dock="Bottom"
-                                                                                    Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    ContentTemplate="{Binding ContentTemplate, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    ContentTemplateSelector="{Binding ContentTemplateSelector, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    Focusable="False"
-                                                                                    Margin="0"
-                                                                                    HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}}"
-                                                                                    Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                                                                </se:ClippingBorder>
-                                                            </se:StswPopup>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>
-
-                        </DockPanel>
-                    </se:ClippingBorder>
+                    <ContentControl x:Name="PART_ContentControl">
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Style.Triggers>
+                                    <!-- DropDownButton -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ContextNamespace, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding IsCompact, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/>
+                                            <Condition Binding="{Binding Items.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <se:StswToggleButton Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BackgroundDisabled="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BackgroundMouseOver="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BackgroundPressed="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BackgroundChecked="{Binding BackgroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderBrushDisabled="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderBrushMouseOver="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderBrushPressed="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderBrushChecked="{Binding BorderBrushChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         ClickMode="Press"
+                                                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         ForegroundDisabled="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         ForegroundMouseOver="{Binding ForegroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         ForegroundPressed="{Binding ForegroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         ForegroundChecked="{Binding ForegroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
+                                                        <Grid>
+                                                            <se:StswHeader Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           ContentMargin="{Binding TextMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           ContentVisibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"
+                                                                           ForegroundDisabled="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconData="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconFill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IsBusy="{Binding IsBusy, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           Orientation="Horizontal"/>
+                                                            <Popup AllowsTransparency="True"
+                                                                   IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                   Placement="Bottom"
+                                                                   PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleButton}}}"
+                                                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                                                   StaysOpen="False">
+                                                                <Border BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderThickness="{Binding PopupBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
+                                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                                        <StackPanel>
+                                                                            <ItemsControl ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"/>
+                                                                        </StackPanel>
+                                                                    </ScrollViewer>
+                                                                </Border>
+                                                            </Popup>
+                                                        </Grid>
+                                                    </se:StswToggleButton>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                    <!-- StswExpander -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ContextNamespace, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding IsCompact, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+                                            <Condition Binding="{Binding Items.Count, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <se:StswExpander ArrowVisibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"
+                                                                     Background="Transparent"
+                                                                     HeaderBackground="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderBackgroundDisabled="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderBackgroundMouseOver="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderBackgroundPressed="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderBackgroundChecked="{Binding BackgroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderBrushDisabled="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderBrushMouseOver="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderBrushPressed="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderBrushChecked="{Binding BorderBrushChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderBorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderForegroundDisabled="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderForegroundMouseOver="{Binding ForegroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderForegroundPressed="{Binding ForegroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HeaderForegroundChecked="{Binding ForegroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     IsExpanded="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     Padding="0"
+                                                                     HeaderPadding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
+                                                        <se:StswExpander.Header>
+                                                            <se:StswHeader Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           ContentMargin="{Binding TextMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           ContentVisibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"
+                                                                           ForegroundDisabled="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconData="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconFill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IconSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           IsBusy="{Binding IsBusy, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                           Orientation="Horizontal"/>
+                                                        </se:StswExpander.Header>
+                                                        <ItemsControl ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"/>
+                                                    </se:StswExpander>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                    <!-- StswRadioButton -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ContextNamespace, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True"/>
+                                            <Condition Binding="{Binding Items.Count, RelativeSource={RelativeSource TemplatedParent}}" Value="0"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <se:StswRadioButton Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BackgroundDisabled="{Binding BackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BackgroundMouseOver="{Binding BackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BackgroundPressed="{Binding BackgroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BackgroundChecked="{Binding BackgroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderBrushDisabled="{Binding BorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderBrushMouseOver="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderBrushPressed="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderBrushChecked="{Binding BorderBrushChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        ForegroundDisabled="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        ForegroundMouseOver="{Binding ForegroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        ForegroundPressed="{Binding ForegroundPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        ForegroundChecked="{Binding ForegroundChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        GroupName="{Binding GroupName, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"
+                                                                        IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                        VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
+                                                        <se:StswHeader Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       ContentMargin="{Binding TextMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       ContentVisibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"
+                                                                       ForegroundDisabled="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       IconData="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       IconFill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       IconScale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       IconSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       IsBusy="{Binding IsBusy, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                       Orientation="Horizontal"/>
+                                                    </se:StswRadioButton>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                    <!-- StswSeparator -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ContextNamespace, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
+                                            <Condition Binding="{Binding Items.Count, RelativeSource={RelativeSource TemplatedParent}}" Value="0"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <se:StswSeparator/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="True">
-                            <Setter Property="Focusable" Value="False" />
+                        <Trigger Property="IsCompact" Value="True">
+                            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentControl" />
                         </Trigger>
+                        <!--
                         <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder" />
                             <Setter Property="Visibility" Value="Visible" TargetName="ExpandSite" />
@@ -202,6 +257,7 @@
                             <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                             <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
                         </Trigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

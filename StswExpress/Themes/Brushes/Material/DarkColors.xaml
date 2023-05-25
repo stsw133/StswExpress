@@ -87,6 +87,9 @@
 
     <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-15%}" />
     
+    <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="StswNavigation.Static.Border" Color="#555" />
+    
     <SolidColorBrush x:Key="StswProgressBar.Static.Background" Color="#111" />
     <SolidColorBrush x:Key="StswProgressBar.Static.Border" Color="#555" />
     <SolidColorBrush x:Key="StswProgressBar.Disabled.Background" Color="#2777" />

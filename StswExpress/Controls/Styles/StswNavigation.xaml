@@ -4,15 +4,15 @@
 
     <Style TargetType="{x:Type se:StswNavigation}">
 
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswNavigation.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswNavigation.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SubBorderThickness" Value="0.5"/>
         <Setter Property="CornerRadius" Value="0"/>
 
-        <Setter Property="ExtendedMode" Value="True"/>
-        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="IsExtended" Value="True"/>
+        <Setter Property="ItemsAlignment" Value="Left"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -30,48 +30,66 @@
                                 <se:StswToggleButton x:Name="PART_FunctionButton"
                                                      DockPanel.Dock="Top"
                                                      BorderThickness="0" CornerRadius="0" Focusable="False"
-                                                     IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <se:StswHeader x:Name="PART_FunctionButtonHeader" IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
+                                                     IsChecked="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Padding="5">
+                                    <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
                                 </se:StswToggleButton>
-                                <!--
-                                <DockPanel x:Name="PART_FunctionButton" DockPanel.Dock="Top">
-                                    <se:StswSeparator x:Name="PART_SeparatorSpecial"
-                                                      DockPanel.Dock="Top"
-                                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                                      BorderThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Visibility="{TemplateBinding ExtendedMode, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                                    <se:StswToggleButton BorderThickness="0" CornerRadius="0" IsChecked="{Binding ExtendedMode, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
-                                    </se:StswToggleButton>
-                                </DockPanel>
-                                -->
-                                <se:StswSeparator x:Name="PART_SeparatorFirst"
-                                                  DockPanel.Dock="Top"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  BorderThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <!-- navigation items -->
-                                <ItemsControl ItemsSource="{TemplateBinding Items}">
+                                <!-- navigation pinned items -->
+                                <ItemsControl x:Name="PART_ItemsPinned" ItemsSource="{TemplateBinding ItemsPinned}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <DockPanel/>
+                                            <StackPanel>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="{x:Type StackPanel}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
+                                                                <Setter Property="Orientation" Value="Vertical"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
+                                                                <Setter Property="Orientation" Value="Horizontal"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
+                                                                <Setter Property="Orientation" Value="Vertical"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
+                                                                <Setter Property="Orientation" Value="Horizontal"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+                                            </StackPanel>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-                                    <ItemsControl.Resources>
-                                        <Style TargetType="{x:Type se:StswNavigationElement}">
-                                            <Setter Property="DockPanel.Dock" Value="Top"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ExtendedMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="False">
-                                                    <Setter Property="IsCompact" Value="True"/>
-                                                    <Setter Property="TextVisibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Horizontal">
-                                                    <Setter Property="DockPanel.Dock" Value="Left"/>
-                                                    <Setter Property="IsCompact" Value="True"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ItemsControl.Resources>
                                 </ItemsControl>
+                                <!-- navigation items -->
+                                <ScrollViewer x:Name="PART_Items" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{TemplateBinding Items}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="{x:Type StackPanel}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
+                                                                    <Setter Property="Orientation" Value="Vertical"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
+                                                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
+                                                                    <Setter Property="Orientation" Value="Vertical"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
+                                                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </DockPanel>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
@@ -87,19 +105,29 @@
                         </DockPanel>
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ExtendedMode" Value="True">
+                        <Trigger Property="ItemsAlignment" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton" />
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="ContentVisibility" Value="Visible" TargetName="PART_FunctionButtonHeader" />
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items" />
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned" />
                         </Trigger>
-                        <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_MainBorder" />
+                        <Trigger Property="ItemsAlignment" Value="Top">
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton" />
-                            <!--
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SeparatorSpecial" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorFirst" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SeparatorLast" />
-                            -->
-                            <!-- <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_SubBorder" /> -->
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items" />
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned" />
+                        </Trigger>
+                        <Trigger Property="ItemsAlignment" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton" />
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_FunctionButton" />
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items" />
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned" />
+                        </Trigger>
+                        <Trigger Property="ItemsAlignment" Value="Bottom">
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton" />
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items" />
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

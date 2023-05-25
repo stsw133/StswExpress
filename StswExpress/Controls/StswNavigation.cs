@@ -1,13 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
-using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace StswExpress;
@@ -17,7 +15,9 @@ public class StswNavigation : UserControl
 {
     public StswNavigation()
     {
-        SetValue(ItemsProperty, new ObservableCollection<UIElement>());
+        SetValue(ContextsProperty, new StswDictionary<string, object?>());
+        SetValue(ItemsProperty, new ObservableCollection<StswNavigationElement>());
+        SetValue(ItemsPinnedProperty, new ObservableCollection<StswNavigationElement>());
     }
     static StswNavigation()
     {
@@ -25,108 +25,83 @@ public class StswNavigation : UserControl
     }
 
     #region Events
+    /*
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// Button: minimize
-        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
-            mainBorder.Loaded += PART_Buttons_Loaded;
+        OnItemsChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
     }
-
-    /// PART_Buttons_Loaded
-    private void PART_Buttons_Loaded(object sender, RoutedEventArgs e)
+    */
+    /// ChangeContext
+    public object? ChangeContext(object context, bool createNewInstance)
     {
-        /// get ALL StswNavigationElements in StswNavigation
-        var allNaviElements = new List<StswNavigationElement>();
-        allNaviElements.AddRange(Items.OfType<StswNavigationElement>());
-
-        while (allNaviElements.Any(x => x.HasContent))
-        {
-            var elementsWithContents = allNaviElements.Where(x => x.HasContent).ToList();
-            foreach (var naviElement in elementsWithContents)
-                allNaviElements.AddRange(StswFn.FindVisualChildren<StswNavigationElement>((FrameworkElement)naviElement.Content));
-            allNaviElements.RemoveAll(x => elementsWithContents.Contains(x));
-        }
-        
-        /// for every StswNavigationElement assign click event
-        foreach (var naviElement in allNaviElements)
-            naviElement.Click += StswNavigationElement_Click;
-
-        /// find any checked elements and if none is checked then check first that is visible and enabled
-        var firstCheckedElement = allNaviElements.FirstOrDefault(x => x.IsChecked == true) ?? allNaviElements.FirstOrDefault(x => x.IsVisible && x.IsEnabled);
-        if (firstCheckedElement != null)
-        {
-            StswNavigationElement_Click(firstCheckedElement, new RoutedEventArgs());
-            firstCheckedElement.IsChecked = true;
-        }
-    }
-
-    /// StswNavigationElement_Click
-    private async void StswNavigationElement_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is StswNavigationElement stsw)
-        {
-            stsw.IsBusy = true;
-            await Task.Run(() => Thread.Sleep(50));
-            ContextChange(stsw.ContextNamespace, stsw.CreateNewInstance);
-            stsw.IsBusy = false;
-        }
-    }
-
-    /// ...
-    private readonly StswDictionary<string, object> _contexts = new();
-
-    public object? ContextChange(object parameter, bool createNewInstance)
-    {
-        if (DesignerProperties.GetIsInDesignMode(this) || parameter is null)
+        if (DesignerProperties.GetIsInDesignMode(this) || context is null)
             return null;
 
-        object? newContent;
-
-        if (parameter is string name1)
+        if (context is string name1)
         {
-            if (createNewInstance || !_contexts.ContainsKey(name1))
+            if (createNewInstance || !Contexts.ContainsKey(name1))
             {
-                if (_contexts.ContainsKey(name1))
-                    _contexts.Remove(name1);
-                _contexts.Add(name1, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
+                if (Contexts.ContainsKey(name1))
+                    Contexts.Remove(name1);
+                Contexts.Add(name1, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
             }
-            newContent = _contexts[name1];
+            return Content = Contexts[name1];
         }
-        else if (parameter?.GetType()?.FullName is string name2 && parameter?.GetType()?.IsValueType == false)
+        else if (context.GetType().FullName is string name2 && context.GetType().IsValueType == false)
         {
-            if (createNewInstance || !_contexts.ContainsKey(name2))
+            if (createNewInstance || !Contexts.ContainsKey(name2))
             {
-                if (_contexts.ContainsKey(name2))
-                    _contexts.Remove(name2);
-                _contexts.Add(name2, parameter);
+                if (Contexts.ContainsKey(name2))
+                    Contexts.Remove(name2);
+                Contexts.Add(name2, context);
             }
-            newContent = _contexts[name2];
+            return Content = Contexts[name2];
         }
-        else newContent = null;
-
-        Content = newContent;
-
-        return newContent;
+        return Content = null;
     }
     #endregion
 
     #region Properties
-    /// ExtendedMode
-    public static readonly DependencyProperty ExtendedModeProperty
+    /// Contexts
+    public static readonly DependencyProperty ContextsProperty
         = DependencyProperty.Register(
-            nameof(ExtendedMode),
-            typeof(bool),
+            nameof(Contexts),
+            typeof(StswDictionary<string, object?>),
             typeof(StswNavigation)
         );
-    public bool ExtendedMode
+    public StswDictionary<string, object?> Contexts
     {
-        get => (bool)GetValue(ExtendedModeProperty);
-        set => SetValue(ExtendedModeProperty, value);
+        get => (StswDictionary<string, object?>)GetValue(ContextsProperty);
+        internal set => SetValue(ContextsProperty, value);
     }
-    
+
+    /// IsExtended
+    public static readonly DependencyProperty IsExtendedProperty
+        = DependencyProperty.Register(
+            nameof(IsExtended),
+            typeof(bool),
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsExtendedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public bool IsExtended
+    {
+        get => (bool)GetValue(IsExtendedProperty);
+        set => SetValue(IsExtendedProperty, value);
+    }
+    public static void OnIsExtendedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNavigation stsw)
+        {
+            stsw.Items.ToList().ForEach(x => x.IsCompact = !stsw.IsExtended || stsw.ItemsAlignment.In(Dock.Top, Dock.Bottom));
+            stsw.ItemsPinned.ToList().ForEach(x => x.IsCompact = !stsw.IsExtended || stsw.ItemsAlignment.In(Dock.Top, Dock.Bottom));
+        }
+    }
+
     /// GroupName
     public static readonly DependencyProperty GroupNameProperty
         = DependencyProperty.Register(
@@ -145,12 +120,12 @@ public class StswNavigation : UserControl
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
-            typeof(ObservableCollection<UIElement>),
+            typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigation)
         );
-    public ObservableCollection<UIElement> Items
+    public ObservableCollection<StswNavigationElement> Items
     {
-        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
     /// ItemsAlignment
@@ -158,25 +133,27 @@ public class StswNavigation : UserControl
         = DependencyProperty.Register(
             nameof(ItemsAlignment),
             typeof(Dock),
-            typeof(StswNavigation)
+            typeof(StswNavigation),
+            new FrameworkPropertyMetadata(default(Dock),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsExtendedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public Dock ItemsAlignment
     {
         get => (Dock)GetValue(ItemsAlignmentProperty);
         set => SetValue(ItemsAlignmentProperty, value);
     }
-
-    /// Orientation
-    public static readonly DependencyProperty OrientationProperty
+    /// ItemsPinned
+    public static readonly DependencyProperty ItemsPinnedProperty
         = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
+            nameof(ItemsPinned),
+            typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigation)
         );
-    public Orientation Orientation
+    public ObservableCollection<StswNavigationElement> ItemsPinned
     {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsPinnedProperty);
+        set => SetValue(ItemsPinnedProperty, value);
     }
     #endregion
 

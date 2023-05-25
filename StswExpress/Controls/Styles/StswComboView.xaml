@@ -176,7 +176,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <!-- <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" /> -->
-                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswComboBox}}}" TargetName="PART_FunctionButton" />
+                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_FunctionButton" />
                             <Setter Property="IsHitTestVisible" Value="False" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">

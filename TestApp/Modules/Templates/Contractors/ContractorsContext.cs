@@ -148,10 +148,10 @@ public class ContractorsContext : StswObservableObject
 
         /// ...
         var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-        navi?.ContextChange(new ContractorsSingleView()
-        {
-            DataContext = new ContractorsSingleContext()
-        }, true);
+        //navi?.ContextChange(new ContractorsSingleView()
+        //{
+        //    DataContext = new ContractorsSingleContext()
+        //}, true);
 
         // or (if you set DataContext in XAML):
         /*
@@ -178,14 +178,14 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.ContextChange(new ContractorsSingleView()
-            {
-                DataContext = new ContractorsSingleContext()
-                {
-                    ID = selectedItem.ID,
-                    DoClone = true
-                }
-            }, true);
+            //navi?.ContextChange(new ContractorsSingleView()
+            //{
+            //    DataContext = new ContractorsSingleContext()
+            //    {
+            //        ID = selectedItem.ID,
+            //        DoClone = true
+            //    }
+            //}, true);
 
             // or (if you set DataContext in XAML):
             /*
@@ -218,14 +218,14 @@ public class ContractorsContext : StswObservableObject
         if (selectedItem?.ID > 0)
         {
             var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
-            navi?.ContextChange(new ContractorsSingleView()
-            {
-                DataContext = new ContractorsSingleContext()
-                {
-                    ID = selectedItem.ID,
-                    DoClone = false
-                }
-            }, true);
+            //navi?.ContextChange(new ContractorsSingleView()
+            //{
+            //    DataContext = new ContractorsSingleContext()
+            //    {
+            //        ID = selectedItem.ID,
+            //        DoClone = false
+            //    }
+            //}, true);
 
             // or (if you set DataContext in XAML):
             /*

@@ -12,18 +12,18 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswNavigation DockPanel.Dock="Top" IsEnabled="False" BorderThickness="1" Margin="5">
-                <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 2"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 3"/>
-                <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
+            <se:StswNavigation DockPanel.Dock="Top" IsEnabled="False" BorderThickness="1" Margin="5" GroupName="TEST">
+                <se:StswNavigationElement Text="TEST 1"/>
+                <se:StswNavigationElement Text="TEST 2"/>
+                <se:StswNavigationElement Text="TEST 3"/>
+                <se:StswNavigationElement Text="TEST 4"/>
             </se:StswNavigation>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <se:StswNavigation DockPanel.Dock="Top" BorderThickness="1" Margin="5">
-                <se:StswNavigationElement GroupName="TEST" Content="TEST 1"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 2"/>
-                    <se:StswNavigationElement GroupName="TEST" Content="TEST 3"/>
-                <se:StswNavigationElement GroupName="TEST" Content="TEST 4"/>
+                <se:StswNavigationElement Text="TEST" Content="TEST 1"/>
+                <se:StswNavigationElement Text="TEST" Content="TEST 2"/>
+                <se:StswNavigationElement Text="TEST" Content="TEST 3"/>
+                <se:StswNavigationElement Text="TEST" Content="TEST 4"/>
             </se:StswNavigation>
         </DockPanel>
     </ScrollViewer>

@@ -37,6 +37,20 @@ public class StswSeparator : Separator
     #endregion
 
     #region Style
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswSeparator)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
+    }
+
     /// > BorderThickness ...
     /// BorderThickness
     public new static readonly DependencyProperty BorderThicknessProperty

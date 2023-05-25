@@ -135,7 +135,13 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <ContentPresenter Grid.Column="0" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <se:StswIcon x:Name="arrow" Grid.Column="1" Data="{x:Static se:StswIcons.MenuDown}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <se:StswIcon x:Name="arrow" Grid.Column="1"
+                                     Data="{x:Static se:StswIcons.MenuDown}"
+                                     Margin="{TemplateBinding Padding}"
+                                     SnapsToDevicePixels="False"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Visibility="{Binding ArrowVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
@@ -166,7 +172,13 @@
                                     </TransformGroup.Children>
                                 </TransformGroup>
                             </Grid.LayoutTransform>
-                            <se:StswIcon x:Name="arrow" Grid.Column="1" Data="{x:Static se:StswIcons.MenuUp}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <se:StswIcon x:Name="arrow" Grid.Column="1"
+                                         Data="{x:Static se:StswIcons.MenuUp}"
+                                         Margin="{TemplateBinding Padding}"
+                                         SnapsToDevicePixels="False"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding ArrowVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"/>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -198,7 +210,13 @@
                                     </TransformGroup.Children>
                                 </TransformGroup>
                             </Grid.LayoutTransform>
-                            <se:StswIcon x:Name="arrow" Grid.Row="1" Data="{x:Static se:StswIcons.MenuLeft}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <se:StswIcon x:Name="arrow" Grid.Row="1"
+                                         Data="{x:Static se:StswIcons.MenuLeft}"
+                                         Margin="{TemplateBinding Padding}"
+                                         SnapsToDevicePixels="False"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding ArrowVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"/>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -230,7 +248,12 @@
                                     </TransformGroup.Children>
                                 </TransformGroup>
                             </Grid.LayoutTransform>
-                            <se:StswIcon x:Name="arrow" Grid.Row="1" Data="{x:Static se:StswIcons.MenuRight}" SnapsToDevicePixels="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <se:StswIcon x:Name="arrow" Grid.Row="1"
+                                         Data="{x:Static se:StswIcons.MenuRight}"
+                                         SnapsToDevicePixels="False"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Visibility="{Binding ArrowVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"/>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>

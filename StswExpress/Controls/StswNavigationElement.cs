@@ -1,22 +1,34 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
-public class StswNavigationElement : RadioButton
+[ContentProperty(nameof(Items))]
+public class StswNavigationElement : UserControl
 {
+    public StswNavigationElement()
+    {
+        SetValue(ItemsProperty, new ObservableCollection<StswNavigationElement>());
+    }
     static StswNavigationElement()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
     }
 
     #region Events
+    private StswNavigation? stswNavi;
+    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        foreach (var stsw in StswFn.FindVisualChildren<StswNavigationElement>(Content as DependencyObject))
-            stsw.InExpander = true;
+        /// StswNavigation
+        if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
+            stswNavi = stswNavigation;
+        OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
     }
@@ -98,19 +110,6 @@ public class StswNavigationElement : RadioButton
         set => SetValue(IconSourceProperty, value);
     }
 
-    /// InExpander
-    public static readonly DependencyProperty InExpanderProperty
-        = DependencyProperty.Register(
-            nameof(InExpander),
-            typeof(bool),
-            typeof(StswNavigationElement)
-        );
-    public bool InExpander
-    {
-        get => (bool)GetValue(InExpanderProperty);
-        internal set => SetValue(InExpanderProperty, value);
-    }
-
     /// IsBusy
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
@@ -123,29 +122,70 @@ public class StswNavigationElement : RadioButton
         get => (bool)GetValue(IsBusyProperty);
         set => SetValue(IsBusyProperty, value);
     }
+
+    /// IsChecked
+    public static readonly DependencyProperty IsCheckedProperty
+        = DependencyProperty.Register(
+            nameof(IsChecked),
+            typeof(bool),
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsCheckedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public bool IsChecked
+    {
+        get => (bool)GetValue(IsCheckedProperty);
+        set => SetValue(IsCheckedProperty, value);
+    }
+    public static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNavigationElement stsw)
+        {
+            if (stsw.IsChecked && stsw.stswNavi != null && stsw.ContextNamespace != null)
+            {
+                stsw.IsBusy = true;
+                stsw.stswNavi.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
+                stsw.IsBusy = false;
+            }
+        }
+    }
+
     /// IsCompact
     public static readonly DependencyProperty IsCompactProperty
         = DependencyProperty.Register(
             nameof(IsCompact),
             typeof(bool),
-            typeof(StswNavigationElement)
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsCompactChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public bool IsCompact
     {
         get => (bool)GetValue(IsCompactProperty);
-        set => SetValue(IsCompactProperty, value);
+        internal set => SetValue(IsCompactProperty, value);
     }
-    /// IsExpanded
-    public static readonly DependencyProperty IsExpandedProperty
+    public static void OnIsCompactChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNavigationElement stsw)
+        {
+            if (stsw.IsCompact && stsw.Items.Count > 0)
+                stsw.IsChecked = false;
+        }
+    }
+
+    /// Items
+    public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
-            nameof(IsExpanded),
-            typeof(bool),
+            nameof(Items),
+            typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigationElement)
         );
-    public bool IsExpanded
+    public ObservableCollection<StswNavigationElement> Items
     {
-        get => (bool)GetValue(IsExpandedProperty);
-        set => SetValue(IsExpandedProperty, value);
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
     }
 
     /// Text
