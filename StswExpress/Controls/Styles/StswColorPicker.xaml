@@ -84,11 +84,7 @@
                                         </VisualBrush.Visual>
                                     </VisualBrush>
                                 </Border.Background>
-                                <Rectangle>
-                                    <Rectangle.Fill>
-                                        <SolidColorBrush Color="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    </Rectangle.Fill>
-                                </Rectangle>
+                                <Rectangle Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"/>
                             </Border>
                             <!-- A -->
                             <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
