@@ -26,9 +26,6 @@
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswButtonSelectorContext}">
-                <local:StswButtonSelectorView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswCalendarContext}">
                 <local:StswCalendarView/>
             </DataTemplate>
@@ -52,6 +49,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
                 <local:StswDatePickerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswDropButtonContext}">
+                <local:StswDropButtonView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>

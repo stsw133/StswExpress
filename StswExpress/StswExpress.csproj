@@ -13,10 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Themes\Fonts\password.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="StswSettings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -40,11 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Themes\Fonts\password.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Controls\Styles\StswButtonSelector.xaml">
+    <Page Update="Controls\Styles\StswDropButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

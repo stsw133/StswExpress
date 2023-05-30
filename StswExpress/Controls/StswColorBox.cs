@@ -12,9 +12,13 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorBox : TextBox
 {
+    public ICommand ClickCommand { get; set; }
+
     public StswColorBox()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+
+        ClickCommand = new StswRelayCommand<SolidColorBrush?>(Click);
     }
     static StswColorBox()
     {
@@ -31,7 +35,7 @@ public class StswColorBox : TextBox
             content.KeyDown += PART_ContentHost_KeyDown;
             content.LostFocus += PART_ContentHost_LostFocus;
         }
-        
+
         base.OnApplyTemplate();
     }
 
@@ -53,11 +57,20 @@ public class StswColorBox : TextBox
         else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] rgb && rgb.Length == 3
               && byte.TryParse(rgb[0], out var r2) && byte.TryParse(rgb[1], out var g2) && byte.TryParse(rgb[2], out var b2))
             SelectedColor = Color.FromRgb(r2, g2, b2);
+        else if (new ColorConverter().IsValid(Text))
+            SelectedColor = (Color)ColorConverter.ConvertFromString(Text);
 
         Text = SelectedColor.ToString();
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
+    }
+
+    /// Click
+    public void Click(SolidColorBrush? brush)
+    {
+        if (brush != null)
+            SelectedColor = brush.Color;
     }
     #endregion
 

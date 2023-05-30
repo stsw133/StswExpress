@@ -7,15 +7,15 @@ using System.Windows.Media;
 namespace StswExpress;
 
 [ContentProperty(nameof(Items))]
-public class StswButtonSelector : ToggleButton
+public class StswDropButton : ToggleButton
 {
-    public StswButtonSelector()
+    public StswDropButton()
     {
         SetValue(ItemsProperty, new ObservableCollection<ButtonBase>());
     }
-    static StswButtonSelector()
+    static StswDropButton()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswButtonSelector), new FrameworkPropertyMetadata(typeof(StswButtonSelector)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
     }
 
     #region Properties
@@ -24,7 +24,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public object? Header
     {
@@ -37,7 +37,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<ButtonBase>),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public ObservableCollection<ButtonBase> Items
     {
@@ -53,7 +53,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundDisabled),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BackgroundDisabled
     {
@@ -65,7 +65,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundMouseOver),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BackgroundMouseOver
     {
@@ -77,7 +77,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BackgroundPressed),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BackgroundPressed
     {
@@ -89,7 +89,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupBackground),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush PopupBackground
     {
@@ -103,7 +103,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDisabled),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BorderBrushDisabled
     {
@@ -115,7 +115,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushMouseOver),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BorderBrushMouseOver
     {
@@ -127,7 +127,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushPressed),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BorderBrushPressed
     {
@@ -139,7 +139,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(BorderBrushDefaulted),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush BorderBrushDefaulted
     {
@@ -151,7 +151,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupBorderBrush),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush PopupBorderBrush
     {
@@ -165,7 +165,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundDisabled),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush ForegroundDisabled
     {
@@ -177,7 +177,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundMouseOver),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush ForegroundMouseOver
     {
@@ -189,7 +189,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(ForegroundPressed),
             typeof(Brush),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Brush ForegroundPressed
     {
@@ -203,7 +203,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Thickness PopupBorderThickness
     {
@@ -217,7 +217,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public CornerRadius CornerRadius
     {
@@ -229,7 +229,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupCornerRadius),
             typeof(CornerRadius),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public CornerRadius PopupCornerRadius
     {
@@ -243,7 +243,7 @@ public class StswButtonSelector : ToggleButton
         = DependencyProperty.Register(
             nameof(PopupPadding),
             typeof(Thickness),
-            typeof(StswButtonSelector)
+            typeof(StswDropButton)
         );
     public Thickness PopupPadding
     {

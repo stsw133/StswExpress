@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswButtonSelectorView"
+﻿<UserControl x:Class="TestApp.StswDropButtonView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,43 +7,45 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswButtonSelectorContext/>
+        <local:StswDropButtonContext/>
     </d:UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswButtonSelector Margin="5" IsEnabled="False">
-                    <se:StswButtonSelector.Header>
+                <se:StswDropButton Margin="5" IsEnabled="False">
+                    <se:StswDropButton.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
-                    </se:StswButtonSelector.Header>
-                    <se:StswButton Margin="3">
+                    </se:StswDropButton.Header>
+                    
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="1">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3">
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="2">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3">
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="3">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
                     </se:StswButton>
-                </se:StswButtonSelector>
+                </se:StswDropButton>
             </UniformGrid>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswButtonSelector Margin="5">
-                    <se:StswButtonSelector.Header>
+                <se:StswDropButton Margin="5">
+                    <se:StswDropButton.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
-                    </se:StswButtonSelector.Header>
-                    <se:StswButton Margin="3">
+                    </se:StswDropButton.Header>
+
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="1">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3">
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="2">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
                     </se:StswButton>
-                    <se:StswButton Margin="3">
+                    <se:StswButton Margin="3" Command="{Binding ClickCommand}" CommandParameter="3">
                         <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
                     </se:StswButton>
-                </se:StswButtonSelector>
+                </se:StswDropButton>
             </UniformGrid>
         </DockPanel>
     </ScrollViewer>

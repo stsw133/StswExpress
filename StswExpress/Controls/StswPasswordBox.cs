@@ -2,14 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
 
-[ContentProperty(nameof(Password))]
-public class StswPasswordBox : TextBox
+public class StswPasswordBox : UserControl
 {
     public StswPasswordBox()
     {
@@ -21,17 +18,30 @@ public class StswPasswordBox : TextBox
     }
 
     #region Events
+    private bool _isPasswordChanging;
+    private PasswordBox partPasswordBox;
+    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        InputBindings.Add(new KeyBinding(ApplicationCommands.NotACommand, Key.C, ModifierKeys.Control));
-        InputBindings.Add(new KeyBinding(ApplicationCommands.NotACommand, Key.X, ModifierKeys.Control));
-        ContextMenu = new System.Windows.Controls.ContextMenu()
+        /// PasswordBox: password changed
+        if (GetTemplateChild("PART_PasswordBox") is PasswordBox pwdBox)
         {
-            Visibility = Visibility.Collapsed
-        };
+            pwdBox.Password = Password;
+            pwdBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
+            partPasswordBox = pwdBox;
+        }
 
         base.OnApplyTemplate();
+    }
+
+    /// PART_PasswordBox_PasswordChanged
+    public void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    {
+        _isPasswordChanging = true;
+        if (sender is PasswordBox pwdBox)
+            Password = pwdBox.Password;
+        _isPasswordChanging = false;
     }
     #endregion
 
@@ -69,14 +79,22 @@ public class StswPasswordBox : TextBox
             typeof(StswPasswordBox),
             new FrameworkPropertyMetadata(default(string?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnPasswordChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public string? Password
     {
         get => (string?)GetValue(PasswordProperty);
         set => SetValue(PasswordProperty, value);
     }
-    
+    public static void OnPasswordChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswPasswordBox stsw)
+        {
+            if (stsw.partPasswordBox != null && !stsw._isPasswordChanging)
+                stsw.partPasswordBox.Password = stsw.Password;
+        }
+    }
+
     /// Placeholder
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
@@ -89,7 +107,7 @@ public class StswPasswordBox : TextBox
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
-
+    
     /// ShowPassword
     public static readonly DependencyProperty ShowPasswordProperty
         = DependencyProperty.Register(
@@ -101,13 +119,6 @@ public class StswPasswordBox : TextBox
     {
         get => (bool)GetValue(ShowPasswordProperty);
         set => SetValue(ShowPasswordProperty, value);
-    }
-
-    /// Text
-    public new string? Text
-    {
-        get => base.Text;
-        internal set => base.Text = value;
     }
     #endregion
 

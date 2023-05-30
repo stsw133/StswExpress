@@ -14,7 +14,6 @@
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}" IsChecked="True">
             <se:StswNavigationElement Text="StswButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswButtonContext" IsChecked="True"/>
-            <se:StswNavigationElement Text="StswButtonSelector" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswButtonSelectorContext"/>
             <se:StswNavigationElement Text="StswCalendar" IconData="{x:Static se:StswIcons.Calendar}" ContextNamespace="TestApp.StswCalendarContext"/>
             <se:StswNavigationElement Text="StswCheckBox" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}" ContextNamespace="TestApp.StswCheckBoxContext"/>
             <se:StswNavigationElement Text="StswColorBox" IconData="{x:Static se:StswIcons.SelectColor}" ContextNamespace="TestApp.StswColorBoxContext"/>
@@ -23,6 +22,7 @@
             <se:StswNavigationElement Text="StswComboView" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswComboViewContext"/>
             <se:StswNavigationElement Text="StswDataGrid" IconData="{x:Static se:StswIcons.Grid}" ContextNamespace="TestApp.StswDataGridContext"/>
             <se:StswNavigationElement Text="StswDatePicker" IconData="{x:Static se:StswIcons.CalendarCursor}" ContextNamespace="TestApp.StswDatePickerContext"/>
+            <se:StswNavigationElement Text="StswDropButton" IconData="{x:Static se:StswIcons.FormDropdown}" ContextNamespace="TestApp.StswDropButtonContext"/>
             <se:StswNavigationElement Text="StswExpander" IconData="{x:Static se:StswIcons.ArrowExpandDown}" ContextNamespace="TestApp.StswExpanderContext"/>
             <se:StswNavigationElement Text="StswFilter" IconData="{x:Static se:StswIcons.TableFilter}" ContextNamespace="TestApp.StswFilterContext"/>
             <se:StswNavigationElement Text="StswGroupBox" IconData="{x:Static se:StswIcons.Group}" ContextNamespace="TestApp.StswGroupBoxContext"/>

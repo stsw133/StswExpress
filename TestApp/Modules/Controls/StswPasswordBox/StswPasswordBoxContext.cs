@@ -5,7 +5,7 @@ namespace TestApp;
 
 public class StswPasswordBoxContext : StswObservableObject
 {
-    private string text = string.Empty;
+    private string text = "TEST";
     public string Text
     {
         get => text;

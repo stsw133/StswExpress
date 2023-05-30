@@ -13,11 +13,11 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : UserControl
 {
-    public ICommand OnClickCommand { get; set; }
+    public ICommand ClickCommand { get; set; }
 
     public StswCalendar()
     {
-        OnClickCommand = new StswRelayCommand<object>(OnClick);
+        ClickCommand = new StswRelayCommand<object?>(Click);
     }
 
     static StswCalendar()
@@ -87,8 +87,8 @@ public class StswCalendar : UserControl
         return newDate.Value;
     }
 
-    /// OnClick
-    public void OnClick(object? date)
+    /// Click
+    public void Click(object? date)
     {
         if (SelectionMode == SelectionModes.ByYear)
         {
