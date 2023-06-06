@@ -4,7 +4,6 @@
     
     <Style TargetType="{x:Type se:StswRadioBox}">
 
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswCheck.Disabled.Background}"/>
         <Setter Property="BackgroundUnchecked" Value="{DynamicResource StswCheck.Unchecked.Static.Background}"/>
         <Setter Property="BackgroundUncheckedMouseOver" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Background}"/>
         <Setter Property="BackgroundUncheckedPressed" Value="{DynamicResource StswCheck.Unchecked.Pressed.Background}"/>
@@ -14,8 +13,8 @@
         <Setter Property="BackgroundIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Static.Background}"/>
         <Setter Property="BackgroundIndeterminateMouseOver" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Background}"/>
         <Setter Property="BackgroundIndeterminatePressed" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswCheck.Disabled.Background}"/>
 
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Border}"/>
         <Setter Property="BorderBrushUnchecked" Value="{DynamicResource StswCheck.Unchecked.Static.Border}"/>
         <Setter Property="BorderBrushUncheckedMouseOver" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Border}"/>
         <Setter Property="BorderBrushUncheckedPressed" Value="{DynamicResource StswCheck.Unchecked.Pressed.Border}"/>
@@ -25,16 +24,17 @@
         <Setter Property="BorderBrushIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Static.Border}"/>
         <Setter Property="BorderBrushIndeterminateMouseOver" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Border}"/>
         <Setter Property="BorderBrushIndeterminatePressed" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
 
         <Setter Property="GlyphBrush" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="GlyphBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
         <Setter Property="GlyphBrushMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="GlyphBrushPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="GlyphBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
 
         <Setter Property="IconIndeterminate" Value="{x:Static se:StswIcons.Minus}"/>
         <Setter Property="IconUnchecked" Value="{x:Null}"/>
@@ -63,7 +63,7 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
                             <Grid Margin="{TemplateBinding Padding}">
-                                <TextBlock/>
+                                <TextBlock x:Name="PART_Text"/>
                                 <se:StswIcon x:Name="PART_Icon"
                                              Fill="{TemplateBinding GlyphBrush}"
                                              Height="{Binding ActualHeight, ElementName=PART_Text}"

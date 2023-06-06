@@ -60,6 +60,9 @@ public class StswColorBox : TextBox
         else if (new ColorConverter().IsValid(Text))
             SelectedColor = (Color)ColorConverter.ConvertFromString(Text);
 
+        //if (AllowAlphaChange)
+        //    SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
+
         Text = SelectedColor.ToString();
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
@@ -74,7 +77,7 @@ public class StswColorBox : TextBox
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Components
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
@@ -98,6 +101,19 @@ public class StswColorBox : TextBox
     {
         get => (Dock)GetValue(ComponentsAlignmentProperty);
         set => SetValue(ComponentsAlignmentProperty, value);
+    }
+
+    /// IsDropDownOpen
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
     }
 
     /// Placeholder
@@ -137,20 +153,38 @@ public class StswColorBox : TextBox
     }
     #endregion
 
-    #region Style
-    /// > Background ...
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
+    #region Spatial properties
+    /// > BorderThickness ...
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
+            nameof(SubBorderThickness),
+            typeof(Thickness),
             typeof(StswColorBox)
         );
-    public Brush BackgroundDisabled
+    public Thickness SubBorderThickness
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswColorBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
+
+    #region Style properties
+    /// > Background ...
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
@@ -187,20 +221,20 @@ public class StswColorBox : TextBox
         get => (Brush)GetValue(BackgroundReadOnlyProperty);
         set => SetValue(BackgroundReadOnlyProperty, value);
     }
-
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswColorBox)
         );
-    public Brush BorderBrushDisabled
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
+
+    /// > BorderBrush ...
     /// BorderBrushMouseOver
     public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
@@ -225,20 +259,20 @@ public class StswColorBox : TextBox
         get => (Brush)GetValue(BorderBrushFocusedProperty);
         set => SetValue(BorderBrushFocusedProperty, value);
     }
-
-    /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswColorBox)
         );
-    public Brush ForegroundDisabled
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
+
+    /// > Foreground ...
     /// ForegroundMouseOver
     public static readonly DependencyProperty ForegroundMouseOverProperty
         = DependencyProperty.Register(
@@ -263,6 +297,18 @@ public class StswColorBox : TextBox
         get => (Brush)GetValue(ForegroundFocusedProperty);
         set => SetValue(ForegroundFocusedProperty, value);
     }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswColorBox)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
     /// ForegroundPlaceholder
     public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
@@ -274,34 +320,6 @@ public class StswColorBox : TextBox
     {
         get => (Brush)GetValue(ForegroundPlaceholderProperty);
         set => SetValue(ForegroundPlaceholderProperty, value);
-    }
-
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorBox)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswColorBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

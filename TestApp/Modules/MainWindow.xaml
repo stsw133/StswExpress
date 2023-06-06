@@ -36,7 +36,8 @@
             <se:StswNavigationElement Text="StswRadioBox" IconData="{x:Static se:StswIcons.RadioboxMarked}" ContextNamespace="TestApp.StswRadioBoxContext"/>
             <se:StswNavigationElement Text="StswRadioButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswRadioButtonContext"/>
             <se:StswNavigationElement Text="StswRepeatButton" IconData="{x:Static se:StswIcons.ButtonCursor}" ContextNamespace="TestApp.StswRepeatButtonContext"/>
-            <se:StswNavigationElement Text="StswSeparator" IconData="{x:Static se:StswIcons.BorderHorizontal}" ContextNamespace="TestApp.StswSeparatorContext"/>
+            <se:StswNavigationElement Text="StswSeparator" IconData="{x:Static se:StswIcons.Minus}" ContextNamespace="TestApp.StswSeparatorContext"/>
+            <se:StswNavigationElement Text="StswSlider" IconData="{x:Static se:StswIcons.PanHorizontal}" ContextNamespace="TestApp.StswSliderContext"/>
             <se:StswNavigationElement Text="StswTabControl" IconData="{x:Static se:StswIcons.Tab}" ContextNamespace="TestApp.StswTabControlContext"/>
             <se:StswNavigationElement Text="StswTextBox" IconData="{x:Static se:StswIcons.FormTextbox}" ContextNamespace="TestApp.StswTextBoxContext"/>
             <se:StswNavigationElement Text="StswTextEditor" IconData="{x:Static se:StswIcons.ReceiptTextEdit}" ContextNamespace="TestApp.StswTextEditorContext"/>

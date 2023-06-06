@@ -33,7 +33,7 @@ public class StswTabItem : TabItem
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Closable
     public static readonly DependencyProperty ClosableProperty
         = DependencyProperty.Register(

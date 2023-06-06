@@ -95,6 +95,9 @@
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSliderContext}">
+                <local:StswSliderView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTabControlContext}">
                 <local:StswTabControlView/>
             </DataTemplate>

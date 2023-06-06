@@ -11,7 +11,7 @@ public class StswHeader : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
 
-    #region Properties
+    #region Main properties
     /// ContentMargin
     public static readonly DependencyProperty ContentMarginProperty
         = DependencyProperty.Register(
@@ -101,7 +101,7 @@ public class StswHeader : UserControl
     }
     #endregion
 
-    #region Style
+    #region Style properties
     /// > Foreground ...
     /// ForegroundDisabled
     public static readonly DependencyProperty ForegroundDisabledProperty

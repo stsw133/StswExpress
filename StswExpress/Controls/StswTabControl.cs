@@ -47,7 +47,7 @@ public class StswTabControl : TabControl
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// AreTabsVisible
     public static readonly DependencyProperty AreTabsVisibleProperty
         = DependencyProperty.Register(

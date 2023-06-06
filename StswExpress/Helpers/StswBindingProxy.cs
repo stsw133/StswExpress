@@ -22,3 +22,21 @@ public class StswBindingProxy : Freezable
         set => SetValue(ProxyProperty, value);
     }
 }
+
+/* usage:
+
+<DataGrid Margin="3" ItemsSource="{Binding ListContractors}">
+    <DataGrid.Resources>
+        <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
+    </DataGrid.Resources>
+    <DataGrid.Columns>
+        <DataGridTextColumn Binding="{Binding Name}">
+            <DataGridTextColumn.Header>
+                <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Name], Mode=TwoWay, Source={StaticResource proxy}}"
+                               Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="c.Name"/>
+            </DataGridTextColumn.Header>
+        </DataGridTextColumn>
+    </DataGrid.Columns>
+</DataGrid>
+
+*/

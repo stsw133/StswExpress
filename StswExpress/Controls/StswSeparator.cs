@@ -21,7 +21,7 @@ public class StswSeparator : Separator
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Orientation
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
@@ -36,21 +36,7 @@ public class StswSeparator : Separator
     }
     #endregion
 
-    #region Style
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswSeparator)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-
+    #region Spatial properties
     /// > BorderThickness ...
     /// BorderThickness
     public new static readonly DependencyProperty BorderThicknessProperty
@@ -87,6 +73,22 @@ public class StswSeparator : Separator
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
+
+    #region Style properties
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswSeparator)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

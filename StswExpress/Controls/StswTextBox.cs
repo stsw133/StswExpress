@@ -18,7 +18,7 @@ public class StswTextBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
 
-    #region Properties
+    #region Main properties
     /// Components
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
@@ -58,20 +58,24 @@ public class StswTextBox : TextBox
     }
     #endregion
 
-    #region Style
-    /// > Background ...
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
+    #region Spatial properties
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswTextBox)
         );
-    public Brush BackgroundDisabled
+    public CornerRadius CornerRadius
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    #endregion
+
+    #region Style properties
+    /// > Background ...
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
@@ -108,20 +112,20 @@ public class StswTextBox : TextBox
         get => (Brush)GetValue(BackgroundReadOnlyProperty);
         set => SetValue(BackgroundReadOnlyProperty, value);
     }
-
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswTextBox)
         );
-    public Brush BorderBrushDisabled
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
+
+    /// > BorderBrush ...
     /// BorderBrushMouseOver
     public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
@@ -146,20 +150,20 @@ public class StswTextBox : TextBox
         get => (Brush)GetValue(BorderBrushFocusedProperty);
         set => SetValue(BorderBrushFocusedProperty, value);
     }
-
-    /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswTextBox)
         );
-    public Brush ForegroundDisabled
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
+
+    /// > Foreground ...
     /// ForegroundMouseOver
     public static readonly DependencyProperty ForegroundMouseOverProperty
         = DependencyProperty.Register(
@@ -184,6 +188,18 @@ public class StswTextBox : TextBox
         get => (Brush)GetValue(ForegroundFocusedProperty);
         set => SetValue(ForegroundFocusedProperty, value);
     }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswTextBox)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
     /// ForegroundPlaceholder
     public static readonly DependencyProperty ForegroundPlaceholderProperty
         = DependencyProperty.Register(
@@ -195,20 +211,6 @@ public class StswTextBox : TextBox
     {
         get => (Brush)GetValue(ForegroundPlaceholderProperty);
         set => SetValue(ForegroundPlaceholderProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswTextBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

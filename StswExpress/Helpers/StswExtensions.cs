@@ -9,7 +9,6 @@ using System.Net;
 using System.Security;
 using System.Text;
 using System.Threading;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -115,106 +114,106 @@ public static class StswExtensions
     /// <summary>
     /// Makes color from HSL values.
     /// </summary>
+    /// <param name="alpha">Between 0 and 255.</param>
     /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 100.</param>
-    /// <param name="lightness">Between 0 and 100.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="lightness">Between 0 and 1.</param>
     /// <returns></returns>
-    public static Color FromHsl(int hue, int saturation, int lightness)
+    public static Color FromAhsl(byte alpha, double hue, double saturation, double lightness)
     {
         double h = hue / 360.0;
-        double s = saturation / 100.0;
-        double l = lightness / 100.0;
-
-        double c = (1 - Math.Abs(2 * l - 1)) * s;
+        double c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
         double x = c * (1 - Math.Abs((h * 6) % 2 - 1));
-        double m = l - c / 2;
+        double m = lightness - c / 2;
 
-        double r, g, b;
         if (h < 1.0 / 6)
-        {
-            r = c;
-            g = x;
-            b = 0;
-        }
+            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255));
         else if (h < 2.0 / 6)
-        {
-            r = x;
-            g = c;
-            b = 0;
-        }
+            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255));
         else if (h < 3.0 / 6)
-        {
-            r = 0;
-            g = c;
-            b = x;
-        }
+            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255));
         else if (h < 4.0 / 6)
-        {
-            r = 0;
-            g = x;
-            b = c;
-        }
+            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255));
         else if (h < 5.0 / 6)
-        {
-            r = x;
-            g = 0;
-            b = c;
-        }
+            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255));
         else
-        {
-            r = c;
-            g = 0;
-            b = x;
-        }
-
-        byte red = (byte)((r + m) * 255);
-        byte green = (byte)((g + m) * 255);
-        byte blue = (byte)((b + m) * 255);
-
-        return Color.FromRgb(red, green, blue);
+            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255));
     }
+
+    /// <summary>
+    /// Makes color from HSL values.
+    /// </summary>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="lightness">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color FromHsl(double hue, double saturation, double lightness) => FromAhsl(255, hue, saturation, lightness);
 
     /// <summary>
     /// Gets HSL values from color.
     /// </summary>
-    public static void GetHsl(this Color color, out double hue, out double saturation, out double lightness)
+    public static void ToHsl(this Color color, out double hue, out double saturation, out double lightness)
     {
-        double r = (double)color.R / 255.0;
-        double g = (double)color.G / 255.0;
-        double b = (double)color.B / 255.0;
+        var drawingColor = color.ToDrawingColor();
 
-        double max = Math.Max(r, Math.Max(g, b));
-        double min = Math.Min(r, Math.Min(g, b));
-        double delta = max - min;
+        hue = drawingColor.GetHue();
+        saturation = drawingColor.GetSaturation();
+        lightness = drawingColor.GetBrightness();
+    }
 
-        /// calculate hue
-        if (delta == 0)
-            hue = 0;
-        else if (max == r)
-            hue = ((g - b) / delta) % 6;
-        else if (max == g)
-            hue = ((b - r) / delta) + 2;
+    /// <summary>
+    /// Makes color from HSV values.
+    /// </summary>
+    /// <param name="alpha">Between 0 and 255.</param>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="value">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color FromAhsv(byte alpha, double hue, double saturation, double value)
+    {
+        int h = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+        double f = hue / 60 - Math.Floor(hue / 60);
+
+        value *= 255;
+        byte v = Convert.ToByte(value);
+        byte p = Convert.ToByte(value * (1 - saturation));
+        byte q = Convert.ToByte(value * (1 - f * saturation));
+        byte t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+
+        if (h == 0)
+            return Color.FromArgb(alpha, v, t, p);
+        else if (h == 1)
+            return Color.FromArgb(alpha, q, v, p);
+        else if (h == 2)
+            return Color.FromArgb(alpha, p, v, t);
+        else if (h == 3)
+            return Color.FromArgb(alpha, p, q, v);
+        else if (h == 4)
+            return Color.FromArgb(alpha, t, p, v);
         else
-            hue = ((r - g) / delta) + 4;
+            return Color.FromArgb(alpha, v, p, q);
+    }
 
-        hue = Math.Round(hue * 60);
+    /// <summary>
+    /// Makes color from HSV values.
+    /// </summary>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="value">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color FromHsv(double hue, double saturation, double value) => FromAhsv(255, hue, saturation, value);
 
-        /// make sure hue is positive
-        if (hue < 0)
-            hue += 360;
+    /// <summary>
+    /// Gets HSV values from color.
+    /// </summary>
+    public static void ToHsv(this Color color, out double hue, out double saturation, out double value)
+    {
+        int max = Math.Max(color.R, Math.Max(color.G, color.B));
+        int min = Math.Min(color.R, Math.Min(color.G, color.B));
 
-        /// calculate lightness
-        lightness = (max + min) / 2;
-
-        /// calculate saturation
-        if (delta == 0)
-            saturation = 0;
-        else
-            saturation = delta / (1 - Math.Abs(2 * lightness - 1));
-
-        hue = Math.Round(hue);
-        saturation = Math.Round(saturation * 100);
-        lightness = Math.Round(lightness * 100);
+        hue = color.ToDrawingColor().GetHue();
+        saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+        value = max / 255d;
     }
 
     /// <summary>
@@ -245,6 +244,21 @@ public static class StswExtensions
     /// Converts <see cref="SolidColorBrush"/> to <see cref="System.Drawing.Color"/>.
     /// </summary>
     public static Color ToColor(this SolidColorBrush value) => Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
+
+    /// <summary>
+    /// Converts <see cref="Color"/> to <see cref="System.Drawing.Color"/>.
+    /// </summary>
+    public static System.Drawing.Color ToDrawingColor(this Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
+
+    /// <summary>
+    /// Converts <see cref="System.Drawing.Color"/> to <see cref="Color"/>.
+    /// </summary>
+    public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
+
+    /// <summary>
+    /// Converts <see cref="Color"/> to <see cref="string"/>.
+    /// </summary>
+    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
     #endregion
 
     #region Function extensions
@@ -334,11 +348,6 @@ public static class StswExtensions
         int paddingCount = (totalWidth - text.Length + paddingString.Length - 1) / paddingString.Length;
         return text + paddingString[..paddingCount];
     }
-
-    /// <summary>
-    /// Converts <see cref="Color"/> to <see cref="string"/>.
-    /// </summary>
-    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
 
     /// <summary>
     /// Converts <see cref="string"/> to <see cref="SecureString"/>.

@@ -172,7 +172,6 @@ public class StswNotNullConverter : MarkupExtension, IValueConverter
 /// Use '<c>#</c>' at the beginning of converter parameter to automatically generate color in output based on value string.<br/>
 /// Use value between -1.0 and 1.0 to set brightness of output color.<br/>
 /// </summary>
-[Obsolete]
 public class StswColorConverter : MarkupExtension, IValueConverter
 {
     private static StswColorConverter? instance;
@@ -182,37 +181,10 @@ public class StswColorConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var pmr = parameter?.ToString() ?? string.Empty;
-        //var val = value?.ToString() ?? string.Empty;
-
-        /// parameters
-        bool invertColor = pmr.Contains('!'),
-             contrastColor = pmr.Contains('‼'),
-             desaturateColor = pmr.Contains('↓'),
-             autoBrightness = pmr.Contains('?'),
-             percentBrightness = pmr.Contains('%'),
-             generateColor = pmr.Contains('#');
-        int setAlpha = pmr.Contains('@') ? System.Convert.ToInt32(pmr[(pmr.IndexOf('@') + 1)..], 16) : -1;
-
-        if (invertColor) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
-        if (contrastColor) pmr = pmr.Remove(pmr.IndexOf('‼'), 1);
-        if (desaturateColor) pmr = pmr.Remove(pmr.IndexOf('↓'), 1);
-        if (autoBrightness) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
-        if (percentBrightness) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
-        if (generateColor) pmr = pmr.Remove(pmr.IndexOf('#'), 1);
-        if (setAlpha >= 0) pmr = pmr.Remove(pmr.IndexOf('@'));
-
-        var generatedColor = string.Empty;
-        var pmrVal = System.Convert.ToDouble(string.IsNullOrEmpty(pmr) ? "0" : pmr, culture);
-
-        /// generate color
         Color color;
-        if (generateColor)
-        {
-            var val = value?.ToString() ?? string.Empty;
-            color = Color.FromArgb(255, (byte)(220 - (val.Sum(x => x) * 9797 % 90)), (byte)(220 - (val.Sum(x => x) * 8989 % 90)), (byte)(220 - (val.Sum(x => x) * 8383 % 90)));
-        }
-        else if (value is Color c)
+
+        /// input
+        if (value is Color c)
             color = c;
         else if (value is System.Drawing.Color d)
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
@@ -221,33 +193,71 @@ public class StswColorConverter : MarkupExtension, IValueConverter
         else
             color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
 
-        /// desaturate color
-        if (desaturateColor)
-            color = Color.FromArgb(color.A, (byte)((color.R + color.G + color.B) / 3), (byte)((color.R + color.G + color.B) / 3), (byte)((color.R + color.G + color.B) / 3));
+        /// output
+        if (targetType == typeof(Color))
+            return color;
+        else if (targetType == typeof(System.Drawing.Color))
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
+            return new SolidColorBrush(color);
+        else
+            return color.ToHtml();
+    }
 
-        /// invert color
-        if (invertColor)
-            color = Color.FromArgb(color.A, (byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B));
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
 
-        /// contrast color
-        if (contrastColor)
-        {
-            color.GetHsl(out var h, out var s, out var l);
-            color = l < 50 ? Color.FromRgb(255, 255 ,255) : Color.FromRgb(0, 0, 0);
-        }
+/// <summary>
+/// Takes a color value as input and changes its alpha based on the provided parameters:<br/>
+/// <br/>
+/// Use nothing at the beginning of converter parameter to set alpha of output color.<br/>
+/// Use '<c>%</c>' at the end of converter parameter to use percent values.<br/>
+/// Use value in parameter between 0 and 255 (or 0 to 100 in case of percents) to set alpha of output color.<br/>
+/// EXAMPLES:  '80'  '125'  '180'  '245'  '16%'  '26%'  '36%'  '50%'
+/// </summary>
+public class StswColorAlphaConverter : MarkupExtension, IValueConverter
+{
+    private static StswColorAlphaConverter? instance;
+    public static StswColorAlphaConverter Instance => instance ??= new StswColorAlphaConverter();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-        /// brightness
-        color = (Color)ColorConverter.ConvertFromString(StswColorBrightnessConverter.Instance.Convert(color.ToHtml(), targetType, $"{(autoBrightness ? "?" : string.Empty)}{pmrVal}{(percentBrightness ? "%" : string.Empty)}", culture).ToString());
-        color = Color.FromArgb((byte)(setAlpha.Between(0, 255) ? setAlpha : color.A), color.R, color.G, color.B);
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var pmr = parameter?.ToString() ?? string.Empty;
+        //var val = value?.ToString() ?? string.Empty;
+        Color color;
+
+        /// parameters
+        bool isPercent = pmr.Contains('%');
+
+        if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
+
+        /// value as color and parameter as number
+        if (value is Color c)
+            color = c;
+        else if (value is System.Drawing.Color d)
+            color = Color.FromArgb(d.A, d.R, d.G, d.B);
+        else if (value is SolidColorBrush br)
+            color = br.ToColor();
+        else if (value?.ToString() != null)
+            color = (Color)ColorConverter.ConvertFromString(value.ToString());
+
+        if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
+            pmrVal = 0;
+
+        /// calculate new color
+        double a = Math.Clamp(isPercent ? pmrVal * 255 / 100 : pmrVal, 0, 255);
+
+        color = Color.FromArgb((byte)a, color.R, color.G, color.B);
 
         /// result
         if (targetType == typeof(Color))
             return color;
         else if (targetType == typeof(System.Drawing.Color))
             return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-        else if (targetType == typeof(SolidColorBrush))
-            return new SolidColorBrush(color);
-        else if (targetType == typeof(Brush))
+        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
             return new SolidColorBrush(color);
         else
             return color.ToHtml();
@@ -278,6 +288,7 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
     {
         var pmr = parameter?.ToString() ?? string.Empty;
         //var val = value?.ToString() ?? string.Empty;
+        Color color;
 
         /// parameters
         bool isAuto = pmr.Contains('?'),
@@ -287,7 +298,6 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
         if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
 
         /// value as color and parameter as number
-        Color color;
         if (value is Color c)
             color = c;
         else if (value is System.Drawing.Color d)
@@ -301,10 +311,7 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
             pmrVal = 0;
 
         if (isAuto)
-        {
-            color.GetHsl(out var h, out var s, out var l);
-            pmrVal = l < 50 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
-        }
+            pmrVal = color.ToDrawingColor().GetBrightness() < 0.5 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
 
         /// calculate new color
         double r = color.R, g = color.G, b = color.B;
@@ -331,10 +338,136 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
         g = Math.Clamp(g, 0, 255);
         b = Math.Clamp(b, 0, 255);
 
-        /// result
         color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
 
-        return color.ToHtml();
+        /// result
+        if (targetType == typeof(Color))
+            return color;
+        else if (targetType == typeof(System.Drawing.Color))
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
+            return new SolidColorBrush(color);
+        else
+            return color.ToHtml();
+    }
+
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>
+/// Generate new color based on passed value and the provided seed as parameter.
+/// </summary>
+public class StswColorGeneratorConverter : MarkupExtension, IValueConverter
+{
+    private static StswColorGeneratorConverter? instance;
+    public static StswColorGeneratorConverter Instance => instance ??= new StswColorGeneratorConverter();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
+
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var pmr = parameter?.ToString() ?? string.Empty;
+        var val = value?.ToString() ?? string.Empty;
+        Color color;
+
+        /// generate new color
+        if (!string.IsNullOrEmpty(val))
+        {
+            int hashCode = val.GetHashCode();
+            int r = (hashCode >> 16) & 0xFF;
+            int g = (hashCode >> 8) & 0xFF;
+            int b = hashCode & 0xFF;
+
+            if (!string.IsNullOrEmpty(pmr) && int.TryParse(pmr, out var brightnessThreshold) && int.TryParse(pmr, out var darknessThreshold))
+            {
+                if (r > brightnessThreshold)
+                    r -= (r - brightnessThreshold) / 2;
+                if (g > brightnessThreshold)
+                    g -= (g - brightnessThreshold) / 2;
+                if (b > brightnessThreshold)
+                    b -= (b - brightnessThreshold) / 2;
+                if (r < darknessThreshold)
+                    r += (darknessThreshold - r) / 2;
+                if (g < darknessThreshold)
+                    g += (darknessThreshold - g) / 2;
+                if (b < darknessThreshold)
+                    b += (darknessThreshold - b) / 2;
+            }
+
+            color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
+        }
+
+        /// result
+        if (targetType == typeof(Color))
+            return color;
+        else if (targetType == typeof(System.Drawing.Color))
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
+            return new SolidColorBrush(color);
+        else
+            return color.ToHtml();
+    }
+
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>
+/// Takes a color value as input and changes its saturation based on the provided parameters:<br/>
+/// <br/>
+/// Use nothing or '<c>%</c>' at the end of converter parameter to increase saturation of output color.<br/>
+/// Use value in parameter between 0% and 100% to set saturation of output color.<br/>
+/// EXAMPLES:  '8%'  '13%'  '18%'  '25%'
+/// </summary>
+public class StswColorSaturationConverter : MarkupExtension, IValueConverter
+{
+    private static StswColorSaturationConverter? instance;
+    public static StswColorSaturationConverter Instance => instance ??= new StswColorSaturationConverter();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
+
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var pmr = parameter?.ToString() ?? string.Empty;
+        //var val = value?.ToString() ?? string.Empty;
+        Color color;
+
+        /// parameters
+        pmr = pmr.TrimEnd('%');
+
+        /// value as color and parameter as number
+        if (value is Color c)
+            color = c;
+        else if (value is System.Drawing.Color d)
+            color = Color.FromArgb(d.A, d.R, d.G, d.B);
+        else if (value is SolidColorBrush br)
+            color = br.ToColor();
+        else if (value?.ToString() != null)
+            color = (Color)ColorConverter.ConvertFromString(value.ToString());
+
+        if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
+            pmrVal = 0;
+
+        /// calculate new color
+        double r = color.R, g = color.G, b = color.B;
+        double avg = (r + g + b) / 3;
+
+        r = color.R - (color.R - avg) * pmrVal / 100;
+        g = color.G - (color.G - avg) * pmrVal / 100;
+        b = color.B - (color.B - avg) * pmrVal / 100;
+
+        color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
+
+        /// result
+        if (targetType == typeof(Color))
+            return color;
+        else if (targetType == typeof(System.Drawing.Color))
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
+            return new SolidColorBrush(color);
+        else
+            return color.ToHtml();
     }
 
     /// ConvertBack

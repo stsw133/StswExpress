@@ -4,8 +4,8 @@
 
     <Style TargetType="{x:Type se:StswCalendar}">
 
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswCalendar.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.Static.Border}"/>
 <!--
         <Setter Property="OpacityDisabled" Value="0.3"/>
 -->
@@ -83,7 +83,10 @@
                                         <Label Content="{Binding DayOfWeek7, RelativeSource={RelativeSource TemplatedParent}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
                                     </UniformGrid>
                                     <!-- days of month -->
-                                    <ItemsControl DockPanel.Dock="Top" Grid.Row="1" Grid.RowSpan="6" ItemsSource="{TemplateBinding Buttons}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                    <ItemsControl DockPanel.Dock="Top" Grid.Row="1" Grid.RowSpan="6"
+                                                  IsTabStop="False"
+                                                  ItemsSource="{TemplateBinding Buttons}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <UniformGrid Columns="7"/>

@@ -64,7 +64,7 @@ public class StswNavigation : UserControl
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Contexts
     public static readonly DependencyProperty ContextsProperty
         = DependencyProperty.Register(
@@ -157,7 +157,7 @@ public class StswNavigation : UserControl
     }
     #endregion
 
-    #region Style
+    #region Spatial properties
     /// > BorderThickness ...
     /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty

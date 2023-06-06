@@ -11,7 +11,23 @@ public class StswCheckBox : CheckBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
 
-    #region Style
+    #region Spatial properties
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswCheckBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
+
+    #region Style properties
     /// > Background ...
     /// BackgroundUnchecked
     public static readonly DependencyProperty BackgroundUncheckedProperty
@@ -48,18 +64,6 @@ public class StswCheckBox : CheckBox
     {
         get => (Brush)GetValue(BackgroundIndeterminateProperty);
         set => SetValue(BackgroundIndeterminateProperty, value);
-    }
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
-            typeof(StswCheckBox)
-        );
-    public Brush BackgroundDisabled
-    {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
     }
     /// BackgroundUncheckedMouseOver
     public static readonly DependencyProperty BackgroundUncheckedMouseOverProperty
@@ -133,6 +137,18 @@ public class StswCheckBox : CheckBox
         get => (Brush)GetValue(BackgroundIndeterminatePressedProperty);
         set => SetValue(BackgroundIndeterminatePressedProperty, value);
     }
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BackgroundDisabled),
+            typeof(Brush),
+            typeof(StswCheckBox)
+        );
+    public Brush BackgroundDisabled
+    {
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
+    }
 
     /// > BorderBrush ...
     /// BorderBrushUnchecked
@@ -170,18 +186,6 @@ public class StswCheckBox : CheckBox
     {
         get => (Brush)GetValue(BorderBrushIndeterminateProperty);
         set => SetValue(BorderBrushIndeterminateProperty, value);
-    }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswCheckBox)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
     }
     /// BorderBrushUncheckedMouseOver
     public static readonly DependencyProperty BorderBrushUncheckedMouseOverProperty
@@ -255,20 +259,20 @@ public class StswCheckBox : CheckBox
         get => (Brush)GetValue(BorderBrushIndeterminatePressedProperty);
         set => SetValue(BorderBrushIndeterminatePressedProperty, value);
     }
-
-    /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswCheckBox)
         );
-    public Brush ForegroundDisabled
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
+
+    /// > Foreground ...
     /// ForegroundMouseOver
     public static readonly DependencyProperty ForegroundMouseOverProperty
         = DependencyProperty.Register(
@@ -293,6 +297,18 @@ public class StswCheckBox : CheckBox
         get => (Brush)GetValue(ForegroundPressedProperty);
         set => SetValue(ForegroundPressedProperty, value);
     }
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(ForegroundDisabled),
+            typeof(Brush),
+            typeof(StswCheckBox)
+        );
+    public Brush ForegroundDisabled
+    {
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
+    }
 
     /// > Glyph ...
     /// GlyphBrush
@@ -306,18 +322,6 @@ public class StswCheckBox : CheckBox
     {
         get => (Brush)GetValue(GlyphBrushProperty);
         set => SetValue(GlyphBrushProperty, value);
-    }
-    /// GlyphBrushDisabled
-    public static readonly DependencyProperty GlyphBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(GlyphBrushDisabled),
-            typeof(Brush),
-            typeof(StswCheckBox)
-        );
-    public Brush GlyphBrushDisabled
-    {
-        get => (Brush)GetValue(GlyphBrushDisabledProperty);
-        set => SetValue(GlyphBrushDisabledProperty, value);
     }
     /// GlyphBrushMouseOver
     public static readonly DependencyProperty GlyphBrushMouseOverProperty
@@ -343,19 +347,17 @@ public class StswCheckBox : CheckBox
         get => (Brush)GetValue(GlyphBrushPressedProperty);
         set => SetValue(GlyphBrushPressedProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
+    /// GlyphBrushDisabled
+    public static readonly DependencyProperty GlyphBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
+            nameof(GlyphBrushDisabled),
+            typeof(Brush),
             typeof(StswCheckBox)
         );
-    public CornerRadius CornerRadius
+    public Brush GlyphBrushDisabled
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Brush)GetValue(GlyphBrushDisabledProperty);
+        set => SetValue(GlyphBrushDisabledProperty, value);
     }
 
     /// > Icon ...

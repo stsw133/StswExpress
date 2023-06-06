@@ -8,20 +8,20 @@
         <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
         <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
         <Setter Property="BackgroundReadOnly" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswBox.MouseOver.Border}"/>
         <Setter Property="BorderBrushFocused" Value="{DynamicResource StswBox.Focused.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
         <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
@@ -48,8 +48,9 @@
                             <!-- function button -->
                             <se:StswToggleButton x:Name="PART_FunctionButton"
                                                  DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                                 BorderThickness="0" CornerRadius="0" Padding="0" Width="24"
-                                                 ClickMode="Press">
+                                                 BorderThickness="0" CornerRadius="0" Focusable="False" Padding="0" Width="24"
+                                                 ClickMode="Press"
+                                                 IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}" Scale="1.5"/>
                             </se:StswToggleButton>
                             <!-- subborder -->
@@ -59,7 +60,7 @@
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
                             <!-- components -->
-                            <ItemsControl x:Name="PART_Components" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" ItemsSource="{TemplateBinding Components}">
+                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -69,7 +70,7 @@
                             <!-- popup: color picker -->
                             <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
-                                   IsOpen="{Binding IsChecked, ElementName=PART_FunctionButton}"
+                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=PART_FunctionButton}"
                                    StaysOpen="False">

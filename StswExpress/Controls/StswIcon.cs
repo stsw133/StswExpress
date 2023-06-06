@@ -12,7 +12,7 @@ public class StswIcon : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
     }
 
-    #region Properties
+    #region Main properties
     /// CanvasSize
     public static readonly DependencyProperty CanvasSizeProperty
         = DependencyProperty.Register(
@@ -64,7 +64,7 @@ public class StswIcon : UserControl
     }
     #endregion
 
-    #region Style
+    #region Style properties
     /// > Fill ...
     /// Fill
     public static readonly DependencyProperty FillProperty

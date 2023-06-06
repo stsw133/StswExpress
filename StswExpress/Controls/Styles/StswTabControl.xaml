@@ -100,7 +100,7 @@
                             <Setter Property="Margin" Value="0 2 2 2" TargetName="HeaderPanel" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" TargetName="templateRoot" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="templateRoot" />
                         </Trigger>
                         <Trigger Property="AreTabsVisible" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="HeaderPanel" />

@@ -20,7 +20,7 @@ public class StswPopup : Popup
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// CloseOnClick
     public static readonly DependencyProperty CloseOnClickProperty
         = DependencyProperty.Register(

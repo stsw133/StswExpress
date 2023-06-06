@@ -226,7 +226,7 @@ public class StswImage : UserControl
     }
     #endregion
     */
-    #region Properties
+    #region Main properties
     /// MenuMode
     public enum MenuModes
     {
@@ -297,7 +297,7 @@ public class StswImage : UserControl
     }
     #endregion
 
-    #region Style
+    #region Style properties
     /// > Opacity ...
     /// OpacityDisabled
     public static readonly DependencyProperty OpacityDisabledProperty

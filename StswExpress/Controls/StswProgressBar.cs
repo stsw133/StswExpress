@@ -42,7 +42,7 @@ public class StswProgressBar : ProgressBar
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// State
     public enum States
     {
@@ -90,48 +90,24 @@ public class StswProgressBar : ProgressBar
     }
     #endregion
 
-    #region Style
-    /// > Background ...
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
+    #region Spatial properties
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswProgressBar)
         );
-    public Brush BackgroundDisabled
+    public CornerRadius CornerRadius
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
+    #endregion
 
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswProgressBar)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-
+    #region Style properties
     /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswProgressBar)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
     /// ForegroundReady
     public static readonly DependencyProperty ForegroundReadyProperty
         = DependencyProperty.Register(
@@ -193,20 +169,6 @@ public class StswProgressBar : ProgressBar
     {
         get => (double)GetValue(OpacityDisabledProperty);
         set => SetValue(OpacityDisabledProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswProgressBar)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

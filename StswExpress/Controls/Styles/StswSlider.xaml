@@ -4,96 +4,208 @@
 
     <Style TargetType="{x:Type se:StswSlider}">
 
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource SliderThumb.Static.Foreground}"/>
+        <Setter Property="Background" Value="{DynamicResource StswSlider.Static.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswSlider.Disabled.Background}"/>
+        <Setter Property="RangeBackground" Value="{DynamicResource StswSlider.Range.Background}"/>
+        <Setter Property="ThumbBackground" Value="{DynamicResource StswSlider.Thumb.Static.Background}"/>
+        <Setter Property="ThumbBackgroundMouseOver" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}"/>
+        <Setter Property="ThumbBackgroundDragging" Value="{DynamicResource StswSlider.Thumb.Dragging.Background}"/>
+        <Setter Property="ThumbBackgroundDisabled" Value="{DynamicResource StswSlider.Thumb.Disabled.Background}"/>
 
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Static.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswSlider.Disabled.Border}"/>
+        <Setter Property="ThumbBorderBrush" Value="{DynamicResource StswSlider.Thumb.Static.Border}"/>
+        <Setter Property="ThumbBorderBrushMouseOver" Value="{DynamicResource StswSlider.Thumb.MouseOver.Border}"/>
+        <Setter Property="ThumbBorderBrushDragging" Value="{DynamicResource StswSlider.Thumb.Dragging.Border}"/>
+        <Setter Property="ThumbBorderBrushDisabled" Value="{DynamicResource StswSlider.Thumb.Disabled.Border}"/>
+
+        <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Foreground}"/>
+
+        <Setter Property="ThumbIcon" Value="{x:Static se:StswIcons.Circle}"/>
+        <Setter Property="TrackSize" Value="5"/>
+        <Setter Property="ThumbSize" Value="15"/>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ThumbBorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        
         <Setter Property="Orientation" Value="Horizontal"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSlider}">
-                    <Border x:Name="PART_MainBorder" 
-                            SnapsToDevicePixels="True"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition MinWidth="{TemplateBinding MinWidth}" Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TickBar x:Name="TopTick"
-                                     Grid.Column="0" 
-                                     Placement="Left" 
-                                     Visibility="Collapsed" 
-                                     Width="4" 
-                                     Margin="0 0 2 0" 
-                                     Fill="{TemplateBinding Foreground}" />
-                            <TickBar x:Name="BottomTick" 
-                                     Grid.Column="2" 
-                                     Placement="Right" 
-                                     Visibility="Collapsed" 
-                                     Width="4" 
-                                     Margin="2 0 0 0" 
-                                     Fill="{TemplateBinding Foreground}" />
-                            <Border x:Name="TrackBackground" 
-                                    BorderThickness="1" 
-                                    Grid.Column="1" 
-                                    HorizontalAlignment="Center" 
-                                    Margin="0 5" 
-                                    Width="4" 
-                                    BorderBrush="{DynamicResource SliderThumb.Track.Border}" 
-                                    Background="{DynamicResource SliderThumb.Track.Background}">
-                                <Canvas Margin="-1 -6">
-                                    <Rectangle x:Name="PART_SelectionRange"
-                                               Visibility="Hidden"
-                                               Width="4" 
-                                               Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                </Canvas>
-                            </Border>
-                            <Track x:Name="PART_Track" Grid.Column="1">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{DynamicResource RepeatButtonTransparent}"/>
-                                </Track.DecreaseRepeatButton>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{DynamicResource RepeatButtonTransparent}"/>
-                                </Track.IncreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb x:Name="Thumb" 
-                                           OverridesDefaultStyle="True" 
-                                           Focusable="False" 
-                                           VerticalAlignment="Top" 
-                                           Width="18" 
-                                           Height="11" 
-                                           Template="{DynamicResource SliderThumbVerticalDefault}"/>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto" MinWidth="{TemplateBinding MinWidth}"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto" MinHeight="{TemplateBinding MinHeight}"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TickBar x:Name="TopTick" Fill="{TemplateBinding Foreground}" Visibility="Collapsed"/>
+                        <TickBar x:Name="BottomTick" Fill="{TemplateBinding Foreground}" Visibility="Collapsed"/>
+                        <Border x:Name="TrackBackground"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Canvas x:Name="PART_Canvas">
+                                <Rectangle x:Name="PART_SelectionRange" Fill="{TemplateBinding RangeBackground}" Visibility="Hidden"/>
+                            </Canvas>
+                        </Border>
+                        <Track x:Name="PART_Track">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{DynamicResource RepeatButtonTransparent}"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{DynamicResource RepeatButtonTransparent}"/>
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb" Focusable="False" OverridesDefaultStyle="True" Height="{TemplateBinding ThumbSize}" Width="{TemplateBinding ThumbSize}">
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
+                                                <Path x:Name="PART_Grip"
+                                                      Data="{Binding ThumbIcon, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
+                                                      Fill="{Binding ThumbBackground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
+                                                      SnapsToDevicePixels="True"
+                                                      Stretch="Fill"
+                                                      Stroke="{Binding ThumbBorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
+                                                      StrokeThickness="{Binding ThumbBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                </Trigger>
+                                                <Trigger Property="IsDragging" Value="True">
+                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundDragging, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushDragging, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick" />
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TopTick" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick" />
+                            <Setter Property="Margin" Value="0 0 0 2" TargetName="TopTick" />
+                            <Setter Property="Height" Value="4" TargetName="TopTick" />
+                            <Setter Property="Placement" Value="Top" TargetName="TopTick" />
+
+                            <Setter Property="Grid.Column" Value="0" TargetName="BottomTick" />
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="BottomTick" />
+                            <Setter Property="Grid.Row" Value="2" TargetName="BottomTick" />
+                            <Setter Property="Margin" Value="0 2 0 0" TargetName="BottomTick" />
+                            <Setter Property="Height" Value="4" TargetName="BottomTick" />
+                            <Setter Property="Placement" Value="Bottom" TargetName="BottomTick" />
+
+                            <Setter Property="Grid.Column" Value="0" TargetName="TrackBackground" />
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TrackBackground" />
+                            <Setter Property="Grid.Row" Value="1" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="5 0" TargetName="TrackBackground" />
+                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
+                            <Setter Property="VerticalAlignment" Value="Center" TargetName="TrackBackground" />
+
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_Track" />
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="PART_Track" />
+                            <Setter Property="Grid.Row" Value="1" TargetName="PART_Track" />
+
+                            <Setter Property="Margin" Value="-6 -1" TargetName="PART_Canvas" />
+                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick" />
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TopTick" />
+                            <Setter Property="Margin" Value="0 0 2 0" TargetName="TopTick" />
+                            <Setter Property="Width" Value="4" TargetName="TopTick" />
+                            <Setter Property="Placement" Value="Left" TargetName="TopTick" />
+
+                            <Setter Property="Grid.Column" Value="2" TargetName="BottomTick" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="BottomTick" />
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="BottomTick" />
+                            <Setter Property="Margin" Value="2 0 0 0" TargetName="BottomTick" />
+                            <Setter Property="Width" Value="4" TargetName="BottomTick" />
+                            <Setter Property="Placement" Value="Right" TargetName="BottomTick" />
+
+                            <Setter Property="Grid.Column" Value="1" TargetName="TrackBackground" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="TrackBackground" />
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="0 5" TargetName="TrackBackground" />
+                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
+                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="TrackBackground" />
+
+                            <Setter Property="Grid.Column" Value="1" TargetName="PART_Track" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_Track" />
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="PART_Track" />
+
+                            <Setter Property="Margin" Value="-1 -6" TargetName="PART_Canvas" />
+                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Orientation" Value="Horizontal"/>
+                                <Condition Property="TickPlacement" Value="TopLeft"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Margin" Value="5 2 5 0" TargetName="TrackBackground" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Orientation" Value="Horizontal"/>
+                                <Condition Property="TickPlacement" Value="BottomRight"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Margin" Value="5 0 5 2" TargetName="TrackBackground" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Orientation" Value="Vertical"/>
+                                <Condition Property="TickPlacement" Value="TopLeft"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Margin" Value="2 5 0 5" TargetName="TrackBackground" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Orientation" Value="Vertical"/>
+                                <Condition Property="TickPlacement" Value="BottomRight"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Margin" Value="0 5 2 5" TargetName="TrackBackground" />
+                        </MultiTrigger>
                         <Trigger Property="TickPlacement" Value="TopLeft">
                             <Setter Property="Visibility" Value="Visible" TargetName="TopTick" />
-                            <Setter Property="Template" Value="{StaticResource SliderThumbVerticalLeft}" TargetName="Thumb" />
-                            <Setter Property="Margin" Value="2 5 0 5" TargetName="TrackBackground"/>
                         </Trigger>
                         <Trigger Property="TickPlacement" Value="BottomRight">
                             <Setter Property="Visibility" Value="Visible" TargetName="BottomTick" />
-                            <Setter Property="Template" Value="{StaticResource SliderThumbVerticalRight}" TargetName="Thumb" />
-                            <Setter Property="Margin" Value="0 5 2 5" TargetName="TrackBackground" />
                         </Trigger>
                         <Trigger Property="TickPlacement" Value="Both">
-                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick" />
                             <Setter Property="Visibility" Value="Visible" TargetName="BottomTick" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick" />
                         </Trigger>
                         <Trigger Property="IsSelectionRangeEnabled" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange" />
                         </Trigger>
+                        <!--
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswColor.Primary}" TargetName="Thumb" />
+                        </Trigger>
+                        -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

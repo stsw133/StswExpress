@@ -5,24 +5,24 @@
     <Style TargetType="{x:Type se:StswExpander}">
 
         <Setter Property="HeaderBackground" Value="{DynamicResource StswExpander.Static.Background}"/>
-        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
         <Setter Property="HeaderBackgroundMouseOver" Value="{DynamicResource StswExpander.MouseOver.Background}"/>
         <Setter Property="HeaderBackgroundPressed" Value="{DynamicResource StswExpander.Pressed.Background}"/>
         <Setter Property="HeaderBackgroundChecked" Value="{DynamicResource StswExpander.Checked.Background}"/>
+        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswExpander.MouseOver.Border}"/>
         <Setter Property="BorderBrushPressed" Value="{DynamicResource StswExpander.Pressed.Border}"/>
         <Setter Property="BorderBrushChecked" Value="{DynamicResource StswExpander.Checked.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
 
-        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
         <Setter Property="HeaderForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="HeaderForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="HeaderForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswExpander.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="HeaderBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="HeaderPadding" Value="3"/>
@@ -65,7 +65,7 @@
                             <Border x:Name="PART_SubBorder"
                                     DockPanel.Dock="Top"
                                     BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding HeaderBorderThickness}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"
                                     Visibility="Collapsed"/>
                             <!-- content -->

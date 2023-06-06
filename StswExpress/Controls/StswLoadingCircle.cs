@@ -12,7 +12,7 @@ public class StswLoadingCircle : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLoadingCircle), new FrameworkPropertyMetadata(typeof(StswLoadingCircle)));
     }
 
-    #region Properties
+    #region Main properties
     /// Scale
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
@@ -38,7 +38,7 @@ public class StswLoadingCircle : UserControl
     }
     #endregion
 
-    #region Style
+    #region Style properties
     /// > Fill ...
     /// Fill
     public static readonly DependencyProperty FillProperty

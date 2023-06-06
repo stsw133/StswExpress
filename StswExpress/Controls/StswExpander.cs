@@ -11,7 +11,7 @@ public class StswExpander : Expander
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
     }
 
-    #region Properties
+    #region Main properties
     /// ArrowVisibility
     public static readonly DependencyProperty ArrowVisibilityProperty
         = DependencyProperty.Register(
@@ -26,70 +26,36 @@ public class StswExpander : Expander
     }
     #endregion
 
-    #region Style
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
+    #region Spatial properties
+    /// > BorderThickness ...
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswExpander)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    /// BorderBrushMouseOver
-    public static readonly DependencyProperty BorderBrushMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushMouseOver),
-            typeof(Brush),
-            typeof(StswExpander)
-        );
-    public Brush BorderBrushMouseOver
-    {
-        get => (Brush)GetValue(BorderBrushMouseOverProperty);
-        set => SetValue(BorderBrushMouseOverProperty, value);
-    }
-    /// BorderBrushPressed
-    public static readonly DependencyProperty BorderBrushPressedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushPressed),
-            typeof(Brush),
-            typeof(StswExpander)
-        );
-    public Brush BorderBrushPressed
-    {
-        get => (Brush)GetValue(BorderBrushPressedProperty);
-        set => SetValue(BorderBrushPressedProperty, value);
-    }
-    /// BorderBrushChecked
-    public static readonly DependencyProperty BorderBrushCheckedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushChecked),
-            typeof(Brush),
-            typeof(StswExpander)
-        );
-    public Brush BorderBrushChecked
-    {
-        get => (Brush)GetValue(BorderBrushCheckedProperty);
-        set => SetValue(BorderBrushCheckedProperty, value);
-    }
-
-    /// > Header ...
-    /// HeaderBorderThickness
-    public static readonly DependencyProperty HeaderBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(HeaderBorderThickness),
+            nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswExpander)
         );
-    public Thickness HeaderBorderThickness
+    public Thickness SubBorderThickness
     {
-        get => (Thickness)GetValue(HeaderBorderThicknessProperty);
-        set => SetValue(HeaderBorderThicknessProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswExpander)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Padding ...
     /// HeaderPadding
     public static readonly DependencyProperty HeaderPaddingProperty
         = DependencyProperty.Register(
@@ -102,8 +68,10 @@ public class StswExpander : Expander
         get => (Thickness)GetValue(HeaderPaddingProperty);
         set => SetValue(HeaderPaddingProperty, value);
     }
+    #endregion
 
-    /// > HeaderBackground ...
+    #region Style properties
+    /// > Background ...
     /// HeaderBackground
     public static readonly DependencyProperty HeaderBackgroundProperty
         = DependencyProperty.Register(
@@ -115,18 +83,6 @@ public class StswExpander : Expander
     {
         get => (Brush)GetValue(HeaderBackgroundProperty);
         set => SetValue(HeaderBackgroundProperty, value);
-    }
-    /// HeaderBackgroundDisabled
-    public static readonly DependencyProperty HeaderBackgroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(HeaderBackgroundDisabled),
-            typeof(Brush),
-            typeof(StswExpander)
-        );
-    public Brush HeaderBackgroundDisabled
-    {
-        get => (Brush)GetValue(HeaderBackgroundDisabledProperty);
-        set => SetValue(HeaderBackgroundDisabledProperty, value);
     }
     /// HeaderBackgroundMouseOver
     public static readonly DependencyProperty HeaderBackgroundMouseOverProperty
@@ -164,8 +120,70 @@ public class StswExpander : Expander
         get => (Brush)GetValue(HeaderBackgroundCheckedProperty);
         set => SetValue(HeaderBackgroundCheckedProperty, value);
     }
+    /// HeaderBackgroundDisabled
+    public static readonly DependencyProperty HeaderBackgroundDisabledProperty
+        = DependencyProperty.Register(
+            nameof(HeaderBackgroundDisabled),
+            typeof(Brush),
+            typeof(StswExpander)
+        );
+    public Brush HeaderBackgroundDisabled
+    {
+        get => (Brush)GetValue(HeaderBackgroundDisabledProperty);
+        set => SetValue(HeaderBackgroundDisabledProperty, value);
+    }
 
-    /// > HeaderForeground ...
+    /// > BorderBrush ...
+    /// BorderBrushMouseOver
+    public static readonly DependencyProperty BorderBrushMouseOverProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushMouseOver),
+            typeof(Brush),
+            typeof(StswExpander)
+        );
+    public Brush BorderBrushMouseOver
+    {
+        get => (Brush)GetValue(BorderBrushMouseOverProperty);
+        set => SetValue(BorderBrushMouseOverProperty, value);
+    }
+    /// BorderBrushPressed
+    public static readonly DependencyProperty BorderBrushPressedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushPressed),
+            typeof(Brush),
+            typeof(StswExpander)
+        );
+    public Brush BorderBrushPressed
+    {
+        get => (Brush)GetValue(BorderBrushPressedProperty);
+        set => SetValue(BorderBrushPressedProperty, value);
+    }
+    /// BorderBrushChecked
+    public static readonly DependencyProperty BorderBrushCheckedProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushChecked),
+            typeof(Brush),
+            typeof(StswExpander)
+        );
+    public Brush BorderBrushChecked
+    {
+        get => (Brush)GetValue(BorderBrushCheckedProperty);
+        set => SetValue(BorderBrushCheckedProperty, value);
+    }
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswExpander)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
+
+    /// > Foreground ...
     /// HeaderForegroundDisabled
     public static readonly DependencyProperty HeaderForegroundDisabledProperty
         = DependencyProperty.Register(
@@ -213,20 +231,6 @@ public class StswExpander : Expander
     {
         get => (Brush)GetValue(HeaderForegroundCheckedProperty);
         set => SetValue(HeaderForegroundCheckedProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswExpander)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

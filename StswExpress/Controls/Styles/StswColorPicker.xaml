@@ -4,12 +4,12 @@
 
     <Style TargetType="{x:Type se:StswColorPicker}">
 
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
         
         <Setter Property="OpacityDisabled" Value="0.3"/>
         
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
@@ -39,6 +39,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <!-- color rectangle -->
                             <Border x:Name="PART_ColorRectangle" Grid.Column="0" Grid.Row="0"
@@ -47,25 +48,31 @@
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     Margin="{TemplateBinding SubPadding}"
                                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
-                                <Rectangle>
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                                            <GradientStop Color="#F00" Offset="0"/>
-                                            <GradientStop Color="#FF0" Offset="0.1666666666"/>
-                                            <GradientStop Color="#0F0" Offset="0.3333333333"/>
-                                            <GradientStop Color="#0FF" Offset="0.5"/>
-                                            <GradientStop Color="#00F" Offset="0.6666666666"/>
-                                            <GradientStop Color="#F0F" Offset="0.8333333333"/>
-                                            <GradientStop Color="#F00" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                    <Rectangle.OpacityMask>
-                                        <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
-                                            <GradientStop Color="#FFFF" Offset="0"/>
-                                            <GradientStop Color="#0FFF" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <!-- <Grid> -->
+                                    <Rectangle>
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                                <GradientStop Color="#F00" Offset="0"/>
+                                                <GradientStop Color="#FF0" Offset="0.1666666666"/>
+                                                <GradientStop Color="#0F0" Offset="0.3333333333"/>
+                                                <GradientStop Color="#0FF" Offset="0.5"/>
+                                                <GradientStop Color="#00F" Offset="0.6666666666"/>
+                                                <GradientStop Color="#F0F" Offset="0.8333333333"/>
+                                                <GradientStop Color="#F00" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                                <GradientStop Color="#FFFF" Offset="0"/>
+                                                <GradientStop Color="#0FFF" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                <!--
+                                    <Ellipse x:Name="PART_ColorEllipse"
+                                             Stroke="Black"
+                                             Height="5" Width="5"/>
+                                </Grid> -->
                             </Border>
                             <!-- selected color -->
                             <Border Grid.Column="1" Grid.Row="0"
@@ -86,8 +93,27 @@
                                 </Border.Background>
                                 <Rectangle Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"/>
                             </Border>
+                            <!-- value -->
+                            <!--
+                            <se:StswSlider Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding SubBorderThickness}"
+                                           CornerRadius="0" Margin="0 10 0 5"
+                                           ThumbBorderThickness="2" ThumbSize="15" TrackSize="10"
+                                           ThumbBackground="White" ThumbBackgroundMouseOver="White" ThumbBackgroundDragging="White"
+                                           ThumbBorderBrush="Gray" ThumbBorderBrushMouseOver="Gray" ThumbBorderBrushDragging="Gray"
+                                           IsSnapToTickEnabled="True" TickFrequency="0.01"
+                                           Maximum="1" Value="{Binding SelectedColorV, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <se:StswSlider.Background>
+                                    <LinearGradientBrush StartPoint="0 0.5" EndPoint="0.5 1">
+                                        <GradientStop Offset="0" Color="Black"/>
+                                        <GradientStop Offset="1" Color="{Binding SelectedColor, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorPicker}}, Converter={x:Static se:StswColorConverter.Instance}}"/>
+                                    </LinearGradientBrush>
+                                </se:StswSlider.Background>
+                            </se:StswSlider>
+                            -->
                             <!-- A -->
-                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding SubBorderThickness}"
                                         Margin="{TemplateBinding SubPadding}"
@@ -109,12 +135,12 @@
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorA, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Width="30" HorizontalContentAlignment="Right"/>
-                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                        Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120" VerticalAlignment="Center"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- R -->
-                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
                                 <Border Background="#F00"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding SubBorderThickness}"
@@ -124,12 +150,12 @@
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorR, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Width="30" HorizontalContentAlignment="Right"/>
-                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                        Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120" VerticalAlignment="Center"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- G -->
-                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
                                 <Border Background="#0F0"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding SubBorderThickness}"
@@ -139,12 +165,12 @@
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorG, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Width="30" HorizontalContentAlignment="Right"/>
-                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                        Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120" VerticalAlignment="Center"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                             <!-- B -->
-                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
+                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5">
                                 <Border Background="#00F"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding SubBorderThickness}"
@@ -154,9 +180,9 @@
                                 <Label DockPanel.Dock="Right"
                                        Content="{Binding SelectedColorB, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Width="30" HorizontalContentAlignment="Right"/>
-                                <Slider IsSnapToTickEnabled="True" TickFrequency="1"
-                                        Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        MinWidth="120" VerticalAlignment="Center"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
                         </Grid>
                     </se:ClippingBorder>

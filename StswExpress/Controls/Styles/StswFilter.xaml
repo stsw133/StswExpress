@@ -21,7 +21,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswFilter}">
                     <DockPanel>
                         <!-- filter part -->
-                        <se:ClippingBorder DockPanel.Dock="Bottom"
+                        <se:ClippingBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
                                            BorderBrush="{TemplateBinding BorderBrush}"
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
@@ -150,7 +150,7 @@
                                     </se:StswButton.ContextMenu>
                                 </se:StswButton>
                                 <Border x:Name="PART_SubBorder"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                         BorderThickness="{TemplateBinding SubBorderThickness}"
                                         SnapsToDevicePixels="True"/>
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource TextBox.Static.Background}"/>

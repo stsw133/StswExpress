@@ -5,20 +5,20 @@
     <Style TargetType="{x:Type se:StswTextEditor}">
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
         <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
         <Setter Property="BackgroundReadOnly" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswBox.MouseOver.Border}"/>
         <Setter Property="BorderBrushFocused" Value="{DynamicResource StswBox.Focused.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
@@ -141,11 +141,11 @@
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
                                     DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
                             <!-- components -->
-                            <ItemsControl x:Name="PART_Components" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" ItemsSource="{TemplateBinding Components}">
+                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>

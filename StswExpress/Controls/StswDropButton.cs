@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -7,7 +8,7 @@ using System.Windows.Media;
 namespace StswExpress;
 
 [ContentProperty(nameof(Items))]
-public class StswDropButton : ToggleButton
+public class StswDropButton : UserControl
 {
     public StswDropButton()
     {
@@ -18,7 +19,32 @@ public class StswDropButton : ToggleButton
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
     }
 
-    #region Properties
+    #region Main properties
+    /// Components
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswDropButton)
+        );
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    /// ComponentsAlignment
+    public static readonly DependencyProperty ComponentsAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(ComponentsAlignment),
+            typeof(Dock),
+            typeof(StswDropButton)
+        );
+    public Dock ComponentsAlignment
+    {
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
+    }
+
     /// Header
     public static readonly DependencyProperty HeaderProperty
         = DependencyProperty.Register(
@@ -30,6 +56,19 @@ public class StswDropButton : ToggleButton
     {
         get => (object?)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
+    }
+
+    /// IsDropDownOpen
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswDropButton)
+        );
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
     }
 
     /// Items
@@ -46,20 +85,50 @@ public class StswDropButton : ToggleButton
     }
     #endregion
 
-    #region Style
-    /// > Background ...
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
+    #region Spatial properties
+    /// > BorderThickness ...
+    /// PopupBorderThickness
+    public static readonly DependencyProperty PopupBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
             typeof(StswDropButton)
         );
-    public Brush BackgroundDisabled
+    public Thickness PopupBorderThickness
     {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
     }
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswDropButton)
+        );
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDropButton)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    #endregion
+
+    #region Style properties
+    /// > Background ...
     /// BackgroundMouseOver
     public static readonly DependencyProperty BackgroundMouseOverProperty
         = DependencyProperty.Register(
@@ -84,32 +153,20 @@ public class StswDropButton : ToggleButton
         get => (Brush)GetValue(BackgroundPressedProperty);
         set => SetValue(BackgroundPressedProperty, value);
     }
-    /// PopupBackground
-    public static readonly DependencyProperty PopupBackgroundProperty
+    /// BackgroundDisabled
+    public static readonly DependencyProperty BackgroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(PopupBackground),
+            nameof(BackgroundDisabled),
             typeof(Brush),
             typeof(StswDropButton)
         );
-    public Brush PopupBackground
+    public Brush BackgroundDisabled
     {
-        get => (Brush)GetValue(PopupBackgroundProperty);
-        set => SetValue(PopupBackgroundProperty, value);
+        get => (Brush)GetValue(BackgroundDisabledProperty);
+        set => SetValue(BackgroundDisabledProperty, value);
     }
 
     /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
     /// BorderBrushMouseOver
     public static readonly DependencyProperty BorderBrushMouseOverProperty
         = DependencyProperty.Register(
@@ -146,32 +203,20 @@ public class StswDropButton : ToggleButton
         get => (Brush)GetValue(BorderBrushDefaultedProperty);
         set => SetValue(BorderBrushDefaultedProperty, value);
     }
-    /// PopupBorderBrush
-    public static readonly DependencyProperty PopupBorderBrushProperty
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
         = DependencyProperty.Register(
-            nameof(PopupBorderBrush),
+            nameof(BorderBrushDisabled),
             typeof(Brush),
             typeof(StswDropButton)
         );
-    public Brush PopupBorderBrush
+    public Brush BorderBrushDisabled
     {
-        get => (Brush)GetValue(PopupBorderBrushProperty);
-        set => SetValue(PopupBorderBrushProperty, value);
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
     }
 
     /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
     /// ForegroundMouseOver
     public static readonly DependencyProperty ForegroundMouseOverProperty
         = DependencyProperty.Register(
@@ -196,59 +241,17 @@ public class StswDropButton : ToggleButton
         get => (Brush)GetValue(ForegroundPressedProperty);
         set => SetValue(ForegroundPressedProperty, value);
     }
-
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
+    /// ForegroundDisabled
+    public static readonly DependencyProperty ForegroundDisabledProperty
         = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
+            nameof(ForegroundDisabled),
+            typeof(Brush),
             typeof(StswDropButton)
         );
-    public Thickness PopupBorderThickness
+    public Brush ForegroundDisabled
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDropButton)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    /// PopupCornerRadius
-    public static readonly DependencyProperty PopupCornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(PopupCornerRadius),
-            typeof(CornerRadius),
-            typeof(StswDropButton)
-        );
-    public CornerRadius PopupCornerRadius
-    {
-        get => (CornerRadius)GetValue(PopupCornerRadiusProperty);
-        set => SetValue(PopupCornerRadiusProperty, value);
-    }
-
-    /// > Padding ...
-    /// PopupPadding
-    public static readonly DependencyProperty PopupPaddingProperty
-        = DependencyProperty.Register(
-            nameof(PopupPadding),
-            typeof(Thickness),
-            typeof(StswDropButton)
-        );
-    public Thickness PopupPadding
-    {
-        get => (Thickness)GetValue(PopupPaddingProperty);
-        set => SetValue(PopupPaddingProperty, value);
+        get => (Brush)GetValue(ForegroundDisabledProperty);
+        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 }

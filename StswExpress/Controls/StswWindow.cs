@@ -198,7 +198,7 @@ public class StswWindow : Window
     protected void CloseClick(object sender, RoutedEventArgs e) => Close();
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Components
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
@@ -285,7 +285,8 @@ public class StswWindow : Window
     }
     #endregion
 
-    #region Style
+    #region Spatial properties
+    /// > CornerRadius ...
     /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(

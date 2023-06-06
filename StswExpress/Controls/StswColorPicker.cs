@@ -18,6 +18,9 @@ public class StswColorPicker : UserControl
     }
 
     #region Events
+    //private Border partColorRectangle;
+    //private Ellipse partColorEllipse;
+    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -26,19 +29,25 @@ public class StswColorPicker : UserControl
         {
             rect.MouseDown += PART_ColorRectangle_MouseDown;
             rect.MouseMove += PART_ColorRectangle_MouseMove;
-        }
-        
+            //partColorRectangle = rect;
+        }/*
+        if (GetTemplateChild("PART_ColorEllipse") is Ellipse ellipse)
+        {
+            partColorEllipse = ellipse;
+            PART_ColorEllipse_Move();
+        }*/
+
         base.OnApplyTemplate();
     }
 
-    /// PART_ColorBorder_MouseDown
+    /// PART_ColorRectangle_MouseDown
     private void PART_ColorRectangle_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
             PART_ColorRectangle_MouseMove(sender, e);
     }
 
-    /// PART_ColorBorder_MouseMove
+    /// PART_ColorRectangle_MouseMove
     private void PART_ColorRectangle_MouseMove(object sender, MouseEventArgs e)
     {
         var rect = (Border)sender;
@@ -66,9 +75,46 @@ public class StswColorPicker : UserControl
             SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
         }
     }
+    /*
+    /// PART_ColorEllipse_Move
+    private void PART_ColorEllipse_Move()
+    {
+        if (partColorRectangle != null && partColorEllipse != null)
+        {
+            SelectedColor.ToHsv(out var h, out var s, out var v);
+            // move based on H horizontally and S vertically
+        }
+    }*/
     #endregion
 
-    #region Properties
+    #region Main properties
+    /*
+    /// PickedColor
+    public static readonly DependencyProperty PickedColorProperty
+        = DependencyProperty.Register(
+            nameof(PickedColor),
+            typeof(Color),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnPickedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public Color PickedColor
+    {
+        get => (Color)GetValue(PickedColorProperty);
+        set => SetValue(PickedColorProperty, value);
+    }
+    public static void OnPickedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+        {
+            stsw.SelectedColorA = stsw.PickedColor.A;
+            stsw.SelectedColorR = stsw.PickedColor.R;
+            stsw.SelectedColorG = stsw.PickedColor.G;
+            stsw.SelectedColorB = stsw.PickedColor.B;
+        }
+    }
+    */
     /// SelectedColor
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
@@ -175,23 +221,32 @@ public class StswColorPicker : UserControl
         if (obj is StswColorPicker stsw)
             stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColorB);
     }
+    /// SelectedColorV
+    public static readonly DependencyProperty SelectedColorVProperty
+        = DependencyProperty.Register(
+            nameof(SelectedColorV),
+            typeof(double),
+            typeof(StswColorPicker),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorVChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    internal double SelectedColorV
+    {
+        get => (double)GetValue(SelectedColorBProperty);
+        set => SetValue(SelectedColorBProperty, value);
+    }
+    public static void OnSelectedColorVChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+        {
+            stsw.SelectedColor.ToHsv(out var h, out var s, out var v);
+            stsw.SelectedColor = StswExtensions.FromAhsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+        }
+    }
     #endregion
 
-    #region Style
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswColorPicker)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-
+    #region Spacial properties
     /// > BorderThickness ...
     /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty
@@ -232,6 +287,22 @@ public class StswColorPicker : UserControl
     {
         get => (Thickness)GetValue(SubPaddingProperty);
         set => SetValue(SubPaddingProperty, value);
+    }
+    #endregion
+
+    #region Style properties
+    /// > Opacity ...
+    /// OpacityDisabled
+    public static readonly DependencyProperty OpacityDisabledProperty
+        = DependencyProperty.Register(
+            nameof(OpacityDisabled),
+            typeof(double),
+            typeof(StswColorPicker)
+        );
+    public double OpacityDisabled
+    {
+        get => (double)GetValue(OpacityDisabledProperty);
+        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

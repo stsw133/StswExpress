@@ -5,13 +5,10 @@
     <Style TargetType="{x:Type se:StswProgressBar}">
 
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswProgressBar.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswProgressBar.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswProgressBar.Disabled.Foreground}"/>
         <Setter Property="ForegroundReady" Value="{DynamicResource StswProgressBar.Ready.Foreground}"/>
         <Setter Property="ForegroundRunning" Value="{DynamicResource StswProgressBar.Running.Foreground}"/>
         <Setter Property="ForegroundPaused" Value="{DynamicResource StswProgressBar.Paused.Foreground}"/>
@@ -117,12 +114,7 @@
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Text" />
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.25}" TargetName="PART_Track" />
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -10,35 +10,37 @@ public class StswGroupBox : GroupBox
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
     }
-    
-    #region Style
-    /// > BorderBrush ...
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
+
+    #region Spatial properties
+    /// > BorderThickness ...
+    /// SubBorderThickness
+    public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswGroupBox)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-    
-    /// > Header ...
-    /// HeaderBorderThickness
-    public static readonly DependencyProperty HeaderBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(HeaderBorderThickness),
+            nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswGroupBox)
         );
-    public Thickness HeaderBorderThickness
+    public Thickness SubBorderThickness
     {
-        get => (Thickness)GetValue(HeaderBorderThicknessProperty);
-        set => SetValue(HeaderBorderThicknessProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+
+    /// > CornerRadius ...
+    /// CornerRadius
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswGroupBox)
+        );
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Padding ...
     /// HeaderPadding
     public static readonly DependencyProperty HeaderPaddingProperty
         = DependencyProperty.Register(
@@ -51,8 +53,10 @@ public class StswGroupBox : GroupBox
         get => (Thickness)GetValue(HeaderPaddingProperty);
         set => SetValue(HeaderPaddingProperty, value);
     }
+    #endregion
 
-    /// > HeaderBackground ...
+    #region Style properties
+    /// > Background ...
     /// HeaderBackground
     public static readonly DependencyProperty HeaderBackgroundProperty
         = DependencyProperty.Register(
@@ -77,8 +81,22 @@ public class StswGroupBox : GroupBox
         get => (Brush)GetValue(HeaderBackgroundDisabledProperty);
         set => SetValue(HeaderBackgroundDisabledProperty, value);
     }
+
+    /// > BorderBrush ...
+    /// BorderBrushDisabled
+    public static readonly DependencyProperty BorderBrushDisabledProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrushDisabled),
+            typeof(Brush),
+            typeof(StswGroupBox)
+        );
+    public Brush BorderBrushDisabled
+    {
+        get => (Brush)GetValue(BorderBrushDisabledProperty);
+        set => SetValue(BorderBrushDisabledProperty, value);
+    }
     
-    /// > HeaderForeground ...
+    /// > Foreground ...
     /// HeaderForegroundDisabled
     public static readonly DependencyProperty HeaderForegroundDisabledProperty
         = DependencyProperty.Register(
@@ -90,20 +108,6 @@ public class StswGroupBox : GroupBox
     {
         get => (Brush)GetValue(HeaderForegroundDisabledProperty);
         set => SetValue(HeaderForegroundDisabledProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswGroupBox)
-        );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
     }
     #endregion
 }

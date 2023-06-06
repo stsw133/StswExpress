@@ -52,6 +52,9 @@
     <Compile Update="Modules\Controls\StswDropButton\StswDropButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\StswSlider\StswSliderView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\StswTabControl\StswTabControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -147,6 +150,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Modules\Controls\StswDropButton\StswDropButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Controls\StswSlider\StswSliderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

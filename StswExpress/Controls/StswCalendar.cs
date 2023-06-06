@@ -106,7 +106,7 @@ public class StswCalendar : UserControl
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// Buttons
     public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
@@ -303,22 +303,7 @@ public class StswCalendar : UserControl
     public string Month12 => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(12);
     #endregion
 
-    #region Style
-    /*
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswCalendar)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-    */
+    #region Spatial properties
     /// > BorderThickness ...
     /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty
@@ -346,7 +331,7 @@ public class StswCalendar : UserControl
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-
+    
     /// > Padding ...
     /// SubPadding
     public static readonly DependencyProperty SubPaddingProperty

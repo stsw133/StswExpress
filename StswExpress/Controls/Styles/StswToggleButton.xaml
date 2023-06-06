@@ -5,23 +5,23 @@
     <Style TargetType="{x:Type se:StswToggleButton}">
         
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
         <Setter Property="BackgroundPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
         <Setter Property="BackgroundChecked" Value="{DynamicResource StswButton.Checked.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Border}"/>
         <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Border}"/>
         <Setter Property="BorderBrushChecked" Value="{DynamicResource StswButton.Checked.Border}"/>
-        <Setter Property="BorderBrushDefaulted" Value="{DynamicResource StswColor.Primary}"/>
+        <Setter Property="BorderBrushDefaulted" Value="{DynamicResource StswButton.Defaulted.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>

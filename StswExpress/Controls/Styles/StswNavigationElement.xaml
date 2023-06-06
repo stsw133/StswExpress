@@ -5,22 +5,22 @@
     <Style TargetType="{x:Type se:StswNavigationElement}">
         
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
         <Setter Property="BackgroundPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
         <Setter Property="BackgroundChecked" Value="{DynamicResource StswButton.Checked.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
         <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
         <Setter Property="BorderBrushChecked" Value="{DynamicResource StswButton.Checked.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
@@ -131,7 +131,7 @@
                                                                      BorderBrushPressed="{Binding BorderBrushPressed, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                                                                      BorderBrushChecked="{Binding BorderBrushChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                                                                      BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                                                     HeaderBorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                                     SubBorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                                                                      CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                                                                      Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                                                                      HeaderForegroundDisabled="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"

@@ -433,7 +433,7 @@ public class StswFilter : UserControl
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// BindingData
     public static readonly DependencyProperty BindingDataProperty
         = DependencyProperty.Register(
@@ -733,8 +733,8 @@ public class StswFilter : UserControl
     }
     internal object? DefaultValue2 { get; set; } = null;
     #endregion
-
-    #region Style
+    
+    #region Spatial properties
     /// > SubBorder ...
     /// SubBorderThickness
     public static readonly DependencyProperty SubBorderThicknessProperty

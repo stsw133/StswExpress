@@ -5,65 +5,86 @@
     <Style TargetType="{x:Type se:StswDropButton}">
         
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
         <Setter Property="BackgroundPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
-        <Setter Property="PopupBackground" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
         <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Border}"/>
         <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Border}"/>
-        <Setter Property="BorderBrushDefaulted" Value="{DynamicResource StswColor.Primary}"/>
-        <Setter Property="PopupBorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="BorderBrushDefaulted" Value="{DynamicResource StswButton.Defaulted.Border}"/>
+        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
 
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
         <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
         <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="PopupCornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="PopupPadding" Value="3"/>
 
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="ComponentsAlignment" Value="Right"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropButton}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswToggleButton x:Name="PART_MainButton"
+                                         Background="{TemplateBinding Background}"
+                                         BackgroundChecked="{TemplateBinding BackgroundPressed}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderBrushChecked="{TemplateBinding BorderBrushPressed}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         ClickMode="Press"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         ForegroundChecked="{TemplateBinding ForegroundPressed}"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Padding="2 0"
+                                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <DockPanel>
+                            <!-- function button -->
+                            <ContentControl x:Name="PART_FunctionButton" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24">
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                            </ContentControl>
+                            <!-- subborder -->
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
+                                    SnapsToDevicePixels="True"/>
+                            <!-- components -->
+                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <!-- popup -->
                             <se:StswPopup x:Name="PART_Popup"
                                           AllowsTransparency="True"
                                           CloseOnClick="True"
-                                          IsOpen="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Placement="Bottom"
-                                          PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
-                                <se:ClippingBorder Background="{TemplateBinding PopupBackground}"
-                                                   BorderBrush="{TemplateBinding PopupBorderBrush}"
+                                          PlacementTarget="{Binding ElementName=PART_MainButton}"
+                                          PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                          StaysOpen="False">
+                                <se:ClippingBorder Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                                                   BorderBrush="{TemplateBinding BorderBrush}"
                                                    BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                   CornerRadius="{TemplateBinding PopupCornerRadius}"
-                                                   MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
-                                                   Padding="{TemplateBinding PopupPadding}"
-                                                   SnapsToDevicePixels="True">
-                                    <ItemsControl ItemsSource="{TemplateBinding Items}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <ContentControl Content="{Binding}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                                   MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
+                                    <ItemsControl x:Name="PART_Items" ItemsSource="{TemplateBinding Items}"/>
                                 </se:ClippingBorder>
                             </se:StswPopup>
+                            <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
@@ -72,25 +93,25 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
-                    </se:ClippingBorder>
+                    </se:StswToggleButton>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="Button.IsDefaulted" Value="True">
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDefaulted, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDefaulted, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

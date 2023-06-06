@@ -38,7 +38,7 @@ public class StswDataGrid : DataGrid
     }
     #endregion
 
-    #region Properties
+    #region Main properties
     /// AreFiltersVisible
     public static readonly DependencyProperty AreFiltersVisibleProperty
         = DependencyProperty.Register(
@@ -122,7 +122,7 @@ public class StswDataGrid : DataGrid
     }
     #endregion
 
-    #region Style
+    #region Style properties
     /// > Header ...
     /// BackgroundHeader
     public static readonly DependencyProperty BackgroundHeaderProperty
