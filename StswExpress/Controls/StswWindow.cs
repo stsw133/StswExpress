@@ -111,7 +111,7 @@ public class StswWindow : Window
             chrome.CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize);
             chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0;
             chrome.GlassFrameThickness = new Thickness(0);
-            chrome.ResizeBorderThickness = new Thickness(5 * iSize);
+            chrome.ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5 * iSize);
             chrome.UseAeroCaptionButtons = false;
 
             WindowChrome.SetWindowChrome(this, chrome);
@@ -123,7 +123,7 @@ public class StswWindow : Window
                 CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize),
                 CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0,
                 GlassFrameThickness = new Thickness(0),
-                ResizeBorderThickness = new Thickness(5 * iSize),
+                ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5 * iSize),
                 UseAeroCaptionButtons = false
             };
 

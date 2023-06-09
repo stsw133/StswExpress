@@ -582,6 +582,52 @@ public class StswCalculateConverter : MarkupExtension, IMultiValueConverter
 }
 
 /// <summary>
+/// Modulo a numerical value to another numerical value or a set of values.<br/>
+/// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
+/// </summary>
+public class StswModuloConverter : MarkupExtension, IValueConverter
+{
+    private static StswModuloConverter? instance;
+    public static StswModuloConverter Instance => instance ??= new StswModuloConverter();
+    public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
+
+    /// Convert
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var val = System.Convert.ToDouble(value, culture);
+        double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
+
+        /// result
+        if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
+        {
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            return pmrArray.Length switch
+            {
+                4 => new CornerRadius(val % pmrArray[0], val % pmrArray[1], val % pmrArray[2], val % pmrArray[3]),
+                2 => new CornerRadius(val % pmrArray[0], val % pmrArray[1], val % pmrArray[0], val % pmrArray[1]),
+                1 => new CornerRadius(val % pmrArray[0]),
+                _ => new CornerRadius(val)
+            };
+        }
+        else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
+        {
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            return pmrArray.Length switch
+            {
+                4 => new Thickness(val % pmrArray[0], val % pmrArray[1], val % pmrArray[2], val % pmrArray[3]),
+                2 => new Thickness(val % pmrArray[0], val % pmrArray[1], val % pmrArray[0], val % pmrArray[1]),
+                1 => new Thickness(val % pmrArray[0]),
+                _ => new Thickness(val)
+            };
+        }
+        else return val % pmr;
+    }
+
+    /// ConvertBack
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+/// <summary>
 /// Multiplies a numerical value to another numerical value or a set of values.<br/>
 /// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
 /// </summary>

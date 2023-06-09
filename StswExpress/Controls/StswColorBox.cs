@@ -12,13 +12,9 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorBox : TextBox
 {
-    public ICommand ClickCommand { get; set; }
-
     public StswColorBox()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-
-        ClickCommand = new StswRelayCommand<SolidColorBrush?>(Click);
     }
     static StswColorBox()
     {
@@ -67,13 +63,6 @@ public class StswColorBox : TextBox
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
-    }
-
-    /// Click
-    public void Click(SolidColorBrush? brush)
-    {
-        if (brush != null)
-            SelectedColor = brush.Color;
     }
     #endregion
 

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace StswExpress;
 
@@ -18,77 +19,72 @@ public class StswColorPicker : UserControl
     }
 
     #region Events
-    //private Border partColorRectangle;
-    //private Ellipse partColorEllipse;
+    private Grid? partColorGrid;
+    private Ellipse? partColorEllipse;
     
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        /// ColorRectangle
-        if (GetTemplateChild("PART_ColorRectangle") is Border rect)
+        /// PART_ColorGrid
+        if (GetTemplateChild("PART_ColorGrid") is Grid grid)
         {
-            rect.MouseDown += PART_ColorRectangle_MouseDown;
-            rect.MouseMove += PART_ColorRectangle_MouseMove;
-            //partColorRectangle = rect;
-        }/*
+            grid.MouseDown += PART_ColorGrid_MouseDown;
+            grid.MouseMove += PART_ColorGrid_MouseMove;
+            partColorGrid = grid;
+        }
+        /// PART_ColorEllipse
         if (GetTemplateChild("PART_ColorEllipse") is Ellipse ellipse)
-        {
             partColorEllipse = ellipse;
-            PART_ColorEllipse_Move();
-        }*/
 
         base.OnApplyTemplate();
     }
 
-    /// PART_ColorRectangle_MouseDown
-    private void PART_ColorRectangle_MouseDown(object sender, MouseButtonEventArgs e)
+    /// PART_ColorGrid_MouseDown
+    private void PART_ColorGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
-            PART_ColorRectangle_MouseMove(sender, e);
+            PART_ColorGrid_MouseMove(sender, e);
     }
 
-    /// PART_ColorRectangle_MouseMove
-    private void PART_ColorRectangle_MouseMove(object sender, MouseEventArgs e)
+    /// PART_ColorGrid_MouseMove
+    private void PART_ColorGrid_MouseMove(object sender, MouseEventArgs e)
     {
-        var rect = (Border)sender;
+        var grid = (Grid)sender;
 
         if (e.LeftButton == MouseButtonState.Pressed)
         {
-            /// get color from ColorRectangle pixel
-            var position = e.GetPosition(rect);
+            var position = e.GetPosition(grid);
 
             int x = (int)Math.Floor(position.X);
             int y = (int)Math.Floor(position.Y);
 
-            if (x <= rect.BorderThickness.Left + rect.Margin.Left
-             || x >= rect.ActualWidth - rect.BorderThickness.Right
-             || y <= rect.BorderThickness.Top + rect.Margin.Top
-             || y >= rect.ActualHeight - rect.BorderThickness.Bottom)
+            if (x <= 0 || x >= (int)grid.ActualWidth || y <= 0 || y >= (int)grid.ActualHeight)
                 return;
 
-            var rtb = new RenderTargetBitmap((int)rect.RenderSize.Width, (int)rect.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
-            rtb.Render(rect);
+            //var rtb = new RenderTargetBitmap((int)grid.RenderSize.Width, (int)grid.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
+            //rtb.Render(grid);
 
-            var pixels = new byte[4];
-            rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
+            //var pixels = new byte[4];
+            //rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
 
-            SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
+            //PickedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
+
+            PickedColor = StswExtensions.FromHsv(x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
         }
     }
-    /*
-    /// PART_ColorEllipse_Move
-    private void PART_ColorEllipse_Move()
+
+    /// ColorEllipse_Move
+    private void ColorEllipse_Move(Point newPosition)
     {
-        if (partColorRectangle != null && partColorEllipse != null)
+        if (partColorEllipse != null && newPosition.X >= 0 && newPosition.Y >= 0)
         {
-            SelectedColor.ToHsv(out var h, out var s, out var v);
-            // move based on H horizontally and S vertically
+            Canvas.SetLeft(partColorEllipse, newPosition.X - partColorEllipse.Width / 2);
+            Canvas.SetTop(partColorEllipse, newPosition.Y - partColorEllipse.Height / 2);
         }
-    }*/
+    }
     #endregion
 
     #region Main properties
-    /*
     /// PickedColor
     public static readonly DependencyProperty PickedColorProperty
         = DependencyProperty.Register(
@@ -107,14 +103,9 @@ public class StswColorPicker : UserControl
     public static void OnPickedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-        {
-            stsw.SelectedColorA = stsw.PickedColor.A;
-            stsw.SelectedColorR = stsw.PickedColor.R;
-            stsw.SelectedColorG = stsw.PickedColor.G;
-            stsw.SelectedColorB = stsw.PickedColor.B;
-        }
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.PickedColor.R, stsw.PickedColor.G, stsw.PickedColor.B);
     }
-    */
+
     /// SelectedColor
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
@@ -138,6 +129,12 @@ public class StswColorPicker : UserControl
             stsw.SelectedColorR = stsw.SelectedColor.R;
             stsw.SelectedColorG = stsw.SelectedColor.G;
             stsw.SelectedColorB = stsw.SelectedColor.B;
+
+            if (stsw.partColorGrid != null)
+            {
+                stsw.SelectedColor.ToHsv(out var h, out var s, out var v);
+                stsw.ColorEllipse_Move(new Point(stsw.partColorGrid.ActualWidth * h / 360, stsw.partColorGrid.ActualHeight - (stsw.partColorGrid.ActualHeight * s)));
+            }
         }
     }
 
@@ -233,8 +230,8 @@ public class StswColorPicker : UserControl
         );
     internal double SelectedColorV
     {
-        get => (double)GetValue(SelectedColorBProperty);
-        set => SetValue(SelectedColorBProperty, value);
+        get => (double)GetValue(SelectedColorVProperty);
+        set => SetValue(SelectedColorVProperty, value);
     }
     public static void OnSelectedColorVChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {

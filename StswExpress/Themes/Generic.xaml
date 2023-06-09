@@ -6,6 +6,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswCheckBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswColorBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswColorPicker.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswColorSelector.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswComboBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswComboView.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Styles/StswDataGrid.xaml"/>
