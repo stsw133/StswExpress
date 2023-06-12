@@ -12,9 +12,9 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswColorPicker DockPanel.Dock="Top" Margin="5" SelectedColor="{Binding Color}" IsEnabled="False"/>
+            <se:StswColorPicker DockPanel.Dock="Top" Margin="5" SelectedColor="{Binding Color}" IsAlphaEnabled="True" IsEnabled="False"/>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswColorPicker DockPanel.Dock="Top" Margin="5" SelectedColor="{Binding Color}"/>
+            <se:StswColorPicker DockPanel.Dock="Top" Margin="5" SelectedColor="{Binding Color}" IsAlphaEnabled="True"/>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

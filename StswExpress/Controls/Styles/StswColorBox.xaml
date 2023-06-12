@@ -79,7 +79,7 @@
                                         <se:StswColorSelector x:Name="PART_ColorSelector" BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </TabItem>
                                     <TabItem Header="Szczegółowe">
-                                        <se:StswColorPicker x:Name="PART_ColorPicker" BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorPicker x:Name="PART_ColorPicker" BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
                                     </TabItem>
                                 </TabControl>
                             </Popup>

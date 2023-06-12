@@ -5,7 +5,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace StswExpress;
@@ -19,6 +18,7 @@ public class StswColorPicker : UserControl
     }
 
     #region Events
+    private bool blockColorEllipse;
     private Grid? partColorGrid;
     private Ellipse? partColorEllipse;
     
@@ -67,43 +67,44 @@ public class StswColorPicker : UserControl
             //var pixels = new byte[4];
             //rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
 
-            //PickedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
+            //SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
 
-            PickedColor = StswExtensions.FromHsv(x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
-        }
-    }
-
-    /// ColorEllipse_Move
-    private void ColorEllipse_Move(Point newPosition)
-    {
-        if (partColorEllipse != null && newPosition.X >= 0 && newPosition.Y >= 0)
-        {
-            Canvas.SetLeft(partColorEllipse, newPosition.X - partColorEllipse.Width / 2);
-            Canvas.SetTop(partColorEllipse, newPosition.Y - partColorEllipse.Height / 2);
+            SelectedColor = StswExtensions.FromAhsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
+            
+            if (partColorEllipse != null)
+            {
+                Canvas.SetLeft(partColorEllipse, x - partColorEllipse.Width / 2);
+                Canvas.SetTop(partColorEllipse, y - partColorEllipse.Height / 2);
+            }
         }
     }
     #endregion
 
     #region Main properties
+    /// IsAlphaEnabled
+    public static readonly DependencyProperty IsAlphaEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsAlphaEnabled),
+            typeof(bool),
+            typeof(StswColorPicker)
+        );
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
+
     /// PickedColor
     public static readonly DependencyProperty PickedColorProperty
         = DependencyProperty.Register(
             nameof(PickedColor),
             typeof(Color),
-            typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(Color),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnPickedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(StswColorPicker)
         );
     public Color PickedColor
     {
         get => (Color)GetValue(PickedColorProperty);
         set => SetValue(PickedColorProperty, value);
-    }
-    public static void OnPickedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.PickedColor.R, stsw.PickedColor.G, stsw.PickedColor.B);
     }
 
     /// SelectedColor
@@ -125,16 +126,31 @@ public class StswColorPicker : UserControl
     {
         if (obj is StswColorPicker stsw)
         {
+            stsw.SelectedColor.ToHsv(out var h, out var s, out var v);
             stsw.SelectedColorA = stsw.SelectedColor.A;
             stsw.SelectedColorR = stsw.SelectedColor.R;
             stsw.SelectedColorG = stsw.SelectedColor.G;
             stsw.SelectedColorB = stsw.SelectedColor.B;
 
-            if (stsw.partColorGrid != null)
+            if (!stsw.blockColorEllipse)
             {
-                stsw.SelectedColor.ToHsv(out var h, out var s, out var v);
-                stsw.ColorEllipse_Move(new Point(stsw.partColorGrid.ActualWidth * h / 360, stsw.partColorGrid.ActualHeight - (stsw.partColorGrid.ActualHeight * s)));
+                stsw.PickedColor = StswExtensions.FromHsv(h, s, 1);
+
+                if (stsw.partColorGrid != null)
+                {
+                    var x = stsw.partColorGrid.ActualWidth * h / 360;
+                    var y = stsw.partColorGrid.ActualHeight - (stsw.partColorGrid.ActualHeight * s);
+
+                    if (stsw.partColorEllipse != null && x >= 0 && y >= 0)
+                    {
+                        Canvas.SetLeft(stsw.partColorEllipse, x - stsw.partColorEllipse.Width / 2);
+                        Canvas.SetTop(stsw.partColorEllipse, y - stsw.partColorEllipse.Height / 2);
+                    }
+                }
             }
+
+            stsw.SelectedColorV = v;
+            stsw.blockColorEllipse = false;
         }
     }
 
@@ -156,7 +172,7 @@ public class StswColorPicker : UserControl
     public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColorA, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorR
     public static readonly DependencyProperty SelectedColorRProperty
@@ -176,7 +192,7 @@ public class StswColorPicker : UserControl
     public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColorR, stsw.SelectedColor.G, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
     /// SelectedColorG
     public static readonly DependencyProperty SelectedColorGProperty
@@ -196,7 +212,7 @@ public class StswColorPicker : UserControl
     public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColorG, stsw.SelectedColor.B);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
     }
     /// SelectedColorB
     public static readonly DependencyProperty SelectedColorBProperty
@@ -216,7 +232,7 @@ public class StswColorPicker : UserControl
     public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColorB);
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
     }
     /// SelectedColorV
     public static readonly DependencyProperty SelectedColorVProperty
@@ -237,8 +253,9 @@ public class StswColorPicker : UserControl
     {
         if (obj is StswColorPicker stsw)
         {
-            stsw.SelectedColor.ToHsv(out var h, out var s, out var v);
+            stsw.PickedColor.ToHsv(out var h, out var s, out var v);
             stsw.SelectedColor = StswExtensions.FromAhsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
+            stsw.blockColorEllipse = true;
         }
     }
     #endregion

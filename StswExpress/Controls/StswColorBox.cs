@@ -56,8 +56,8 @@ public class StswColorBox : TextBox
         else if (new ColorConverter().IsValid(Text))
             SelectedColor = (Color)ColorConverter.ConvertFromString(Text);
 
-        //if (AllowAlphaChange)
-        //    SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
+        if (!IsAlphaEnabled)
+            SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
 
         Text = SelectedColor.ToString();
         var bindingExpression = GetBindingExpression(TextProperty);
@@ -90,6 +90,19 @@ public class StswColorBox : TextBox
     {
         get => (Dock)GetValue(ComponentsAlignmentProperty);
         set => SetValue(ComponentsAlignmentProperty, value);
+    }
+
+    /// IsAlphaEnabled
+    public static readonly DependencyProperty IsAlphaEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsAlphaEnabled),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
     }
 
     /// IsDropDownOpen
