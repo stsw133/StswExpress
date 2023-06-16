@@ -7,18 +7,17 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        
-        <Setter Property="BorderThickness" Value="2"/>
-        
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        
-        <Setter Property="AreFiltersVisible" Value="True"/>
-        <Setter Property="SpecialColumnVisibility" Value="All"/>
 
         <Setter Property="HorizontalGridLinesBrush" Value="#5777"/>
         <Setter Property="VerticalGridLinesBrush" Value="#5777"/>
+
+        <Setter Property="BorderThickness" Value="2"/>
+        
+        <Setter Property="AreFiltersVisible" Value="True"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="SpecialColumnVisibility" Value="All"/>
 
     </Style>
 

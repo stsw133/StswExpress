@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -9,11 +11,11 @@ namespace StswExpress;
 [ContentProperty(nameof(ColorPaletteStandard))]
 public class StswColorSelector : UserControl
 {
-    public ICommand ClickCommand { get; set; }
+    public ICommand SelectColorCommand { get; set; }
 
     public StswColorSelector()
     {
-        ClickCommand = new StswRelayCommand<SolidColorBrush?>(Click);
+        SelectColorCommand = new StswRelayCommand<SolidColorBrush?>(SelectColor_Executed);
     }
     static StswColorSelector()
     {
@@ -21,8 +23,10 @@ public class StswColorSelector : UserControl
     }
 
     #region Events
-    /// Click
-    public void Click(SolidColorBrush? brush)
+    public event EventHandler? SelectedColorChanged;
+
+    /// Command: select color
+    public void SelectColor_Executed(SolidColorBrush? brush)
     {
         if (brush != null)
             SelectedColor = brush.Color;
@@ -30,6 +34,18 @@ public class StswColorSelector : UserControl
     #endregion
 
     #region Main properties
+    /// ColorAuto
+    public static readonly DependencyProperty ColorAutoProperty
+        = DependencyProperty.Register(
+            nameof(ColorAuto),
+            typeof(SolidColorBrush),
+            typeof(StswColorSelector)
+        );
+    public SolidColorBrush ColorAuto
+    {
+        get => (SolidColorBrush)GetValue(ColorAutoProperty);
+        set => SetValue(ColorAutoProperty, value);
+    }
     /// ColorPaletteStandard
     public static readonly DependencyProperty ColorPaletteStandardProperty
         = DependencyProperty.Register(
@@ -54,17 +70,26 @@ public class StswColorSelector : UserControl
         get => (SolidColorBrush[])GetValue(ColorPaletteThemeProperty);
         set => SetValue(ColorPaletteThemeProperty, value);
     }
+
     /// SelectedColor
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
             typeof(Color),
-            typeof(StswColorSelector)
+            typeof(StswColorSelector),
+            new FrameworkPropertyMetadata(default(Color),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public Color SelectedColor
     {
         get => (Color)GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
+    }
+    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorSelector stsw)
+            stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
     }
     #endregion
 

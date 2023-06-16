@@ -13,11 +13,11 @@ namespace StswExpress;
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : UserControl
 {
-    public ICommand ClickCommand { get; set; }
+    public ICommand SelectDateCommand { get; set; }
 
     public StswCalendar()
     {
-        ClickCommand = new StswRelayCommand<object?>(Click);
+        SelectDateCommand = new StswRelayCommand<object?>(SelectDate_Executed);
     }
 
     static StswCalendar()
@@ -26,6 +26,8 @@ public class StswCalendar : UserControl
     }
 
     #region Events
+    public event EventHandler? SelectedDateChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -87,8 +89,8 @@ public class StswCalendar : UserControl
         return newDate.Value;
     }
 
-    /// Click
-    public void Click(object? date)
+    /// Command: select date
+    public void SelectDate_Executed(object? date)
     {
         if (SelectionMode == SelectionModes.ByYear)
         {
@@ -168,10 +170,13 @@ public class StswCalendar : UserControl
     }
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswCalendar stsw && stsw.Buttons?.Count > 0)
+        if (obj is StswCalendar stsw)
         {
-            foreach (var item in stsw.Buttons)
-                item.IsSelectedDay = stsw.SelectedDate.HasValue && item.Date == stsw.SelectedDate.Value.Date;
+            if (stsw.Buttons?.Count > 0)
+                foreach (var item in stsw.Buttons)
+                    item.IsSelectedDay = stsw.SelectedDate.HasValue && item.Date == stsw.SelectedDate.Value.Date;
+
+            stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
     /// SelectedMonth

@@ -5,7 +5,6 @@
     <Style TargetType="{x:Type se:StswImage}">
 
         <Setter Property="Background" Value="Transparent"/>
-
         <Setter Property="OpacityDisabled" Value="0.3"/>
 
         <Setter Property="MenuMode" Value="Disabled"/>

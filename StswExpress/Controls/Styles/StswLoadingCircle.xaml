@@ -5,7 +5,6 @@
     <Style TargetType="{x:Type se:StswLoadingCircle}">
 
         <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-
         <Setter Property="OpacityDisabled" Value="0.3"/>
         
         <Setter Property="Scale" Value="auto"/>

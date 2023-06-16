@@ -248,7 +248,7 @@
     </Style>
 
     <!-- StswWindowButton -->
-    <Style x:Name="StswWindowButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>

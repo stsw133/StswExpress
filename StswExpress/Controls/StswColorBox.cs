@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,8 @@ public class StswColorBox : TextBox
     }
 
     #region Events
+    public event EventHandler? SelectedColorChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -139,12 +142,17 @@ public class StswColorBox : TextBox
             typeof(StswColorBox),
             new FrameworkPropertyMetadata(default(Color),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public Color SelectedColor
     {
         get => (Color)GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
+    }
+    public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorBox stsw)
+            stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
     }
 
     /// Text

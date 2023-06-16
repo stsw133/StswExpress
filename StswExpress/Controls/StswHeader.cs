@@ -101,6 +101,22 @@ public class StswHeader : UserControl
     }
     #endregion
 
+    #region Spatial properties
+    /// > IconStrokeThickness ...
+    /// IconStrokeThickness
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswHeader)
+        );
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    #endregion
+
     #region Style properties
     /// > Foreground ...
     /// ForegroundDisabled
@@ -128,6 +144,20 @@ public class StswHeader : UserControl
     {
         get => (Brush)GetValue(IconFillProperty);
         set => SetValue(IconFillProperty, value);
+    }
+
+    /// > IconStroke ...
+    /// IconStroke
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswHeader)
+        );
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
     }
     #endregion
 }

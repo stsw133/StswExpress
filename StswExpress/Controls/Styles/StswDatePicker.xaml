@@ -5,8 +5,6 @@
 
     <Style TargetType="{x:Type se:StswDatePicker}">
 
-        <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
-        
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
         <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
@@ -29,13 +27,14 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="Format" Value="d"/>
-        <Setter Property="IncrementType" Value="Day"/>
-        <Setter Property="Placeholder" Value="Wybierz datę..."/>
-
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <Setter Property="Format" Value="d"/>
+        <Setter Property="IncrementType" Value="Day"/>
+        <Setter Property="Placeholder" Value="Wybierz datę..."/>
+        <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Template">
             <Setter.Value>

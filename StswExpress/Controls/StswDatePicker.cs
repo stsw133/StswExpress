@@ -22,6 +22,8 @@ public class StswDatePicker : TextBox
     }
 
     #region Events
+    public event EventHandler? SelectedDateChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -251,6 +253,8 @@ public class StswDatePicker : TextBox
                 if (stsw.Maximum != null && stsw.SelectedDate > stsw.Maximum)
                     stsw.SelectedDate = stsw.Maximum;
             }
+
+            stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
 

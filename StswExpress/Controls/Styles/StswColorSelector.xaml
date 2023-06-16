@@ -6,7 +6,6 @@
 
         <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
-        
         <Setter Property="OpacityDisabled" Value="0.3"/>
         
         <Setter Property="BorderThickness" Value="0"/>
@@ -18,6 +17,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
 
+        <Setter Property="ColorAuto" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="ColorPaletteTheme">
             <Setter.Value>
                 <x:Array Type="{x:Type SolidColorBrush}">
@@ -114,8 +114,11 @@
                         <DockPanel Margin="3">
                             
                             <!-- automatic color -->
-                            <se:StswButton DockPanel.Dock="Top" CornerRadius="0" Margin="3" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
-                                <se:StswHeader Content="Automatyczny" IconData="{x:Static se:StswIcons.Square}"/>
+                            <se:StswButton DockPanel.Dock="Top" CornerRadius="0" Margin="3" Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{TemplateBinding ColorAuto}">
+                                <DockPanel>
+                                    <Rectangle Fill="{TemplateBinding ColorAuto}" Stroke="{DynamicResource StswButton.Static.Border}" StrokeThickness="1" Height="16" Width="16"/>
+                                    <Label Content="Automatyczny" Padding="6 3"/>
+                                </DockPanel>
                             </se:StswButton>
                             <!-- theme colors -->
                             <se:StswGroupBox DockPanel.Dock="Top" Header="Kolory motywów" CornerRadius="0" Margin="3" Visibility="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!0}">
@@ -130,7 +133,7 @@
                                             <se:StswButton Background="{Binding}"
                                                            BackgroundMouseOver="{Binding Converter={x:Static se:StswColorAlphaConverter.Instance}, ConverterParameter=75%}"
                                                            BorderThickness="1" CornerRadius="0" Height="18" Width="18"
-                                                           Command="{Binding ClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                           Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                            CommandParameter="{Binding}">
                                                 <se:StswButton.Style>
                                                     <Style TargetType="{x:Type se:StswButton}">
@@ -160,7 +163,7 @@
                                             <se:StswButton Background="{Binding}"
                                                            BackgroundMouseOver="{Binding Converter={x:Static se:StswColorAlphaConverter.Instance}, ConverterParameter=75%}"
                                                            BorderThickness="1" CornerRadius="0" Margin="3" Height="18" Width="18"
-                                                           Command="{Binding ClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                           Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                            CommandParameter="{Binding}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

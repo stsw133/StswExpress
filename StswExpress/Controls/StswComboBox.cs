@@ -13,6 +13,19 @@ public class StswComboBox : ComboBox
     }
 
     #region Main properties
+    /// ArrowVisibility
+    public static readonly DependencyProperty ArrowVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ArrowVisibility),
+            typeof(Visibility),
+            typeof(StswComboBox)
+        );
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
+
     /// Components
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(

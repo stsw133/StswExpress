@@ -27,6 +27,8 @@ public class StswWindow : Window
     private FrameworkElement? partFullscreenPanel, partTitleBar;
     private WindowState preFullscreenState;
 
+    public event EventHandler? FullscreenChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -268,6 +270,8 @@ public class StswWindow : Window
                 stsw.WindowState = stsw.preFullscreenState;
             }
             stsw.Focus();
+
+            stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
 

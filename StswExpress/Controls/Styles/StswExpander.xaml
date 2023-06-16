@@ -173,7 +173,7 @@
                                 </TransformGroup>
                             </Grid.LayoutTransform>
                             <se:StswIcon x:Name="arrow" Grid.Column="1"
-                                         Data="{x:Static se:StswIcons.MenuUp}"
+                                         Data="{x:Static se:StswIcons.MenuDown}"
                                          Margin="{TemplateBinding Padding}"
                                          SnapsToDevicePixels="False"
                                          HorizontalAlignment="Center"
@@ -183,7 +183,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuDown}" TargetName="arrow" />
+                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="arrow" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -211,7 +211,7 @@
                                 </TransformGroup>
                             </Grid.LayoutTransform>
                             <se:StswIcon x:Name="arrow" Grid.Row="1"
-                                         Data="{x:Static se:StswIcons.MenuLeft}"
+                                         Data="{x:Static se:StswIcons.MenuDown}"
                                          Margin="{TemplateBinding Padding}"
                                          SnapsToDevicePixels="False"
                                          HorizontalAlignment="Center"
@@ -221,7 +221,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuRight}" TargetName="arrow" />
+                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="arrow" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -249,7 +249,7 @@
                                 </TransformGroup>
                             </Grid.LayoutTransform>
                             <se:StswIcon x:Name="arrow" Grid.Row="1"
-                                         Data="{x:Static se:StswIcons.MenuRight}"
+                                         Data="{x:Static se:StswIcons.MenuDown}"
                                          SnapsToDevicePixels="False"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"
@@ -258,7 +258,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="arrow" />
+                            <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="arrow" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

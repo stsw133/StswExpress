@@ -6,7 +6,6 @@
 
         <Setter Property="Background" Value="{DynamicResource StswSeparator.Static.Border}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
-
         <Setter Property="OpacityDisabled" Value="0.3"/>
         
         <Setter Property="BorderThickness" Value="2"/>

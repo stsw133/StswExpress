@@ -6,9 +6,7 @@
 
         <Setter Property="Background" Value="{DynamicResource StswCalendar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.Static.Border}"/>
-<!--
-        <Setter Property="OpacityDisabled" Value="0.3"/>
--->
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
@@ -48,18 +46,18 @@
                             <Grid DockPanel.Dock="Top" MinHeight="180" MinWidth="240">
                                 <!-- months (selection mode: year) -->
                                 <UniformGrid x:Name="PART_SelectionModeYear" Columns="4" Margin="{TemplateBinding Padding}" Visibility="Hidden">
-                                    <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
-                                    <se:StswButton Content="{Binding Month2, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2"/>
-                                    <se:StswButton Content="{Binding Month3, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
-                                    <se:StswButton Content="{Binding Month4, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="4"/>
-                                    <se:StswButton Content="{Binding Month5, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="5"/>
-                                    <se:StswButton Content="{Binding Month6, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="6"/>
-                                    <se:StswButton Content="{Binding Month7, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="7"/>
-                                    <se:StswButton Content="{Binding Month8, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="8"/>
-                                    <se:StswButton Content="{Binding Month9, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="9"/>
-                                    <se:StswButton Content="{Binding Month10, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
-                                    <se:StswButton Content="{Binding Month11, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="11"/>
-                                    <se:StswButton Content="{Binding Month12, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding ClickCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="12"/>
+                                    <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
+                                    <se:StswButton Content="{Binding Month2, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2"/>
+                                    <se:StswButton Content="{Binding Month3, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
+                                    <se:StswButton Content="{Binding Month4, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="4"/>
+                                    <se:StswButton Content="{Binding Month5, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="5"/>
+                                    <se:StswButton Content="{Binding Month6, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="6"/>
+                                    <se:StswButton Content="{Binding Month7, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="7"/>
+                                    <se:StswButton Content="{Binding Month8, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="8"/>
+                                    <se:StswButton Content="{Binding Month9, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="9"/>
+                                    <se:StswButton Content="{Binding Month10, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
+                                    <se:StswButton Content="{Binding Month11, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="11"/>
+                                    <se:StswButton Content="{Binding Month12, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="12"/>
                                 </UniformGrid>
                                 <!-- days (selection mode: month) -->
                                 <Grid x:Name="PART_SelectionModeMonth" Margin="{TemplateBinding Padding}" Visibility="Hidden">
@@ -94,7 +92,7 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <se:StswButton Content="{Binding Date.Day}" Command="{Binding ClickCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" CommandParameter="{Binding Date}">
+                                                <se:StswButton Content="{Binding Date.Day}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" CommandParameter="{Binding Date}">
                                                     <Button.Style>
                                                         <Style TargetType="{x:Type se:StswButton}">
                                                             <Setter Property="Background" Value="Transparent"/>

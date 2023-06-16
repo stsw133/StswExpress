@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,8 +20,10 @@ public class StswPasswordBox : UserControl
 
     #region Events
     private bool _isPasswordChanging;
-    private PasswordBox partPasswordBox;
-    
+    private PasswordBox? partPasswordBox;
+
+    public event EventHandler? PasswordChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -92,6 +95,8 @@ public class StswPasswordBox : UserControl
         {
             if (stsw.partPasswordBox != null && !stsw._isPasswordChanging)
                 stsw.partPasswordBox.Password = stsw.Password;
+
+            stsw.PasswordChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
 

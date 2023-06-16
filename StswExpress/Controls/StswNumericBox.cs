@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,6 +22,8 @@ public class StswNumericBox : TextBox
     }
 
     #region Events
+    public event EventHandler? ValueChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -236,6 +239,8 @@ public class StswNumericBox : TextBox
                 if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
                     stsw.Value = stsw.Maximum;
             }
+
+            stsw.ValueChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
     #endregion

@@ -64,6 +64,22 @@ public class StswIcon : UserControl
     }
     #endregion
 
+    #region Spatial properties
+    /// > StrokeThickness ...
+    /// StrokeThickness
+    public static readonly DependencyProperty StrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(StrokeThickness),
+            typeof(double),
+            typeof(StswIcon)
+        );
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+    #endregion
+
     #region Style properties
     /// > Fill ...
     /// Fill
@@ -91,6 +107,20 @@ public class StswIcon : UserControl
     {
         get => (double)GetValue(OpacityDisabledProperty);
         set => SetValue(OpacityDisabledProperty, value);
+    }
+
+    /// > Stroke ...
+    /// Stroke
+    public static readonly DependencyProperty StrokeProperty
+        = DependencyProperty.Register(
+            nameof(Stroke),
+            typeof(Brush),
+            typeof(StswIcon)
+        );
+    public Brush Stroke
+    {
+        get => (Brush)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
     }
     #endregion
 }

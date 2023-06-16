@@ -21,7 +21,9 @@ public class StswColorPicker : UserControl
     private bool blockColorEllipse;
     private Grid? partColorGrid;
     private Ellipse? partColorEllipse;
-    
+
+    public event EventHandler? SelectedColorChanged;
+
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
@@ -151,6 +153,8 @@ public class StswColorPicker : UserControl
 
             stsw.SelectedColorV = v;
             stsw.blockColorEllipse = false;
+
+            stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
 
