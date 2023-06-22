@@ -61,7 +61,7 @@ public class ContractorsContext : StswObservableObject
     {
         if (IsBusy[nameof(Refresh)]) return;
 
-        StswFilter.GetColumnFilters(ColumnFilters, out var filter, out var parameters);
+        FiltersData.Refresh?.Invoke();
         await Task.Run(() =>
         {
             IsBusy[nameof(Refresh)] = true;
@@ -69,7 +69,7 @@ public class ContractorsContext : StswObservableObject
             Thread.Sleep(100);
 
             /// ...
-            ListContractors = ContractorsQueries.GetContractors(filter, parameters);
+            ListContractors = ContractorsQueries.GetContractors(FiltersData.SqlFilter, FiltersData.SqlParameters);
             /// ...
 
             LoadingActions--;
@@ -298,12 +298,12 @@ public class ContractorsContext : StswObservableObject
 
     #endregion
 
-    /// ColumnFilters
-    private StswDictionary<string, StswFilterBindingData> columnFilters = new();
-    public StswDictionary<string, StswFilterBindingData> ColumnFilters
+    /// FiltersData
+    private StswDataGridFiltersDataModel filtersData = new();
+    public StswDataGridFiltersDataModel FiltersData
     {
-        get => columnFilters;
-        set => SetProperty(ref columnFilters, value);
+        get => filtersData;
+        set => SetProperty(ref filtersData, value);
     }
 
     /// IsBusy

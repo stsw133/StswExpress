@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -58,6 +59,25 @@ public static class StswExtensions
     #endregion
 
     #region Collection extensions
+    /// <summary>
+    /// Clones an <see cref="IList"/> into another <see cref="IList"/> while preserving the items in the new list.
+    /// </summary>
+    public static IList Clone(this IList source)
+    {
+        if (Activator.CreateInstance(source.GetType()) is IList clonedList)
+        {
+            foreach (var item in source)
+            {
+                if (item is ICloneable cloneableItem)
+                    clonedList.Add(cloneableItem.Clone());
+                else
+                    clonedList.Add(item);
+            }
+            return clonedList;
+        }
+        else throw new ArgumentNullException("The source is not a proper IList.");
+    }
+
     /// <summary>
     /// Converts <see cref="DataTable"/> to <see cref="List{T}"/>.
     /// </summary>

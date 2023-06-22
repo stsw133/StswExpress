@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -14,7 +16,7 @@ public class StswDataGrid : DataGrid
 
     public StswDataGrid()
     {
-        ClearFiltersCommand = new StswRelayCommand(ClearFilters);
+        ClearFiltersCommand = new StswRelayCommand(ActionClear);
     }
 
     #region Events
@@ -22,19 +24,54 @@ public class StswDataGrid : DataGrid
     public override void OnApplyTemplate()
     {
         ColumnHeaderStyle = (Style)FindResource("StswColumnHeaderStyle");
+        FiltersData = new()
+        {
+            Clear = ActionClear,
+            Refresh = ActionRefresh,
+            SqlFilter = null,
+            SqlParameters = null
+        };
 
         base.OnApplyTemplate();
     }
 
-    /// ClearFilters
-    private void ClearFilters()
+    /// ActionClear
+    private void ActionClear()
     {
-        var extDict = new StswDictionary<string, StswFilterBindingData>();
-        var bindingDatas = StswFn.FindVisualChildren<StswFilter>(this).Select(x => x.BindingData).ToList();
-        for (int i = 0; i < bindingDatas.Count; i++)
-            extDict.Add(i.ToString(), bindingDatas[i]);
+        var stswFilters = StswFn.FindVisualChildren<StswFilter>(this).ToList();
+        foreach (var stswFilter in stswFilters)
+        {
+            stswFilter.FilterMode = stswFilter.DefaultFilterMode;
+            stswFilter.SelectedItemsBinding = stswFilter.DefaultSelectedItemsBinding?.Clone();
+            stswFilter.Value1 = stswFilter.DefaultValue1;
+            stswFilter.Value2 = stswFilter.DefaultValue2;
+        }
+    }
 
-        StswFilter.ClearColumnFilters(extDict);
+    /// ActionRefresh
+    private void ActionRefresh()
+    {
+        FiltersData.SqlFilter = string.Empty;
+        FiltersData.SqlParameters = new List<(string, object)>();
+
+        var stswFilters = StswFn.FindVisualChildren<StswFilter>(this).ToList();
+        foreach (var stswFilter in stswFilters)
+        {
+            /// Header is StswColumnFilterData
+            if (stswFilter?.SqlString != null)
+            {
+                FiltersData.SqlFilter += " and " + stswFilter.SqlString;
+                if (stswFilter.Value1 != null && stswFilter.SqlParam != null)
+                    FiltersData.SqlParameters.Add((stswFilter.SqlParam[..(stswFilter.SqlParam.Length > 120 ? 120 : stswFilter.SqlParam.Length)] + "1", stswFilter.Value1 ?? DBNull.Value));
+                if (stswFilter.Value2 != null && stswFilter.SqlParam != null)
+                    FiltersData.SqlParameters.Add((stswFilter.SqlParam[..(stswFilter.SqlParam.Length > 120 ? 120 : stswFilter.SqlParam.Length)] + "2", stswFilter.Value2 ?? DBNull.Value));
+            }
+        }
+
+        if (FiltersData.SqlFilter.StartsWith(" and "))
+            FiltersData.SqlFilter = FiltersData.SqlFilter[5..];
+        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
+            FiltersData.SqlFilter = "1=1";
     }
     #endregion
 
@@ -50,6 +87,19 @@ public class StswDataGrid : DataGrid
     {
         get => (bool)GetValue(AreFiltersVisibleProperty);
         set => SetValue(AreFiltersVisibleProperty, value);
+    }
+
+    /// FiltersData
+    public static readonly DependencyProperty FiltersDataProperty
+        = DependencyProperty.Register(
+            nameof(FiltersData),
+            typeof(StswDataGridFiltersDataModel),
+            typeof(StswDataGrid)
+        );
+    public StswDataGridFiltersDataModel FiltersData
+    {
+        get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
+        set => SetValue(FiltersDataProperty, value);
     }
 
     /// RefreshCommand
@@ -163,4 +213,12 @@ public class StswDataGrid : DataGrid
         set => SetValue(ForegroundHeaderProperty, value);
     }
     #endregion
+}
+
+public class StswDataGridFiltersDataModel
+{
+    public Action? Clear { get; internal set; }
+    public Action? Refresh { get; internal set; }
+    public string? SqlFilter { get; internal set; }
+    public List<(string name, object val)>? SqlParameters { get; internal set; }
 }

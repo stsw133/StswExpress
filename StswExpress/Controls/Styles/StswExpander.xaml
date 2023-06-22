@@ -22,7 +22,7 @@
         <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswExpander.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="{Binding BorderThickness.Left, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="HeaderPadding" Value="3"/>

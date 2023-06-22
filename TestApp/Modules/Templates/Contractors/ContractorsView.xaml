@@ -63,7 +63,7 @@
             </TextBlock>
         </DockPanel>
         <!-- data grid -->
-        <se:StswDataGrid Margin="3" ItemsSource="{Binding ListContractors}" SelectedItem="{Binding SelectedItem}" RefreshCommand="{Binding RefreshCommand}">
+        <se:StswDataGrid Margin="3" ItemsSource="{Binding ListContractors}" SelectedItem="{Binding SelectedItem}" FiltersData="{Binding FiltersData, Mode=OneWayToSource}" RefreshCommand="{Binding RefreshCommand}">
             <DataGrid.Resources>
                 <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
             </DataGrid.Resources>
@@ -72,16 +72,14 @@
                 <!-- ID -->
                 <DataGridTextColumn Binding="{Binding ID}" IsReadOnly="True">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[ID], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
+                        <se:StswFilter Header="ID" FilterType="Number" FilterMode="Equal" FilterSqlColumn="a.ID"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- Type -->
                 <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}">
                     <DataGridComboBoxColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Type], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Type" FilterType="ListOfTexts" FilterMode="In" FilterSqlColumn="a.Type"
+                        <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type"
                                        ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                     </DataGridComboBoxColumn.Header>
                 </DataGridComboBoxColumn>
@@ -89,8 +87,7 @@
                 <!-- Icon -->
                 <DataGridTemplateColumn IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Icon], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
+                        <se:StswFilter Header="Icon" FilterType="Number" FilterMode="GreaterEqual" FilterSqlColumn="datalength(a.Icon)"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -104,48 +101,42 @@
                 <!-- Name -->
                 <DataGridTextColumn Binding="{Binding Name}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Name], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
+                        <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Name"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- Country -->
                 <DataGridTextColumn Binding="{Binding Country}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Country], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Country" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Country"/>
+                        <se:StswFilter Header="Country" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Country"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- PostCode -->
                 <DataGridTextColumn Binding="{Binding PostCode}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[PostCode], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Post code" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.PostCode"/>
+                        <se:StswFilter Header="Post code" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.PostCode"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- City -->
                 <DataGridTextColumn Binding="{Binding City}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[City], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="City" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.City"/>
+                        <se:StswFilter Header="City" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.City"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- Street -->
                 <DataGridTextColumn Binding="{Binding Street}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Street], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Street" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Street"/>
+                        <se:StswFilter Header="Street" FilterType="Text" FilterMode="Contains" FilterSqlColumn="a.Street"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- IsArchival -->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[IsArchival], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="Is archival" FilterType="Check" FilterSqlColumn="a.IsArchival" IsFilterNullSensitive="True"/>
+                        <se:StswFilter Header="Is archival" FilterType="Check" FilterSqlColumn="a.IsArchival" IsFilterNullSensitive="True"/>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -158,8 +149,7 @@
                 <!-- CreateDT -->
                 <DataGridTextColumn Binding="{Binding CreateDT, StringFormat={}{0:yyyy-MM-dd HH:mm}}">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[CreateDT], Mode=TwoWay, Source={StaticResource proxy}}"
-                                       Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"/>
+                        <se:StswFilter Header="CreateDT" FilterType="Date" FilterMode="GreaterEqual" FilterSqlColumn="cast(a.CreateDT as date)"/>
                         <!-- Value1="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" Value2="{Binding Source={x:Static sys:DateTime.Today}, Mode=OneTime}" -->
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>

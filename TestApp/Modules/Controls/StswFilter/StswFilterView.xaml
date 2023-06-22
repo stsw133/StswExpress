@@ -12,9 +12,9 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswFilter DockPanel.Dock="Top" Margin="5" BindingData="{Binding BindingData}" IsEnabled="False"/>
+            <se:StswFilter DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswFilter DockPanel.Dock="Top" Margin="5" BindingData="{Binding BindingData}"/>
+            <se:StswFilter DockPanel.Dock="Top" Margin="5"/>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

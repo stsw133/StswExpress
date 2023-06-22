@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
@@ -20,15 +21,32 @@ public class StswComboView : ListView
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
+        DataContextChanged += (s, e) => SelectionChanged -= OnSelectionChanged;
         SelectionChanged += OnSelectionChanged;
 
         base.OnApplyTemplate();
     }
 
+    /// GetSelectedValues
+    public List<object?> GetSelectedValues()
+    {
+        var selectedValues = new List<object?>();
+
+        foreach (var selectedItem in SelectedItems)
+        {
+            if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
+                selectedValues.Add(propertyInfo.GetValue(selectedItem));
+            else
+                selectedValues.Add(selectedItem);
+        }
+
+        return selectedValues;
+    }
+
     /// OnSelectionChanged
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (DataContext != null && SelectedItemsBinding != null)
+        if (SelectedItemsBinding != null)
         {
             SelectedItemsBinding.Clear();
             foreach (var item in SelectedItems)
@@ -37,7 +55,7 @@ public class StswComboView : ListView
         }
         SetSelectedText();
     }
-
+    
     /// SetSelectedText
     internal void SetSelectedText()
     {
@@ -160,7 +178,7 @@ public class StswComboView : ListView
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
-
+    
     /// SelectedItemsBinding
     public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
@@ -179,9 +197,7 @@ public class StswComboView : ListView
     private static void OnSelectedItemsBindingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswComboView stsw)
-        {
             stsw.SetSelectedItems(stsw.SelectedItemsBinding);
-        }
     }
 
     /// Text

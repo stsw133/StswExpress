@@ -53,6 +53,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\Styles\StswFilter.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Styles\StswTabItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -74,9 +77,6 @@
     <Page Update="Controls\Styles\StswColorPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Styles\StswFilter.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Styles\StswGroupBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
