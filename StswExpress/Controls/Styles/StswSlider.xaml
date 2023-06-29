@@ -5,20 +5,7 @@
     <Style TargetType="{x:Type se:StswSlider}">
 
         <Setter Property="Background" Value="{DynamicResource StswSlider.Static.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswSlider.Disabled.Background}"/>
-        <Setter Property="RangeBackground" Value="{DynamicResource StswSlider.Range.Background}"/>
-        <Setter Property="ThumbBackground" Value="{DynamicResource StswSlider.Thumb.Static.Background}"/>
-        <Setter Property="ThumbBackgroundMouseOver" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}"/>
-        <Setter Property="ThumbBackgroundDragging" Value="{DynamicResource StswSlider.Thumb.Dragging.Background}"/>
-        <Setter Property="ThumbBackgroundDisabled" Value="{DynamicResource StswSlider.Thumb.Disabled.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswSlider.Disabled.Border}"/>
-        <Setter Property="ThumbBorderBrush" Value="{DynamicResource StswSlider.Thumb.Static.Border}"/>
-        <Setter Property="ThumbBorderBrushMouseOver" Value="{DynamicResource StswSlider.Thumb.MouseOver.Border}"/>
-        <Setter Property="ThumbBorderBrushDragging" Value="{DynamicResource StswSlider.Thumb.Dragging.Border}"/>
-        <Setter Property="ThumbBorderBrushDisabled" Value="{DynamicResource StswSlider.Thumb.Disabled.Border}"/>
-
         <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Foreground}"/>
 
         <Setter Property="ThumbIcon" Value="{x:Static se:StswIcons.Circle}"/>
@@ -55,7 +42,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
                             <Canvas x:Name="PART_Canvas">
-                                <Rectangle x:Name="PART_SelectionRange" Fill="{TemplateBinding RangeBackground}" Visibility="Hidden"/>
+                                <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource StswSlider.Range.Background}" Visibility="Hidden"/>
                             </Canvas>
                         </Border>
                         <Track x:Name="PART_Track">
@@ -72,24 +59,24 @@
                                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                                 <Path x:Name="PART_Grip"
                                                       Data="{Binding ThumbIcon, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
-                                                      Fill="{Binding ThumbBackground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
+                                                      Fill="{DynamicResource StswSlider.Thumb.Static.Background}"
                                                       SnapsToDevicePixels="True"
                                                       Stretch="Fill"
-                                                      Stroke="{Binding ThumbBorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"
+                                                      Stroke="{DynamicResource StswSlider.Thumb.Static.Border}"
                                                       StrokeThickness="{Binding ThumbBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}"/>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushMouseOver, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.MouseOver.Border}" TargetName="PART_Grip" />
                                                 </Trigger>
                                                 <Trigger Property="IsDragging" Value="True">
-                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundDragging, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushDragging, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Dragging.Background}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Dragging.Border}" TargetName="PART_Grip" />
                                                 </Trigger>
                                                 <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Fill" Value="{Binding ThumbBackgroundDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{Binding ThumbBorderBrushDisabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswSlider}}}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Disabled.Background}" TargetName="PART_Grip" />
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Disabled.Border}" TargetName="PART_Grip" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -204,8 +191,8 @@
                         </Trigger>
                         -->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
+                            <Setter Property="Background" Value="{DynamicResource StswSlider.Disabled.Background}" TargetName="TrackBackground" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Disabled.Border}" TargetName="TrackBackground" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

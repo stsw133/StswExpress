@@ -4,13 +4,8 @@
 
     <Style TargetType="{x:Type se:StswGroupBox}">
 
-        <Setter Property="HeaderBackground" Value="{DynamicResource StswExpander.Static.Background}"/>
-        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
-
+        <Setter Property="Background" Value="{DynamicResource StswExpander.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
-
-        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswExpander.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
@@ -34,7 +29,7 @@
                             <!-- header -->
                             <Label x:Name="HeaderSite"
                                    DockPanel.Dock="Top"
-                                   Background="{TemplateBinding HeaderBackground}"
+                                   Background="{DynamicResource StswExpander.Static.Header}"
                                    BorderThickness="0"
                                    Content="{TemplateBinding Header}"
                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -67,9 +62,9 @@
                     </se:ClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="HeaderSite" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

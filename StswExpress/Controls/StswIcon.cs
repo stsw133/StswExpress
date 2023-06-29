@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
+using System.Windows.Controls;
 
 namespace StswExpress;
 
@@ -65,6 +65,8 @@ public class StswIcon : UserControl
     #endregion
 
     #region Spatial properties
+    private new Thickness BorderThickness { get; set; }
+
     /// > StrokeThickness ...
     /// StrokeThickness
     public static readonly DependencyProperty StrokeThicknessProperty
@@ -81,6 +83,10 @@ public class StswIcon : UserControl
     #endregion
 
     #region Style properties
+    private new Brush Background { get; set; }
+    private new Brush BorderBrush { get; set; }
+    private new Brush Foreground { get; set; }
+
     /// > Fill ...
     /// Fill
     public static readonly DependencyProperty FillProperty
@@ -93,20 +99,6 @@ public class StswIcon : UserControl
     {
         get => (Brush)GetValue(FillProperty);
         set => SetValue(FillProperty, value);
-    }
-
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswIcon)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
     }
 
     /// > Stroke ...

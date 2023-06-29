@@ -4,9 +4,8 @@
     
     <Style TargetType="{x:Type se:StswDataGrid}">
 
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Static.Border}"/>
 
         <Setter Property="HorizontalGridLinesBrush" Value="#5777"/>
         <Setter Property="VerticalGridLinesBrush" Value="#5777"/>

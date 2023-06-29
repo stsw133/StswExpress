@@ -28,36 +28,47 @@
                         <DockPanel>
                             <!-- select year & month -->
                             <DockPanel DockPanel.Dock="Top" Background="{DynamicResource StswButton.Static.Background}">
-                                <se:StswRepeatButton x:Name="PART_ButtonPreviousYear" DockPanel.Dock="Left" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                <DockPanel.Resources>
+                                    <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent" />
+                                </DockPanel.Resources>
+                                <se:StswRepeatButton x:Name="PART_ButtonPreviousYear" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronDoubleLeft}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonPreviousMonth" DockPanel.Dock="Left" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                <se:StswRepeatButton x:Name="PART_ButtonPreviousMonth" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronLeft}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonNextYear" DockPanel.Dock="Right" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                <se:StswRepeatButton x:Name="PART_ButtonNextYear" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronDoubleRight}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonNextMonth" DockPanel.Dock="Right" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                <se:StswRepeatButton x:Name="PART_ButtonNextMonth" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronRight}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswButton x:Name="PART_ButtonSelectionMode" BackgroundDisabled="Transparent" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}"/>
+                                <se:StswButton x:Name="PART_ButtonSelectionMode" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}"/>
                             </DockPanel>
                             <!-- content -->
                             <Grid DockPanel.Dock="Top" MinHeight="180" MinWidth="240">
                                 <!-- months (selection mode: year) -->
                                 <UniformGrid x:Name="PART_SelectionModeYear" Columns="4" Margin="{TemplateBinding Padding}" Visibility="Hidden">
-                                    <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
-                                    <se:StswButton Content="{Binding Month2, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2"/>
-                                    <se:StswButton Content="{Binding Month3, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
-                                    <se:StswButton Content="{Binding Month4, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="4"/>
-                                    <se:StswButton Content="{Binding Month5, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="5"/>
-                                    <se:StswButton Content="{Binding Month6, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="6"/>
-                                    <se:StswButton Content="{Binding Month7, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="7"/>
-                                    <se:StswButton Content="{Binding Month8, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="8"/>
-                                    <se:StswButton Content="{Binding Month9, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="9"/>
-                                    <se:StswButton Content="{Binding Month10, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
-                                    <se:StswButton Content="{Binding Month11, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="11"/>
-                                    <se:StswButton Content="{Binding Month12, RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" BorderBrush="Transparent" BorderThickness="{TemplateBinding SubBorderThickness}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="12"/>
+                                    <UniformGrid.Resources>
+                                        <Style TargetType="{x:Type se:StswButton}">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="{Binding SubBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Setter Property="Command" Value="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Style>
+                                    </UniformGrid.Resources>
+                                    <se:StswButton Content="{Binding Month1, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="1"/>
+                                    <se:StswButton Content="{Binding Month2, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="2"/>
+                                    <se:StswButton Content="{Binding Month3, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
+                                    <se:StswButton Content="{Binding Month4, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="4"/>
+                                    <se:StswButton Content="{Binding Month5, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="5"/>
+                                    <se:StswButton Content="{Binding Month6, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="6"/>
+                                    <se:StswButton Content="{Binding Month7, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="7"/>
+                                    <se:StswButton Content="{Binding Month8, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="8"/>
+                                    <se:StswButton Content="{Binding Month9, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="9"/>
+                                    <se:StswButton Content="{Binding Month10, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
+                                    <se:StswButton Content="{Binding Month11, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="11"/>
+                                    <se:StswButton Content="{Binding Month12, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="12"/>
                                 </UniformGrid>
                                 <!-- days (selection mode: month) -->
                                 <Grid x:Name="PART_SelectionModeMonth" Margin="{TemplateBinding Padding}" Visibility="Hidden">
@@ -93,42 +104,36 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <se:StswButton Content="{Binding Date.Day}" Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" CommandParameter="{Binding Date}">
-                                                    <Button.Style>
+                                                    <se:StswButton.Resources>
+                                                        <SolidColorBrush x:Key="StswButton.Static.Background" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent" />
+                                                        <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent" />
                                                         <Style TargetType="{x:Type se:StswButton}">
-                                                            <Setter Property="Background" Value="Transparent"/>
-                                                            <Setter Property="BackgroundDisabled" Value="Transparent"/>
-                                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                                            <Setter Property="BorderBrushDisabled" Value="Transparent"/>
                                                             <Setter Property="BorderThickness" Value="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
                                                                     <Setter Property="FontWeight" Value="Medium"/>
                                                                 </DataTrigger>
+                                                                <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
+                                                                    <Setter Property="Opacity" Value="0.6"/>
+                                                                </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Date.DayOfWeek}" Value="Sunday">
                                                                     <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource StswCalendar.InCurrentMonth.Foreground}"/>
-                                                                    <Setter Property="ForegroundDisabled" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
-                                                                </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsSelectedDay}" Value="True">
                                                                     <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Background}"/>
-                                                                    <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Checked.Background}"/>
-                                                                    <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.Checked.Background}"/>
                                                                     <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Checked.Border}"/>
-                                                                    <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Checked.Border}"/>
-                                                                    <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.Checked.Border}"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
                                                                     <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
-                                                                    <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
                                                                     <Setter Property="Visibility" Value="Hidden"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
-                                                    </Button.Style>
+                                                    </se:StswButton.Resources>
                                                 </se:StswButton>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -144,11 +149,9 @@
                         <Trigger Property="SelectionMode" Value="ByMonth">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionModeMonth" />
                         </Trigger>
-                        <!--
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.6" TargetName="PART_MainBorder" />
                         </Trigger>
-                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

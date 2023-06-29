@@ -136,20 +136,4 @@ public class StswColorSelector : UserControl
         set => SetValue(SubPaddingProperty, value);
     }
     #endregion
-
-    #region Style properties
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswColorSelector)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-    #endregion
 }

@@ -46,6 +46,7 @@ public class StswColorPicker : UserControl
     {
         if (e.LeftButton == MouseButtonState.Pressed)
             PART_ColorGrid_MouseMove(sender, e);
+        e.Handled = true;
     }
 
     /// PART_ColorGrid_MouseMove
@@ -60,9 +61,21 @@ public class StswColorPicker : UserControl
             int x = (int)Math.Floor(position.X);
             int y = (int)Math.Floor(position.Y);
 
+            /// cannot do this since getting mouse outisde the grid is not performing this event
+            //if (x <= 0)
+            //    x = 0;
+            //else if (x >= (int)grid.ActualWidth)
+            //    x = (int)grid.ActualWidth - 1;
+            //
+            //if (y <= 0)
+            //    y = 0;
+            //else if (y >= (int)grid.ActualHeight)
+            //    y = (int)grid.ActualHeight - 1;
+
             if (x <= 0 || x >= (int)grid.ActualWidth || y <= 0 || y >= (int)grid.ActualHeight)
                 return;
 
+            /// this code works similar to one line below it but is not used anymore
             //var rtb = new RenderTargetBitmap((int)grid.RenderSize.Width, (int)grid.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
             //rtb.Render(grid);
 
@@ -79,6 +92,8 @@ public class StswColorPicker : UserControl
                 Canvas.SetTop(partColorEllipse, y - partColorEllipse.Height / 2);
             }
         }
+
+        e.Handled = true;
     }
     #endregion
 
@@ -305,22 +320,6 @@ public class StswColorPicker : UserControl
     {
         get => (Thickness)GetValue(SubPaddingProperty);
         set => SetValue(SubPaddingProperty, value);
-    }
-    #endregion
-
-    #region Style properties
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswColorPicker)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

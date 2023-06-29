@@ -25,15 +25,15 @@ public class StswNavigation : UserControl
     }
 
     #region Events
-    /*
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        OnItemsChanged(this, new DependencyPropertyChangedEventArgs());
+        if (IsExtended == default)
+            OnIsExtendedChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
     }
-    */
+
     /// ChangeContext
     public object? ChangeContext(object context, bool createNewInstance)
     {
@@ -184,6 +184,20 @@ public class StswNavigation : UserControl
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Width ...
+    /// ItemsWidth
+    public static readonly DependencyProperty ItemsWidthProperty
+        = DependencyProperty.Register(
+            nameof(ItemsWidth),
+            typeof(double?),
+            typeof(StswNavigation)
+        );
+    public double? ItemsWidth
+    {
+        get => (double?)GetValue(ItemsWidthProperty);
+        set => SetValue(ItemsWidthProperty, value);
     }
     #endregion
 }

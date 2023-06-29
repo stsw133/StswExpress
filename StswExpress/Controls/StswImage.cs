@@ -296,20 +296,4 @@ public class StswImage : UserControl
         set => SetValue(StretchProperty, value);
     }
     #endregion
-
-    #region Style properties
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswImage)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
-    }
-    #endregion
 }

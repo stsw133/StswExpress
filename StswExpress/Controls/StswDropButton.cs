@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Markup;
-using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -12,7 +11,10 @@ public class StswDropButton : UserControl
 {
     public StswDropButton()
     {
-        SetValue(ItemsProperty, new ObservableCollection<ButtonBase>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ItemsProperty, new ObservableCollection<UIElement>());
+
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
     }
     static StswDropButton()
     {
@@ -76,24 +78,52 @@ public class StswDropButton : UserControl
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
-            typeof(StswDropButton)
+            typeof(StswDropButton),
+            new PropertyMetadata(default(bool), OnIsDropDownOpenChanged)
         );
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswDropButton stsw)
+        {
+            if (stsw.IsDropDownOpen)
+                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
+            else
+                _ = Mouse.Capture(null);
+        }
+    }
+    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
+    {
+        SetCurrentValue(IsDropDownOpenProperty, false);
+    }
+
+    /// IsReadOnly
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswDropButton)
+        );
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
 
     /// Items
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
-            typeof(ObservableCollection<ButtonBase>),
+            typeof(ObservableCollection<UIElement>),
             typeof(StswDropButton)
         );
-    public ObservableCollection<ButtonBase> Items
+    public ObservableCollection<UIElement> Items
     {
-        get => (ObservableCollection<ButtonBase>)GetValue(ItemsProperty);
+        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
     #endregion
@@ -112,18 +142,6 @@ public class StswDropButton : UserControl
         get => (Thickness)GetValue(PopupBorderThicknessProperty);
         set => SetValue(PopupBorderThicknessProperty, value);
     }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswDropButton)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
 
     /// > CornerRadius ...
     /// CornerRadius
@@ -137,134 +155,6 @@ public class StswDropButton : UserControl
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
-    }
-    #endregion
-
-    #region Style properties
-    /// > Background ...
-    /// BackgroundMouseOver
-    public static readonly DependencyProperty BackgroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundMouseOver),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BackgroundMouseOver
-    {
-        get => (Brush)GetValue(BackgroundMouseOverProperty);
-        set => SetValue(BackgroundMouseOverProperty, value);
-    }
-    /// BackgroundPressed
-    public static readonly DependencyProperty BackgroundPressedProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundPressed),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BackgroundPressed
-    {
-        get => (Brush)GetValue(BackgroundPressedProperty);
-        set => SetValue(BackgroundPressedProperty, value);
-    }
-    /// BackgroundDisabled
-    public static readonly DependencyProperty BackgroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundDisabled),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BackgroundDisabled
-    {
-        get => (Brush)GetValue(BackgroundDisabledProperty);
-        set => SetValue(BackgroundDisabledProperty, value);
-    }
-
-    /// > BorderBrush ...
-    /// BorderBrushMouseOver
-    public static readonly DependencyProperty BorderBrushMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushMouseOver),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BorderBrushMouseOver
-    {
-        get => (Brush)GetValue(BorderBrushMouseOverProperty);
-        set => SetValue(BorderBrushMouseOverProperty, value);
-    }
-    /// BorderBrushPressed
-    public static readonly DependencyProperty BorderBrushPressedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushPressed),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BorderBrushPressed
-    {
-        get => (Brush)GetValue(BorderBrushPressedProperty);
-        set => SetValue(BorderBrushPressedProperty, value);
-    }
-    /// BorderBrushDefaulted
-    public static readonly DependencyProperty BorderBrushDefaultedProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDefaulted),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BorderBrushDefaulted
-    {
-        get => (Brush)GetValue(BorderBrushDefaultedProperty);
-        set => SetValue(BorderBrushDefaultedProperty, value);
-    }
-    /// BorderBrushDisabled
-    public static readonly DependencyProperty BorderBrushDisabledProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushDisabled),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush BorderBrushDisabled
-    {
-        get => (Brush)GetValue(BorderBrushDisabledProperty);
-        set => SetValue(BorderBrushDisabledProperty, value);
-    }
-
-    /// > Foreground ...
-    /// ForegroundMouseOver
-    public static readonly DependencyProperty ForegroundMouseOverProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundMouseOver),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush ForegroundMouseOver
-    {
-        get => (Brush)GetValue(ForegroundMouseOverProperty);
-        set => SetValue(ForegroundMouseOverProperty, value);
-    }
-    /// ForegroundPressed
-    public static readonly DependencyProperty ForegroundPressedProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundPressed),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush ForegroundPressed
-    {
-        get => (Brush)GetValue(ForegroundPressedProperty);
-        set => SetValue(ForegroundPressedProperty, value);
-    }
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswDropButton)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
     }
     #endregion
 }

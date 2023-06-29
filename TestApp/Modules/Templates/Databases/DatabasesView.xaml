@@ -48,16 +48,35 @@
                 <Label Content="Password:"/>
                 <se:StswPasswordBox Password="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
                     <se:StswPasswordBox.Components>
-                        <se:StswCheckBox BackgroundDisabled="Transparent" BorderBrushDisabled="Transparent"
-                                         BackgroundUnchecked="Transparent" BackgroundChecked="Transparent" BackgroundIndeterminate="Transparent"
-                                         BackgroundUncheckedMouseOver="Transparent" BackgroundCheckedMouseOver="Transparent" BackgroundIndeterminateMouseOver="Transparent"
-                                         BackgroundUncheckedPressed="Transparent" BackgroundCheckedPressed="Transparent" BackgroundIndeterminatePressed="Transparent"
-                                         BorderBrushUnchecked="Transparent" BorderBrushChecked="Transparent" BorderBrushIndeterminate="Transparent"
-                                         BorderBrushUncheckedMouseOver="Transparent" BorderBrushCheckedMouseOver="Transparent" BorderBrushIndeterminateMouseOver="Transparent"
-                                         BorderBrushUncheckedPressed="Transparent" BorderBrushCheckedPressed="Transparent" BorderBrushIndeterminatePressed="Transparent"
-                                         GlyphBrushMouseOver="#F777" GlyphBrushPressed="#B777" Padding="0"
-                                         IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}"
-                                         IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
+                        <se:StswCheckBox Padding="0" IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}"
+                                         IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}">
+                            <se:StswCheckBox.Resources>
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.Static.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.Static.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.MouseOver.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.MouseOver.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.Pressed.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Unchecked.Pressed.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.Static.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.Static.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Border" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="Transparent" />
+                                <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="Transparent" />
+                                <Style TargetType="{x:Type se:StswCheckBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="GlyphBrush" Value="#F777"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="GlyphBrush" Value="#B777"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </se:StswCheckBox.Resources>
+                        </se:StswCheckBox>
                     </se:StswPasswordBox.Components>
                 </se:StswPasswordBox>
             </StackPanel>

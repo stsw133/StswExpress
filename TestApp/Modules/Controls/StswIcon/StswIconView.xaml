@@ -14,7 +14,7 @@
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Foreground="Red"/>
+                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Fill="Red"/>
                 <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
                 <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
                 <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
@@ -24,7 +24,7 @@
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Foreground="Red"/>
+                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Fill="Red"/>
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
                 <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>

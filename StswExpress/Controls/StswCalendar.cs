@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -17,9 +18,10 @@ public class StswCalendar : UserControl
 
     public StswCalendar()
     {
+        SetValue(ButtonsProperty, new ObservableCollection<StswCalendarItem>());
+
         SelectDateCommand = new StswRelayCommand<object?>(SelectDate_Executed);
     }
-
     static StswCalendar()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCalendar), new FrameworkPropertyMetadata(typeof(StswCalendar)));
@@ -50,6 +52,12 @@ public class StswCalendar : UserControl
             btnSelectionMode.Click += PART_ButtonSelectionMode_Click;
 
         base.OnApplyTemplate();
+
+        //Loaded += (s, e) =>
+        //{
+        //    Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        //    Arrange(new Rect(DesiredSize));
+        //};
     }
 
     /// PART_ButtonPreviousYear_Click
@@ -100,10 +108,21 @@ public class StswCalendar : UserControl
         else
         {
             SelectedDate = (DateTime?)date;
-            if (Parent is Popup popup)
-                popup.IsOpen = false;
-            else if (SelectedDate.HasValue && SelectedDate.Value.Month != SelectedMonth.Month)
+
+            if (SelectedDate.HasValue && SelectedDate.Value.Month != SelectedMonth.Month)
                 SelectedMonth = SelectedDate.Value;
+
+            var popupRootFinder = VisualTreeHelper.GetParent(this);
+            while (popupRootFinder != null)
+            {
+                var logicalRoot = LogicalTreeHelper.GetParent(popupRootFinder);
+                if (logicalRoot is Popup popup)
+                {
+                    popup.IsOpen = false;
+                    break;
+                }
+                popupRootFinder = VisualTreeHelper.GetParent(popupRootFinder);
+            }
         }
     }
     #endregion
@@ -113,12 +132,12 @@ public class StswCalendar : UserControl
     public static readonly DependencyProperty ButtonsProperty
         = DependencyProperty.Register(
             nameof(Buttons),
-            typeof(List<StswCalendarItem>),
+            typeof(ObservableCollection<StswCalendarItem>),
             typeof(StswCalendar)
         );
-    public List<StswCalendarItem> Buttons
+    public ObservableCollection<StswCalendarItem> Buttons
     {
-        get => (List<StswCalendarItem>)GetValue(ButtonsProperty);
+        get => (ObservableCollection<StswCalendarItem>)GetValue(ButtonsProperty);
         private set => SetValue(ButtonsProperty, value);
     }
 
@@ -185,7 +204,7 @@ public class StswCalendar : UserControl
             nameof(SelectedMonth),
             typeof(DateTime),
             typeof(StswCalendar),
-            new FrameworkPropertyMetadata(DateTime.Now,
+            new FrameworkPropertyMetadata(default(DateTime),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -222,7 +241,7 @@ public class StswCalendar : UserControl
                     btnMode.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
 
                 /// clear previous 42 buttons in grid
-                var newButtons = new List<StswCalendarItem>();
+                var newButtons = new ObservableCollection<StswCalendarItem>();
 
                 /// calculate first button in grid
                 DateTime dateForButton;

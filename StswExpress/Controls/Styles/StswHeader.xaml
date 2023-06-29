@@ -4,8 +4,6 @@
 
     <Style TargetType="{x:Type se:StswHeader}">
 
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
 
@@ -145,7 +143,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

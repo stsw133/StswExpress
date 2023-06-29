@@ -4,22 +4,8 @@
 
     <Style TargetType="{x:Type se:StswExpander}">
 
-        <Setter Property="HeaderBackground" Value="{DynamicResource StswExpander.Static.Background}"/>
-        <Setter Property="HeaderBackgroundMouseOver" Value="{DynamicResource StswExpander.MouseOver.Background}"/>
-        <Setter Property="HeaderBackgroundPressed" Value="{DynamicResource StswExpander.Pressed.Background}"/>
-        <Setter Property="HeaderBackgroundChecked" Value="{DynamicResource StswExpander.Checked.Background}"/>
-        <Setter Property="HeaderBackgroundDisabled" Value="{DynamicResource StswExpander.Disabled.Background}"/>
-
+        <Setter Property="Background" Value="{DynamicResource StswExpander.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswExpander.MouseOver.Border}"/>
-        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswExpander.Pressed.Border}"/>
-        <Setter Property="BorderBrushChecked" Value="{DynamicResource StswExpander.Checked.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswExpander.Disabled.Border}"/>
-
-        <Setter Property="HeaderForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HeaderForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HeaderForegroundChecked" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HeaderForegroundDisabled" Value="{DynamicResource StswExpander.Disabled.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
@@ -29,7 +15,7 @@
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswExpander}">
@@ -43,7 +29,7 @@
                             <!-- header -->
                             <ToggleButton x:Name="HeaderSite"
                                           DockPanel.Dock="Top"
-                                          Background="{TemplateBinding HeaderBackground}"
+                                          Background="{DynamicResource StswExpander.Static.Header}"
                                           BorderThickness="0"
                                           Content="{TemplateBinding Header}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -99,24 +85,21 @@
                             <Setter Property="Style" Value="{DynamicResource StswExpanderUpHeaderStyle}" TargetName="HeaderSite" />
                         </Trigger>
                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="PART_MainBorder" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsPressed, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="PART_MainBorder" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=HeaderSite}" Value="True">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="PART_MainBorder" />
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding HeaderBackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding HeaderForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="HeaderSite" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="HeaderSite" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

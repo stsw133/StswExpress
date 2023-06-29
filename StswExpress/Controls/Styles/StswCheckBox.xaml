@@ -4,38 +4,7 @@
     
     <Style TargetType="{x:Type se:StswCheckBox}">
 
-        <Setter Property="BackgroundUnchecked" Value="{DynamicResource StswCheck.Unchecked.Static.Background}"/>
-        <Setter Property="BackgroundUncheckedMouseOver" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Background}"/>
-        <Setter Property="BackgroundUncheckedPressed" Value="{DynamicResource StswCheck.Unchecked.Pressed.Background}"/>
-        <Setter Property="BackgroundChecked" Value="{DynamicResource StswCheck.Checked.Static.Background}"/>
-        <Setter Property="BackgroundCheckedMouseOver" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}"/>
-        <Setter Property="BackgroundCheckedPressed" Value="{DynamicResource StswCheck.Checked.Pressed.Background}"/>
-        <Setter Property="BackgroundIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Static.Background}"/>
-        <Setter Property="BackgroundIndeterminateMouseOver" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Background}"/>
-        <Setter Property="BackgroundIndeterminatePressed" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswCheck.Disabled.Background}"/>
-
-        <Setter Property="BorderBrushUnchecked" Value="{DynamicResource StswCheck.Unchecked.Static.Border}"/>
-        <Setter Property="BorderBrushUncheckedMouseOver" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Border}"/>
-        <Setter Property="BorderBrushUncheckedPressed" Value="{DynamicResource StswCheck.Unchecked.Pressed.Border}"/>
-        <Setter Property="BorderBrushChecked" Value="{DynamicResource StswCheck.Checked.Static.Border}"/>
-        <Setter Property="BorderBrushCheckedMouseOver" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}"/>
-        <Setter Property="BorderBrushCheckedPressed" Value="{DynamicResource StswCheck.Checked.Pressed.Border}"/>
-        <Setter Property="BorderBrushIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Static.Border}"/>
-        <Setter Property="BorderBrushIndeterminateMouseOver" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Border}"/>
-        <Setter Property="BorderBrushIndeterminatePressed" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Border}"/>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
-
-        <Setter Property="GlyphBrush" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="GlyphBrushMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="GlyphBrushPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="GlyphBrushDisabled" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
-
+        <Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconIndeterminate" Value="{x:Static se:StswIcons.Minus}"/>
         <Setter Property="IconUnchecked" Value="{x:Null}"/>
         <Setter Property="IconChecked" Value="{x:Static se:StswIcons.Check}"/>
@@ -90,81 +59,73 @@
                             <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Static.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Static.Border}" TargetName="PART_MainBorder" />
                             <Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="PART_MainBorder" />
                             <Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Background" Value="{Binding BackgroundIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Static.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Static.Border}" TargetName="PART_MainBorder" />
                             <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
-                            <Setter Property="Fill" Value="{Binding GlyphBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
-                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsChecked" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundUncheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushUncheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundCheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushCheckedMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsChecked" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundIndeterminateMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminateMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource Self}}" />
-                            <Setter Property="Fill" Value="{Binding GlyphBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
-                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
                                 <Condition Property="IsChecked" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundUncheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushUncheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Pressed.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundCheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushCheckedPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
                                 <Condition Property="IsChecked" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{Binding BackgroundIndeterminatePressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushIndeterminatePressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Border}" TargetName="PART_MainBorder" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
-                            <Setter Property="Fill" Value="{Binding GlyphBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon" />
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Foreground}" TargetName="PART_Icon" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

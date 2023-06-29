@@ -32,8 +32,7 @@
 
     <SolidColorBrush x:Key="StswCalendar.Static.Background" Color="#FFF" />
     <SolidColorBrush x:Key="StswCalendar.Static.Border" Color="#BBB" />
-    <SolidColorBrush x:Key="StswCalendar.InCurrentMonth.Foreground" Color="#777" />
-    <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#CCC" />
+    <SolidColorBrush x:Key="StswCalendar.IsCurrentDay.Border" Color="#BBB" />
     <SolidColorBrush x:Key="StswCalendar.SpecialDay.Foreground" Color="#E22" />
     
     <SolidColorBrush x:Key="StswCheck.Unchecked.Static.Background" Color="#FFF" />
@@ -70,9 +69,17 @@
     <SolidColorBrush x:Key="StswComboItem.Disabled.Background" Color="#EEE" />
     <SolidColorBrush x:Key="StswComboItem.Disabled.Border" Color="Transparent" />
     <SolidColorBrush x:Key="StswComboItem.Disabled.Foreground" Color="#666" />
-    
-    <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#EEE" />
+
+    <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#FFF" />
+    <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#BBB" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#E22" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#2AE" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#EA2" />
+    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#E62" />
+
+    <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#FFF" />
     <SolidColorBrush x:Key="StswExpander.Static.Border" Color="#BBB" />
+    <SolidColorBrush x:Key="StswExpander.Static.Header" Color="#EEE" />
     <SolidColorBrush x:Key="StswExpander.MouseOver.Background" Color="#DDD" />
     <SolidColorBrush x:Key="StswExpander.MouseOver.Border" Color="#AAA" />
     <SolidColorBrush x:Key="StswExpander.Pressed.Background" Color="#CCC" />
@@ -83,18 +90,29 @@
     <SolidColorBrush x:Key="StswExpander.Disabled.Border" Color="#DDD" />
     <SolidColorBrush x:Key="StswExpander.Disabled.Foreground" Color="#666" />
 
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#E22" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#2AE" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#EA2" />
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#E62" />
-    
     <SolidColorBrush x:Key="StswIcon.Disabled.Fill" Color="#7777" />
 
     <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}" />
 
-    <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=95%}" />
     <SolidColorBrush x:Key="StswNavigation.Static.Border" Color="#BBB" />
 
+    <SolidColorBrush x:Key="StswNavigationElement.Static.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=85%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Static.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=81%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=77%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.MouseOver.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=73%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=69%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Pressed.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Checked.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Defaulted.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}" />
+    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Background" Color="#EEE" />
+    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Border" Color="#DDD" />
+    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#666" />
+
+    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#FFF" />
+    <SolidColorBrush x:Key="StswPopup.Static.Border" Color="#BBB" />
+    
     <SolidColorBrush x:Key="StswProgressBar.Static.Background" Color="#FFF" />
     <SolidColorBrush x:Key="StswProgressBar.Static.Border" Color="#BBB" />
     <SolidColorBrush x:Key="StswProgressBar.Ready.Foreground" Color="#BBB" />

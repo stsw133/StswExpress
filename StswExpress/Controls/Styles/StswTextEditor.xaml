@@ -5,21 +5,8 @@
     <Style TargetType="{x:Type se:StswTextEditor}">
 
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswBox.MouseOver.Background}"/>
-        <Setter Property="BackgroundFocused" Value="{DynamicResource StswBox.Focused.Background}"/>
-        <Setter Property="BackgroundReadOnly" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswBox.MouseOver.Border}"/>
-        <Setter Property="BorderBrushFocused" Value="{DynamicResource StswBox.Focused.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundFocused" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-
+        
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="ComponentBorderThickness" Value="1"/>
         <Setter Property="SubBorderThickness" Value="1"/>
@@ -217,21 +204,19 @@
                                                                 <Rectangle Fill="{Binding SelectedColorText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
                                                             </StackPanel>
                                                         </se:StswButton>
-                                                        <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0">
-                                                            <DockPanel>
+                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                                            <se:StswDropButton.Header>
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
-                                                                <se:StswPopup AllowsTransparency="True"
-                                                                              CloseOnClick="True"
-                                                                              IsOpen="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleButton}}}"
-                                                                              Placement="Bottom"
-                                                                              PlacementTarget="{Binding ElementName=PART_FontColorText}"
-                                                                              StaysOpen="False">
-                                                                    <se:StswColorSelector Background="{TemplateBinding Background}"
-                                                                                          BorderThickness="{TemplateBinding ComponentBorderThickness}"
-                                                                                          SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                                                </se:StswPopup>
-                                                            </DockPanel>
-                                                        </se:StswToggleButton>
+                                                            </se:StswDropButton.Header>
+                                                            <TabControl>
+                                                                <TabItem Header="Standardowe">
+                                                                    <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                </TabItem>
+                                                                <TabItem Header="Szczegółowe">
+                                                                    <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                                </TabItem>
+                                                            </TabControl>
+                                                        </se:StswDropButton>
                                                     </DockPanel>
                                                 </se:ClippingBorder>
                                                 <se:ClippingBorder x:Name="PART_FontColorHighlight" Grid.Row="1" Grid.Column="7" ToolTip="Kolor wyróżnienia tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
@@ -242,22 +227,19 @@
                                                                 <Rectangle Fill="{Binding SelectedColorHighlight, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
                                                             </StackPanel>
                                                         </se:StswButton>
-                                                        <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0">
-                                                            <DockPanel>
+                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                                            <se:StswDropButton.Header>
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
-                                                                <se:StswPopup AllowsTransparency="True"
-                                                                              CloseOnClick="True"
-                                                                              IsOpen="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleButton}}}"
-                                                                              Placement="Bottom"
-                                                                              PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswToggleButton}}}"
-                                                                              StaysOpen="False">
-                                                                    <se:StswColorSelector Background="{TemplateBinding Background}"
-                                                                                          BorderThickness="{TemplateBinding ComponentBorderThickness}"
-                                                                                          ColorAuto="Transparent"
-                                                                                          SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                                                </se:StswPopup>
-                                                            </DockPanel>
-                                                        </se:StswToggleButton>
+                                                            </se:StswDropButton.Header>
+                                                            <TabControl>
+                                                                <TabItem Header="Standardowe">
+                                                                    <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
+                                                                </TabItem>
+                                                                <TabItem Header="Szczegółowe">
+                                                                    <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                                </TabItem>
+                                                            </TabControl>
+                                                        </se:StswDropButton>
                                                     </DockPanel>
                                                 </se:ClippingBorder>
                                                 <TextBlock x:Name="PART_FontText" Text="Czcionka" Grid.Row="2" Grid.ColumnSpan="8" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
@@ -368,17 +350,15 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionText" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundFocused, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundReadOnly, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FileSave" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FileReload" />
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_EditClear" />
@@ -406,9 +386,9 @@
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource Self}}" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

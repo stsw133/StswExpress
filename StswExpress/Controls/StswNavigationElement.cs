@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -30,11 +31,54 @@ public class StswNavigationElement : UserControl
             stswNavi = stswNavigation;
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
 
+        CheckSubItemPadding();
+
         base.OnApplyTemplate();
+    }
+
+    /// CheckSubItemPadding
+    public void CheckSubItemPadding()
+    {
+        var padding = Padding;
+        var ancestorElement = this;
+
+        while (ancestorElement != null)
+        {
+            ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+            if (ancestorElement != null && ancestorElement.Items.Count > 0 && !ancestorElement.IsCompact && ancestorElement.ContextNamespace == null)
+                padding = new Thickness(padding.Left + ancestorElement.SubItemIndentation, padding.Top, padding.Right, padding.Bottom);
+        }
+        SubItemPadding = padding;
+    }
+
+    /// FindPopupContainer
+    public Popup? FindPopupContainer()
+    {
+        var ancestorElement = this;
+        while (ancestorElement != null)
+        {
+            if (ancestorElement != null && ancestorElement.Container is Popup popup)
+                return popup;
+            ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+        }
+        return null;
     }
     #endregion
 
     #region Main properties
+    /// Container
+    public static readonly DependencyProperty ContainerProperty
+        = DependencyProperty.Register(
+            nameof(Container),
+            typeof(UIElement),
+            typeof(StswNavigationElement)
+        );
+    public UIElement Container
+    {
+        get => (UIElement)GetValue(ContainerProperty);
+        internal set => SetValue(ContainerProperty, value);
+    }
+
     /// ContextNamespace
     public static readonly DependencyProperty ContextNamespaceProperty
         = DependencyProperty.Register(
@@ -144,6 +188,9 @@ public class StswNavigationElement : UserControl
         {
             if (stsw.IsChecked && stsw.stswNavi != null && stsw.ContextNamespace != null)
             {
+                if (!stsw.stswNavi.IsExtended && stsw.FindPopupContainer() is Popup popup)
+                    popup.IsOpen = false;
+
                 stsw.IsBusy = true;
                 stsw.stswNavi.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
                 stsw.IsBusy = false;
@@ -172,6 +219,9 @@ public class StswNavigationElement : UserControl
         {
             if (stsw.IsCompact && stsw.Items.Count > 0)
                 stsw.IsChecked = false;
+
+            foreach (var stswNE in StswFn.FindVisualChildren<StswNavigationElement>(stsw.Container))
+                stswNE.CheckSubItemPadding();
         }
     }
 
@@ -265,6 +315,32 @@ public class StswNavigationElement : UserControl
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Padding ...
+    /// SubItemIndentation
+    public static readonly DependencyProperty SubItemIndentationProperty
+        = DependencyProperty.Register(
+            nameof(SubItemIndentation),
+            typeof(double),
+            typeof(StswNavigationElement)
+        );
+    public double SubItemIndentation
+    {
+        get => (double)GetValue(SubItemIndentationProperty);
+        set => SetValue(SubItemIndentationProperty, value);
+    }
+    /// SubItemPadding
+    public static readonly DependencyProperty SubItemPaddingProperty
+        = DependencyProperty.Register(
+            nameof(SubItemPadding),
+            typeof(Thickness),
+            typeof(StswNavigationElement)
+        );
+    internal Thickness SubItemPadding
+    {
+        get => (Thickness)GetValue(SubItemPaddingProperty);
+        set => SetValue(SubItemPaddingProperty, value);
     }
     #endregion
 

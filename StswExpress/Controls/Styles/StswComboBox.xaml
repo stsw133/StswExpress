@@ -5,21 +5,8 @@
     <Style TargetType="{x:Type se:StswComboBox}">
 
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
-        <Setter Property="BackgroundPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Border}"/>
-        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundMouseOver" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundPressed" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
-        <Setter Property="ForegroundPlaceholder" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
-
+        
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
@@ -74,13 +61,10 @@
                         <!-- button -->
                         <se:StswToggleButton x:Name="PART_MainButton" Grid.ColumnSpan="2"
                                              Background="{TemplateBinding Background}"
-                                             BackgroundChecked="{TemplateBinding BackgroundPressed}"
                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                             BorderBrushChecked="{TemplateBinding BorderBrushPressed}"
                                              BorderThickness="{TemplateBinding BorderThickness}"
                                              ClickMode="Press"
                                              CornerRadius="{TemplateBinding CornerRadius}"
-                                             ForegroundChecked="{TemplateBinding ForegroundPressed}"
                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                              Padding="2 0 0 0"
                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -88,8 +72,8 @@
                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <DockPanel>
-                                <!-- function button -->
-                                <ContentControl x:Name="PART_FunctionButton" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                                <!-- arrow -->
+                                <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                                 </ContentControl>
                                 <!-- subborder -->
@@ -137,7 +121,7 @@
                                 <!-- content -->
                                 <Grid>
                                     <TextBlock x:Name="PART_Placeholder"
-                                               Foreground="{TemplateBinding ForegroundPlaceholder}"
+                                               Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                                IsHitTestVisible="False"
                                                Margin="{TemplateBinding Padding}"
                                                Text="{TemplateBinding Placeholder}"
@@ -169,6 +153,9 @@
                         </se:StswToggleButton>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEditable" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubBorder" />
+                        </Trigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="IsTabStop" Value="False"/>
                             <Setter Property="Padding" Value="0" TargetName="PART_MainButton" />
@@ -202,28 +189,24 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource se:StswComboBox.Static.Editable.Background}" TargetName="PART_MainButton" />
                             <Setter Property="BorderBrush" Value="{DynamicResource se:StswComboBox.Static.Editable.Border}" TargetName="PART_MainButton" />
-                            <Setter Property="Background" Value="{DynamicResource se:StswComboBox.Static.Editable.Button.Background}" TargetName="PART_FunctionButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource se:StswComboBox.Static.Editable.Button.Border}" TargetName="PART_FunctionButton" />
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="Foreground" Value="{Binding ForegroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="Foreground" Value="{Binding ForegroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="PART_MainButton" />
                             <Setter Property="IsEnabled" Value="False" TargetName="grid" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="Transparent" TargetName="PART_EditableTextBox" />
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
-                            <Setter Property="Foreground" Value="{Binding ForegroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="PART_MainButton" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder" />
                         </Trigger>
                     </ControlTemplate.Triggers>

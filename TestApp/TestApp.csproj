@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\StswColorSelector\StswColorSelectorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,6 +136,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Controls\StswColorSelector\StswColorSelectorView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

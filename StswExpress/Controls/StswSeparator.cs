@@ -55,10 +55,13 @@ public class StswSeparator : Separator
     }
     public static void OnBorderThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswSeparator stsw && stsw.GetTemplateChild("PART_MainBorder") is Border border)
-            border.BorderThickness = stsw.Orientation == Orientation.Horizontal
-                ? new Thickness(0, stsw.BorderThickness, 0, 0)
-                : new Thickness(stsw.BorderThickness, 0, 0, 0);
+        if (obj is StswSeparator stsw)
+        {
+            if (stsw.GetTemplateChild("PART_MainBorder") is Border border)
+                border.BorderThickness = stsw.Orientation == Orientation.Horizontal
+                    ? new Thickness(0, stsw.BorderThickness, 0, 0)
+                    : new Thickness(stsw.BorderThickness, 0, 0, 0);
+        }
     }
 
     /// > CornerRadius ...
@@ -73,22 +76,6 @@ public class StswSeparator : Separator
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
-    }
-    #endregion
-
-    #region Style properties
-    /// > Opacity ...
-    /// OpacityDisabled
-    public static readonly DependencyProperty OpacityDisabledProperty
-        = DependencyProperty.Register(
-            nameof(OpacityDisabled),
-            typeof(double),
-            typeof(StswSeparator)
-        );
-    public double OpacityDisabled
-    {
-        get => (double)GetValue(OpacityDisabledProperty);
-        set => SetValue(OpacityDisabledProperty, value);
     }
     #endregion
 }

@@ -38,6 +38,9 @@
             <DataTemplate DataType="{x:Type local:StswColorPickerContext}">
                 <local:StswColorPickerView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswColorSelectorContext}">
+                <local:StswColorSelectorView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>

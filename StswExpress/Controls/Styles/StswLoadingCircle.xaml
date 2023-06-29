@@ -4,9 +4,8 @@
 
     <Style TargetType="{x:Type se:StswLoadingCircle}">
 
-        <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="OpacityDisabled" Value="0.3"/>
-        
+        <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+
         <Setter Property="Scale" Value="auto"/>
 
         <Setter Property="Template">
@@ -34,7 +33,7 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Ellipse" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_Ellipse" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -5,15 +5,8 @@
     <Style TargetType="{x:Type se:StswFilter}">
 
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BackgroundMouseOver" Value="{DynamicResource StswButton.MouseOver.Background}"/>
-        <Setter Property="BackgroundPressed" Value="{DynamicResource StswButton.Pressed.Background}"/>
-        <Setter Property="BackgroundDisabled" Value="{DynamicResource StswButton.Disabled.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        <Setter Property="BorderBrushMouseOver" Value="{DynamicResource StswButton.MouseOver.Border}"/>
-        <Setter Property="BorderBrushPressed" Value="{DynamicResource StswButton.Pressed.Border}"/>
-        <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswButton.Disabled.Border}"/>
-
+        
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="Margin" Value="3"/>
@@ -194,8 +187,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswDatePicker BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                        BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                        SelectedDate="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -208,8 +199,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswComboView BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                      BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                      BorderBrushPressed="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                       BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                       ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
                                                                                       SelectedItemsBinding="{Binding SelectedItemsBinding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
@@ -226,8 +215,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswNumericBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                        BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                        Value="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -240,8 +227,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswTextBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                     BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                     Text="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -263,8 +248,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswDatePicker BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                        BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                        SelectedDate="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -277,8 +260,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswNumericBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                        BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                        Value="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -291,8 +272,6 @@
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswTextBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderBrushMouseOver="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderBrushFocused="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                                                     BorderThickness="0" CornerRadius="0" Padding="3" Placeholder=" . . . "
                                                                                     Text="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
@@ -354,16 +333,24 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SecondControl" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushMouseOver, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushPressed, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{Binding BackgroundDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{Binding BorderBrushDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -5,16 +5,7 @@
     <Style TargetType="{x:Type se:StswProgressBar}">
 
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
-
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="ForegroundReady" Value="{DynamicResource StswProgressBar.Ready.Foreground}"/>
-        <Setter Property="ForegroundRunning" Value="{DynamicResource StswProgressBar.Running.Foreground}"/>
-        <Setter Property="ForegroundPaused" Value="{DynamicResource StswProgressBar.Paused.Foreground}"/>
-        <Setter Property="ForegroundError" Value="{DynamicResource StswProgressBar.Error.Foreground}"/>
-
-        <Setter Property="OpacityDisabled" Value="0.3"/>
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="1"/>
@@ -89,32 +80,32 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="State" Value="Ready">
-                            <Setter Property="Fill" Value="{Binding ForegroundReady, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Ready.Foreground}" TargetName="PART_Track" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="Indicator" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="Animation" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
                         </Trigger>
                         <Trigger Property="State" Value="Running">
-                            <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{Binding ForegroundRunning, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="PART_Track" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Indicator" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Animation" />
                         </Trigger>
                         <Trigger Property="State" Value="Paused">
-                            <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{Binding ForegroundPaused, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="PART_Track" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Indicator" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Animation" />
                         </Trigger>
                         <Trigger Property="State" Value="Error">
-                            <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{Binding ForegroundError, RelativeSource={RelativeSource TemplatedParent}}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="PART_Track" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Indicator" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Animation" />
                         </Trigger>
                         <Trigger Property="IsIndeterminate" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator" />
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

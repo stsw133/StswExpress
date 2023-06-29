@@ -6,8 +6,7 @@
 
         <Setter Property="Background" Value="{DynamicResource StswSeparator.Static.Border}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
-        <Setter Property="OpacityDisabled" Value="0.3"/>
-        
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="1"/>
 
@@ -32,7 +31,7 @@
                             <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder" />
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

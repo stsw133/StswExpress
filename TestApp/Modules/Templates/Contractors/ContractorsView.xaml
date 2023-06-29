@@ -79,8 +79,7 @@
                 <!-- Type -->
                 <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}">
                     <DataGridComboBoxColumn.Header>
-                        <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type"
-                                       ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
+                        <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type" ItemsSource="{Binding Proxy.ListTypes, Source={StaticResource proxy}}"/>
                     </DataGridComboBoxColumn.Header>
                 </DataGridComboBoxColumn>
 
@@ -92,8 +91,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <se:StswImage MenuMode="Full" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MaxHeight="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=-4}"
-                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=-4}"/>
+                                          MaxHeight="64" MaxWidth="64" Stretch="Uniform"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

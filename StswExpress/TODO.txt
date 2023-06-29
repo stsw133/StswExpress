@@ -2,7 +2,7 @@
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
 // TODO - MessageBox and NotifyIcon builded in window
-// TODO - new custom Clock, ColorPicker, RatingControl, ScrollViewer, ToggleSwitch
+// TODO - new custom Clock, RatingControl, ScrollViewer, ToggleSwitch
 // TODO - new custom Grid with dynamic number of rows or columns with auto height and width
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
 // TODO - StswDataGrid should have its own auto generated columns
@@ -13,7 +13,4 @@
 
 /// Changes to do for now:
 // TODO - StswFilter needs to refresh data on Enter click
-// TODO - StswFilter needs template improvements (there is so much unnecessary code behind)
-// TODO - StswNavigation and StswNavigationElement needs improvements and bugfixes
-// TODO - StswTabControl and StswTabItem needs new functionalities: Control to hide tab panel if there is only one and Item so it can be closed if its necessary
-// TODO - all Stsw boxes and pickers needs improvements (StswColorPicker also needs to be completed)
+// TODO - StswNavigationElement needs bugfixes for not extended mode

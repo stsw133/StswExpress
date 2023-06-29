@@ -118,20 +118,6 @@ public class StswHeader : UserControl
     #endregion
 
     #region Style properties
-    /// > Foreground ...
-    /// ForegroundDisabled
-    public static readonly DependencyProperty ForegroundDisabledProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundDisabled),
-            typeof(Brush),
-            typeof(StswHeader)
-        );
-    public Brush ForegroundDisabled
-    {
-        get => (Brush)GetValue(ForegroundDisabledProperty);
-        set => SetValue(ForegroundDisabledProperty, value);
-    }
-
     /// > IconFill ...
     /// IconFill
     public static readonly DependencyProperty IconFillProperty

@@ -6,8 +6,7 @@
 
         <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
-        <Setter Property="OpacityDisabled" Value="0.3"/>
-        
+
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
@@ -25,9 +24,8 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                       Padding="{TemplateBinding Padding}"
                                        SnapsToDevicePixels="True">
-                        <Grid>
+                        <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto" MinWidth="24"/>
@@ -92,20 +90,25 @@
                             
                             <!-- V -->
                             <se:StswSlider Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                           Background="{DynamicResource StswColorPickerSliderBackground}"
                                            BorderBrush="{TemplateBinding BorderBrush}"
                                            BorderThickness="{TemplateBinding SubBorderThickness}"
                                            CornerRadius="0" Margin="0 10 0 5"
                                            ThumbBorderThickness="2" ThumbSize="15" TrackSize="10"
-                                           ThumbBackground="White" ThumbBackgroundMouseOver="White" ThumbBackgroundDragging="White"
-                                           ThumbBorderBrush="Gray" ThumbBorderBrushMouseOver="Gray" ThumbBorderBrushDragging="Gray"
                                            IsSnapToTickEnabled="True" TickFrequency="0.01" LargeChange="0.1"
                                            Maximum="1" Value="{Binding SelectedColorV, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <se:StswSlider.Background>
-                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                <se:StswSlider.Resources>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Border" Color="Gray"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Border" Color="Gray"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Border" Color="Gray"/>
+                                    <LinearGradientBrush x:Key="StswColorPickerSliderBackground" StartPoint="0 0" EndPoint="1 0">
                                         <GradientStop Offset="0" Color="Black"/>
-                                        <GradientStop Offset="1" Color="{Binding PickedColor, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorPicker}}, FallbackValue=Black}"/>
+                                        <GradientStop Offset="1" Color="{Binding PickedColor, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </LinearGradientBrush>
-                                </se:StswSlider.Background>
+                                </se:StswSlider.Resources>
                             </se:StswSlider>
                             <!-- A -->
                             <DockPanel x:Name="PART_Alpha" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
@@ -186,7 +189,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{Binding OpacityDisabled, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
