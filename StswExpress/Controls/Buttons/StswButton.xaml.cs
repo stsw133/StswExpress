@@ -17,10 +17,7 @@ public class StswButton : Button
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswButton),
-            new FrameworkPropertyMetadata(default(CornerRadius),
-                FrameworkPropertyMetadataOptions.None,
-                null, null, false, System.Windows.Data.UpdateSourceTrigger.PropertyChanged)
+            typeof(StswButton)
         );
     public CornerRadius CornerRadius
     {

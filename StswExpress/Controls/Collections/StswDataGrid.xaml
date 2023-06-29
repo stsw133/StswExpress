@@ -11,6 +11,7 @@
         <Setter Property="VerticalGridLinesBrush" Value="#5777"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Padding" Value="0"/>
         
         <Setter Property="AreFiltersVisible" Value="True"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
@@ -20,10 +21,10 @@
 
     </Style>
 
-    <Style x:Key="StswColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+    <!-- StswDataGridColumnHeaderStyle -->
+    <Style x:Key="StswDataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
 
         <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-
         <Setter Property="BorderThickness" Value="0 0 1 1"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -43,7 +44,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- StswDataGridSpecialColumn -->
+    <!-- StswDataGridSpecialColumnHeaderTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnHeaderTemplate">
         <UniformGrid Columns="1">
             <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0"
@@ -58,6 +59,7 @@
         </UniformGrid>
     </DataTemplate>
 
+    <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
         <Grid>
             <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">

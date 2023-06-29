@@ -23,8 +23,12 @@
                 <se:StswNavigationElement Text="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Text="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.Grid}">
+            <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
+                <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
+                <se:StswNavigationElement Text="StswComboView" ContextNamespace="TestApp.StswComboViewContext"/>
                 <se:StswNavigationElement Text="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
+                <se:StswNavigationElement Text="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
+                <se:StswNavigationElement Text="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.SelectColor}">
                 <se:StswNavigationElement Text="StswColorBox" ContextNamespace="TestApp.StswColorBoxContext"/>
@@ -53,11 +57,6 @@
             <se:StswNavigationElement Text="Navigation" IconData="{x:Static se:StswIcons.NavigationVariantOutline}">
                 <se:StswNavigationElement Text="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
                 <se:StswNavigationElement Text="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Selectors" IconData="{x:Static se:StswIcons.FormDropdown}">
-                <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
-                <se:StswNavigationElement Text="StswComboView" ContextNamespace="TestApp.StswComboViewContext"/>
-                <se:StswNavigationElement Text="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Text="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>

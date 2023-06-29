@@ -23,7 +23,7 @@ public class StswDataGrid : DataGrid
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        ColumnHeaderStyle = (Style)FindResource("StswColumnHeaderStyle");
+        ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
         FiltersData = new()
         {
             Clear = ActionClear,

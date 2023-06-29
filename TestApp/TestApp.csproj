@@ -43,6 +43,9 @@
     <Compile Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\StswListBox\StswListBoxView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\StswFilter\StswFilterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -144,6 +147,9 @@
     <Page Update="Modules\Controls\StswColorPicker\StswColorPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Controls\StswListBox\StswListBoxView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\StswFilter\StswFilterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
