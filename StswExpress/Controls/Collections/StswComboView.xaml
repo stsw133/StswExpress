@@ -29,17 +29,17 @@
                 <ControlTemplate TargetType="{x:Type se:StswComboView}">
                     <!-- button -->
                     <se:StswToggleButton x:Name="PART_MainButton"
-                                             Background="{TemplateBinding Background}"
-                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                             ClickMode="Press"
-                                             CornerRadius="{TemplateBinding CornerRadius}"
-                                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                             Padding="2 0 0 0"
-                                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                         Background="{TemplateBinding Background}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         ClickMode="Press"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Padding="2 0 0 0"
+                                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
                                 <se:ClippingBorder Background="{TemplateBinding Background}"
@@ -79,12 +79,12 @@
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
                                 <se:ClippingBorder x:Name="DropDownBorder"
-                                                       Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
+                                                   Background="{DynamicResource StswPopup.Static.Background}"
+                                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                   BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                   MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
                                     <ScrollViewer Focusable="False">
                                         <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                     </ScrollViewer>
@@ -129,8 +129,8 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Pressed.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Pressed.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainButton" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items" />
