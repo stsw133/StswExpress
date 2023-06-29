@@ -20,39 +20,6 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border x:Name="PART_Border"
-                                        Background="{DynamicResource StswComboItem.Static.Background}"
-                                        BorderBrush="{DynamicResource StswComboItem.Static.Border}"
-                                        BorderThickness="0.5"
-                                        Padding="4 2">
-                                    <ContentPresenter/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswComboItem.MouseOver.Background}" TargetName="PART_Border" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswComboItem.MouseOver.Border}" TargetName="PART_Border" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswComboItem.Checked.Background}" TargetName="PART_Border" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswComboItem.Checked.Border}" TargetName="PART_Border" />
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComboItem.Disabled.Foreground}" TargetName="PART_Border" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListBox}">
@@ -82,6 +49,40 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="PART_Border"
+                                        Background="{DynamicResource StswItem.Static.Background}"
+                                        BorderBrush="{DynamicResource StswItem.Static.Border}"
+                                        BorderThickness="0.5"
+                                        Padding="4 2">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="PART_Border" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="PART_Border" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Background}" TargetName="PART_Border" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Border}" TargetName="PART_Border" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}" TargetName="PART_Border" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
     </Style>
 
 </ResourceDictionary>

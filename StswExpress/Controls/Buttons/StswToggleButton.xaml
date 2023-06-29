@@ -6,14 +6,14 @@
 
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
-        
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
@@ -58,5 +58,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="_default.xaml"/>
-        <ResourceDictionary Source="Material/LightColors.xaml"/>
+        <ResourceDictionary Source="Material/_default.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

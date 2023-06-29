@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace StswExpress;
 
-public class StswComboView : ListView
+public class StswComboView : ListBox
 {
     static StswComboView()
     {
@@ -54,7 +54,7 @@ public class StswComboView : ListView
         }
         SetSelectedText();
     }
-    
+
     /// SetSelectedText
     internal void SetSelectedText()
     {
@@ -177,7 +177,7 @@ public class StswComboView : ListView
         get => (string?)GetValue(PlaceholderProperty);
         set => SetValue(PlaceholderProperty, value);
     }
-    
+
     /// SelectedItemsBinding
     public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
@@ -252,6 +252,20 @@ public class StswComboView : ListView
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Height ...
+    /// MaxDropDownHeight
+    public static readonly DependencyProperty MaxDropDownHeightProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownHeight),
+            typeof(double?),
+            typeof(StswComboView)
+        );
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
     }
     #endregion
 }

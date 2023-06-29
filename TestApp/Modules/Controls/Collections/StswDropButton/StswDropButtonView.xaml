@@ -27,6 +27,22 @@
                     <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
                 </se:StswButton>
             </se:StswDropButton>
+            <Label DockPanel.Dock="Top" Content="Read only:"/>
+            <se:StswDropButton DockPanel.Dock="Top" Margin="5" IsReadOnly="True">
+                <se:StswDropButton.Header>
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
+                </se:StswDropButton.Header>
+
+                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="1">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="2">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="3">
+                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
+                </se:StswButton>
+            </se:StswDropButton>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <se:StswDropButton DockPanel.Dock="Top" Margin="5">
                 <se:StswDropButton.Header>

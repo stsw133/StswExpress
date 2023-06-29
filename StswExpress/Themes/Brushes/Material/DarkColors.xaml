@@ -60,22 +60,23 @@
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent" />
     <SolidColorBrush x:Key="StswColorPicker.Static.Border" Color="#555" />
     
-    <SolidColorBrush x:Key="StswComboItem.Static.Background" Color="Transparent" />
-    <SolidColorBrush x:Key="StswComboItem.Static.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="StswComboItem.MouseOver.Background" Color="#444" />
-    <SolidColorBrush x:Key="StswComboItem.MouseOver.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="StswComboItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}" />
-    <SolidColorBrush x:Key="StswComboItem.Checked.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="StswComboItem.Disabled.Background" Color="#222" />
-    <SolidColorBrush x:Key="StswComboItem.Disabled.Border" Color="Transparent" />
-    <SolidColorBrush x:Key="StswComboItem.Disabled.Foreground" Color="#999" />
-
     <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#111" />
     <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#555" />
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#B11" />
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#16B" />
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#B91" />
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#B31" />
+
+    <SolidColorBrush x:Key="StswDropButton.Static.Background" Color="#333" />
+    <SolidColorBrush x:Key="StswDropButton.Static.Border" Color="#555" />
+    <SolidColorBrush x:Key="StswDropButton.MouseOver.Background" Color="#444" />
+    <SolidColorBrush x:Key="StswDropButton.MouseOver.Border" Color="#666" />
+    <SolidColorBrush x:Key="StswDropButton.Checked.Background" Color="#555" />
+    <SolidColorBrush x:Key="StswDropButton.Checked.Border" Color="#777" />
+    <SolidColorBrush x:Key="StswDropButton.Defaulted.Border" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}" />
+    <SolidColorBrush x:Key="StswDropButton.Disabled.Background" Color="#222" />
+    <SolidColorBrush x:Key="StswDropButton.Disabled.Border" Color="#333" />
+    <SolidColorBrush x:Key="StswDropButton.Disabled.Foreground" Color="#999" />
 
     <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#111" />
     <SolidColorBrush x:Key="StswExpander.Static.Border" Color="#555" />
@@ -92,7 +93,15 @@
 
     <SolidColorBrush x:Key="StswIcon.Disabled.Fill" Color="#7777" />
 
-    <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-15%}" />
+    <SolidColorBrush x:Key="StswItem.Static.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#444" />
+    <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}" />
+    <SolidColorBrush x:Key="StswItem.Checked.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#222" />
+    <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent" />
+    <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#999" />
 
     <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-90%}" />
     <SolidColorBrush x:Key="StswNavigation.Static.Border" Color="#555" />

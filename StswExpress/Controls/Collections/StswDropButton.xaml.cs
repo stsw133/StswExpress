@@ -11,7 +11,6 @@ public class StswDropButton : UserControl
 {
     public StswDropButton()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
         SetValue(ItemsProperty, new ObservableCollection<UIElement>());
 
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
@@ -33,31 +32,6 @@ public class StswDropButton : UserControl
     {
         get => (Visibility)GetValue(ArrowVisibilityProperty);
         set => SetValue(ArrowVisibilityProperty, value);
-    }
-
-    /// Components
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswDropButton)
-        );
-    public ObservableCollection<UIElement> Components
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    /// ComponentsAlignment
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswDropButton)
-        );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
     }
 
     /// Header
@@ -155,6 +129,20 @@ public class StswDropButton : UserControl
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    /// > Height ...
+    /// MaxDropDownHeight
+    public static readonly DependencyProperty MaxDropDownHeightProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownHeight),
+            typeof(double?),
+            typeof(StswDropButton)
+        );
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
     }
     #endregion
 }
