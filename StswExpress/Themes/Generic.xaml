@@ -22,6 +22,11 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswDatePicker.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswNumericBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswPasswordBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextEditor.xaml"/>
+        
         <ResourceDictionary Source="/StswExpress;component/Controls/StswExpander.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswFilter.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswGroupBox.xaml"/>
@@ -31,16 +36,12 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/StswLoadingCircle.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswNavigation.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswNavigationElement.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswNumericBox.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswProgressBar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswScrollViewer.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswSeparator.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswSlider.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswTabControl.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswTabItem.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswTextBox.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswTextEditor.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

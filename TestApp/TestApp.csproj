@@ -52,7 +52,7 @@
     <Compile Update="Modules\Controls\Collections\StswDataGrid\StswDataGridView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswPasswordBox\StswPasswordBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Collections\StswDropButton\StswDropButtonView.xaml.cs">
@@ -112,16 +112,16 @@
     <Compile Update="Modules\Controls\StswGroupBox\StswGroupBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswTextEditor\StswTextEditorView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswTextEditor\StswTextEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Buttons\StswToggleButton\StswToggleButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswTextBox\StswTextBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswTextBox\StswTextBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StswNumericBox\StswNumericBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswNumericBox\StswNumericBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StswProgressBar\StswProgressBarView.xaml.cs">
@@ -159,7 +159,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswPasswordBox\StswPasswordBoxView.xaml">
+    <Page Update="Modules\Controls\Input\StswPasswordBox\StswPasswordBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -239,7 +239,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswTextEditor\StswTextEditorView.xaml">
+    <Page Update="Modules\Controls\Input\StswTextEditor\StswTextEditorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -247,11 +247,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswTextBox\StswTextBoxView.xaml">
+    <Page Update="Modules\Controls\Input\StswTextBox\StswTextBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StswNumericBox\StswNumericBoxView.xaml">
+    <Page Update="Modules\Controls\Input\StswNumericBox\StswNumericBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

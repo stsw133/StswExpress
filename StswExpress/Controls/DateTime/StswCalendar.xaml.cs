@@ -239,7 +239,7 @@ public class StswCalendar : UserControl
                 {
                     dateForButton = new DateTime(stsw.SelectedMonth.Year, stsw.SelectedMonth.Month, 1);
                     while ((newButtons.Count + (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek) % 7 != (int)dateForButton.DayOfWeek)
-                        newButtons.Add(new StswCalendarItem() { Date = DateTime.MinValue });
+                        newButtons.Add(new StswCalendarItem());
                 }
                 else
                 {
@@ -266,7 +266,7 @@ public class StswCalendar : UserControl
                         dateForButton = dateForButton.AddDays(1);
                 }
                 while (newButtons.Count < 42)
-                    newButtons.Add(new StswCalendarItem() { Date = DateTime.MaxValue });
+                    newButtons.Add(new StswCalendarItem());
             }
 
             stsw.Items = newButtons;

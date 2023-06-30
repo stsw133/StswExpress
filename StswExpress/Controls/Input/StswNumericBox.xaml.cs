@@ -94,7 +94,11 @@ public class StswNumericBox : TextBox
 
             var step = e.Delta > 0 ? Increment : -Increment;
 
-            Value += step;
+            try
+            {
+                Value += step;
+            }
+            catch { }
 
             e.Handled = true;
         }
@@ -133,9 +137,7 @@ public class StswNumericBox : TextBox
             nameof(Format),
             typeof(string),
             typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(string?), OnFormatChanged)
         );
     public string? Format
     {
@@ -180,9 +182,7 @@ public class StswNumericBox : TextBox
             nameof(Maximum),
             typeof(double?),
             typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(double?), OnValueChanged)
         );
     public double? Maximum
     {
@@ -195,9 +195,7 @@ public class StswNumericBox : TextBox
             nameof(Minimum),
             typeof(double?),
             typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(double?), OnValueChanged)
         );
     public double? Minimum
     {
