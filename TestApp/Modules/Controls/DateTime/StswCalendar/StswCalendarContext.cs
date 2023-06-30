@@ -10,7 +10,7 @@ public class StswCalendarContext : StswObservableObject
         get => date;
         set => SetProperty(ref date, value);
     }
-
+    
     private DateTime? nullableDate;
     public DateTime? NullableDate
     {

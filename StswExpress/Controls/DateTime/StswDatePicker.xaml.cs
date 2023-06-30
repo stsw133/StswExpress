@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -50,8 +51,10 @@ public class StswDatePicker : TextBox
     {
         if (string.IsNullOrEmpty(Text))
             SelectedDate = null;
-        else if (DateTime.TryParse(Text, out var result))
-            SelectedDate = result;
+        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var result1))
+            SelectedDate = result1;
+        else if (DateTime.TryParse(Text, out var result2))
+            SelectedDate = result2;
 
         Text = SelectedDate?.ToString(Format);
         var bindingExpression = GetBindingExpression(TextProperty);
@@ -121,9 +124,7 @@ public class StswDatePicker : TextBox
             nameof(Format),
             typeof(string),
             typeof(StswDatePicker),
-            new FrameworkPropertyMetadata(default(string?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnFormatChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(string?), OnFormatChanged)
         );
     public string? Format
     {
@@ -191,9 +192,7 @@ public class StswDatePicker : TextBox
             nameof(Maximum),
             typeof(DateTime?),
             typeof(StswDatePicker),
-            new FrameworkPropertyMetadata(default(DateTime?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
         );
     public DateTime? Maximum
     {
@@ -206,9 +205,7 @@ public class StswDatePicker : TextBox
             nameof(Minimum),
             typeof(DateTime?),
             typeof(StswDatePicker),
-            new FrameworkPropertyMetadata(default(DateTime?),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
         );
     public DateTime? Minimum
     {

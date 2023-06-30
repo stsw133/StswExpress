@@ -39,7 +39,7 @@
     <Page Update="Controls\Collections\StswListBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\StswColorSelector.xaml">
+    <Page Update="Controls\Color\StswColorSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -48,11 +48,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\StswCalendar.xaml">
+    <Page Update="Controls\DateTime\StswCalendar.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswColorBox.xaml">
+    <Page Update="Controls\Color\StswColorBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -77,7 +77,7 @@
     <Page Update="Controls\Collections\StswComboBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\StswColorPicker.xaml">
+    <Page Update="Controls\Color\StswColorPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -92,7 +92,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswDatePicker.xaml">
+    <Page Update="Controls\DateTime\StswDatePicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -81,9 +81,9 @@
                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                Visibility="Collapsed"/>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                                  Focusable="False" 
-                                                  HorizontalScrollBarVisibility="Hidden" 
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                                                  Focusable="False"
+                                                  HorizontalScrollBarVisibility="Hidden"
                                                   VerticalScrollBarVisibility="Hidden"/>
                                 </Grid>
                             </DockPanel>

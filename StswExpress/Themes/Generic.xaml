@@ -15,11 +15,13 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDropButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswListBox.xaml"/>
         
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswCalendar.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswColorBox.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswColorPicker.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswColorSelector.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswDatePicker.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorPicker.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorSelector.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswCalendar.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswDatePicker.xaml"/>
+        
         <ResourceDictionary Source="/StswExpress;component/Controls/StswExpander.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswFilter.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswGroupBox.xaml"/>

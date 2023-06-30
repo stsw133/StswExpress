@@ -128,8 +128,8 @@
                             <!-- theme colors -->
                             <se:StswGroupBox x:Name="PART_ThemeColors"
                                              DockPanel.Dock="Top"
-                                             Header="Kolory motywów"
                                              CornerRadius="0"
+                                             Header="Kolory motywów"
                                              Margin="{TemplateBinding SubPadding}">
                                 <ItemsControl ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
                                     <ItemsControl.ItemsPanel>
@@ -139,11 +139,11 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswButton Background="{Binding}" Height="18" Width="18"
-                                                           Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                           CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}">
-                                                <se:StswButton.Resources>
-                                                    <Style TargetType="{x:Type se:StswButton}">
+                                            <Button Background="{Binding}" Height="18" Width="18"
+                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                    CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}">
+                                                <Button.Resources>
+                                                    <Style TargetType="{x:Type Button}">
                                                         <Setter Property="Margin" Value="3 0"/>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswModuloConverter.Instance}, ConverterParameter=6}" Value="0">
@@ -151,8 +151,8 @@
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </se:StswButton.Resources>
-                                            </se:StswButton>
+                                                </Button.Resources>
+                                            </Button>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -160,8 +160,8 @@
                             <!-- standard colors -->
                             <se:StswGroupBox x:Name="PART_StandardColors"
                                              DockPanel.Dock="Top"
-                                             Header="Kolory standardowe"
                                              CornerRadius="0"
+                                             Header="Kolory standardowe"
                                              Margin="{TemplateBinding SubPadding}">
                                 <ItemsControl ItemsSource="{TemplateBinding ColorPaletteStandard}" AlternationCount="20">
                                     <ItemsControl.ItemsPanel>
@@ -171,9 +171,9 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswButton Background="{Binding}" Margin="3" Height="18" Width="18"
-                                                           Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                           CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}"/>
+                                            <Button Background="{Binding}" Margin="3" Height="18" Width="18"
+                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                    CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -198,7 +198,7 @@
     </Style>
 
     <!-- StswColorSelectorButtonTemplate -->
-    <ControlTemplate x:Key="StswColorSelectorButtonTemplate" TargetType="{x:Type se:StswButton}">
+    <ControlTemplate x:Key="StswColorSelectorButtonTemplate" TargetType="{x:Type Button}">
         <Border x:Name="PART_MainBorder"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{DynamicResource StswButton.Static.Border}"

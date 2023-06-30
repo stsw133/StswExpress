@@ -179,9 +179,7 @@ public class StswColorPicker : UserControl
             nameof(SelectedColorA),
             typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(byte),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorAChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(byte), OnSelectedColorAChanged)
         );
     internal byte SelectedColorA
     {
@@ -199,9 +197,7 @@ public class StswColorPicker : UserControl
             nameof(SelectedColorR),
             typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(byte),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorRChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(byte), OnSelectedColorRChanged)
         );
     internal byte SelectedColorR
     {
@@ -219,9 +215,7 @@ public class StswColorPicker : UserControl
             nameof(SelectedColorG),
             typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(byte),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorGChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(byte), OnSelectedColorGChanged)
         );
     internal byte SelectedColorG
     {
@@ -239,9 +233,7 @@ public class StswColorPicker : UserControl
             nameof(SelectedColorB),
             typeof(byte),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(byte),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorBChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(byte), OnSelectedColorBChanged)
         );
     internal byte SelectedColorB
     {
@@ -259,9 +251,7 @@ public class StswColorPicker : UserControl
             nameof(SelectedColorV),
             typeof(double),
             typeof(StswColorPicker),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedColorVChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(double), OnSelectedColorVChanged)
         );
     internal double SelectedColorV
     {
@@ -272,7 +262,7 @@ public class StswColorPicker : UserControl
     {
         if (obj is StswColorPicker stsw)
         {
-            stsw.PickedColor.ToHsv(out var h, out var s, out var v);
+            stsw.PickedColor.ToHsv(out var h, out var s, out var _);
             stsw.SelectedColor = StswExtensions.FromAhsv(stsw.SelectedColor.A, h, s, stsw.SelectedColorV);
             stsw.blockColorEllipse = true;
         }
