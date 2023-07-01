@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswClippingBorder}">
+
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+    </Style>
+
+</ResourceDictionary>

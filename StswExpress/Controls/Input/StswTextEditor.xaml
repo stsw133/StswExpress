@@ -27,17 +27,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTextEditor}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           Background="{TemplateBinding Background}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- toolbar -->
                             <Grid x:Name="PART_ToolBar" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Background="{DynamicResource StswExpander.Static.Background}">
                                 <Grid.Resources>
-                                    <Style x:Key="StswTextEditorToolBarClippingBorderStyle" TargetType="{x:Type se:ClippingBorder}">
+                                    <Style x:Key="StswTextEditorToolBarClippingBorderStyle" TargetType="{x:Type se:StswClippingBorder}">
                                         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
@@ -196,7 +196,7 @@
                                                 <se:StswButton x:Name="PART_FontSuperscript" Grid.Row="1" Grid.Column="5" ToolTip="Indeks dolny (Ctrl + Shift + OemPlus)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontSuperscriptCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSuperscript}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:ClippingBorder x:Name="PART_FontColorText" Grid.Row="1" Grid.Column="6" ToolTip="Kolor tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
+                                                <se:StswClippingBorder x:Name="PART_FontColorText" Grid.Row="1" Grid.Column="6" ToolTip="Kolor tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
                                                     <DockPanel>
                                                         <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -218,8 +218,8 @@
                                                             </TabControl>
                                                         </se:StswDropButton>
                                                     </DockPanel>
-                                                </se:ClippingBorder>
-                                                <se:ClippingBorder x:Name="PART_FontColorHighlight" Grid.Row="1" Grid.Column="7" ToolTip="Kolor wyróżnienia tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
+                                                </se:StswClippingBorder>
+                                                <se:StswClippingBorder x:Name="PART_FontColorHighlight" Grid.Row="1" Grid.Column="7" ToolTip="Kolor wyróżnienia tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
                                                     <DockPanel>
                                                         <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FontColorHighlightCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -241,7 +241,7 @@
                                                             </TabControl>
                                                         </se:StswDropButton>
                                                     </DockPanel>
-                                                </se:ClippingBorder>
+                                                </se:StswClippingBorder>
                                                 <TextBlock x:Name="PART_FontText" Text="Czcionka" Grid.Row="2" Grid.ColumnSpan="8" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
                                             </Grid>
                                         </Border>
@@ -317,7 +317,7 @@
                                           HorizontalScrollBarVisibility="Hidden" 
                                           VerticalScrollBarVisibility="Hidden"/>
                         </DockPanel>
-                    </se:ClippingBorder>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload" />

@@ -19,12 +19,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           Background="{TemplateBinding Background}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
                         <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -174,7 +174,7 @@
                                 </DockPanel>
                             </DockPanel>
                         </Grid>
-                    </se:ClippingBorder>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsAlphaEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha" />

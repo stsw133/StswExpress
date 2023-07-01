@@ -26,10 +26,13 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextEditor.xaml"/>
+
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswClippingBorder.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswExpander.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswGroupBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswSeparator.xaml"/>
         
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswExpander.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswFilter.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswGroupBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswHeader.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswIcon.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswImage.xaml"/>
@@ -38,7 +41,6 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/StswNavigationElement.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswProgressBar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswScrollViewer.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswSeparator.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswSlider.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswTabControl.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StswTabItem.xaml"/>

@@ -46,11 +46,11 @@
                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
-                                    <se:ClippingBorder Background="{TemplateBinding Background}"
-                                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       SnapsToDevicePixels="True">
+                                    <se:StswClippingBorder Background="{TemplateBinding Background}"
+                                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                                           SnapsToDevicePixels="True">
                                         <Grid>
                                             <ContentPresenter Focusable="False"
                                                               Margin="{TemplateBinding Padding}"
@@ -59,7 +59,7 @@
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                         </Grid>
-                                    </se:ClippingBorder>
+                                    </se:StswClippingBorder>
                                 </ControlTemplate>
                             </ToggleButton.Template>
                             <DockPanel>
@@ -90,13 +90,13 @@
                                        PlacementTarget="{Binding ElementName=PART_MainButton}"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
-                                    <se:ClippingBorder x:Name="DropDownBorder"
-                                                       Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
+                                    <se:StswClippingBorder x:Name="DropDownBorder"
+                                                           Background="{DynamicResource StswPopup.Static.Background}"
+                                                           BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                           BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                           MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
                                         <ScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -108,7 +108,7 @@
                                                 <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Grid>
                                         </ScrollViewer>
-                                    </se:ClippingBorder>
+                                    </se:StswClippingBorder>
                                 </Popup>
                                 <!-- content -->
                                 <Grid>

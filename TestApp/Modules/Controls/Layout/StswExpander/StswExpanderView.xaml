@@ -27,14 +27,24 @@
                 </se:StswExpander>
             </UniformGrid>
             <Label Grid.Row="2" Content="Enabled:"/>
-            <UniformGrid Grid.Row="3" Rows="1">
-                <se:StswExpander Margin="5">
+            <DockPanel Grid.Row="3" >
+                <se:StswExpander DockPanel.Dock="Top" Margin="5" ExpandDirection="Down">
                     <se:StswExpander.Header>
                         <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
                     </se:StswExpander.Header>
                     <Label Content="TEST"/>
                 </se:StswExpander>
-            </UniformGrid>
+                <se:StswExpander DockPanel.Dock="Top" Margin="5" ExpandDirection="Right" HorizontalAlignment="Left">
+                    <se:StswExpander.Header>
+                        <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST">
+                            <se:StswHeader.LayoutTransform>
+                                <RotateTransform Angle="-90"/>
+                            </se:StswHeader.LayoutTransform>
+                        </se:StswHeader>
+                    </se:StswExpander.Header>
+                    <Label Content="TEST"/>
+                </se:StswExpander>
+            </DockPanel>
         </Grid>
     </ScrollViewer>
 </UserControl>

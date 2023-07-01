@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswScrollViewer}">
 
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>

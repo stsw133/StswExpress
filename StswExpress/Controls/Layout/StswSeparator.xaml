@@ -4,8 +4,8 @@
 
     <Style TargetType="{x:Type se:StswSeparator}">
 
-        <Setter Property="Background" Value="{DynamicResource StswSeparator.Static.Border}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswSeparator.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswBorder.Static}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="1"/>
@@ -22,14 +22,14 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             SnapsToDevicePixels="False"/>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Horizontal">
+                        <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_MainBorder" />
                             <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_MainBorder" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource Self}}" Value="Vertical">
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
                             <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_MainBorder" />
                             <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder" />
-                        </DataTrigger>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
                         </Trigger>

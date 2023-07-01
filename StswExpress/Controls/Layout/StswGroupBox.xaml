@@ -11,7 +11,6 @@
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="HeaderPadding" Value="3"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -19,15 +18,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswGroupBox}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           Background="{TemplateBinding Background}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
-                            <Label x:Name="HeaderSite"
+                            <Label x:Name="PART_Header"
                                    DockPanel.Dock="Top"
                                    Background="{DynamicResource StswExpander.Static.Header}"
                                    BorderThickness="0"
@@ -42,7 +41,7 @@
                                    FontWeight="{TemplateBinding FontWeight}"
                                    Foreground="{TemplateBinding Foreground}"
                                    Margin="0" MinHeight="0" MinWidth="0"
-                                   Padding="{TemplateBinding HeaderPadding}"
+                                   Padding="{TemplateBinding Padding}"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- subborder -->
@@ -52,19 +51,17 @@
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="ExpandSite"
-                                              DockPanel.Dock="Bottom"
-                                              Focusable="False"
+                            <ContentPresenter Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
-                    </se:ClippingBorder>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="HeaderSite" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header" />
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="HeaderSite" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

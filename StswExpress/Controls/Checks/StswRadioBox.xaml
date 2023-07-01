@@ -25,12 +25,12 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <!-- box -->
-                        <se:ClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                        <se:StswClippingBorder x:Name="PART_MainBorder"
+                                               Background="{TemplateBinding Background}"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="{TemplateBinding CornerRadius}"
+                                               SnapsToDevicePixels="True">
                             <Grid Margin="{TemplateBinding Padding}">
                                 <TextBlock x:Name="PART_Text"/>
                                 <se:StswIcon x:Name="PART_Icon"
@@ -40,7 +40,7 @@
                                              HorizontalAlignment="Center"
                                              VerticalAlignment="Center"/>
                             </Grid>
-                        </se:ClippingBorder>
+                        </se:StswClippingBorder>
                         <!-- content -->
                         <ContentPresenter Focusable="False" Grid.Column="1"
                                           Margin="{TemplateBinding Padding}"

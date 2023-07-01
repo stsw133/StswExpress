@@ -6,14 +6,21 @@ using System.Windows;
 namespace StswExpress;
 
 /// <Remarks>
-/// As a side effect <see cref="ClippingBorder"/> will surpress any databinding or animation of 
-/// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="ClippingBorder"/>.
+/// As a side effect <see cref="StswClippingBorder"/> will surpress any databinding or animation of 
+/// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswClippingBorder"/>.
 /// </Remarks>
-public class ClippingBorder : Border
+public class StswClippingBorder : Border
 {
-    private readonly RectangleGeometry _clipRect = new RectangleGeometry();
+    static StswClippingBorder()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswClippingBorder), new FrameworkPropertyMetadata(typeof(StswClippingBorder)));
+    }
+
+    #region Events
+    private readonly RectangleGeometry _clipRect = new();
     private object? _oldClip;
 
+    /// OnRender
     protected override void OnRender(DrawingContext dc)
     {
         OnApplyChildClip();
@@ -45,9 +52,10 @@ public class ClippingBorder : Border
         var child = Child;
         if (child != null)
         {
-            _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - (BorderThickness.Left * 0.5));
+            _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
             _clipRect.Rect = new Rect(Child.RenderSize);
             child.Clip = _clipRect;
         }
     }
+    #endregion
 }

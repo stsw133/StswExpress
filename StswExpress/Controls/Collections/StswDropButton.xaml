@@ -38,11 +38,11 @@
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
-                                <se:ClippingBorder Background="{TemplateBinding Background}"
-                                                   BorderBrush="{TemplateBinding BorderBrush}"
-                                                   BorderThickness="{TemplateBinding BorderThickness}"
-                                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                                   SnapsToDevicePixels="True">
+                                <se:StswClippingBorder Background="{TemplateBinding Background}"
+                                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                                       SnapsToDevicePixels="True">
                                     <Grid>
                                         <ContentPresenter Focusable="False"
                                                           Margin="{TemplateBinding Padding}"
@@ -51,7 +51,7 @@
                                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Grid>
-                                </se:ClippingBorder>
+                                </se:StswClippingBorder>
                             </ControlTemplate>
                         </ToggleButton.Template>
                         <DockPanel>
@@ -67,16 +67,16 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:ClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                   BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                   MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
+                                <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
+                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
                                     <ScrollViewer Focusable="False">
                                         <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{TemplateBinding Items}"/>
                                     </ScrollViewer>
-                                </se:ClippingBorder>
+                                </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"

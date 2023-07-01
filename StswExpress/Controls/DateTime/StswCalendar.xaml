@@ -21,12 +21,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswCalendar}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           Background="{TemplateBinding Background}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- select year & month -->
                             <DockPanel DockPanel.Dock="Top" Background="{DynamicResource StswButton.Static.Background}">
@@ -161,7 +161,7 @@
                                 </ContentControl.Style>
                             </ContentControl>
                         </DockPanel>
-                    </se:ClippingBorder>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.6" TargetName="PART_MainBorder" />

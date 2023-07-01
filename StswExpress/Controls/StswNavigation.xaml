@@ -17,11 +17,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
-                    <se:ClippingBorder x:Name="PART_MainBorder"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- navigation list part -->
                             <DockPanel x:Name="PART_ItemsPanel" DockPanel.Dock="{TemplateBinding ItemsAlignment}" Background="{TemplateBinding Background}">
@@ -102,7 +102,7 @@
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                             ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
                         </DockPanel>
-                    </se:ClippingBorder>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="True">
                             <Setter Property="Width" Value="{Binding ItemsWidth, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ItemsPanel" />

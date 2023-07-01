@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controls\Media\" />
+    <Folder Include="Controls\Navigation\" />
+    <Folder Include="Controls\Uncategorized\" />
+    <Folder Include="Controls\StatusInfo\" />
     <Folder Include="Translator\" />
   </ItemGroup>
 
@@ -81,7 +85,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswGroupBox.xaml">
+    <Page Update="Controls\Layout\StswGroupBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -104,7 +108,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswExpander.xaml">
+    <Page Update="Controls\Layout\StswExpander.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -163,7 +167,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\StswSeparator.xaml">
+    <Page Update="Controls\Layout\StswSeparator.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

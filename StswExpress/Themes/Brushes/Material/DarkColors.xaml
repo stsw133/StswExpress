@@ -4,7 +4,9 @@
 
     <!-- StswColors -->
     <SolidColorBrush x:Key="StswColor.Primary" Color="{Binding Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}" />
-    
+
+    <SolidColorBrush x:Key="StswBorder.Static" Color="#555" />
+
     <SolidColorBrush x:Key="StswBox.Static.Background" Color="#111" />
     <SolidColorBrush x:Key="StswBox.Static.Border" Color="#555" />
     <SolidColorBrush x:Key="StswBox.MouseOver.Background" Color="#111" />
@@ -128,8 +130,6 @@
     <SolidColorBrush x:Key="StswProgressBar.Running.Foreground" Color="#262" />
     <SolidColorBrush x:Key="StswProgressBar.Paused.Foreground" Color="#662" />
     <SolidColorBrush x:Key="StswProgressBar.Error.Foreground" Color="#622" />
-
-    <SolidColorBrush x:Key="StswSeparator.Static.Border" Color="#555" />
 
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#333" />
     <SolidColorBrush x:Key="StswSlider.Static.Border" Color="#555" />

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace StswExpress;
 
@@ -44,9 +43,7 @@ public class StswSeparator : Separator
             nameof(BorderThickness),
             typeof(double),
             typeof(StswSeparator),
-            new FrameworkPropertyMetadata(default(double),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnBorderThicknessChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new PropertyMetadata(default(double), OnBorderThicknessChanged)
         );
     public new double BorderThickness
     {

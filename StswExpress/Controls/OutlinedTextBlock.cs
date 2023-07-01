@@ -220,17 +220,23 @@ public class OutlinedTextBlock : FrameworkElement
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
-        _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
-        _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
-
-        return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
+        if (_FormattedText != null)
+        {
+            _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+            _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
+            return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
+        }
+        return new Size();
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();
-        _FormattedText.MaxTextWidth = finalSize.Width;
-        _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
+        if (_FormattedText != null)
+        {
+            _FormattedText.MaxTextWidth = finalSize.Width;
+            _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
+        }
         _TextGeometry = null;
 
         return finalSize;
@@ -289,6 +295,6 @@ public class OutlinedTextBlock : FrameworkElement
             return;
 
         EnsureFormattedText();
-        _TextGeometry = _FormattedText.BuildGeometry(new Point(0, 0));
+        _TextGeometry = _FormattedText?.BuildGeometry(new Point(0, 0));
     }
 }

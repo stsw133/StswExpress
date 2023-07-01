@@ -53,19 +53,5 @@ public class StswExpander : Expander
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > Padding ...
-    /// HeaderPadding
-    public static readonly DependencyProperty HeaderPaddingProperty
-        = DependencyProperty.Register(
-            nameof(HeaderPadding),
-            typeof(Thickness),
-            typeof(StswExpander)
-        );
-    public Thickness HeaderPadding
-    {
-        get => (Thickness)GetValue(HeaderPaddingProperty);
-        set => SetValue(HeaderPaddingProperty, value);
-    }
     #endregion
 }

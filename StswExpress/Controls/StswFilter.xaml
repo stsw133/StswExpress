@@ -17,12 +17,12 @@
                     <DockPanel>
 
                         <!-- filter -->
-                        <se:ClippingBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True"
-                                           Visibility="{TemplateBinding FilterVisibility}">
+                        <se:StswClippingBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="{TemplateBinding CornerRadius}"
+                                               SnapsToDevicePixels="True"
+                                               Visibility="{TemplateBinding FilterVisibility}">
                             <DockPanel>
                                 <!-- filter mode -->
                                 <se:StswToggleButton x:Name="PART_FilterMode"
@@ -284,7 +284,7 @@
                                     </ContentControl>
                                 </UniformGrid>
                             </DockPanel>
-                        </se:ClippingBorder>
+                        </se:StswClippingBorder>
                         <!-- header -->
                         <ContentPresenter Content="{TemplateBinding Header}"/>
                     </DockPanel>
