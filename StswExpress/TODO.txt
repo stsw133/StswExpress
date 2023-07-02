@@ -12,5 +12,4 @@
 // TODO - new option in StswFilters to download or not data from database
 
 /// Changes to do for now:
-// TODO - StswFilter needs to refresh data on Enter click
 // TODO - StswNavigationElement needs bugfixes for not extended mode

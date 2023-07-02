@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="TestApp.StswOutlinedTextView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswOutlinedTextContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="1">
+                <se:StswOutlinedText Margin="5" Fill="Red" FontSize="30" Stroke="Blue" StrokeThickness="3" Text="Some random text with blue stroke and red fill"/>
+                <se:StswOutlinedText Margin="5" Fill="Blue" FontSize="30" Stroke="Green" StrokeThickness="3" Text="Some random text with green stroke and blue fill"/>
+                <se:StswOutlinedText Margin="5" Fill="Green" FontSize="30" Stroke="Red" StrokeThickness="3" Text="Some random text with red stroke and green fill"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

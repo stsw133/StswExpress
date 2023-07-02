@@ -49,6 +49,15 @@
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Style\StswLoadingCircle\StswLoadingCircleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Text\StswOutlinedText\StswOutlinedTextView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Uncategorized\StswFilter\StswFilterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -68,6 +77,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Wiki\WikiView.xaml.cs">
@@ -106,10 +118,10 @@
     <Compile Update="Modules\Controls\Media\StswImage\StswImageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Media\StswIcon\StswIconView.xaml.cs">
+    <Compile Update="Modules\Controls\Style\StswIcon\StswIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Uncategorized\StswHeader\StswHeaderView.xaml.cs">
+    <Compile Update="Modules\Controls\Style\StswHeader\StswHeaderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Layout\StswGroupBox\StswGroupBoxView.xaml.cs">
@@ -157,6 +169,15 @@
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Style\StswLoadingCircle\StswLoadingCircleView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Text\StswOutlinedText\StswOutlinedTextView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Uncategorized\StswFilter\StswFilterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -184,6 +205,9 @@
     <Page Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Wiki\WikiView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
@@ -233,11 +257,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Media\StswIcon\StswIconView.xaml">
+    <Page Update="Modules\Controls\Style\StswIcon\StswIconView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Uncategorized\StswHeader\StswHeaderView.xaml">
+    <Page Update="Modules\Controls\Style\StswHeader\StswHeaderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

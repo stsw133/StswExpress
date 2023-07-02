@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
+        
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswRadioButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswRepeatButton.xaml"/>
@@ -32,19 +33,26 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswSeparator.xaml"/>
         
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswFilter.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswHeader.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswIcon.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswImage.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswLoadingCircle.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswNavigation.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswNavigationElement.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswProgressBar.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswScrollViewer.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswSlider.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswTabControl.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswTabItem.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/StswWindow.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Media/StswImage.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswNavigation.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswNavigationElement.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswTabControl.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswTabItem.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/StswScrollViewer.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/StatusInfo/StswProgressBar.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswHeader.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswIcon.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswLoadingCircle.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswFilter.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswSlider.xaml"/>
+        
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

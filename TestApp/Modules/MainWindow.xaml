@@ -52,19 +52,33 @@
                 <se:StswNavigationElement Text="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
-                <se:StswNavigationElement Text="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Text="StswImage" ContextNamespace="TestApp.StswImageContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Navigation" IconData="{x:Static se:StswIcons.NavigationVariantOutline}">
                 <se:StswNavigationElement Text="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
                 <se:StswNavigationElement Text="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
             </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
+                <se:StswNavigationElement Text="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
+            </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Text="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
             </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Style" IconData="{x:Static se:StswIcons.FormatLineStyle}">
+                <se:StswNavigationElement Text="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
+                <se:StswNavigationElement Text="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
+                <se:StswNavigationElement Text="StswLoadingCircle" ContextNamespace="TestApp.StswLoadingCircleContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Text" IconData="{x:Static se:StswIcons.Text}">
+                <se:StswNavigationElement Text="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
+                <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="{x:Null}"/>
+                <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="{x:Null}"/>
+                <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
+            </se:StswNavigationElement>
             <se:StswNavigationElement Text="Uncategorized" IconData="{x:Static se:StswIcons.Help}">
                 <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
-                <se:StswNavigationElement Text="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
                 <se:StswNavigationElement Text="StswSlider" ContextNamespace="TestApp.StswSliderContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>

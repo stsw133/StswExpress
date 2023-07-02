@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="TestApp.StswLoadingCircleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswLoadingCircleContext/>
+    </d:UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel VerticalAlignment="Top">
+            <Label DockPanel.Dock="Top" Content="Disabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswLoadingCircle IsEnabled="False" Scale="auto"/>
+                <se:StswLoadingCircle IsEnabled="False" Fill="Red"/>
+                <se:StswLoadingCircle IsEnabled="False" Scale="1.5"/>
+                <se:StswLoadingCircle IsEnabled="False" Scale="2"/>
+                <se:StswLoadingCircle IsEnabled="False" Scale="3"/>
+                <se:StswLoadingCircle IsEnabled="False" Scale="4"/>
+                <se:StswLoadingCircle IsEnabled="False" Scale="6"/>
+            </UniformGrid>
+            <Label DockPanel.Dock="Top" Content="Enabled:"/>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
+                <se:StswLoadingCircle Scale="auto"/>
+                <se:StswLoadingCircle Fill="Red"/>
+                <se:StswLoadingCircle Scale="1.5"/>
+                <se:StswLoadingCircle Scale="2"/>
+                <se:StswLoadingCircle Scale="3"/>
+                <se:StswLoadingCircle Scale="4"/>
+                <se:StswLoadingCircle Scale="6"/>
+            </UniformGrid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>
