@@ -70,6 +70,7 @@
                 <se:StswNavigationElement Text="StswLoadingCircle" ContextNamespace="TestApp.StswLoadingCircleContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Text" IconData="{x:Static se:StswIcons.Text}">
+                <se:StswNavigationElement Text="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Text="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">

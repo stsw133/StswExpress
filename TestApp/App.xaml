@@ -65,6 +65,9 @@
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelContext}">
+                <local:StswLabelView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
