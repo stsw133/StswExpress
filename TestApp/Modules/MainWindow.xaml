@@ -7,7 +7,7 @@
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
-    
+
     <se:StswNavigation Padding="5" ItemsWidth="200">
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext"/>
@@ -74,7 +74,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
                 <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="{x:Null}"/>
+                <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Uncategorized" IconData="{x:Static se:StswIcons.Help}">
@@ -98,7 +98,7 @@
             </se:StswNavigationElement>
         </se:StswNavigationElement>
         <se:StswNavigationElement/>
-        
+
         <se:StswNavigation.ItemsPinned>
             <se:StswNavigationElement/>
             <se:StswNavigationElement Text="Wiki" IconData="{x:Static se:StswIcons.BookOpenPageVariantOutline}" ContextNamespace="TestApp.WikiContext"/>

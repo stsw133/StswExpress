@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="TestApp.StswNotifyIconView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswNotifyIconContext/>
+    </d:UserControl.DataContext>
+    <se:StswNotifyIcon ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
+        <se:StswNotifyIcon.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
+            </ContextMenu>
+        </se:StswNotifyIcon.ContextMenu>
+    </se:StswNotifyIcon>
+</UserControl>
