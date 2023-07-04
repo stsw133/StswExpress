@@ -74,7 +74,7 @@
                 <se:StswNavigationElement Text="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
-                <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="{x:Null}"/>
+                <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>

@@ -50,6 +50,7 @@
 
         <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswLabel.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswContentDialog.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswFilter.xaml"/>

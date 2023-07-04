@@ -12,9 +12,11 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Items}" IsEnabled="False"/>
+            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="False"/>
+            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" SelectedItemsBinding="{Binding SelectedTypes}" IsEnabled="False" SelectionMode="Multiple"/>
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Items}"/>
+            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
+            <se:StswListBox DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding ListTypes}" DisplayMemberPath="Display" SelectedValuePath="Value" SelectedItemsBinding="{Binding SelectedTypes}" SelectionMode="Multiple"/>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

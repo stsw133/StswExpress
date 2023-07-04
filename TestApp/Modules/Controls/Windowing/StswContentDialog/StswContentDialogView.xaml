@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="TestApp.StswContentDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswContentDialogContext/>
+    </d:UserControl.DataContext>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="{Binding ContentDialogBinding.IsOpen, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
+            <DockPanel Margin="5" VerticalAlignment="Top">
+                <se:StswButton DockPanel.Dock="Top" Margin="5" Content="Open new window" Command="{Binding OpenContentDialogCommand}"/>
+                <Label DockPanel.Dock="Top" Margin="5" Content="{Binding ContentDialogResult}"/>
+            </DockPanel>
+        </ScrollViewer>
+        <se:StswContentDialog BindingData="{Binding ContentDialogBinding}"/>
+    </Grid>
+</UserControl>

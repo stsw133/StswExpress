@@ -82,6 +82,9 @@
     <Compile Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswContentDialog\StswContentDialogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -214,6 +217,9 @@
     <Page Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswContentDialog\StswContentDialogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

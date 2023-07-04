@@ -38,6 +38,9 @@
             <DataTemplate DataType="{x:Type local:StswComboViewContext}">
                 <local:StswComboViewView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
+                <local:StswContentDialogView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDataGridContext}">
                 <local:StswDataGridView/>
             </DataTemplate>
