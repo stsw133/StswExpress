@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,39 +13,31 @@ public class StswListBox : ListBox
     }
 
     #region Events
+    internal bool skipSelectionChanged;
+    
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        DataContextChanged += (s, e) => SelectionChanged -= OnSelectionChanged;
-        SelectionChanged += OnSelectionChanged;
+        if (!skipSelectionChanged)
+        {
+            DataContextChanged += (s, e) => SelectionChanged -= OnSelectionChanged;
+            SelectionChanged += OnSelectionChanged;
+        }
 
         base.OnApplyTemplate();
     }
 
-    /// GetSelectedValues
-    public List<object?> GetSelectedValues()
-    {
-        var selectedValues = new List<object?>();
-
-        foreach (var selectedItem in SelectedItems)
-        {
-            if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
-                selectedValues.Add(propertyInfo.GetValue(selectedItem));
-            else
-                selectedValues.Add(selectedItem);
-        }
-
-        return selectedValues;
-    }
-
     /// OnSelectionChanged
-    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    internal void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (SelectedItemsBinding != null)
         {
-            SelectedItemsBinding.Clear();
-            foreach (var item in SelectedItems)
-                SelectedItemsBinding.Add(item);
+            foreach (var item in e.RemovedItems)
+                if (SelectedItemsBinding.Contains(item))
+                    SelectedItemsBinding.Remove(item);
+            foreach (var item in e.AddedItems)
+                if (!SelectedItemsBinding.Contains(item))
+                    SelectedItemsBinding.Add(item);
             GetBindingExpression(SelectedItemsBindingProperty)?.UpdateSource();
         }
     }

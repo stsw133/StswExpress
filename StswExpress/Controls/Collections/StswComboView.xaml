@@ -17,7 +17,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="SelectionMode" Value="Multiple"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -73,22 +72,27 @@
                             </ItemsControl>
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
-                                       IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Placement="Bottom"
-                                       PlacementTarget="{Binding ElementName=PART_MainButton}"
-                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                       StaysOpen="False">
-                                <se:StswClippingBorder x:Name="DropDownBorder"
-                                                       Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <ScrollViewer Focusable="False">
-                                        <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </ScrollViewer>
-                                </se:StswClippingBorder>
+                                   DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_MainButton}"
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                   StaysOpen="False">
+                                <se:StswListBox x:Name="PART_ListBox"
+                                                Background="{DynamicResource StswPopup.Static.Background}"
+                                                BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                CornerRadius="{TemplateBinding CornerRadius}"
+                                                DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                Focusable="False"
+                                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                                ItemsSource="{TemplateBinding ItemsSource}"
+                                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                                SelectedItemsBinding="{TemplateBinding SelectedItemsBinding}"
+                                                SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                SelectionMode="Multiple"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Popup>
                             <!-- content -->
                             <Grid>
@@ -111,19 +115,12 @@
                         </DockPanel>
                     </se:StswToggleButton>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding SelectedItems.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
+                        <DataTrigger Binding="{Binding SelectedItemsBinding.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
                         </DataTrigger>
-                        <Trigger Property="HasItems" Value="False">
-                            <Setter Property="Height" Value="95" TargetName="DropDownBorder" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsGrouping" Value="True"/>
-                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
-                        </MultiTrigger>
+                        <DataTrigger Binding="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
+                            <Setter Property="Height" Value="95" TargetName="PART_ListBox" />
+                        </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton" />
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton" />
@@ -133,7 +130,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton" />
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_ListBox" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton" />
@@ -143,39 +140,6 @@
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border x:Name="PART_Border"
-                                        Background="{DynamicResource StswItem.Static.Background}"
-                                        BorderBrush="{DynamicResource StswItem.Static.Border}"
-                                        BorderThickness="0.5"
-                                        Padding="4 2">
-                                    <ContentPresenter/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="PART_Border" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="PART_Border" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Background}" TargetName="PART_Border" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Border}" TargetName="PART_Border" />
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}" TargetName="PART_Border" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
             </Setter.Value>
         </Setter>
 

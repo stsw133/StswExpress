@@ -1,16 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 
-public class StswComboView : ListBox
+public class StswComboView : UserControl
 {
+    public StswComboView()
+    {
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+    }
     static StswComboView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboView), new FrameworkPropertyMetadata(typeof(StswComboView)));
@@ -20,26 +24,15 @@ public class StswComboView : ListBox
     /// OnApplyTemplate
     public override void OnApplyTemplate()
     {
-        DataContextChanged += (s, e) => SelectionChanged -= OnSelectionChanged;
-        SelectionChanged += OnSelectionChanged;
-
-        base.OnApplyTemplate();
-    }
-
-    /// GetSelectedValues
-    public List<object?> GetSelectedValues()
-    {
-        var selectedValues = new List<object?>();
-
-        foreach (var selectedItem in SelectedItems)
+        /// ListBox
+        if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
         {
-            if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
-                selectedValues.Add(propertyInfo.GetValue(selectedItem));
-            else
-                selectedValues.Add(selectedItem);
+            listBox.skipSelectionChanged = true;
+            DataContextChanged += (s, e) => listBox.SelectionChanged -= OnSelectionChanged;
+            listBox.SelectionChanged += OnSelectionChanged;
         }
 
-        return selectedValues;
+        base.OnApplyTemplate();
     }
 
     /// OnSelectionChanged
@@ -47,21 +40,24 @@ public class StswComboView : ListBox
     {
         if (SelectedItemsBinding != null)
         {
-            SelectedItemsBinding.Clear();
-            foreach (var item in SelectedItems)
-                SelectedItemsBinding.Add(item);
+            foreach (var item in e.RemovedItems)
+                if (SelectedItemsBinding.Contains(item))
+                    SelectedItemsBinding.Remove(item);
+            foreach (var item in e.AddedItems)
+                if (!SelectedItemsBinding.Contains(item))
+                    SelectedItemsBinding.Add(item);
             GetBindingExpression(SelectedItemsBindingProperty)?.UpdateSource();
         }
-        SetSelectedText();
+        SetText();
     }
 
-    /// SetSelectedText
-    internal void SetSelectedText()
+    /// SetText
+    internal void SetText()
     {
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
         var selectedText = new StringBuilder();
 
-        foreach (var selectedItem in SelectedItems)
+        foreach (var selectedItem in SelectedItemsBinding)
         {
             if (DisplayMemberPath != null && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
             {
@@ -79,24 +75,6 @@ public class StswComboView : ListBox
             selectedText.Length -= listSeparator.Length;
 
         Text = selectedText.ToString();
-
-        /* /// OTHER METHOD FOR SETTING SELECTED TEXT
-        if (SelectedItems?.Count > 0)
-        {
-            var items = SelectedItems.OfType<object?>().ToList();
-            var item = SelectedItems.OfType<object?>().FirstOrDefault();
-            var listSep = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
-
-            if (!item?.GetType()?.IsValueType == true && item?.GetType() != typeof(string))
-            {
-                var displayProperty = item?.GetType()?.GetProperty(DisplayMemberPath);
-                var display = string.Join(listSep, items.Select(x => (displayProperty != null ? displayProperty.GetValue(x) : x)?.ToString()));
-                Text = !string.IsNullOrEmpty(display) ? $"[{SelectedItems?.Count}] {display}" : string.Empty;
-            }
-            else Text = $"[{SelectedItems?.Count}] {string.Join(listSep, items)}";
-        }
-        else Text = string.Empty;
-        */
     }
     #endregion
 
@@ -139,17 +117,45 @@ public class StswComboView : ListBox
         set => SetValue(ComponentsAlignmentProperty, value);
     }
 
+    /// DisplayMemberPath
+    public static readonly DependencyProperty DisplayMemberPathProperty
+        = DependencyProperty.Register(
+            nameof(DisplayMemberPath),
+            typeof(string),
+            typeof(StswComboView)
+        );
+    public string? DisplayMemberPath
+    {
+        get => (string?)GetValue(DisplayMemberPathProperty);
+        set => SetValue(DisplayMemberPathProperty, value);
+    }
+
     /// IsDropDownOpen
     public static readonly DependencyProperty IsDropDownOpenProperty
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
-            typeof(StswComboView)
+            typeof(StswComboView),
+            new PropertyMetadata(default(bool), OnIsDropDownOpenChanged)
         );
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
+    }
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswComboView stsw)
+        {
+            if (stsw.IsDropDownOpen)
+                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
+            else
+                _ = Mouse.Capture(null);
+        }
+    }
+    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
+    {
+        SetCurrentValue(IsDropDownOpenProperty, false);
     }
 
     /// IsReadOnly
@@ -163,6 +169,19 @@ public class StswComboView : ListBox
     {
         get => (bool)GetValue(IsReadOnlyProperty);
         set => SetValue(IsReadOnlyProperty, value);
+    }
+
+    /// ItemsSource
+    public static readonly DependencyProperty ItemsSourceProperty
+        = DependencyProperty.Register(
+            nameof(ItemsSource),
+            typeof(IList),
+            typeof(StswComboView)
+        );
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
 
     /// Placeholder
@@ -186,17 +205,25 @@ public class StswComboView : ListBox
             typeof(StswComboView),
             new FrameworkPropertyMetadata(default(IList),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnSelectedItemsBindingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public IList SelectedItemsBinding
     {
         get => (IList)GetValue(SelectedItemsBindingProperty);
         set => SetValue(SelectedItemsBindingProperty, value);
     }
-    private static void OnSelectedItemsBindingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// SelectedValuePath
+    public static readonly DependencyProperty SelectedValuePathProperty
+        = DependencyProperty.Register(
+            nameof(SelectedValuePath),
+            typeof(string),
+            typeof(StswComboView)
+        );
+    public string? SelectedValuePath
     {
-        if (obj is StswComboView stsw)
-            stsw.SetSelectedItems(stsw.SelectedItemsBinding);
+        get => (string?)GetValue(SelectedValuePathProperty);
+        set => SetValue(SelectedValuePathProperty, value);
     }
 
     /// Text
