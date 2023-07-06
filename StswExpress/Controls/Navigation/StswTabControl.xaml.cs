@@ -18,7 +18,7 @@ public class StswTabControl : TabControl
     public override void OnApplyTemplate()
     {
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is Button btn)
+        if (GetTemplateChild("PART_FunctionButton") is StswButton btn)
             btn.Click += PART_FunctionButton_Click;
 
         base.OnApplyTemplate();
@@ -27,6 +27,9 @@ public class StswTabControl : TabControl
     /// PART_FunctionButton_Click
     public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
+        if (NewTabTemplate == null)
+            return;
+
         var newTab = new StswTabItem()
         {
             Header = new StswHeader()
@@ -34,16 +37,16 @@ public class StswTabControl : TabControl
                 IconData = NewTabTemplate.Icon,
                 Content = NewTabTemplate.Name
             },
-            Closable = true,
-            Content = Activator.CreateInstance(NewTabTemplate.Type)
+            IsClosable = true,
+            Content = NewTabTemplate.Type != null ? Activator.CreateInstance(NewTabTemplate.Type) : null
         };
 
-        int? index;
-        if (ItemsSource != null)
-            index = (ItemsSource as IList)?.Add(newTab);
-        else
-            index = Items?.Add(newTab);
-        SelectedIndex = index ?? -1;
+        int index = -1;
+        if (ItemsSource is IList list and not null)
+            index = list.Add(newTab);
+        else if (Items != null)
+            index = Items.Add(newTab);
+        SelectedIndex = index;
     }
     #endregion
 
@@ -61,6 +64,18 @@ public class StswTabControl : TabControl
         set => SetValue(AreTabsVisibleProperty, value);
     }
 
+    /// NewTabButtonVisibility
+    public static readonly DependencyProperty NewTabButtonVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(NewTabButtonVisibility),
+            typeof(Visibility),
+            typeof(StswTabControl)
+        );
+    public Visibility NewTabButtonVisibility
+    {
+        get => (Visibility)GetValue(NewTabButtonVisibilityProperty);
+        set => SetValue(NewTabButtonVisibilityProperty, value);
+    }
     /// NewTabTemplate
     public static readonly DependencyProperty NewTabTemplateProperty
         = DependencyProperty.Register(
@@ -73,19 +88,6 @@ public class StswTabControl : TabControl
         get => (StswTabItemModel)GetValue(NewTabTemplateProperty);
         set => SetValue(NewTabTemplateProperty, value);
     }
-
-    /// SpecialButtonVisibility
-    public static readonly DependencyProperty SpecialButtonVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(SpecialButtonVisibility),
-            typeof(Visibility),
-            typeof(StswTabControl)
-        );
-    public Visibility SpecialButtonVisibility
-    {
-        get => (Visibility)GetValue(SpecialButtonVisibilityProperty);
-        set => SetValue(SpecialButtonVisibilityProperty, value);
-    }
     #endregion
 }
 
@@ -93,5 +95,5 @@ public class StswTabItemModel
 {
     public Geometry? Icon { get; set; }
     public string? Name { get; set; }
-    public Type Type { get; set; }
+    public Type? Type { get; set; }
 }
