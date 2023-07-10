@@ -32,8 +32,7 @@ public class StswBindingProxy : Freezable
     <DataGrid.Columns>
         <DataGridTextColumn Binding="{Binding Name}">
             <DataGridTextColumn.Header>
-                <se:StswFilter BindingData="{Binding Proxy.ColumnFilters[Name], Mode=TwoWay, Source={StaticResource proxy}}"
-                               Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="c.Name"/>
+                <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="c.Name"/>
             </DataGridTextColumn.Header>
         </DataGridTextColumn>
     </DataGrid.Columns>

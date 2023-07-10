@@ -20,26 +20,55 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswContentDialog}">
                     <Grid Background="#B000">
-                        <se:StswClippingBorder x:Name="PART_MainBorder"
-                                               Background="{TemplateBinding Background}"
-                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                               CornerRadius="{TemplateBinding CornerRadius}"
-                                               SnapsToDevicePixels="True"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <se:StswGroupBox x:Name="PART_MainBorder"
+                                         Background="{TemplateBinding Background}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                         SnapsToDevicePixels="True"
+                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <se:StswGroupBox.Header>
+                                <se:StswHeader x:Name="PART_Header" IconScale="2">
+                                    <se:StswLabel Background="{DynamicResource StswExpander.Static.Header}" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}"/>
+                                </se:StswHeader>
+                            </se:StswGroupBox.Header>
                             <DockPanel>
-                                <TextBox DockPanel.Dock="Top" IsReadOnly="True" Margin="{TemplateBinding Padding}" Text="Testowy tekst"/>
-                                <UniformGrid Rows="1" Margin="{TemplateBinding Padding}">
-                                    <Button Content="Tak" Command="{Binding BindingData.OnYesCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <Button Content="Nie" Command="{Binding BindingData.OnNoCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <Button Content="Anuluj" Command="{Binding BindingData.OnCancelCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">
+                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Tak" Command="{Binding BindingModel.OnYesCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Nie" Command="{Binding BindingModel.OnNoCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Anuluj" Command="{Binding BindingModel.OnCancelCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </UniformGrid>
+                                <DockPanel Margin="{TemplateBinding Padding}">
+                                    <se:StswTextBox IsReadOnly="True"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                    Text="{Binding BindingModel.Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    TextWrapping="Wrap"/>
+                                </DockPanel>
                             </DockPanel>
-                        </se:StswClippingBorder>
+                        </se:StswGroupBox>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding BindingData.IsOpen, RelativeSource={RelativeSource Self}}" Value="False">
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Error">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagon}" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="#E22" TargetName="PART_Header" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Question">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="#28E" TargetName="PART_Header" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Warning">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Alert}" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="#E82" TargetName="PART_Header" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Information">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.InformationSlabBox}" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="#2C2" TargetName="PART_Header" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.IsOpen, RelativeSource={RelativeSource Self}}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>

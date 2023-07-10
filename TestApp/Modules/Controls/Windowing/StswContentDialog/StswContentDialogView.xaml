@@ -16,6 +16,6 @@
                 <Label DockPanel.Dock="Top" Margin="5" Content="{Binding ContentDialogResult}"/>
             </DockPanel>
         </ScrollViewer>
-        <se:StswContentDialog BindingData="{Binding ContentDialogBinding}"/>
+        <se:StswContentDialog BindingModel="{Binding ContentDialogBinding}"/>
     </Grid>
 </UserControl>
