@@ -16,7 +16,7 @@
             <Label DockPanel.Dock="Top" Content="Enabled:"/>
             <se:StswTabControl DockPanel.Dock="Top" Margin="5" AreTabsVisible="True" ItemsSource="{Binding Items}" SelectedIndex="0">
                 <se:StswTabControl.NewTabTemplate>
-                    <se:StswTabItemModel Icon="{x:Static se:StswIcons.Glasses}" Name="New tab" Type="{x:Type local:ContractorsContext}"/>
+                    <se:StswTabItemModel Icon="{x:Static se:StswIcons.Glasses}" Name="New tab" Type="{x:Type local:StswIconContext}"/>
                 </se:StswTabControl.NewTabTemplate>
             </se:StswTabControl>
         </DockPanel>

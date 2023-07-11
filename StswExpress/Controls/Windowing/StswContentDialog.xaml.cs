@@ -8,7 +8,7 @@ public class StswContentDialog : UserControl
 {
     public StswContentDialog()
     {
-        SetValue(BindingDataProperty, new StswContentDialogModel());
+        SetValue(BindingModelProperty, new StswContentDialogModel());
     }
     static StswContentDialog()
     {
@@ -24,17 +24,34 @@ public class StswContentDialog : UserControl
     #endregion
 
     #region Main properties
-    /// BindingData
-    public static readonly DependencyProperty BindingDataProperty
+    public enum Buttons
+    {
+        //Custom = -1,
+        OK,
+        OKCancel,
+        YesNoCancel,
+        YesNo
+    }
+    public enum Images
+    {
+        //Custom = -1,
+        None,
+        Error,
+        Question,
+        Warning,
+        Information
+    }
+    /// BindingModel
+    public static readonly DependencyProperty BindingModelProperty
         = DependencyProperty.Register(
-            nameof(BindingData),
+            nameof(BindingModel),
             typeof(StswContentDialogModel),
             typeof(StswContentDialog)
         );
-    public StswContentDialogModel BindingData
+    public StswContentDialogModel BindingModel
     {
-        get => (StswContentDialogModel)GetValue(BindingDataProperty);
-        set => SetValue(BindingDataProperty, value);
+        get => (StswContentDialogModel)GetValue(BindingModelProperty);
+        set => SetValue(BindingModelProperty, value);
     }
     #endregion
 
@@ -57,6 +74,10 @@ public class StswContentDialog : UserControl
 
 public class StswContentDialogModel
 {
+    public string? Title { get; set; }
+    public string? Content { get; set; }
+    public StswContentDialog.Buttons Button { get; set; } //= StswContentDialog.Buttons.Custom;
+    public StswContentDialog.Images Image { get; set; } //= StswContentDialog.Images.Custom;
     public ICommand? OnYesCommand { get; set; }
     public ICommand? OnNoCommand { get; set; }
     public ICommand? OnCancelCommand { get; set; }

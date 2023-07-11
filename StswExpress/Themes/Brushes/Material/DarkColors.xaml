@@ -146,6 +146,18 @@
     <SolidColorBrush x:Key="StswSlider.Thumb.Disabled.Background" Color="#222" />
     <SolidColorBrush x:Key="StswSlider.Thumb.Disabled.Border" Color="#333" />
 
+    <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#111" />
+    <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#555" />
+    <SolidColorBrush x:Key="StswTabControl.Disabled.Foreground" Color="#999" />
+    <SolidColorBrush x:Key="StswTabItem.Static.Background" Color="#222" />
+    <SolidColorBrush x:Key="StswTabItem.Static.Border" Color="#555" />
+    <SolidColorBrush x:Key="StswTabItem.MouseOver.Background" Color="#333" />
+    <SolidColorBrush x:Key="StswTabItem.MouseOver.Border" Color="#666" />
+    <SolidColorBrush x:Key="StswTabItem.Checked.Background" Color="#111" />
+    <SolidColorBrush x:Key="StswTabItem.Checked.Border" Color="#555" />
+    <SolidColorBrush x:Key="StswTabItem.Disabled.Background" Color="#222" />
+    <SolidColorBrush x:Key="StswTabItem.Disabled.Border" Color="#333" />
+
     <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7555" />
 
     <!-- . . . -->

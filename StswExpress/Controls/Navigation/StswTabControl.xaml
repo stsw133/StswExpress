@@ -4,62 +4,49 @@
 
     <Style TargetType="{x:Type se:StswTabControl}">
 
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <!-- <Setter Property="BackgroundDisabled" Value="{DynamicResource StswBox.Disabled.Background}"/> -->
-
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <!-- <Setter Property="BorderBrushDisabled" Value="{DynamicResource StswBox.Disabled.Border}"/> -->
-
+        <Setter Property="Background" Value="{DynamicResource StswTabControl.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <!-- <Setter Property="ForegroundDisabled" Value="{DynamicResource StswBox.Disabled.Foreground}"/> -->
-
+        
         <Setter Property="BorderThickness" Value="2"/>
         <!-- <Setter Property="CornerRadius" Value="10"/> -->
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
-                    <Grid x:Name="templateRoot"
-                          ClipToBounds="True"
-                          KeyboardNavigation.TabNavigation="Local"
-                          SnapsToDevicePixels="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="ColumnDefinition0"/>
-                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition x:Name="RowDefinition0" Height="auto"/>
-                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal">
-                            <TabPanel x:Name="HeaderPanel"
-                                      Background="Transparent"
-                                      Grid.Column="0"
-                                      Grid.Row="0"
-                                      IsItemsHost="True"
-                                      KeyboardNavigation.TabIndex="1"
-                                      Margin="2 2 0 0"
-                                      Panel.ZIndex="1"/>
+                    <DockPanel x:Name="PART_TemplateRoot"
+                               ClipToBounds="True"
+                               KeyboardNavigation.TabNavigation="Local"
+                               SnapsToDevicePixels="True">
+                        <DockPanel x:Name="PART_HeaderPanel" DockPanel.Dock="Top">
                             <se:StswButton x:Name="PART_FunctionButton"
+                                           DockPanel.Dock="Right"
                                            BorderThickness="0 1 1 0"
-                                           CornerRadius="0 9 0 0"
+                                           CornerRadius="0 10 0 0"
                                            Margin="0 2 0 0"
-                                           Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                           Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                           Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                        </StackPanel>
-                        <Border x:Name="ContentPanel"
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <TabPanel x:Name="HeaderPanel"
+                                          Background="Transparent"
+                                          IsItemsHost="True"
+                                          KeyboardNavigation.TabIndex="1"
+                                          Margin="2 2 0 0"
+                                          Panel.ZIndex="1"/>
+                            </ScrollViewer>
+                        </DockPanel>
+                        <Border x:Name="PART_ContentPanel" DockPanel.Dock="Bottom"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Grid.Column="0"
-                                Grid.Row="1"
                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                 KeyboardNavigation.TabIndex="2"
                                 KeyboardNavigation.TabNavigation="Local">
@@ -68,42 +55,38 @@
                                               Margin="{TemplateBinding Padding}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
-                    </Grid>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="AreTabsVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_HeaderPanel" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Top">
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel" />
+                        </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="Grid.Row" Value="1" TargetName="HeaderPanel" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="ContentPanel" />
-                            <Setter Property="Height" Value="*" TargetName="RowDefinition0" />
-                            <Setter Property="Height" Value="auto" TargetName="RowDefinition1" />
-                            <Setter Property="Margin" Value="2 0 2 2" TargetName="HeaderPanel" />
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Grid.Row" Value="1" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Margin" Value="2 0 0 2" TargetName="HeaderPanel" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel" />
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="Grid.Row" Value="0" TargetName="HeaderPanel" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="ContentPanel" />
-                            <Setter Property="Grid.Column" Value="0" TargetName="HeaderPanel" />
-                            <Setter Property="Grid.Column" Value="1" TargetName="ContentPanel" />
-                            <Setter Property="Width" Value="auto" TargetName="ColumnDefinition0" />
-                            <Setter Property="Width" Value="*" TargetName="ColumnDefinition1" />
-                            <Setter Property="Height" Value="*" TargetName="RowDefinition0" />
-                            <Setter Property="Height" Value="0" TargetName="RowDefinition1" />
-                            <Setter Property="Margin" Value="2 2 0 2" TargetName="HeaderPanel" />
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Margin" Value="2 2 0 0" TargetName="HeaderPanel" />
+                            <Setter Property="Grid.Column" Value="1" TargetName="PART_ContentPanel" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel" />
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="Grid.Row" Value="0" TargetName="HeaderPanel" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="ContentPanel" />
-                            <Setter Property="Grid.Column" Value="1" TargetName="HeaderPanel" />
-                            <Setter Property="Grid.Column" Value="0" TargetName="ContentPanel" />
-                            <Setter Property="Width" Value="*" TargetName="ColumnDefinition0" />
-                            <Setter Property="Width" Value="auto" TargetName="ColumnDefinition1" />
-                            <Setter Property="Height" Value="*" TargetName="RowDefinition0" />
-                            <Setter Property="Height" Value="0" TargetName="RowDefinition1" />
-                            <Setter Property="Margin" Value="0 2 2 2" TargetName="HeaderPanel" />
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Grid.Column" Value="1" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel" />
+                            <Setter Property="Margin" Value="0 2 2 0" TargetName="HeaderPanel" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_ContentPanel" />
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="templateRoot" />
-                        </Trigger>
-                        <Trigger Property="AreTabsVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="HeaderPanel" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswTabControl.Disabled.Foreground}" TargetName="PART_TemplateRoot" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

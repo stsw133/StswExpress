@@ -16,7 +16,7 @@ public class StswTabItem : TabItem
     public override void OnApplyTemplate()
     {
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is Button btn)
+        if (GetTemplateChild("PART_FunctionButton") is StswButton btn)
             btn.Click += PART_FunctionButton_Click;
 
         base.OnApplyTemplate();
@@ -26,25 +26,28 @@ public class StswTabItem : TabItem
     public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);
-        if (tabControl?.ItemsSource != null)
-            (tabControl?.ItemsSource as IList)?.Remove(this);
-        else
-            tabControl?.Items?.Remove(this);
+        if (tabControl != null)
+        {
+            if (tabControl.ItemsSource is IList list and not null)
+                list.Remove(this);
+            else
+                tabControl.Items?.Remove(this);
+        }
     }
     #endregion
 
     #region Main properties
-    /// Closable
-    public static readonly DependencyProperty ClosableProperty
+    /// IsClosable
+    public static readonly DependencyProperty IsClosableProperty
         = DependencyProperty.Register(
-            nameof(Closable),
+            nameof(IsClosable),
             typeof(bool),
             typeof(StswTabItem)
         );
-    public bool Closable
+    public bool IsClosable
     {
-        get => (bool)GetValue(ClosableProperty);
-        set => SetValue(ClosableProperty, value);
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
     }
     #endregion
 }
