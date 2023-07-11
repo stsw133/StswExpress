@@ -77,7 +77,7 @@ public class StswLabel : Label
     #region Main properties
     /// IsContentTruncated
     public static readonly DependencyProperty IsContentTruncatedProperty = IsContentTruncatedPropertyKey?.DependencyProperty;
-    private static readonly DependencyPropertyKey IsContentTruncatedPropertyKey
+    internal static readonly DependencyPropertyKey IsContentTruncatedPropertyKey
         = DependencyProperty.RegisterReadOnly(
             nameof(IsContentTruncated),
             typeof(bool),

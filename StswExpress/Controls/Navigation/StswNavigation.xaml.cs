@@ -191,12 +191,12 @@ public class StswNavigation : UserControl
     public static readonly DependencyProperty ItemsWidthProperty
         = DependencyProperty.Register(
             nameof(ItemsWidth),
-            typeof(double?),
+            typeof(double),
             typeof(StswNavigation)
         );
-    public double? ItemsWidth
+    public double ItemsWidth
     {
-        get => (double?)GetValue(ItemsWidthProperty);
+        get => (double)GetValue(ItemsWidthProperty);
         set => SetValue(ItemsWidthProperty, value);
     }
     #endregion

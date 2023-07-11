@@ -13,6 +13,7 @@
 
         <Setter Property="IsExtended" Value="True"/>
         <Setter Property="ItemsAlignment" Value="Left"/>
+        <Setter Property="ItemsWidth" Value="NaN"/>
 
         <Setter Property="Template">
             <Setter.Value>
