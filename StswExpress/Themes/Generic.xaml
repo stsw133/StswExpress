@@ -3,8 +3,10 @@
     <ResourceDictionary.MergedDictionaries>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswButton.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswRadioButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswRepeatButton.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Buttons/StswToggleButton.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Checks/StswCheckBox.xaml"/>
@@ -13,7 +15,6 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboView.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDataGrid.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDropButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswListBox.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorBox.xaml"/>
@@ -25,6 +26,7 @@
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswNumericBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswPasswordBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswSlider.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextEditor.xaml"/>
 
@@ -54,7 +56,6 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswFilter.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswSlider.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

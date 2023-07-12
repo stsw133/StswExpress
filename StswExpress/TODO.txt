@@ -1,8 +1,7 @@
 ﻿/// Changes for future:
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
-// TODO - MessageBox and NotifyIcon builded in window
-// TODO - new custom Clock, RatingControl, ScrollViewer, ToggleSwitch
+// TODO - new custom controls: Chart, Clock, FileDialog, FlipView, InfoBar, RatingControl, ScrollViewer, ToggleSwitch, TreeView etc.
 // TODO - new custom Grid with dynamic number of rows or columns with auto height and width
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
 // TODO - StswDataGrid should have its own auto generated columns

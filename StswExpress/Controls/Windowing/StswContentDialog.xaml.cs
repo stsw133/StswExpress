@@ -53,6 +53,19 @@ public class StswContentDialog : UserControl
         get => (StswContentDialogModel)GetValue(BindingModelProperty);
         set => SetValue(BindingModelProperty, value);
     }
+
+    /// IsOpen
+    public static readonly DependencyProperty IsOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsOpen),
+            typeof(bool),
+            typeof(StswContentDialog)
+        );
+    public bool IsOpen
+    {
+        get => (bool)GetValue(IsOpenProperty);
+        set => SetValue(IsOpenProperty, value);
+    }
     #endregion
 
     #region Spatial properties

@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,10 +73,10 @@
     <Compile Update="Modules\Controls\Input\StswPasswordBox\StswPasswordBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswDropButton\StswDropButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\Buttons\StswDropButton\StswDropButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Uncategorized\StswSlider\StswSliderView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswSlider\StswSliderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Navigation\StswTabControl\StswTabControlView.xaml.cs">
@@ -163,6 +166,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -202,11 +208,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswDropButton\StswDropButtonView.xaml">
+    <Page Update="Modules\Controls\Buttons\StswDropButton\StswDropButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Uncategorized\StswSlider\StswSliderView.xaml">
+    <Page Update="Modules\Controls\Input\StswSlider\StswSliderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

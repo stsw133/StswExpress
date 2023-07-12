@@ -113,6 +113,9 @@
             <DataTemplate DataType="{x:Type local:StswSliderContext}">
                 <local:StswSliderView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSplitButtonContext}">
+                <local:StswSplitButtonView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTabControlContext}">
                 <local:StswTabControlView/>
             </DataTemplate>

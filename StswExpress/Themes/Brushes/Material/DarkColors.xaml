@@ -69,6 +69,11 @@
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#B91" />
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#B31" />
 
+    <SolidColorBrush x:Key="StswDialog.Error.Fill" Color="#B11" />
+    <SolidColorBrush x:Key="StswDialog.Question.Fill" Color="#16B" />
+    <SolidColorBrush x:Key="StswDialog.Warning.Fill" Color="#C51" />
+    <SolidColorBrush x:Key="StswDialog.Information.Fill" Color="#196" />
+
     <SolidColorBrush x:Key="StswDropButton.Static.Background" Color="#333" />
     <SolidColorBrush x:Key="StswDropButton.Static.Border" Color="#555" />
     <SolidColorBrush x:Key="StswDropButton.MouseOver.Background" Color="#444" />

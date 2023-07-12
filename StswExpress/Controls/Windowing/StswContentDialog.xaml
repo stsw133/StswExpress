@@ -15,6 +15,8 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="IsOpen" Value="{Binding BindingModel.IsOpen, RelativeSource={RelativeSource Self}}"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -32,14 +34,26 @@
                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
                                 <se:StswHeader x:Name="PART_Header" IconScale="2">
-                                    <se:StswLabel Background="{DynamicResource StswExpander.Static.Header}" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}"/>
+                                    <Label Background="{DynamicResource StswExpander.Static.Header}" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}"/>
                                 </se:StswHeader>
                             </se:StswGroupBox.Header>
                             <DockPanel>
                                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">
-                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Tak" Command="{Binding BindingModel.OnYesCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Nie" Command="{Binding BindingModel.OnNoCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <se:StswButton Margin="{TemplateBinding Padding}" Padding="15 5" Content="Anuluj" Command="{Binding BindingModel.OnCancelCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <se:StswButton x:Name="PART_ButtonYes"
+                                                   Command="{Binding BindingModel.OnYesCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Content="Tak"
+                                                   Margin="{TemplateBinding Padding}"
+                                                   Padding="15 5"/>
+                                    <se:StswButton x:Name="PART_ButtonNo"
+                                                   Command="{Binding BindingModel.OnNoCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Content="Nie"
+                                                   Margin="{TemplateBinding Padding}"
+                                                   Padding="15 5"/>
+                                    <se:StswButton x:Name="PART_ButtonCancel"
+                                                   Command="{Binding BindingModel.OnCancelCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Content="Anuluj"
+                                                   Margin="{TemplateBinding Padding}"
+                                                   Padding="15 5"/>
                                 </UniformGrid>
                                 <DockPanel Margin="{TemplateBinding Padding}">
                                     <se:StswTextBox IsReadOnly="True"
@@ -52,25 +66,37 @@
                         </se:StswGroupBox>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="OK">
+                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="OKCancel">
+                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="YesNo">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Error">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagon}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="#E22" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Fill}" TargetName="PART_Header" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Question">
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="#28E" TargetName="PART_Header" />
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpRhombus}" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Question.Fill}" TargetName="PART_Header" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Warning">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Alert}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="#E82" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Fill}" TargetName="PART_Header" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Information">
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.InformationSlabBox}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="#2C2" TargetName="PART_Header" />
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Fill}" TargetName="PART_Header" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.IsOpen, RelativeSource={RelativeSource Self}}" Value="False">
+                        <Trigger Property="IsOpen" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

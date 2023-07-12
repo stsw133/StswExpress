@@ -15,8 +15,10 @@
         <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}">
             <se:StswNavigationElement Text="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">
                 <se:StswNavigationElement Text="StswButton" ContextNamespace="TestApp.StswButtonContext"/>
+                <se:StswNavigationElement Text="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
                 <se:StswNavigationElement Text="StswRadioButton" ContextNamespace="TestApp.StswRadioButtonContext"/>
                 <se:StswNavigationElement Text="StswRepeatButton" ContextNamespace="TestApp.StswRepeatButtonContext"/>
+                <se:StswNavigationElement Text="StswSplitButton" ContextNamespace="TestApp.StswSplitButtonContext"/>
                 <se:StswNavigationElement Text="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
@@ -27,7 +29,6 @@
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
                 <se:StswNavigationElement Text="StswComboView" ContextNamespace="TestApp.StswComboViewContext"/>
                 <se:StswNavigationElement Text="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
-                <se:StswNavigationElement Text="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
                 <se:StswNavigationElement Text="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.SelectColor}">
@@ -42,6 +43,7 @@
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswNumericBox" ContextNamespace="TestApp.StswNumericBoxContext"/>
                 <se:StswNavigationElement Text="StswPasswordBox" ContextNamespace="TestApp.StswPasswordBoxContext"/>
+                <se:StswNavigationElement Text="StswSlider" ContextNamespace="TestApp.StswSliderContext"/>
                 <se:StswNavigationElement Text="StswTextBox" ContextNamespace="TestApp.StswTextBoxContext"/>
                 <se:StswNavigationElement Text="StswTextEditor" ContextNamespace="TestApp.StswTextEditorContext"/>
             </se:StswNavigationElement>
@@ -80,7 +82,6 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Uncategorized" IconData="{x:Static se:StswIcons.Help}">
                 <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
-                <se:StswNavigationElement Text="StswSlider" ContextNamespace="TestApp.StswSliderContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>
         <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">
