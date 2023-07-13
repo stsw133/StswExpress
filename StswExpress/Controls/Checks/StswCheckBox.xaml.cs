@@ -11,6 +11,21 @@ public class StswCheckBox : CheckBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCheckBox), new FrameworkPropertyMetadata(typeof(StswCheckBox)));
     }
 
+    #region Main properties
+    /// IconScale
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswCheckBox)
+        );
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    #endregion
+
     #region Spatial properties
     /// > CornerRadius ...
     /// CornerRadius

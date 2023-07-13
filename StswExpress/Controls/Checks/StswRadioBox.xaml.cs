@@ -11,6 +11,21 @@ public class StswRadioBox : RadioButton
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswRadioBox), new FrameworkPropertyMetadata(typeof(StswRadioBox)));
     }
 
+    #region Main properties
+    /// IconScale
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswRadioBox)
+        );
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    #endregion
+
     #region Spatial properties
     /// > CornerRadius ...
     /// CornerRadius

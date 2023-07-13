@@ -10,189 +10,51 @@
         <local:StswButtonContext/>
     </d:UserControl.DataContext>
 
-    <!-- <ScrollViewer VerticalScrollBarVisibility="Auto"> -->
-    <DockPanel Margin="5">
-        <!-- name and description -->
-        <Label DockPanel.Dock="Top" Content="StswButton" FontSize="18" FontWeight="Bold"/>
-        <Label DockPanel.Dock="Top">
-            Some description...
-        </Label>
-        <!-- example -->
-        <Label DockPanel.Dock="Top" Content="Example:" FontWeight="Medium"/>
-        <DockPanel DockPanel.Dock="Top">
-            <!-- props and code -->
-            <TabControl DockPanel.Dock="Right" Margin="5" Width="360">
-                <!-- properties -->
-                <TabItem Header="Properties">
-                    <TabItem.Resources>
-                        <Style TargetType="{x:Type Label}">
-                            <Setter Property="Width" Value="120"/>
-                        </Style>
-                    </TabItem.Resources>
-                    <ScrollViewer>
-                        <StackPanel>
-                            <!--
-                            <DockPanel Margin="5">
-                                <Label Content="Background:"/>
-                                <se:StswColorBox SelectedColor="{Binding Background, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BackgroundDisabled:"/>
-                                <se:StswColorBox SelectedColor="{Binding BackgroundDisabled, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BackgroundMouseOver:"/>
-                                <se:StswColorBox SelectedColor="{Binding BackgroundMouseOver, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BackgroundPressed:"/>
-                                <se:StswColorBox SelectedColor="{Binding BackgroundPressed, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BorderBrush:"/>
-                                <se:StswColorBox SelectedColor="{Binding BorderBrush, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BorderBrushDefaulted:"/>
-                                <se:StswColorBox SelectedColor="{Binding BorderBrushDefaulted, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BorderBrushDisabled:"/>
-                                <se:StswColorBox SelectedColor="{Binding BorderBrushDisabled, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BorderBrushMouseOver:"/>
-                                <se:StswColorBox SelectedColor="{Binding BorderBrushMouseOver, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="BorderBrushPressed:"/>
-                                <se:StswColorBox SelectedColor="{Binding BorderBrushPressed, ElementName=Example, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </DockPanel>
-                            -->
-                            <DockPanel Margin="5">
-                                <Label Content="BorderThickness:"/>
-                                <UniformGrid>
-                                    <DockPanel Margin="0 5 3 3">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowLeft}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding BorderThickness.Left, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 5 0 3">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowRight}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding BorderThickness.Right, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="0 3 3 5">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowUp}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding BorderThickness.Top, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 3 0 5">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowDown}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding BorderThickness.Bottom, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                </UniformGrid>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="Content:"/>
-                                <se:StswTextBox Text="{Binding Content, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="CornerRadius:"/>
-                                <UniformGrid>
-                                    <DockPanel Margin="0 5 3 3">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowTopLeft}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding CornerRadius.TopLeft, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 5 0 3">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowTopRight}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding CornerRadius.TopRight, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="0 3 3 5">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowBottomLeft}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding CornerRadius.BottomLeft, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 3 0 5">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowBottomRight}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding CornerRadius.BottomRight, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                </UniformGrid>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="FontSize:"/>
-                                <se:StswNumericBox Minimum="1" Value="{Binding FontSize, ElementName=Example}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="Height:"/>
-                                <se:StswNumericBox Minimum="0" Value="{Binding Height, ElementName=Example}"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="IsDefault:"/>
-                                <se:StswCheckBox IsChecked="{Binding IsDefault, ElementName=Example}" HorizontalAlignment="Left"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="IsEnabled:"/>
-                                <se:StswCheckBox IsChecked="{Binding IsEnabled, ElementName=Example}" HorizontalAlignment="Left"/>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="Margin:"/>
-                                <UniformGrid>
-                                    <DockPanel Margin="0 5 3 3">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowLeft}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Margin.Left, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 5 0 3">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowRight}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Margin.Right, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="0 3 3 5">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowUp}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Margin.Top, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 3 0 5">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowDown}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Margin.Bottom, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                </UniformGrid>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="Padding:"/>
-                                <UniformGrid>
-                                    <DockPanel Margin="0 5 3 3">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowLeft}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Padding.Left, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 5 0 3">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowRight}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Padding.Right, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="0 3 3 5">
-                                        <se:StswIcon DockPanel.Dock="Right" Data="{x:Static se:StswIcons.ArrowUp}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Padding.Top, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                    <DockPanel Margin="3 3 0 5">
-                                        <se:StswIcon DockPanel.Dock="Left" Data="{x:Static se:StswIcons.ArrowDown}" Scale="1"/>
-                                        <se:StswNumericBox Minimum="0" Value="{Binding Padding.Bottom, ElementName=Example, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DockPanel>
-                                </UniformGrid>
-                            </DockPanel>
-                            <DockPanel Margin="5">
-                                <Label Content="Width:"/>
-                                <se:StswNumericBox Minimum="0" Value="{Binding Width, ElementName=Example}"/>
-                            </DockPanel>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
-                <!-- xaml code -->
-                <TabItem Header="XAML code">
-                    <RichTextBox IsReadOnly="True"/>
-                </TabItem>
-                <!-- c# code -->
-                <TabItem Header="C# code">
-                    <RichTextBox IsReadOnly="True"/>
-                </TabItem>
-            </TabControl>
-            <!-- control -->
-            <se:StswButton x:Name="Example" Content="Here is a text content" Margin="5" VerticalAlignment="Top"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsDefault -->
+                    <se:StswCheckBox IsChecked="{Binding IsDefault}">
+                        <Label DockPanel.Dock="Top" Content="IsDefault" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswButton DockPanel.Dock="Top"
+                                   Command="{Binding OnClickCommand}"
+                                   IsDefault="{Binding IsDefault}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   Margin="5">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.ButtonCursor}" Content="Here is a text for the header"/>
+                    </se:StswButton>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="You clicked "/>
+                        <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                        <Run Text=" time(s)"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
-    </DockPanel>
-    <!-- </ScrollViewer> -->
-    
+    </ScrollViewer>
 </UserControl>

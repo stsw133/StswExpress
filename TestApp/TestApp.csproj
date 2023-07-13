@@ -327,8 +327,4 @@
     </Page>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logic\" />
-  </ItemGroup>
-
 </Project>

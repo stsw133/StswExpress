@@ -15,6 +15,8 @@
 
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <Setter Property="IconScale" Value="1.35"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -31,15 +33,12 @@
                                                BorderThickness="{TemplateBinding BorderThickness}"
                                                CornerRadius="{TemplateBinding CornerRadius}"
                                                SnapsToDevicePixels="True">
-                            <Grid Margin="{TemplateBinding Padding}">
-                                <TextBlock x:Name="PART_Text"/>
-                                <se:StswIcon x:Name="PART_Icon"
-                                             Fill="{TemplateBinding GlyphBrush}"
-                                             Height="{Binding ActualHeight, ElementName=PART_Text}"
-                                             Width="{Binding ActualHeight, ElementName=PART_Text}"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"/>
-                            </Grid>
+                            <se:StswIcon x:Name="PART_Icon"
+                                         Fill="{TemplateBinding GlyphBrush}"
+                                         Margin="{TemplateBinding Padding}"
+                                         Scale="{TemplateBinding IconScale}"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
                         </se:StswClippingBorder>
                         <!-- content -->
                         <ContentPresenter Focusable="False" Grid.Column="1"

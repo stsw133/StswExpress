@@ -9,20 +9,43 @@
     <d:UserControl.DataContext>
         <local:StswToggleButtonContext/>
     </d:UserControl.DataContext>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswToggleButton Margin="5" IsEnabled="False">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
-                </se:StswToggleButton>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswToggleButton Margin="5">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.AlphaSCircleOutline}" Content="Standard"/>
-                </se:StswToggleButton>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswToggleButton DockPanel.Dock="Top"
+                                         IsChecked="{Binding IsChecked}"
+                                         IsEnabled="{Binding IsEnabled}"
+                                         Margin="5">
+                        <se:StswHeader IconData="{x:Static se:StswIcons.ButtonCursor}" Content="Here is a text for the header"/>
+                    </se:StswToggleButton>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="Button is "/>
+                        <Run Text="{Binding IsChecked, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=True~checked~unchecked}" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

@@ -54,6 +54,40 @@
                                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                            <ToggleButton.Template>
+                                                <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
+                                                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                                                           Background="{TemplateBinding Background}"
+                                                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                                                           SnapsToDevicePixels="True">
+                                                        <Grid>
+                                                            <ContentPresenter Focusable="False"
+                                                                              Margin="{TemplateBinding Padding}"
+                                                                              RecognizesAccessKey="True"
+                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                        </Grid>
+                                                    </se:StswClippingBorder>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainBorder" />
+                                                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainBorder" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainBorder" />
+                                                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainBorder" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainBorder" />
+                                                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainBorder" />
+                                                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </ToggleButton.Template>
                                             <DockPanel>
                                                 <!-- arrow -->
                                                 <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">

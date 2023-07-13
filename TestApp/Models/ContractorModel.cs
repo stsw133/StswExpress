@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Windows.Media;
 
 namespace TestApp;
 
-public class ContractorModel : StswCollectionItem
+public class ContractorModel : StswObservableObject, IStswCollectionItem
 {
     /// ID
     private int id;
@@ -86,18 +87,42 @@ public class ContractorModel : StswCollectionItem
         set => SetProperty(ref createDT, value);
     }
 
+    /// Pdf
+    private string? pdf;
+
+    public string? Pdf
+    {
+        get => pdf;
+        set => SetProperty(ref pdf, value);
+    }
+
+    /// > IStswCollectionItem ...
+    /// ErrorMessage
+    private string? errorMessage;
+    public string? ErrorMessage
+    {
+        get => errorMessage;
+        set => SetProperty(ref errorMessage, value);
+    }
+    /// ItemState
+    private DataRowState itemState;
+    public DataRowState ItemState
+    {
+        get => itemState;
+        set => SetProperty(ref itemState, value);
+    }
     /// ShowDetails
-    private bool showDetails;
-    public new bool ShowDetails
+    private bool? showDetails = false;
+    public bool? ShowDetails
     {
         get => showDetails;
         set
         {
             SetProperty(ref showDetails, value);
-            if (value)
+            if (value == true)
             {
                 var path = Path.Combine(Path.GetTempPath(), $"Contractor_{ID}.pdf");
-                var file = ContractorsQueries.GetPdf(ID);
+                var file = SQL.GetPdf(ID);
                 if (file != null)
                 {
                     File.WriteAllBytes(path, file);
@@ -105,13 +130,5 @@ public class ContractorModel : StswCollectionItem
                 }
             }
         }
-    }
-
-    /// Pdf
-    private string? pdf;
-    public string? Pdf
-    {
-        get => pdf;
-        set => SetProperty(ref pdf, value);
     }
 }

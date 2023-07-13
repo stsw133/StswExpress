@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace TestApp;
 
-internal static class ContractorsQueries
+internal static class SQL
 {
     /// InitializeTables
     internal static void InitializeTables()

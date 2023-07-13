@@ -1,20 +1,49 @@
 ﻿using System.Windows.Input;
-using System.Windows;
 
 namespace TestApp;
 
-public class StswDropButtonContext : StswObservableObject
+public class StswDropButtonContext : ControlsContext
 {
-    public ICommand ClickCommand { get; set; }
+    public ICommand OnClickCommand { get; set; }
 
     public StswDropButtonContext()
     {
-        ClickCommand = new StswRelayCommand<string>(Click);
+        OnClickCommand = new StswRelayCommand<string?>(OnClick);
     }
 
-    /// ClickCommand
-    private void Click(string parameter)
+    #region Events
+    /// OnClickCommand
+    private void OnClick(string? parameter)
     {
-        MessageBox.Show(parameter);
+        if (int.TryParse(parameter, out var result))
+            ClickOption = result;
+        IsDropDownOpen = false;
     }
+    #endregion
+
+    #region Properties
+    /// ClickOption
+    private int clickOption;
+    public int ClickOption
+    {
+        get => clickOption;
+        set => SetProperty(ref clickOption, value);
+    }
+
+    /// IsDropDownOpen
+    private bool isDropDownOpen = false;
+    public bool IsDropDownOpen
+    {
+        get => isDropDownOpen;
+        set => SetProperty(ref isDropDownOpen, value);
+    }
+
+    /// IsReadOnly
+    private bool isReadOnly = false;
+    public bool IsReadOnly
+    {
+        get => isReadOnly;
+        set => SetProperty(ref isReadOnly, value);
+    }
+    #endregion
 }

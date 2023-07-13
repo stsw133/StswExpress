@@ -9,56 +9,70 @@
     <d:UserControl.DataContext>
         <local:StswSplitButtonContext/>
     </d:UserControl.DataContext>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswSplitButton DockPanel.Dock="Top" Margin="5" IsEnabled="False" Command="{Binding ClickCommand}" CommandParameter="6">
-                <se:StswSplitButton.Header>
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
-                </se:StswSplitButton.Header>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswSplitButton DockPanel.Dock="Top"
+                                        IsDropDownOpen="{Binding IsDropDownOpen}"
+                                        IsEnabled="{Binding IsEnabled}"
+                                        IsReadOnly="{Binding IsReadOnly}"
+                                        Margin="5"
+                                        Command="{Binding OnClickCommand}" CommandParameter="6">
+                        <se:StswSplitButton.Header>
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="Here is a text for the header"/>
+                        </se:StswSplitButton.Header>
 
-                <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClickCommand}" CommandParameter="1">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClickCommand}" CommandParameter="2">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClickCommand}" CommandParameter="3">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
-                </se:StswButton>
-            </se:StswSplitButton>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <se:StswSplitButton DockPanel.Dock="Top" Margin="5" IsReadOnly="True" Command="{Binding ClickCommand}" CommandParameter="6">
-                <se:StswSplitButton.Header>
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
-                </se:StswSplitButton.Header>
-
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="1">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="2">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="3">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
-                </se:StswButton>
-            </se:StswSplitButton>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswSplitButton DockPanel.Dock="Top" Margin="5" Command="{Binding ClickCommand}" CommandParameter="6">
-                <se:StswSplitButton.Header>
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="TEST"/>
-                </se:StswSplitButton.Header>
-
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="1">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="TEST 1"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="2">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="TEST 2"/>
-                </se:StswButton>
-                <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding ClickCommand}" CommandParameter="3">
-                    <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="TEST 3"/>
-                </se:StswButton>
-            </se:StswSplitButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="1">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="Option 1"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="2">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="Option 2"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="3">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="Option 3"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="4">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice4}" Content="Option 4"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="5">
+                            <se:StswHeader IconData="{x:Static se:StswIcons.Dice5}" Content="Option 5"/>
+                        </se:StswButton>
+                    </se:StswSplitButton>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="You clicked option "/>
+                        <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

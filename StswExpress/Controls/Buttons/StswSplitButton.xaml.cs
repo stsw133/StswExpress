@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -102,7 +103,8 @@ public class StswSplitButton : UserControl
             nameof(IsDropDownOpen),
             typeof(bool),
             typeof(StswSplitButton),
-            new PropertyMetadata(default(bool), OnIsDropDownOpenChanged)
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public bool IsDropDownOpen
     {

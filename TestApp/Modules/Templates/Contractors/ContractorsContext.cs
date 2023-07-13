@@ -24,7 +24,7 @@ public class ContractorsContext : StswObservableObject
 
     public ContractorsContext()
     {
-        ContractorsQueries.InitializeTables();
+        SQL.InitializeTables();
         ClearCommand = new StswRelayCommand(Clear);
         RefreshCommand = new StswRelayCommand(Refresh);
         SaveCommand = new StswRelayCommand(Save);
@@ -69,7 +69,7 @@ public class ContractorsContext : StswObservableObject
             Thread.Sleep(100);
 
             /// ...
-            ListContractors = ContractorsQueries.GetContractors(FiltersData.SqlFilter, FiltersData.SqlParameters);
+            ListContractors = SQL.GetContractors(FiltersData.SqlFilter, FiltersData.SqlParameters);
             /// ...
 
             LoadingActions--;
@@ -87,7 +87,7 @@ public class ContractorsContext : StswObservableObject
         Thread.Sleep(100);
 
         /// ...
-        if (ContractorsQueries.SetContractors(ListContractors))
+        if (SQL.SetContractors(ListContractors))
         {
             Refresh();
             MessageBox.Show("Data saved successfully.");
@@ -259,7 +259,7 @@ public class ContractorsContext : StswObservableObject
             ListContractors.Remove(selectedItem);
         else if (selectedItem?.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
-            if (ContractorsQueries.DeleteContractor(selectedItem.ID))
+            if (SQL.DeleteContractor(selectedItem.ID))
                 ListContractors.Remove(selectedItem);
         }
         /// ...
@@ -287,7 +287,7 @@ public class ContractorsContext : StswObservableObject
                 Filter = "PDF files|*.pdf"
             };
             if (dialog.ShowDialog() == true)
-                ContractorsQueries.AddPdf(selectedItem.ID, File.ReadAllBytes(dialog.FileName));
+                SQL.AddPdf(selectedItem.ID, File.ReadAllBytes(dialog.FileName));
         }
         /// ...
 
@@ -328,7 +328,7 @@ public class ContractorsContext : StswObservableObject
     public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
 
     /// ComboLists
-    public List<string?> ListTypes => ContractorsQueries.ListOfTypes();
+    public List<string?> ListTypes => SQL.ListOfTypes();
 
     /// ListContractors
     private StswCollection<ContractorModel> listContractors = new();

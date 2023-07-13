@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// An extension of <see cref="ObservableCollection{T}"/> that adds tracking of changes to the collection items' states.
 /// </summary>
-public class StswCollection<T> : ObservableCollection<T> where T : StswCollectionItem
+public class StswCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
 {
     private readonly Dictionary<T, DataRowState> _itemStates = new();
 
@@ -107,26 +107,16 @@ public class StswCollection<T> : ObservableCollection<T> where T : StswCollectio
 /// <summary>
 /// Provides properties for tracking the state and error message of collection items.
 /// </summary>
-public class StswCollectionItem : StswObservableObject
+public interface IStswCollectionItem : INotifyPropertyChanged
 {
     /// ErrorMessage
-    private string? errorMessage;
-    public string? ErrorMessage
-    {
-        get => errorMessage;
-        set => SetProperty(ref errorMessage, value);
-    }
+    public string? ErrorMessage { get; set; }
 
     /// ItemState
-    private DataRowState itemState = DataRowState.Unchanged;
-    public DataRowState ItemState
-    {
-        get => itemState;
-        set => SetProperty(ref itemState, value);
-    }
+    public DataRowState ItemState { get; set; }
 
     /// ShowDetails
-    public bool? ShowDetails { get; set; } = false;
+    public bool? ShowDetails { get; set; }
 }
 
 /// <summary>

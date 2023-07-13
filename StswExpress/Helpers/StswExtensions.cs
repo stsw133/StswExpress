@@ -122,7 +122,7 @@ public static class StswExtensions
     /// <summary>
     /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswCollection{T}"/>.
     /// </summary>
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : StswCollectionItem => new StswCollection<T>(value);
+    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswCollection<T>(value);
 
     /// <summary>
     /// Converts <see cref="IDictionary{TKey, TValue}"/> to <see cref="StswDictionary{TKey, TValue}"/>.
