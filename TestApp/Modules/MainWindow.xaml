@@ -62,6 +62,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
                 <se:StswNavigationElement Text="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
+                <se:StswNavigationElement Text="RgsScrollViewer" ContextNamespace="TestApp.RgsScrollViewerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Text="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
