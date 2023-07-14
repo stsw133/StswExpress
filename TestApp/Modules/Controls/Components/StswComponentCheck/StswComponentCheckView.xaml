@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="TestApp.StswComponentCheckView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswComponentCheckContext/>
+    </d:UserControl.DataContext>
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsThreeState -->
+                    <se:StswCheckBox IsChecked="{Binding IsThreeState}">
+                        <Label DockPanel.Dock="Top" Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                        <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.EyeOff}"
+                                               IconChecked="{x:Static se:StswIcons.Eye}"
+                                               IconIndeterminate="{x:Static se:StswIcons.EyeOffOutline}"
+                                               IsEnabled="{Binding IsEnabled}"
+                                               IsThreeState="{Binding IsThreeState}"
+                                               Margin="0 0 5 0"/>
+                        <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
+                                               IconChecked="{x:Static se:StswIcons.MusicNote}"
+                                               IconIndeterminate="{x:Static se:StswIcons.MusicNoteOffOutline}"
+                                               IsEnabled="{Binding IsEnabled}"
+                                               IsThreeState="{Binding IsThreeState}"
+                                               Margin="0 0 5 0"/>
+                        <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.WifiOff}"
+                                               IconChecked="{x:Static se:StswIcons.Wifi}"
+                                               IconIndeterminate="{x:Static se:StswIcons.WifiStrengthOffOutline}"
+                                               IsEnabled="{Binding IsEnabled}"
+                                               IsThreeState="{Binding IsThreeState}"
+                                               Margin="0 0 5 0"/>
+                    </StackPanel>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text=""/>
+                        <Run Text="" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

@@ -11,18 +11,43 @@
                 <ResourceDictionary Source="/StswExpress;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- Buttons -->
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswCalendarContext}">
-                <local:StswCalendarView/>
+            <DataTemplate DataType="{x:Type local:StswDropButtonContext}">
+                <local:StswDropButtonView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRepeatButtonContext}">
+                <local:StswRepeatButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRadioButtonContext}">
+                <local:StswRadioButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSplitButtonContext}">
+                <local:StswSplitButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
+                <local:StswToggleButtonView/>
+            </DataTemplate>
+            
+            <!-- Checks -->
             <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
                 <local:StswCheckBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswClippingBorderContext}">
-                <local:StswClippingBorderView/>
+            <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
+                <local:StswRadioBoxView/>
             </DataTemplate>
+            
+            <!-- Collections -->
+            <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
+                <local:StswComboBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComboViewContext}">
+                <local:StswComboViewView/>
+            </DataTemplate>
+            
+            <!-- Color -->
             <DataTemplate DataType="{x:Type local:StswColorBoxContext}">
                 <local:StswColorBoxView/>
             </DataTemplate>
@@ -32,95 +57,46 @@
             <DataTemplate DataType="{x:Type local:StswColorSelectorContext}">
                 <local:StswColorSelectorView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
-                <local:StswComboBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComboViewContext}">
-                <local:StswComboViewView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
-                <local:StswContentDialogView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDataGridContext}">
                 <local:StswDataGridView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
-                <local:StswDatePickerView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDropButtonContext}">
-                <local:StswDropButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswExpanderContext}">
-                <local:StswExpanderView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswFilterContext}">
-                <local:StswFilterView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
-                <local:StswGroupBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswHeaderContext}">
-                <local:StswHeaderView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswIconContext}">
-                <local:StswIconView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswImageContext}">
-                <local:StswImageView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLabelContext}">
-                <local:StswLabelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLoadingCircleContext}">
-                <local:StswLoadingCircleView/>
+            
+            <!-- Components -->
+            <DataTemplate DataType="{x:Type local:StswComponentButtonContext}">
+                <local:StswComponentButtonView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswNavigationContext}">
-                <local:StswNavigationView/>
+            <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
+                <local:StswComponentCheckView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswNotifyIconContext}">
-                <local:StswNotifyIconView/>
+            <DataTemplate DataType="{x:Type local:StswComponentPanelContext}">
+                <local:StswComponentPanelView/>
             </DataTemplate>
+            
+            <!-- DateTime -->
+            <DataTemplate DataType="{x:Type local:StswCalendarContext}">
+                <local:StswCalendarView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
+                <local:StswDatePickerView/>
+            </DataTemplate>
+
+            <!-- Filtering -->
+            <DataTemplate DataType="{x:Type local:StswFilterContext}">
+                <local:StswFilterView/>
+            </DataTemplate>
+
+            <!-- Input -->
             <DataTemplate DataType="{x:Type local:StswNumericBoxContext}">
                 <local:StswNumericBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
-                <local:StswOutlinedTextView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswPasswordBoxContext}">
                 <local:StswPasswordBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
-                <local:StswProgressBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswRepeatButtonContext}">
-                <local:StswRepeatButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
-                <local:StswRadioBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswRadioButtonContext}">
-                <local:StswRadioButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
-                <local:StswScrollViewerView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:RgsScrollViewerContext}">
-                <local:RgsScrollViewerView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
-                <local:StswSeparatorView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSliderContext}">
                 <local:StswSliderView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswSplitButtonContext}">
-                <local:StswSplitButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswTabControlContext}">
-                <local:StswTabControlView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTextBoxContext}">
                 <local:StswTextBoxView/>
@@ -128,13 +104,85 @@
             <DataTemplate DataType="{x:Type local:StswTextEditorContext}">
                 <local:StswTextEditorView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswToggleButtonContext}">
-                <local:StswToggleButtonView/>
+            
+            <!-- Layout-->
+            <DataTemplate DataType="{x:Type local:StswClippingBorderContext}">
+                <local:StswClippingBorderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswExpanderContext}">
+                <local:StswExpanderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
+                <local:StswGroupBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
+                <local:StswSeparatorView/>
+            </DataTemplate>
+            
+            <!-- Media -->
+            <DataTemplate DataType="{x:Type local:StswImageContext}">
+                <local:StswImageView/>
+            </DataTemplate>
+            
+            <!-- Navigation -->
+            <DataTemplate DataType="{x:Type local:StswNavigationContext}">
+                <local:StswNavigationView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTabControlContext}">
+                <local:StswTabControlView/>
+            </DataTemplate>
+            
+            <!-- Scrolling -->
+            <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
+                <local:StswScrollViewerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:RgsScrollViewerContext}">
+                <local:RgsScrollViewerView/>
+            </DataTemplate>
+            
+            <!-- StatusInfo -->
+            <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
+                <local:StswProgressBarView/>
+            </DataTemplate>
+            
+            <!-- Style -->
+            <DataTemplate DataType="{x:Type local:StswHeaderContext}">
+                <local:StswHeaderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswIconContext}">
+                <local:StswIconView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLoadingCircleContext}">
+                <local:StswLoadingCircleView/>
+            </DataTemplate>
+            
+            <!-- Text -->
+            <DataTemplate DataType="{x:Type local:StswLabelContext}">
+                <local:StswLabelView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
+                <local:StswOutlinedTextView/>
+            </DataTemplate>
+            
+            <!-- Windowing -->
+            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
+                <local:StswContentDialogView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswNotifyIconContext}">
+                <local:StswNotifyIconView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswWindowContext}">
                 <local:StswWindowView/>
             </DataTemplate>
 
+
+
+            <!-- Home -->
+            <DataTemplate DataType="{x:Type local:HomeContext}">
+                <local:HomeView/>
+            </DataTemplate>
+            
+            <!-- Templates -->
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
@@ -144,10 +192,8 @@
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:HomeContext}">
-                <local:HomeView/>
-            </DataTemplate>
 
+            <!-- Settings & Wiki -->
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>
             </DataTemplate>

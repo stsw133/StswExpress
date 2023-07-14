@@ -14,7 +14,7 @@ public class StswContentDialog : UserControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContentDialog), new FrameworkPropertyMetadata(typeof(StswContentDialog)));
     }
-
+    /*
     #region Events
     /// OnApplyTemplate
     public override void OnApplyTemplate()
@@ -22,7 +22,7 @@ public class StswContentDialog : UserControl
         base.OnApplyTemplate();
     }
     #endregion
-
+    */
     #region Main properties
     public enum Buttons
     {

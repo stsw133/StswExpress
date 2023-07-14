@@ -14,6 +14,8 @@ public class StswComboView : UserControl
     public StswComboView()
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+        
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswComboView()
     {

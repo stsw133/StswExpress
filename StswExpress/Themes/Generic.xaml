@@ -21,8 +21,14 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorPicker.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorSelector.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentButton.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentCheck.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentPanel.xaml"/>
+        
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswDatePicker.xaml"/>
+        
+        <ResourceDictionary Source="/StswExpress;component/Controls/Filtering/StswFilter.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswNumericBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswPasswordBox.xaml"/>
@@ -56,8 +62,6 @@
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswContentDialog.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
-        
-        <ResourceDictionary Source="/StswExpress;component/Controls/Uncategorized/StswFilter.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

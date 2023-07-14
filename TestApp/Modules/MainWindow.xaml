@@ -36,9 +36,17 @@
                 <se:StswNavigationElement Text="StswColorPicker" ContextNamespace="TestApp.StswColorPickerContext"/>
                 <se:StswNavigationElement Text="StswColorSelector" ContextNamespace="TestApp.StswColorSelectorContext"/>
             </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Components" IconData="{x:Static se:StswIcons.ButtonPointer}">
+                <se:StswNavigationElement Text="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
+                <se:StswNavigationElement Text="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
+                <se:StswNavigationElement Text="StswComponentPanel" ContextNamespace="TestApp.StswComponentPanelContext"/>
+            </se:StswNavigationElement>
             <se:StswNavigationElement Text="Date &amp; time" IconData="{x:Static se:StswIcons.Calendar}">
                 <se:StswNavigationElement Text="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>
                 <se:StswNavigationElement Text="StswDatePicker" ContextNamespace="TestApp.StswDatePickerContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Filtering" IconData="{x:Static se:StswIcons.Filter}">
+                <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswNumericBox" ContextNamespace="TestApp.StswNumericBoxContext"/>
@@ -80,9 +88,6 @@
                 <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Uncategorized" IconData="{x:Static se:StswIcons.Help}">
-                <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>
         <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">

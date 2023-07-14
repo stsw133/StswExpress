@@ -6,6 +6,10 @@ namespace StswExpress;
 
 public class StswComboBox : ComboBox
 {
+    public StswComboBox()
+    {
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+    }
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));

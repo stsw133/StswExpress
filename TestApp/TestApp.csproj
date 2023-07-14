@@ -49,6 +49,15 @@
     <Compile Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,7 +73,7 @@
     <Compile Update="Modules\Controls\Text\StswOutlinedText\StswOutlinedTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Uncategorized\StswFilter\StswFilterView.xaml.cs">
+    <Compile Update="Modules\Controls\Filtering\StswFilter\StswFilterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Collections\StswDataGrid\StswDataGridView.xaml.cs">
@@ -181,6 +190,15 @@
     <Page Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -196,7 +214,7 @@
     <Page Update="Modules\Controls\Text\StswOutlinedText\StswOutlinedTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Uncategorized\StswFilter\StswFilterView.xaml">
+    <Page Update="Modules\Controls\Filtering\StswFilter\StswFilterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

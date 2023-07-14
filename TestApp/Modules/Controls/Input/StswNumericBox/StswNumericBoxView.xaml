@@ -17,31 +17,7 @@
                 <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number2}" Format="N2"/>
                 <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Components>
-                        <se:StswButton Padding="0" Command="{Binding SearchCommand}">
-                            <se:StswButton.Resources>
-                                <SolidColorBrush x:Key="StswButton.Static.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent" />
-                            </se:StswButton.Resources>
-                            <se:StswButton.Style>
-                                <Style TargetType="{x:Type se:StswButton}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="#F777"/>
-                                        </Trigger>
-                                        <Trigger Property="Button.IsPressed" Value="True">
-                                            <Setter Property="Foreground" Value="#B777"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </se:StswButton.Style>
-                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
-                        </se:StswButton>
+                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
                     </se:StswNumericBox.Components>
                 </se:StswNumericBox>
             </UniformGrid>
@@ -51,31 +27,7 @@
                 <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number2}" Format="N2"/>
                 <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Components>
-                        <se:StswButton Padding="0" Command="{Binding SearchCommand}">
-                            <se:StswButton.Resources>
-                                <SolidColorBrush x:Key="StswButton.Static.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent" />
-                            </se:StswButton.Resources>
-                            <se:StswButton.Style>
-                                <Style TargetType="{x:Type se:StswButton}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="#F777"/>
-                                        </Trigger>
-                                        <Trigger Property="Button.IsPressed" Value="True">
-                                            <Setter Property="Foreground" Value="#B777"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </se:StswButton.Style>
-                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
-                        </se:StswButton>
+                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
                     </se:StswNumericBox.Components>
                 </se:StswNumericBox>
             </UniformGrid>
@@ -85,31 +37,7 @@
                 <se:StswNumericBox Margin="5" Value="{Binding Number2}" Format="N2"/>
                 <se:StswNumericBox Margin="5" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
                     <se:StswNumericBox.Components>
-                        <se:StswButton Padding="0" Command="{Binding SearchCommand}">
-                            <se:StswButton.Resources>
-                                <SolidColorBrush x:Key="StswButton.Static.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.MouseOver.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent" />
-                                <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent" />
-                            </se:StswButton.Resources>
-                            <se:StswButton.Style>
-                                <Style TargetType="{x:Type se:StswButton}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="#F777"/>
-                                        </Trigger>
-                                        <Trigger Property="Button.IsPressed" Value="True">
-                                            <Setter Property="Foreground" Value="#B777"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </se:StswButton.Style>
-                            <se:StswIcon Data="{x:Static se:StswIcons.Magnify}" Scale="1.5"/>
-                        </se:StswButton>
+                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
                     </se:StswNumericBox.Components>
                 </se:StswNumericBox>
             </UniformGrid>

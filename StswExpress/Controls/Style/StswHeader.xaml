@@ -4,7 +4,7 @@
 
     <Style TargetType="{x:Type se:StswHeader}">
 
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="3 1"/>
         
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
@@ -54,7 +54,7 @@
                                                                                 <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                                 <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
+                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
@@ -107,7 +107,7 @@
                                                                                 <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                                 <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}},Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
+                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
@@ -125,7 +125,7 @@
                             <!-- text -->
                             <ContentPresenter x:Name="PART_Text"
                                               Focusable="False"
-                                              Margin="{Binding Padding.Left, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=2 0}"
+                                              Margin="{TemplateBinding Padding}"
                                               RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
