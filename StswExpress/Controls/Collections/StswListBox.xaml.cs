@@ -62,7 +62,10 @@ public class StswListBox : ListBox
     private static void OnSelectedItemsBindingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswListBox stsw)
-            stsw.SetSelectedItems(stsw.SelectedItemsBinding);
+        {
+            if (stsw.SelectionMode == SelectionMode.Multiple)
+                stsw.SetSelectedItems(stsw.SelectedItemsBinding);
+        }
     }
     #endregion
 

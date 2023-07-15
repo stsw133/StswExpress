@@ -35,19 +35,19 @@
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5">
-                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="5 5 5 0" Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}">
+                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="0 0 0 5" Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}">
                             <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="Option 1"/>
                         </se:StswRadioButton>
-                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="5 5 5 0" Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}">
+                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="0 0 0 5" Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}">
                             <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="Option 2"/>
                         </se:StswRadioButton>
-                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="5 5 5 0" Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}">
+                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="0 0 0 5" Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}">
                             <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="Option 3"/>
                         </se:StswRadioButton>
-                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="5 5 5 0" Command="{Binding OnClickCommand}" CommandParameter="4" IsChecked="{Binding SelectedOption[3]}">
+                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="0 0 0 5" Command="{Binding OnClickCommand}" CommandParameter="4" IsChecked="{Binding SelectedOption[3]}">
                             <se:StswHeader IconData="{x:Static se:StswIcons.Dice4}" Content="Option 4"/>
                         </se:StswRadioButton>
-                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="5 5 5 0" Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}">
+                        <se:StswRadioButton IsEnabled="{Binding IsEnabled}" Margin="0 0 0 5" Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}">
                             <se:StswHeader IconData="{x:Static se:StswIcons.Dice5}" Content="Option 5"/>
                         </se:StswRadioButton>
                     </UniformGrid>

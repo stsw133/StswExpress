@@ -9,26 +9,56 @@
     <d:UserControl.DataContext>
         <local:StswCheckBoxContext/>
     </d:UserControl.DataContext>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsEnabled="False" Content="Indeterminate" IsChecked="{x:Null}"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsEnabled="False" Content="Unchecked" IsChecked="False"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsEnabled="False" Content="Checked" IsChecked="True"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsHitTestVisible="False" Content="Indeterminate" IsChecked="{x:Null}"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsHitTestVisible="False" Content="Unchecked" IsChecked="False"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" IsHitTestVisible="False" Content="Checked" IsChecked="True"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Indeterminate" IsChecked="{x:Null}"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Unchecked" IsChecked="False"/>
-                <se:StswCheckBox Margin="5" IsThreeState="True" Content="Checked" IsChecked="True"/>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsThreeState -->
+                    <se:StswCheckBox IsChecked="{Binding IsThreeState}">
+                        <Label DockPanel.Dock="Top" Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5">
+                        <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[0]}"
+                                         Margin="0 0 0 5" Content="Option 1" Command="{Binding OnClickCommand}" CommandParameter="1"/>
+                        <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[1]}"
+                                         Margin="0 0 0 5" Content="Option 2" Command="{Binding OnClickCommand}" CommandParameter="2"/>
+                        <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[2]}"
+                                         Margin="0 0 0 5" Content="Option 3" Command="{Binding OnClickCommand}" CommandParameter="3"/>
+                        <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[3]}"
+                                         Margin="0 0 0 5" Content="Option 4" Command="{Binding OnClickCommand}" CommandParameter="4"/>
+                        <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[4]}"
+                                         Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"/>
+                    </UniformGrid>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="You changed state of option "/>
+                        <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

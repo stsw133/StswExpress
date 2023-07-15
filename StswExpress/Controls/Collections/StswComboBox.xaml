@@ -131,15 +131,16 @@
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                       Visibility="Collapsed"/>
-                                    <TextBox x:Name="PART_EditableTextBox"
-                                             AllowDrop="True"
-                                             BorderThickness="0"
-                                             IsReadOnly="{TemplateBinding IsReadOnly}"
-                                             Padding="{TemplateBinding Padding}"
-                                             Text="{TemplateBinding Text}"
-                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="{TemplateBinding IsEditable, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                                    <se:StswTextBox x:Name="PART_EditableTextBox"
+                                                     AllowDrop="True"
+                                                     BorderThickness="0"
+                                                     CornerRadius="0"
+                                                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                                                     Padding="{TemplateBinding Padding}"
+                                                     Text="{TemplateBinding Text}"
+                                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                     Visibility="{TemplateBinding IsEditable, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                 </Grid>
                             </DockPanel>
                         </se:StswToggleButton>

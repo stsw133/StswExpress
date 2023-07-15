@@ -1,34 +1,34 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace TestApp;
 
-public class StswListBoxContext : StswObservableObject
+public class StswListBoxContext : ControlsContext
 {
-    public StswListBoxContext()
+    #region Properties
+    /// Items
+    private List<string?> items = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
+    public List<string?> Items
     {
-        SelectedTypes = ListTypes.Where(x => x?.Value?.In(1, 2) == true).ToObservableCollection();
+        get => items;
+        set => SetProperty(ref items, value);
     }
-
-    /// ListTypes
-    private ObservableCollection<StswComboItem?> listTypes = new()
+    /// SelectedItems
+    private List<string?> selectedItems = new() { "Option 1", "Option 4" };
+    public List<string?> SelectedItems
     {
-        new() { Display = "Test1", Value = 1 },
-        new() { Display = "Test2", Value = 2 },
-        new() { Display = "Test3", Value = 3 },
-        null
-    };
-    public ObservableCollection<StswComboItem?> ListTypes
-    {
-        get => listTypes;
-        set => SetProperty(ref listTypes, value);
+        get => selectedItems;
+        set
+        {
+            SetProperty(ref selectedItems, value);
+            SelectedItemsCount = selectedItems.Count;
+        }
     }
-
-    /// SelectedTypes
-    private ObservableCollection<StswComboItem?> selectedTypes = new();
-    public ObservableCollection<StswComboItem?> SelectedTypes
+    /// SelectedItemsCount
+    private int selectedItemsCount = 2;
+    public int SelectedItemsCount
     {
-        get => selectedTypes;
-        set => SetProperty(ref selectedTypes, value);
+        get => selectedItemsCount;
+        set => SetProperty(ref selectedItemsCount, value);
     }
+    #endregion
 }

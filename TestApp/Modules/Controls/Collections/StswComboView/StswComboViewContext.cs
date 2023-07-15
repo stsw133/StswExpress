@@ -1,34 +1,42 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace TestApp;
 
-public class StswComboViewContext : StswObservableObject
+public class StswComboViewContext : ControlsContext
 {
-    public StswComboViewContext()
+    #region Properties
+    /// IsReadOnly
+    private bool isReadOnly = false;
+    public bool IsReadOnly
     {
-        SelectedTypes = ListTypes.Where(x => x?.Value?.In(1, 2) == true).ToObservableCollection();
+        get => isReadOnly;
+        set => SetProperty(ref isReadOnly, value);
     }
 
-    /// ListTypes
-    private ObservableCollection<StswComboItem?> listTypes = new()
+    /// Items
+    private List<string?> items = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
+    public List<string?> Items
     {
-        new() { Display = "Test1", Value = 1 },
-        new() { Display = "Test2", Value = 2 },
-        new() { Display = "Test3", Value = 3 },
-        null
-    };
-    public ObservableCollection<StswComboItem?> ListTypes
-    {
-        get => listTypes;
-        set => SetProperty(ref listTypes, value);
+        get => items;
+        set => SetProperty(ref items, value);
     }
-
-    /// SelectedTypes
-    private ObservableCollection<StswComboItem?> selectedTypes = new();
-    public ObservableCollection<StswComboItem?> SelectedTypes
+    /// SelectedItems
+    private List<string?> selectedItems = new() { "Option 1", "Option 4" };
+    public List<string?> SelectedItems
     {
-        get => selectedTypes;
-        set => SetProperty(ref selectedTypes, value);
+        get => selectedItems;
+        set
+        {
+            SetProperty(ref selectedItems, value);
+            SelectedItemsCount = selectedItems.Count;
+        }
     }
+    /// SelectedItemsCount
+    private int selectedItemsCount = 2;
+    public int SelectedItemsCount
+    {
+        get => selectedItemsCount;
+        set => SetProperty(ref selectedItemsCount, value);
+    }
+    #endregion
 }

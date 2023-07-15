@@ -9,12 +9,16 @@ public class StswRadioButtonContext : ControlsContext
 
     public StswRadioButtonContext()
     {
-        OnClickCommand = new StswRelayCommand(OnClick);
+        OnClickCommand = new StswRelayCommand<string?>(OnClick);
     }
 
     #region Events
     /// OnClickCommand
-    private void OnClick() => ClickOption = SelectedOption.IndexOf(true) + 1;
+    private void OnClick(string? parameter)
+    {
+        if (int.TryParse(parameter, out var result))
+            ClickOption = result;
+    }
     #endregion
 
     #region Properties

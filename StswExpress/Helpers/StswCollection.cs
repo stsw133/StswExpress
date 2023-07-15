@@ -9,12 +9,11 @@ namespace StswExpress;
 /// <summary>
 /// An extension of <see cref="ObservableCollection{T}"/> that adds tracking of changes to the collection items' states.
 /// </summary>
-public class StswCollection<T> : ObservableCollection<T> where T : IStswCollectionItem
+public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged where T : IStswCollectionItem
 {
-    private readonly Dictionary<T, DataRowState> _itemStates = new();
-
     public StswCollection() : base()
     {
+
     }
     public StswCollection(IEnumerable<T> items) : base(items)
     {
@@ -43,6 +42,11 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
         }
 
         base.ClearItems();
+
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Modified));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Count));
     }
 
     /// InsertItem
@@ -52,6 +56,11 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
 
         _itemStates[item] = item.ItemState = DataRowState.Added;
         item.PropertyChanged += Item_PropertyChanged;
+
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Modified));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Count));
     }
 
     /// RemoveItem
@@ -59,10 +68,23 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
     {
         var item = this[index];
 
-        _itemStates[item] = item.ItemState = DataRowState.Deleted;
-        item.PropertyChanged -= Item_PropertyChanged;
+        if (item.ItemState != DataRowState.Added)
+        {
+            _itemStates[item] = item.ItemState = DataRowState.Deleted;
+            item.PropertyChanged -= Item_PropertyChanged;
+        }
+        else
+        {
+            item.PropertyChanged -= Item_PropertyChanged;
+            _itemStates.Remove(item);
+        }
 
         base.RemoveItem(index);
+
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Modified));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Count));
     }
 
     /// SetItem
@@ -77,6 +99,11 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
 
         _itemStates[item] = item.ItemState = DataRowState.Modified;
         item.PropertyChanged += Item_PropertyChanged;
+
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Modified));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Count));
     }
 
     /// Item_PropertyChanged
@@ -88,10 +115,18 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
             return;
 
         if (item?.ItemState == DataRowState.Unchanged)
+        {
             _itemStates[item] = item.ItemState = DataRowState.Modified;
+
+            OnPropertyChanged(nameof(Added));
+            OnPropertyChanged(nameof(Modified));
+            OnPropertyChanged(nameof(Deleted));
+            OnPropertyChanged(nameof(Count));
+        }
     }
 
     /// GetStateOfItem
+    private readonly Dictionary<T, DataRowState> _itemStates = new();
     public DataRowState GetStateOfItem(T item)
     {
         if (_itemStates.TryGetValue(item, out var state))
@@ -102,6 +137,13 @@ public class StswCollection<T> : ObservableCollection<T> where T : IStswCollecti
 
     /// GetItemsByState
     public List<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key).ToList();
+    public int Added => GetItemsByState(DataRowState.Added).Count;
+    public int Modified => GetItemsByState(DataRowState.Modified).Count;
+    public int Deleted => GetItemsByState(DataRowState.Deleted).Count;
+
+    /// Notify the view that the ItemStates property has changed
+    public new event PropertyChangedEventHandler? PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
 
 /// <summary>

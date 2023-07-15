@@ -9,14 +9,69 @@
     <d:UserControl.DataContext>
         <local:StswDataGridContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswDataGrid DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Items}" IsEnabled="False"/>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <se:StswDataGrid DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Items}" IsReadOnly="True"/>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswDataGrid DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Items}"/>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswDataGrid DockPanel.Dock="Top"
+                                     BackgroundHeader="#1777"
+                                     IsEnabled="{Binding IsEnabled}"
+                                     IsReadOnly="{Binding IsReadOnly}"
+                                     ItemsSource="{Binding Items, Mode=TwoWay}"
+                                     Margin="5">
+                        <se:StswDataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding ID}" Width="50">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Margin="3 1" Text="ID" VerticalAlignment="Center"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Name}" Width="*">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Margin="3 1" Text="Name" VerticalAlignment="Center"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                        </se:StswDataGrid.Columns>
+                    </se:StswDataGrid>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
+                        <Run Text=" total rows, "/>
+                        <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
+                        <Run Text=" added rows, "/>
+                        <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
+                        <Run Text=" modified rows, "/>
+                        <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
+                        <Run Text=" deleted rows"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

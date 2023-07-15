@@ -23,16 +23,16 @@
                     <Label DockPanel.Dock="Top" Margin="0 0 0 20">
                         Some description...
                     </Label>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    <!-- IsDefault -->
+                    <se:StswCheckBox IsChecked="{Binding IsDefault}">
+                        <Label DockPanel.Dock="Top" Content="IsDefault" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <Label DockPanel.Dock="Top" Margin="0 0 0 20">
                         Some description...
                     </Label>
-                    <!-- IsDefault -->
-                    <se:StswCheckBox IsChecked="{Binding IsDefault}">
-                        <Label DockPanel.Dock="Top" Content="IsDefault" FontSize="15" FontWeight="Medium"/>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <Label DockPanel.Dock="Top" Margin="0 0 0 20">
                         Some description...

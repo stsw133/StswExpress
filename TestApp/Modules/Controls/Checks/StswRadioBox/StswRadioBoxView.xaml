@@ -9,32 +9,56 @@
     <d:UserControl.DataContext>
         <local:StswRadioBoxContext/>
     </d:UserControl.DataContext>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 1" IsChecked="{x:Null}"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 2" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 3" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 4" IsChecked="True"/>
-                <se:StswRadioBox Margin="5" IsEnabled="False" Content="Option 5" IsChecked="False"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 1" IsChecked="{x:Null}"/>
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 2" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 3" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 4" IsChecked="True"/>
-                <se:StswRadioBox Margin="5" IsHitTestVisible="False" Content="Option 5" IsChecked="False"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Columns="1">
-                <se:StswRadioBox Margin="5" Content="Option 1" IsChecked="{x:Null}"/>
-                <se:StswRadioBox Margin="5" Content="Option 2" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" Content="Option 3" IsChecked="False"/>
-                <se:StswRadioBox Margin="5" Content="Option 4" IsChecked="True"/>
-                <se:StswRadioBox Margin="5" Content="Option 5" IsChecked="False"/>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsThreeState -->
+                    <se:StswCheckBox IsChecked="{Binding IsThreeState}">
+                        <Label DockPanel.Dock="Top" Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5">
+                        <se:StswRadioBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[0]}"
+                                         Margin="0 0 0 5" Content="Option 1" Command="{Binding OnClickCommand}" CommandParameter="1"/>
+                        <se:StswRadioBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[1]}"
+                                         Margin="0 0 0 5" Content="Option 2" Command="{Binding OnClickCommand}" CommandParameter="2"/>
+                        <se:StswRadioBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[2]}"
+                                         Margin="0 0 0 5" Content="Option 3" Command="{Binding OnClickCommand}" CommandParameter="3"/>
+                        <se:StswRadioBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[3]}"
+                                         Margin="0 0 0 5" Content="Option 4" Command="{Binding OnClickCommand}" CommandParameter="4"/>
+                        <se:StswRadioBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[4]}"
+                                         Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"/>
+                    </UniformGrid>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="You selected option "/>
+                        <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

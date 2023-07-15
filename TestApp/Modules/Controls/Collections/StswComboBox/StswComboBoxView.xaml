@@ -9,23 +9,58 @@
     <d:UserControl.DataContext>
         <local:StswComboBoxContext/>
     </d:UserControl.DataContext>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEnabled="False" IsEditable="True"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsReadOnly="True" IsEditable="True"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}"/>
-                <se:StswComboBox Margin="5" ItemsSource="{Binding ListTypes}" IsEditable="True"/>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEditable -->
+                    <se:StswCheckBox IsChecked="{Binding IsEditable}">
+                        <Label DockPanel.Dock="Top" Content="IsEditable" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
+                        Some description...
+                    </Label>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswComboBox DockPanel.Dock="Top"
+                                     IsEditable="{Binding IsEditable}"
+                                     IsEnabled="{Binding IsEnabled}"
+                                     IsReadOnly="{Binding IsReadOnly}"
+                                     ItemsSource="{Binding Items}"
+                                     Margin="5"
+                                     SelectedItem="{Binding SelectedItem}"/>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
+                        <Run Text=" is selected"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>
