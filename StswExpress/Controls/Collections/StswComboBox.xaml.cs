@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
 public class StswComboBox : ComboBox
 {
     public StswComboBox()
@@ -16,97 +19,111 @@ public class StswComboBox : ComboBox
     }
 
     #region Main properties
-    /// ArrowVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the arrow icon in the drop button.
+    /// </summary>
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ArrowVisibilityProperty
         = DependencyProperty.Register(
             nameof(ArrowVisibility),
             typeof(Visibility),
             typeof(StswComboBox)
         );
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
 
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswComboBox)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswComboBox)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswComboBox)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
-            typeof(StswComboBox)
-        );
-    public Thickness PopupBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswComboBox)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswComboBox)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the border thickness of the dropdown popup.
+    /// </summary>
+    public Thickness PopupBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty PopupBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between arrow icon and main button.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswComboBox)
+        );
     #endregion
 }

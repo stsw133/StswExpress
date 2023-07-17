@@ -13,7 +13,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel VerticalAlignment="Top">
             <Label DockPanel.Dock="Top" Content="Horizontal:"/>
-            <ScrollViewer DockPanel.Dock="Top" Margin="5" Height="200" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+            <se:RgsScrollViewer DockPanel.Dock="Top" Margin="5" Height="200" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
                 <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
                     <Rectangle.Fill>
@@ -28,7 +28,7 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-            </ScrollViewer>
+            </se:RgsScrollViewer>
             <Label DockPanel.Dock="Top" Content="Vertical:"/>
             <se:RgsScrollViewer DockPanel.Dock="Top" Margin="5" Height="200" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                 <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"

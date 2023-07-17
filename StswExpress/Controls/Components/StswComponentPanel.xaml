@@ -4,7 +4,7 @@
 
     <Style TargetType="{x:Type se:StswComponentPanel}">
 
-        <Setter Property="Background" Value="#01777777"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
 
         <Setter Property="ExpandDirection" Value="Right"/>

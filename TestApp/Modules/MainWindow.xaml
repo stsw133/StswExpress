@@ -101,9 +101,6 @@
             <se:StswNavigationElement Text="Calendar" IconData="{x:Static se:StswIcons.Calendar}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Gallery" IconData="{x:Static se:StswIcons.ViewGallery}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Stats" IconData="{x:Static se:StswIcons.ChartBar}" IsEnabled="False"/>
-            <se:StswNavigationElement Text="TEST" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}">
-                <se:StswNavigationElement Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" ContextNamespace="TestApp.DatabasesContext"/>
-            </se:StswNavigationElement>
         </se:StswNavigationElement>
         <se:StswNavigationElement/>
 

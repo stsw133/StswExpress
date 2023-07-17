@@ -7,6 +7,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that provides a user interface element with a collapsible content area.
+/// </summary>
 [ContentProperty(nameof(Items))]
 public class StswDropButton : UserControl
 {
@@ -22,46 +25,53 @@ public class StswDropButton : UserControl
     }
 
     #region Main properties
-    /// ArrowVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the arrow icon in the drop button.
+    /// </summary>
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ArrowVisibilityProperty
         = DependencyProperty.Register(
             nameof(ArrowVisibility),
             typeof(Visibility),
             typeof(StswDropButton)
         );
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
 
-    /// Header
+    /// <summary>
+    /// Gets or sets the header content of the control.
+    /// </summary>
+    public object? Header
+    {
+        get => (object?)GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
     public static readonly DependencyProperty HeaderProperty
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
             typeof(StswDropButton)
         );
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
 
-    /// IsDropDownOpen
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswDropButton),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown portion of the button is open.
+    /// </summary>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswDropButton),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
     private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDropButton stsw)
@@ -77,74 +87,82 @@ public class StswDropButton : UserControl
         SetCurrentValue(IsDropDownOpenProperty, false);
     }
 
-    /// IsReadOnly
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
     public static readonly DependencyProperty IsReadOnlyProperty
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
             typeof(StswDropButton)
         );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
 
-    /// Items
+    /// <summary>
+    /// Gets or sets the collection of items displayed in the dropdown portion of the button.
+    /// </summary>
+    public ObservableCollection<UIElement> Items
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<UIElement>),
             typeof(StswDropButton)
         );
-    public ObservableCollection<UIElement> Items
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
-            typeof(StswDropButton)
-        );
-    public Thickness PopupBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded (including popup).
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswDropButton)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Height ...
-    /// MaxDropDownHeight
+    /// <summary>
+    /// Gets or sets the maximum height of the dropdown portion of the button.
+    /// </summary>
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
+    }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
             typeof(double?),
             typeof(StswDropButton)
         );
-    public double? MaxDropDownHeight
+
+    /// <summary>
+    /// Gets or sets the border thickness of the dropdown popup.
+    /// </summary>
+    public Thickness PopupBorderThickness
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
-        set => SetValue(MaxDropDownHeightProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty PopupBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(StswDropButton)
+        );
     #endregion
 }

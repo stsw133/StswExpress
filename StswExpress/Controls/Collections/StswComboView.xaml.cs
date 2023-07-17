@@ -9,6 +9,9 @@ using System.Windows.Input;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
 public class StswComboView : UserControl
 {
     public StswComboView()
@@ -81,70 +84,83 @@ public class StswComboView : UserControl
     #endregion
 
     #region Main properties
-    /// ArrowVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the arrow icon in the drop button.
+    /// </summary>
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ArrowVisibilityProperty
         = DependencyProperty.Register(
             nameof(ArrowVisibility),
             typeof(Visibility),
             typeof(StswComboView)
         );
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
 
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswComboView)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswComboView)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// DisplayMemberPath
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? DisplayMemberPath
+    {
+        get => (string?)GetValue(DisplayMemberPathProperty);
+        set => SetValue(DisplayMemberPathProperty, value);
+    }
     public static readonly DependencyProperty DisplayMemberPathProperty
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
             typeof(StswComboView)
         );
-    public string? DisplayMemberPath
-    {
-        get => (string?)GetValue(DisplayMemberPathProperty);
-        set => SetValue(DisplayMemberPathProperty, value);
-    }
 
-    /// IsDropDownOpen
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswComboView),
-            new PropertyMetadata(default(bool), OnIsDropDownOpenChanged)
-        );
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown portion of the button is open.
+    /// </summary>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswComboView),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
     private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswComboView stsw)
@@ -160,46 +176,59 @@ public class StswComboView : UserControl
         SetCurrentValue(IsDropDownOpenProperty, false);
     }
 
-    /// IsReadOnly
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
     public static readonly DependencyProperty IsReadOnlyProperty
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
             typeof(StswComboView)
         );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
 
-    /// ItemsSource
+    /// <summary>
+    /// 
+    /// </summary>
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
     public static readonly DependencyProperty ItemsSourceProperty
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
             typeof(StswComboView)
         );
-    public IList ItemsSource
-    {
-        get => (IList)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswComboView)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
 
-    /// SelectedItemsBinding
+    /// <summary>
+    /// 
+    /// </summary>
+    public IList SelectedItemsBinding
+    {
+        get => (IList)GetValue(SelectedItemsBindingProperty);
+        set => SetValue(SelectedItemsBindingProperty, value);
+    }
     public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
             nameof(SelectedItemsBinding),
@@ -209,92 +238,82 @@ public class StswComboView : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public IList SelectedItemsBinding
-    {
-        get => (IList)GetValue(SelectedItemsBindingProperty);
-        set => SetValue(SelectedItemsBindingProperty, value);
-    }
 
-    /// SelectedValuePath
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? SelectedValuePath
+    {
+        get => (string?)GetValue(SelectedValuePathProperty);
+        set => SetValue(SelectedValuePathProperty, value);
+    }
     public static readonly DependencyProperty SelectedValuePathProperty
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
             typeof(StswComboView)
         );
-    public string? SelectedValuePath
-    {
-        get => (string?)GetValue(SelectedValuePathProperty);
-        set => SetValue(SelectedValuePathProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        internal set => SetValue(TextProperty, value);
+    }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
             typeof(StswComboView)
         );
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        internal set => SetValue(TextProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
-            typeof(StswComboView)
-        );
-    public Thickness PopupBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswComboView)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswComboView)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Height ...
-    /// MaxDropDownHeight
+    /// <summary>
+    /// Gets or sets the maximum height of the dropdown portion of the button.
+    /// </summary>
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
+    }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
             typeof(double?),
             typeof(StswComboView)
         );
-    public double? MaxDropDownHeight
+
+    /// <summary>
+    /// Gets or sets the border thickness of the dropdown popup.
+    /// </summary>
+    public Thickness PopupBorderThickness
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
-        set => SetValue(MaxDropDownHeightProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty PopupBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(StswComboView)
+        );
     #endregion
 }

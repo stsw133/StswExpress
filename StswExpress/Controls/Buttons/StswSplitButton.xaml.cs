@@ -7,6 +7,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that combines the functionality of a regular button with a dropdown button.
+/// </summary>
 [ContentProperty(nameof(Items))]
 public class StswSplitButton : UserControl
 {
@@ -22,95 +25,115 @@ public class StswSplitButton : UserControl
     }
 
     #region Main properties
-    /// Command
+    /// <summary>
+    /// Gets or sets the command associated with the control.
+    /// </summary>
+    public ICommand? Command
+    {
+        get => (ICommand?)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
     public static readonly DependencyProperty CommandProperty
         = DependencyProperty.Register(
             nameof(Command),
             typeof(ICommand),
             typeof(StswSplitButton)
         );
-    public ICommand? Command
+
+    /// <summary>
+    /// Gets or sets the parameter to pass to the command associated with the control.
+    /// </summary>
+    public object? CommandParameter
     {
-        get => (ICommand?)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
+        get => (object?)GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
     }
-    /// CommandParameter
     public static readonly DependencyProperty CommandParameterProperty
         = DependencyProperty.Register(
             nameof(CommandParameter),
             typeof(object),
             typeof(StswSplitButton)
         );
-    public object? CommandParameter
+
+    /// <summary>
+    /// Gets or sets the target element on which to execute the command associated with the control.
+    /// </summary>
+    public IInputElement? CommandTarget
     {
-        get => (object?)GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
+        get => (IInputElement?)GetValue(CommandTargetProperty);
+        set => SetValue(CommandTargetProperty, value);
     }
-    /// CommandTarget
     public static readonly DependencyProperty CommandTargetProperty
         = DependencyProperty.Register(
             nameof(CommandTarget),
             typeof(IInputElement),
             typeof(StswSplitButton)
         );
-    public IInputElement? CommandTarget
-    {
-        get => (IInputElement?)GetValue(CommandTargetProperty);
-        set => SetValue(CommandTargetProperty, value);
-    }
 
-    /// Components
+    /*
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswSplitButton)
         );
-    public ObservableCollection<UIElement> Components
+    */
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswSplitButton)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// Header
+    /// <summary>
+    /// Gets or sets the header content of the control.
+    /// </summary>
+    public object? Header
+    {
+        get => (object?)GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
     public static readonly DependencyProperty HeaderProperty
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
             typeof(StswSplitButton)
         );
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
 
-    /// IsDropDownOpen
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswSplitButton),
-            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown portion of the button is open.
+    /// </summary>
     public bool IsDropDownOpen
     {
         get => (bool)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswSplitButton),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
     private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswSplitButton stsw)
@@ -126,86 +149,97 @@ public class StswSplitButton : UserControl
         SetCurrentValue(IsDropDownOpenProperty, false);
     }
 
-    /// IsReadOnly
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
     public static readonly DependencyProperty IsReadOnlyProperty
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
             typeof(StswSplitButton)
         );
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
 
-    /// Items
+    /// <summary>
+    /// Gets or sets the collection of items displayed in the dropdown portion of the button.
+    /// </summary>
+    public ObservableCollection<UIElement> Items
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<UIElement>),
             typeof(StswSplitButton)
         );
-    public ObservableCollection<UIElement> Items
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
-            typeof(StswSplitButton)
-        );
-    public Thickness PopupBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded (including popup).
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswSplitButton)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswSplitButton)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Height ...
-    /// MaxDropDownHeight
+    /// <summary>
+    /// Gets or sets the maximum height of the dropdown portion of the button.
+    /// </summary>
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
+    }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
             typeof(double?),
             typeof(StswSplitButton)
         );
-    public double? MaxDropDownHeight
+
+    /// <summary>
+    /// Gets or sets the border thickness of the dropdown popup.
+    /// </summary>
+    public Thickness PopupBorderThickness
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
-        set => SetValue(MaxDropDownHeightProperty, value);
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty PopupBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(StswSplitButton)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between arrow icon and main button.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswSplitButton)
+        );
     #endregion
 }
