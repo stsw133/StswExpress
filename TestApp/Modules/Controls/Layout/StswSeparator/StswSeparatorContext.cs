@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswSeparatorContext : StswObservableObject
+public class StswSeparatorContext : ControlsContext
 {
 
 }

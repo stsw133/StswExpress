@@ -9,28 +9,35 @@
     <d:UserControl.DataContext>
         <local:StswIconContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Fill="Red"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice5}" Scale="4"/>
-                <se:StswIcon IsEnabled="False" Data="{x:Static se:StswIcons.Dice6}" Scale="6"/>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1" MaxHeight="50">
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice1}" Scale="auto"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Fill="Red"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice2}" Scale="1.5"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice3}" Scale="2"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice4}" Scale="3"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice5}" Scale="4"/>
-                <se:StswIcon Data="{x:Static se:StswIcons.Dice6}" Scale="6"/>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswIcon Data="{x:Static se:StswIcons.Dice6}"/>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

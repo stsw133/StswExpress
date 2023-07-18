@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswNavigationContext : StswObservableObject
+public class StswNavigationContext : ControlsContext
 {
     
 }

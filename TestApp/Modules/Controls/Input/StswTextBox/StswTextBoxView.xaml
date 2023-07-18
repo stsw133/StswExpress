@@ -9,56 +9,37 @@
     <d:UserControl.DataContext>
         <local:StswTextBoxContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Components>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Magnify}" Command="{Binding SearchCommand}"/>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-                <se:StswTextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Components>
-                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" Command="{Binding ClearCommand}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
-                        </se:StswButton>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}"/>
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Components>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Magnify}" Command="{Binding SearchCommand}"/>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-                <se:StswTextBox Margin="5" IsReadOnly="True" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Components>
-                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" IsHitTestVisible="False" Command="{Binding ClearCommand}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
-                        </se:StswButton>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}" Placeholder="Wpisz coś..."/>
-                <se:StswTextBox Margin="5" VerticalAlignment="Top" Text="{Binding Text, TargetNullValue=''}">
-                    <se:StswTextBox.Components>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Magnify}" Command="{Binding SearchCommand}"/>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-                <se:StswTextBox Margin="5" VerticalContentAlignment="Top" Text="{Binding Text, TargetNullValue=''}" AcceptsReturn="True" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto">
-                    <se:StswTextBox.Components>
-                        <se:StswButton BorderThickness="2 0 0 0" CornerRadius="0" Command="{Binding ClearCommand}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.CloseCircleOutline}" Scale="1.5"/>
-                        </se:StswButton>
-                    </se:StswTextBox.Components>
-                </se:StswTextBox>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswTextBox Margin="5"
+                                    Placeholder="Wpisz coś..."
+                                    Text="{Binding Text}"/>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

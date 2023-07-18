@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswClippingBorderContext : StswObservableObject
+public class StswClippingBorderContext : ControlsContext
 {
 
 }

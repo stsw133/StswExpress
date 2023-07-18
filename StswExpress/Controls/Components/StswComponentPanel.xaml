@@ -8,7 +8,7 @@
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
 
         <Setter Property="ExpandDirection" Value="Right"/>
-        <Setter Property="IconScale" Value="1.35"/>
+        <Setter Property="IconScale" Value="1.33"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -19,7 +19,10 @@
                     <Border x:Name="PART_MainBorder" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswComponentCheck x:Name="PART_Header" IconScale="{TemplateBinding IconScale}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <se:StswComponentCheck x:Name="PART_Header"
+                                                   IconScale="{TemplateBinding IconScale}"
+                                                   IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   IsHitTestVisible="False"/>
                             <!-- content -->
                             <ItemsControl x:Name="PART_ExpandSite" Focusable="False" ItemsSource="{TemplateBinding Items}" Visibility="Collapsed">
                                 <ItemsControl.ItemsPanel>
@@ -78,18 +81,12 @@
                             <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuDown}" TargetName="PART_Header" />
                             <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Header" />
                         </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="IsExpanded" Value="True"/>
+                        </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite" />
                         </Trigger>
-                        <!--
-                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="1">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Header" />
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite" />
-                        </DataTrigger>
-                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class StswContentDialogContext : StswObservableObject
+public class StswContentDialogContext : ControlsContext
 {
     public ICommand OpenContentDialogCommand { get; set; }
 
@@ -12,6 +12,7 @@ public class StswContentDialogContext : StswObservableObject
         OpenContentDialogCommand = new StswRelayCommand(OpenContentDialog);
     }
 
+    #region Events
     /// Command: open content dialog
     private void OpenContentDialog()
     {
@@ -45,7 +46,9 @@ public class StswContentDialogContext : StswObservableObject
     {
         ContentDialogBinding = new();
     }
+    #endregion
 
+    #region Properties
     /// ContentDialogModel
     private StswContentDialogModel contentDialogBinding = new();
     public StswContentDialogModel ContentDialogBinding
@@ -61,4 +64,5 @@ public class StswContentDialogContext : StswObservableObject
         get => contentDialogResult;
         set => SetProperty(ref contentDialogResult, value);
     }
+    #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
+/// </summary>
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorBox : TextBox
 {
@@ -70,71 +74,89 @@ public class StswColorBox : TextBox
     #endregion
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswColorBox)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswColorBox)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// IsAlphaEnabled
+    /// <summary>
+    /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
+    /// </summary>
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
     public static readonly DependencyProperty IsAlphaEnabledProperty
         = DependencyProperty.Register(
             nameof(IsAlphaEnabled),
             typeof(bool),
             typeof(StswColorBox)
         );
-    public bool IsAlphaEnabled
-    {
-        get => (bool)GetValue(IsAlphaEnabledProperty);
-        set => SetValue(IsAlphaEnabledProperty, value);
-    }
 
-    /// IsDropDownOpen
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown portion of the box is open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
     public static readonly DependencyProperty IsDropDownOpenProperty
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
             typeof(StswColorBox)
         );
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// Gets or sets the placeholder text to display in the box when no color is selected.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswColorBox)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
 
-    /// SelectedColor
+    /// <summary>
+    /// Gets or sets the selected color in the control.
+    /// </summary>
+    public Color SelectedColor
+    {
+        get => (Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
@@ -144,18 +166,16 @@ public class StswColorBox : TextBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Color SelectedColor
-    {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorBox stsw)
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
     }
 
-    /// Text
+    [Browsable(false)]
+    //[Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public new string? Text
     {
         get => base.Text;
@@ -163,33 +183,35 @@ public class StswColorBox : TextBox
     }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorBox)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswColorBox)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between box and dropdown button.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswColorBox)
+        );
     #endregion
 }

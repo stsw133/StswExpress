@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswScrollViewerContext : StswObservableObject
+public class StswScrollViewerContext : ControlsContext
 {
 
 }

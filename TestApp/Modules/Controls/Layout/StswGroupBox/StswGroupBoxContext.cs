@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswGroupBoxContext : StswObservableObject
+public class StswGroupBoxContext : ControlsContext
 {
 
 }

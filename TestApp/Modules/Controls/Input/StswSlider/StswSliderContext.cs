@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswSliderContext : StswObservableObject
+public class StswSliderContext : ControlsContext
 {
     
 }

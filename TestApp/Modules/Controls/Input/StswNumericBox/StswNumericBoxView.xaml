@@ -9,38 +9,35 @@
     <d:UserControl.DataContext>
         <local:StswNumericBoxContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number1}"/>
-                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number2}" Format="N2"/>
-                <se:StswNumericBox Margin="5" IsEnabled="False" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
-                    <se:StswNumericBox.Components>
-                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
-                    </se:StswNumericBox.Components>
-                </se:StswNumericBox>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Read only:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number1}"/>
-                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number2}" Format="N2"/>
-                <se:StswNumericBox IsReadOnly="True" Margin="5" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
-                    <se:StswNumericBox.Components>
-                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
-                    </se:StswNumericBox.Components>
-                </se:StswNumericBox>
-            </UniformGrid>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <se:StswNumericBox Margin="5" Value="{Binding Number1}" Placeholder="Wpisz coś..."/>
-                <se:StswNumericBox Margin="5" Value="{Binding Number2}" Format="N2"/>
-                <se:StswNumericBox Margin="5" Value="{Binding Number3}" Minimum="-100" Maximum="-50">
-                    <se:StswNumericBox.Components>
-                        <se:StswComponentButton Command="{Binding SearchCommand}" IconData="{x:Static se:StswIcons.Magnify}"/>
-                    </se:StswNumericBox.Components>
-                </se:StswNumericBox>
-            </UniformGrid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswNumericBox Margin="5" Value="{Binding Number}" Placeholder="Wpisz coś..."/>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

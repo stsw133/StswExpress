@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswWindowContext : StswObservableObject
+public class StswWindowContext : ControlsContext
 {
     public ICommand OpenNewWindowCommand { get; set; }
 
@@ -11,9 +11,16 @@ public class StswWindowContext : StswObservableObject
         OpenNewWindowCommand = new StswRelayCommand(OpenNewWindow);
     }
 
+    #region Events
     /// Command: open new window
     private void OpenNewWindow()
     {
-        new StswWindow() { Height = 450, Width = 750, Title = "New window" }.Show();
+        new StswWindow()
+        {
+            Title = "New window",
+            Height = 450,
+            Width = 750
+        }.Show();
     }
+    #endregion
 }

@@ -9,11 +9,44 @@
     <d:UserControl.DataContext>
         <local:StswContentDialogContext/>
     </d:UserControl.DataContext>
+
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="{Binding ContentDialogBinding.IsOpen, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-            <DockPanel Margin="5" VerticalAlignment="Top">
-                <se:StswButton DockPanel.Dock="Top" Margin="5" Content="Open new window" Command="{Binding OpenContentDialogCommand}"/>
-                <Label DockPanel.Dock="Top" Margin="5" Content="{Binding ContentDialogResult}"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- name and description -->
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <Label DockPanel.Dock="Top">
+                            <StackPanel>
+                                <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                                </TextBlock>
+                            </StackPanel>
+                        </Label>
+                        <!-- IsEnabled -->
+                        <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                            <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                        </se:StswCheckBox>
+                    </StackPanel>
+                    <GridSplitter Width="10"/>
+                    <!-- control -->
+                    <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                        <se:StswButton DockPanel.Dock="Top"
+                                       Command="{Binding OpenContentDialogCommand}"
+                                       Content="Open new window"
+                                       Margin="5"/>
+                        <TextBlock DockPanel.Dock="Top" Margin="10">
+                            <Run Text="Dialog ended with "/>
+                            <Run Text="{Binding ContentDialogResult}" FontWeight="Bold"/>
+                            <Run Text=" result"/>
+                        </TextBlock>
+                    </DockPanel>
+                </Grid>
             </DockPanel>
         </ScrollViewer>
         <se:StswContentDialog BindingModel="{Binding ContentDialogBinding}"/>

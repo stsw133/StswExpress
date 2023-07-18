@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswIconContext : StswObservableObject
+public class StswIconContext : ControlsContext
 {
 
 }

@@ -9,22 +9,35 @@
     <d:UserControl.DataContext>
         <local:StswTextEditorContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Disabled:"/>
-            <se:StswTextEditor Grid.Row="1" Margin="5" IsEnabled="False"/>
-            <Label Grid.Row="2" Content="Read only:"/>
-            <se:StswTextEditor Grid.Row="3" Margin="5" IsReadOnly="True"/>
-            <Label Grid.Row="4" Content="Enabled:"/>
-            <se:StswTextEditor Grid.Row="5" Margin="5"/>
-        </Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">
+                    <se:StswTextEditor Margin="5"/>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
     </ScrollViewer>
 </UserControl>

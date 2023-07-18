@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswLoadingCircleContext : StswObservableObject
+public class StswLoadingCircleContext : ControlsContext
 {
 
 }

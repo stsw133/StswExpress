@@ -19,24 +19,22 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top" Content="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
-                        Some description...
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
                     </Label>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
-                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
-                        Some description...
-                    </Label>
                     <!-- IsReadOnly -->
                     <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
                         <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
-                    <Label DockPanel.Dock="Top" Margin="0 0 0 20">
-                        Some description...
-                    </Label>
                 </StackPanel>
                 <GridSplitter Width="10"/>
                 <!-- control -->

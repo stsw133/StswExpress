@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswExpanderContext : StswObservableObject
+public class StswExpanderContext : ControlsContext
 {
 
 }

@@ -9,6 +9,9 @@ using System.Windows.Shapes;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
+/// </summary>
 [ContentProperty(nameof(SelectedColor))]
 public class StswColorPicker : UserControl
 {
@@ -98,33 +101,44 @@ public class StswColorPicker : UserControl
     #endregion
 
     #region Main properties
-    /// IsAlphaEnabled
+    /// <summary>
+    /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
+    /// </summary>
+    public bool IsAlphaEnabled
+    {
+        get => (bool)GetValue(IsAlphaEnabledProperty);
+        set => SetValue(IsAlphaEnabledProperty, value);
+    }
     public static readonly DependencyProperty IsAlphaEnabledProperty
         = DependencyProperty.Register(
             nameof(IsAlphaEnabled),
             typeof(bool),
             typeof(StswColorPicker)
         );
-    public bool IsAlphaEnabled
-    {
-        get => (bool)GetValue(IsAlphaEnabledProperty);
-        set => SetValue(IsAlphaEnabledProperty, value);
-    }
 
-    /// PickedColor
+    /// <summary>
+    /// Gets or sets the picked color in the control.
+    /// </summary>
+    public Color PickedColor
+    {
+        get => (Color)GetValue(PickedColorProperty);
+        set => SetValue(PickedColorProperty, value);
+    }
     public static readonly DependencyProperty PickedColorProperty
         = DependencyProperty.Register(
             nameof(PickedColor),
             typeof(Color),
             typeof(StswColorPicker)
         );
-    public Color PickedColor
-    {
-        get => (Color)GetValue(PickedColorProperty);
-        set => SetValue(PickedColorProperty, value);
-    }
 
-    /// SelectedColor
+    /// <summary>
+    /// Gets or sets the selected color in the control.
+    /// </summary>
+    public Color SelectedColor
+    {
+        get => (Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
@@ -134,11 +148,6 @@ public class StswColorPicker : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Color SelectedColor
-    {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
@@ -173,7 +182,14 @@ public class StswColorPicker : UserControl
         }
     }
 
-    /// SelectedColorA
+    /// <summary>
+    /// 
+    /// </summary>
+    internal byte SelectedColorA
+    {
+        get => (byte)GetValue(SelectedColorAProperty);
+        set => SetValue(SelectedColorAProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorAProperty
         = DependencyProperty.Register(
             nameof(SelectedColorA),
@@ -181,17 +197,20 @@ public class StswColorPicker : UserControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorAChanged)
         );
-    internal byte SelectedColorA
-    {
-        get => (byte)GetValue(SelectedColorAProperty);
-        set => SetValue(SelectedColorAProperty, value);
-    }
     public static void OnSelectedColorAChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
             stsw.SelectedColor = Color.FromArgb((byte)e.NewValue, stsw.SelectedColor.R, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
-    /// SelectedColorR
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal byte SelectedColorR
+    {
+        get => (byte)GetValue(SelectedColorRProperty);
+        set => SetValue(SelectedColorRProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorRProperty
         = DependencyProperty.Register(
             nameof(SelectedColorR),
@@ -199,17 +218,20 @@ public class StswColorPicker : UserControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorRChanged)
         );
-    internal byte SelectedColorR
-    {
-        get => (byte)GetValue(SelectedColorRProperty);
-        set => SetValue(SelectedColorRProperty, value);
-    }
     public static void OnSelectedColorRChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
             stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, (byte)e.NewValue, stsw.SelectedColor.G, stsw.SelectedColor.B);
     }
-    /// SelectedColorG
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswColorPicker stsw)
+            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
+    }
     public static readonly DependencyProperty SelectedColorGProperty
         = DependencyProperty.Register(
             nameof(SelectedColorG),
@@ -222,12 +244,15 @@ public class StswColorPicker : UserControl
         get => (byte)GetValue(SelectedColorGProperty);
         set => SetValue(SelectedColorGProperty, value);
     }
-    public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal byte SelectedColorB
     {
-        if (obj is StswColorPicker stsw)
-            stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, (byte)e.NewValue, stsw.SelectedColor.B);
+        get => (byte)GetValue(SelectedColorBProperty);
+        set => SetValue(SelectedColorBProperty, value);
     }
-    /// SelectedColorB
     public static readonly DependencyProperty SelectedColorBProperty
         = DependencyProperty.Register(
             nameof(SelectedColorB),
@@ -235,17 +260,20 @@ public class StswColorPicker : UserControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(byte), OnSelectedColorBChanged)
         );
-    internal byte SelectedColorB
-    {
-        get => (byte)GetValue(SelectedColorBProperty);
-        set => SetValue(SelectedColorBProperty, value);
-    }
     public static void OnSelectedColorBChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
             stsw.SelectedColor = Color.FromArgb(stsw.SelectedColor.A, stsw.SelectedColor.R, stsw.SelectedColor.G, (byte)e.NewValue);
     }
-    /// SelectedColorV
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal double SelectedColorV
+    {
+        get => (double)GetValue(SelectedColorVProperty);
+        set => SetValue(SelectedColorVProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorVProperty
         = DependencyProperty.Register(
             nameof(SelectedColorV),
@@ -253,11 +281,6 @@ public class StswColorPicker : UserControl
             typeof(StswColorPicker),
             new PropertyMetadata(default(double), OnSelectedColorVChanged)
         );
-    internal double SelectedColorV
-    {
-        get => (double)GetValue(SelectedColorVProperty);
-        set => SetValue(SelectedColorVProperty, value);
-    }
     public static void OnSelectedColorVChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorPicker stsw)
@@ -270,46 +293,49 @@ public class StswColorPicker : UserControl
     #endregion
 
     #region Spacial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorPicker)
-        );
-    public Thickness SubBorderThickness
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswColorPicker)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Padding ...
-    /// SubPadding
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswColorPicker)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
     public static readonly DependencyProperty SubPaddingProperty
         = DependencyProperty.Register(
             nameof(SubPadding),
             typeof(Thickness),
             typeof(StswColorPicker)
         );
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
     #endregion
 }

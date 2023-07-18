@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswOutlinedTextContext : StswObservableObject
+public class StswOutlinedTextContext : ControlsContext
 {
     
 }

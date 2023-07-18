@@ -9,13 +9,44 @@
     <d:UserControl.DataContext>
         <local:StswSliderContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <DockPanel>
-            <Label DockPanel.Dock="Top" Content="Disabled:"/>
-            <se:StswSlider DockPanel.Dock="Top" Margin="5" IsEnabled="False"/>
-            <Label DockPanel.Dock="Top" Content="Enabled:"/>
-            <se:StswSlider DockPanel.Dock="Top" Margin="5" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="Both" IsSelectionRangeEnabled="True" SelectionStart="20" SelectionEnd="40"/>
-            <se:StswSlider DockPanel.Dock="Top" Margin="5" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="Both" IsSelectionRangeEnabled="True" SelectionStart="20" SelectionEnd="40" Orientation="Vertical"/>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswSlider DockPanel.Dock="Top"
+                                   Margin="5"
+                                   Minimum="0"
+                                   Maximum="100"
+                                   TickFrequency="5"
+                                   IsSnapToTickEnabled="True"
+                                   TickPlacement="Both"
+                                   IsSelectionRangeEnabled="True"
+                                   SelectionStart="20"
+                                   SelectionEnd="40"/>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

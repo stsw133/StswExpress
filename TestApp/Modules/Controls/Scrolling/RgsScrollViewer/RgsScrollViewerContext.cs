@@ -1,3 +1,6 @@
 ﻿namespace TestApp;
 
-public class RgsScrollViewerContext : StswObservableObject {}
+public class RgsScrollViewerContext : ControlsContext
+{
+
+}

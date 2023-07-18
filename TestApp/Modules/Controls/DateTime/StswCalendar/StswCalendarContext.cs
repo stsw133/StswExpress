@@ -2,19 +2,15 @@
 
 namespace TestApp;
 
-public class StswCalendarContext : StswObservableObject
+public class StswCalendarContext : ControlsContext
 {
-    private DateTime date = DateTime.Now;
-    public DateTime Date
+    #region Properties
+    /// Date
+    private DateTime? date = DateTime.Now;
+    public DateTime? Date
     {
         get => date;
         set => SetProperty(ref date, value);
     }
-    
-    private DateTime? nullableDate;
-    public DateTime? NullableDate
-    {
-        get => nullableDate;
-        set => SetProperty(ref nullableDate, value);
-    }
+    #endregion
 }

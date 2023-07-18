@@ -9,7 +9,10 @@
     <d:UserControl.DataContext>
         <local:StswNotifyIconContext/>
     </d:UserControl.DataContext>
-    <se:StswNotifyIcon ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
+    
+    <se:StswNotifyIcon IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico"
+                       ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                       Text="{x:Static se:StswFn.AppNameAndVersion}">
         <se:StswNotifyIcon.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="TEST" Command="{Binding TestCommand}"/>

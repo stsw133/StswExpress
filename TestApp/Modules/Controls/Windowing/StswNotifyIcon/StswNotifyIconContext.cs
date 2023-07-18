@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class StswNotifyIconContext : StswObservableObject
+public class StswNotifyIconContext : ControlsContext
 {
     public ICommand TestCommand { get; set; }
 
@@ -12,9 +12,11 @@ public class StswNotifyIconContext : StswObservableObject
         TestCommand = new StswRelayCommand(Test);
     }
 
+    #region Events
     /// Command: test
     private void Test()
     {
         MessageBox.Show("TEST");
     }
+    #endregion
 }

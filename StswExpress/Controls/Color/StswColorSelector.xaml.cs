@@ -8,6 +8,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a color selector control that provides a selection of standard and theme colors.
+/// </summary>
 [ContentProperty(nameof(ColorPaletteStandard))]
 public class StswColorSelector : UserControl
 {
@@ -34,44 +37,59 @@ public class StswColorSelector : UserControl
     #endregion
 
     #region Main properties
-    /// ColorAuto
+    /// <summary>
+    /// 
+    /// </summary>
+    public SolidColorBrush ColorAuto
+    {
+        get => (SolidColorBrush)GetValue(ColorAutoProperty);
+        set => SetValue(ColorAutoProperty, value);
+    }
     public static readonly DependencyProperty ColorAutoProperty
         = DependencyProperty.Register(
             nameof(ColorAuto),
             typeof(SolidColorBrush),
             typeof(StswColorSelector)
         );
-    public SolidColorBrush ColorAuto
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SolidColorBrush[] ColorPaletteStandard
     {
-        get => (SolidColorBrush)GetValue(ColorAutoProperty);
-        set => SetValue(ColorAutoProperty, value);
+        get => (SolidColorBrush[])GetValue(ColorPaletteStandardProperty);
+        set => SetValue(ColorPaletteStandardProperty, value);
     }
-    /// ColorPaletteStandard
     public static readonly DependencyProperty ColorPaletteStandardProperty
         = DependencyProperty.Register(
             nameof(ColorPaletteStandard),
             typeof(SolidColorBrush[]),
             typeof(StswColorSelector)
         );
-    public SolidColorBrush[] ColorPaletteStandard
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SolidColorBrush[] ColorPaletteTheme
     {
-        get => (SolidColorBrush[])GetValue(ColorPaletteStandardProperty);
-        set => SetValue(ColorPaletteStandardProperty, value);
+        get => (SolidColorBrush[])GetValue(ColorPaletteThemeProperty);
+        set => SetValue(ColorPaletteThemeProperty, value);
     }
-    /// ColorPaletteTheme
     public static readonly DependencyProperty ColorPaletteThemeProperty
         = DependencyProperty.Register(
             nameof(ColorPaletteTheme),
             typeof(SolidColorBrush[]),
             typeof(StswColorSelector)
         );
-    public SolidColorBrush[] ColorPaletteTheme
-    {
-        get => (SolidColorBrush[])GetValue(ColorPaletteThemeProperty);
-        set => SetValue(ColorPaletteThemeProperty, value);
-    }
 
-    /// SelectedColor
+    /// <summary>
+    /// 
+    /// </summary>
+    public Color SelectedColor
+    {
+        get => (Color)GetValue(SelectedColorProperty);
+        set => SetValue(SelectedColorProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorProperty
         = DependencyProperty.Register(
             nameof(SelectedColor),
@@ -81,11 +99,6 @@ public class StswColorSelector : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Color SelectedColor
-    {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
-    }
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorSelector stsw)
@@ -94,22 +107,9 @@ public class StswColorSelector : UserControl
     #endregion
 
     #region Spacial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorSelector)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
+    /// <summary>
+    /// 
+    /// </summary>
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
@@ -122,8 +122,24 @@ public class StswColorSelector : UserControl
         set => SetValue(CornerRadiusProperty, value);
     }
 
-    /// > Padding ...
-    /// SubPadding
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswColorSelector)
+        );
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static readonly DependencyProperty SubPaddingProperty
         = DependencyProperty.Register(
             nameof(SubPadding),

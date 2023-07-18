@@ -1,35 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿namespace TestApp;
 
-namespace TestApp;
-
-public class StswPasswordBoxContext : StswObservableObject
+public class StswPasswordBoxContext : ControlsContext
 {
-    private string text = "TEST";
-    public string Text
+    #region Properties
+    /// Password
+    private string password = "TEST";
+    public string Password
     {
-        get => text;
-        set => SetProperty(ref text, value);
+        get => password;
+        set => SetProperty(ref password, value);
     }
-
-    /// ...
-    public ICommand ClearCommand { get; set; }
-    public ICommand SearchCommand { get; set; }
-
-    public StswPasswordBoxContext()
-    {
-        ClearCommand = new StswRelayCommand(Clear);
-        SearchCommand = new StswRelayCommand(Search);
-    }
-
-    /// ClearCommand
-    private void Clear()
-    {
-        Text = string.Empty;
-    }
-    /// SearchCommand
-    private void Search()
-    {
-        MessageBox.Show(Text);
-    }
+    #endregion
 }

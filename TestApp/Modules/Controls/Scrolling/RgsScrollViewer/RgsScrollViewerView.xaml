@@ -8,44 +8,56 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <d:UserControl.DataContext>
-        <local:RgsScrollViewerContext />
+        <local:RgsScrollViewerContext/>
     </d:UserControl.DataContext>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel VerticalAlignment="Top">
-            <Label DockPanel.Dock="Top" Content="Horizontal:"/>
-            <se:RgsScrollViewer DockPanel.Dock="Top" Margin="5" Height="200" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                            <GradientStop Color="#F00" Offset="0"/>
-                            <GradientStop Color="#FF0" Offset="0.1666666666"/>
-                            <GradientStop Color="#0F0" Offset="0.3333333333"/>
-                            <GradientStop Color="#0FF" Offset="0.5"/>
-                            <GradientStop Color="#00F" Offset="0.6666666666"/>
-                            <GradientStop Color="#F0F" Offset="0.8333333333"/>
-                            <GradientStop Color="#F00" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </se:RgsScrollViewer>
-            <Label DockPanel.Dock="Top" Content="Vertical:"/>
-            <se:RgsScrollViewer DockPanel.Dock="Top" Margin="5" Height="200" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
-                <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
-                            <GradientStop Color="#F00" Offset="0"/>
-                            <GradientStop Color="#FF0" Offset="0.1666666666"/>
-                            <GradientStop Color="#0F0" Offset="0.3333333333"/>
-                            <GradientStop Color="#0FF" Offset="0.5"/>
-                            <GradientStop Color="#00F" Offset="0.6666666666"/>
-                            <GradientStop Color="#F0F" Offset="0.8333333333"/>
-                            <GradientStop Color="#F00" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </se:RgsScrollViewer>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Some description...
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Width="10"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:RgsScrollViewer DockPanel.Dock="Top"
+                                        Height="200"
+                                        Margin="5"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Visible">
+                        <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
+                                   Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                    <GradientStop Color="#F00" Offset="0"/>
+                                    <GradientStop Color="#FF0" Offset="0.1666666666"/>
+                                    <GradientStop Color="#0F0" Offset="0.3333333333"/>
+                                    <GradientStop Color="#0FF" Offset="0.5"/>
+                                    <GradientStop Color="#00F" Offset="0.6666666666"/>
+                                    <GradientStop Color="#F0F" Offset="0.8333333333"/>
+                                    <GradientStop Color="#F00" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </se:RgsScrollViewer>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ScrollViewer>
 </UserControl>

@@ -6,10 +6,9 @@
 
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
-        
-        <Setter Property="Padding" Value="3 1"/>
 
-        <Setter Property="IconScale" Value="1.35"/>
+        <Setter Property="Padding" Value="3 1"/>
+        <Setter Property="IconScale" Value="1.33"/>
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

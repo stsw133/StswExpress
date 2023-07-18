@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that functions as a component and displays an icon.
+/// </summary>
 public class StswComponentButton : Button, IStswComponent
 {
     static StswComponentButton()
@@ -13,77 +16,80 @@ public class StswComponentButton : Button, IStswComponent
     }
 
     #region Main properties
-    /// ContentVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the content within the control.
+    /// </summary>
+    public Visibility? ContentVisibility
+    {
+        get => (Visibility)GetValue(ContentVisibilityProperty);
+        set => SetValue(ContentVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ContentVisibilityProperty
         = DependencyProperty.Register(
             nameof(ContentVisibility),
             typeof(Visibility),
             typeof(StswComponentButton)
         );
-    public Visibility? ContentVisibility
-    {
-        get => (Visibility)GetValue(ContentVisibilityProperty);
-        set => SetValue(ContentVisibilityProperty, value);
-    }
 
-    /// IconData
+    /// <summary>
+    /// Gets or sets the geometry used for the icon.
+    /// </summary>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
     public static readonly DependencyProperty IconDataProperty
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
             typeof(StswComponentButton)
         );
-    public Geometry? IconData
+
+    /// <summary>
+    /// Gets or sets the scale of the icon in the box.
+    /// </summary>
+    public GridLength? IconScale
     {
-        get => (Geometry?)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
+        get => (GridLength?)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
     }
-    /// IconScale
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
             typeof(StswComponentButton)
         );
-    public GridLength? IconScale
-    {
-        get => (GridLength?)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
 
-    /// IsBusy
+    /// <summary>
+    /// Gets or sets a value indicating whether the control is in a busy/loading state.
+    /// </summary>
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
             typeof(StswComponentButton)
         );
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
 
-    /// Orientation
+    /// <summary>
+    /// Gets or sets the orientation of the control.
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswComponentButton)
         );
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    #endregion
-
-    #region Spatial properties
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
     #endregion
 
     #region Style properties
@@ -92,5 +98,11 @@ public class StswComponentButton : Button, IStswComponent
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? BorderBrush { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Thickness? BorderThickness { get; private set; }
     #endregion
 }
