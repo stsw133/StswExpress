@@ -9,14 +9,44 @@
     <d:UserControl.DataContext>
         <local:StswNotifyIconContext/>
     </d:UserControl.DataContext>
-    
-    <se:StswNotifyIcon IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico"
-                       ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                       Text="{x:Static se:StswFn.AppNameAndVersion}">
-        <se:StswNotifyIcon.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
-            </ContextMenu>
-        </se:StswNotifyIcon.ContextMenu>
-    </se:StswNotifyIcon>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Represents a control for displaying a system tray icon with various properties for customization.
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+                <GridSplitter Margin="-5" Width="5"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswNotifyIcon IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico"
+                                       IsEnabled="{Binding IsEnabled}"
+                                       ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                       Text="{x:Static se:StswFn.AppNameAndVersion}">
+                        <se:StswNotifyIcon.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
+                            </ContextMenu>
+                        </se:StswNotifyIcon.ContextMenu>
+                    </se:StswNotifyIcon>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </ScrollViewer>
 </UserControl>

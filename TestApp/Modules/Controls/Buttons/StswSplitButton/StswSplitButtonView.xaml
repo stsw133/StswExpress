@@ -36,7 +36,7 @@
                         <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Width="10"/>
+                <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswSplitButton DockPanel.Dock="Top"

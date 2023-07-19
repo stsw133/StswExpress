@@ -14,7 +14,7 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// A custom rich text editor control that extends the functionality of the built-in RichTextBox.
+/// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>
 public class StswTextEditor : RichTextBox
 {

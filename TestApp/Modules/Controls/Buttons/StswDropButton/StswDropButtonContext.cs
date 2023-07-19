@@ -12,7 +12,7 @@ public class StswDropButtonContext : ControlsContext
     }
 
     #region Events
-    /// OnClickCommand
+    /// Command: on click
     private void OnClick(string? parameter)
     {
         if (int.TryParse(parameter, out var result))

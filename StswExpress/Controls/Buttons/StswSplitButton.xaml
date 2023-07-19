@@ -174,7 +174,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

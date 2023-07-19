@@ -23,7 +23,7 @@
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Some description...
+                                Represents a control that provides a container for a group of controls with an optional header.
                             </TextBlock>
                         </StackPanel>
                     </Label>
@@ -32,7 +32,7 @@
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Width="10"/>
+                <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswGroupBox DockPanel.Dock="Top"

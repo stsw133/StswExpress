@@ -48,7 +48,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainBorder" />
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
