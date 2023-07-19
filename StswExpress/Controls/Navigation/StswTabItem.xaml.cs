@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that extends the <see cref="TabItem"/> class with additional functionality.
+/// </summary>
 public class StswTabItem : TabItem
 {
     static StswTabItem()
@@ -12,7 +15,9 @@ public class StswTabItem : TabItem
     }
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// FunctionButton
@@ -22,7 +27,10 @@ public class StswTabItem : TabItem
         base.OnApplyTemplate();
     }
 
-    /// PART_FunctionButton_Click
+    /// <summary>
+    /// Handles the click event of the PART_FunctionButton.
+    /// Removes the current tab item from the parent StswTabControl.
+    /// </summary>
     public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);
@@ -37,17 +45,19 @@ public class StswTabItem : TabItem
     #endregion
 
     #region Main properties
-    /// IsClosable
+    /// <summary>
+    /// Gets or sets a value indicating whether the tab item is closable and has a close button.
+    /// </summary>
+    public bool IsClosable
+    {
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
     public static readonly DependencyProperty IsClosableProperty
         = DependencyProperty.Register(
             nameof(IsClosable),
             typeof(bool),
             typeof(StswTabItem)
         );
-    public bool IsClosable
-    {
-        get => (bool)GetValue(IsClosableProperty);
-        set => SetValue(IsClosableProperty, value);
-    }
     #endregion
 }

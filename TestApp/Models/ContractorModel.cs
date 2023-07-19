@@ -9,6 +9,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 {
     /// ID
     private int id;
+    [StswExport(nameof(ID))]
     public int ID
     {
         get => id;
@@ -17,6 +18,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Type
     private string? type;
+    [StswExport(nameof(Type))]
     public string? Type
     {
         get => type;
@@ -25,6 +27,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Icon
     private ImageSource? icon;
+    [StswExport(IsColumnIgnored = true)]
     public ImageSource? Icon
     {
         get => icon;
@@ -33,6 +36,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Name
     private string? name;
+    [StswExport(nameof(Name))]
     public string? Name
     {
         get => name;
@@ -41,6 +45,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Country
     private string? country;
+    [StswExport(nameof(Country))]
     public string? Country
     {
         get => country;
@@ -49,6 +54,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// PostCode
     private string? postCode;
+    [StswExport("Post code")]
     public string? PostCode
     {
         get => postCode;
@@ -57,6 +63,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// City
     private string? city;
+    [StswExport(nameof(City))]
     public string? City
     {
         get => city;
@@ -65,6 +72,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Street
     private string? street;
+    [StswExport(nameof(Street))]
     public string? Street
     {
         get => street;
@@ -73,6 +81,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// IsArchival
     private bool isArchival;
+    [StswExport("Is archival", "{0:yes;1;no}")]
     public bool IsArchival
     {
         get => isArchival;
@@ -81,6 +90,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// CreateDT
     private DateTime createDT = DateTime.Now;
+    [StswExport("Date of creation", "yyyy-MM-dd")]
     public DateTime CreateDT
     {
         get => createDT;
@@ -89,7 +99,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Pdf
     private string? pdf;
-
+    [StswExport(IsColumnIgnored = true)]
     public string? Pdf
     {
         get => pdf;
@@ -99,20 +109,25 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     /// > IStswCollectionItem ...
     /// ErrorMessage
     private string? errorMessage;
+    [StswExport(IsColumnIgnored = true)]
     public string? ErrorMessage
     {
         get => errorMessage;
         set => SetProperty(ref errorMessage, value);
     }
+
     /// ItemState
     private DataRowState itemState;
+    [StswExport(IsColumnIgnored = true)]
     public DataRowState ItemState
     {
         get => itemState;
         set => SetProperty(ref itemState, value);
     }
+
     /// ShowDetails
     private bool? showDetails = false;
+    [StswExport(IsColumnIgnored = true)]
     public bool? ShowDetails
     {
         get => showDetails;

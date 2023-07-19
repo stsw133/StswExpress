@@ -4,10 +4,12 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using System.Xml.Linq;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control for displaying a system tray icon with various properties for customization.
+/// </summary>
 public class StswNotifyIcon : FrameworkElement
 {
     public StswNotifyIcon()
@@ -20,8 +22,10 @@ public class StswNotifyIcon : FrameworkElement
 
     #region Events
     private Window? _window;
-    
-    /// StswNotifyIcon_Loaded
+
+    /// <summary>
+    /// Handles the Loaded event to initialize the NotifyIcon.
+    /// </summary>
     private void StswNotifyIcon_Loaded(object sender, RoutedEventArgs e)
     {
         _window = ParentControl as Window ?? Window.GetWindow(this);
@@ -39,10 +43,14 @@ public class StswNotifyIcon : FrameworkElement
         }
     }
 
-    /// IconFromPath
-    private static Icon IconFromPath(string path) => new Icon(System.Windows.Application.GetResourceStream(new Uri(path)).Stream);
+    /// <summary>
+    /// Helper method to create an Icon from the specified path.
+    /// </summary>
+    private static Icon IconFromPath(string path) => new(System.Windows.Application.GetResourceStream(new Uri(path)).Stream);
 
-    /// StswWindow_StateChanged
+    /// <summary>
+    /// Handles the StateChanged event of the associated Window to show/hide the window when minimized.
+    /// </summary>
     private void StswWindow_StateChanged(object? sender, EventArgs e)
     {
         if (_window != null && Tray != null && _window.WindowState == WindowState.Minimized)
@@ -52,7 +60,9 @@ public class StswNotifyIcon : FrameworkElement
         }
     }
 
-    /// Tray_MouseDoubleClick
+    /// <summary>
+    /// Handles the MouseDoubleClick event of the NotifyIcon to show the window when double-clicked.
+    /// </summary>
     private void Tray_MouseDoubleClick(object? sender, MouseEventArgs e)
     {
         if (_window != null && Tray != null)
@@ -65,7 +75,9 @@ public class StswNotifyIcon : FrameworkElement
         }
     }
 
-    /// Tray_MouseDown
+    /// <summary>
+    /// Handles the MouseDown event of the NotifyIcon to show the context menu when right-clicked.
+    /// </summary>
     private void Tray_MouseDown(object? sender, MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Right)
@@ -79,7 +91,9 @@ public class StswNotifyIcon : FrameworkElement
         }
     }
 
-    /// StswNotifyIcon_Loaded
+    /// <summary>
+    /// Handles the Unloaded event to clean up resources.
+    /// </summary>
     private void StswNotifyIcon_Unloaded(object sender, RoutedEventArgs e)
     {
         Tray?.Dispose();
@@ -89,7 +103,14 @@ public class StswNotifyIcon : FrameworkElement
     #endregion
 
     #region Main properties
-    /// Icon
+    /// <summary>
+    /// Gets or sets the Icon to be displayed in the NotifyIcon control.
+    /// </summary>
+    public Icon Icon
+    {
+        get => (Icon)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
     public static readonly DependencyProperty IconProperty
         = DependencyProperty.Register(
             nameof(Icon),
@@ -97,11 +118,6 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(Icon), OnIconChanged)
         );
-    public Icon Icon
-    {
-        get => (Icon)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
     private static void OnIconChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNotifyIcon stsw)
@@ -110,7 +126,15 @@ public class StswNotifyIcon : FrameworkElement
                 stsw.Tray.Icon = stsw.Icon;
         }
     }
-    /// IconPath
+
+    /// <summary>
+    /// Gets or sets the path to the icon file to be displayed in the NotifyIcon control.
+    /// </summary>
+    public string IconPath
+    {
+        get => (string)GetValue(IconPathProperty);
+        set => SetValue(IconPathProperty, value);
+    }
     public static readonly DependencyProperty IconPathProperty
         = DependencyProperty.Register(
             nameof(IconPath),
@@ -118,11 +142,6 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(string), OnIconPathChanged)
         );
-    public string IconPath
-    {
-        get => (string)GetValue(IconPathProperty);
-        set => SetValue(IconPathProperty, value);
-    }
     private static void OnIconPathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNotifyIcon stsw)
@@ -132,20 +151,29 @@ public class StswNotifyIcon : FrameworkElement
         }
     }
 
-    /// ParentControl
+    /// <summary>
+    /// Gets or sets the parent UI element of the NotifyIcon control.
+    /// </summary>
+    public UIElement ParentControl
+    {
+        get => (UIElement)GetValue(ParentControlProperty);
+        set => SetValue(ParentControlProperty, value);
+    }
     public static readonly DependencyProperty ParentControlProperty
         = DependencyProperty.Register(
             nameof(ParentControl),
             typeof(UIElement),
             typeof(StswNotifyIcon)
         );
-    public UIElement ParentControl
-    {
-        get => (UIElement)GetValue(ParentControlProperty);
-        set => SetValue(ParentControlProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// Gets or sets the text to be displayed as a tooltip for the NotifyIcon.
+    /// </summary>
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
@@ -153,11 +181,6 @@ public class StswNotifyIcon : FrameworkElement
             typeof(StswNotifyIcon),
             new PropertyMetadata(default(string), OnTextChanged)
         );
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
     private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNotifyIcon stsw)

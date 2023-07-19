@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -10,23 +9,25 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// </summary>
-public class StswComboView : UserControl
+public class StswSelectionBox : UserControl
 {
-    public StswComboView()
+    public StswSelectionBox()
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
         
-        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        //SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
-    static StswComboView()
+    static StswSelectionBox()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboView), new FrameworkPropertyMetadata(typeof(StswComboView)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
     }
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// ListBox
@@ -40,7 +41,10 @@ public class StswComboView : UserControl
         base.OnApplyTemplate();
     }
 
-    /// OnSelectionChanged
+    /// <summary>
+    /// Handles the selection changed event of the internal ListBox.
+    /// Updates the collection of selected items and the source binding.
+    /// </summary>
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (SelectedItemsBinding != null)
@@ -56,7 +60,9 @@ public class StswComboView : UserControl
         SetText();
     }
 
-    /// SetText
+    /// <summary>
+    /// Sets the text for the control based on the selected items.
+    /// </summary>
     internal void SetText()
     {
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
@@ -96,9 +102,10 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(ArrowVisibility),
             typeof(Visibility),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
+    /*
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
@@ -111,8 +118,9 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
+    */
 
     /// <summary>
     /// Gets or sets the alignment of the components within the control.
@@ -126,11 +134,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the path to the display string property of the items in the ItemsSource.
     /// </summary>
     public string? DisplayMemberPath
     {
@@ -141,11 +149,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown portion of the button is open.
+    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -156,14 +164,14 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
-            typeof(StswComboView),
+            typeof(StswSelectionBox),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswComboView stsw)
+        if (obj is StswSelectionBox stsw)
         {
             if (stsw.IsDropDownOpen)
                 _ = Mouse.Capture(stsw, CaptureMode.SubTree);
@@ -177,7 +185,8 @@ public class StswComboView : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
     /// </summary>
     public bool IsReadOnly
     {
@@ -188,11 +197,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the collection that is used to generate the content of the control.
     /// </summary>
     public IList ItemsSource
     {
@@ -203,11 +212,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the control when no item is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -218,11 +227,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the collection that holds the selected items of the control.
     /// </summary>
     public IList SelectedItemsBinding
     {
@@ -233,14 +242,14 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(SelectedItemsBinding),
             typeof(IList),
-            typeof(StswComboView),
+            typeof(StswSelectionBox),
             new FrameworkPropertyMetadata(default(IList),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the path to the value property of the selected items in the ItemsSource.
     /// </summary>
     public string? SelectedValuePath
     {
@@ -251,11 +260,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the text value of the control.
     /// </summary>
     public string Text
     {
@@ -266,7 +275,7 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
     #endregion
 
@@ -283,11 +292,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// Gets or sets the maximum height of the dropdown portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the button.
     /// </summary>
     public double? MaxDropDownHeight
     {
@@ -298,11 +307,11 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
             typeof(double?),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the dropdown popup.
+    /// Gets or sets the border thickness of the drop-down popup.
     /// </summary>
     public Thickness PopupBorderThickness
     {
@@ -313,7 +322,7 @@ public class StswComboView : UserControl
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
-            typeof(StswComboView)
+            typeof(StswSelectionBox)
         );
     #endregion
 }

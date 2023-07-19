@@ -25,9 +25,14 @@ public class StswColorPicker : UserControl
     private Grid? partColorGrid;
     private Ellipse? partColorEllipse;
 
+    /// <summary>
+    /// Occurs when the selected color in the control changes.
+    /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// PART_ColorGrid
@@ -44,7 +49,10 @@ public class StswColorPicker : UserControl
         base.OnApplyTemplate();
     }
 
-    /// PART_ColorGrid_MouseDown
+    /// <summary>
+    /// Handles the MouseDown event on the color grid element in the control.
+    /// Triggers the MouseMove event if the left mouse button is pressed.
+    /// </summary>
     private void PART_ColorGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
@@ -52,7 +60,10 @@ public class StswColorPicker : UserControl
         e.Handled = true;
     }
 
-    /// PART_ColorGrid_MouseMove
+    /// <summary>
+    /// Handles the MouseMove event on the color grid element in the control.
+    /// Updates the selected color and the position of the color ellipse.
+    /// </summary>
     private void PART_ColorGrid_MouseMove(object sender, MouseEventArgs e)
     {
         var grid = (Grid)sender;
@@ -183,7 +194,7 @@ public class StswColorPicker : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the Alpha channel of selected color.
     /// </summary>
     internal byte SelectedColorA
     {
@@ -204,7 +215,7 @@ public class StswColorPicker : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the Red channel of selected color.
     /// </summary>
     internal byte SelectedColorR
     {
@@ -225,7 +236,7 @@ public class StswColorPicker : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the Green channel of selected color.
     /// </summary>
     public static void OnSelectedColorGChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -246,7 +257,7 @@ public class StswColorPicker : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the Blue channel of selected color.
     /// </summary>
     internal byte SelectedColorB
     {
@@ -267,7 +278,7 @@ public class StswColorPicker : UserControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the Value channel of selected color.
     /// </summary>
     internal double SelectedColorV
     {
@@ -292,7 +303,7 @@ public class StswColorPicker : UserControl
     }
     #endregion
 
-    #region Spacial properties
+    #region Style properties
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
@@ -309,7 +320,7 @@ public class StswColorPicker : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the thickness of the picker and channel rectangles inside the control.
     /// </summary>
     public Thickness SubBorderThickness
     {
@@ -324,7 +335,7 @@ public class StswColorPicker : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the margin of the picker and channel rectangles inside the control.
     /// </summary>
     public Thickness SubPadding
     {

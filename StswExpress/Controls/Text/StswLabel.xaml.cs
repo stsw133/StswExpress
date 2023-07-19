@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control functioning as label with content truncation support.
+/// </summary>
 public class StswLabel : Label
 {
     static StswLabel()
@@ -13,7 +16,9 @@ public class StswLabel : Label
     }
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -21,7 +26,9 @@ public class StswLabel : Label
         UpdateContentTruncation();
     }
 
-    /// OnContentChanged
+    /// <summary>
+    /// Occurs when the content of the label is changed.
+    /// </summary>
     protected override void OnContentChanged(object oldContent, object newContent)
     {
         base.OnContentChanged(oldContent, newContent);
@@ -29,7 +36,9 @@ public class StswLabel : Label
         UpdateContentTruncation();
     }
 
-    /// OnRenderSizeChanged
+    /// <summary>
+    /// Occurs when the render size of the label is changed.
+    /// </summary>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -37,7 +46,9 @@ public class StswLabel : Label
         UpdateContentTruncation();
     }
 
-    /// UpdateContentTruncation
+    /// <summary>
+    /// Updates the content truncation status.
+    /// </summary>
     private void UpdateContentTruncation()
     {
         if (!IsTruncButtonVisible)
@@ -54,7 +65,9 @@ public class StswLabel : Label
         IsContentTruncated = isContentTruncated;
     }
 
-    /// MeasureContentDesiredSize
+    /// <summary>
+    /// Measures the desired size of the content for truncation.
+    /// </summary>
     private Size MeasureContentDesiredSize(object content)
     {
         if (content is UIElement contentElement)
@@ -75,7 +88,14 @@ public class StswLabel : Label
     #endregion
 
     #region Main properties
-    /// IsContentTruncated
+    /// <summary>
+    /// Gets a value indicating whether the content is truncated.
+    /// </summary>
+    public bool IsContentTruncated
+    {
+        get => (bool)GetValue(IsContentTruncatedProperty);
+        internal set => SetValue(IsContentTruncatedPropertyKey, value);
+    }
     public static readonly DependencyProperty IsContentTruncatedProperty = IsContentTruncatedPropertyKey?.DependencyProperty;
     internal static readonly DependencyPropertyKey IsContentTruncatedPropertyKey
         = DependencyProperty.RegisterReadOnly(
@@ -84,39 +104,37 @@ public class StswLabel : Label
             typeof(StswLabel),
             new PropertyMetadata(false)
         );
-    public bool IsContentTruncated
-    {
-        get => (bool)GetValue(IsContentTruncatedProperty);
-        internal set => SetValue(IsContentTruncatedPropertyKey, value);
-    }
 
-    /// IsTruncButtonVisible
+    /// <summary>
+    /// Gets or sets a value indicating whether the truncation button is visible.
+    /// </summary>
+    public bool IsTruncButtonVisible
+    {
+        get => (bool)GetValue(IsTruncButtonVisibleProperty);
+        set => SetValue(IsTruncButtonVisibleProperty, value);
+    }
     public static readonly DependencyProperty IsTruncButtonVisibleProperty
         = DependencyProperty.Register(
             nameof(IsTruncButtonVisible),
             typeof(bool),
             typeof(StswLabel)
         );
-    public bool IsTruncButtonVisible
-    {
-        get => (bool)GetValue(IsTruncButtonVisibleProperty);
-        set => SetValue(IsTruncButtonVisibleProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswLabel)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
     #endregion
 }

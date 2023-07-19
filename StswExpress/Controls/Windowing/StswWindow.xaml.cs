@@ -11,6 +11,9 @@ using System.Windows.Shell;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a custom window control with additional functionality and customization options.
+/// </summary>
 public class StswWindow : Window
 {
     public StswWindow()
@@ -27,9 +30,14 @@ public class StswWindow : Window
     private FrameworkElement? partFullscreenPanel, partTitleBar;
     private WindowState preFullscreenState;
 
+    /// <summary>
+    /// Occurs when the Fullscreen property is changed.
+    /// </summary>
     public event EventHandler? FullscreenChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// Button: minimize
@@ -98,7 +106,9 @@ public class StswWindow : Window
         //UpdateLayout();
     }
 
-    /// Chrome change
+    /// <summary>
+    /// Updates the custom window chrome based on the current state and settings.
+    /// </summary>
     private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
@@ -133,7 +143,9 @@ public class StswWindow : Window
         }
     }
 
-    /// OnMouseEnter
+    /// <summary>
+    /// Event handler to show/hide the fullscreen panel based on mouse movement.
+    /// </summary>
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
         if (Fullscreen && partFullscreenPanel is not null)
@@ -146,7 +158,9 @@ public class StswWindow : Window
         }
     }
 
-    /// ThemeClick
+    /// <summary>
+    /// Event handler for changing the theme based on the clicked menu item.
+    /// </summary>
     private static void ThemeClick(int themeID)
     {
         if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
@@ -161,10 +175,14 @@ public class StswWindow : Window
         StswSettings.Default.Theme = themeID;
     }
 
-    /// FullscreenClick
+    /// <summary>
+    /// Event handler for the fullscreen button click to toggle fullscreen mode.
+    /// </summary>
     private void FullscreenClick(object sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
-    /// CenterClick
+    /// <summary>
+    /// Event handler for the center button click to center the window on the screen.
+    /// </summary>
     protected void CenterClick(object sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
@@ -182,7 +200,9 @@ public class StswWindow : Window
         }
     }
 
-    /// DefaultClick
+    /// <summary>
+    /// Event handler for the default button click to reset the window size to its default.
+    /// </summary>
     protected void DefaultClick(object sender, RoutedEventArgs e)
     {
         Height = defaultHeight;
@@ -190,44 +210,61 @@ public class StswWindow : Window
         //CenterClick(sender, e);
     }
 
-    /// MinimizeClick
+    /// <summary>
+    /// Event handler for the minimize button click to minimize the window.
+    /// </summary>
     protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-    /// RestoreClick
+    /// <summary>
+    /// Event handler for the restore button click to toggle between normal and maximized window state.
+    /// </summary>
     protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 
-    /// CloseClick
+    /// <summary>
+    /// Event handler for the close button click to close the window.
+    /// </summary>
     protected void CloseClick(object sender, RoutedEventArgs e) => Close();
     #endregion
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of UI elements used in the custom window's title bar.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswWindow)
         );
-    public ObservableCollection<UIElement> Components
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
 
-    /// ContentDialog
+    /// <summary>
+    /// Gets or sets the content of the custom window dialog.
+    /// </summary>
+    public UIElement? ContentDialog
+    {
+        get => (UIElement?)GetValue(ContentDialogProperty);
+        set => SetValue(ContentDialogProperty, value);
+    }
     public static readonly DependencyProperty ContentDialogProperty
         = DependencyProperty.Register(
             nameof(ContentDialog),
             typeof(UIElement),
             typeof(StswWindow)
         );
-    public UIElement? ContentDialog
-    {
-        get => (UIElement?)GetValue(ContentDialogProperty);
-        set => SetValue(ContentDialogProperty, value);
-    }
 
-    /// Fullscreen
+    /// <summary>
+    /// Gets or sets a value indicating whether the window is in fullscreen mode.
+    /// </summary>
+    public bool Fullscreen
+    {
+        get => (bool)GetValue(FullscreenProperty);
+        set => SetValue(FullscreenProperty, value);
+    }
     public static readonly DependencyProperty FullscreenProperty
         = DependencyProperty.Register(
             nameof(Fullscreen),
@@ -237,11 +274,6 @@ public class StswWindow : Window
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFullscreenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool Fullscreen
-    {
-        get => (bool)GetValue(FullscreenProperty);
-        set => SetValue(FullscreenProperty, value);
-    }
     public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswWindow stsw && stsw.partFullscreenPanel is not null && stsw.partTitleBar is not null)
@@ -275,23 +307,31 @@ public class StswWindow : Window
         }
     }
 
-    /// SubTitle
+    /// <summary>
+    /// Gets or sets the subtitle text of the custom window.
+    /// </summary>
+    public string SubTitle
+    {
+        get => (string)GetValue(SubTitleProperty);
+        set => SetValue(SubTitleProperty, value);
+    }
     public static readonly DependencyProperty SubTitleProperty
         = DependencyProperty.Register(
             nameof(SubTitle),
             typeof(string),
             typeof(StswWindow)
         );
-    public string SubTitle
-    {
-        get => (string)GetValue(SubTitleProperty);
-        set => SetValue(SubTitleProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the corner radius of the custom window.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
@@ -299,11 +339,6 @@ public class StswWindow : Window
             typeof(StswWindow),
             new PropertyMetadata(default(CornerRadius), OnCornerRadiusChanged)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
     public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswWindow stsw && !stsw.IsLoaded)

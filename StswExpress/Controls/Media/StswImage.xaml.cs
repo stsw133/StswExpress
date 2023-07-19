@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control to display image with additional features such as context menu options.
+/// </summary>
 public class StswImage : UserControl
 {
     static StswImage()
@@ -15,7 +18,9 @@ public class StswImage : UserControl
     }
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// MainBorder: context menu opening
@@ -45,7 +50,9 @@ public class StswImage : UserControl
         //UpdateLayout();
     }
 
-    /// PART_MainBorder_ContextMenuOpening
+    /// <summary>
+    /// Occurs when the context menu is opening.
+    /// </summary>
     private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
         ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == MenuModes.Full;
@@ -56,7 +63,9 @@ public class StswImage : UserControl
         ((MenuItem)GetTemplateChild("PART_Save")).IsEnabled = MenuMode != MenuModes.Disabled;
     }
 
-    /// Cut
+    /// <summary>
+    /// Occurs when the "Cut" menu item is clicked.
+    /// </summary>
     private void MniCut_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
@@ -64,14 +73,18 @@ public class StswImage : UserControl
         Source = null;
     }
 
-    /// Copy
+    /// <summary>
+    /// Occurs when the "Copy" menu item is clicked.
+    /// </summary>
     private void MniCopy_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
     }
 
-    /// Paste
+    /// <summary>
+    /// Occurs when the "Paste" menu item is clicked.
+    /// </summary>
     private void MniPaste_Click(object sender, RoutedEventArgs e)
     {
         if (Clipboard.ContainsImage())
@@ -83,10 +96,14 @@ public class StswImage : UserControl
         //    Source = Clipboard.GetImage();
     }
 
-    /// Delete
+    /// <summary>
+    /// Occurs when the "Delete" menu item is clicked.
+    /// </summary>
     private void MniDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
-    /// Load
+    /// <summary>
+    /// Occurs when the "Load" menu item is clicked.
+    /// </summary>
     private void MniLoad_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog()
@@ -101,7 +118,9 @@ public class StswImage : UserControl
         catch { }
     }
 
-    /// Save
+    /// <summary>
+    /// Occurs when the "Save" menu item is clicked.
+    /// </summary>
     private void MniSave_Click(object sender, RoutedEventArgs e)
     {
         if (Source == null)
@@ -226,12 +245,22 @@ public class StswImage : UserControl
     #endregion
     */
     #region Main properties
-    /// MenuMode
+    /// <summary>
+    /// Enum with values of the menu mode for the control.
+    /// </summary>
     public enum MenuModes
     {
         Disabled,
         ReadOnly,
         Full
+    }
+    /// <summary>
+    /// Gets or sets the menu mode for the control.
+    /// </summary>
+    public MenuModes MenuMode
+    {
+        get => (MenuModes)GetValue(MenuModeProperty);
+        set => SetValue(MenuModeProperty, value);
     }
     public static readonly DependencyProperty MenuModeProperty
         = DependencyProperty.Register(
@@ -239,13 +268,15 @@ public class StswImage : UserControl
             typeof(MenuModes),
             typeof(StswImage)
         );
-    public MenuModes MenuMode
-    {
-        get => (MenuModes)GetValue(MenuModeProperty);
-        set => SetValue(MenuModeProperty, value);
-    }
 
-    /// Scale
+    /// <summary>
+    /// Gets or sets the scale of the image.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
@@ -253,11 +284,6 @@ public class StswImage : UserControl
             typeof(StswImage),
             new PropertyMetadata(default(GridLength), OnScaleChanged)
         );
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswImage stsw)
@@ -267,30 +293,34 @@ public class StswImage : UserControl
         }
     }
 
-    /// Source
+    /// <summary>
+    /// Gets or sets the <see cref="ImageSource"/> of the control.
+    /// </summary>
+    public ImageSource? Source
+    {
+        get => (ImageSource?)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
     public static readonly DependencyProperty SourceProperty
         = DependencyProperty.Register(
             nameof(Source),
             typeof(ImageSource),
             typeof(StswImage)
         );
-    public ImageSource? Source
-    {
-        get => (ImageSource?)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
 
-    /// Stretch
+    /// <summary>
+    /// Gets or sets the stretch behavior of the control.
+    /// </summary>
+    public Stretch Stretch
+    {
+        get => (Stretch)GetValue(StretchProperty);
+        set => SetValue(StretchProperty, value);
+    }
     public static readonly DependencyProperty StretchProperty
         = DependencyProperty.Register(
             nameof(Stretch),
             typeof(Stretch),
             typeof(StswImage)
         );
-    public Stretch Stretch
-    {
-        get => (Stretch)GetValue(StretchProperty);
-        set => SetValue(StretchProperty, value);
-    }
     #endregion
 }

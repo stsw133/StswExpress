@@ -13,13 +13,13 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="Increment" Value="1"/>
+        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         
-        <Setter Property="Increment" Value="1"/>
-        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNumericBox}">

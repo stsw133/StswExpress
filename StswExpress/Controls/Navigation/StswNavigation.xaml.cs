@@ -10,6 +10,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a navigation control that allows managing multiple contexts and navigation elements.
+/// </summary>
 [ContentProperty(nameof(Items))]
 public class StswNavigation : UserControl
 {
@@ -25,7 +28,9 @@ public class StswNavigation : UserControl
     }
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         if (IsExtended == default)
@@ -34,7 +39,9 @@ public class StswNavigation : UserControl
         base.OnApplyTemplate();
     }
 
-    /// ChangeContext
+    /// <summary>
+    /// Changes the current context and optionally creates a new instance of the context object.
+    /// </summary>
     public object? ChangeContext(object context, bool createNewInstance)
     {
         if (DesignerProperties.GetIsInDesignMode(this) || context is null)
@@ -65,20 +72,29 @@ public class StswNavigation : UserControl
     #endregion
 
     #region Main properties
-    /// Contexts
+    /// <summary>
+    /// Gets the collection of contexts associated with this navigation control.
+    /// </summary>
+    public StswDictionary<string, object?> Contexts
+    {
+        get => (StswDictionary<string, object?>)GetValue(ContextsProperty);
+        internal set => SetValue(ContextsProperty, value);
+    }
     public static readonly DependencyProperty ContextsProperty
         = DependencyProperty.Register(
             nameof(Contexts),
             typeof(StswDictionary<string, object?>),
             typeof(StswNavigation)
         );
-    public StswDictionary<string, object?> Contexts
-    {
-        get => (StswDictionary<string, object?>)GetValue(ContextsProperty);
-        internal set => SetValue(ContextsProperty, value);
-    }
 
-    /// IsExtended
+    /// <summary>
+    /// Gets or sets a value indicating whether the navigation is in the extended mode.
+    /// </summary>
+    public bool IsExtended
+    {
+        get => (bool)GetValue(IsExtendedProperty);
+        set => SetValue(IsExtendedProperty, value);
+    }
     public static readonly DependencyProperty IsExtendedProperty
         = DependencyProperty.Register(
             nameof(IsExtended),
@@ -88,11 +104,6 @@ public class StswNavigation : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsExtendedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool IsExtended
-    {
-        get => (bool)GetValue(IsExtendedProperty);
-        set => SetValue(IsExtendedProperty, value);
-    }
     public static void OnIsExtendedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNavigation stsw)
@@ -102,7 +113,14 @@ public class StswNavigation : UserControl
         }
     }
 
-    /// GroupName
+    /// <summary>
+    /// Gets or sets the name of the navigation group (used for radio buttons).
+    /// </summary>
+    public string? GroupName
+    {
+        get => (string?)GetValue(GroupNameProperty);
+        set => SetValue(GroupNameProperty, value);
+    }
     public static readonly DependencyProperty GroupNameProperty
         = DependencyProperty.Register(
             nameof(GroupName),
@@ -110,25 +128,30 @@ public class StswNavigation : UserControl
             typeof(StswNavigation),
             new PropertyMetadata(Guid.NewGuid().ToString())
         );
-    public string? GroupName
-    {
-        get => (string?)GetValue(GroupNameProperty);
-        set => SetValue(GroupNameProperty, value);
-    }
 
-    /// Items
+    /// <summary>
+    /// Gets or sets the collection of navigation elements.
+    /// </summary>
+    public ObservableCollection<StswNavigationElement> Items
+    {
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigation)
         );
-    public ObservableCollection<StswNavigationElement> Items
+
+    /// <summary>
+    /// Gets or sets the alignment of navigation elements.
+    /// </summary>
+    public Dock ItemsAlignment
     {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
+        get => (Dock)GetValue(ItemsAlignmentProperty);
+        set => SetValue(ItemsAlignmentProperty, value);
     }
-    /// ItemsAlignment
     public static readonly DependencyProperty ItemsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ItemsAlignment),
@@ -138,66 +161,67 @@ public class StswNavigation : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsExtendedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Dock ItemsAlignment
+
+    /// <summary>
+    /// Gets or sets the collection of pinned navigation elements.
+    /// </summary>
+    public ObservableCollection<StswNavigationElement> ItemsPinned
     {
-        get => (Dock)GetValue(ItemsAlignmentProperty);
-        set => SetValue(ItemsAlignmentProperty, value);
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsPinnedProperty);
+        set => SetValue(ItemsPinnedProperty, value);
     }
-    /// ItemsPinned
     public static readonly DependencyProperty ItemsPinnedProperty
         = DependencyProperty.Register(
             nameof(ItemsPinned),
             typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigation)
         );
-    public ObservableCollection<StswNavigationElement> ItemsPinned
-    {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsPinnedProperty);
-        set => SetValue(ItemsPinnedProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswNavigation)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswNavigation)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Width ...
-    /// ItemsWidth
+    /// <summary>
+    /// Gets or sets the width of the navigation items list.
+    /// </summary>
+    public double ItemsWidth
+    {
+        get => (double)GetValue(ItemsWidthProperty);
+        set => SetValue(ItemsWidthProperty, value);
+    }
     public static readonly DependencyProperty ItemsWidthProperty
         = DependencyProperty.Register(
             nameof(ItemsWidth),
             typeof(double),
             typeof(StswNavigation)
         );
-    public double ItemsWidth
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between content and items list.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (double)GetValue(ItemsWidthProperty);
-        set => SetValue(ItemsWidthProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswNavigation)
+        );
     #endregion
 }

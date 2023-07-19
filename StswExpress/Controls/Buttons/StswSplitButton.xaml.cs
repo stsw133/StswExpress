@@ -8,7 +8,7 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that combines the functionality of a regular button with a dropdown button.
+/// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
 public class StswSplitButton : UserControl
@@ -118,7 +118,7 @@ public class StswSplitButton : UserControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown portion of the button is open.
+    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -166,7 +166,7 @@ public class StswSplitButton : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the collection of items displayed in the dropdown portion of the button.
+    /// Gets or sets the collection of items displayed in the drop-down portion of the button.
     /// </summary>
     public ObservableCollection<UIElement> Items
     {
@@ -198,7 +198,7 @@ public class StswSplitButton : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the maximum height of the dropdown portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the button.
     /// </summary>
     public double? MaxDropDownHeight
     {
@@ -213,7 +213,7 @@ public class StswSplitButton : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the dropdown popup.
+    /// Gets or sets the border thickness of the drop-down popup.
     /// </summary>
     public Thickness PopupBorderThickness
     {

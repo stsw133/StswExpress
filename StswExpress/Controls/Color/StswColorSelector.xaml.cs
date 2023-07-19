@@ -26,9 +26,15 @@ public class StswColorSelector : UserControl
     }
 
     #region Events
+    /// <summary>
+    /// Occurs when the selected color in the control changes.
+    /// </summary>
     public event EventHandler? SelectedColorChanged;
 
     /// Command: select color
+    /// <summary>
+    /// Executes the command to select a color in the color selector.
+    /// </summary>
     public void SelectColor_Executed(SolidColorBrush? brush)
     {
         if (brush != null)
@@ -38,7 +44,7 @@ public class StswColorSelector : UserControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets the auto color used in the color selector.
     /// </summary>
     public SolidColorBrush ColorAuto
     {
@@ -53,7 +59,7 @@ public class StswColorSelector : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the standard color palette used in the color selector.
     /// </summary>
     public SolidColorBrush[] ColorPaletteStandard
     {
@@ -68,7 +74,7 @@ public class StswColorSelector : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the theme color palette used in the color selector.
     /// </summary>
     public SolidColorBrush[] ColorPaletteTheme
     {
@@ -83,7 +89,7 @@ public class StswColorSelector : UserControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the selected color in the control.
     /// </summary>
     public Color SelectedColor
     {
@@ -106,50 +112,50 @@ public class StswColorSelector : UserControl
     }
     #endregion
 
-    #region Spacial properties
+    #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswColorSelector)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
     /// <summary>
-    /// 
+    /// Gets or sets the thickness of the buttons in the control.
     /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
     public static readonly DependencyProperty SubBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(SubBorderThickness),
             typeof(Thickness),
             typeof(StswColorSelector)
         );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
 
     /// <summary>
-    /// 
+    /// Gets or sets the margin of the color groups in the control.
     /// </summary>
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
     public static readonly DependencyProperty SubPaddingProperty
         = DependencyProperty.Register(
             nameof(SubPadding),
             typeof(Thickness),
             typeof(StswColorSelector)
         );
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
     #endregion
 }

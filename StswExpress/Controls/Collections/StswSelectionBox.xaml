@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswComboView}">
+    <Style TargetType="{x:Type se:StswSelectionBox}">
 
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
@@ -24,8 +24,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswComboView}">
-                    <!-- button -->
+                <ControlTemplate TargetType="{x:Type se:StswSelectionBox}">
                     <se:StswToggleButton x:Name="PART_MainButton"
                                          Background="{TemplateBinding Background}"
                                          BorderBrush="{TemplateBinding BorderBrush}"
@@ -38,14 +37,14 @@
                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <ToggleButton.Template>
+                        <se:StswToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
                                 <se:StswClippingBorder Background="{TemplateBinding Background}"
                                                        BorderBrush="{TemplateBinding BorderBrush}"
                                                        BorderThickness="{TemplateBinding BorderThickness}"
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        SnapsToDevicePixels="True">
-                                    <Grid>
+                                    <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
                                         <ContentPresenter Focusable="False"
                                                           Margin="{TemplateBinding Padding}"
                                                           RecognizesAccessKey="True"
@@ -55,13 +54,14 @@
                                     </Grid>
                                 </se:StswClippingBorder>
                             </ControlTemplate>
-                        </ToggleButton.Template>
+                        </se:StswToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
                             <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- components -->
+                            <!--
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -69,6 +69,7 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+                            -->
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
                                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"

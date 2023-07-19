@@ -1,9 +1,13 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control displaying loading circle.
+/// </summary>
 public class StswLoadingCircle : UserControl
 {
     static StswLoadingCircle()
@@ -12,7 +16,14 @@ public class StswLoadingCircle : UserControl
     }
 
     #region Main properties
-    /// Scale
+    /// <summary>
+    /// Gets or sets the scale of the loading circle.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
@@ -20,11 +31,6 @@ public class StswLoadingCircle : UserControl
             typeof(StswLoadingCircle),
             new PropertyMetadata(default(GridLength), OnScaleChanged)
         );
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswLoadingCircle stsw)
@@ -35,27 +41,46 @@ public class StswLoadingCircle : UserControl
     }
     #endregion
 
-    #region Spatial properties
-    private new Thickness? BorderThickness { get; set; }
-    #endregion
-
     #region Style properties
-    private new Brush? Background { get; set; }
-    private new Brush? BorderBrush { get; set; }
-    private new Brush? Foreground { get; set; }
-
-    /// > Fill ...
-    /// Fill
+    /// <summary>
+    /// Gets or sets the fill brush of the loading circle.
+    /// </summary>
+    public Brush Fill
+    {
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
     public static readonly DependencyProperty FillProperty
         = DependencyProperty.Register(
             nameof(Fill),
             typeof(Brush),
             typeof(StswLoadingCircle)
         );
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
+
+    /// The following properties are hidden from the designer and serialization:
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? Background { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? BorderBrush { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Thickness? BorderThickness { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Brush? Foreground { get; private set; }
     #endregion
 }

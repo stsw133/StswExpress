@@ -8,6 +8,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a custom outlined text control with various text formatting options.
+/// </summary>
 [ContentProperty(nameof(Text))]
 public class StswOutlinedText : FrameworkElement
 {
@@ -18,7 +21,14 @@ public class StswOutlinedText : FrameworkElement
     }
 
     #region Properties
-    /// Fill
+    /// <summary>
+    /// Gets or sets the fill color of the text.
+    /// </summary>
+    public Brush Fill
+    {
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
     public static readonly DependencyProperty FillProperty
         = DependencyProperty.Register(
             nameof(Fill),
@@ -26,74 +36,86 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender)
         );
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
-    }
 
-    /// FontFamily
-    public static readonly DependencyProperty FontFamilyProperty
-        = TextElement.FontFamilyProperty.AddOwner(
-            typeof(StswOutlinedText),
-            new FrameworkPropertyMetadata(OnFormattedTextUpdated)
-        );
+    /// <summary>
+    /// Gets or sets the font family of the text.
+    /// </summary>
     public FontFamily FontFamily
     {
         get => (FontFamily)GetValue(FontFamilyProperty);
         set => SetValue(FontFamilyProperty, value);
     }
-
-    /// FontSize
-    public static readonly DependencyProperty FontSizeProperty
-        = TextElement.FontSizeProperty.AddOwner(
+    public static readonly DependencyProperty FontFamilyProperty
+        = TextElement.FontFamilyProperty.AddOwner(
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
+
+    /// <summary>
+    /// Gets or sets the font size of the text.
+    /// </summary>
     [TypeConverter(typeof(FontSizeConverter))]
     public double FontSize
     {
         get => (double)GetValue(FontSizeProperty);
         set => SetValue(FontSizeProperty, value);
     }
-
-    /// FontStretch
-    public static readonly DependencyProperty FontStretchProperty
-        = TextElement.FontStretchProperty.AddOwner(
+    public static readonly DependencyProperty FontSizeProperty
+        = TextElement.FontSizeProperty.AddOwner(
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
+
+    /// <summary>
+    /// Gets or sets the font stretch of the text.
+    /// </summary>
     public FontStretch FontStretch
     {
         get => (FontStretch)GetValue(FontStretchProperty);
         set => SetValue(FontStretchProperty, value);
     }
-
-    /// FontStyle
-    public static readonly DependencyProperty FontStyleProperty
-        = TextElement.FontStyleProperty.AddOwner(
+    public static readonly DependencyProperty FontStretchProperty
+        = TextElement.FontStretchProperty.AddOwner(
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
+
+    /// <summary>
+    /// Gets or sets the font style of the text.
+    /// </summary>
     public FontStyle FontStyle
     {
         get => (FontStyle)GetValue(FontStyleProperty);
         set => SetValue(FontStyleProperty, value);
     }
-
-    /// FontWeight
-    public static readonly DependencyProperty FontWeightProperty
-        = TextElement.FontWeightProperty.AddOwner(
+    public static readonly DependencyProperty FontStyleProperty
+        = TextElement.FontStyleProperty.AddOwner(
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
+
+    /// <summary>
+    /// Gets or sets the font weight of the text.
+    /// </summary>
     public FontWeight FontWeight
     {
         get => (FontWeight)GetValue(FontWeightProperty);
         set => SetValue(FontWeightProperty, value);
     }
+    public static readonly DependencyProperty FontWeightProperty
+        = TextElement.FontWeightProperty.AddOwner(
+            typeof(StswOutlinedText),
+            new FrameworkPropertyMetadata(OnFormattedTextUpdated)
+        );
 
-    /// Stroke
+    /// <summary>
+    /// Gets or sets the outline color of the text.
+    /// </summary>
+    public Brush Stroke
+    {
+        get => (Brush)GetValue(StrokeProperty);
+        set => SetValue(StrokeProperty, value);
+    }
     public static readonly DependencyProperty StrokeProperty
         = DependencyProperty.Register(
             nameof(Stroke),
@@ -101,14 +123,16 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender, StrokePropertyChangedCallback)
         );
-    public Brush Stroke
-    {
-        get => (Brush)GetValue(StrokeProperty);
-        set => SetValue(StrokeProperty, value);
-    }
     private static void StrokePropertyChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e) => (obj as StswOutlinedText)?.UpdatePen();
 
-    /// StrokeThickness
+    /// <summary>
+    /// Gets or sets the thickness of the text outline.
+    /// </summary>
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
     public static readonly DependencyProperty StrokeThicknessProperty
         = DependencyProperty.Register(
             nameof(StrokeThickness),
@@ -116,13 +140,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender, StrokePropertyChangedCallback)
         );
-    public double StrokeThickness
-    {
-        get => (double)GetValue(StrokeThicknessProperty);
-        set => SetValue(StrokeThicknessProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// Gets or sets the text to display.
+    /// </summary>
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
@@ -130,13 +156,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextInvalidated)
         );
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
 
-    /// TextAlignment
+    /// <summary>
+    /// Gets or sets the text alignment of the text.
+    /// </summary>
+    public TextAlignment TextAlignment
+    {
+        get => (TextAlignment)GetValue(TextAlignmentProperty);
+        set => SetValue(TextAlignmentProperty, value);
+    }
     public static readonly DependencyProperty TextAlignmentProperty
         = DependencyProperty.Register(
             nameof(TextAlignment),
@@ -144,13 +172,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
-    public TextAlignment TextAlignment
-    {
-        get => (TextAlignment)GetValue(TextAlignmentProperty);
-        set => SetValue(TextAlignmentProperty, value);
-    }
 
-    /// TextDecorations
+    /// <summary>
+    /// Gets or sets the text decorations of the text.
+    /// </summary>
+    public TextDecorationCollection TextDecorations
+    {
+        get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
+        set => SetValue(TextDecorationsProperty, value);
+    }
     public static readonly DependencyProperty TextDecorationsProperty
         = DependencyProperty.Register(
             nameof(TextDecorations),
@@ -158,13 +188,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
-    public TextDecorationCollection TextDecorations
-    {
-        get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
-        set => SetValue(TextDecorationsProperty, value);
-    }
 
-    /// TextTrimming
+    /// <summary>
+    /// Gets or sets the text trimming behavior of the text.
+    /// </summary>
+    public TextTrimming TextTrimming
+    {
+        get => (TextTrimming)GetValue(TextTrimmingProperty);
+        set => SetValue(TextTrimmingProperty, value);
+    }
     public static readonly DependencyProperty TextTrimmingProperty
         = DependencyProperty.Register(
             nameof(TextTrimming),
@@ -172,13 +204,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(OnFormattedTextUpdated)
         );
-    public TextTrimming TextTrimming
-    {
-        get => (TextTrimming)GetValue(TextTrimmingProperty);
-        set => SetValue(TextTrimmingProperty, value);
-    }
 
-    /// TextWrapping
+    /// <summary>
+    /// Gets or sets the text wrapping behavior of the text.
+    /// </summary>
+    public TextWrapping TextWrapping
+    {
+        get => (TextWrapping)GetValue(TextWrappingProperty);
+        set => SetValue(TextWrappingProperty, value);
+    }
     public static readonly DependencyProperty TextWrappingProperty
         = DependencyProperty.Register(
             nameof(TextWrapping),
@@ -186,17 +220,15 @@ public class StswOutlinedText : FrameworkElement
             typeof(StswOutlinedText),
             new FrameworkPropertyMetadata(TextWrapping.NoWrap, OnFormattedTextUpdated)
         );
-    public TextWrapping TextWrapping
-    {
-        get => (TextWrapping)GetValue(TextWrappingProperty);
-        set => SetValue(TextWrappingProperty, value);
-    }
     #endregion
 
     private FormattedText? _FormattedText;
     private Geometry? _TextGeometry;
     private Pen? _Pen;
 
+    /// <summary>
+    /// Updates the pen used for text outline.
+    /// </summary>
     private void UpdatePen()
     {
         _Pen = new Pen(Stroke, StrokeThickness)
@@ -210,6 +242,9 @@ public class StswOutlinedText : FrameworkElement
         InvalidateVisual();
     }
 
+    /// <summary>
+    /// Renders the outlined text.
+    /// </summary>
     protected override void OnRender(DrawingContext drawingContext)
     {
         EnsureGeometry();
@@ -217,6 +252,9 @@ public class StswOutlinedText : FrameworkElement
         drawingContext.DrawGeometry(Fill, null, _TextGeometry);
     }
 
+    /// <summary>
+    /// Measures the size of the outlined text.
+    /// </summary>
     protected override Size MeasureOverride(Size availableSize)
     {
         EnsureFormattedText();
@@ -229,6 +267,9 @@ public class StswOutlinedText : FrameworkElement
         return new Size();
     }
 
+    /// <summary>
+    /// Arranges the outlined text.
+    /// </summary>
     protected override Size ArrangeOverride(Size finalSize)
     {
         EnsureFormattedText();
@@ -242,6 +283,9 @@ public class StswOutlinedText : FrameworkElement
         return finalSize;
     }
 
+    /// <summary>
+    /// Event handler for the invalidation of the formatted text.
+    /// </summary>
     private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
@@ -252,6 +296,9 @@ public class StswOutlinedText : FrameworkElement
         outlinedTextBlock.InvalidateVisual();
     }
 
+    /// <summary>
+    /// Event handler for the updated formatted text.
+    /// </summary>
     private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         var outlinedTextBlock = (StswOutlinedText)dependencyObject;
@@ -262,6 +309,9 @@ public class StswOutlinedText : FrameworkElement
         outlinedTextBlock.InvalidateVisual();
     }
 
+    /// <summary>
+    /// Ensures the availability of the formatted text.
+    /// </summary>
     private void EnsureFormattedText()
     {
         if (_FormattedText != null)
@@ -272,6 +322,9 @@ public class StswOutlinedText : FrameworkElement
         UpdateFormattedText();
     }
 
+    /// <summary>
+    /// Updates the properties of the formatted text.
+    /// </summary>
     private void UpdateFormattedText()
     {
         if (_FormattedText == null)
@@ -289,6 +342,9 @@ public class StswOutlinedText : FrameworkElement
         _FormattedText.SetTextDecorations(TextDecorations);
     }
 
+    /// <summary>
+    /// Ensures the availability of the text geometry.
+    /// </summary>
     private void EnsureGeometry()
     {
         if (_TextGeometry != null)

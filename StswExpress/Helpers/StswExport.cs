@@ -1,8 +1,11 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace StswExpress;
 
@@ -12,9 +15,9 @@ namespace StswExpress;
 public static class StswExport
 {
     /// <summary>
-    /// Exports an <see cref="IEnumerable{T}"/> to an Excel file in form of a table.
+    /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
     /// </summary>
-    public static void ExportToExcel<T>(IEnumerable<T> data, string? filePath, bool openFile, List<StswExportColumn>? customColumns)
+    public static void ExportToExcel(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile)
     {
         if (filePath == null)
         {
@@ -29,42 +32,66 @@ public static class StswExport
 
         using (var wb = new XLWorkbook())
         {
-            /// new workbook and sheets
-            var ws = wb.AddWorksheet("Sheet1");
-
-            /// properties of T
-            var properties = typeof(T).GetProperties().Where(x => customColumns == null || x.Name.In(customColumns.Select(y => y.FieldName))).ToList();
-            
-            var row = 1;
-
-            /// headers
-            for (int i = 0; i < properties.Count; i++)
-                ws.Cell(row, i + 1).Value = customColumns == null ? properties[i].Name : customColumns.First(x => x.FieldName == properties[i].Name).ColumnName ?? string.Empty;
-            
-            /// elements
-            foreach (var item in data)
+            /// sheets
+            foreach (var sheet in sheetsWithData)
             {
-                ++row;
-                for (int i = 0; i < properties.Count; i++)
+                var ws = wb.AddWorksheet(sheet.Key);
+
+                var elementType = GetElementType(sheet.Value);
+                if (elementType != null)
                 {
-                    var value = properties[i].GetValue(item);
-                    var format = customColumns?.FirstOrDefault(x => x.FieldName == properties[i].Name)?.ColumnFormat;
+                    /// properties
+                    var properties = elementType.GetProperties()
+                        .Select(p => new
+                        {
+                            Property = p,
+                            Attribute = p.GetCustomAttribute<StswExportAttribute>(),
+                            Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
+                        })
+                        .Where(p => p.Attribute == null || !p.Attribute.IsColumnIgnored)
+                        .OrderBy(p => p.Order)
+                        .Select(p => p.Property)
+                        .ToList();
 
-                    string valueAsString;
-                    if (format != null && value is IFormattable f)
-                        valueAsString = (value as dynamic).ToString(format);
-                    else if (format != null && value != null)
-                        valueAsString = string.Format(format, value.GetHashCode());
-                    else
-                        valueAsString = value?.ToString() ?? string.Empty;
+                    int row = 0;
 
-                    ws.Cell(row, i + 1).Value = valueAsString;
+                    /// headers + elements
+                    for (int col = 0; col < properties.Count; col++)
+                    {
+                        var attribute = properties[col].GetCustomAttribute<StswExportAttribute>();
+
+                        row = 1;
+                        ws.Cell(row, col + 1).Value = attribute?.ColumnName ?? properties[col].Name;
+
+                        /// elements
+                        foreach (var item in sheet.Value)
+                        {
+                            ++row;
+
+                            var value = properties[col].GetValue(item);
+
+                            string valueAsString;
+                            if (attribute?.ColumnFormat != null)
+                            {
+                                if (value is IFormattable f)
+                                    valueAsString = (value as dynamic).ToString(attribute?.ColumnFormat);
+                                else if (value != null)
+                                    valueAsString = string.Format(attribute.ColumnFormat, value.GetHashCode());
+                                else
+                                    valueAsString = value?.ToString() ?? string.Empty;
+                            }
+                            else
+                                valueAsString = value?.ToString() ?? string.Empty;
+
+                            ws.Cell(row, col + 1).Value = valueAsString;
+                        }
+                    }
+
+                    /// table and auto column width
+                    var table = ws.Range(1, 1, row, properties.Count).CreateTable();
+                    ws.Columns().AdjustToContents();
                 }
             }
-
-            /// table and auto column width
-            var table = ws.Range(1, 1, row, properties.Count).CreateTable();
-            ws.Columns().AdjustToContents();
 
             /// save
             wb.SaveAs(filePath);
@@ -72,14 +99,65 @@ public static class StswExport
         if (openFile)
             StswFn.OpenFile(filePath);
     }
+    /// <summary>
+    /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
+    /// </summary>
+    public static void ExportToExcel((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile)
+    {
+        var dict = new Dictionary<string, IEnumerable>
+        {
+            { sheetWithData.name, sheetWithData.data }
+        };
+        ExportToExcel(dict, filePath, openFile);
+    }
+
+    /// <summary>
+    /// Gets type of IEnumerable.
+    /// </summary>
+    private static Type? GetElementType(IEnumerable enumerable)
+    {
+        var enumerableType = enumerable.GetType();
+        if (enumerableType.IsGenericType)
+        {
+            var typeArgs = enumerableType.GetGenericArguments();
+            if (typeArgs.Length > 0)
+                return typeArgs[0];
+        }
+        return null;
+    }
 }
 
 /// <summary>
-/// A class that is a model for <see cref="StswExport.ExportToExcel"/> function.
+/// A class that is a attribute used for <see cref="StswExport"/> function to control exporting behavior for specific properties.
 /// </summary>
-public class StswExportColumn
+[AttributeUsage(AttributeTargets.Property)]
+public class StswExportAttribute : Attribute
 {
-    public string? FieldName { get; set; }
+    public StswExportAttribute(string? columnName = null, string? columnFormat = null, bool isColumnIgnored = false, int order = 0)
+    {
+        ColumnName = columnName;
+        ColumnFormat = columnFormat;
+        IsColumnIgnored = isColumnIgnored;
+        Order = order;
+    }
+
+    /// <summary>
+    /// Gets or sets the custom name to be used as the column header in the exported Excel file.
+    /// </summary>
     public string? ColumnName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the custom format string to be used for formatting the property's value in the exported Excel file.
+    /// </summary>
     public string? ColumnFormat { get; set; }
+
+    /// <summary>
+    /// Gets or sets a flag indicating whether to ignore exporting the property as a column in the Excel file.
+    /// </summary>
+    public bool IsColumnIgnored { get; set; }
+
+    /// <summary>
+    /// Gets or sets the order in which the column should appear in the exported Excel file.
+    /// </summary>
+    public int Order { get; set; }
 }

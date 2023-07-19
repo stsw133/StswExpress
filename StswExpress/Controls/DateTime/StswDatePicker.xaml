@@ -13,14 +13,14 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
-        <Setter Property="ComponentsAlignment" Value="Right"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
         <Setter Property="Format" Value="d"/>
         <Setter Property="IncrementType" Value="Day"/>
         <Setter Property="Placeholder" Value="Wybierz datę..."/>
         <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        
+        <Setter Property="ComponentsAlignment" Value="Right"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>

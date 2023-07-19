@@ -3,6 +3,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that provides a container for a group of controls with an optional header.
+/// </summary>
 public class StswGroupBox : GroupBox
 {
     static StswGroupBox()
@@ -10,33 +13,35 @@ public class StswGroupBox : GroupBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
     }
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswGroupBox)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswGroupBox)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between header and content.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswGroupBox)
+        );
     #endregion
 }

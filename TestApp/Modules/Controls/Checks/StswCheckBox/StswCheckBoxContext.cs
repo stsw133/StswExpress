@@ -38,7 +38,7 @@ public class StswCheckBoxContext : ControlsContext
     }
 
     /// IsThreeState
-    private bool isThreeState = true;
+    private bool isThreeState = false;
     public bool IsThreeState
     {
         get => isThreeState;

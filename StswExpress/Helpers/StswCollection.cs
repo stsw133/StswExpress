@@ -32,13 +32,23 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         }
     }
 
-    /// ClearItems
+    /// <summary>
+    /// Clears the collection and marks all items as "Deleted" if it was not previously "Added".
+    /// </summary>
     protected override void ClearItems()
     {
         foreach (var item in this)
         {
-            _itemStates[item] = item.ItemState = DataRowState.Deleted;
-            item.PropertyChanged -= Item_PropertyChanged;
+            if (item.ItemState != DataRowState.Added)
+            {
+                _itemStates[item] = item.ItemState = DataRowState.Deleted;
+                item.PropertyChanged -= Item_PropertyChanged;
+            }
+            else
+            {
+                item.PropertyChanged -= Item_PropertyChanged;
+                _itemStates.Remove(item);
+            }
         }
 
         base.ClearItems();
@@ -49,7 +59,9 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         OnPropertyChanged(nameof(Count));
     }
 
-    /// InsertItem
+    /// <summary>
+    /// Inserts an item into the collection at the specified index and marks it as "Added".
+    /// </summary>
     protected override void InsertItem(int index, T item)
     {
         base.InsertItem(index, item);
@@ -63,7 +75,9 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         OnPropertyChanged(nameof(Count));
     }
 
-    /// RemoveItem
+    /// <summary>
+    /// Removes the item at the specified index from the collection and marks it as "Deleted" if it was not previously "Added".
+    /// </summary>
     protected override void RemoveItem(int index)
     {
         var item = this[index];
@@ -87,7 +101,9 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         OnPropertyChanged(nameof(Count));
     }
 
-    /// SetItem
+    /// <summary>
+    /// Replaces the item at the specified index with the given item and marks the old item as "Deleted" and the new item as "Modified".
+    /// </summary>
     protected override void SetItem(int index, T item)
     {
         var oldItem = this[index];
@@ -106,7 +122,9 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         OnPropertyChanged(nameof(Count));
     }
 
-    /// Item_PropertyChanged
+    /// <summary>
+    /// Handles the PropertyChanged event of the collection item and updates its state when a property other than "ItemState" or "ShowDetails" changes.
+    /// </summary>
     private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         var item = (T?)sender;
@@ -125,8 +143,9 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         }
     }
 
-    /// GetStateOfItem
-    private readonly Dictionary<T, DataRowState> _itemStates = new();
+    /// <summary>
+    /// Gets the state of a specific collection item.
+    /// </summary>
     public DataRowState GetStateOfItem(T item)
     {
         if (_itemStates.TryGetValue(item, out var state))
@@ -134,12 +153,17 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
 
         return DataRowState.Detached;
     }
+    private readonly Dictionary<T, DataRowState> _itemStates = new();
 
-    /// GetItemsByState
+    /// <summary>
+    /// Gets a list of collection items that match the specified DataRowState.
+    /// </summary>
     public List<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key).ToList();
     public int Added => GetItemsByState(DataRowState.Added).Count;
     public int Modified => GetItemsByState(DataRowState.Modified).Count;
     public int Deleted => GetItemsByState(DataRowState.Deleted).Count;
+
+
 
     /// Notify the view that the ItemStates property has changed
     public new event PropertyChangedEventHandler? PropertyChanged;
@@ -151,13 +175,19 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
 /// </summary>
 public interface IStswCollectionItem : INotifyPropertyChanged
 {
-    /// ErrorMessage
+    /// <summary>
+    /// Gets or sets the error message associated with the collection item.
+    /// </summary>
     public string? ErrorMessage { get; set; }
 
-    /// ItemState
+    /// <summary>
+    /// Gets or sets the state of the collection item.
+    /// </summary>
     public DataRowState ItemState { get; set; }
 
-    /// ShowDetails
+    /// <summary>
+    /// Gets or sets a value indicating whether to show details for the collection item.
+    /// </summary>
     public bool? ShowDetails { get; set; }
 }
 
@@ -166,6 +196,13 @@ public interface IStswCollectionItem : INotifyPropertyChanged
 /// </summary>
 public class StswComboItem
 {
+    /// <summary>
+    /// Gets or sets the display text for the combo box item.
+    /// </summary>
     public object? Display { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value associated with the combo box item.
+    /// </summary>
     public object? Value { get; set; }
 }

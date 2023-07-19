@@ -27,9 +27,9 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
-                <se:StswNavigationElement Text="StswComboView" ContextNamespace="TestApp.StswComboViewContext"/>
                 <se:StswNavigationElement Text="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
                 <se:StswNavigationElement Text="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
+                <se:StswNavigationElement Text="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.SelectColor}">
                 <se:StswNavigationElement Text="StswColorBox" ContextNamespace="TestApp.StswColorBoxContext"/>
@@ -93,7 +93,7 @@
         <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">
             <se:StswNavigationElement Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" ContextNamespace="TestApp.DatabasesContext"/>
             <se:StswNavigationElement Text="Account" IconData="{x:Static se:StswIcons.Account}" IsEnabled="False"/>
-            <se:StswNavigationElement Text="Contractors" IconData="{x:Static se:StswIcons.Domain}" ContextNamespace="TestApp.ContractorsContext" IsChecked="True"/>
+            <se:StswNavigationElement Text="Contractors" IconData="{x:Static se:StswIcons.AccountGroup}" ContextNamespace="TestApp.ContractorsContext" IsChecked="True"/>
             <se:StswNavigationElement Text="Articles" IconData="{x:Static se:StswIcons.Package}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Documents" IconData="{x:Static se:StswIcons.FileDocument}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Attributes" IconData="{x:Static se:StswIcons.Tag}" IsEnabled="False"/>

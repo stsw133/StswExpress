@@ -1,18 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
 public class StswComboBox : ComboBox
 {
+    /*
     public StswComboBox()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
+    */
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
@@ -34,6 +35,7 @@ public class StswComboBox : ComboBox
             typeof(StswComboBox)
         );
 
+    /*
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
@@ -48,6 +50,7 @@ public class StswComboBox : ComboBox
             typeof(ObservableCollection<UIElement>),
             typeof(StswComboBox)
         );
+    */
 
     /// <summary>
     /// Gets or sets the alignment of the components within the control.
@@ -65,7 +68,7 @@ public class StswComboBox : ComboBox
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the placeholder text displayed in the control when no item is selected.
     /// </summary>
     public string? Placeholder
     {
@@ -97,7 +100,7 @@ public class StswComboBox : ComboBox
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the dropdown popup.
+    /// Gets or sets the border thickness of the drop-down popup.
     /// </summary>
     public Thickness PopupBorderThickness
     {

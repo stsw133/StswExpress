@@ -43,8 +43,14 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComboViewContext}">
-                <local:StswComboViewView/>
+            <DataTemplate DataType="{x:Type local:StswDataGridContext}">
+                <local:StswDataGridView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswListBoxContext}">
+                <local:StswListBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
+                <local:StswSelectionBoxView/>
             </DataTemplate>
             
             <!-- Color -->
@@ -56,12 +62,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswColorSelectorContext}">
                 <local:StswColorSelectorView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDataGridContext}">
-                <local:StswDataGridView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswListBoxContext}">
-                <local:StswListBoxView/>
             </DataTemplate>
             
             <!-- Components -->
@@ -185,6 +185,9 @@
             <!-- Templates -->
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:ContractorsListContext}">
+                <local:ContractorsListView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:ContractorsSingleContext}">
                 <local:ContractorsSingleView/>

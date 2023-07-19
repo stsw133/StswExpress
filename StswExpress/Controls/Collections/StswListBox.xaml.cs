@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that displays a collection of items in a vertical list.
+/// </summary>
 public class StswListBox : ListBox
 {
     static StswListBox()
@@ -14,8 +17,10 @@ public class StswListBox : ListBox
 
     #region Events
     internal bool skipSelectionChanged;
-    
-    /// OnApplyTemplate
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         if (!skipSelectionChanged)
@@ -27,7 +32,9 @@ public class StswListBox : ListBox
         base.OnApplyTemplate();
     }
 
-    /// OnSelectionChanged
+    /// <summary>
+    /// Handles the selection changed event of the StswListBox.
+    /// </summary>
     internal void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (SelectedItemsBinding != null)
@@ -44,7 +51,14 @@ public class StswListBox : ListBox
     #endregion
 
     #region Main properties
-    /// SelectedItemsBinding
+    /// <summary>
+    /// Gets or sets the collection that holds the selected items of the control.
+    /// </summary>
+    public IList SelectedItemsBinding
+    {
+        get => (IList)GetValue(SelectedItemsBindingProperty);
+        set => SetValue(SelectedItemsBindingProperty, value);
+    }
     public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
             nameof(SelectedItemsBinding),
@@ -54,11 +68,6 @@ public class StswListBox : ListBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedItemsBindingChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public IList SelectedItemsBinding
-    {
-        get => (IList)GetValue(SelectedItemsBindingProperty);
-        set => SetValue(SelectedItemsBindingProperty, value);
-    }
     private static void OnSelectedItemsBindingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswListBox stsw)
@@ -69,19 +78,20 @@ public class StswListBox : ListBox
     }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswListBox)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
     #endregion
 }

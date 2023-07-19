@@ -2,6 +2,7 @@
 
 public class ContractorsSingleContext : StswObservableObject
 {
+    #region Properties
     /// ID
     private int? id = new();
     public int? ID
@@ -9,11 +10,13 @@ public class ContractorsSingleContext : StswObservableObject
         get => id;
         set => SetProperty(ref id, value);
     }
-    /// DoClone
-    private bool doClone = new();
-    public bool DoClone
+
+    /// IsCloned
+    private bool isCloned = new();
+    public bool IsCloned
     {
-        get => doClone;
-        set => SetProperty(ref doClone, value);
+        get => isCloned;
+        set => SetProperty(ref isCloned, value);
     }
+    #endregion
 }

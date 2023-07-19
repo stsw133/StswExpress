@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +9,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+/// </summary>
 [ContentProperty(nameof(Value))]
 public class StswNumericBox : TextBox
 {
@@ -21,9 +25,14 @@ public class StswNumericBox : TextBox
     }
 
     #region Events
+    /// <summary>
+    /// Occurs when the value of the control changes.
+    /// </summary>
     public event EventHandler? ValueChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// Button: up
@@ -45,7 +54,9 @@ public class StswNumericBox : TextBox
         base.OnApplyTemplate();
     }
 
-    /// PART_ButtonUp_Click
+    /// <summary>
+    /// Handles the click event for the "Up" button, incrementing the numeric value.
+    /// </summary>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
         if (double.TryParse(Text, out var result))
@@ -53,7 +64,9 @@ public class StswNumericBox : TextBox
         Value = Value == null ? 0 : Value + Increment;
     }
 
-    /// PART_ButtonDown_Click
+    /// <summary>
+    /// Handles the click event for the "Down" button, decrementing the numeric value.
+    /// </summary>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
         if (double.TryParse(Text, out var result))
@@ -61,14 +74,19 @@ public class StswNumericBox : TextBox
         Value = Value == null ? 0 : Value - Increment;
     }
 
-    /// PART_ContentHost_KeyDown
+    /// <summary>
+    /// Handles the KeyDown event for the internal content host of the date picker.
+    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
+    /// </summary>
     protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
             PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
     }
 
-    /// PART_ContentHost_LostFocus
+    /// <summary>
+    /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
+    /// </summary>
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrEmpty(Text))
@@ -84,7 +102,9 @@ public class StswNumericBox : TextBox
             bindingExpression.UpdateSource();
     }
 
-    /// PART_ContentHost_MouseWheel
+    /// <summary>
+    /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
+    /// </summary>
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (IsKeyboardFocused && !IsReadOnly && Value != null && Increment != 0)
@@ -106,32 +126,45 @@ public class StswNumericBox : TextBox
     #endregion
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswNumericBox)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswNumericBox)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// Format
+    /// <summary>
+    /// Gets or sets the custom number format string used to display the value in the control.
+    /// When set, the value is formatted according to the provided format string.
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
     public static readonly DependencyProperty FormatProperty
         = DependencyProperty.Register(
             nameof(Format),
@@ -139,11 +172,6 @@ public class StswNumericBox : TextBox
             typeof(StswNumericBox),
             new PropertyMetadata(default(string?), OnFormatChanged)
         );
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNumericBox stsw)
@@ -164,19 +192,29 @@ public class StswNumericBox : TextBox
         }
     }
 
-    /// Increment
+    /// <summary>
+    /// Gets or sets the increment value used when clicking the "Up" or "Down" button.
+    /// </summary>
+    public double Increment
+    {
+        get => (double)GetValue(IncrementProperty);
+        set => SetValue(IncrementProperty, value);
+    }
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(
             nameof(Increment),
             typeof(double),
             typeof(StswNumericBox)
         );
-    public double Increment
+
+    /// <summary>
+    /// Gets or sets the maximum allowable value in the control.
+    /// </summary>
+    public double? Maximum
     {
-        get => (double)GetValue(IncrementProperty);
-        set => SetValue(IncrementProperty, value);
+        get => (double?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
     }
-    /// Maximum
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
@@ -184,12 +222,15 @@ public class StswNumericBox : TextBox
             typeof(StswNumericBox),
             new PropertyMetadata(default(double?), OnValueChanged)
         );
-    public double? Maximum
+
+    /// <summary>
+    /// Gets or sets the minimum allowable value in the control.
+    /// </summary>
+    public double? Minimum
     {
-        get => (double?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
+        get => (double?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
     }
-    /// Minimum
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
@@ -197,33 +238,43 @@ public class StswNumericBox : TextBox
             typeof(StswNumericBox),
             new PropertyMetadata(default(double?), OnValueChanged)
         );
-    public double? Minimum
-    {
-        get => (double?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// Gets or sets the placeholder text to display in the box when no value is provided.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswNumericBox)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    [Browsable(false)]
+    //[Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public new string? Text
     {
         get => base.Text;
         internal set => base.Text = value;
     }
 
-    /// Value
+    /// <summary>
+    /// Gets or sets the numeric value of the control.
+    /// </summary>
+    public double? Value
+    {
+        get => (double?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
             nameof(Value),
@@ -233,11 +284,6 @@ public class StswNumericBox : TextBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public double? Value
-    {
-        get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNumericBox stsw)
@@ -255,33 +301,35 @@ public class StswNumericBox : TextBox
     }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswNumericBox)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswNumericBox)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswNumericBox)
+        );
     #endregion
 }

@@ -27,9 +27,14 @@ public class StswColorBox : TextBox
     }
 
     #region Events
+    /// <summary>
+    /// Occurs when the selected color in the control changes.
+    /// </summary>
     public event EventHandler? SelectedColorChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// Content
@@ -42,14 +47,20 @@ public class StswColorBox : TextBox
         base.OnApplyTemplate();
     }
 
-    /// PART_ContentHost_KeyDown
+    /// <summary>
+    /// Handles the KeyDown event on the content host element in the control.
+    /// Triggers the LostFocus event if the Enter key is pressed.
+    /// </summary>
     protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
             PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
     }
 
-    /// PART_ContentHost_LostFocus
+    /// <summary>
+    /// Handles the LostFocus event on the content host element in the control.
+    /// Updates the selected color based on the text input and updates the source binding.
+    /// </summary>
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrEmpty(Text))
@@ -172,6 +183,9 @@ public class StswColorBox : TextBox
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
     [Browsable(false)]
     //[Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -200,7 +214,7 @@ public class StswColorBox : TextBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and dropdown button.
+    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
     /// </summary>
     public Thickness SubBorderThickness
     {

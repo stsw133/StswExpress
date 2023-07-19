@@ -38,9 +38,6 @@
             <DataTrigger Binding="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding ForegroundHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="Foreground" Value="{Binding ForegroundHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-            </DataTrigger>
         </Style.Triggers>
     </Style>
 

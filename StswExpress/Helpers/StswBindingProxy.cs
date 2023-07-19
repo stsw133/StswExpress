@@ -9,18 +9,20 @@ public class StswBindingProxy : Freezable
 {
     protected override Freezable CreateInstanceCore() => new StswBindingProxy();
 
-    /// Proxy
+    /// <summary>
+    /// Gets or sets the proxy object for data binding.
+    /// </summary>
+    public object Proxy
+    {
+        get => GetValue(ProxyProperty);
+        set => SetValue(ProxyProperty, value);
+    }
     public static readonly DependencyProperty ProxyProperty
         = DependencyProperty.Register(
             nameof(Proxy),
             typeof(object),
             typeof(StswBindingProxy)
         );
-    public object Proxy
-    {
-        get => GetValue(ProxyProperty);
-        set => SetValue(ProxyProperty, value);
-    }
 }
 
 /* usage:

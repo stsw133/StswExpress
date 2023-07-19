@@ -11,7 +11,7 @@ namespace TestApp;
 internal static class SQL
 {
     /// InitializeTables
-    internal static void InitializeTables()
+    internal static void InitializeContractorsTables()
     {
         if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswDatabase.CurrentDatabase?.Server))
             return;
@@ -44,12 +44,12 @@ internal static class SQL
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error ({nameof(InitializeTables)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error ({nameof(InitializeContractorsTables)}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
     /// ListOfTypes
-    internal static List<string?> ListOfTypes()
+    internal static List<string?> ListOfContractorTypes()
     {
         return new List<string?>() {
             "Test1",

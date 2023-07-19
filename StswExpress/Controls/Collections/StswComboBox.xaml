@@ -44,14 +44,14 @@
                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ToggleButton.Template>
+                            <se:StswToggleButton.Template>
                                 <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
                                     <se:StswClippingBorder Background="{TemplateBinding Background}"
                                                            BorderBrush="{TemplateBinding BorderBrush}"
                                                            BorderThickness="{TemplateBinding BorderThickness}"
                                                            CornerRadius="{TemplateBinding CornerRadius}"
                                                            SnapsToDevicePixels="True">
-                                        <Grid>
+                                        <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
                                             <ContentPresenter Focusable="False"
                                                               Margin="{TemplateBinding Padding}"
                                                               RecognizesAccessKey="True"
@@ -61,7 +61,7 @@
                                         </Grid>
                                     </se:StswClippingBorder>
                                 </ControlTemplate>
-                            </ToggleButton.Template>
+                            </se:StswToggleButton.Template>
                             <DockPanel>
                                 <!-- arrow -->
                                 <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
@@ -75,6 +75,7 @@
                                         SnapsToDevicePixels="True"
                                         Visibility="{TemplateBinding ArrowVisibility}"/>
                                 <!-- components -->
+                                <!--
                                 <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -82,6 +83,7 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
+                                -->
                                 <!-- popup -->
                                 <Popup Grid.ColumnSpan="2"
                                        AllowsTransparency="True"

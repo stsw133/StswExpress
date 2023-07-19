@@ -23,7 +23,7 @@
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Some description...
+                                Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
                             </TextBlock>
                         </StackPanel>
                     </Label>

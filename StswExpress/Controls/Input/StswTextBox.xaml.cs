@@ -5,6 +5,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that can be used to display or edit unformatted text.
+/// </summary>
 [ContentProperty(nameof(Text))]
 public class StswTextBox : TextBox
 {
@@ -18,58 +21,66 @@ public class StswTextBox : TextBox
     }
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswTextBox)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswTextBox)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// Gets or sets the placeholder text to display in the box when no text is provided.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswTextBox)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswTextBox)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
     #endregion
 }

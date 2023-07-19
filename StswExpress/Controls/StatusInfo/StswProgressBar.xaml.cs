@@ -5,6 +5,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+/// </summary>
 public class StswProgressBar : ProgressBar
 {
     public StswProgressBar()
@@ -21,7 +24,9 @@ public class StswProgressBar : ProgressBar
     }
 
     #region Events
-    /// OnTextChanged
+    /// <summary>
+    /// Event handler to update the text displayed on the progress bar based on its state.
+    /// </summary>
     private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum)
@@ -42,7 +47,9 @@ public class StswProgressBar : ProgressBar
     #endregion
 
     #region Main properties
-    /// State
+    /// <summary>
+    /// Represents different states of the progress bar.
+    /// </summary>
     public enum States
     {
         Ready,
@@ -50,58 +57,66 @@ public class StswProgressBar : ProgressBar
         Paused,
         Error
     }
+    /// <summary>
+    /// Gets or sets the current state of the progress bar.
+    /// </summary>
+    public States State
+    {
+        get => (States)GetValue(StateProperty);
+        set => SetValue(StateProperty, value);
+    }
     public static readonly DependencyProperty StateProperty
         = DependencyProperty.Register(
             nameof(State),
             typeof(States),
             typeof(StswProgressBar)
         );
-    public States State
-    {
-        get => (States)GetValue(StateProperty);
-        set => SetValue(StateProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// Gets the text to display on the progress bar indicating the progress status.
+    /// </summary>
+    public string? Text
+    {
+        get => (string?)GetValue(TextProperty);
+        private set => SetValue(TextProperty, value);
+    }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
             typeof(StswProgressBar)
         );
-    public string? Text
-    {
-        get => (string?)GetValue(TextProperty);
-        private set => SetValue(TextProperty, value);
-    }
 
-    /// TextInPercents
+    /// <summary>
+    /// Gets or sets a value indicating whether to display the progress text in percents or the current value range.
+    /// </summary>
+    public bool? TextInPercents
+    {
+        get => (bool?)GetValue(TextInPercentsProperty);
+        set => SetValue(TextInPercentsProperty, value);
+    }
     public static readonly DependencyProperty TextInPercentsProperty
         = DependencyProperty.Register(
             nameof(TextInPercents),
             typeof(bool?),
             typeof(StswProgressBar)
         );
-    public bool? TextInPercents
-    {
-        get => (bool?)GetValue(TextInPercentsProperty);
-        set => SetValue(TextInPercentsProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswProgressBar)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
     #endregion
 }

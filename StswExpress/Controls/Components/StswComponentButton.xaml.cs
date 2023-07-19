@@ -47,7 +47,7 @@ public class StswComponentButton : Button, IStswComponent
         );
 
     /// <summary>
-    /// Gets or sets the scale of the icon in the box.
+    /// Gets or sets the scale of the icon.
     /// </summary>
     public GridLength? IconScale
     {

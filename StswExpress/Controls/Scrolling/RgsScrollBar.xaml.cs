@@ -7,6 +7,9 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 
+/// <summary>
+/// 
+/// </summary>
 public class RgsScrollBar : ScrollBar
 {
     #region Parts

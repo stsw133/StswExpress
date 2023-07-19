@@ -15,14 +15,14 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SubPadding" Value="2"/>
 
-        <Setter Property="ComponentsAlignment" Value="Top"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
         <Setter Property="AcceptsTab" Value="True"/>
         <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="SelectedColorHighlight" Value="Transparent"/>
         <Setter Property="IsExtended" Value="True"/>
+        
+        <Setter Property="ComponentsAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>

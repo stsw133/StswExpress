@@ -95,7 +95,7 @@ public class StswDatabaseModel
     public string Version { get; set; } = string.Empty;
 
     /// <summary>
-    /// Puts together all the model's properties to create a database connection string in the form of a string.
+    /// Puts together all the model's properties to create a database connection in the form of a string.
     /// </summary>
     public string? GetConnString()
     {

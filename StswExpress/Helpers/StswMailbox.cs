@@ -94,34 +94,32 @@ public class StswMailboxModel
     /// </summary>
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
-        using (var mail = new MailMessage())
+        using var mail = new MailMessage();
+        mail.From = new MailAddress(Address);
+        mail.Subject = subject;
+        mail.Body = body;
+
+        foreach (var x in to)
+            mail.To.Add(x);
+
+        if (attachments != null)
+            foreach (var x in attachments)
+                mail.Attachments.Add(new Attachment(x));
+
+        if (bcc != null)
+            foreach (var x in bcc)
+                mail.Bcc.Add(x);
+
+        if (reply != null)
+            foreach (var x in reply)
+                mail.ReplyToList.Add(x);
+
+        var smtp = new SmtpClient(Host, Port)
         {
-            mail.From = new MailAddress(Address);
-            mail.Subject = subject;
-            mail.Body = body;
+            Credentials = new NetworkCredential(Username, Password),
+            EnableSsl = EnableSSL
+        };
 
-            foreach (var x in to)
-                mail.To.Add(x);
-
-            if (attachments != null)
-                foreach (var x in attachments)
-                    mail.Attachments.Add(new Attachment(x));
-
-            if (bcc != null)
-                foreach (var x in bcc)
-                    mail.Bcc.Add(x);
-
-            if (reply != null)
-                foreach (var x in reply)
-                    mail.ReplyToList.Add(x);
-
-            var smtp = new SmtpClient(Host, Port)
-            {
-                Credentials = new NetworkCredential(Username, Password),
-                EnableSsl = EnableSSL
-            };
-
-            smtp.Send(mail);
-        }
+        smtp.Send(mail);
     }
 }

@@ -8,6 +8,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
+/// </summary>
 [ContentProperty(nameof(Items))]
 public class StswNavigationElement : UserControl
 {
@@ -23,7 +26,9 @@ public class StswNavigationElement : UserControl
     #region Events
     private StswNavigation? stswNavi;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// StswNavigation
@@ -36,7 +41,9 @@ public class StswNavigationElement : UserControl
         base.OnApplyTemplate();
     }
 
-    /// CheckSubItemPadding
+    /// <summary>
+    /// Checks and updates the sub-item padding based on the ancestors and compact state.
+    /// </summary>
     public void CheckSubItemPadding()
     {
         var padding = Padding;
@@ -51,7 +58,9 @@ public class StswNavigationElement : UserControl
         SubItemPadding = padding;
     }
 
-    /// FindPopupContainer
+    /// <summary>
+    /// Finds the <see cref="Popup"/> container of the navigation element if it exists.
+    /// </summary>
     public Popup? FindPopupContainer()
     {
         var ancestorElement = this;
@@ -66,96 +75,119 @@ public class StswNavigationElement : UserControl
     #endregion
 
     #region Main properties
-    /// Container
+    /// <summary>
+    /// Gets or sets the <see cref="UIElement"/> that serves as the container for this navigation element.
+    /// </summary>
+    public UIElement Container
+    {
+        get => (UIElement)GetValue(ContainerProperty);
+        internal set => SetValue(ContainerProperty, value);
+    }
     public static readonly DependencyProperty ContainerProperty
         = DependencyProperty.Register(
             nameof(Container),
             typeof(UIElement),
             typeof(StswNavigationElement)
         );
-    public UIElement Container
-    {
-        get => (UIElement)GetValue(ContainerProperty);
-        internal set => SetValue(ContainerProperty, value);
-    }
 
-    /// ContextNamespace
+    /// <summary>
+    /// Gets or sets the namespace of the context associated with this navigation element.
+    /// </summary>
+    public string ContextNamespace
+    {
+        get => (string)GetValue(ContextNamespaceProperty);
+        set => SetValue(ContextNamespaceProperty, value);
+    }
     public static readonly DependencyProperty ContextNamespaceProperty
         = DependencyProperty.Register(
             nameof(ContextNamespace),
             typeof(string),
             typeof(StswNavigationElement)
         );
-    public string ContextNamespace
-    {
-        get => (string)GetValue(ContextNamespaceProperty);
-        set => SetValue(ContextNamespaceProperty, value);
-    }
 
-    /// CreateNewInstance
+    /// <summary>
+    /// Gets or sets a value indicating whether to create a new instance of the context object when the element is checked.
+    /// </summary>
+    public bool CreateNewInstance
+    {
+        get => (bool)GetValue(CreateNewInstanceProperty);
+        set => SetValue(CreateNewInstanceProperty, value);
+    }
     public static readonly DependencyProperty CreateNewInstanceProperty
         = DependencyProperty.Register(
             nameof(CreateNewInstance),
             typeof(bool),
             typeof(StswNavigationElement)
         );
-    public bool CreateNewInstance
-    {
-        get => (bool)GetValue(CreateNewInstanceProperty);
-        set => SetValue(CreateNewInstanceProperty, value);
-    }
 
-    /// IconData
+    /// <summary>
+    /// Gets or sets the geometry used for the icon.
+    /// </summary>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
     public static readonly DependencyProperty IconDataProperty
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
             typeof(StswNavigationElement)
         );
-    public Geometry? IconData
+
+    /// <summary>
+    /// Gets or sets the scale of the icon.
+    /// </summary>
+    public GridLength? IconScale
     {
-        get => (Geometry?)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
+        get => (GridLength?)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
     }
-    /// IconScale
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
             typeof(StswNavigationElement)
         );
-    public GridLength? IconScale
+
+    /// <summary>
+    /// Gets or sets the source used for the icon image.
+    /// </summary>
+    public ImageSource? IconSource
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
+        get => (ImageSource?)GetValue(IconSourceProperty);
+        set => SetValue(IconSourceProperty, value);
     }
-    /// IconSource
     public static readonly DependencyProperty IconSourceProperty
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
             typeof(StswNavigationElement)
         );
-    public ImageSource? IconSource
-    {
-        get => (ImageSource?)GetValue(IconSourceProperty);
-        set => SetValue(IconSourceProperty, value);
-    }
 
-    /// IsBusy
+    /// <summary>
+    /// Gets or sets a value indicating whether the navigation element is in the busy state.
+    /// </summary>
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
             typeof(StswNavigationElement)
         );
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
 
-    /// IsChecked
+    /// <summary>
+    /// Gets or sets a value indicating whether the navigation element is checked.
+    /// </summary>
+    public bool IsChecked
+    {
+        get => (bool)GetValue(IsCheckedProperty);
+        set => SetValue(IsCheckedProperty, value);
+    }
     public static readonly DependencyProperty IsCheckedProperty
         = DependencyProperty.Register(
             nameof(IsChecked),
@@ -165,11 +197,6 @@ public class StswNavigationElement : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsCheckedChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool IsChecked
-    {
-        get => (bool)GetValue(IsCheckedProperty);
-        set => SetValue(IsCheckedProperty, value);
-    }
     public static void OnIsCheckedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNavigationElement stsw)
@@ -186,7 +213,14 @@ public class StswNavigationElement : UserControl
         }
     }
 
-    /// IsCompact
+    /// <summary>
+    /// Gets or sets a value indicating whether the navigation element is in the compact state.
+    /// </summary>
+    public bool IsCompact
+    {
+        get => (bool)GetValue(IsCompactProperty);
+        internal set => SetValue(IsCompactProperty, value);
+    }
     public static readonly DependencyProperty IsCompactProperty
         = DependencyProperty.Register(
             nameof(IsCompact),
@@ -196,11 +230,6 @@ public class StswNavigationElement : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsCompactChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public bool IsCompact
-    {
-        get => (bool)GetValue(IsCompactProperty);
-        internal set => SetValue(IsCompactProperty, value);
-    }
     public static void OnIsCompactChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNavigationElement stsw)
@@ -213,98 +242,111 @@ public class StswNavigationElement : UserControl
         }
     }
 
-    /// Items
+    /// <summary>
+    /// Gets or sets the collection of sub-elements.
+    /// </summary>
+    public ObservableCollection<StswNavigationElement> Items
+    {
+        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<StswNavigationElement>),
             typeof(StswNavigationElement)
         );
-    public ObservableCollection<StswNavigationElement> Items
-    {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
 
-    /// Text
+    /// <summary>
+    /// Gets or sets the text content of the navigation element.
+    /// </summary>
+    public object? Text
+    {
+        get => (object?)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
             typeof(object),
             typeof(StswNavigationElement)
         );
-    public object? Text
-    {
-        get => (object?)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// PopupBorderThickness
-    public static readonly DependencyProperty PopupBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
-            typeof(Thickness),
-            typeof(StswNavigationElement)
-        );
-    public Thickness PopupBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswNavigationElement)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswNavigationElement)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Padding ...
-    /// SubItemIndentation
+    /// <summary>
+    /// Gets or sets the thickness of the border for the popup.
+    /// </summary>
+    public Thickness PopupBorderThickness
+    {
+        get => (Thickness)GetValue(PopupBorderThicknessProperty);
+        set => SetValue(PopupBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty PopupBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupBorderThickness),
+            typeof(Thickness),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the sub-item border.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the indentation value for sub-items.
+    /// </summary>
+    public double SubItemIndentation
+    {
+        get => (double)GetValue(SubItemIndentationProperty);
+        set => SetValue(SubItemIndentationProperty, value);
+    }
     public static readonly DependencyProperty SubItemIndentationProperty
         = DependencyProperty.Register(
             nameof(SubItemIndentation),
             typeof(double),
             typeof(StswNavigationElement)
         );
-    public double SubItemIndentation
+
+    /// <summary>
+    /// Gets or sets the padding for the sub-item.
+    /// </summary>
+    internal Thickness SubItemPadding
     {
-        get => (double)GetValue(SubItemIndentationProperty);
-        set => SetValue(SubItemIndentationProperty, value);
+        get => (Thickness)GetValue(SubItemPaddingProperty);
+        set => SetValue(SubItemPaddingProperty, value);
     }
-    /// SubItemPadding
     public static readonly DependencyProperty SubItemPaddingProperty
         = DependencyProperty.Register(
             nameof(SubItemPadding),
             typeof(Thickness),
             typeof(StswNavigationElement)
         );
-    internal Thickness SubItemPadding
-    {
-        get => (Thickness)GetValue(SubItemPaddingProperty);
-        set => SetValue(SubItemPaddingProperty, value);
-    }
     #endregion
 }

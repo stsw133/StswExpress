@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswComboViewContext : ControlsContext
+public class StswSelectionBoxContext : ControlsContext
 {
     #region Properties
     /// IsReadOnly

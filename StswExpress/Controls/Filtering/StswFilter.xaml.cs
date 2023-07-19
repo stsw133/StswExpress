@@ -12,6 +12,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// A control used for filtering data in a <see cref="StswDataGrid"/>.
+/// </summary>
 [ContentProperty(nameof(Header))]
 public class StswFilter : UserControl
 {
@@ -30,10 +33,11 @@ public class StswFilter : UserControl
     private ButtonBase? partFilterMode;
     private StswDataGrid? stswDataGrid;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
-        /// 
         if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid dataGrid)
             stswDataGrid = dataGrid;
 
@@ -78,13 +82,18 @@ public class StswFilter : UserControl
     }
 
     /// Command: select mode
+    /// <summary>
+    /// Event handler for executing when the filter mode is selected.
+    /// </summary>
     protected void SelectMode_Executed(object? parameter)
     {
         if (parameter is MenuItem f && f.Tag is Modes m)
             FilterMode = m;
     }
 
-    /// GenerateSqlString
+    /// <summary>
+    /// Generates the SQL string based on the current filter settings.
+    /// </summary>
     public void GenerateSqlString()
     {
         /// separator
@@ -142,7 +151,9 @@ public class StswFilter : UserControl
         };
     }
 
-    /// OnKeyDown
+    /// <summary>
+    /// Event handler for handling the KeyDown event.
+    /// </summary>
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
@@ -151,20 +162,24 @@ public class StswFilter : UserControl
     #endregion
 
     #region Main properties
-    /// DisplayMemberPath
+    /// <summary>
+    /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
+    /// </summary>
+    public string DisplayMemberPath
+    {
+        get => (string)GetValue(DisplayMemberPathProperty);
+        set => SetValue(DisplayMemberPathProperty, value);
+    }
     public static readonly DependencyProperty DisplayMemberPathProperty
         = DependencyProperty.Register(
             nameof(DisplayMemberPath),
             typeof(string),
             typeof(StswFilter)
         );
-    public string DisplayMemberPath
-    {
-        get => (string)GetValue(DisplayMemberPathProperty);
-        set => SetValue(DisplayMemberPathProperty, value);
-    }
 
-    /// FilterMode
+    /// <summary>
+    /// Enum with values of the current filter mode.
+    /// </summary>
     public enum Modes
     {
         Equal,
@@ -185,6 +200,14 @@ public class StswFilter : UserControl
         Null,
         NotNull
     }
+    /// <summary>
+    /// Gets or sets the current filter mode.
+    /// </summary>
+    public Modes? FilterMode
+    {
+        get => (Modes?)GetValue(FilterModeProperty);
+        set => SetValue(FilterModeProperty, value);
+    }
     public static readonly DependencyProperty FilterModeProperty
         = DependencyProperty.Register(
             nameof(FilterMode),
@@ -194,11 +217,6 @@ public class StswFilter : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Modes? FilterMode
-    {
-        get => (Modes?)GetValue(FilterModeProperty);
-        set => SetValue(FilterModeProperty, value);
-    }
     public static void OnFilterModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswFilter stsw)
@@ -216,7 +234,14 @@ public class StswFilter : UserControl
     }
     internal Modes? DefaultFilterMode { get; set; } = null;
 
-    /// FilterSqlColumn
+    /// <summary>
+    /// Gets or sets the SQL column used for filtering.
+    /// </summary>
+    public string FilterSqlColumn
+    {
+        get => (string)GetValue(FilterSqlColumnProperty);
+        set => SetValue(FilterSqlColumnProperty, value);
+    }
     public static readonly DependencyProperty FilterSqlColumnProperty
         = DependencyProperty.Register(
             nameof(FilterSqlColumn),
@@ -224,11 +249,6 @@ public class StswFilter : UserControl
             typeof(StswFilter),
             new PropertyMetadata(default(string), OnFilterSqlColumnChanged)
         );
-    public string FilterSqlColumn
-    {
-        get => (string)GetValue(FilterSqlColumnProperty);
-        set => SetValue(FilterSqlColumnProperty, value);
-    }
     public static void OnFilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswFilter stsw)
@@ -238,7 +258,9 @@ public class StswFilter : UserControl
         }
     }
 
-    /// FilterType
+    /// <summary>
+    /// Enum with values of the type of filter to be applied.
+    /// </summary>
     public enum Types
     {
         Check,
@@ -247,83 +269,104 @@ public class StswFilter : UserControl
         Number,
         Text
     }
+    /// <summary>
+    /// Gets or sets the type of filter to be applied.
+    /// </summary>
+    public Types FilterType
+    {
+        get => (Types)GetValue(FilterTypeProperty);
+        set => SetValue(FilterTypeProperty, value);
+    }
     public static readonly DependencyProperty FilterTypeProperty
         = DependencyProperty.Register(
             nameof(FilterType),
             typeof(Types),
             typeof(StswFilter)
         );
-    public Types FilterType
-    {
-        get => (Types)GetValue(FilterTypeProperty);
-        set => SetValue(FilterTypeProperty, value);
-    }
 
-    /// FilterVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the filter part.
+    /// </summary>
+    public Visibility FilterVisibility
+    {
+        get => (Visibility)GetValue(FilterVisibilityProperty);
+        set => SetValue(FilterVisibilityProperty, value);
+    }
     public static readonly DependencyProperty FilterVisibilityProperty
         = DependencyProperty.Register(
             nameof(FilterVisibility),
             typeof(Visibility),
             typeof(StswFilter)
         );
-    public Visibility FilterVisibility
-    {
-        get => (Visibility)GetValue(FilterVisibilityProperty);
-        set => SetValue(FilterVisibilityProperty, value);
-    }
 
-    /// Header
+    /// <summary>
+    /// Gets or sets the header of the control.
+    /// </summary>
+    public object? Header
+    {
+        get => (object?)GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
     public static readonly DependencyProperty HeaderProperty
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
             typeof(StswFilter)
         );
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
 
-    /// IsDropDownOpen
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down portion of the filter is open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
     public static readonly DependencyProperty IsDropDownOpenProperty
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
             typeof(StswFilter)
         );
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
 
-    /// IsFilterCaseSensitive
+    /// <summary>
+    /// Gets or sets a value indicating whether the filter is case-sensitive.
+    /// </summary>
+    public bool IsFilterCaseSensitive
+    {
+        get => (bool)GetValue(IsFilterCaseSensitiveProperty);
+        set => SetValue(IsFilterCaseSensitiveProperty, value);
+    }
     public static readonly DependencyProperty IsFilterCaseSensitiveProperty
         = DependencyProperty.Register(
             nameof(IsFilterCaseSensitive),
             typeof(bool),
             typeof(StswFilter)
         );
-    public bool IsFilterCaseSensitive
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the filter is null-sensitive.
+    /// </summary>
+    public bool IsFilterNullSensitive
     {
-        get => (bool)GetValue(IsFilterCaseSensitiveProperty);
-        set => SetValue(IsFilterCaseSensitiveProperty, value);
+        get => (bool)GetValue(IsFilterNullSensitiveProperty);
+        set => SetValue(IsFilterNullSensitiveProperty, value);
     }
-    /// IsFilterNullSensitive
     public static readonly DependencyProperty IsFilterNullSensitiveProperty
         = DependencyProperty.Register(
             nameof(IsFilterNullSensitive),
             typeof(bool),
             typeof(StswFilter)
         );
-    public bool IsFilterNullSensitive
-    {
-        get => (bool)GetValue(IsFilterNullSensitiveProperty);
-        set => SetValue(IsFilterNullSensitiveProperty, value);
-    }
 
-    /// ItemsSource
+    /// <summary>
+    /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
+    /// </summary>
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
     public static readonly DependencyProperty ItemsSourceProperty
         = DependencyProperty.Register(
             nameof(ItemsSource),
@@ -331,11 +374,6 @@ public class StswFilter : UserControl
             typeof(StswFilter),
             new PropertyMetadata(default, OnItemsSourceChanged)
         );
-    public IList ItemsSource
-    {
-        get => (IList)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
     public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswFilter stsw)
@@ -350,7 +388,14 @@ public class StswFilter : UserControl
         }
     }
 
-    /// SelectedItemsBinding
+    /// <summary>
+    /// Gets or sets the collection that holds the selected items of the StswSelectionBox.
+    /// </summary>
+    public IList SelectedItemsBinding
+    {
+        get => (IList)GetValue(SelectedItemsBindingProperty);
+        set => SetValue(SelectedItemsBindingProperty, value);
+    }
     public static readonly DependencyProperty SelectedItemsBindingProperty
         = DependencyProperty.Register(
             nameof(SelectedItemsBinding),
@@ -360,52 +405,61 @@ public class StswFilter : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public IList SelectedItemsBinding
-    {
-        get => (IList)GetValue(SelectedItemsBindingProperty);
-        set => SetValue(SelectedItemsBindingProperty, value);
-    }
     internal IList? DefaultSelectedItemsBinding { get; set; } = null;
 
-    /// SelectedValuePath
+    /// <summary>
+    /// Gets or sets the path to the value property of the selected items in the ItemsSource (for <see cref="StswSelectionBox"/>).
+    /// </summary>
+    public string SelectedValuePath
+    {
+        get => (string)GetValue(SelectedValuePathProperty);
+        set => SetValue(SelectedValuePathProperty, value);
+    }
     public static readonly DependencyProperty SelectedValuePathProperty
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
             typeof(StswFilter)
         );
-    public string SelectedValuePath
-    {
-        get => (string)GetValue(SelectedValuePathProperty);
-        set => SetValue(SelectedValuePathProperty, value);
-    }
 
-    /// SqlParam
+    /// <summary>
+    /// Gets the SQL parameter used in the SQL string generation.
+    /// </summary>
+    public string SqlParam
+    {
+        get => (string)GetValue(SqlParamProperty);
+        private set => SetValue(SqlParamProperty, value);
+    }
     public static readonly DependencyProperty SqlParamProperty
         = DependencyProperty.Register(
             nameof(SqlParam),
             typeof(string),
             typeof(StswFilter)
         );
-    public string SqlParam
+
+    /// <summary>
+    /// Gets the generated SQL string used for filtering data.
+    /// </summary>
+    public string? SqlString
     {
-        get => (string)GetValue(SqlParamProperty);
-        private set => SetValue(SqlParamProperty, value);
+        get => (string?)GetValue(SqlStringProperty);
+        private set => SetValue(SqlStringProperty, value);
     }
-    /// SqlString
     public static readonly DependencyProperty SqlStringProperty
         = DependencyProperty.Register(
             nameof(SqlString),
             typeof(string),
             typeof(StswFilter)
         );
-    public string? SqlString
-    {
-        get => (string?)GetValue(SqlStringProperty);
-        private set => SetValue(SqlStringProperty, value);
-    }
 
-    /// Value1
+    /// <summary>
+    /// Gets or sets the first value used in filtering.
+    /// </summary>
+    public object? Value1
+    {
+        get => (object?)GetValue(Value1Property);
+        set => SetValue(Value1Property, value);
+    }
     public static readonly DependencyProperty Value1Property
         = DependencyProperty.Register(
             nameof(Value1),
@@ -415,11 +469,6 @@ public class StswFilter : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public object? Value1
-    {
-        get => (object?)GetValue(Value1Property);
-        set => SetValue(Value1Property, value);
-    }
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswFilter stsw)
@@ -432,7 +481,14 @@ public class StswFilter : UserControl
     }
     internal object? DefaultValue1 { get; set; } = null;
 
-    /// Value2
+    /// <summary>
+    /// Gets or sets the second value used in filtering (e.g., for range filters).
+    /// </summary>
+    public object? Value2
+    {
+        get => (object?)GetValue(Value2Property);
+        set => SetValue(Value2Property, value);
+    }
     public static readonly DependencyProperty Value2Property
         = DependencyProperty.Register(
             nameof(Value2),
@@ -442,41 +498,38 @@ public class StswFilter : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public object? Value2
-    {
-        get => (object?)GetValue(Value2Property);
-        set => SetValue(Value2Property, value);
-    }
     internal object? DefaultValue2 { get; set; } = null;
     #endregion
 
-    #region Spatial properties
-    /// > SubBorder ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswFilter)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswFilter)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswFilter)
+        );
     #endregion
 }

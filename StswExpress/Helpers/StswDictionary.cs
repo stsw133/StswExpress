@@ -32,10 +32,24 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
     public StswDictionary(int capacity, IEqualityComparer<TKey> comparer) => _Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
 
     #region Members
-    /// <see cref="IDictionary{TKey, TValue}"/> members
+    /// <summary>
+    /// Adds an element with the provided key and value to the dictionary.
+    /// </summary>
     public void Add(TKey key, TValue value) => Insert(key, value, true);
+
+    /// <summary>
+    /// Determines whether the dictionary contains a specific key.
+    /// </summary>
     public bool ContainsKey(TKey key) => Dictionary.ContainsKey(key);
+
+    /// <summary>
+    /// Gets a collection containing the keys in the dictionary.
+    /// </summary>
     public ICollection<TKey> Keys => Dictionary.Keys;
+
+    /// <summary>
+    /// Removes the element with the specified key from the dictionary.
+    /// </summary>
     public bool Remove(TKey key)
     {
         if (key == null) throw new ArgumentNullException(nameof(key));
@@ -48,8 +62,20 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
 
         return removed;
     }
+
+    /// <summary>
+    /// Gets the value associated with the specified key.
+    /// </summary>
     public bool TryGetValue(TKey key, out TValue value) => Dictionary.TryGetValue(key, out value);
+
+    /// <summary>
+    /// Gets a collection containing the values in the dictionary.
+    /// </summary>
     public ICollection<TValue> Values => Dictionary.Values;
+
+    /// <summary>
+    /// Gets or sets the value associated with the specified key.
+    /// </summary>
     public TValue this[TKey key]
     {
         get
@@ -64,8 +90,14 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
         set => Insert(key, value, false);
     }
 
-    /// <see cref="ICollection{KeyValuePair{TKey, TValue}}"/> members
+    /// <summary>
+    /// Adds the specified key-value pair to the dictionary.
+    /// </summary>
     public void Add(KeyValuePair<TKey, TValue> item) => Insert(item.Key, item.Value, true);
+
+    /// <summary>
+    /// Removes all items from the dictionary.
+    /// </summary>
     public void Clear()
     {
         if (Dictionary.Count > 0)
@@ -74,26 +106,44 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
             OnCollectionChanged();
         }
     }
+
+    /// <summary>
+    /// Determines whether the dictionary contains the specified key-value pair.
+    /// </summary>
     public bool Contains(KeyValuePair<TKey, TValue> item) => Dictionary.Contains(item);
+
+    /// <summary>
+    /// Copies the elements of the dictionary to an array, starting at a particular array index.
+    /// </summary>
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => Dictionary.CopyTo(array, arrayIndex);
+
     public int Count => Dictionary.Count;
+
     public bool IsReadOnly => Dictionary.IsReadOnly;
+
+    /// <summary>
+    /// Removes the specified key-value pair from the dictionary.
+    /// </summary>
     public bool Remove(KeyValuePair<TKey, TValue> item) => Remove(item.Key);
 
-    /// <see cref="IEnumerable{KeyValuePair{TKey, TValue}}"/> members
+    /// <summary>
+    /// Returns an enumerator that iterates through the dictionary.
+    /// </summary>
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Dictionary.GetEnumerator();
 
-    /// <see cref="IEnumerable"/> members
+    /// <summary>
+    /// Returns an enumerator that iterates through the dictionary.
+    /// </summary>
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Dictionary).GetEnumerator();
 
-    /// <see cref="INotifyCollectionChanged"/> members
     public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-    /// <see cref="INotifyPropertyChanged"/> members
     public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
-    /// AddRange
+    /// <summary>
+    /// Adds a range of key-value pairs to the dictionary.
+    /// </summary>
     public void AddRange(IDictionary<TKey, TValue> items)
     {
         if (items == null) throw new ArgumentNullException("items");
@@ -114,7 +164,9 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
         }
     }
 
-    /// Insert
+    /// <summary>
+    /// Adds the specified key-value pair to the dictionary.
+    /// </summary>
     private void Insert(TKey key, TValue value, bool add)
     {
         if (key == null) throw new ArgumentNullException(nameof(key));
@@ -166,10 +218,14 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
         CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItems));
     }
 
-    /// GetSchema
+    /// <summary>
+    /// Gets the XML schema for the dictionary serialization.
+    /// </summary>
     public XmlSchema? GetSchema() => null;
 
-    /// ReadXml
+    /// <summary>
+    /// Reads XML configuration and builds the dictionary.
+    /// </summary>
     public void ReadXml(XmlReader reader)
     {
         var keySerializer = new XmlSerializer(typeof(TKey));
@@ -201,7 +257,9 @@ public class StswDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IXmlSeria
         reader.ReadEndElement();
     }
 
-    /// WriteXml
+    /// <summary>
+    /// Writes the dictionary as XML.
+    /// </summary>
     public void WriteXml(XmlWriter writer)
     {
         var keySerializer = new XmlSerializer(typeof(TKey));

@@ -11,12 +11,12 @@
         <Setter Property="CornerRadius" Value="1"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="State" Value="Running"/>
+        <Setter Property="TextInPercents" Value="True"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         
-        <Setter Property="State" Value="Running"/>
-        <Setter Property="TextInPercents" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswProgressBar}">

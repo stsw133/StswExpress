@@ -10,6 +10,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
+/// </summary>
 public class StswDataGrid : DataGrid
 {
     public ICommand ClearFiltersCommand { get; set; }
@@ -18,9 +21,17 @@ public class StswDataGrid : DataGrid
     {
         ClearFiltersCommand = new StswRelayCommand(ActionClear);
     }
+    /* /// this will cause control to be not visible
+    static StswDataGrid()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
+    }
+    */
 
     #region Events
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
@@ -35,7 +46,9 @@ public class StswDataGrid : DataGrid
         base.OnApplyTemplate();
     }
 
-    /// ActionClear
+    /// <summary>
+    /// Clears the filters.
+    /// </summary>
     private void ActionClear()
     {
         var stswFilters = StswFn.FindVisualChildren<StswFilter>(this).ToList();
@@ -48,7 +61,9 @@ public class StswDataGrid : DataGrid
         }
     }
 
-    /// ActionRefresh
+    /// <summary>
+    /// Refreshes the filters and updates the SQL filter and parameters.
+    /// </summary>
     private void ActionRefresh()
     {
         FiltersData.SqlFilter = string.Empty;
@@ -76,51 +91,67 @@ public class StswDataGrid : DataGrid
     #endregion
 
     #region Main properties
-    /// AreFiltersVisible
+    /// <summary>
+    /// Gets or sets a value indicating whether the filters are visible.
+    /// </summary>
+    public bool AreFiltersVisible
+    {
+        get => (bool)GetValue(AreFiltersVisibleProperty);
+        set => SetValue(AreFiltersVisibleProperty, value);
+    }
     public static readonly DependencyProperty AreFiltersVisibleProperty
         = DependencyProperty.Register(
             nameof(AreFiltersVisible),
             typeof(bool),
             typeof(StswDataGrid)
         );
-    public bool AreFiltersVisible
-    {
-        get => (bool)GetValue(AreFiltersVisibleProperty);
-        set => SetValue(AreFiltersVisibleProperty, value);
-    }
 
-    /// FiltersData
+    /// <summary>
+    /// Gets or sets the filters data for the control.
+    /// </summary>
+    public StswDataGridFiltersDataModel FiltersData
+    {
+        get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
+        set => SetValue(FiltersDataProperty, value);
+    }
     public static readonly DependencyProperty FiltersDataProperty
         = DependencyProperty.Register(
             nameof(FiltersData),
             typeof(StswDataGridFiltersDataModel),
             typeof(StswDataGrid)
         );
-    public StswDataGridFiltersDataModel FiltersData
-    {
-        get => (StswDataGridFiltersDataModel)GetValue(FiltersDataProperty);
-        set => SetValue(FiltersDataProperty, value);
-    }
 
-    /// RefreshCommand
+    /// <summary>
+    /// Gets or sets the command for refreshing the data.
+    /// </summary>
+    public ICommand RefreshCommand
+    {
+        get => (ICommand)GetValue(RefreshCommandProperty);
+        set => SetValue(RefreshCommandProperty, value);
+    }
     public static readonly DependencyProperty RefreshCommandProperty
         = DependencyProperty.Register(
             nameof(RefreshCommand),
             typeof(ICommand),
             typeof(StswDataGrid)
         );
-    public ICommand RefreshCommand
-    {
-        get => (ICommand)GetValue(RefreshCommandProperty);
-        set => SetValue(RefreshCommandProperty, value);
-    }
 
-    /// SpecialColumnVisibility
+    /// <summary>
+    /// Enum with values of the visibility mode for special column.
+    /// </summary>
     public enum SpecialColumnVisibilities
     {
         Collapsed,
         All,
         OnlyRows
+    }
+    /// <summary>
+    /// Gets or sets the visibility mode for special column.
+    /// </summary>
+    public SpecialColumnVisibilities SpecialColumnVisibility
+    {
+        get => (SpecialColumnVisibilities)GetValue(SpecialColumnVisibilityProperty);
+        set => SetValue(SpecialColumnVisibilityProperty, value);
     }
     public static readonly DependencyProperty SpecialColumnVisibilityProperty
         = DependencyProperty.Register(
@@ -131,11 +162,6 @@ public class StswDataGrid : DataGrid
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSpecialColumnVisibilityChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public SpecialColumnVisibilities SpecialColumnVisibility
-    {
-        get => (SpecialColumnVisibilities)GetValue(SpecialColumnVisibilityProperty);
-        set => SetValue(SpecialColumnVisibilityProperty, value);
-    }
     public static void OnSpecialColumnVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDataGrid stsw)
@@ -173,20 +199,29 @@ public class StswDataGrid : DataGrid
     #endregion
 
     #region Style properties
-    /// > Header ...
-    /// BackgroundHeader
+    /// <summary>
+    /// Gets or sets the background brush for the header.
+    /// </summary>
+    public Brush BackgroundHeader
+    {
+        get => (Brush)GetValue(BackgroundHeaderProperty);
+        set => SetValue(BackgroundHeaderProperty, value);
+    }
     public static readonly DependencyProperty BackgroundHeaderProperty
         = DependencyProperty.Register(
             nameof(BackgroundHeader),
             typeof(Brush),
             typeof(StswDataGrid)
         );
-    public Brush BackgroundHeader
+
+    /// <summary>
+    /// Gets or sets the border brush for the header.
+    /// </summary>
+    public SolidColorBrush BorderBrushHeader
     {
-        get => (Brush)GetValue(BackgroundHeaderProperty);
-        set => SetValue(BackgroundHeaderProperty, value);
+        get => (SolidColorBrush)GetValue(BorderBrushHeaderProperty);
+        set => SetValue(BorderBrushHeaderProperty, value);
     }
-    /// BorderBrushHeader
     public static readonly DependencyProperty BorderBrushHeaderProperty
         = DependencyProperty.Register(
             nameof(BorderBrushHeader),
@@ -194,31 +229,31 @@ public class StswDataGrid : DataGrid
             typeof(StswDataGrid),
             new PropertyMetadata(default(SolidColorBrush))
         );
-    public SolidColorBrush BorderBrushHeader
-    {
-        get => (SolidColorBrush)GetValue(BorderBrushHeaderProperty);
-        set => SetValue(BorderBrushHeaderProperty, value);
-    }
-    /// ForegroundHeader
-    public static readonly DependencyProperty ForegroundHeaderProperty
-        = DependencyProperty.Register(
-            nameof(ForegroundHeader),
-            typeof(SolidColorBrush),
-            typeof(StswDataGrid),
-            new PropertyMetadata(default(SolidColorBrush))
-        );
-    public SolidColorBrush ForegroundHeader
-    {
-        get => (SolidColorBrush)GetValue(ForegroundHeaderProperty);
-        set => SetValue(ForegroundHeaderProperty, value);
-    }
     #endregion
 }
 
+/// <summary>
+/// Data model for StswDataGrid's filters.
+/// </summary>
 public class StswDataGridFiltersDataModel
 {
+    /// <summary>
+    /// Gets or sets the action for clearing the filters.
+    /// </summary>
     public Action? Clear { get; internal set; }
+
+    /// <summary>
+    /// Gets or sets the action for refreshing the filters.
+    /// </summary>
     public Action? Refresh { get; internal set; }
+
+    /// <summary>
+    /// Gets or sets the SQL filter.
+    /// </summary>
     public string? SqlFilter { get; internal set; }
+
+    /// <summary>
+    /// Gets or sets the list of SQL parameters.
+    /// </summary>
     public List<(string name, object val)>? SqlParameters { get; internal set; }
 }

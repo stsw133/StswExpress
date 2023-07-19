@@ -4,6 +4,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that lets the user select from a range of values by moving a Thumb control along a track.
+/// </summary>
 public class StswSlider : Slider
 {
     static StswSlider()
@@ -11,75 +14,80 @@ public class StswSlider : Slider
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSlider), new FrameworkPropertyMetadata(typeof(StswSlider)));
     }
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// ThumbBorderThickness
-    public static readonly DependencyProperty ThumbBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(ThumbBorderThickness),
-            typeof(double),
-            typeof(StswSlider)
-        );
-    public double ThumbBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (double)GetValue(ThumbBorderThicknessProperty);
-        set => SetValue(ThumbBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswSlider)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > Size ...
-    /// TrackSize
-    public static readonly DependencyProperty TrackSizeProperty
+    /// <summary>
+    /// Gets or sets the thickness of the border around the slider thumb.
+    /// </summary>
+    public double ThumbBorderThickness
+    {
+        get => (double)GetValue(ThumbBorderThicknessProperty);
+        set => SetValue(ThumbBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ThumbBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(TrackSize),
+            nameof(ThumbBorderThickness),
             typeof(double),
             typeof(StswSlider)
         );
-    public double TrackSize
-    {
-        get => (double)GetValue(TrackSizeProperty);
-        set => SetValue(TrackSizeProperty, value);
-    }
-    /// ThumbSize
-    public static readonly DependencyProperty ThumbSizeProperty
-        = DependencyProperty.Register(
-            nameof(ThumbSize),
-            typeof(double),
-            typeof(StswSlider)
-        );
-    public double ThumbSize
-    {
-        get => (double)GetValue(ThumbSizeProperty);
-        set => SetValue(ThumbSizeProperty, value);
-    }
-    #endregion
 
-    #region Style properties
-    /// > Icon ...
-    /// ThumbIcon
+    /// <summary>
+    /// Gets or sets the icon displayed in the slider thumb.
+    /// </summary>
+    public Geometry? ThumbIcon
+    {
+        get => (Geometry?)GetValue(ThumbIconProperty);
+        set => SetValue(ThumbIconProperty, value);
+    }
     public static readonly DependencyProperty ThumbIconProperty
         = DependencyProperty.Register(
             nameof(ThumbIcon),
             typeof(Geometry),
             typeof(StswSlider)
         );
-    public Geometry? ThumbIcon
+
+    /// <summary>
+    /// Gets or sets the size of the slider thumb.
+    /// </summary>
+    public double ThumbSize
     {
-        get => (Geometry?)GetValue(ThumbIconProperty);
-        set => SetValue(ThumbIconProperty, value);
+        get => (double)GetValue(ThumbSizeProperty);
+        set => SetValue(ThumbSizeProperty, value);
     }
+    public static readonly DependencyProperty ThumbSizeProperty
+        = DependencyProperty.Register(
+            nameof(ThumbSize),
+            typeof(double),
+            typeof(StswSlider)
+        );
+
+    /// <summary>
+    /// Gets or sets the size of the slider track.
+    /// </summary>
+    public double TrackSize
+    {
+        get => (double)GetValue(TrackSizeProperty);
+        set => SetValue(TrackSizeProperty, value);
+    }
+    public static readonly DependencyProperty TrackSizeProperty
+        = DependencyProperty.Register(
+            nameof(TrackSize),
+            typeof(double),
+            typeof(StswSlider)
+        );
     #endregion
 }

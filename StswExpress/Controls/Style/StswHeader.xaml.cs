@@ -4,6 +4,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control functioning as header for multiple other controls like buttons, expanders and more.
+/// </summary>
 public class StswHeader : Label
 {
     static StswHeader()
@@ -12,140 +15,156 @@ public class StswHeader : Label
     }
 
     #region Main properties
-    /// ContentVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the content.
+    /// </summary>
+    public Visibility? ContentVisibility
+    {
+        get => (Visibility)GetValue(ContentVisibilityProperty);
+        set => SetValue(ContentVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ContentVisibilityProperty
         = DependencyProperty.Register(
             nameof(ContentVisibility),
             typeof(Visibility),
             typeof(StswHeader)
         );
-    public Visibility? ContentVisibility
-    {
-        get => (Visibility)GetValue(ContentVisibilityProperty);
-        set => SetValue(ContentVisibilityProperty, value);
-    }
 
-    /// IconData
+    /// <summary>
+    /// Gets or sets the geometry data for the icon.
+    /// </summary>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
     public static readonly DependencyProperty IconDataProperty
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
             typeof(StswHeader)
         );
-    public Geometry? IconData
+
+    /// <summary>
+    /// Gets or sets the scale of the icon.
+    /// </summary>
+    public GridLength? IconScale
     {
-        get => (Geometry?)GetValue(IconDataProperty);
-        set => SetValue(IconDataProperty, value);
+        get => (GridLength?)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
     }
-    /// IconScale
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
             typeof(StswHeader)
         );
-    public GridLength? IconScale
+
+    /// <summary>
+    /// Gets or sets the source for the icon image.
+    /// </summary>
+    public ImageSource? IconSource
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
+        get => (ImageSource?)GetValue(IconSourceProperty);
+        set => SetValue(IconSourceProperty, value);
     }
-    /// IconSource
     public static readonly DependencyProperty IconSourceProperty
         = DependencyProperty.Register(
             nameof(IconSource),
             typeof(ImageSource),
             typeof(StswHeader)
         );
-    public ImageSource? IconSource
-    {
-        get => (ImageSource?)GetValue(IconSourceProperty);
-        set => SetValue(IconSourceProperty, value);
-    }
 
-    /// IsBusy
+    /// <summary>
+    /// Gets or sets a value indicating whether the header is in a busy state.
+    /// </summary>
+    public bool IsBusy
+    {
+        get => (bool)GetValue(IsBusyProperty);
+        set => SetValue(IsBusyProperty, value);
+    }
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
             typeof(StswHeader)
         );
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
 
-    /// Orientation
+    /// <summary>
+    /// Gets or sets the orientation of the header.
+    /// </summary>
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
     public static readonly DependencyProperty OrientationProperty
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
             typeof(StswHeader)
         );
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > CornerRadius ...
-    /// CornerRadius
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswHeader)
         );
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
 
-    /// > StrokeThickness ...
-    /// IconStrokeThickness
-    public static readonly DependencyProperty IconStrokeThicknessProperty
-        = DependencyProperty.Register(
-            nameof(IconStrokeThickness),
-            typeof(double),
-            typeof(StswHeader)
-        );
-    public double IconStrokeThickness
+    /// <summary>
+    /// Gets or sets the fill brush for the icon.
+    /// </summary>
+    public Brush IconFill
     {
-        get => (double)GetValue(IconStrokeThicknessProperty);
-        set => SetValue(IconStrokeThicknessProperty, value);
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
     }
-    #endregion
-
-    #region Style properties
-    /// > IconFill ...
-    /// IconFill
     public static readonly DependencyProperty IconFillProperty
         = DependencyProperty.Register(
             nameof(IconFill),
             typeof(Brush),
             typeof(StswHeader)
         );
-    public Brush IconFill
-    {
-        get => (Brush)GetValue(IconFillProperty);
-        set => SetValue(IconFillProperty, value);
-    }
 
-    /// > IconStroke ...
-    /// IconStroke
+    /// <summary>
+    /// Gets or sets the stroke brush for the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
     public static readonly DependencyProperty IconStrokeProperty
         = DependencyProperty.Register(
             nameof(IconStroke),
             typeof(Brush),
             typeof(StswHeader)
         );
-    public Brush IconStroke
+
+    /// <summary>
+    /// Gets or sets the thickness of the stroke for the icon.
+    /// </summary>
+    public double IconStrokeThickness
     {
-        get => (Brush)GetValue(IconStrokeProperty);
-        set => SetValue(IconStrokeProperty, value);
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
     }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswHeader)
+        );
     #endregion
 }

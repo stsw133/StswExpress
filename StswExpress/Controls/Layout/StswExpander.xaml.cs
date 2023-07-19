@@ -3,6 +3,9 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
+/// <summary>
+/// Represents a control that displays a header and allows the user to collapse or expand content.
+/// </summary>
 public class StswExpander : Expander
 {
     static StswExpander()
@@ -11,47 +14,51 @@ public class StswExpander : Expander
     }
 
     #region Main properties
-    /// ArrowVisibility
+    /// <summary>
+    /// Gets or sets the visibility of the arrow icon in the drop button.
+    /// </summary>
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
     public static readonly DependencyProperty ArrowVisibilityProperty
         = DependencyProperty.Register(
             nameof(ArrowVisibility),
             typeof(Visibility),
             typeof(StswExpander)
         );
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswExpander)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswExpander)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between header and content.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswExpander)
+        );
     #endregion
 }

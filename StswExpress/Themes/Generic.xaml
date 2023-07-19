@@ -13,9 +13,9 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Checks/StswRadioBox.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboBox.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboView.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDataGrid.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswListBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswSelectionBox.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorPicker.xaml"/>

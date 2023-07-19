@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,9 @@ using System.Windows.Markup;
 
 namespace StswExpress;
 
+/// <summary>
+/// A control that allows users to select and display date.
+/// </summary>
 [ContentProperty(nameof(SelectedDate))]
 public class StswDatePicker : TextBox
 {
@@ -22,9 +26,14 @@ public class StswDatePicker : TextBox
     }
 
     #region Events
+    /// <summary>
+    /// Occurs when the selected date in the control changes.
+    /// </summary>
     public event EventHandler? SelectedDateChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         /// Content
@@ -39,14 +48,21 @@ public class StswDatePicker : TextBox
         base.OnApplyTemplate();
     }
 
-    /// PART_ContentHost_KeyDown
+    /// <summary>
+    /// Handles the KeyDown event for the internal content host of the date picker.
+    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
+    /// </summary>
     protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
             PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
     }
 
-    /// PART_ContentHost_LostFocus
+    /// <summary>
+    /// Handles the LostFocus event for the internal content host of the date picker.
+    /// Parses the text input and updates the SelectedDate property based on the provided format.
+    /// The new SelectedDate is displayed in the Text property, and the binding is updated if active.
+    /// </summary>
     private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrEmpty(Text))
@@ -61,8 +77,11 @@ public class StswDatePicker : TextBox
         if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
     }
-    
-    /// PART_ContentHost_MouseWheel
+
+    /// <summary>
+    /// Handles the MouseWheel event for the internal content host of the date picker.
+    /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.
+    /// </summary>
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue && IncrementType != IncrementTypes.None)
@@ -93,32 +112,45 @@ public class StswDatePicker : TextBox
     #endregion
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswDatePicker)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswDatePicker)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// Format
+    /// <summary>
+    /// Gets or sets the custom date and time format string used to display the selected date in the control.
+    /// When set, the date is formatted according to the provided format string.
+    /// </summary>
+    public string? Format
+    {
+        get => (string?)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
     public static readonly DependencyProperty FormatProperty
         = DependencyProperty.Register(
             nameof(Format),
@@ -126,11 +158,6 @@ public class StswDatePicker : TextBox
             typeof(StswDatePicker),
             new PropertyMetadata(default(string?), OnFormatChanged)
         );
-    public string? Format
-    {
-        get => (string?)GetValue(FormatProperty);
-        set => SetValue(FormatProperty, value);
-    }
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDatePicker stsw)
@@ -151,20 +178,24 @@ public class StswDatePicker : TextBox
         }
     }
 
-    /// IsDropDownOpen
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
     public static readonly DependencyProperty IsDropDownOpenProperty
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
             typeof(bool),
             typeof(StswDatePicker)
         );
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
 
-    /// IncrementType
+    /// <summary>
+    /// Specifies the different types of increments that can be applied when scrolling the mouse wheel on the date picker.
+    /// </summary>
     public enum IncrementTypes
     {
         None,
@@ -175,18 +206,30 @@ public class StswDatePicker : TextBox
         Minute,
         Second
     }
+    /// <summary>
+    /// Gets or sets the type of increment to be applied when scrolling the mouse wheel over the date picker.
+    /// This property defines how the date changes when the mouse wheel is scrolled up or down.
+    /// </summary>
+    public IncrementTypes IncrementType
+    {
+        get => (IncrementTypes)GetValue(IncrementTypeProperty);
+        set => SetValue(IncrementTypeProperty, value);
+    }
     public static readonly DependencyProperty IncrementTypeProperty
         = DependencyProperty.Register(
             nameof(IncrementType),
             typeof(IncrementTypes),
             typeof(StswDatePicker)
         );
-    public IncrementTypes IncrementType
+
+    /// <summary>
+    /// Gets or sets the maximum allowable date in the control.
+    /// </summary>
+    public DateTime? Maximum
     {
-        get => (IncrementTypes)GetValue(IncrementTypeProperty);
-        set => SetValue(IncrementTypeProperty, value);
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
     }
-    /// Maximum
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
@@ -194,12 +237,15 @@ public class StswDatePicker : TextBox
             typeof(StswDatePicker),
             new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
         );
-    public DateTime? Maximum
+
+    /// <summary>
+    /// Gets or sets the minimum allowable date in the control.
+    /// </summary>
+    public DateTime? Minimum
     {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
     }
-    /// Minimum
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
@@ -207,26 +253,30 @@ public class StswDatePicker : TextBox
             typeof(StswDatePicker),
             new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
         );
-    public DateTime? Minimum
-    {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
-    }
 
-    /// Placeholder
+    /// <summary>
+    /// Gets or sets the placeholder text to display in the box when no date is selected.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
     public static readonly DependencyProperty PlaceholderProperty
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
             typeof(StswDatePicker)
         );
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
 
-    /// SelectedDate
+    /// <summary>
+    /// Gets or sets the currently selected date in the control.
+    /// </summary>
+    public DateTime? SelectedDate
+    {
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
+    }
     public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(
             nameof(SelectedDate),
@@ -236,11 +286,6 @@ public class StswDatePicker : TextBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public DateTime? SelectedDate
-    {
-        get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, value);
-    }
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswDatePicker stsw)
@@ -257,7 +302,13 @@ public class StswDatePicker : TextBox
         }
     }
 
-    /// Text
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    [Browsable(false)]
+    //[Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public new string? Text
     {
         get => base.Text;
@@ -265,33 +316,35 @@ public class StswDatePicker : TextBox
     }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswDatePicker)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswDatePicker)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswDatePicker)
+        );
     #endregion
 }

@@ -20,7 +20,8 @@ public class StswTabControlContext : ControlsContext
         new()
         {
             Header = new StswHeader()
-            { IconData = StswIcons.Dice2,
+            {
+                IconData = StswIcons.Dice2,
                 Content = "TEST 2"
             },
             Content = new StswTextBoxContext(),

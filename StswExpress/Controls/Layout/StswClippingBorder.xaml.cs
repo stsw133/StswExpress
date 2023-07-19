@@ -5,10 +5,13 @@ using System.Windows;
 
 namespace StswExpress;
 
-/// <Remarks>
+/// <summary>
+/// Represents a custom border control that applies clipping to its child element with rounded corners.
+/// </summary>
+/// <remarks>
 /// As a side effect <see cref="StswClippingBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswClippingBorder"/>.
-/// </Remarks>
+/// </remarks>
 public class StswClippingBorder : Border
 {
     static StswClippingBorder()
@@ -20,13 +23,18 @@ public class StswClippingBorder : Border
     private readonly RectangleGeometry _clipRect = new();
     private object? _oldClip;
 
-    /// OnRender
+    /// <summary>
+    /// Called when the control is rendered.
+    /// </summary>
     protected override void OnRender(DrawingContext dc)
     {
         OnApplyChildClip();
         base.OnRender(dc);
     }
 
+    /// <summary>
+    /// Gets or sets the child element of the border control and applies clipping with rounded corners.
+    /// </summary>
     public override UIElement Child
     {
         get => base.Child;
@@ -47,6 +55,9 @@ public class StswClippingBorder : Border
         }
     }
 
+    /// <summary>
+    /// Applies the clipping with rounded corners to the child element of the border control.
+    /// </summary>
     protected virtual void OnApplyChildClip()
     {
         var child = Child;

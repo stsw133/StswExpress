@@ -13,6 +13,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// A custom rich text editor control that extends the functionality of the built-in RichTextBox.
+/// </summary>
 public class StswTextEditor : RichTextBox
 {
     /// FILE
@@ -103,7 +106,9 @@ public class StswTextEditor : RichTextBox
     private StswComboBox? partFontFamily;
     private StswNumericBox? partFontSize;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         if (FilePath != null)
@@ -132,7 +137,9 @@ public class StswTextEditor : RichTextBox
         base.OnApplyTemplate();
     }
 
-    /// PART_Editor_SelectionChanged
+    /// <summary>
+    /// Occurs when the editor's selection changes.
+    /// </summary>
     private void PART_Editor_SelectionChanged(object sender, RoutedEventArgs e)
     {
         /*
@@ -164,10 +171,14 @@ public class StswTextEditor : RichTextBox
     #endregion
 
     #region File commands
-    /// HasChanges
+    /// <summary>
+    /// Checks whether there are any changes in the editor's content compared to the original content loaded from a file.
+    /// </summary>
     private bool HasChanges() => new TextRange(Document.ContentStart, Document.ContentEnd).Text != _originalContent;
 
-    /// ClearDocument
+    /// <summary>
+    /// Clears the content of the editor and resets the original content to an empty string.
+    /// </summary>
     private void ClearDocument()
     {
         Document.Blocks.Clear();
@@ -177,7 +188,10 @@ public class StswTextEditor : RichTextBox
         IsUndoEnabled = !IsUndoEnabled;
     }
 
-    /// LoadDocument
+    /// <summary>
+    /// Loads the content of the associated file path into the editor and sets it as the original content.
+    /// If the file does not exist, the editor's content will be cleared, and the original content will be set to an empty string.
+    /// </summary>
     private void LoadDocument()
     {
         if (File.Exists(FilePath))
@@ -195,6 +209,9 @@ public class StswTextEditor : RichTextBox
     }
 
     /// Command: new
+    /// <summary>
+    /// Creates a new empty document in the editor, discarding any unsaved changes if present.
+    /// </summary>
     private void FileNew_Executed()
     {
         if (HasChanges() && MessageBox.Show("Czy na pewno chcesz porzucić zmiany i utworzyć nowy plik?", "Edytor tekstu", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
@@ -206,6 +223,9 @@ public class StswTextEditor : RichTextBox
     private bool FileNew_CanExecute() => true;
 
     /// Command: open
+    /// <summary>
+    /// Opens a file dialog to load a Rich Text Format (.rtf) file into the editor, discarding any unsaved changes if present.
+    /// </summary>
     private void FileOpen_Executed()
     {
         var dialog = new OpenFileDialog
@@ -224,6 +244,9 @@ public class StswTextEditor : RichTextBox
     private bool FileOpen_CanExecute() => true;
 
     /// Command: save
+    /// <summary>
+    /// Saves the content of the editor to the associated file path, or prompts the user to choose a file if the path is not set.
+    /// </summary>
     private void FileSave_Executed()
     {
         if (!string.IsNullOrEmpty(FilePath))
@@ -238,6 +261,9 @@ public class StswTextEditor : RichTextBox
     private bool FileSave_CanExecute() => true;
 
     /// Command: save as
+    /// <summary>
+    /// Prompts the user to choose a file path and saves the content of the editor to the selected location in Rich Text Format (.rtf).
+    /// </summary>
     private void FileSaveAs_Executed()
     {
         var dialog = new SaveFileDialog
@@ -257,6 +283,9 @@ public class StswTextEditor : RichTextBox
     private bool FileSaveAs_CanExecute() => true;
 
     /// Command: reload
+    /// <summary>
+    /// Reloads the content of the editor from the associated file path, discarding any unsaved changes if present.
+    /// </summary>
     private void FileReload_Executed()
     {
         if (HasChanges() && MessageBox.Show("Czy na pewno chcesz porzucić zmiany i załadować ponownie plik?", "Edytor tekstu", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
@@ -270,6 +299,9 @@ public class StswTextEditor : RichTextBox
     private bool FileReload_CanExecute() => FilePath != null;
 
     /// Command: info
+    /// <summary>
+    /// Opens the file explorer with the currently associated file selected, if available.
+    /// </summary>
     private void FileInfo_Executed()
     {
         if (File.Exists(FilePath))
@@ -278,6 +310,9 @@ public class StswTextEditor : RichTextBox
     private bool FileInfo_CanExecute() => FilePath != null;
 
     /// Command: print
+    /// <summary>
+    /// Prints the content of the editor using the system's default print dialog.
+    /// </summary>
     private void FilePrint_Executed()
     {
         UpdateLayout();
@@ -303,6 +338,9 @@ public class StswTextEditor : RichTextBox
     private bool FilePrint_CanExecute() => true;
 
     /// Command: mail
+    /// <summary>
+    /// Opens the default email client with the editor's content as the email body for sharing.
+    /// </summary>
     private void FileMail_Executed()
     {
         string emailTo = string.Empty;
@@ -322,6 +360,9 @@ public class StswTextEditor : RichTextBox
 
     #region Edit commands
     /// Command: undo
+    /// <summary>
+    /// Undoes the most recent action in the editor.
+    /// </summary>
     private void EditUndo_Executed()
     {
         Undo();
@@ -330,6 +371,9 @@ public class StswTextEditor : RichTextBox
     private bool EditUndo_CanExecute() => ApplicationCommands.Undo.CanExecute(null, this);
 
     /// Command: redo
+    /// <summary>
+    /// Redoes the most recently undone action in the editor.
+    /// </summary>
     private void EditRedo_Executed()
     {
         Redo();
@@ -338,6 +382,9 @@ public class StswTextEditor : RichTextBox
     private bool EditRedo_CanExecute() => ApplicationCommands.Redo.CanExecute(null, this);
 
     /// Command: clear
+    /// <summary>
+    /// Clears the selected text in the editor.
+    /// </summary>
     private void EditClear_Executed()
     {
         Selection.Text = string.Empty;
@@ -346,6 +393,9 @@ public class StswTextEditor : RichTextBox
     private bool EditClear_CanExecute() => EditingCommands.Delete.CanExecute(null, this);
 
     /// Command: select all
+    /// <summary>
+    /// Selects all text in the editor.
+    /// </summary>
     private void EditSelectAll_Executed()
     {
         SelectAll();
@@ -354,6 +404,9 @@ public class StswTextEditor : RichTextBox
     private bool EditSelectAll_CanExecute() => ApplicationCommands.SelectAll.CanExecute(null, this);
 
     /// Command: cut
+    /// <summary>
+    /// Cuts the selected text from the editor and copies it to the clipboard.
+    /// </summary>
     private void EditCut_Executed()
     {
         Cut();
@@ -362,6 +415,9 @@ public class StswTextEditor : RichTextBox
     private bool EditCut_CanExecute() => ApplicationCommands.Cut.CanExecute(null, this);
 
     /// Command: copy
+    /// <summary>
+    /// Copies the selected text to the clipboard.
+    /// </summary>
     private void EditCopy_Executed()
     {
         Copy();
@@ -370,6 +426,9 @@ public class StswTextEditor : RichTextBox
     private bool EditCopy_CanExecute() => ApplicationCommands.Copy.CanExecute(null, this);
 
     /// Command: paste
+    /// <summary>
+    /// Pastes the contents of the clipboard into the editor.
+    /// </summary>
     private void EditPaste_Executed()
     {
         Paste();
@@ -379,7 +438,10 @@ public class StswTextEditor : RichTextBox
     #endregion
 
     #region Font commands
-    /// PART_FontFamily_SelectionChanged
+    /// <summary>
+    /// Event handler for the selection changed event of the font family combo box.
+    /// Applies the selected font family to the text of the selected portion in the editor.
+    /// </summary>
     private void PART_FontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!Selection.IsEmpty && partFontFamily?.SelectedItem != null)
@@ -387,7 +449,10 @@ public class StswTextEditor : RichTextBox
         Focus();
     }
 
-    /// PART_FontSize_TextChanged
+    /// <summary>
+    /// Event handler for the value changed event of the font size numeric box.
+    /// Applies the selected font size to the text of the selected portion in the editor.
+    /// </summary>
     private void PART_FontSize_ValueChanged(object? sender, EventArgs e)
     {
         if (!Selection.IsEmpty && partFontSize?.Value != null)
@@ -396,6 +461,9 @@ public class StswTextEditor : RichTextBox
     }
 
     /// Command: bold
+    /// <summary>
+    /// Toggles the bold formatting for the selected text.
+    /// </summary>
     private void FontBold_Executed()
     {
         var newFontWeight = FontWeights.Bold;
@@ -406,8 +474,11 @@ public class StswTextEditor : RichTextBox
         Focus();
     }
     private bool FontBold_CanExecute() => EditingCommands.ToggleBold.CanExecute(null, this);
-    
+
     /// Command: italic
+    /// <summary>
+    /// Toggles the italic formatting for the selected text.
+    /// </summary>
     private void FontItalic_Executed()
     {
         var newFontStyle = FontStyles.Italic;
@@ -420,6 +491,9 @@ public class StswTextEditor : RichTextBox
     private bool FontItalic_CanExecute() => EditingCommands.ToggleItalic.CanExecute(null, this);
 
     /// Command: underline
+    /// <summary>
+    /// Toggles the underline formatting for the selected text.
+    /// </summary>
     private void FontUnderline_Executed()
     {
         var newTextDecoration = TextDecorations.Underline;
@@ -432,6 +506,9 @@ public class StswTextEditor : RichTextBox
     private bool FontUnderline_CanExecute() => EditingCommands.ToggleUnderline.CanExecute(null, this);
 
     /// Command: strikethrough
+    /// <summary>
+    /// Toggles the strikethrough formatting for the selected text.
+    /// </summary>
     private void FontStrikethrough_Executed()
     {
         var newTextDecoration = TextDecorations.Strikethrough;
@@ -444,6 +521,9 @@ public class StswTextEditor : RichTextBox
     private bool FontStrikethrough_CanExecute() => EditingCommands.ToggleUnderline.CanExecute(null, this);
 
     /// Command: subscript
+    /// <summary>
+    /// Toggles the subscript formatting for the selected text.
+    /// </summary>
     private void FontSubscript_Executed()
     {
         EditingCommands.ToggleSubscript.Execute(null, this);
@@ -452,6 +532,9 @@ public class StswTextEditor : RichTextBox
     private bool FontSubscript_CanExecute() => EditingCommands.ToggleSubscript.CanExecute(null, this);
 
     /// Command: superscript
+    /// <summary>
+    /// Toggles the superscript formatting for the selected text.
+    /// </summary>
     private void FontSuperscript_Executed()
     {
         EditingCommands.ToggleSuperscript.Execute(null, this);
@@ -460,6 +543,9 @@ public class StswTextEditor : RichTextBox
     private bool FontSuperscript_CanExecute() => EditingCommands.ToggleSuperscript.CanExecute(null, this);
 
     /// Command: color
+    /// <summary>
+    /// Applies the selected color to the text of the selected portion in the editor.
+    /// </summary>
     private void FontColorText_Executed()
     {
         Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(SelectedColorText));
@@ -468,6 +554,9 @@ public class StswTextEditor : RichTextBox
     private bool FontColorText_CanExecute() => true;
 
     /// Command: highlight
+    /// <summary>
+    /// Applies the selected color as a highlight to the selected portion in the editor.
+    /// </summary>
     private void FontColorHighlight_Executed()
     {
         Selection.ApplyPropertyValue(Inline.BackgroundProperty, new SolidColorBrush(SelectedColorHighlight));
@@ -478,6 +567,9 @@ public class StswTextEditor : RichTextBox
 
     #region Section commands
     /// Command: increase
+    /// <summary>
+    /// Increases the indentation level of the selected section in the editor.
+    /// </summary>
     private void SectionIncrease_Executed()
     {
         EditingCommands.IncreaseIndentation.Execute(null, this);
@@ -486,6 +578,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionIncrease_CanExecute() => EditingCommands.IncreaseIndentation.CanExecute(null, this);
 
     /// Command: decrease
+    /// <summary>
+    /// Decreases the indentation level of the selected section in the editor.
+    /// </summary>
     private void SectionDecrease_Executed()
     {
         EditingCommands.DecreaseIndentation.Execute(null, this);
@@ -494,6 +589,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionDecrease_CanExecute() => EditingCommands.DecreaseIndentation.CanExecute(null, this);
 
     /// Command: list bulleted
+    /// <summary>
+    /// Toggles bulleted list formatting for the selected text.
+    /// </summary>
     private void SectionListBulleted_Executed()
     {
         EditingCommands.ToggleBullets.Execute(null, this);
@@ -502,6 +600,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionListBulleted_CanExecute() => EditingCommands.ToggleBullets.CanExecute(null, this);
 
     /// Command: list numbered
+    /// <summary>
+    /// Toggles numbered list formatting for the selected text.
+    /// </summary>
     private void SectionListNumbered_Executed()
     {
         EditingCommands.ToggleNumbering.Execute(null, this);
@@ -510,6 +611,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionListNumbered_CanExecute() => EditingCommands.ToggleNumbering.CanExecute(null, this);
 
     /// Command: interline
+    /// <summary>
+    /// Adjusts the interline spacing for the selected paragraph(s) in the editor.
+    /// </summary>
     private void SectionInterline_Executed(object? parameter)
     {
         parameter ??= double.NaN;
@@ -524,6 +628,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionInterline_CanExecute() => true;
 
     /// Command: align left
+    /// <summary>
+    /// Aligns the selected text to the left in the editor.
+    /// </summary>
     private void SectionAlignLeft_Executed()
     {
         EditingCommands.AlignLeft.Execute(null, this);
@@ -532,6 +639,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionAlignLeft_CanExecute() => EditingCommands.AlignLeft.CanExecute(null, this);
 
     /// Command: align center
+    /// <summary>
+    /// Aligns the selected text to the center in the editor.
+    /// </summary>
     private void SectionAlignCenter_Executed()
     {
         EditingCommands.AlignCenter.Execute(null, this);
@@ -540,6 +650,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionAlignCenter_CanExecute() => EditingCommands.AlignCenter.CanExecute(null, this);
 
     /// Command: align right
+    /// <summary>
+    /// Aligns the selected text to the right in the editor.
+    /// </summary>
     private void SectionAlignRight_Executed()
     {
         EditingCommands.AlignRight.Execute(null, this);
@@ -548,6 +661,9 @@ public class StswTextEditor : RichTextBox
     private bool SectionAlignRight_CanExecute() => EditingCommands.AlignRight.CanExecute(null, this);
 
     /// Command: align justify
+    /// <summary>
+    /// Justifies the selected text in the editor.
+    /// </summary>
     private void SectionAlignJustify_Executed()
     {
         EditingCommands.AlignJustify.Execute(null, this);
@@ -557,58 +673,74 @@ public class StswTextEditor : RichTextBox
     #endregion
 
     #region Main properties
-    /// Components
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
             typeof(StswTextEditor)
         );
-    public ObservableCollection<UIElement> Components
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
     }
-    /// ComponentsAlignment
     public static readonly DependencyProperty ComponentsAlignmentProperty
         = DependencyProperty.Register(
             nameof(ComponentsAlignment),
             typeof(Dock),
             typeof(StswTextEditor)
         );
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
 
-    /// FilePath
+    /// <summary>
+    /// Gets or sets the file path associated with the content of the editor.
+    /// </summary>
+    public string? FilePath
+    {
+        get => (string?)GetValue(FilePathProperty);
+        set => SetValue(FilePathProperty, value);
+    }
     public static readonly DependencyProperty FilePathProperty
         = DependencyProperty.Register(
             nameof(FilePath),
             typeof(string),
             typeof(StswTextEditor)
         );
-    public string? FilePath
-    {
-        get => (string?)GetValue(FilePathProperty);
-        set => SetValue(FilePathProperty, value);
-    }
 
-    /// IsExtended
+    /// <summary>
+    /// Gets or sets a value indicating whether the control is in extended mode (shows more options in component panel).
+    /// </summary>
+    public bool IsExtended
+    {
+        get => (bool)GetValue(IsExtendedProperty);
+        set => SetValue(IsExtendedProperty, value);
+    }
     public static readonly DependencyProperty IsExtendedProperty
         = DependencyProperty.Register(
             nameof(IsExtended),
             typeof(bool),
             typeof(StswTextEditor)
         );
-    public bool IsExtended
-    {
-        get => (bool)GetValue(IsExtendedProperty);
-        set => SetValue(IsExtendedProperty, value);
-    }
 
-    /// SelectedColorText
+    /// <summary>
+    /// Gets or sets the selected text color in the editor.
+    /// </summary>
+    public Color SelectedColorText
+    {
+        get => (Color)GetValue(SelectedColorTextProperty);
+        internal set => SetValue(SelectedColorTextProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorTextProperty
         = DependencyProperty.Register(
             nameof(SelectedColorText),
@@ -618,17 +750,20 @@ public class StswTextEditor : RichTextBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorTextChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Color SelectedColorText
-    {
-        get => (Color)GetValue(SelectedColorTextProperty);
-        internal set => SetValue(SelectedColorTextProperty, value);
-    }
     public static void OnSelectedColorTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswTextEditor stsw)
             stsw.FontColorText_Executed();
     }
-    /// SelectedColorHighlight
+
+    /// <summary>
+    /// Gets or sets the selected highlight color in the editor.
+    /// </summary>
+    public Color SelectedColorHighlight
+    {
+        get => (Color)GetValue(SelectedColorHighlightProperty);
+        internal set => SetValue(SelectedColorHighlightProperty, value);
+    }
     public static readonly DependencyProperty SelectedColorHighlightProperty
         = DependencyProperty.Register(
             nameof(SelectedColorHighlight),
@@ -638,11 +773,6 @@ public class StswTextEditor : RichTextBox
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedColorHighlightChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public Color SelectedColorHighlight
-    {
-        get => (Color)GetValue(SelectedColorHighlightProperty);
-        internal set => SetValue(SelectedColorHighlightProperty, value);
-    }
     public static void OnSelectedColorHighlightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswTextEditor stsw)
@@ -650,71 +780,80 @@ public class StswTextEditor : RichTextBox
     }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// ComponentBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the thickness of the buttons in the control.
+    /// </summary>
+    public Thickness ComponentBorderThickness
+    {
+        get => (Thickness)GetValue(ComponentBorderThicknessProperty);
+        set => SetValue(ComponentBorderThicknessProperty, value);
+    }
     public static readonly DependencyProperty ComponentBorderThicknessProperty
         = DependencyProperty.Register(
             nameof(ComponentBorderThickness),
             typeof(Thickness),
             typeof(StswTextEditor)
         );
-    public Thickness ComponentBorderThickness
-    {
-        get => (Thickness)GetValue(ComponentBorderThicknessProperty);
-        set => SetValue(ComponentBorderThicknessProperty, value);
-    }
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswTextEditor)
-        );
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
 
-    /// > CornerRadius ...
-    /// CornerRadius
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswTextEditor)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between box and components.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
-    /// SubCornerRadius
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswTextEditor)
+        );
+
+    /// <summary>
+    /// Gets or sets the corner radius of the buttons in the control.
+    /// </summary>
+    public CornerRadius SubCornerRadius
+    {
+        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
+        set => SetValue(SubCornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty SubCornerRadiusProperty
         = DependencyProperty.Register(
             nameof(SubCornerRadius),
             typeof(CornerRadius),
             typeof(StswTextEditor)
         );
-    public CornerRadius SubCornerRadius
-    {
-        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
-        set => SetValue(SubCornerRadiusProperty, value);
-    }
 
-    /// > Padding ...
-    /// SubPadding
+    /// <summary>
+    /// Gets or sets the margin of the buttons in the control.
+    /// </summary>
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
     public static readonly DependencyProperty SubPaddingProperty
         = DependencyProperty.Register(
             nameof(SubPadding),
             typeof(Thickness),
             typeof(StswTextEditor)
         );
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
     #endregion
 }

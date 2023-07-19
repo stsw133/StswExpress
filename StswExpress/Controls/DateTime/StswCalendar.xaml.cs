@@ -12,6 +12,9 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
+/// <summary>
+/// A control with date selection functionality.
+/// </summary>
 [ContentProperty(nameof(SelectedDate))]
 public class StswCalendar : UserControl
 {
@@ -29,9 +32,14 @@ public class StswCalendar : UserControl
     }
 
     #region Events
+    /// <summary>
+    /// Occurs when the selected date in the control changes.
+    /// </summary>
     public event EventHandler? SelectedDateChanged;
 
-    /// OnApplyTemplate
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         SelectedMonth = SelectedDate ?? DateTime.Now;
@@ -55,22 +63,40 @@ public class StswCalendar : UserControl
         base.OnApplyTemplate();
     }
 
-    /// PART_ButtonPreviousYear_Click
+    /// <summary>
+    /// Handles the click event of the previous year button in the control.
+    /// Changes the displayed month to the previous year.
+    /// </summary>
     public void PART_ButtonPreviousYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -120 : -12);
 
-    /// PART_ButtonNextYear_Click
+    /// <summary>
+    /// Handles the click event of the next year button in the control.
+    /// Changes the displayed month to the next year.
+    /// </summary>
     private void PART_ButtonNextYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 120 : 12);
 
-    /// PART_ButtonPreviousMonth_Click
+    /// <summary>
+    /// Handles the click event of the previous month button in the control.
+    /// Changes the displayed month to the previous month.
+    /// </summary>
     private void PART_ButtonPreviousMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -12 : -1);
 
-    /// PART_ButtonNextMonth_Click
+    /// <summary>
+    /// Handles the click event of the next month button in the control.
+    /// Changes the displayed month to the next month.
+    /// </summary>
     private void PART_ButtonNextMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 12 : 1);
 
-    /// PART_ButtonSelectionMode_Click
+    /// <summary>
+    /// Handles the click event of the selection mode button in the control.
+    /// Toggles between ByYear and ByMonth selection modes.
+    /// </summary>
     private void PART_ButtonSelectionMode_Click(object sender, RoutedEventArgs e) => SelectionMode = StswFn.GetNextEnumValue(SelectionMode);
 
-    /// CheckNewDate
+    /// <summary>
+    /// Checks and calculates a new date based on the current selected date and the number of months to add or subtract.
+    /// Ensures the new date falls within the range defined by Minimum and Maximum properties.
+    /// </summary>
     private DateTime CheckNewDate(int months)
     {
         /// try add months to selected date
@@ -93,6 +119,13 @@ public class StswCalendar : UserControl
     }
 
     /// Command: select date
+    /// <summary>
+    /// Handles the execution of the select date command in the calendar control.
+    /// Updates the selected date based on the provided date.
+    /// If SelectionMode is ByYear, it changes the selected month to the specified date's month.
+    /// If SelectionMode is ByMonth, it sets the SelectedDate property and updates the SelectedMonth to match the selected date's month.
+    /// Also, closes any open popups that contain the calendar control.
+    /// </summary>
     public void SelectDate_Executed(DateTime? date)
     {
         if (SelectionMode == SelectionModes.ByYear)
@@ -123,20 +156,29 @@ public class StswCalendar : UserControl
     #endregion
 
     #region Main properties
-    /// Items
+    /// <summary>
+    /// Gets or sets the collection of calendar items displayed in the control.
+    /// </summary>
+    public ObservableCollection<StswCalendarItem> Items
+    {
+        get => (ObservableCollection<StswCalendarItem>)GetValue(ItemsProperty);
+        internal set => SetValue(ItemsProperty, value);
+    }
     public static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<StswCalendarItem>),
             typeof(StswCalendar)
         );
-    public ObservableCollection<StswCalendarItem> Items
-    {
-        get => (ObservableCollection<StswCalendarItem>)GetValue(ItemsProperty);
-        internal set => SetValue(ItemsProperty, value);
-    }
 
-    /// Maximum
+    /// <summary>
+    /// Gets or sets the maximum allowable date in the control.
+    /// </summary>
+    public DateTime? Maximum
+    {
+        get => (DateTime?)GetValue(MaximumProperty);
+        set => SetValue(MaximumProperty, value);
+    }
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
@@ -144,12 +186,15 @@ public class StswCalendar : UserControl
             typeof(StswCalendar),
             new PropertyMetadata(default(DateTime?), OnSelectedMonthChanged)
         );
-    public DateTime? Maximum
+
+    /// <summary>
+    /// Gets or sets the minimum allowable date in the control.
+    /// </summary>
+    public DateTime? Minimum
     {
-        get => (DateTime?)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
+        get => (DateTime?)GetValue(MinimumProperty);
+        set => SetValue(MinimumProperty, value);
     }
-    /// Minimum
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
@@ -157,13 +202,15 @@ public class StswCalendar : UserControl
             typeof(StswCalendar),
             new PropertyMetadata(default(DateTime?), OnSelectedMonthChanged)
         );
-    public DateTime? Minimum
+
+    /// <summary>
+    /// Gets or sets the currently selected date in the control.
+    /// </summary>
+    public DateTime? SelectedDate
     {
-        get => (DateTime?)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
     }
-    
-    /// SelectedDate
     public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(
             nameof(SelectedDate),
@@ -173,11 +220,6 @@ public class StswCalendar : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedDateChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public DateTime? SelectedDate
-    {
-        get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, value);
-    }
     public static void OnSelectedDateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswCalendar stsw)
@@ -187,7 +229,15 @@ public class StswCalendar : UserControl
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
-    /// SelectedMonth
+
+    /// <summary>
+    /// Gets or sets the currently displayed month in the control.
+    /// </summary>
+    public DateTime SelectedMonth
+    {
+        get => (DateTime)GetValue(SelectedMonthProperty);
+        private set => SetValue(SelectedMonthProperty, value);
+    }
     public static readonly DependencyProperty SelectedMonthProperty
         = DependencyProperty.Register(
             nameof(SelectedMonth),
@@ -197,11 +247,6 @@ public class StswCalendar : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedMonthChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public DateTime SelectedMonth
-    {
-        get => (DateTime)GetValue(SelectedMonthProperty);
-        private set => SetValue(SelectedMonthProperty, value);
-    }
     public static void OnSelectedMonthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswCalendar stsw)
@@ -272,11 +317,22 @@ public class StswCalendar : UserControl
             stsw.Items = newButtons;
         }
     }
-    /// SelectionMode
+
+    /// <summary>
+    /// Enum with values of the selection mode of the control.
+    /// </summary>
     public enum SelectionModes
     {
         ByYear,
         ByMonth
+    }
+    /// <summary>
+    /// Gets or sets the selection mode of the control.
+    /// </summary>
+    public SelectionModes SelectionMode
+    {
+        get => (SelectionModes)GetValue(SelectionModeProperty);
+        set => SetValue(SelectionModeProperty, value);
     }
     public static readonly DependencyProperty SelectionModeProperty
         = DependencyProperty.Register(
@@ -285,89 +341,117 @@ public class StswCalendar : UserControl
             typeof(StswCalendar),
             new PropertyMetadata(SelectionModes.ByMonth, OnSelectedMonthChanged)
         );
-    public SelectionModes SelectionMode
+
+    /// <summary>
+    /// Gets the name of the current selection (year or month) for display purposes.
+    /// </summary>
+    public string SelectionName
     {
-        get => (SelectionModes)GetValue(SelectionModeProperty);
-        set => SetValue(SelectionModeProperty, value);
+        get => (string)GetValue(SelectionNameProperty);
+        internal set => SetValue(SelectionNameProperty, value);
     }
-    /// SelectionName
     public static readonly DependencyProperty SelectionNameProperty
         = DependencyProperty.Register(
             nameof(SelectionName),
             typeof(string),
             typeof(StswCalendar)
         );
-    public string SelectionName
-    {
-        get => (string)GetValue(SelectionNameProperty);
-        internal set => SetValue(SelectionNameProperty, value);
-    }
     #endregion
 
-    #region Spatial properties
-    /// > BorderThickness ...
-    /// SubBorderThickness
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswCalendar)
-        );
-    public Thickness SubBorderThickness
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
-
-    /// > CornerRadius ...
-    /// CornerRadius
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswCalendar)
         );
-    public CornerRadius CornerRadius
+
+    /// <summary>
+    /// Gets or sets the thickness of the buttons in the control.
+    /// </summary>
+    public Thickness SubBorderThickness
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
     }
-    
-    /// > Padding ...
-    /// SubPadding
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswCalendar)
+        );
+
+    /// <summary>
+    /// Gets or sets the margin of the days/months group in the control.
+    /// </summary>
+    public Thickness SubPadding
+    {
+        get => (Thickness)GetValue(SubPaddingProperty);
+        set => SetValue(SubPaddingProperty, value);
+    }
     public static readonly DependencyProperty SubPaddingProperty
         = DependencyProperty.Register(
             nameof(SubPadding),
             typeof(Thickness),
             typeof(StswCalendar)
         );
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
-    #endregion
-
-    #region Style properties
+    
     /// Names for days of week
-    public static string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek).Capitalize();
-    public static string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 1)).Capitalize();
-    public static string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 2)).Capitalize();
-    public static string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 3)).Capitalize();
-    public static string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 4)).Capitalize();
-    public static string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 5)).Capitalize();
-    public static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 6)).Capitalize();
+    internal static string DayOfWeek1 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek).Capitalize();
+    internal static string DayOfWeek2 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 1)).Capitalize();
+    internal static string DayOfWeek3 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 2)).Capitalize();
+    internal static string DayOfWeek4 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 3)).Capitalize();
+    internal static string DayOfWeek5 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 4)).Capitalize();
+    internal static string DayOfWeek6 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 5)).Capitalize();
+    internal static string DayOfWeek7 => CultureInfo.CurrentCulture.DateTimeFormat.GetShortestDayName(StswFn.GetNextEnumValue(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek, 6)).Capitalize();
     #endregion
 }
 
+/// <summary>
+/// Data model for StswCalendar's items.
+/// </summary>
 public class StswCalendarItem : StswObservableObject
 {
+    /// <summary>
+    /// Gets or sets the display name of the calendar item (e.g., day of the month).
+    /// </summary>
     public string? Name { get; internal set; }
+
+    /// <summary>
+    /// Gets the date associated with the calendar item.
+    /// </summary>
     public DateTime Date { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the calendar item represents the current day.
+    /// </summary>
     public bool IsCurrentDay { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the calendar item is within the selected month.
+    /// </summary>
     public bool InCurrentMonth { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the calendar item is within the allowable date range.
+    /// </summary>
     public bool InMinMaxRange { get; internal set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the calendar item is the selected date.
+    /// </summary>
+    public bool IsSelectedDay
+    {
+        get => isSelectedDay;
+        internal set => SetProperty(ref isSelectedDay, value);
+    }
     private bool isSelectedDay;
-    public bool IsSelectedDay { get => isSelectedDay; internal set => SetProperty(ref isSelectedDay, value); }
 }

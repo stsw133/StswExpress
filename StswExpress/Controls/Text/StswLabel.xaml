@@ -6,10 +6,10 @@
 
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         
+        <Setter Property="IsTruncButtonVisible" Value="True"/>
+        
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
-
-        <Setter Property="IsTruncButtonVisible" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
