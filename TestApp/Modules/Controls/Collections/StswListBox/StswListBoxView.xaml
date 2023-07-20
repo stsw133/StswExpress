@@ -31,6 +31,13 @@
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- SelectionMode -->
+                    <Label Content="SelectionMode:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding SelectionMode}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static SelectionMode.Extended}"/>
+                        <ComboBoxItem Content="{x:Static SelectionMode.Multiple}"/>
+                        <ComboBoxItem Content="{x:Static SelectionMode.Single}"/>
+                    </se:StswComboBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
@@ -40,7 +47,7 @@
                                     ItemsSource="{Binding Items}"
                                     Margin="5"
                                     SelectedItemsBinding="{Binding SelectedItems}"
-                                    SelectionMode="Multiple"/>
+                                    SelectionMode="{Binding SelectionMode}"/>
                     <TextBlock DockPanel.Dock="Top" Margin="10">
                         <Run Text="{Binding SelectedItemsCount}" FontWeight="Bold"/>
                         <Run Text=" option(s) are selected"/>

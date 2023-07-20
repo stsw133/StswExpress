@@ -130,13 +130,13 @@
                                                                 </Grid.RowDefinitions>
                                                                 <!-- days of week -->
                                                                 <UniformGrid Grid.Row="0" Columns="7">
-                                                                    <Label Content="{Binding DayOfWeek1, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek2, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek3, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek4, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek5, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek6, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
-                                                                    <Label Content="{Binding DayOfWeek7, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek1}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek2}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek3}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek4}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek5}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek6}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
+                                                                    <Label Content="{x:Static se:StswCalendar.DayOfWeek7}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6"/>
                                                                 </UniformGrid>
                                                                 <!-- days of month -->
                                                                 <ItemsControl Grid.Row="1" IsTabStop="False" ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">

@@ -123,12 +123,12 @@ public class ContractorsListContext : StswObservableObject
             if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
             {
                 tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
-                //if (ContractorsContext.Tabs_[tabControl.SelectedIndex] is StswTabItem newTab && newTab.DataContext is ContractorsSingleContext newContext)
+                //if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.DataContext is ContractorsSingleContext newContext)
                 //{
                 //    newContext.ID = 0;
                 //    newContext.IsCloned = false;
                 //
-                //    if (newTab.Header is StswHeader header and not null)
+                //    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
                 //    {
                 //        header.Content = $"New contractor";
                 //        header.IconData = StswIcons.AccountPlus;
@@ -171,12 +171,12 @@ public class ContractorsListContext : StswObservableObject
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
                     tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
-                    if (ContractorsContext.Tabs_[tabControl.SelectedIndex] is StswTabItem newTab && newTab.DataContext is ContractorsSingleContext newContext)
+                    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Content is ContractorsSingleContext newContext)
                     {
                         newContext.ID = m.ID;
                         newContext.IsCloned = true;
-                        
-                        if (newTab.Header is StswHeader header and not null)
+
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
                         {
                             header.Content = $"Cloning contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountPlus;
@@ -229,12 +229,13 @@ public class ContractorsListContext : StswObservableObject
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
                     tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
-                    if (ContractorsContext.Tabs_[tabControl.SelectedIndex] is StswTabItem newTab && newTab.DataContext is ContractorsSingleContext newContext)
+
+                    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Content is ContractorsSingleContext newContext)
                     {
                         newContext.ID = m.ID;
                         newContext.IsCloned = false;
 
-                        if (newTab.Header is StswHeader header and not null)
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
                         {
                             header.Content = $"Editing contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountEdit;

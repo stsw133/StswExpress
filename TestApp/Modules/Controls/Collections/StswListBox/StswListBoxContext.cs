@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace TestApp;
 
@@ -29,6 +30,13 @@ public class StswListBoxContext : ControlsContext
     {
         get => selectedItemsCount;
         set => SetProperty(ref selectedItemsCount, value);
+    }
+    /// SelectionMode
+    private SelectionMode selectionMode = SelectionMode.Multiple;
+    public SelectionMode SelectionMode
+    {
+        get => selectionMode;
+        set => SetProperty(ref selectionMode, value);
     }
     #endregion
 }

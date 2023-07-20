@@ -61,7 +61,6 @@
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- components -->
-                            <!--
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -69,7 +68,6 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
-                            -->
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
                                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
@@ -115,12 +113,15 @@
                         </DockPanel>
                     </se:StswToggleButton>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding SelectedItemsBinding.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding ItemsSource.Count, RelativeSource={RelativeSource Self}, FallbackValue=0}" Value="0">
                             <Setter Property="Height" Value="95" TargetName="PART_ListBox" />
                         </DataTrigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton" />
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton" />

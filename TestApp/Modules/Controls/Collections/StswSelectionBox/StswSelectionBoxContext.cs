@@ -1,10 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswSelectionBoxContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
+
+    public StswSelectionBoxContext()
+    {
+        ClearCommand = new StswRelayCommand(Clear);
+    }
+
+    #region Events
+    /// Command: clear
+    private void Clear() => SelectedItems = new();
+    #endregion
+
     #region Properties
+    /// Components
+    private bool components = false;
+    public bool Components
+    {
+        get => components;
+        set => SetProperty(ref components, value);
+    }
+
     /// IsReadOnly
     private bool isReadOnly = false;
     public bool IsReadOnly

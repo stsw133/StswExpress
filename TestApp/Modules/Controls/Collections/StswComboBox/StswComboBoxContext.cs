@@ -5,7 +5,27 @@ namespace TestApp;
 
 public class StswComboBoxContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
+
+    public StswComboBoxContext()
+    {
+        ClearCommand = new StswRelayCommand(Clear);
+    }
+
+    #region Events
+    /// Command: clear
+    private void Clear() => SelectedItem = null;
+    #endregion
+
     #region Properties
+    /// Components
+    private bool components = false;
+    public bool Components
+    {
+        get => components;
+        set => SetProperty(ref components, value);
+    }
+
     /// IsEditable
     private bool isEditable = false;
     public bool IsEditable

@@ -27,6 +27,10 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- Components -->
+                    <se:StswCheckBox IsChecked="{Binding Components}">
+                        <Label DockPanel.Dock="Top" Content="Components" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEditable -->
                     <se:StswCheckBox IsChecked="{Binding IsEditable}">
                         <Label DockPanel.Dock="Top" Content="IsEditable" FontSize="15" FontWeight="Medium"/>
@@ -49,7 +53,12 @@
                                      IsReadOnly="{Binding IsReadOnly}"
                                      ItemsSource="{Binding Items}"
                                      Margin="5"
-                                     SelectedItem="{Binding SelectedItem}"/>
+                                     Placeholder="Select item..."
+                                     SelectedItem="{Binding SelectedItem}">
+                        <se:StswComboBox.Components>
+                            <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
+                        </se:StswComboBox.Components>
+                    </se:StswComboBox>
                     <TextBlock DockPanel.Dock="Top" Margin="10">
                         <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
                         <Run Text=" is selected"/>

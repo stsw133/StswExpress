@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -17,7 +18,7 @@ public class StswSelectionBox : UserControl
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
         
-        //SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
     static StswSelectionBox()
     {
@@ -105,7 +106,6 @@ public class StswSelectionBox : UserControl
             typeof(StswSelectionBox)
         );
 
-    /*
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
@@ -120,7 +120,6 @@ public class StswSelectionBox : UserControl
             typeof(ObservableCollection<UIElement>),
             typeof(StswSelectionBox)
         );
-    */
 
     /// <summary>
     /// Gets or sets the alignment of the components within the control.

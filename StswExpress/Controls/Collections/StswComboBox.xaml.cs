@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
@@ -8,12 +9,10 @@ namespace StswExpress;
 /// </summary>
 public class StswComboBox : ComboBox
 {
-    /*
     public StswComboBox()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
     }
-    */
     static StswComboBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
@@ -35,7 +34,6 @@ public class StswComboBox : ComboBox
             typeof(StswComboBox)
         );
 
-    /*
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
@@ -50,7 +48,6 @@ public class StswComboBox : ComboBox
             typeof(ObservableCollection<UIElement>),
             typeof(StswComboBox)
         );
-    */
 
     /// <summary>
     /// Gets or sets the alignment of the components within the control.
