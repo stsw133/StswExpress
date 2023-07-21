@@ -28,17 +28,36 @@
                                 </TextBlock>
                             </StackPanel>
                         </Label>
+                        <!-- Buttons -->
+                        <Label Content="Buttons:" FontSize="15" FontWeight="Medium"/>
+                        <se:StswComboBox SelectedValue="{Binding ContentDialogButtons}" SelectedValuePath="Content">
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.OK}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.YesNo}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.OKCancel}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.YesNoCancel}"/>
+                        </se:StswComboBox>
+                        <!-- Image -->
+                        <Label Content="Image:" FontSize="15" FontWeight="Medium"/>
+                        <se:StswComboBox SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Content">
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.None}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Error}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Question}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Warning}"/>
+                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Information}"/>
+                        </se:StswComboBox>
                         <!-- IsEnabled -->
+                        <!--
                         <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                             <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                         </se:StswCheckBox>
+                        -->
                     </StackPanel>
                     <GridSplitter Margin="-5" Width="5"/>
                     <!-- control -->
                     <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                         <se:StswButton DockPanel.Dock="Top"
                                        Command="{Binding OpenContentDialogCommand}"
-                                       Content="Open new window"
+                                       Content="Open content dialog"
                                        Margin="5"/>
                         <TextBlock DockPanel.Dock="Top" Margin="10">
                             <Run Text="Dialog ended with "/>

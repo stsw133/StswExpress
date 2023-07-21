@@ -27,16 +27,32 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- FilterType -->
+                    <Label Content="FilterType:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding FilterType}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Check}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Date}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.List}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Number}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Text}"/>
+                    </se:StswComboBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsFilterNullSensitive -->
+                    <se:StswCheckBox IsChecked="{Binding IsFilterNullSensitive}">
+                        <Label DockPanel.Dock="Top" Content="IsFilterNullSensitive" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswFilter DockPanel.Dock="Top"
-                                   FilterType="Text" FilterMode="Contains"
+                                   FilterMode="Contains"
+                                   FilterType="{Binding FilterType}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   IsFilterNullSensitive="{Binding IsFilterNullSensitive}"
                                    Margin="5"/>
                 </DockPanel>
             </Grid>

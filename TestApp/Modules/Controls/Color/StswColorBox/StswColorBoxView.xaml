@@ -27,19 +27,37 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- Components -->
+                    <se:StswCheckBox IsChecked="{Binding Components}">
+                        <Label DockPanel.Dock="Top" Content="Components" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsAlphaEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsAlphaEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsAlphaEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswColorBox DockPanel.Dock="Top"
-                                     IsAlphaEnabled="True"
+                                     IsAlphaEnabled="{Binding IsAlphaEnabled}"
                                      IsEnabled="{Binding IsEnabled}"
+                                     IsReadOnly="{Binding IsReadOnly}"
                                      Margin="5"
-                                     SelectedColor="{Binding Color}"/>
+                                     Placeholder="Select color..."
+                                     SelectedColor="{Binding SelectedColor}">
+                        <se:StswColorBox.Components>
+                            <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
+                        </se:StswColorBox.Components>
+                    </se:StswColorBox>
                 </DockPanel>
             </Grid>
         </DockPanel>

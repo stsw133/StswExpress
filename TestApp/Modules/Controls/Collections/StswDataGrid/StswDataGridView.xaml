@@ -35,6 +35,13 @@
                     <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
                         <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- SpecialColumnVisibility -->
+                    <Label Content="SpecialColumnVisibility:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding SpecialColumnVisibility}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.All}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.Collapsed}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.OnlyRows}"/>
+                    </se:StswComboBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
@@ -44,16 +51,17 @@
                                      IsEnabled="{Binding IsEnabled}"
                                      IsReadOnly="{Binding IsReadOnly}"
                                      ItemsSource="{Binding Items, Mode=TwoWay}"
-                                     Margin="5">
+                                     Margin="5"
+                                     SpecialColumnVisibility="{Binding SpecialColumnVisibility}">
                         <se:StswDataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding ID}" Width="50">
+                            <DataGridTextColumn Binding="{Binding ID}" Width="100">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock Margin="3 1" Text="ID" VerticalAlignment="Center"/>
+                                    <se:StswFilter Header="ID" FilterType="Number" FilterMode="Equal"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Name}" Width="*">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock Margin="3 1" Text="Name" VerticalAlignment="Center"/>
+                                    <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                         </se:StswDataGrid.Columns>

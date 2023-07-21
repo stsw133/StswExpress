@@ -28,15 +28,16 @@
                         </StackPanel>
                     </Label>
                     <!-- IsEnabled -->
+                    <!--
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    -->
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswNotifyIcon IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico"
-                                       IsEnabled="{Binding IsEnabled}"
                                        ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                        Text="{x:Static se:StswFn.AppNameAndVersion}">
                         <se:StswNotifyIcon.ContextMenu>

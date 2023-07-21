@@ -35,8 +35,10 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswColorSelector Margin="5"
-                                          SelectedColor="{Binding Color}"/>
+                    <se:StswColorSelector DockPanel.Dock="Top"
+                                          IsEnabled="{Binding IsEnabled}"
+                                          Margin="5"
+                                          SelectedColor="{Binding SelectedColor}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

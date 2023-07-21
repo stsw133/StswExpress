@@ -24,5 +24,13 @@ public class StswComponentPanelContext : ControlsContext
         get => clickCounter;
         set => SetProperty(ref clickCounter, value);
     }
+
+    /// IconScale
+    private double iconScale = 1.33;
+    public double IconScale
+    {
+        get => iconScale;
+        set => SetProperty(ref iconScale, value);
+    }
     #endregion
 }

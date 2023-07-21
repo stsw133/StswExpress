@@ -35,7 +35,11 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswLabel Margin="5" FontSize="20" Content="Some random text with enabled trunc button if text is too long"/>
+                    <se:StswLabel DockPanel.Dock="Top"
+                                  Content="Some random text with enabled trunc button if text is too long"
+                                  FontSize="20"
+                                  IsEnabled="{Binding IsEnabled}"
+                                  Margin="5"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

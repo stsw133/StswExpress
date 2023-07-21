@@ -27,6 +27,14 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- ExpandDirection -->
+                    <Label Content="ExpandDirection:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding ExpandDirection}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static ExpandDirection.Down}"/>
+                        <ComboBoxItem Content="{x:Static ExpandDirection.Left}"/>
+                        <ComboBoxItem Content="{x:Static ExpandDirection.Right}"/>
+                        <ComboBoxItem Content="{x:Static ExpandDirection.Up}"/>
+                    </se:StswComboBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -36,12 +44,13 @@
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswExpander DockPanel.Dock="Top"
-                                     ExpandDirection="Down"
+                                     ExpandDirection="{Binding ExpandDirection}"
+                                     IsEnabled="{Binding IsEnabled}"
                                      Margin="5">
                         <se:StswExpander.Header>
-                            <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
+                            <se:StswHeader Content="Some header..." IconData="{x:Static se:StswIcons.Cake}"/>
                         </se:StswExpander.Header>
-                        <Label Content="TEST"/>
+                        <Label Content="Some content..."/>
                     </se:StswExpander>
                 </DockPanel>
             </Grid>

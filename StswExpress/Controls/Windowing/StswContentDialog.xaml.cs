@@ -111,7 +111,7 @@ public class StswContentDialogModel
     /// <summary>
     /// Gets or sets the button configuration for the content dialog.
     /// </summary>
-    public StswContentDialog.Buttons Button { get; set; } //= StswContentDialog.Buttons.Custom;
+    public StswContentDialog.Buttons Buttons { get; set; } //= StswContentDialog.Buttons.Custom;
 
     /// <summary>
     /// Gets or sets the image configuration for the content dialog.

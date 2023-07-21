@@ -36,11 +36,12 @@
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswGroupBox DockPanel.Dock="Top"
+                                     IsEnabled="{Binding IsEnabled}"
                                      Margin="5">
                         <se:StswGroupBox.Header>
-                            <se:StswHeader IconData="{x:Static se:StswIcons.Cake}" Content="TEST"/>
+                            <se:StswHeader Content="Some header..." IconData="{x:Static se:StswIcons.Cake}"/>
                         </se:StswGroupBox.Header>
-                        <Label Content="TEST"/>
+                        <Label Content="Some content..."/>
                     </se:StswGroupBox>
                 </DockPanel>
             </Grid>

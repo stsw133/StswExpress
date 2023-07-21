@@ -27,23 +27,42 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- ContentVisibility -->
+                    <Label Content="ContentVisibility:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static Visibility.Collapsed}"/>
+                        <ComboBoxItem Content="{x:Static Visibility.Hidden}"/>
+                        <ComboBoxItem Content="{x:Static Visibility.Visible}"/>
+                    </se:StswComboBox>
+                    <!-- IconScale -->
+                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
+                    <!-- IsBusy -->
+                    <se:StswCheckBox IsChecked="{Binding IsBusy}">
+                        <Label DockPanel.Dock="Top" Content="IsBusy" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- ShowDescription -->
+                    <se:StswCheckBox IsChecked="{Binding ShowDescription}">
+                        <Label DockPanel.Dock="Top" Content="ShowDescription" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswHeader BorderBrush="#7777"
-                                   BorderThickness="1"
-                                   IsBusy="True"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   VerticalContentAlignment="Top">
+                    <se:StswHeader DockPanel.Dock="Top"
+                                   ContentVisibility="{Binding ContentVisibility}"
+                                   IconData="{x:Static se:StswIcons.Cake}"
+                                   IconScale="{Binding IconScale}"
+                                   IsBusy="{Binding IsBusy}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   Margin="5">
                         <StackPanel>
-                            <TextBlock Text="Account"/>
-                            <TextBlock Text="TEST" Opacity="0.6" FontSize="10"/>
+                            <TextBlock Text="Some header..."/>
+                            <TextBlock Text="Some description..." Opacity="0.6" FontSize="10" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                         </StackPanel>
                     </se:StswHeader>
                 </DockPanel>

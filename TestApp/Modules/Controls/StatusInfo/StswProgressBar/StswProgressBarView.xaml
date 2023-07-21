@@ -31,16 +31,44 @@
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- IsIndeterminate -->
+                    <se:StswCheckBox IsChecked="{Binding IsIndeterminate}">
+                        <Label DockPanel.Dock="Top" Content="IsIndeterminate" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- Minimum -->
+                    <Label Content="Minimum:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Value="{Binding Minimum}"/>
+                    <!-- Maximum -->
+                    <Label Content="Maximum:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Value="{Binding Maximum}"/>
+                    <!-- State -->
+                    <Label Content="State:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding State}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Ready}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Running}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Paused}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Error}"/>
+                    </se:StswComboBox>
+                    <!-- TextInPercents -->
+                    <se:StswCheckBox IsChecked="{Binding TextInPercents}" IsThreeState="True">
+                        <Label DockPanel.Dock="Top" Content="TextInPercents" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- Value -->
+                    <Label Content="Value:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Value="{Binding SelectedValue}"/>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <UniformGrid DockPanel.Dock="Top" Rows="1">
-                        <se:StswProgressBar Margin="5" IsIndeterminate="True" Minimum="-50" Maximum="200" TextInPercents="True" State="Ready"/>
-                        <se:StswProgressBar Margin="5" IsIndeterminate="True" Minimum="-50" Maximum="200" TextInPercents="True" State="Running"/>
-                        <se:StswProgressBar Margin="5" IsIndeterminate="True" Minimum="-50" Maximum="200" TextInPercents="True" State="Paused"/>
-                        <se:StswProgressBar Margin="5" IsIndeterminate="True" Minimum="-50" Maximum="200" TextInPercents="True" State="Error"/>
-                    </UniformGrid>
+                    <se:StswProgressBar DockPanel.Dock="Top"
+                                        IsEnabled="{Binding IsEnabled}"
+                                        IsIndeterminate="{Binding IsIndeterminate}"
+                                        Margin="5"
+                                        Maximum="{Binding Maximum}"
+                                        Minimum="{Binding Minimum}"
+                                        State="{Binding State}"
+                                        TextInPercents="{Binding TextInPercents}"
+                                        Value="{Binding SelectedValue}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

@@ -15,11 +15,28 @@ public class StswDataGridContext : ControlsContext
     }
 
     /// Items
-    private StswCollection<StswDataGridTestModel> items = new(new List<StswDataGridTestModel>() { new() { ID = 1, Name = "First row" } });
+    private StswCollection<StswDataGridTestModel> items = new(
+            new List<StswDataGridTestModel>()
+            {
+                new() { ID = 1, Name = "First row" },
+                new() { ID = 2, Name = "Second row" },
+                new() { ID = 3, Name = "Third row" },
+                new() { ID = 4, Name = "Fourth row" },
+                new() { ID = 5, Name = "Fifth row" }
+            }
+        );
     public StswCollection<StswDataGridTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
+    }
+
+    /// SpecialColumnVisibility
+    private StswDataGrid.SpecialColumnVisibilities specialColumnVisibility = StswDataGrid.SpecialColumnVisibilities.All;
+    public StswDataGrid.SpecialColumnVisibilities SpecialColumnVisibility
+    {
+        get => specialColumnVisibility;
+        set => SetProperty(ref specialColumnVisibility, value);
     }
     #endregion
 }

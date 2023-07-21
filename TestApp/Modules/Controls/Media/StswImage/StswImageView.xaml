@@ -31,12 +31,20 @@
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- MenuMode -->
+                    <Label Content="MenuMode:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding MenuMode}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static se:StswImage+MenuModes.Disabled}"/>
+                        <ComboBoxItem Content="{x:Static se:StswImage+MenuModes.Full}"/>
+                        <ComboBoxItem Content="{x:Static se:StswImage+MenuModes.ReadOnly}"/>
+                    </se:StswComboBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                        <se:StswImage MenuMode="Full"
+                        <se:StswImage IsEnabled="{Binding IsEnabled}"
+                                      MenuMode="{Binding MenuMode}"
                                       Source="/Resources/icon.ico"
                                       Stretch="None"/>
                     </ScrollViewer>

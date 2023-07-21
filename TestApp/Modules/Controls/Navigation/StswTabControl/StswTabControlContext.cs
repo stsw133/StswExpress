@@ -1,10 +1,19 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace TestApp;
 
 public class StswTabControlContext : ControlsContext
 {
     #region Properties
+    /// AreTabsVisible
+    private bool areTabsVisible = true;
+    public bool AreTabsVisible
+    {
+        get => areTabsVisible;
+        set => SetProperty(ref areTabsVisible, value);
+    }
+
     /// Items
     private ObservableCollection<StswTabItem> items = new()
     {
@@ -13,18 +22,18 @@ public class StswTabControlContext : ControlsContext
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice1,
-                Content = "TEST 1"
+                Content = "Tab 1"
             },
-            Content = new StswToggleButtonContext()
+            Content = new HomeContext()
         },
         new()
         {
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice2,
-                Content = "TEST 2"
+                Content = "Tab 2"
             },
-            Content = new StswTextBoxContext(),
+            Content = new HomeContext(),
             IsClosable = true
         },
         new()
@@ -32,9 +41,9 @@ public class StswTabControlContext : ControlsContext
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice3,
-                Content = "TEST 3"
+                Content = "Tab 3"
             },
-            Content = new StswCheckBoxContext(),
+            Content = new HomeContext(),
             IsClosable = true
         }
     };
@@ -42,6 +51,14 @@ public class StswTabControlContext : ControlsContext
     {
         get => items;
         set => SetProperty(ref items, value);
+    }
+
+    /// NewTabButtonVisibility
+    private Visibility newTabButtonVisibility = Visibility.Visible;
+    public Visibility NewTabButtonVisibility
+    {
+        get => newTabButtonVisibility;
+        set => SetProperty(ref newTabButtonVisibility, value);
     }
     #endregion
 }

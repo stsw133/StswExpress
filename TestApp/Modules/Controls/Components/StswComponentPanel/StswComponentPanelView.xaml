@@ -28,6 +28,9 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- IconScale -->
+                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -36,15 +39,18 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswComponentPanel DockPanel.Dock="Top" Margin="5">
+                    <se:StswComponentPanel DockPanel.Dock="Top" IconScale="{Binding IconScale}" Margin="5">
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
                                                 IconData="{x:Static se:StswIcons.Magnify}"
+                                                IconScale="{Binding IconScale}"
                                                 IsEnabled="{Binding IsEnabled}"/>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
                                                 IconData="{x:Static se:StswIcons.Filter}"
+                                                IconScale="{Binding IconScale}"
                                                 IsEnabled="{Binding IsEnabled}"/>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
                                                 IconData="{x:Static se:StswIcons.Close}"
+                                                IconScale="{Binding IconScale}"
                                                 IsEnabled="{Binding IsEnabled}"/>
                     </se:StswComponentPanel>
                     <TextBlock DockPanel.Dock="Top" Margin="10">

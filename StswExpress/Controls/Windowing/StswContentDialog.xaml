@@ -33,9 +33,7 @@
                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswHeader x:Name="PART_Header" IconScale="2">
-                                    <Label Background="{DynamicResource StswExpander.Static.Header}" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}"/>
-                                </se:StswHeader>
+                                <se:StswHeader x:Name="PART_Header" IconScale="2" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </se:StswGroupBox.Header>
                             <DockPanel>
                                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">
@@ -66,16 +64,16 @@
                         </se:StswGroupBox>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="OK">
+                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OK">
                             <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="OKCancel">
+                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OKCancel">
                             <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Button, RelativeSource={RelativeSource Self}}" Value="YesNo">
+                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="YesNo">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Error">

@@ -27,6 +27,12 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- Orientation -->
+                    <Label Content="Orientation:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding Orientation}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static Orientation.Horizontal}"/>
+                        <ComboBoxItem Content="{x:Static Orientation.Vertical}"/>
+                    </se:StswComboBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -36,8 +42,10 @@
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswSeparator DockPanel.Dock="Top"
+                                      Height="100"
+                                      IsEnabled="{Binding IsEnabled}"
                                       Margin="5"
-                                      Orientation="Horizontal"/>
+                                      Orientation="{Binding Orientation}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

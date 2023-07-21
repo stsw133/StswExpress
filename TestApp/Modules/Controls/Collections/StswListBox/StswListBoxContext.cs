@@ -31,6 +31,7 @@ public class StswListBoxContext : ControlsContext
         get => selectedItemsCount;
         set => SetProperty(ref selectedItemsCount, value);
     }
+
     /// SelectionMode
     private SelectionMode selectionMode = SelectionMode.Multiple;
     public SelectionMode SelectionMode

@@ -5,12 +5,20 @@ namespace TestApp;
 public class StswColorPickerContext : ControlsContext
 {
     #region Properties
-    /// Color
-    private Color color = Color.FromRgb(24, 240, 24);
-    public Color Color
+    /// IsAlphaEnabled
+    private bool isAlphaEnabled = true;
+    public bool IsAlphaEnabled
     {
-        get => color;
-        set => SetProperty(ref color, value);
+        get => isAlphaEnabled;
+        set => SetProperty(ref isAlphaEnabled, value);
+    }
+
+    /// SelectedColor
+    private Color selectedColor = Color.FromRgb(24, 240, 24);
+    public Color SelectedColor
+    {
+        get => selectedColor;
+        set => SetProperty(ref selectedColor, value);
     }
     #endregion
 }

@@ -31,11 +31,16 @@
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- Scale -->
+                    <Label Content="Scale:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding Scale}"/>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswLoadingCircle/>
+                    <se:StswLoadingCircle DockPanel.Dock="Top"
+                                          IsEnabled="{Binding IsEnabled}"
+                                          Scale="{Binding Scale}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

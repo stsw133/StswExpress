@@ -38,6 +38,7 @@
                     <se:StswClippingBorder DockPanel.Dock="Top"
                                            CornerRadius="10"
                                            Height="100"
+                                           IsEnabled="{Binding IsEnabled}"
                                            Margin="5"/>
                 </DockPanel>
             </Grid>

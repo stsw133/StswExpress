@@ -37,11 +37,13 @@
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswNavigation DockPanel.Dock="Top"
                                        BorderThickness="1"
+                                       IsEnabled="{Binding IsEnabled}"
                                        Margin="5">
-                        <se:StswNavigationElement Text="TEST 1" ContextNamespace=""/>
-                        <se:StswNavigationElement Text="TEST 2" ContextNamespace=""/>
-                        <se:StswNavigationElement Text="TEST 3" ContextNamespace=""/>
-                        <se:StswNavigationElement Text="TEST 4" ContextNamespace=""/>
+                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice1}" Text="Page 1" ContextNamespace="TestApp.HomeContext"/>
+                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice2}" Text="Page 2" ContextNamespace="TestApp.HomeContext"/>
+                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice3}" Text="Page 3" ContextNamespace="TestApp.HomeContext"/>
+                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice4}" Text="Page 4" ContextNamespace="TestApp.HomeContext"/>
+                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice5}" Text="Page 5" ContextNamespace="TestApp.HomeContext"/>
                     </se:StswNavigation>
                 </DockPanel>
             </Grid>

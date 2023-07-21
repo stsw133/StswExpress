@@ -35,12 +35,13 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswOutlinedText Fill="Green"
-                                         FontSize="30"
+                    <se:StswOutlinedText Fill="Red"
+                                         FontSize="20"
+                                         IsEnabled="{Binding IsEnabled}"
                                          Margin="5"
-                                         Stroke="Red"
-                                         StrokeThickness="3"
-                                         Text="Some random text with red stroke and green fill"/>
+                                         Stroke="DarkRed"
+                                         StrokeThickness="2"
+                                         Text="Some random text with dark red stroke and red fill"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

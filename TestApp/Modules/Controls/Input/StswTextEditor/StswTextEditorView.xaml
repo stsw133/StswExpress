@@ -31,11 +31,18 @@
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">
-                    <se:StswTextEditor Margin="5"/>
+                    <se:StswTextEditor DockPanel.Dock="Top"
+                                       IsEnabled="{Binding IsEnabled}"
+                                       IsReadOnly="{Binding IsReadOnly}"
+                                       Margin="5"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

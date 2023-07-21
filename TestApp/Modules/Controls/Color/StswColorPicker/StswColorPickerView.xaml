@@ -27,6 +27,10 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- IsAlphaEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsAlphaEnabled}">
+                        <Label DockPanel.Dock="Top" Content="IsAlphaEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -35,9 +39,11 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswColorPicker IsAlphaEnabled="True"
+                    <se:StswColorPicker DockPanel.Dock="Top"
+                                        IsAlphaEnabled="{Binding IsAlphaEnabled}"
+                                        IsEnabled="{Binding IsEnabled}"
                                         Margin="5"
-                                        SelectedColor="{Binding Color}"/>
+                                        SelectedColor="{Binding SelectedColor}"/>
                 </DockPanel>
             </Grid>
         </DockPanel>

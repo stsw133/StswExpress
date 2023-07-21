@@ -27,17 +27,32 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- Components -->
+                    <se:StswCheckBox IsChecked="{Binding Components}">
+                        <Label DockPanel.Dock="Top" Content="Components" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsReadOnly -->
+                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}">
+                        <Label DockPanel.Dock="Top" Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswTextBox Margin="5"
-                                    Placeholder="Wpisz coś..."
-                                    Text="{Binding Text}"/>
+                    <se:StswTextBox DockPanel.Dock="Top"
+                                    IsEnabled="{Binding IsEnabled}"
+                                    IsReadOnly="{Binding IsReadOnly}"
+                                    Margin="5"
+                                    Placeholder="Enter the text..."
+                                    Text="{Binding Text}">
+                        <se:StswTextBox.Components>
+                            <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
+                        </se:StswTextBox.Components>
+                    </se:StswTextBox>
                 </DockPanel>
             </Grid>
         </DockPanel>

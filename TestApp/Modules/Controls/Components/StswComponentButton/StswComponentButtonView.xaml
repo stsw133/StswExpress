@@ -27,6 +27,20 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- ContentVisibility -->
+                    <Label Content="ContentVisibility:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static Visibility.Collapsed}"/>
+                        <ComboBoxItem Content="{x:Static Visibility.Hidden}"/>
+                        <ComboBoxItem Content="{x:Static Visibility.Visible}"/>
+                    </se:StswComboBox>
+                    <!-- IconScale -->
+                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
+                    <!-- IsBusy -->
+                    <se:StswCheckBox IsChecked="{Binding IsBusy}">
+                        <Label DockPanel.Dock="Top" Content="IsBusy" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
                         <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -37,17 +51,35 @@
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                                ContentVisibility="{Binding ContentVisibility}"
                                                 IconData="{x:Static se:StswIcons.Magnify}"
+                                                IconScale="{Binding IconScale}"
+                                                IsBusy="{Binding IsBusy}"
                                                 IsEnabled="{Binding IsEnabled}"
-                                                Margin="0 0 5 0"/>
+                                                Margin="0 0 5 0"
+                                                VerticalContentAlignment="Center">
+                            <Label Content="Search" FontSize="11"/>
+                        </se:StswComponentButton>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                                ContentVisibility="{Binding ContentVisibility}"
                                                 IconData="{x:Static se:StswIcons.Filter}"
+                                                IconScale="{Binding IconScale}"
+                                                IsBusy="{Binding IsBusy}"
                                                 IsEnabled="{Binding IsEnabled}"
-                                                Margin="0 0 5 0"/>
+                                                Margin="0 0 5 0"
+                                                VerticalContentAlignment="Center">
+                            <Label Content="Filters" FontSize="11"/>
+                        </se:StswComponentButton>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                                ContentVisibility="{Binding ContentVisibility}"
                                                 IconData="{x:Static se:StswIcons.Close}"
+                                                IconScale="{Binding IconScale}"
+                                                IsBusy="{Binding IsBusy}"
                                                 IsEnabled="{Binding IsEnabled}"
-                                                Margin="0 0 5 0"/>
+                                                Margin="0 0 5 0"
+                                                VerticalContentAlignment="Center">
+                            <Label Content="Clear" FontSize="11"/>
+                        </se:StswComponentButton>
                     </StackPanel>
                     <TextBlock DockPanel.Dock="Top" Margin="10">
                         <Run Text="You clicked "/>
