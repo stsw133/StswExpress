@@ -340,12 +340,12 @@ public class ContractorsListContext : StswObservableObject
         {
             SetProperty(ref loadingActions, value);
 
-            if (!LoadingState.In(StswProgressBar.States.Paused, StswProgressBar.States.Error))
-                LoadingState = LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
+            if (!LoadingState.In(StswProgressState.Paused, StswProgressState.Error))
+                LoadingState = LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
         }
     }
-    private StswProgressBar.States loadingState;
-    public StswProgressBar.States LoadingState
+    private StswProgressState loadingState;
+    public StswProgressState LoadingState
     {
         get => loadingState;
         set => SetProperty(ref loadingState, value);

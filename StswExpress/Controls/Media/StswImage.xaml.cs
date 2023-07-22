@@ -55,12 +55,12 @@ public class StswImage : UserControl
     /// </summary>
     private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
-        ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == MenuModes.Full;
-        ((MenuItem)GetTemplateChild("PART_Copy")).IsEnabled = MenuMode != MenuModes.Disabled;
-        ((MenuItem)GetTemplateChild("PART_Paste")).IsEnabled = MenuMode == MenuModes.Full;
-        ((MenuItem)GetTemplateChild("PART_Delete")).IsEnabled = MenuMode == MenuModes.Full;
-        ((MenuItem)GetTemplateChild("PART_Load")).IsEnabled = MenuMode == MenuModes.Full;
-        ((MenuItem)GetTemplateChild("PART_Save")).IsEnabled = MenuMode != MenuModes.Disabled;
+        ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == StswMenuMode.Full;
+        ((MenuItem)GetTemplateChild("PART_Copy")).IsEnabled = MenuMode != StswMenuMode.Disabled;
+        ((MenuItem)GetTemplateChild("PART_Paste")).IsEnabled = MenuMode == StswMenuMode.Full;
+        ((MenuItem)GetTemplateChild("PART_Delete")).IsEnabled = MenuMode == StswMenuMode.Full;
+        ((MenuItem)GetTemplateChild("PART_Load")).IsEnabled = MenuMode == StswMenuMode.Full;
+        ((MenuItem)GetTemplateChild("PART_Save")).IsEnabled = MenuMode != StswMenuMode.Disabled;
     }
 
     /// <summary>
@@ -139,6 +139,78 @@ public class StswImage : UserControl
         }
     }
     #endregion
+    
+    #region Main properties
+    /// <summary>
+    /// Gets or sets the menu mode for the control.
+    /// </summary>
+    public StswMenuMode MenuMode
+    {
+        get => (StswMenuMode)GetValue(MenuModeProperty);
+        set => SetValue(MenuModeProperty, value);
+    }
+    public static readonly DependencyProperty MenuModeProperty
+        = DependencyProperty.Register(
+            nameof(MenuMode),
+            typeof(StswMenuMode),
+            typeof(StswImage)
+        );
+
+    /// <summary>
+    /// Gets or sets the scale of the image.
+    /// </summary>
+    public GridLength Scale
+    {
+        get => (GridLength)GetValue(ScaleProperty);
+        set => SetValue(ScaleProperty, value);
+    }
+    public static readonly DependencyProperty ScaleProperty
+        = DependencyProperty.Register(
+            nameof(Scale),
+            typeof(GridLength),
+            typeof(StswImage),
+            new PropertyMetadata(default(GridLength), OnScaleChanged)
+        );
+    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswImage stsw)
+        {
+            stsw.Height = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
+            stsw.Width = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ImageSource"/> of the control.
+    /// </summary>
+    public ImageSource? Source
+    {
+        get => (ImageSource?)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+    public static readonly DependencyProperty SourceProperty
+        = DependencyProperty.Register(
+            nameof(Source),
+            typeof(ImageSource),
+            typeof(StswImage)
+        );
+
+    /// <summary>
+    /// Gets or sets the stretch behavior of the control.
+    /// </summary>
+    public Stretch Stretch
+    {
+        get => (Stretch)GetValue(StretchProperty);
+        set => SetValue(StretchProperty, value);
+    }
+    public static readonly DependencyProperty StretchProperty
+        = DependencyProperty.Register(
+            nameof(Stretch),
+            typeof(Stretch),
+            typeof(StswImage)
+        );
+    #endregion
+
     /*
     #region ImageFromClipboard
     /// ImageFromClipboardDib
@@ -244,83 +316,4 @@ public class StswImage : UserControl
     }
     #endregion
     */
-    #region Main properties
-    /// <summary>
-    /// Enum with values of the menu mode for the control.
-    /// </summary>
-    public enum MenuModes
-    {
-        Disabled,
-        ReadOnly,
-        Full
-    }
-    /// <summary>
-    /// Gets or sets the menu mode for the control.
-    /// </summary>
-    public MenuModes MenuMode
-    {
-        get => (MenuModes)GetValue(MenuModeProperty);
-        set => SetValue(MenuModeProperty, value);
-    }
-    public static readonly DependencyProperty MenuModeProperty
-        = DependencyProperty.Register(
-            nameof(MenuMode),
-            typeof(MenuModes),
-            typeof(StswImage)
-        );
-
-    /// <summary>
-    /// Gets or sets the scale of the image.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswImage),
-            new PropertyMetadata(default(GridLength), OnScaleChanged)
-        );
-    public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswImage stsw)
-        {
-            stsw.Height = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
-            stsw.Width = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the <see cref="ImageSource"/> of the control.
-    /// </summary>
-    public ImageSource? Source
-    {
-        get => (ImageSource?)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-    public static readonly DependencyProperty SourceProperty
-        = DependencyProperty.Register(
-            nameof(Source),
-            typeof(ImageSource),
-            typeof(StswImage)
-        );
-
-    /// <summary>
-    /// Gets or sets the stretch behavior of the control.
-    /// </summary>
-    public Stretch Stretch
-    {
-        get => (Stretch)GetValue(StretchProperty);
-        set => SetValue(StretchProperty, value);
-    }
-    public static readonly DependencyProperty StretchProperty
-        = DependencyProperty.Register(
-            nameof(Stretch),
-            typeof(Stretch),
-            typeof(StswImage)
-        );
-    #endregion
 }

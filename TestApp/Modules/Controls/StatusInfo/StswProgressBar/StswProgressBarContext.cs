@@ -35,8 +35,8 @@ public class StswProgressBarContext : ControlsContext
     }
 
     /// State
-    private StswProgressBar.States state = StswProgressBar.States.Ready;
-    public StswProgressBar.States State
+    private StswProgressState state = StswProgressState.Ready;
+    public StswProgressState State
     {
         get => state;
         set => SetProperty(ref state, value);

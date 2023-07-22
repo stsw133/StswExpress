@@ -4,8 +4,8 @@ public class StswFilterContext : ControlsContext
 {
     #region Properties
     /// FilterType
-    private StswFilter.Types filterType = StswFilter.Types.Text;
-    public StswFilter.Types FilterType
+    private StswFilterType filterType = StswFilterType.Text;
+    public StswFilterType FilterType
     {
         get => filterType;
         set => SetProperty(ref filterType, value);

@@ -32,8 +32,8 @@ public class StswDataGridContext : ControlsContext
     }
 
     /// SpecialColumnVisibility
-    private StswDataGrid.SpecialColumnVisibilities specialColumnVisibility = StswDataGrid.SpecialColumnVisibilities.All;
-    public StswDataGrid.SpecialColumnVisibilities SpecialColumnVisibility
+    private StswSpecialColumnVisibility specialColumnVisibility = StswSpecialColumnVisibility.All;
+    public StswSpecialColumnVisibility SpecialColumnVisibility
     {
         get => specialColumnVisibility;
         set => SetProperty(ref specialColumnVisibility, value);

@@ -44,10 +44,10 @@
                     <!-- State -->
                     <Label Content="State:" FontSize="15" FontWeight="Medium"/>
                     <se:StswComboBox SelectedValue="{Binding State}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Ready}"/>
-                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Running}"/>
-                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Paused}"/>
-                        <ComboBoxItem Content="{x:Static se:StswProgressBar+States.Error}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressState.Ready}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressState.Running}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressState.Paused}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressState.Error}"/>
                     </se:StswComboBox>
                     <!-- TextInPercents -->
                     <se:StswCheckBox IsChecked="{Binding TextInPercents}" IsThreeState="True">

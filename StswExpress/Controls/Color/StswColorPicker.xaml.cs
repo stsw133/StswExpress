@@ -89,15 +89,6 @@ public class StswColorPicker : UserControl
             if (x <= 0 || x >= (int)grid.ActualWidth || y <= 0 || y >= (int)grid.ActualHeight)
                 return;
 
-            /// this code works similar to one line below it but is not used anymore
-            //var rtb = new RenderTargetBitmap((int)grid.RenderSize.Width, (int)grid.RenderSize.Height, 96, 96, PixelFormats.Pbgra32);
-            //rtb.Render(grid);
-
-            //var pixels = new byte[4];
-            //rtb.CopyPixels(new Int32Rect(x, y, 1, 1), pixels, 4, 0);
-
-            //SelectedColor = Color.FromArgb(SelectedColor.A, pixels[2], pixels[1], pixels[0]);
-
             SelectedColor = StswExtensions.FromAhsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
             
             if (partColorEllipse != null)

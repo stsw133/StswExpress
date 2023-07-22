@@ -37,13 +37,13 @@
                     <!-- IncrementType -->
                     <Label Content="IncrementType:" FontSize="15" FontWeight="Medium"/>
                     <se:StswComboBox SelectedValue="{Binding IncrementType}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.None}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Year}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Month}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Day}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Hour}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Minute}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDatePicker+IncrementTypes.Second}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.None}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Year}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Month}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Day}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Hour}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Minute}"/>
+                        <ComboBoxItem Content="{x:Static se:StswDateIncrementType.Second}"/>
                     </se:StswComboBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">

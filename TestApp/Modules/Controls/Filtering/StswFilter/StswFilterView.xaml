@@ -30,11 +30,11 @@
                     <!-- FilterType -->
                     <Label Content="FilterType:" FontSize="15" FontWeight="Medium"/>
                     <se:StswComboBox SelectedValue="{Binding FilterType}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Check}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Date}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.List}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Number}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilter+Types.Text}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilterType.Check}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilterType.Date}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilterType.List}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilterType.Number}"/>
+                        <ComboBoxItem Content="{x:Static se:StswFilterType.Text}"/>
                     </se:StswComboBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">

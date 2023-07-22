@@ -38,9 +38,9 @@
                     <!-- SpecialColumnVisibility -->
                     <Label Content="SpecialColumnVisibility:" FontSize="15" FontWeight="Medium"/>
                     <se:StswComboBox SelectedValue="{Binding SpecialColumnVisibility}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.All}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.Collapsed}"/>
-                        <ComboBoxItem Content="{x:Static se:StswDataGrid+SpecialColumnVisibilities.OnlyRows}"/>
+                        <ComboBoxItem Content="{x:Static se:StswSpecialColumnVisibility.All}"/>
+                        <ComboBoxItem Content="{x:Static se:StswSpecialColumnVisibility.Collapsed}"/>
+                        <ComboBoxItem Content="{x:Static se:StswSpecialColumnVisibility.OnlyRows}"/>
                     </se:StswComboBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>

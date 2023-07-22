@@ -67,25 +67,25 @@ public class StswCalendar : UserControl
     /// Handles the click event of the previous year button in the control.
     /// Changes the displayed month to the previous year.
     /// </summary>
-    public void PART_ButtonPreviousYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -120 : -12);
+    public void PART_ButtonPreviousYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == StswCalendarMode.ByYear ? -120 : -12);
 
     /// <summary>
     /// Handles the click event of the next year button in the control.
     /// Changes the displayed month to the next year.
     /// </summary>
-    private void PART_ButtonNextYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 120 : 12);
+    private void PART_ButtonNextYear_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == StswCalendarMode.ByYear ? 120 : 12);
 
     /// <summary>
     /// Handles the click event of the previous month button in the control.
     /// Changes the displayed month to the previous month.
     /// </summary>
-    private void PART_ButtonPreviousMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? -12 : -1);
+    private void PART_ButtonPreviousMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == StswCalendarMode.ByYear ? -12 : -1);
 
     /// <summary>
     /// Handles the click event of the next month button in the control.
     /// Changes the displayed month to the next month.
     /// </summary>
-    private void PART_ButtonNextMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == SelectionModes.ByYear ? 12 : 1);
+    private void PART_ButtonNextMonth_Click(object sender, RoutedEventArgs e) => SelectedMonth = CheckNewDate(SelectionMode == StswCalendarMode.ByYear ? 12 : 1);
 
     /// <summary>
     /// Handles the click event of the selection mode button in the control.
@@ -128,10 +128,10 @@ public class StswCalendar : UserControl
     /// </summary>
     public void SelectDate_Executed(DateTime? date)
     {
-        if (SelectionMode == SelectionModes.ByYear)
+        if (SelectionMode == StswCalendarMode.ByYear)
         {
             SelectedMonth = date ?? DateTime.Now;
-            SelectionMode = SelectionModes.ByMonth;
+            SelectionMode = StswCalendarMode.ByMonth;
         }
         else
         {
@@ -253,7 +253,7 @@ public class StswCalendar : UserControl
         {
             var newButtons = new ObservableCollection<StswCalendarItem>();
 
-            if (stsw.SelectionMode == SelectionModes.ByYear)
+            if (stsw.SelectionMode == StswCalendarMode.ByYear)
             {
                 /// display year
                 stsw.SelectionName = stsw.SelectedMonth.Year.ToString();
@@ -273,7 +273,7 @@ public class StswCalendar : UserControl
                     });
                 }
             }
-            else if (stsw.SelectionMode == SelectionModes.ByMonth)
+            else if (stsw.SelectionMode == StswCalendarMode.ByMonth)
             {
                 /// display month and year
                 stsw.SelectionName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(stsw.SelectedMonth.Month).Capitalize() + " " + stsw.SelectedMonth.Year;
@@ -319,27 +319,19 @@ public class StswCalendar : UserControl
     }
 
     /// <summary>
-    /// Enum with values of the selection mode of the control.
-    /// </summary>
-    public enum SelectionModes
-    {
-        ByYear,
-        ByMonth
-    }
-    /// <summary>
     /// Gets or sets the selection mode of the control.
     /// </summary>
-    public SelectionModes SelectionMode
+    public StswCalendarMode SelectionMode
     {
-        get => (SelectionModes)GetValue(SelectionModeProperty);
+        get => (StswCalendarMode)GetValue(SelectionModeProperty);
         set => SetValue(SelectionModeProperty, value);
     }
     public static readonly DependencyProperty SelectionModeProperty
         = DependencyProperty.Register(
             nameof(SelectionMode),
-            typeof(SelectionModes),
+            typeof(StswCalendarMode),
             typeof(StswCalendar),
-            new PropertyMetadata(SelectionModes.ByMonth, OnSelectedMonthChanged)
+            new PropertyMetadata(StswCalendarMode.ByMonth, OnSelectedMonthChanged)
         );
 
     /// <summary>

@@ -59,11 +59,11 @@ public class StswFilter : UserControl
         {
             FilterMode = FilterType switch
             {
-                Types.Check => Modes.Equal,
-                Types.Date => Modes.Equal,
-                Types.List => Modes.In,
-                Types.Number => Modes.Equal,
-                Types.Text => Modes.Contains,
+                StswFilterType.Check => StswFilterMode.Equal,
+                StswFilterType.Date => StswFilterMode.Equal,
+                StswFilterType.List => StswFilterMode.In,
+                StswFilterType.Number => StswFilterMode.Equal,
+                StswFilterType.Text => StswFilterMode.Contains,
                 _ => null
             };
         }
@@ -87,7 +87,7 @@ public class StswFilter : UserControl
     /// </summary>
     protected void SelectMode_Executed(object? parameter)
     {
-        if (parameter is MenuItem f && f.Tag is Modes m)
+        if (parameter is MenuItem f && f.Tag is StswFilterMode m)
             FilterMode = m;
     }
 
@@ -97,10 +97,10 @@ public class StswFilter : UserControl
     public void GenerateSqlString()
     {
         /// separator
-        var s = FilterType.In(Types.Date, Types.List, Types.Text) ? "'" : string.Empty;
+        var s = FilterType.In(StswFilterType.Date, StswFilterType.List, StswFilterType.Text) ? "'" : string.Empty;
         /// case sensitive
-        var cs1 = FilterType.In(Types.List, Types.Text) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
-        var cs2 = FilterType.In(Types.List, Types.Text) && !IsFilterCaseSensitive ? ")" : string.Empty;
+        var cs1 = FilterType.In(StswFilterType.List, StswFilterType.Text) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
+        var cs2 = FilterType.In(StswFilterType.List, StswFilterType.Text) && !IsFilterCaseSensitive ? ")" : string.Empty;
         /// null sensitive
         var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
         var ns2 = string.Empty;
@@ -108,11 +108,11 @@ public class StswFilter : UserControl
         {
             ns2 = FilterType switch
             {
-                Types.Check => ", 0)",
-                Types.Date => ", '1900-01-01')",
-                Types.List => ", '')",
-                Types.Number => ", 0)",
-                Types.Text => ", '')",
+                StswFilterType.Check => ", 0)",
+                StswFilterType.Date => ", '1900-01-01')",
+                StswFilterType.List => ", '')",
+                StswFilterType.Number => ", 0)",
+                StswFilterType.Text => ", '')",
                 _ => string.Empty
             };
         }
@@ -130,23 +130,23 @@ public class StswFilter : UserControl
 
         SqlString = FilterMode switch
         {
-            Modes.Equal => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
-            Modes.NotEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
-            Modes.Greater => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
-            Modes.GreaterEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
-            Modes.Less => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
-            Modes.LessEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
-            Modes.Between => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
-            Modes.Contains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            Modes.NotContains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            Modes.Like => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
-            Modes.NotLike => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
-            Modes.StartsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
-            Modes.EndsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
-            Modes.In => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
-            Modes.NotIn => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
-            Modes.Null => $"{FilterSqlColumn} is null)",
-            Modes.NotNull => $"{FilterSqlColumn} is not null)",
+            StswFilterMode.Equal => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Greater => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.GreaterEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Less => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.LessEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.Between => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
+            StswFilterMode.Contains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.NotContains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
+            StswFilterMode.Like => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.NotLike => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
+            StswFilterMode.StartsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
+            StswFilterMode.EndsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
+            StswFilterMode.In => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
+            StswFilterMode.NotIn => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
+            StswFilterMode.Null => $"{FilterSqlColumn} is null)",
+            StswFilterMode.NotNull => $"{FilterSqlColumn} is not null)",
             _ => null
         };
     }
@@ -178,42 +178,19 @@ public class StswFilter : UserControl
         );
 
     /// <summary>
-    /// Enum with values of the current filter mode.
-    /// </summary>
-    public enum Modes
-    {
-        Equal,
-        NotEqual,
-        Greater,
-        GreaterEqual,
-        Less,
-        LessEqual,
-        Between,
-        Contains,
-        NotContains,
-        Like,
-        NotLike,
-        StartsWith,
-        EndsWith,
-        In,
-        NotIn,
-        Null,
-        NotNull
-    }
-    /// <summary>
     /// Gets or sets the current filter mode.
     /// </summary>
-    public Modes? FilterMode
+    public StswFilterMode? FilterMode
     {
-        get => (Modes?)GetValue(FilterModeProperty);
+        get => (StswFilterMode?)GetValue(FilterModeProperty);
         set => SetValue(FilterModeProperty, value);
     }
     public static readonly DependencyProperty FilterModeProperty
         = DependencyProperty.Register(
             nameof(FilterMode),
-            typeof(Modes?),
+            typeof(StswFilterMode?),
             typeof(StswFilter),
-            new FrameworkPropertyMetadata(default(Modes?),
+            new FrameworkPropertyMetadata(default(StswFilterMode?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnFilterModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -232,7 +209,7 @@ public class StswFilter : UserControl
             OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
         }
     }
-    internal Modes? DefaultFilterMode { get; set; } = null;
+    internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the SQL column used for filtering.
@@ -259,28 +236,17 @@ public class StswFilter : UserControl
     }
 
     /// <summary>
-    /// Enum with values of the type of filter to be applied.
-    /// </summary>
-    public enum Types
-    {
-        Check,
-        Date,
-        List,
-        Number,
-        Text
-    }
-    /// <summary>
     /// Gets or sets the type of filter to be applied.
     /// </summary>
-    public Types FilterType
+    public StswFilterType FilterType
     {
-        get => (Types)GetValue(FilterTypeProperty);
+        get => (StswFilterType)GetValue(FilterTypeProperty);
         set => SetValue(FilterTypeProperty, value);
     }
     public static readonly DependencyProperty FilterTypeProperty
         = DependencyProperty.Register(
             nameof(FilterType),
-            typeof(Types),
+            typeof(StswFilterType),
             typeof(StswFilter)
         );
 
@@ -473,7 +439,7 @@ public class StswFilter : UserControl
     {
         if (obj is StswFilter stsw)
         {
-            if (stsw.Value1 == null || stsw.Value2 == null && stsw.FilterMode == Modes.Between)
+            if (stsw.Value1 == null || stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
                 stsw.SqlString = null;
             else
                 stsw.GenerateSqlString();

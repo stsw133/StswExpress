@@ -137,28 +137,19 @@ public class StswDataGrid : DataGrid
         );
 
     /// <summary>
-    /// Enum with values of the visibility mode for special column.
-    /// </summary>
-    public enum SpecialColumnVisibilities
-    {
-        Collapsed,
-        All,
-        OnlyRows
-    }
-    /// <summary>
     /// Gets or sets the visibility mode for special column.
     /// </summary>
-    public SpecialColumnVisibilities SpecialColumnVisibility
+    public StswSpecialColumnVisibility SpecialColumnVisibility
     {
-        get => (SpecialColumnVisibilities)GetValue(SpecialColumnVisibilityProperty);
+        get => (StswSpecialColumnVisibility)GetValue(SpecialColumnVisibilityProperty);
         set => SetValue(SpecialColumnVisibilityProperty, value);
     }
     public static readonly DependencyProperty SpecialColumnVisibilityProperty
         = DependencyProperty.Register(
             nameof(SpecialColumnVisibility),
-            typeof(SpecialColumnVisibilities),
+            typeof(StswSpecialColumnVisibility),
             typeof(StswDataGrid),
-            new FrameworkPropertyMetadata(default(SpecialColumnVisibilities),
+            new FrameworkPropertyMetadata(default(StswSpecialColumnVisibility),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSpecialColumnVisibilityChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -173,7 +164,7 @@ public class StswDataGrid : DataGrid
                 && specialColumn.CellTemplate == specialColumnCellTemplate
                 && specialColumn.HeaderTemplate == specialColumnHeaderTemplate);
 
-            if (stsw.SpecialColumnVisibility != SpecialColumnVisibilities.Collapsed)
+            if (stsw.SpecialColumnVisibility != StswSpecialColumnVisibility.Collapsed)
             {
                 if (specialColumn == null)
                 {
@@ -186,7 +177,7 @@ public class StswDataGrid : DataGrid
 
                 /// set visibility for header
                 if (specialColumn?.Header is UniformGrid header and not null)
-                    header.Visibility = stsw.SpecialColumnVisibility == SpecialColumnVisibilities.All ? Visibility.Visible : Visibility.Collapsed;
+                    header.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
             }
             else if (specialColumn != null)
             {

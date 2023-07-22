@@ -20,31 +20,6 @@ public class StswContentDialog : UserControl
 
     #region Main properties
     /// <summary>
-    /// Enumeration for dialog button options.
-    /// </summary>
-    public enum Buttons
-    {
-        //Custom = -1,
-        OK,
-        OKCancel,
-        YesNoCancel,
-        YesNo
-    }
-
-    /// <summary>
-    /// Enumeration for dialog image options.
-    /// </summary>
-    public enum Images
-    {
-        //Custom = -1,
-        None,
-        Error,
-        Question,
-        Warning,
-        Information
-    }
-
-    /// <summary>
     /// Gets or sets the data model for StswContentDialog's binding.
     /// </summary>
     public StswContentDialogModel BindingModel
@@ -111,12 +86,12 @@ public class StswContentDialogModel
     /// <summary>
     /// Gets or sets the button configuration for the content dialog.
     /// </summary>
-    public StswContentDialog.Buttons Buttons { get; set; } //= StswContentDialog.Buttons.Custom;
+    public StswDialogButtons Buttons { get; set; } //= StswDialogButtons.Custom;
 
     /// <summary>
     /// Gets or sets the image configuration for the content dialog.
     /// </summary>
-    public StswContentDialog.Images Image { get; set; } //= StswContentDialog.Images.Custom;
+    public StswDialogImage Image { get; set; } //= StswDialogImage.Custom;
 
     /// <summary>
     /// Gets or sets the command to be executed when the "Yes" or "OK" button is clicked.

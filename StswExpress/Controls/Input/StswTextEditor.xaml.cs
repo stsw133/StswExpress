@@ -320,17 +320,15 @@ public class StswTextEditor : RichTextBox
         var printDialog = new PrintDialog();
         if (printDialog.ShowDialog() == true)
         {
-            using (var stream = new MemoryStream())
-            {
-                var sourceDocument = new TextRange(Document.ContentStart, Document.ContentEnd);
-                sourceDocument.Save(stream, DataFormats.Xaml);
+            using var stream = new MemoryStream();
+            var sourceDocument = new TextRange(Document.ContentStart, Document.ContentEnd);
+            sourceDocument.Save(stream, DataFormats.Xaml);
 
-                var flowDocumentCopy = new FlowDocument();
-                var copyDocumentRange = new TextRange(flowDocumentCopy.ContentStart, flowDocumentCopy.ContentEnd);
-                copyDocumentRange.Load(stream, DataFormats.Xaml);
+            var flowDocumentCopy = new FlowDocument();
+            var copyDocumentRange = new TextRange(flowDocumentCopy.ContentStart, flowDocumentCopy.ContentEnd);
+            copyDocumentRange.Load(stream, DataFormats.Xaml);
 
-                printDialog.PrintDocument(((IDocumentPaginatorSource)flowDocumentCopy).DocumentPaginator, "Printing Richtextbox Content");
-            }
+            printDialog.PrintDocument(((IDocumentPaginatorSource)flowDocumentCopy).DocumentPaginator, "Printing Richtextbox Content");
         }
 
         UpdateLayout();

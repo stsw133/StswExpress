@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace TestApp;
 
@@ -50,16 +49,16 @@ public class StswContentDialogContext : ControlsContext
 
     #region Properties
     /// ContentDialogButtons
-    private StswContentDialog.Buttons contentDialogButtons = StswContentDialog.Buttons.OK;
-    public StswContentDialog.Buttons ContentDialogButtons
+    private StswDialogButtons contentDialogButtons = StswDialogButtons.OK;
+    public StswDialogButtons ContentDialogButtons
     {
         get => contentDialogButtons;
         set => SetProperty(ref contentDialogButtons, value);
     }
 
     /// ContentDialogImage
-    private StswContentDialog.Images contentDialogImage = StswContentDialog.Images.None;
-    public StswContentDialog.Images ContentDialogImage
+    private StswDialogImage contentDialogImage = StswDialogImage.None;
+    public StswDialogImage ContentDialogImage
     {
         get => contentDialogImage;
         set => SetProperty(ref contentDialogImage, value);

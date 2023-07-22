@@ -31,19 +31,19 @@
                         <!-- Buttons -->
                         <Label Content="Buttons:" FontSize="15" FontWeight="Medium"/>
                         <se:StswComboBox SelectedValue="{Binding ContentDialogButtons}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.OK}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.YesNo}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.OKCancel}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Buttons.YesNoCancel}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.OK}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.YesNo}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.OKCancel}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.YesNoCancel}"/>
                         </se:StswComboBox>
                         <!-- Image -->
                         <Label Content="Image:" FontSize="15" FontWeight="Medium"/>
                         <se:StswComboBox SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.None}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Error}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Question}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Warning}"/>
-                            <ComboBoxItem Content="{x:Static se:StswContentDialog+Images.Information}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.None}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Error}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Question}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Warning}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Information}"/>
                         </se:StswComboBox>
                         <!-- IsEnabled -->
                         <!--

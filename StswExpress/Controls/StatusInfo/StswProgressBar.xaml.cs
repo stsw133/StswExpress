@@ -48,27 +48,17 @@ public class StswProgressBar : ProgressBar
 
     #region Main properties
     /// <summary>
-    /// Represents different states of the progress bar.
-    /// </summary>
-    public enum States
-    {
-        Ready,
-        Running,
-        Paused,
-        Error
-    }
-    /// <summary>
     /// Gets or sets the current state of the progress bar.
     /// </summary>
-    public States State
+    public StswProgressState State
     {
-        get => (States)GetValue(StateProperty);
+        get => (StswProgressState)GetValue(StateProperty);
         set => SetValue(StateProperty, value);
     }
     public static readonly DependencyProperty StateProperty
         = DependencyProperty.Register(
             nameof(State),
-            typeof(States),
+            typeof(StswProgressState),
             typeof(StswProgressBar)
         );
 

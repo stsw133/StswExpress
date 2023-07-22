@@ -84,7 +84,7 @@ public class StswDatePicker : TextBox
     /// </summary>
     private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue && IncrementType != IncrementTypes.None)
+        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue && IncrementType != StswDateIncrementType.None)
         {
             if (DateTime.TryParse(Text, out var result))
                 SelectedDate = result;
@@ -95,12 +95,12 @@ public class StswDatePicker : TextBox
             {
                 SelectedDate = IncrementType switch
                 {
-                    IncrementTypes.Year => SelectedDate.Value.AddYears(step),
-                    IncrementTypes.Month => SelectedDate.Value.AddMonths(step),
-                    IncrementTypes.Day => SelectedDate.Value.AddDays(step),
-                    IncrementTypes.Hour => SelectedDate.Value.AddHours(step),
-                    IncrementTypes.Minute => SelectedDate.Value.AddMinutes(step),
-                    IncrementTypes.Second => SelectedDate.Value.AddSeconds(step),
+                    StswDateIncrementType.Year => SelectedDate.Value.AddYears(step),
+                    StswDateIncrementType.Month => SelectedDate.Value.AddMonths(step),
+                    StswDateIncrementType.Day => SelectedDate.Value.AddDays(step),
+                    StswDateIncrementType.Hour => SelectedDate.Value.AddHours(step),
+                    StswDateIncrementType.Minute => SelectedDate.Value.AddMinutes(step),
+                    StswDateIncrementType.Second => SelectedDate.Value.AddSeconds(step),
                     _ => SelectedDate
                 };
             }
@@ -194,31 +194,18 @@ public class StswDatePicker : TextBox
         );
 
     /// <summary>
-    /// Specifies the different types of increments that can be applied when scrolling the mouse wheel on the date picker.
-    /// </summary>
-    public enum IncrementTypes
-    {
-        None,
-        Year,
-        Month,
-        Day,
-        Hour,
-        Minute,
-        Second
-    }
-    /// <summary>
     /// Gets or sets the type of increment to be applied when scrolling the mouse wheel over the date picker.
     /// This property defines how the date changes when the mouse wheel is scrolled up or down.
     /// </summary>
-    public IncrementTypes IncrementType
+    public StswDateIncrementType IncrementType
     {
-        get => (IncrementTypes)GetValue(IncrementTypeProperty);
+        get => (StswDateIncrementType)GetValue(IncrementTypeProperty);
         set => SetValue(IncrementTypeProperty, value);
     }
     public static readonly DependencyProperty IncrementTypeProperty
         = DependencyProperty.Register(
             nameof(IncrementType),
-            typeof(IncrementTypes),
+            typeof(StswDateIncrementType),
             typeof(StswDatePicker)
         );
 

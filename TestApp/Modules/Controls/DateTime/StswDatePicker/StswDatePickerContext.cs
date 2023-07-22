@@ -36,8 +36,8 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// IncrementType
-    private IncrementTypes incrementType = IncrementTypes.Day;
-    public IncrementTypes IncrementType
+    private StswDateIncrementType incrementType = StswDateIncrementType.Day;
+    public StswDateIncrementType IncrementType
     {
         get => incrementType;
         set => SetProperty(ref incrementType, value);

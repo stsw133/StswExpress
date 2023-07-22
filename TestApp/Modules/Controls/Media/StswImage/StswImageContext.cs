@@ -4,8 +4,8 @@ public class StswImageContext : ControlsContext
 {
     #region Properties
     /// MenuMode
-    private StswImage.MenuModes menuMode = StswImage.MenuModes.Full;
-    public StswImage.MenuModes MenuMode
+    private StswMenuMode menuMode = StswMenuMode.Full;
+    public StswMenuMode MenuMode
     {
         get => menuMode;
         set => SetProperty(ref menuMode, value);

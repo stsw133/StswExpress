@@ -15,7 +15,7 @@ public class DatabasesContext : StswObservableObject
             NotifyPropertyChanged(nameof(LoadingState));
         }
     }
-    public StswProgressBar.States LoadingState => LoadingActions > 0 ? StswProgressBar.States.Running : StswProgressBar.States.Ready;
+    public StswProgressState LoadingState => LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
 
     /// Commands
     public StswRelayCommand ImportCommand { get; set; }
@@ -40,8 +40,10 @@ public class DatabasesContext : StswObservableObject
     private void Export()
     {
         LoadingActions++;
-        StswDatabase.AllDatabases = new();
-        StswDatabase.AllDatabases.Add(string.Empty, StswDatabase.CurrentDatabase);
+        StswDatabase.AllDatabases = new()
+        {
+            { string.Empty, StswDatabase.CurrentDatabase }
+        };
         StswDatabase.ExportDatabases();
         LoadingActions--;
     }

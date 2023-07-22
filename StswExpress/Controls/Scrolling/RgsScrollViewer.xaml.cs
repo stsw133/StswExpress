@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
 public class RgsScrollViewer : ScrollViewer
 {
