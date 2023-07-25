@@ -43,9 +43,9 @@ public enum StswDialogImage
     //Custom = -1,
     None,
     Error,
+    Information,
     Question,
-    Warning,
-    Information
+    Warning
 }
 
 /// <summary>
@@ -85,6 +85,20 @@ public enum StswFilterType
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswLogItem"/>'s type.
+/// </summary>
+public enum StswLogType
+{
+    //Custom = -1,
+    None,
+    Debug,
+    Error,
+    Information,
+    Success,
+    Warning
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswImage"/>'s menu mode.
 /// </summary>
 public enum StswMenuMode
@@ -103,6 +117,16 @@ public enum StswProgressState
     Running,
     Paused,
     Error
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswProgressBar"/>'s text mode.
+/// </summary>
+public enum StswProgressTextMode
+{
+    None,
+    Value,
+    Percentage
 }
 
 /// <summary>

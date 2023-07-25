@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,6 +11,10 @@ namespace StswExpress;
 /// </summary>
 public class StswListBox : ListBox
 {
+    public StswListBox()
+    {
+        DependencyPropertyDescriptor.FromProperty(SelectionModeProperty, typeof(StswListBox)).AddValueChanged(this, (s, e) => OnSelectedItemsBindingChanged(this, new DependencyPropertyChangedEventArgs()));
+    }
     static StswListBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));

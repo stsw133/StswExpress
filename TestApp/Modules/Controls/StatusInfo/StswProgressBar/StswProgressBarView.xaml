@@ -49,10 +49,13 @@
                         <ComboBoxItem Content="{x:Static se:StswProgressState.Paused}"/>
                         <ComboBoxItem Content="{x:Static se:StswProgressState.Error}"/>
                     </se:StswComboBox>
-                    <!-- TextInPercents -->
-                    <se:StswCheckBox IsChecked="{Binding TextInPercents}" IsThreeState="True">
-                        <Label DockPanel.Dock="Top" Content="TextInPercents" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <!-- TextMode -->
+                    <Label Content="TextMode:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswComboBox SelectedValue="{Binding TextMode}" SelectedValuePath="Content">
+                        <ComboBoxItem Content="{x:Static se:StswProgressTextMode.None}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressTextMode.Value}"/>
+                        <ComboBoxItem Content="{x:Static se:StswProgressTextMode.Percentage}"/>
+                    </se:StswComboBox>
                     <!-- Value -->
                     <Label Content="Value:" FontSize="15" FontWeight="Medium"/>
                     <se:StswNumericBox Format="N2" Value="{Binding SelectedValue}"/>
@@ -67,7 +70,7 @@
                                         Maximum="{Binding Maximum}"
                                         Minimum="{Binding Minimum}"
                                         State="{Binding State}"
-                                        TextInPercents="{Binding TextInPercents}"
+                                        TextMode="{Binding TextMode}"
                                         Value="{Binding SelectedValue}"/>
                 </DockPanel>
             </Grid>

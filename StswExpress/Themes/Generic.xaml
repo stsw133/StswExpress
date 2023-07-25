@@ -52,6 +52,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/RgsScrollBar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/RgsScrollViewer.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/StatusInfo/StswLogPanel.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StatusInfo/StswProgressBar.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswHeader.xaml"/>
@@ -59,6 +60,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswLoadingCircle.xaml"/>
 
         <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswLabel.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswText.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswContentDialog.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>

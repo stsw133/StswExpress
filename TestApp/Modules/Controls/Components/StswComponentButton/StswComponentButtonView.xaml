@@ -58,7 +58,7 @@
                                                 IsEnabled="{Binding IsEnabled}"
                                                 Margin="0 0 5 0"
                                                 VerticalContentAlignment="Center">
-                            <Label Content="Search" FontSize="11"/>
+                            <Label Content="Search" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentButton>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
                                                 ContentVisibility="{Binding ContentVisibility}"
@@ -68,7 +68,7 @@
                                                 IsEnabled="{Binding IsEnabled}"
                                                 Margin="0 0 5 0"
                                                 VerticalContentAlignment="Center">
-                            <Label Content="Filters" FontSize="11"/>
+                            <Label Content="Filters" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentButton>
                         <se:StswComponentButton Command="{Binding OnClickCommand}"
                                                 ContentVisibility="{Binding ContentVisibility}"
@@ -78,7 +78,7 @@
                                                 IsEnabled="{Binding IsEnabled}"
                                                 Margin="0 0 5 0"
                                                 VerticalContentAlignment="Center">
-                            <Label Content="Clear" FontSize="11"/>
+                            <Label Content="Clear" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentButton>
                     </StackPanel>
                     <TextBlock DockPanel.Dock="Top" Margin="10">

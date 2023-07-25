@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswProgressBar}">
-
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
 
@@ -12,7 +11,7 @@
         <Setter Property="Padding" Value="1"/>
 
         <Setter Property="State" Value="Running"/>
-        <Setter Property="TextInPercents" Value="True"/>
+        <Setter Property="TextMode" Value="Percentage"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -80,32 +79,32 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="State" Value="Ready">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Ready.Foreground}" TargetName="PART_Track" />
-                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator" />
-                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation" />
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Ready.Foreground}" TargetName="PART_Track"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="State" Value="Running">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="State" Value="Paused">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="State" Value="Error">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="PART_Track" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Indicator" />
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Animation" />
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="IsIndeterminate" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator" />
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -41,9 +41,9 @@
                         <se:StswComboBox SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Content">
                             <ComboBoxItem Content="{x:Static se:StswDialogImage.None}"/>
                             <ComboBoxItem Content="{x:Static se:StswDialogImage.Error}"/>
+                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Information}"/>
                             <ComboBoxItem Content="{x:Static se:StswDialogImage.Question}"/>
                             <ComboBoxItem Content="{x:Static se:StswDialogImage.Warning}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Information}"/>
                         </se:StswComboBox>
                         <!-- IsEnabled -->
                         <!--

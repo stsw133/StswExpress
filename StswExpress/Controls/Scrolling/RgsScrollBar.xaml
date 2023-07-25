@@ -3,9 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:RgsScrollBar}">
-        
         <Setter Property="Background" Value="{StaticResource ScrollBar.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ScrollBar.Static.Border}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ScrollBar.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         
         <Setter Property="BorderThickness" Value="1 0"/>
@@ -37,7 +36,7 @@
                                 <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource RgsRepeatButtonTransparent}"/>
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
-                                <Thumb Style="{StaticResource RgsScrollBarThumbVertical}" />
+                                <Thumb Style="{StaticResource RgsScrollBarThumbVertical}"/>
                             </Track.Thumb>
                         </Track>
                         <RepeatButton x:Name="PART_LineDownButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource RgsScrollBarButton}">

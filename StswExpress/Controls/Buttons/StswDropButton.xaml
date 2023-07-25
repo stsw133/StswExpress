@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswDropButton}">
-
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
@@ -90,20 +89,20 @@
                     </se:StswToggleButton>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainButton" />
-                            <Setter Property="Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainButton"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}" TargetName="PART_MainButton"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

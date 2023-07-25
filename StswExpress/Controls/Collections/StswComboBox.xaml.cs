@@ -11,7 +11,7 @@ public class StswComboBox : ComboBox
 {
     public StswComboBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
     }
     static StswComboBox()
     {
@@ -37,15 +37,15 @@ public class StswComboBox : ComboBox
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<UIElement> Components
+    public ObservableCollection<IStswComponent> Components
     {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<UIElement>),
+            typeof(ObservableCollection<IStswComponent>),
             typeof(StswComboBox)
         );
 

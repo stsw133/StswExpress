@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswNavigation}">
-
         <Setter Property="Background" Value="{DynamicResource StswNavigation.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigation.Static.Border}"/>
 
@@ -106,31 +105,31 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="True">
-                            <Setter Property="Width" Value="{Binding ItemsWidth, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ItemsPanel" />
+                            <Setter Property="Width" Value="{Binding ItemsWidth, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ItemsPanel"/>
                         </Trigger>
                         <Trigger Property="ItemsAlignment" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton" />
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items" />
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned" />
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
                         </Trigger>
                         <Trigger Property="ItemsAlignment" Value="Top">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items" />
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
                         </Trigger>
                         <Trigger Property="ItemsAlignment" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton" />
-                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_FunctionButton" />
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items" />
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned" />
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_FunctionButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
                         </Trigger>
                         <Trigger Property="ItemsAlignment" Value="Bottom">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items" />
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

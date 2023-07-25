@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswLoadingCircle}">
-
         <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Scale" Value="auto"/>
 
@@ -23,9 +22,7 @@
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
                                         <Storyboard RepeatBehavior="Forever">
-                                            <DoubleAnimation Storyboard.TargetName="PART_Rotation"
-                                                             Storyboard.TargetProperty="Angle"
-                                                             From="0" To="360"/>
+                                            <DoubleAnimation Storyboard.TargetName="PART_Rotation" Storyboard.TargetProperty="Angle" From="0" To="360"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
@@ -34,7 +31,7 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_Ellipse" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_Ellipse"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

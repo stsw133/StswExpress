@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTextBox}">
-
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
 
@@ -39,6 +38,7 @@
                                            Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                            IsHitTestVisible="False"
                                            Margin="{TemplateBinding Padding}"
+                                           Padding="2 0 0 0"
                                            Text="{TemplateBinding Placeholder}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -52,27 +52,27 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

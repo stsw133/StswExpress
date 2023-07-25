@@ -35,8 +35,8 @@
                     <Label Content="MenuMode:" FontSize="15" FontWeight="Medium"/>
                     <se:StswComboBox SelectedValue="{Binding MenuMode}" SelectedValuePath="Content">
                         <ComboBoxItem Content="{x:Static se:StswMenuMode.Disabled}"/>
-                        <ComboBoxItem Content="{x:Static se:StswMenuMode.Full}"/>
                         <ComboBoxItem Content="{x:Static se:StswMenuMode.ReadOnly}"/>
+                        <ComboBoxItem Content="{x:Static se:StswMenuMode.Full}"/>
                     </se:StswComboBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>

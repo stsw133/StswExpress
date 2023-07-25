@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswComponentButton}">
-
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
 
@@ -93,17 +92,19 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Pressed.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="Transparent" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="Transparent" TargetName="PART_MainBorder"/>
+                            <!--
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}"/>
+                            -->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

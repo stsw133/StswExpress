@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTextEditor}">
-
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
@@ -320,75 +319,75 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileInfo" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilePrint" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileEmail" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileText" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditFindReplace" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditClear" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditSelectAll" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCut" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCopy" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditPaste" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditText" />
-                            <Setter Property="Width" Value="120" TargetName="PART_FontFamily" />
-                            <Setter Property="Width" Value="60" TargetName="PART_FontSize" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontBold" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontItalic" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontUnderline" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontStrikethrough" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSubscript" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSuperscript" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorText" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorHighlight" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontText" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignLeft" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignCenter" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignRight" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignJustify" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionText" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileInfo"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilePrint"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileEmail"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditFindReplace"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditClear"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditSelectAll"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCut"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditCopy"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditPaste"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_EditText"/>
+                            <Setter Property="Width" Value="120" TargetName="PART_FontFamily"/>
+                            <Setter Property="Width" Value="60" TargetName="PART_FontSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontBold"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontItalic"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontUnderline"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontStrikethrough"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSubscript"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontSuperscript"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontColorHighlight"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FontText"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignLeft"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignCenter"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignRight"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionAlignJustify"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SectionText"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileSave" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileReload" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditClear" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditCut" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditPaste" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontFamily" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSize" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontIncrease" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontDecrease" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontBold" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontItalic" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontUnderline" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontStrikethrough" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSubscript" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSuperscript" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorText" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorHighlight" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionIncrease" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionDecrease" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionList" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionInterline" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignLeft" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignCenter" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignRight" />
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileSave"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FileReload"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditClear"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditCut"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_EditPaste"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontFamily"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSize"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontIncrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontDecrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontBold"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontItalic"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontUnderline"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontStrikethrough"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSubscript"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontSuperscript"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorText"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FontColorHighlight"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionIncrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionDecrease"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionList"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionInterline"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignLeft"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignCenter"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignRight"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" />
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

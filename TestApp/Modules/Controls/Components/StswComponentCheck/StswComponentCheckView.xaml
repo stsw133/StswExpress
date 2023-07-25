@@ -64,7 +64,7 @@
                                                IsThreeState="{Binding IsThreeState}"
                                                Margin="0 0 5 0"
                                                VerticalContentAlignment="Center">
-                            <Label Content="Visibility" FontSize="11"/>
+                            <Label Content="Visibility" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentCheck>
                         <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
                                                IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
@@ -76,7 +76,7 @@
                                                IsThreeState="{Binding IsThreeState}"
                                                Margin="0 0 5 0"
                                                VerticalContentAlignment="Center">
-                            <Label Content="Sound" FontSize="11"/>
+                            <Label Content="Sound" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentCheck>
                         <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
                                                IconUnchecked="{x:Static se:StswIcons.WifiOff}"
@@ -88,7 +88,7 @@
                                                IsThreeState="{Binding IsThreeState}"
                                                Margin="0 0 5 0"
                                                VerticalContentAlignment="Center">
-                            <Label Content="Wifi" FontSize="11"/>
+                            <Label Content="Wifi" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
                         </se:StswComponentCheck>
                     </StackPanel>
                 </DockPanel>

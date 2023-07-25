@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswContentDialog}">
-
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         
@@ -65,32 +64,32 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OK">
-                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
+                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OKCancel">
-                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo" />
+                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="YesNo">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Error">
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagon}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Fill}" TargetName="PART_Header" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Question">
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpRhombus}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Question.Fill}" TargetName="PART_Header" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Warning">
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Alert}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Fill}" TargetName="PART_Header" />
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Information">
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.InformationSlabBox}" TargetName="PART_Header" />
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Fill}" TargetName="PART_Header" />
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Question">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Warning">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
                         </DataTrigger>
                         <Trigger Property="IsOpen" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>

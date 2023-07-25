@@ -3,8 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswHeader}">
-
-        <Setter Property="Padding" Value="3 1"/>
+        <Setter Property="Padding" Value="3"/>
         
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
@@ -23,11 +22,10 @@
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
-                        <StackPanel Margin="1" Orientation="{TemplateBinding Orientation}">
+                        <StackPanel Margin="{TemplateBinding Padding}" Orientation="{TemplateBinding Orientation}">
                             <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
-                                            Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <ContentControl.Style>
@@ -125,7 +123,6 @@
                             <!-- text -->
                             <ContentPresenter x:Name="PART_Text"
                                               Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
                                               RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -135,10 +132,16 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

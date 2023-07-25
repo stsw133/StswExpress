@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswExpander}">
-
         <Setter Property="Background" Value="{DynamicResource StswExpander.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
 
@@ -73,10 +72,10 @@
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Down">
-                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow" />
+                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Up">
-                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow" />
+                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow"/>
                                                 <Setter Property="LayoutTransform" TargetName="PART_Arrow">
                                                     <Setter.Value>
                                                         <RotateTransform Angle="180"/>
@@ -84,9 +83,9 @@
                                                 </Setter>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Left">
-                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content" />
-                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content" />
-                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow" />
+                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
+                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content"/>
+                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow"/>
                                                 <Setter Property="LayoutTransform" TargetName="PART_Arrow">
                                                     <Setter.Value>
                                                         <RotateTransform Angle="90"/>
@@ -94,9 +93,9 @@
                                                 </Setter>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Right">
-                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content" />
-                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content" />
-                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow" />
+                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
+                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content"/>
+                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow"/>
                                                 <Setter Property="LayoutTransform" TargetName="PART_Arrow">
                                                     <Setter.Value>
                                                         <RotateTransform Angle="-90"/>
@@ -104,7 +103,7 @@
                                                 </Setter>
                                             </DataTrigger>
                                             <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Arrow" />
+                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Arrow"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -128,37 +127,37 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header" />
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_SubBorder" />
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_SubBorder"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header" />
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_SubBorder" />
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_SubBorder"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header" />
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SubBorder" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SubBorder"/>
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder" />
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=PART_Header}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsPressed, ElementName=PART_Header}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Header}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

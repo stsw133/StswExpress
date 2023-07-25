@@ -15,7 +15,7 @@ public class StswProgressBar : ProgressBar
         OnTextChanged(this, EventArgs.Empty);
         DependencyPropertyDescriptor.FromProperty(MaximumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
         DependencyPropertyDescriptor.FromProperty(MinimumProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
-        DependencyPropertyDescriptor.FromProperty(TextInPercentsProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
+        DependencyPropertyDescriptor.FromProperty(TextModeProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
         DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(ProgressBar)).AddValueChanged(this, OnTextChanged);
     }
     static StswProgressBar()
@@ -31,12 +31,12 @@ public class StswProgressBar : ProgressBar
     {
         if (Maximum != Minimum)
         {
-            if (TextInPercents == true)
+            if (TextMode == StswProgressTextMode.Percentage)
             {
                 Text = $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %";
                 return;
             }
-            else if (TextInPercents == false)
+            else if (TextMode == StswProgressTextMode.Value)
             {
                 Text = $"{Value - Minimum} / {Maximum - Minimum}";
                 return;
@@ -80,15 +80,15 @@ public class StswProgressBar : ProgressBar
     /// <summary>
     /// Gets or sets a value indicating whether to display the progress text in percents or the current value range.
     /// </summary>
-    public bool? TextInPercents
+    public StswProgressTextMode TextMode
     {
-        get => (bool?)GetValue(TextInPercentsProperty);
-        set => SetValue(TextInPercentsProperty, value);
+        get => (StswProgressTextMode)GetValue(TextModeProperty);
+        set => SetValue(TextModeProperty, value);
     }
-    public static readonly DependencyProperty TextInPercentsProperty
+    public static readonly DependencyProperty TextModeProperty
         = DependencyProperty.Register(
-            nameof(TextInPercents),
-            typeof(bool?),
+            nameof(TextMode),
+            typeof(StswProgressTextMode),
             typeof(StswProgressBar)
         );
     #endregion

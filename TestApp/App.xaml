@@ -141,6 +141,9 @@
             </DataTemplate>
             
             <!-- StatusInfo -->
+            <DataTemplate DataType="{x:Type local:StswLogPanelContext}">
+                <local:StswLogPanelView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
                 <local:StswProgressBarView/>
             </DataTemplate>
@@ -162,6 +165,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTextContext}">
+                <local:StswTextView/>
             </DataTemplate>
             
             <!-- Windowing -->

@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswRadioButton}">
-
         <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
@@ -34,22 +33,29 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Checked.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Checked.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Disabled.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.CheckedAndDisabled.Background}" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

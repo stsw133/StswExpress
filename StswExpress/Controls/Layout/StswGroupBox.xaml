@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswGroupBox}">
-
         <Setter Property="Background" Value="{DynamicResource StswExpander.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
 
@@ -59,9 +58,9 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header" />
+                            <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswExpander.Disabled.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

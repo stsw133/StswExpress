@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswWindow}">
-
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{x:Static SystemParameters.WindowGlassBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -206,40 +205,40 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ContentDialog" Value="{x:Null}">
-                            <Setter Property="Focusable" Value="True" TargetName="PART_Content" />
-                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Content" />
-                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentDialog" />
+                            <Setter Property="Focusable" Value="True" TargetName="PART_Content"/>
+                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Content"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentDialog"/>
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="Foreground" Value="#B777" TargetName="PART_Header" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="#B777" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonMinimize" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonMinimize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault" />
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
                         </Trigger>
                         <Trigger Property="SubTitle" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder" />
-                            <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder" />
-                            <Setter Property="ToolTip" Value="Przywróć w dół" TargetName="PART_ButtonRestore" />
-                            <Setter Property="Header" Value="Przywróć w dół" TargetName="PART_MenuRestore" />
+                            <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
+                            <Setter Property="ToolTip" Value="Przywróć w dół" TargetName="PART_ButtonRestore"/>
+                            <Setter Property="Header" Value="Przywróć w dół" TargetName="PART_MenuRestore"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

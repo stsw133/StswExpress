@@ -42,12 +42,12 @@ public class StswProgressBarContext : ControlsContext
         set => SetProperty(ref state, value);
     }
 
-    /// TextInPercents
-    private bool? textInPercents = null;
-    public bool? TextInPercents
+    /// TextMode
+    private StswProgressTextMode textMode = StswProgressTextMode.Percentage;
+    public StswProgressTextMode TextMode
     {
-        get => textInPercents;
-        set => SetProperty(ref textInPercents, value);
+        get => textMode;
+        set => SetProperty(ref textMode, value);
     }
     #endregion
 }

@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSlider}">
-
         <Setter Property="Background" Value="{DynamicResource StswSlider.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswSlider.Static.Foreground}"/>
@@ -67,16 +66,16 @@
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.MouseOver.Border}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.MouseOver.Background}" TargetName="PART_Grip"/>
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.MouseOver.Border}" TargetName="PART_Grip"/>
                                                 </Trigger>
                                                 <Trigger Property="IsDragging" Value="True">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Dragging.Background}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Dragging.Border}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Dragging.Background}" TargetName="PART_Grip"/>
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Dragging.Border}" TargetName="PART_Grip"/>
                                                 </Trigger>
                                                 <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Disabled.Background}" TargetName="PART_Grip" />
-                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Disabled.Border}" TargetName="PART_Grip" />
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.Thumb.Disabled.Background}" TargetName="PART_Grip"/>
+                                                    <Setter Property="Stroke" Value="{DynamicResource StswSlider.Thumb.Disabled.Border}" TargetName="PART_Grip"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -87,112 +86,112 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick" />
-                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TopTick" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick" />
-                            <Setter Property="Margin" Value="0 0 0 2" TargetName="TopTick" />
-                            <Setter Property="Height" Value="4" TargetName="TopTick" />
-                            <Setter Property="Placement" Value="Top" TargetName="TopTick" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick"/>
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TopTick"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick"/>
+                            <Setter Property="Margin" Value="0 0 0 2" TargetName="TopTick"/>
+                            <Setter Property="Height" Value="4" TargetName="TopTick"/>
+                            <Setter Property="Placement" Value="Top" TargetName="TopTick"/>
 
-                            <Setter Property="Grid.Column" Value="0" TargetName="BottomTick" />
-                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="BottomTick" />
-                            <Setter Property="Grid.Row" Value="2" TargetName="BottomTick" />
-                            <Setter Property="Margin" Value="0 2 0 0" TargetName="BottomTick" />
-                            <Setter Property="Height" Value="4" TargetName="BottomTick" />
-                            <Setter Property="Placement" Value="Bottom" TargetName="BottomTick" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="BottomTick"/>
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="BottomTick"/>
+                            <Setter Property="Grid.Row" Value="2" TargetName="BottomTick"/>
+                            <Setter Property="Margin" Value="0 2 0 0" TargetName="BottomTick"/>
+                            <Setter Property="Height" Value="4" TargetName="BottomTick"/>
+                            <Setter Property="Placement" Value="Bottom" TargetName="BottomTick"/>
 
-                            <Setter Property="Grid.Column" Value="0" TargetName="TrackBackground" />
-                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TrackBackground" />
-                            <Setter Property="Grid.Row" Value="1" TargetName="TrackBackground" />
-                            <Setter Property="Margin" Value="5 0" TargetName="TrackBackground" />
-                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
-                            <Setter Property="VerticalAlignment" Value="Center" TargetName="TrackBackground" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="TrackBackground"/>
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="TrackBackground"/>
+                            <Setter Property="Grid.Row" Value="1" TargetName="TrackBackground"/>
+                            <Setter Property="Margin" Value="5 0" TargetName="TrackBackground"/>
+                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground"/>
+                            <Setter Property="VerticalAlignment" Value="Center" TargetName="TrackBackground"/>
 
-                            <Setter Property="Grid.Column" Value="0" TargetName="PART_Track" />
-                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="PART_Track" />
-                            <Setter Property="Grid.Row" Value="1" TargetName="PART_Track" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="PART_Track"/>
+                            <Setter Property="Grid.ColumnSpan" Value="4" TargetName="PART_Track"/>
+                            <Setter Property="Grid.Row" Value="1" TargetName="PART_Track"/>
 
-                            <Setter Property="Margin" Value="-6 -1" TargetName="PART_Canvas" />
-                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange" />
+                            <Setter Property="Margin" Value="-6 -1" TargetName="PART_Canvas"/>
+                            <Setter Property="Height" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick" />
-                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TopTick" />
-                            <Setter Property="Margin" Value="0 0 2 0" TargetName="TopTick" />
-                            <Setter Property="Width" Value="4" TargetName="TopTick" />
-                            <Setter Property="Placement" Value="Left" TargetName="TopTick" />
+                            <Setter Property="Grid.Column" Value="0" TargetName="TopTick"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="TopTick"/>
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TopTick"/>
+                            <Setter Property="Margin" Value="0 0 2 0" TargetName="TopTick"/>
+                            <Setter Property="Width" Value="4" TargetName="TopTick"/>
+                            <Setter Property="Placement" Value="Left" TargetName="TopTick"/>
 
-                            <Setter Property="Grid.Column" Value="2" TargetName="BottomTick" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="BottomTick" />
-                            <Setter Property="Grid.RowSpan" Value="4" TargetName="BottomTick" />
-                            <Setter Property="Margin" Value="2 0 0 0" TargetName="BottomTick" />
-                            <Setter Property="Width" Value="4" TargetName="BottomTick" />
-                            <Setter Property="Placement" Value="Right" TargetName="BottomTick" />
+                            <Setter Property="Grid.Column" Value="2" TargetName="BottomTick"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="BottomTick"/>
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="BottomTick"/>
+                            <Setter Property="Margin" Value="2 0 0 0" TargetName="BottomTick"/>
+                            <Setter Property="Width" Value="4" TargetName="BottomTick"/>
+                            <Setter Property="Placement" Value="Right" TargetName="BottomTick"/>
 
-                            <Setter Property="Grid.Column" Value="1" TargetName="TrackBackground" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="TrackBackground" />
-                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TrackBackground" />
-                            <Setter Property="Margin" Value="0 5" TargetName="TrackBackground" />
-                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground" />
-                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="TrackBackground" />
+                            <Setter Property="Grid.Column" Value="1" TargetName="TrackBackground"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="TrackBackground"/>
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="TrackBackground"/>
+                            <Setter Property="Margin" Value="0 5" TargetName="TrackBackground"/>
+                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="TrackBackground"/>
+                            <Setter Property="HorizontalAlignment" Value="Center" TargetName="TrackBackground"/>
 
-                            <Setter Property="Grid.Column" Value="1" TargetName="PART_Track" />
-                            <Setter Property="Grid.Row" Value="0" TargetName="PART_Track" />
-                            <Setter Property="Grid.RowSpan" Value="4" TargetName="PART_Track" />
+                            <Setter Property="Grid.Column" Value="1" TargetName="PART_Track"/>
+                            <Setter Property="Grid.Row" Value="0" TargetName="PART_Track"/>
+                            <Setter Property="Grid.RowSpan" Value="4" TargetName="PART_Track"/>
 
-                            <Setter Property="Margin" Value="-1 -6" TargetName="PART_Canvas" />
-                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange" />
+                            <Setter Property="Margin" Value="-1 -6" TargetName="PART_Canvas"/>
+                            <Setter Property="Width" Value="{Binding TrackSize, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_SelectionRange"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Orientation" Value="Horizontal"/>
                                 <Condition Property="TickPlacement" Value="TopLeft"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="5 2 5 0" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="5 2 5 0" TargetName="TrackBackground"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Orientation" Value="Horizontal"/>
                                 <Condition Property="TickPlacement" Value="BottomRight"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="5 0 5 2" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="5 0 5 2" TargetName="TrackBackground"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Orientation" Value="Vertical"/>
                                 <Condition Property="TickPlacement" Value="TopLeft"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="2 5 0 5" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="2 5 0 5" TargetName="TrackBackground"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Orientation" Value="Vertical"/>
                                 <Condition Property="TickPlacement" Value="BottomRight"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="0 5 2 5" TargetName="TrackBackground" />
+                            <Setter Property="Margin" Value="0 5 2 5" TargetName="TrackBackground"/>
                         </MultiTrigger>
                         <Trigger Property="TickPlacement" Value="TopLeft">
-                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick"/>
                         </Trigger>
                         <Trigger Property="TickPlacement" Value="BottomRight">
-                            <Setter Property="Visibility" Value="Visible" TargetName="BottomTick" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="BottomTick"/>
                         </Trigger>
                         <Trigger Property="TickPlacement" Value="Both">
-                            <Setter Property="Visibility" Value="Visible" TargetName="BottomTick" />
-                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="BottomTick"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="TopTick"/>
                         </Trigger>
                         <Trigger Property="IsSelectionRangeEnabled" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange"/>
                         </Trigger>
                         <!--
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource StswColor.Primary}" TargetName="Thumb" />
+                            <Setter Property="Foreground" Value="{DynamicResource StswColor.Primary}" TargetName="Thumb"/>
                         </Trigger>
                         -->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswSlider.Disabled.Background}" TargetName="TrackBackground" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Disabled.Border}" TargetName="TrackBackground" />
+                            <Setter Property="Background" Value="{DynamicResource StswSlider.Disabled.Background}" TargetName="TrackBackground"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswSlider.Disabled.Border}" TargetName="TrackBackground"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

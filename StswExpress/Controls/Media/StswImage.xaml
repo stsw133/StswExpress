@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswImage}">
-
         <Setter Property="MenuMode" Value="Disabled"/>
         <Setter Property="Scale" Value="auto"/>
         <Setter Property="Stretch" Value="Uniform"/>
@@ -66,10 +65,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Menu" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Menu"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

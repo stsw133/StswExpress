@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswComponentPanel}">
-
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
 
@@ -62,30 +61,33 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header" />
-                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="PART_Header" />
-                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuRight}" TargetName="PART_Header" />
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
+                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="PART_Header"/>
+                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuRight}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header" />
-                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Header" />
-                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuDown}" TargetName="PART_Header" />
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
+                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Header"/>
+                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuDown}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header" />
-                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuRight}" TargetName="PART_Header" />
-                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="PART_Header" />
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
+                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuRight}" TargetName="PART_Header"/>
+                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuLeft}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Down">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Header" />
-                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuDown}" TargetName="PART_Header" />
-                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Header" />
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Header"/>
+                            <Setter Property="IconUnchecked" Value="{x:Static se:StswIcons.MenuDown}" TargetName="PART_Header"/>
+                            <Setter Property="IconChecked" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="IsExpanded" Value="True"/>
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

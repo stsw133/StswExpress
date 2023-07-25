@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswColorPicker}">
-
         <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
 
@@ -177,10 +176,10 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsAlphaEnabled" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder" />
+                            <Setter Property="Opacity" Value="0.5" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

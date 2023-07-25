@@ -3,7 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswNavigationElement}">
-
         <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Static.Border}"/>
         
@@ -12,7 +11,7 @@
         <Setter Property="SubBorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="SubItemIndentation" Value="22"/>
+        <Setter Property="SubItemIndentation" Value="20"/>
 
         <Setter Property="IconScale" Value="1.5"/>
 
@@ -71,7 +70,7 @@
                     </ContentControl>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsCompact" Value="True">
-                            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentControl" />
+                            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ContentControl"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -170,20 +169,20 @@
                     </se:StswToggleButton>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Border}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items" />
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_MainButton" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainButton" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}" TargetName="PART_MainButton" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_MainButton"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainButton"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -263,7 +262,7 @@
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Arrow" />
+                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Arrow"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -294,21 +293,21 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder" />
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=PART_Header}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsPressed, ElementName=PART_Header}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Pressed.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Pressed.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_Header" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}" TargetName="PART_Header" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -339,22 +338,29 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Pressed.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Pressed.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Border}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Checked.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Checked.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_MainBorder" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainBorder" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}" TargetName="PART_MainBorder" />
+                            <Setter Property="Background" Value="{DynamicResource StswNavigationElement.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswNavigationElement.Disabled.Foreground}"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswButton.CheckedAndDisabled.Background}" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </se:StswRadioButton.Template>
