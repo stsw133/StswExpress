@@ -18,7 +18,7 @@ public class StswColorSelector : UserControl
 
     public StswColorSelector()
     {
-        SelectColorCommand = new StswRelayCommand<SolidColorBrush?>(SelectColor_Executed);
+        SelectColorCommand = new StswCommand<SolidColorBrush?>(SelectColor_Executed);
     }
     static StswColorSelector()
     {

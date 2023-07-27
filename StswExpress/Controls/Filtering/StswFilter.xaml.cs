@@ -22,7 +22,7 @@ public class StswFilter : UserControl
 
     public StswFilter()
     {
-        SelectModeCommand = new StswRelayCommand<object?>(SelectMode_Executed);
+        SelectModeCommand = new StswCommand<object?>(SelectMode_Executed);
     }
     static StswFilter()
     {

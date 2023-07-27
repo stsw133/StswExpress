@@ -9,7 +9,7 @@ public class StswPasswordBoxContext : ControlsContext
 
     public StswPasswordBoxContext()
     {
-        RandomizeCommand = new StswRelayCommand(Randomize);
+        RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events

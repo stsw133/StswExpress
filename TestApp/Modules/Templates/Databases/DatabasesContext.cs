@@ -18,13 +18,13 @@ public class DatabasesContext : StswObservableObject
     public StswProgressState LoadingState => LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
 
     /// Commands
-    public StswRelayCommand ImportCommand { get; set; }
-    public StswRelayCommand ExportCommand { get; set; }
+    public StswCommand ImportCommand { get; set; }
+    public StswCommand ExportCommand { get; set; }
 
     public DatabasesContext()
     {
-        ImportCommand = new StswRelayCommand(Import);
-        ExportCommand = new StswRelayCommand(Export);
+        ImportCommand = new StswCommand(Import);
+        ExportCommand = new StswCommand(Export);
     }
 
     /// Import
@@ -32,7 +32,7 @@ public class DatabasesContext : StswObservableObject
     {
         LoadingActions++;
         StswDatabase.ImportDatabases();
-        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault().Value ?? new();
+        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
         LoadingActions--;
     }
 
@@ -40,10 +40,8 @@ public class DatabasesContext : StswObservableObject
     private void Export()
     {
         LoadingActions++;
-        StswDatabase.AllDatabases = new()
-        {
-            { string.Empty, StswDatabase.CurrentDatabase }
-        };
+        if (StswDatabase.CurrentDatabase != null && !StswDatabase.AllDatabases.Contains(StswDatabase.CurrentDatabase))
+            StswDatabase.AllDatabases.Add(StswDatabase.CurrentDatabase);
         StswDatabase.ExportDatabases();
         LoadingActions--;
     }

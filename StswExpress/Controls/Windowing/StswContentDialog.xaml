@@ -32,7 +32,9 @@
                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswHeader x:Name="PART_Header" IconScale="2" Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <se:StswHeader x:Name="PART_Header"
+                                               Content="{Binding BindingModel.Title, RelativeSource={RelativeSource TemplatedParent}}"
+                                               IconScale="2"/>
                             </se:StswGroupBox.Header>
                             <DockPanel>
                                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">

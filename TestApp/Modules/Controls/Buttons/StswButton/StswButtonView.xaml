@@ -28,16 +28,16 @@
                         </StackPanel>
                     </Label>
                     <!-- IsDefault -->
-                    <se:StswCheckBox IsChecked="{Binding IsDefault}">
+                    <se:StswCheckBox IsChecked="{Binding IsDefault}" Margin="0 3">
                         <Label Content="IsDefault" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- Type -->
-                    <Label Content="Type:" FontSize="15" FontWeight="Medium"/>
-                    <se:StswComboBox SelectedValue="{Binding Type}" SelectedValuePath="Tag">
+                    <Label Content="Type:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Standard" Tag="0"/>
                         <ComboBoxItem Content="Positive" Tag="1"/>
                         <ComboBoxItem Content="Negative" Tag="2"/>

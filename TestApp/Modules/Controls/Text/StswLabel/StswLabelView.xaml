@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top">
+                    <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -28,12 +28,12 @@
                         </StackPanel>
                     </Label>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsTruncationAllowed -->
-                    <se:StswCheckBox IsChecked="{Binding IsTruncationAllowed}">
-                        <Label DockPanel.Dock="Top" Content="IsTruncationAllowed" FontSize="15" FontWeight="Medium"/>
+                    <se:StswCheckBox IsChecked="{Binding IsTruncationAllowed}" Margin="0 3">
+                        <Label Content="IsTruncationAllowed" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>

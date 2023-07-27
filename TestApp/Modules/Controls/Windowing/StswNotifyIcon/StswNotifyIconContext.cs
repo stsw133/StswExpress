@@ -9,7 +9,7 @@ public class StswNotifyIconContext : ControlsContext
 
     public StswNotifyIconContext()
     {
-        TestCommand = new StswRelayCommand(Test);
+        TestCommand = new StswCommand(Test);
     }
 
     #region Events

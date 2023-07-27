@@ -10,7 +10,7 @@ public class StswColorBoxContext : ControlsContext
 
     public StswColorBoxContext()
     {
-        RandomizeCommand = new StswRelayCommand(Randomize);
+        RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events

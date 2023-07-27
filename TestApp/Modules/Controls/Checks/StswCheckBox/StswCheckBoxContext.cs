@@ -9,7 +9,7 @@ public class StswCheckBoxContext : ControlsContext
 
     public StswCheckBoxContext()
     {
-        OnClickCommand = new StswRelayCommand<string?>(OnClick);
+        OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
     #region Events

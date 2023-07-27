@@ -8,7 +8,7 @@ public class StswWindowContext : ControlsContext
 
     public StswWindowContext()
     {
-        OpenNewWindowCommand = new StswRelayCommand(OpenNewWindow);
+        OpenNewWindowCommand = new StswCommand(OpenNewWindow);
     }
 
     #region Events

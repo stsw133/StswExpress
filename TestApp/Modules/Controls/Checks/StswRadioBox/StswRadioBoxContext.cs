@@ -9,7 +9,7 @@ public class StswRadioBoxContext : ControlsContext
 
     public StswRadioBoxContext()
     {
-        OnClickCommand = new StswRelayCommand<string?>(OnClick);
+        OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
     #region Events

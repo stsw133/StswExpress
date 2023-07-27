@@ -60,41 +60,41 @@ public class StswTextEditor : RichTextBox
         SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
 
         /// FILE
-        FileNewCommand = new StswRelayCommand(FileNew_Executed, FileNew_CanExecute);
-        FileOpenCommand = new StswRelayCommand(FileOpen_Executed, FileOpen_CanExecute);
-        FileSaveCommand = new StswRelayCommand(FileSave_Executed, FileSave_CanExecute);
-        FileSaveAsCommand = new StswRelayCommand(FileSaveAs_Executed, FileSaveAs_CanExecute);
-        FileReloadCommand = new StswRelayCommand(FileReload_Executed, FileReload_CanExecute);
-        FilePrintCommand = new StswRelayCommand(FilePrint_Executed, FilePrint_CanExecute);
-        FileMailCommand = new StswRelayCommand(FileMail_Executed, FileMail_CanExecute);
-        FileInfoCommand = new StswRelayCommand(FileInfo_Executed, FileInfo_CanExecute);
+        FileNewCommand = new StswCommand(FileNew_Executed, FileNew_CanExecute);
+        FileOpenCommand = new StswCommand(FileOpen_Executed, FileOpen_CanExecute);
+        FileSaveCommand = new StswCommand(FileSave_Executed, FileSave_CanExecute);
+        FileSaveAsCommand = new StswCommand(FileSaveAs_Executed, FileSaveAs_CanExecute);
+        FileReloadCommand = new StswCommand(FileReload_Executed, FileReload_CanExecute);
+        FilePrintCommand = new StswCommand(FilePrint_Executed, FilePrint_CanExecute);
+        FileMailCommand = new StswCommand(FileMail_Executed, FileMail_CanExecute);
+        FileInfoCommand = new StswCommand(FileInfo_Executed, FileInfo_CanExecute);
         /// EDIT
-        EditUndoCommand = new StswRelayCommand(EditUndo_Executed, EditUndo_CanExecute);
-        EditRedoCommand = new StswRelayCommand(EditRedo_Executed, EditRedo_CanExecute);
-        EditClearCommand = new StswRelayCommand(EditClear_Executed, EditClear_CanExecute);
-        EditSelectAllCommand = new StswRelayCommand(EditSelectAll_Executed, EditSelectAll_CanExecute);
-        EditCutCommand = new StswRelayCommand(EditCut_Executed, EditCut_CanExecute);
-        EditCopyCommand = new StswRelayCommand(EditCopy_Executed, EditCopy_CanExecute);
-        EditPasteCommand = new StswRelayCommand(EditPaste_Executed, EditPaste_CanExecute);
+        EditUndoCommand = new StswCommand(EditUndo_Executed, EditUndo_CanExecute);
+        EditRedoCommand = new StswCommand(EditRedo_Executed, EditRedo_CanExecute);
+        EditClearCommand = new StswCommand(EditClear_Executed, EditClear_CanExecute);
+        EditSelectAllCommand = new StswCommand(EditSelectAll_Executed, EditSelectAll_CanExecute);
+        EditCutCommand = new StswCommand(EditCut_Executed, EditCut_CanExecute);
+        EditCopyCommand = new StswCommand(EditCopy_Executed, EditCopy_CanExecute);
+        EditPasteCommand = new StswCommand(EditPaste_Executed, EditPaste_CanExecute);
         /// FONT
-        FontBoldCommand = new StswRelayCommand(FontBold_Executed, FontBold_CanExecute);
-        FontItalicCommand = new StswRelayCommand(FontItalic_Executed, FontItalic_CanExecute);
-        FontUnderlineCommand = new StswRelayCommand(FontUnderline_Executed, FontUnderline_CanExecute);
-        FontStrikethroughCommand = new StswRelayCommand(FontStrikethrough_Executed, FontStrikethrough_CanExecute);
-        FontSubscriptCommand = new StswRelayCommand(FontSubscript_Executed, FontSubscript_CanExecute);
-        FontSuperscriptCommand = new StswRelayCommand(FontSuperscript_Executed, FontSuperscript_CanExecute);
-        FontColorTextCommand = new StswRelayCommand(FontColorText_Executed, FontColorText_CanExecute);
-        FontColorHighlightCommand = new StswRelayCommand(FontColorHighlight_Executed, FontColorHighlight_CanExecute);
+        FontBoldCommand = new StswCommand(FontBold_Executed, FontBold_CanExecute);
+        FontItalicCommand = new StswCommand(FontItalic_Executed, FontItalic_CanExecute);
+        FontUnderlineCommand = new StswCommand(FontUnderline_Executed, FontUnderline_CanExecute);
+        FontStrikethroughCommand = new StswCommand(FontStrikethrough_Executed, FontStrikethrough_CanExecute);
+        FontSubscriptCommand = new StswCommand(FontSubscript_Executed, FontSubscript_CanExecute);
+        FontSuperscriptCommand = new StswCommand(FontSuperscript_Executed, FontSuperscript_CanExecute);
+        FontColorTextCommand = new StswCommand(FontColorText_Executed, FontColorText_CanExecute);
+        FontColorHighlightCommand = new StswCommand(FontColorHighlight_Executed, FontColorHighlight_CanExecute);
         /// SECTION
-        SectionIncreaseCommand = new StswRelayCommand(SectionIncrease_Executed, SectionIncrease_CanExecute);
-        SectionDecreaseCommand = new StswRelayCommand(SectionDecrease_Executed, SectionDecrease_CanExecute);
-        SectionListBulletedCommand = new StswRelayCommand(SectionListBulleted_Executed, SectionListBulleted_CanExecute);
-        SectionListNumberedCommand = new StswRelayCommand(SectionListNumbered_Executed, SectionListNumbered_CanExecute);
-        SectionInterlineCommand = new StswRelayCommand<object?>(SectionInterline_Executed, SectionInterline_CanExecute);
-        SectionAlignLeftCommand = new StswRelayCommand(SectionAlignLeft_Executed, SectionAlignLeft_CanExecute);
-        SectionAlignCenterCommand = new StswRelayCommand(SectionAlignCenter_Executed, SectionAlignCenter_CanExecute);
-        SectionAlignRightCommand = new StswRelayCommand(SectionAlignRight_Executed, SectionAlignRight_CanExecute);
-        SectionAlignJustifyCommand = new StswRelayCommand(SectionAlignJustify_Executed, SectionAlignJustify_CanExecute);
+        SectionIncreaseCommand = new StswCommand(SectionIncrease_Executed, SectionIncrease_CanExecute);
+        SectionDecreaseCommand = new StswCommand(SectionDecrease_Executed, SectionDecrease_CanExecute);
+        SectionListBulletedCommand = new StswCommand(SectionListBulleted_Executed, SectionListBulleted_CanExecute);
+        SectionListNumberedCommand = new StswCommand(SectionListNumbered_Executed, SectionListNumbered_CanExecute);
+        SectionInterlineCommand = new StswCommand<object?>(SectionInterline_Executed, SectionInterline_CanExecute);
+        SectionAlignLeftCommand = new StswCommand(SectionAlignLeft_Executed, SectionAlignLeft_CanExecute);
+        SectionAlignCenterCommand = new StswCommand(SectionAlignCenter_Executed, SectionAlignCenter_CanExecute);
+        SectionAlignRightCommand = new StswCommand(SectionAlignRight_Executed, SectionAlignRight_CanExecute);
+        SectionAlignJustifyCommand = new StswCommand(SectionAlignJustify_Executed, SectionAlignJustify_CanExecute);
     }
     static StswTextEditor()
     {

@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top">
+                    <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -28,16 +28,13 @@
                         </StackPanel>
                     </Label>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- SelectionMode -->
-                    <Label Content="SelectionMode:" FontSize="15" FontWeight="Medium"/>
-                    <se:StswComboBox SelectedValue="{Binding SelectionMode}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static SelectionMode.Extended}"/>
-                        <ComboBoxItem Content="{x:Static SelectionMode.Multiple}"/>
-                        <ComboBoxItem Content="{x:Static SelectionMode.Single}"/>
-                    </se:StswComboBox>
+                    <Label Content="SelectionMode:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}" SelectedValuePath="Value"/>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->

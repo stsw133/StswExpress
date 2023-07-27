@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace TestApp;
 
 public class StswLogPanelContext : ControlsContext
 {
-    public ICommand AddRandomItemCommand { get; set; }
+    public StswCommand AddRandomItemCommand { get; set; }
+    public StswAsyncCommand LoadFromFilesCommand { get; set; }
 
     public StswLogPanelContext()
     {
-        AddRandomItemCommand = new StswRelayCommand(AddRandomItem);
+        AddRandomItemCommand = new(AddRandomItem);
+        LoadFromFilesCommand = new(LoadFromFiles_Executed);
     }
 
     #region Events
@@ -22,6 +24,9 @@ public class StswLogPanelContext : ControlsContext
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."[..new Random().Next(199)])
         );
     }
+
+    /// Command: load from files
+    private Task LoadFromFiles_Executed() => Task.Run(() => Items = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
     #endregion
 
     #region Properties

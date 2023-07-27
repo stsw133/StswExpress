@@ -8,7 +8,7 @@ public class StswSplitButtonContext : ControlsContext
 
     public StswSplitButtonContext()
     {
-        OnClickCommand = new StswRelayCommand<string?>(OnClick);
+        OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
     #region Events

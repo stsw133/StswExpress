@@ -15,7 +15,7 @@ public partial class App : Application
         StswFn.AppStart(this, "myOwnStswHashKey");
 
         StswDatabase.ImportDatabases();
-        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault().Value ?? new();
+        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
         MainWindow = new MainWindow();
         MainWindow.Show();
@@ -23,6 +23,6 @@ public partial class App : Application
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        StswLog.Write(e.Exception.ToString());
+        StswLog.Write(StswLogType.Error, e.Exception.ToString());
     }
 }

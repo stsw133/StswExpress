@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace StswExpress;
@@ -11,7 +12,7 @@ public static class StswDatabase
     /// <summary>
     /// The dictionary that contains all declared database connections for application.
     /// </summary>
-    public static StswDictionary<string, StswDatabaseModel> AllDatabases { get; set; } = new();
+    public static ObservableCollection<StswDatabaseModel> AllDatabases { get; set; } = new();
 
     /// <summary>
     /// Default instance of database connection (that is currently in use by application). 
@@ -43,7 +44,7 @@ public static class StswDatabase
             if (line != null)
             {
                 var data = line.Split('|');
-                AllDatabases.Add(StswSecurity.Decrypt(data[0]), new StswDatabaseModel()
+                AllDatabases.Add(new()
                 {
                     Server = StswSecurity.Decrypt(data[1]),
                     Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
@@ -62,12 +63,12 @@ public static class StswDatabase
     {
         using var stream = new StreamWriter(FilePath);
         foreach (var db in AllDatabases)
-            stream.WriteLine(StswSecurity.Encrypt(db.Key)
-                    + "|" + StswSecurity.Encrypt(db.Value.Server)
-                    + "|" + StswSecurity.Encrypt(db.Value.Port.ToString())
-                    + "|" + StswSecurity.Encrypt(db.Value.Database)
-                    + "|" + StswSecurity.Encrypt(db.Value.Login)
-                    + "|" + StswSecurity.Encrypt(db.Value.Password)
+            stream.WriteLine(StswSecurity.Encrypt(db.Name)
+                    + "|" + StswSecurity.Encrypt(db.Server)
+                    + "|" + StswSecurity.Encrypt(db.Port.ToString())
+                    + "|" + StswSecurity.Encrypt(db.Database)
+                    + "|" + StswSecurity.Encrypt(db.Login)
+                    + "|" + StswSecurity.Encrypt(db.Password)
                 );
     }
 }
@@ -86,6 +87,7 @@ public class StswDatabaseModel
         PostgreSQL
     }
 
+    public string Name { get; set; } = string.Empty;
     public Types Type { get; set; } = default;
     public string Server { get; set; } = string.Empty;
     public int Port { get; set; } = 0;

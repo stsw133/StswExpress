@@ -9,7 +9,7 @@ public class StswTextBoxContext : ControlsContext
 
     public StswTextBoxContext()
     {
-        RandomizeCommand = new StswRelayCommand(Randomize);
+        RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events

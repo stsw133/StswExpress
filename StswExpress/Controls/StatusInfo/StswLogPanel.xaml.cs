@@ -19,7 +19,7 @@ public class StswLogPanel : UserControl
     {
         SetValue(ItemsProperty, new ObservableCollection<StswLogItem>());
 
-        RemoveLogCommand = new StswRelayCommand<StswLogItem?>(RemoveLog_Executed);
+        RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog_Executed);
     }
     static StswLogPanel()
     {

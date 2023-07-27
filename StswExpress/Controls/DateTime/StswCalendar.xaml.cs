@@ -24,7 +24,7 @@ public class StswCalendar : UserControl
     {
         SetValue(ItemsProperty, new ObservableCollection<StswCalendarItem>());
 
-        SelectDateCommand = new StswRelayCommand<DateTime?>(SelectDate_Executed);
+        SelectDateCommand = new StswCommand<DateTime?>(SelectDate_Executed);
     }
     static StswCalendar()
     {

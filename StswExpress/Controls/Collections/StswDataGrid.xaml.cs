@@ -19,7 +19,7 @@ public class StswDataGrid : DataGrid
 
     public StswDataGrid()
     {
-        ClearFiltersCommand = new StswRelayCommand(ActionClear);
+        ClearFiltersCommand = new StswCommand(ActionClear);
     }
     /* /// this will cause control to be not visible
     static StswDataGrid()

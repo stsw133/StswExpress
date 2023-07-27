@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top">
+                    <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -28,21 +28,16 @@
                         </StackPanel>
                     </Label>
                     <!-- FilterType -->
-                    <Label Content="FilterType:" FontSize="15" FontWeight="Medium"/>
-                    <se:StswComboBox SelectedValue="{Binding FilterType}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static se:StswFilterType.Check}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilterType.Date}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilterType.List}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilterType.Number}"/>
-                        <ComboBoxItem Content="{x:Static se:StswFilterType.Text}"/>
-                    </se:StswComboBox>
+                    <Label Content="FilterType:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswFilterType}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding FilterType}" SelectedValuePath="Value"/>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsFilterNullSensitive -->
-                    <se:StswCheckBox IsChecked="{Binding IsFilterNullSensitive}">
-                        <Label DockPanel.Dock="Top" Content="IsFilterNullSensitive" FontSize="15" FontWeight="Medium"/>
+                    <se:StswCheckBox IsChecked="{Binding IsFilterNullSensitive}" Margin="0 3">
+                        <Label Content="IsFilterNullSensitive" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>

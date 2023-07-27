@@ -28,15 +28,15 @@ public class ContractorsListContext : StswObservableObject
     public ContractorsListContext()
     {
         SQL.InitializeContractorsTables();
-        ClearCommand = new StswRelayCommand(Clear);
-        RefreshCommand = new StswRelayCommand(Refresh);
-        SaveCommand = new StswRelayCommand(Save);
-        ExportCommand = new StswRelayCommand(Export);
-        AddCommand = new StswRelayCommand(Add);
-        CloneCommand = new StswRelayCommand(Clone, CloneCondition);
-        EditCommand = new StswRelayCommand(Edit, EditCondition);
-        DeleteCommand = new StswRelayCommand(Delete, DeleteCondition);
-        AddPdfCommand = new StswRelayCommand(AddPdf, AddPdfCondition);
+        ClearCommand = new StswCommand(Clear);
+        RefreshCommand = new StswCommand(Refresh);
+        SaveCommand = new StswCommand(Save);
+        ExportCommand = new StswCommand(Export);
+        AddCommand = new StswCommand(Add);
+        CloneCommand = new StswCommand(Clone, CloneCondition);
+        EditCommand = new StswCommand(Edit, EditCondition);
+        DeleteCommand = new StswCommand(Delete, DeleteCondition);
+        AddPdfCommand = new StswCommand(AddPdf, AddPdfCondition);
     }
 
     #region Commands

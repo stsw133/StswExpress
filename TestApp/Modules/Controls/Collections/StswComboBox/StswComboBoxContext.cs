@@ -9,7 +9,7 @@ public class StswComboBoxContext : ControlsContext
 
     public StswComboBoxContext()
     {
-        ClearCommand = new StswRelayCommand(Clear);
+        ClearCommand = new StswCommand(Clear);
     }
 
     #region Events

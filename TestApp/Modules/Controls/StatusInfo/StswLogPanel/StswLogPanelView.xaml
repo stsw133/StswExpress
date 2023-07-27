@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top">
+                    <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -27,14 +27,18 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- Add random item -->
-                    <se:StswButton Command="{Binding AddRandomItemCommand}">
+                    <se:StswButton Command="{Binding AddRandomItemCommand}" Margin="0 3">
                         <Label Content="Add random item" FontSize="15" FontWeight="Medium"/>
                     </se:StswButton>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <!-- Load from files -->
+                    <se:StswButton Command="{Binding LoadFromFilesCommand}" Margin="0 3">
+                        <Label Content="Load from files" FontSize="15" FontWeight="Medium"/>
+                    </se:StswButton>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->

@@ -8,7 +8,7 @@ public class StswButtonContext : ControlsContext
 
     public StswButtonContext()
     {
-        OnClickCommand = new StswRelayCommand(OnClick);
+        OnClickCommand = new StswCommand(OnClick);
     }
 
     #region Events

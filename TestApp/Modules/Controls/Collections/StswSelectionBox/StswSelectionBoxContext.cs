@@ -9,7 +9,7 @@ public class StswSelectionBoxContext : ControlsContext
 
     public StswSelectionBoxContext()
     {
-        ClearCommand = new StswRelayCommand(Clear);
+        ClearCommand = new StswCommand(Clear);
     }
 
     #region Events

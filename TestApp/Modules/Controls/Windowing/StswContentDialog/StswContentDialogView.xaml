@@ -20,7 +20,7 @@
                     </Grid.ColumnDefinitions>
                     <!-- name and description -->
                     <StackPanel Grid.Column="0" Margin="5">
-                        <Label DockPanel.Dock="Top">
+                        <Label>
                             <StackPanel>
                                 <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                                 <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -29,26 +29,17 @@
                             </StackPanel>
                         </Label>
                         <!-- Buttons -->
-                        <Label Content="Buttons:" FontSize="15" FontWeight="Medium"/>
-                        <se:StswComboBox SelectedValue="{Binding ContentDialogButtons}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.OK}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.YesNo}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.OKCancel}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogButtons.YesNoCancel}"/>
-                        </se:StswComboBox>
+                        <Label Content="Buttons:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogButtons}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentDialogButtons}" SelectedValuePath="Value"/>
                         <!-- Image -->
-                        <Label Content="Image:" FontSize="15" FontWeight="Medium"/>
-                        <se:StswComboBox SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.None}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Error}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Information}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Question}"/>
-                            <ComboBoxItem Content="{x:Static se:StswDialogImage.Warning}"/>
-                        </se:StswComboBox>
+                        <Label Content="Image:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogImage}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Value"/>
                         <!-- IsEnabled -->
                         <!--
-                        <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                            <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                        <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                            <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                         </se:StswCheckBox>
                         -->
                     </StackPanel>

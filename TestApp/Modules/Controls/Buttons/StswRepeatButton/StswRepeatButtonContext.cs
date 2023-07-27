@@ -8,7 +8,7 @@ public class StswRepeatButtonContext : ControlsContext
 
     public StswRepeatButtonContext()
     {
-        OnClickCommand = new StswRelayCommand(OnClick);
+        OnClickCommand = new StswCommand(OnClick);
     }
 
     #region Events

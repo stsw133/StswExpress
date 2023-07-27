@@ -19,7 +19,7 @@
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <StackPanel Grid.Column="0" Margin="5">
-                    <Label DockPanel.Dock="Top">
+                    <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
@@ -28,26 +28,23 @@
                         </StackPanel>
                     </Label>
                     <!-- ContentVisibility -->
-                    <Label Content="ContentVisibility:" FontSize="15" FontWeight="Medium"/>
-                    <se:StswComboBox SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Content">
-                        <ComboBoxItem Content="{x:Static Visibility.Collapsed}"/>
-                        <ComboBoxItem Content="{x:Static Visibility.Hidden}"/>
-                        <ComboBoxItem Content="{x:Static Visibility.Visible}"/>
-                    </se:StswComboBox>
+                    <Label Content="ContentVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
                     <!-- IconScale -->
                     <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
                     <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
                     <!-- IsBusy -->
                     <se:StswCheckBox IsChecked="{Binding IsBusy}">
-                        <Label DockPanel.Dock="Top" Content="IsBusy" FontSize="15" FontWeight="Medium"/>
+                        <Label Content="IsBusy" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}">
-                        <Label DockPanel.Dock="Top" Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsThreeState -->
                     <se:StswCheckBox IsChecked="{Binding IsThreeState}">
-                        <Label DockPanel.Dock="Top" Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
+                        <Label Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
                 <GridSplitter Margin="-5" Width="5"/>

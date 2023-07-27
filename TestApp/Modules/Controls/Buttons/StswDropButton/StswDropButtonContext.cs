@@ -8,7 +8,7 @@ public class StswDropButtonContext : ControlsContext
 
     public StswDropButtonContext()
     {
-        OnClickCommand = new StswRelayCommand<string?>(OnClick);
+        OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
     #region Events

@@ -10,7 +10,7 @@ public class StswDatePickerContext : ControlsContext
 
     public StswDatePickerContext()
     {
-        RandomizeCommand = new StswRelayCommand(Randomize);
+        RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events
