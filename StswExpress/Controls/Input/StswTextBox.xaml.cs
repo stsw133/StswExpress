@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace StswExpress;
@@ -19,6 +21,23 @@ public class StswTextBox : TextBox
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
+
+    #region Events
+    /// <summary>
+    /// Handles the KeyDown event for the internal content host of the date picker.
+    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
+    /// </summary>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+        if (e.Key == Key.Enter)
+        {
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
+    }
+    #endregion
 
     #region Main properties
     /// <summary>

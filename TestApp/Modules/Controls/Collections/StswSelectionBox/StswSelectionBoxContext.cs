@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace TestApp;
@@ -14,7 +15,7 @@ public class StswSelectionBoxContext : ControlsContext
 
     #region Events
     /// Command: clear
-    private void Clear() => SelectedItems = new();
+    private void Clear() => Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
     #endregion
 
     #region Properties
@@ -35,29 +36,18 @@ public class StswSelectionBoxContext : ControlsContext
     }
 
     /// Items
-    private List<string?> items = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
-    public List<string?> Items
+    private ObservableCollection<StswComboItem> items = new()
+    {
+        new() { Display = "Option 1", IsSelected = true },
+        new() { Display = "Option 2", IsSelected = false },
+        new() { Display = "Option 3", IsSelected = false },
+        new() { Display = "Option 4", IsSelected = true },
+        new() { Display = "Option 5", IsSelected = false }
+    };
+    public ObservableCollection<StswComboItem> Items
     {
         get => items;
         set => SetProperty(ref items, value);
-    }
-    /// SelectedItems
-    private List<string?> selectedItems = new() { "Option 1", "Option 4" };
-    public List<string?> SelectedItems
-    {
-        get => selectedItems;
-        set
-        {
-            SetProperty(ref selectedItems, value);
-            SelectedItemsCount = selectedItems.Count;
-        }
-    }
-    /// SelectedItemsCount
-    private int selectedItemsCount = 2;
-    public int SelectedItemsCount
-    {
-        get => selectedItemsCount;
-        set => SetProperty(ref selectedItemsCount, value);
     }
     #endregion
 }

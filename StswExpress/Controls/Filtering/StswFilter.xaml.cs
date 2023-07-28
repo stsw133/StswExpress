@@ -73,8 +73,6 @@ public class StswFilter : UserControl
         DefaultFilterMode = FilterMode;
         DefaultValue1 = Value1;
         DefaultValue2 = Value2;
-        //if (SelectedItemsBinding != null)
-        //    DefaultSelectedItemsBinding = SelectedItemsBinding.Clone();
 
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
 
@@ -119,14 +117,17 @@ public class StswFilter : UserControl
 
         /// calculate SQL string
         var listValues = new List<object?>();
-        if (SelectedItemsBinding != null)
-            foreach (var selectedItem in SelectedItemsBinding)
+        var selectedItems = ItemsSource.OfType<IStswSelectionItem>().ToList();
+        if (selectedItems != null)
+        {
+            foreach (var selectedItem in selectedItems.Where(x => x.IsSelected))
             {
                 if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
                     listValues.Add(propertyInfo.GetValue(selectedItem));
                 else
                     listValues.Add(selectedItem);
             }
+        }
 
         SqlString = FilterMode switch
         {
@@ -337,41 +338,9 @@ public class StswFilter : UserControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswFilter),
-            new PropertyMetadata(default, OnItemsSourceChanged)
+            typeof(StswFilter)
         );
-    public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswFilter stsw)
-        {
-            if (stsw.SelectedItemsBinding != null)
-                stsw.DefaultSelectedItemsBinding = stsw.SelectedItemsBinding.Clone();
-            else if (stsw.ItemsSource != null)
-                stsw.DefaultSelectedItemsBinding = (IList)Activator.CreateInstance(stsw.ItemsSource.GetType());
-
-            if (stsw.SelectedItemsBinding == null && stsw.DefaultSelectedItemsBinding != null)
-                stsw.SelectedItemsBinding = stsw.DefaultSelectedItemsBinding.Clone();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the collection that holds the selected items of the StswSelectionBox.
-    /// </summary>
-    public IList SelectedItemsBinding
-    {
-        get => (IList)GetValue(SelectedItemsBindingProperty);
-        set => SetValue(SelectedItemsBindingProperty, value);
-    }
-    public static readonly DependencyProperty SelectedItemsBindingProperty
-        = DependencyProperty.Register(
-            nameof(SelectedItemsBinding),
-            typeof(IList),
-            typeof(StswFilter),
-            new FrameworkPropertyMetadata(default(IList),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    internal IList? DefaultSelectedItemsBinding { get; set; } = null;
+    internal IList? DefaultItemsSource { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the path to the value property of the selected items in the ItemsSource (for <see cref="StswSelectionBox"/>).
@@ -439,7 +408,9 @@ public class StswFilter : UserControl
     {
         if (obj is StswFilter stsw)
         {
-            if (stsw.Value1 == null || stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
+            if (stsw.Value1 == null
+            || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
+            || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
                 stsw.SqlString = null;
             else
                 stsw.GenerateSqlString();

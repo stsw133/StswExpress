@@ -43,19 +43,20 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswSelectionBox DockPanel.Dock="Top"
+                    <se:StswSelectionBox x:Name="StswSelectionBox" DockPanel.Dock="Top"
+                                         DisplayMemberPath="Display"
                                          IsEnabled="{Binding IsEnabled}"
                                          IsReadOnly="{Binding IsReadOnly}"
                                          ItemsSource="{Binding Items}"
                                          Margin="5"
                                          Placeholder="Select items..."
-                                         SelectedItemsBinding="{Binding SelectedItems}">
+                                         SelectedValuePath="Display">
                         <se:StswSelectionBox.Components>
                             <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
                         </se:StswSelectionBox.Components>
                     </se:StswSelectionBox>
                     <TextBlock DockPanel.Dock="Top" Margin="10">
-                        <Run Text="{Binding SelectedItemsCount}" FontWeight="Bold"/>
+                        <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswSelectionBox}" FontWeight="Bold"/>
                         <Run Text=" option(s) are selected"/>
                     </TextBlock>
                 </DockPanel>

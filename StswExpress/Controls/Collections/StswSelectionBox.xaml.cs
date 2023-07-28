@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -33,32 +34,9 @@ public class StswSelectionBox : UserControl
     {
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
-        {
-            listBox.skipSelectionChanged = true;
-            DataContextChanged += (s, e) => listBox.SelectionChanged -= OnSelectionChanged;
-            listBox.SelectionChanged += OnSelectionChanged;
-        }
+            listBox.SelectionChanged += (s, e) => SetText();
 
         base.OnApplyTemplate();
-    }
-
-    /// <summary>
-    /// Handles the selection changed event of the internal ListBox.
-    /// Updates the collection of selected items and the source binding.
-    /// </summary>
-    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (SelectedItemsBinding != null)
-        {
-            foreach (var item in e.RemovedItems)
-                if (SelectedItemsBinding.Contains(item))
-                    SelectedItemsBinding.Remove(item);
-            foreach (var item in e.AddedItems)
-                if (!SelectedItemsBinding.Contains(item))
-                    SelectedItemsBinding.Add(item);
-            GetBindingExpression(SelectedItemsBindingProperty)?.UpdateSource();
-        }
-        SetText();
     }
 
     /// <summary>
@@ -66,10 +44,15 @@ public class StswSelectionBox : UserControl
     /// </summary>
     internal void SetText()
     {
+        var itemsSource = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+        if (itemsSource == null)
+            return;
+
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
         var selectedText = new StringBuilder();
 
-        foreach (var selectedItem in SelectedItemsBinding)
+        SelectedItems = itemsSource.Where(x => x.IsSelected).ToList();
+        foreach (var selectedItem in SelectedItems)
         {
             if (DisplayMemberPath != null && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
             {
@@ -211,8 +194,18 @@ public class StswSelectionBox : UserControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(IList),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    private static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswSelectionBox stsw)
+        {
+            stsw.SetText();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the placeholder text displayed in the control when no item is selected.
@@ -230,21 +223,18 @@ public class StswSelectionBox : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the collection that holds the selected items of the control.
+    /// Gets or sets the path to the value property of the selected items in the ItemsSource.
     /// </summary>
-    public IList SelectedItemsBinding
+    public IList SelectedItems
     {
-        get => (IList)GetValue(SelectedItemsBindingProperty);
-        set => SetValue(SelectedItemsBindingProperty, value);
+        get => (IList)GetValue(SelectedItemsProperty);
+        internal set => SetValue(SelectedItemsProperty, value);
     }
-    public static readonly DependencyProperty SelectedItemsBindingProperty
+    public static readonly DependencyProperty SelectedItemsProperty
         = DependencyProperty.Register(
-            nameof(SelectedItemsBinding),
+            nameof(SelectedItems),
             typeof(IList),
-            typeof(StswSelectionBox),
-            new FrameworkPropertyMetadata(default(IList),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                null, null, false, UpdateSourceTrigger.PropertyChanged)
+            typeof(StswSelectionBox)
         );
 
     /// <summary>

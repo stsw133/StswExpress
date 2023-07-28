@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -49,12 +50,12 @@ internal static class SQL
     }
 
     /// ListOfTypes
-    internal static List<string?> ListOfContractorTypes()
+    internal static ObservableCollection<StswComboItem> ListOfContractorTypes()
     {
-        return new List<string?>() {
-            "Test1",
-            "Test2",
-            "Test3",
+        return new ObservableCollection<StswComboItem>() {
+            new() { Display = "Test1" },
+            new() { Display = "Test2" },
+            new() { Display = "Test3" },
             null
         };
         /*

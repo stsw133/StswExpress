@@ -198,19 +198,18 @@
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
-                                                    <!-- StswComboView -->
+                                                    <!-- StswSelectionBox -->
                                                     <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="List">
                                                         <Setter Property="ContentTemplate">
                                                             <Setter.Value>
                                                                 <DataTemplate>
                                                                     <se:StswSelectionBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                      BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                      Placeholder=" . . . "
-                                                                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                      SelectedItemsBinding="{Binding SelectedItemsBinding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                      DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                      SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                      Text="{Binding Value1, Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
+                                                                                         BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
+                                                                                         Placeholder=" . . . "
+                                                                                         ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
+                                                                                         DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
+                                                                                         SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
+                                                                                         Text="{Binding Value1, Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
                                                                 </DataTemplate>
                                                             </Setter.Value>
                                                         </Setter>

@@ -55,7 +55,9 @@ public class StswDataGrid : DataGrid
         foreach (var stswFilter in stswFilters)
         {
             stswFilter.FilterMode = stswFilter.DefaultFilterMode;
-            stswFilter.SelectedItemsBinding = stswFilter.DefaultSelectedItemsBinding?.Clone();
+            var itemsSource = stswFilter.ItemsSource.OfType<IStswSelectionItem>().ToList();
+            var defaultItemsSource = stswFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            itemsSource?.ToList()?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
             stswFilter.Value1 = stswFilter.DefaultValue1;
             stswFilter.Value2 = stswFilter.DefaultValue2;
         }

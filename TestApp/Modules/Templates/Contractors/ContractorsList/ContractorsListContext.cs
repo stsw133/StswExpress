@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -352,7 +353,7 @@ public class ContractorsListContext : StswObservableObject
     }
 
     /// Combo sources
-    public static List<string?> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
+    public static ObservableCollection<StswComboItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
 
     /// Data collections
     private StswCollection<ContractorModel> listContractors = new();

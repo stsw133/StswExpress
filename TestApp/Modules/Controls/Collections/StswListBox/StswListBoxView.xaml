@@ -39,14 +39,15 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswListBox DockPanel.Dock="Top"
+                    <se:StswListBox x:Name="StswListBox" DockPanel.Dock="Top"
+                                    DisplayMemberPath="Display"
                                     IsEnabled="{Binding IsEnabled}"
                                     ItemsSource="{Binding Items}"
                                     Margin="5"
-                                    SelectedItemsBinding="{Binding SelectedItems}"
-                                    SelectionMode="{Binding SelectionMode}"/>
+                                    SelectionMode="{Binding SelectionMode}"
+                                    SelectedValuePath="Display"/>
                     <TextBlock DockPanel.Dock="Top" Margin="10">
-                        <Run Text="{Binding SelectedItemsCount}" FontWeight="Bold"/>
+                        <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswListBox}" FontWeight="Bold"/>
                         <Run Text=" option(s) are selected"/>
                     </TextBlock>
                 </DockPanel>

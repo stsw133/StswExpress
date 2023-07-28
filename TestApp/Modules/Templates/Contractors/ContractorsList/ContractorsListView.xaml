@@ -17,12 +17,14 @@
         <!-- button panel -->
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
-                <se:StswButton Margin="3" Command="{Binding ClearCommand}">
-                    <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Clear]}"/>
-                </se:StswButton>
-                <se:StswButton Margin="3" Command="{Binding RefreshCommand}">
-                    <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Refresh]}"/>
-                </se:StswButton>
+                <se:StswSplitButton Margin="3" Command="{Binding RefreshCommand}">
+                    <se:StswSplitButton.Header>
+                        <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Refresh]}"/>
+                    </se:StswSplitButton.Header>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClearCommand}">
+                        <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Clear]}"/>
+                    </se:StswButton>
+                </se:StswSplitButton>
                 <se:StswButton Margin="3" Command="{Binding SaveCommand}">
                     <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{x:Static se:StswColors.Modify}" IsBusy="{Binding IsBusy[Save]}"/>
                 </se:StswButton>
@@ -79,9 +81,10 @@
                 </DataGridTextColumn>
 
                 <!-- Type -->
-                <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}">
+                <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display">
                     <DataGridComboBoxColumn.Header>
-                        <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}"/>
+                        <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type"
+                                       ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"/>
                     </DataGridComboBoxColumn.Header>
                 </DataGridComboBoxColumn>
 

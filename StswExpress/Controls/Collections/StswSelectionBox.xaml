@@ -86,7 +86,6 @@
                                                 MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
-                                                SelectedItemsBinding="{TemplateBinding SelectedItemsBinding}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
