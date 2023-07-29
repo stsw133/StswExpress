@@ -21,7 +21,8 @@
                             <se:StswComponentCheck x:Name="PART_Header"
                                                    IconScale="{TemplateBinding IconScale}"
                                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   IsHitTestVisible="False"/>
+                                                   IsHitTestVisible="False"
+                                                   IsTabStop="False"/>
                             <!-- content -->
                             <ItemsControl x:Name="PART_ExpandSite" Focusable="False" ItemsSource="{TemplateBinding Items}" Visibility="Collapsed">
                                 <ItemsControl.ItemsPanel>

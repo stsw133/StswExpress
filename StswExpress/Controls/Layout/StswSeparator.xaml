@@ -30,7 +30,8 @@
                             <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswBorder.Disabled}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Disabled}" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

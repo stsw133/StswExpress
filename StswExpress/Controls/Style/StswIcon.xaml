@@ -21,7 +21,7 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_Path"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_Path"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -26,7 +26,7 @@ public class StswColorBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(typeof(StswColorBox)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the selected color in the control changes.
     /// </summary>

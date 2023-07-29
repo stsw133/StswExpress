@@ -20,7 +20,7 @@ public class StswNotifyIcon : FrameworkElement
 
     internal NotifyIcon? Tray;
 
-    #region Events
+    #region Events and methods
     private Window? _window;
 
     /// <summary>
@@ -28,7 +28,7 @@ public class StswNotifyIcon : FrameworkElement
     /// </summary>
     private void StswNotifyIcon_Loaded(object sender, RoutedEventArgs e)
     {
-        _window = ParentControl as Window ?? Window.GetWindow(this);
+        _window = ContextControl as Window ?? Window.GetWindow(this);
         if (_window != null)
         {
             _window.StateChanged += StswWindow_StateChanged;
@@ -86,7 +86,7 @@ public class StswNotifyIcon : FrameworkElement
                 _ = SetForegroundWindow(hwndSource.Handle);
             ContextMenu.IsOpen = true;
 
-            if (ParentControl is FrameworkElement frameworkElement)
+            if (ContextControl is FrameworkElement frameworkElement)
                 ContextMenu.DataContext = frameworkElement.DataContext;
         }
     }
@@ -103,6 +103,21 @@ public class StswNotifyIcon : FrameworkElement
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets the parent UI element of the NotifyIcon control which will serve as DataContext source.
+    /// </summary>
+    public UIElement ContextControl
+    {
+        get => (UIElement)GetValue(ContextControlProperty);
+        set => SetValue(ContextControlProperty, value);
+    }
+    public static readonly DependencyProperty ContextControlProperty
+        = DependencyProperty.Register(
+            nameof(ContextControl),
+            typeof(UIElement),
+            typeof(StswNotifyIcon)
+        );
+
     /// <summary>
     /// Gets or sets the Icon to be displayed in the NotifyIcon control.
     /// </summary>
@@ -150,21 +165,6 @@ public class StswNotifyIcon : FrameworkElement
                 stsw.Tray.Icon = IconFromPath(stsw.IconPath);
         }
     }
-
-    /// <summary>
-    /// Gets or sets the parent UI element of the NotifyIcon control.
-    /// </summary>
-    public UIElement ParentControl
-    {
-        get => (UIElement)GetValue(ParentControlProperty);
-        set => SetValue(ParentControlProperty, value);
-    }
-    public static readonly DependencyProperty ParentControlProperty
-        = DependencyProperty.Register(
-            nameof(ParentControl),
-            typeof(UIElement),
-            typeof(StswNotifyIcon)
-        );
 
     /// <summary>
     /// Gets or sets the text to be displayed as a tooltip for the NotifyIcon.

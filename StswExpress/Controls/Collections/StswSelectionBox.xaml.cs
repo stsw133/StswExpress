@@ -12,6 +12,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 public class StswSelectionBox : UserControl
 {
@@ -26,7 +27,7 @@ public class StswSelectionBox : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

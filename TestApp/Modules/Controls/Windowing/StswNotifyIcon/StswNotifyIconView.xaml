@@ -37,9 +37,8 @@
                 <GridSplitter Margin="-5" Width="5"/>
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswNotifyIcon IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico"
-                                       ParentControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                       Text="{x:Static se:StswFn.AppNameAndVersion}">
+                    <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                       IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
                         <se:StswNotifyIcon.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="TEST" Command="{Binding TestCommand}"/>

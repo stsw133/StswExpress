@@ -23,7 +23,7 @@ public class StswNavigationElement : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
     }
 
-    #region Events
+    #region Events and methods
     private StswNavigation? stswNavi;
 
     /// <summary>

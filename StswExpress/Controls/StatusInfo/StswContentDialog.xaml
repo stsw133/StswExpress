@@ -1,0 +1,138 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswContentDialog}">
+        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
+        
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="3"/>
+        
+        <Setter Property="IsOpen" Value="{Binding BindingModel.IsOpen, RelativeSource={RelativeSource Self}}"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswContentDialog}">
+                    <Grid Background="#B000">
+                        <ContentControl Focusable="False"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Style.Triggers>
+                                        <!-- custom dialog -->
+                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <ContentPresenter/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <!-- predefined dialog -->
+                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswGroupBox x:Name="PART_MainBorder"
+                                                                         Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                         MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                                                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                                                         SnapsToDevicePixels="True">
+                                                            <se:StswGroupBox.Header>
+                                                                <se:StswHeader x:Name="PART_Header" FontWeight="Medium" Height="24">
+                                                                    <TextBlock Text="{Binding BindingModel.Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"/>
+                                                                </se:StswHeader>
+                                                            </se:StswGroupBox.Header>
+                                                            <DockPanel>
+                                                                <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}">
+                                                                    <se:StswButton x:Name="PART_ButtonYes"
+                                                                                   Command="{Binding BindingModel.OnYesCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Content="Tak"
+                                                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Padding="15 5"/>
+                                                                    <se:StswButton x:Name="PART_ButtonNo"
+                                                                                   Command="{Binding BindingModel.OnNoCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Content="Nie"
+                                                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Padding="15 5"/>
+                                                                    <se:StswButton x:Name="PART_ButtonCancel"
+                                                                                   Command="{Binding BindingModel.OnCancelCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Content="Anuluj"
+                                                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                   Padding="15 5"/>
+                                                                </UniformGrid>
+                                                                <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}">
+                                                                    <se:StswTextBox IsReadOnly="True"
+                                                                                    Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                                                    Text="{Binding BindingModel.Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                    TextWrapping="Wrap"/>
+                                                                </DockPanel>
+                                                            </DockPanel>
+                                                        </se:StswGroupBox>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="OK">
+                                                                <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo"/>
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="OKCancel">
+                                                                <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonNo"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="YesNo">
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonCancel"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Error">
+                                                                <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
+                                                                <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Information">
+                                                                <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
+                                                                <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Question">
+                                                                <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header"/>
+                                                                <Setter Property="IconFill" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Success">
+                                                                <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Header"/>
+                                                                <Setter Property="IconFill" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Warning">
+                                                                <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
+                                                                <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsOpen" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

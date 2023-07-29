@@ -25,7 +25,7 @@ public static class StswDatabase
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
 
     /// <summary>
-    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="AllMailboxes"/>.
+    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="AllDatabases"/>.
     /// </summary>
     public static void ImportDatabases()
     {
@@ -78,17 +78,8 @@ public static class StswDatabase
 /// </summary>
 public class StswDatabaseModel
 {
-    /// <summary>
-    /// Supported database systems.
-    /// </summary>
-    public enum Types
-    {
-        MSSQL,
-        PostgreSQL
-    }
-
     public string Name { get; set; } = string.Empty;
-    public Types Type { get; set; } = default;
+    public StswDatabaseType Type { get; set; } = default;
     public string Server { get; set; } = string.Empty;
     public int Port { get; set; } = 0;
     public string Database { get; set; } = string.Empty;
@@ -103,8 +94,9 @@ public class StswDatabaseModel
     {
         return Type switch
         {
-            Types.MSSQL => $"Server={Server}{(Port > 0 ? $",Port={Port}" : string.Empty)};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            Types.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.MySQL => $"Server={Server};{(Port > 0 ? $"Port={Port}" : string.Empty)};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
+            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
             _ => null
         };
     }

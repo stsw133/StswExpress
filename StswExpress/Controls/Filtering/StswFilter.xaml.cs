@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +13,7 @@ namespace StswExpress;
 
 /// <summary>
 /// A control used for filtering data in a <see cref="StswDataGrid"/>.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
 public class StswFilter : UserControl
@@ -29,7 +29,7 @@ public class StswFilter : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilter), new FrameworkPropertyMetadata(typeof(StswFilter)));
     }
 
-    #region Events
+    #region Events and methods
     private ButtonBase? partFilterMode;
     private StswDataGrid? stswDataGrid;
 

@@ -25,7 +25,7 @@ public class StswWindow : Window
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswWindow), new FrameworkPropertyMetadata(typeof(StswWindow)));
     }
 
-    #region Events
+    #region Events and methods
     private double defaultHeight, defaultWidth;
     private FrameworkElement? partFullscreenPanel, partTitleBar;
     private WindowState preFullscreenState;

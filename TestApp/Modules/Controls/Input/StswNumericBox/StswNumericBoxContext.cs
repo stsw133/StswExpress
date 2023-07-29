@@ -12,7 +12,7 @@ public class StswNumericBoxContext : ControlsContext
         RandomizeCommand = new StswCommand(Randomize);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: randomize
     private void Randomize() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue);
     #endregion

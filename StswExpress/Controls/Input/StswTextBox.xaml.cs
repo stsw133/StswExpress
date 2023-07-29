@@ -22,7 +22,7 @@ public class StswTextBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextBox), new FrameworkPropertyMetadata(typeof(StswTextBox)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Handles the KeyDown event for the internal content host of the date picker.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.

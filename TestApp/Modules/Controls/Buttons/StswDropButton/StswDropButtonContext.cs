@@ -11,7 +11,7 @@ public class StswDropButtonContext : ControlsContext
         OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: on click
     private void OnClick(string? parameter)
     {

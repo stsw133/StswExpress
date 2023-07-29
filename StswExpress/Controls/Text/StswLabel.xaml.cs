@@ -20,7 +20,7 @@ public class StswLabel : Label
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLabel), new FrameworkPropertyMetadata(typeof(StswLabel)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

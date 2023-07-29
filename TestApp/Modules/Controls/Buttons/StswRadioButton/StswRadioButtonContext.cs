@@ -12,7 +12,7 @@ public class StswRadioButtonContext : ControlsContext
         OnClickCommand = new StswCommand<string?>(OnClick);
     }
 
-    #region Events
+    #region Events and methods
     /// OnClickCommand
     private void OnClick(string? parameter)
     {

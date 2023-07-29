@@ -17,7 +17,7 @@ public class StswImage : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswImage), new FrameworkPropertyMetadata(typeof(StswImage)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

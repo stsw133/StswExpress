@@ -96,7 +96,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource ScrollBar.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource ScrollBar.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Opacity" Value="0.56" TargetName="contentPresenter"/>
+                            <Setter Property="Opacity" Value="0.6" TargetName="contentPresenter"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
 

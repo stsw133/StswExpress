@@ -12,7 +12,7 @@ public class StswTextBoxContext : ControlsContext
         RandomizeCommand = new StswCommand(Randomize);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: randomize
     private void Randomize() => Text = Guid.NewGuid().ToString();
     #endregion

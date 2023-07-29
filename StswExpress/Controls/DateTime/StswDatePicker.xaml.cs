@@ -25,7 +25,7 @@ public class StswDatePicker : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// </summary>

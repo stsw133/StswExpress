@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswComboBox}">
-        <Setter Property="Background" Value="{DynamicResource StswButton.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswDropButton.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
@@ -96,7 +96,7 @@
                                                            CornerRadius="{TemplateBinding CornerRadius}"
                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                            MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
-                                        <ScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
+                                        <se:RgsScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <Rectangle x:Name="OpaqueRect"
@@ -106,7 +106,7 @@
                                                 </Canvas>
                                                 <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Grid>
-                                        </ScrollViewer>
+                                        </se:RgsScrollViewer>
                                     </se:StswClippingBorder>
                                 </Popup>
                                 <!-- content -->

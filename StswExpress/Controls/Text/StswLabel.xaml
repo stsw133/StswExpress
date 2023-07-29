@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswLabel}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
 
-        <Setter Property="IsTruncationAllowed" Value="True"/>
+        <Setter Property="IsTruncationAllowed" Value="False"/>
         
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>

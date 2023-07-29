@@ -81,7 +81,7 @@
                                 <se:StswExpander x:Name="PART_ToolBarExpander" Grid.Column="0"
                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" CornerRadius="0" Padding="0"
                                                  ExpandDirection="Right" IsExpanded="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <se:StswScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:RgsScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                     <DockPanel>
                                         <!-- file -->
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
@@ -302,7 +302,7 @@
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
                                     </DockPanel>
-                                </se:StswScrollViewer>
+                                </se:RgsScrollViewer>
                             </Grid>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
@@ -311,10 +311,10 @@
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     SnapsToDevicePixels="True"/>
                             <!-- content -->
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                          Focusable="False" 
-                                          HorizontalScrollBarVisibility="Hidden" 
-                                          VerticalScrollBarVisibility="Hidden"/>
+                            <se:RgsScrollViewer x:Name="PART_ContentHost" 
+                                                Focusable="False" 
+                                                HorizontalScrollBarVisibility="Hidden" 
+                                                VerticalScrollBarVisibility="Hidden"/>
                         </DockPanel>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>

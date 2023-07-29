@@ -102,9 +102,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <!--
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}"/>
-                            -->
+                            <!-- <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}"/> -->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

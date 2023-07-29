@@ -24,7 +24,7 @@ public class StswNumericBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the value of the control changes.
     /// </summary>

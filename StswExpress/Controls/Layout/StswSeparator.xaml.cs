@@ -13,7 +13,7 @@ public class StswSeparator : Separator
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

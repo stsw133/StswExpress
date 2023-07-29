@@ -101,7 +101,7 @@ public class StswTextEditor : RichTextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
     }
 
-    #region Events
+    #region Events and methods
     private string _originalContent = string.Empty;
     private StswComboBox? partFontFamily;
     private StswNumericBox? partFontSize;

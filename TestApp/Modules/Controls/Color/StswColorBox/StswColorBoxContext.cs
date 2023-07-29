@@ -13,7 +13,7 @@ public class StswColorBoxContext : ControlsContext
         RandomizeCommand = new StswCommand(Randomize);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: randomize
     private void Randomize() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255));
     #endregion

@@ -15,7 +15,7 @@ public class StswLogPanelContext : ControlsContext
         LoadFromFilesCommand = new(LoadFromFiles_Executed);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: add random item
     private void AddRandomItem()
     {

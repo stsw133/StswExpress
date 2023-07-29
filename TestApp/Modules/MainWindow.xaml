@@ -73,6 +73,7 @@
                 <se:StswNavigationElement Text="RgsScrollViewer" ContextNamespace="TestApp.RgsScrollViewerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
+                <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Text="StswLogPanel" ContextNamespace="TestApp.StswLogPanelContext"/>
                 <se:StswNavigationElement Text="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
             </se:StswNavigationElement>
@@ -87,7 +88,6 @@
                 <se:StswNavigationElement Text="StswText" ContextNamespace="TestApp.StswTextContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
-                <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>

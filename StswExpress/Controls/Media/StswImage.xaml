@@ -68,7 +68,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Menu"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

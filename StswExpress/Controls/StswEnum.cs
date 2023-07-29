@@ -10,6 +10,16 @@ public enum StswCalendarMode
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswDatabase"/>'s type.
+/// </summary>
+public enum StswDatabaseType
+{
+    MSSQL,
+    MySQL,
+    PostgreSQL
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswDatePicker"/>'s increment type.
 /// </summary>
 public enum StswDateIncrementType
@@ -28,7 +38,6 @@ public enum StswDateIncrementType
 /// </summary>
 public enum StswDialogButtons
 {
-    //Custom = -1,
     OK,
     OKCancel,
     YesNoCancel,
@@ -40,11 +49,11 @@ public enum StswDialogButtons
 /// </summary>
 public enum StswDialogImage
 {
-    //Custom = -1,
     None,
     Error,
     Information,
     Question,
+    Success,
     Warning
 }
 
@@ -89,7 +98,6 @@ public enum StswFilterType
 /// </summary>
 public enum StswLogType
 {
-    //Custom = -1,
     None,
     Debug,
     Error,

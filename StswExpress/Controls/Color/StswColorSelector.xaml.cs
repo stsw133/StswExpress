@@ -25,7 +25,7 @@ public class StswColorSelector : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorSelector), new FrameworkPropertyMetadata(typeof(StswColorSelector)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the selected color in the control changes.
     /// </summary>

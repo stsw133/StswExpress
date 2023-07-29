@@ -12,7 +12,7 @@ public class StswComponentButtonContext : ControlsContext
         OnClickCommand = new StswCommand(OnClick);
     }
 
-    #region Events
+    #region Events and methods
     /// OnClickCommand
     private void OnClick() => ClickCounter++;
     #endregion

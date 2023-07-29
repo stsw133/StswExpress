@@ -141,6 +141,9 @@
             </DataTemplate>
             
             <!-- StatusInfo -->
+            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
+                <local:StswContentDialogView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLogPanelContext}">
                 <local:StswLogPanelView/>
             </DataTemplate>
@@ -171,9 +174,6 @@
             </DataTemplate>
             
             <!-- Windowing -->
-            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
-                <local:StswContentDialogView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswNotifyIconContext}">
                 <local:StswNotifyIconView/>
             </DataTemplate>

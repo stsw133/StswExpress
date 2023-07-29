@@ -12,6 +12,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
+/// To work properly it has to be used with <see cref="StswCollection{T}"/> as its ItemsSource.
 /// </summary>
 public class StswDataGrid : DataGrid
 {
@@ -28,7 +29,7 @@ public class StswDataGrid : DataGrid
     }
     */
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -226,7 +227,7 @@ public class StswDataGrid : DataGrid
 }
 
 /// <summary>
-/// Data model for StswDataGrid's filters.
+/// Data model for <see cref="StswDataGrid"/>'s filters.
 /// </summary>
 public class StswDataGridFiltersDataModel
 {

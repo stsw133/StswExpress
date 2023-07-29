@@ -12,7 +12,7 @@ public class StswPasswordBoxContext : ControlsContext
         RandomizeCommand = new StswCommand(Randomize);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: randomize
     private void Randomize() => Password = Guid.NewGuid().ToString();
     #endregion

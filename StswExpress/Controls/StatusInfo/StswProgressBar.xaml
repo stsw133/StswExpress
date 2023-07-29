@@ -45,8 +45,8 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid x:Name="TemplateRoot">
-                            <!-- value -->
-                            <Rectangle x:Name="PART_Track" Opacity="0.3"/>
+                            <!-- track -->
+                            <Rectangle x:Name="PART_Track" Opacity="0.2"/>
                             <Grid x:Name="PART_Indicator" ClipToBounds="True" HorizontalAlignment="Left">
                                 <Rectangle x:Name="Indicator"/>
                                 <Rectangle x:Name="Animation" RenderTransformOrigin="0.5 0.5">
@@ -61,13 +61,13 @@
                                 </Rectangle>
                             </Grid>
                             <!-- text -->
-                            <TextBlock x:Name="PART_Text"
-                                       FontWeight="Medium"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       Padding="{TemplateBinding Padding}"
-                                       Text="{TemplateBinding Text}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
+                            <se:StswText x:Name="PART_Text"
+                                         FontWeight="Medium"
+                                         Foreground="{TemplateBinding Foreground}"
+                                         Padding="{TemplateBinding Padding}"
+                                         Text="{TemplateBinding Text}"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
@@ -79,32 +79,32 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="State" Value="Ready">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Ready.Foreground}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Ready.Background}" TargetName="PART_Track"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="State" Value="Running">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="PART_Track"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Indicator"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Foreground}" TargetName="Animation"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="State" Value="Paused">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="PART_Track"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Indicator"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Foreground}" TargetName="Animation"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="State" Value="Error">
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="PART_Track"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Indicator"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Foreground}" TargetName="Animation"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Indicator"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Animation"/>
                         </Trigger>
                         <Trigger Property="IsIndeterminate" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_MainBorder"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

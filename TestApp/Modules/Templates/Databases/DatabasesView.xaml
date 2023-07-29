@@ -9,7 +9,7 @@
     <d:UserControl.DataContext>
         <local:DatabasesContext/>
     </d:UserControl.DataContext>
-    <se:StswScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <se:RgsScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <DockPanel Margin="5">
             
             <!-- button panel -->
@@ -55,5 +55,5 @@
             </StackPanel>
 
         </DockPanel>
-    </se:StswScrollViewer>
+    </se:RgsScrollViewer>
 </UserControl>

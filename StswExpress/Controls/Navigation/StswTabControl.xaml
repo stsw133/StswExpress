@@ -32,14 +32,14 @@
                                            Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:RgsScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <TabPanel x:Name="HeaderPanel"
                                           Background="Transparent"
                                           IsItemsHost="True"
                                           KeyboardNavigation.TabIndex="1"
                                           Margin="2 2 0 0"
                                           Panel.ZIndex="1"/>
-                            </ScrollViewer>
+                            </se:RgsScrollViewer>
                         </DockPanel>
                         <Border x:Name="PART_ContentPanel" DockPanel.Dock="Bottom"
                                 Background="{TemplateBinding Background}"

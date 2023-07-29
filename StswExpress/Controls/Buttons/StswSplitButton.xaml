@@ -90,9 +90,9 @@
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}"
                                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                                            MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}">
-                                                        <ScrollViewer Focusable="False">
+                                                        <se:RgsScrollViewer Focusable="False">
                                                             <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{Binding Items, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}"/>
-                                                        </ScrollViewer>
+                                                        </se:RgsScrollViewer>
                                                     </se:StswClippingBorder>
                                                 </Popup>
                                                 <!-- content -->

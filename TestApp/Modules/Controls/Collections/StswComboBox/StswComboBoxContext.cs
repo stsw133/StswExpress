@@ -12,7 +12,7 @@ public class StswComboBoxContext : ControlsContext
         ClearCommand = new StswCommand(Clear);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: clear
     private void Clear() => SelectedItem = null;
     #endregion

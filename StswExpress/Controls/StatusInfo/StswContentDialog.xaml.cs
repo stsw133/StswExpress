@@ -86,12 +86,12 @@ public class StswContentDialogModel
     /// <summary>
     /// Gets or sets the button configuration for the content dialog.
     /// </summary>
-    public StswDialogButtons Buttons { get; set; } //= StswDialogButtons.Custom;
+    public StswDialogButtons Buttons { get; set; }
 
     /// <summary>
     /// Gets or sets the image configuration for the content dialog.
     /// </summary>
-    public StswDialogImage Image { get; set; } //= StswDialogImage.Custom;
+    public StswDialogImage Image { get; set; }
 
     /// <summary>
     /// Gets or sets the command to be executed when the "Yes" or "OK" button is clicked.

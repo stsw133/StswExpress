@@ -31,7 +31,7 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.3" TargetName="PART_Ellipse"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_Ellipse"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

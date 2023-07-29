@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using static StswExpress.StswDatePicker;
 
 namespace TestApp;
 
@@ -13,7 +12,7 @@ public class StswDatePickerContext : ControlsContext
         RandomizeCommand = new StswCommand(Randomize);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: randomize
     private void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue-DateTime.MinValue).Days));
     #endregion

@@ -85,7 +85,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswTabItem.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswTabItem.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Opacity" Value="0.56" TargetName="PART_ContentPresenter"/>
+                            <Setter Property="Opacity" Value="0.6" TargetName="PART_ContentPresenter"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

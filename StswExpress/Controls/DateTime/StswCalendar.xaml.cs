@@ -31,7 +31,7 @@ public class StswCalendar : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswCalendar), new FrameworkPropertyMetadata(typeof(StswCalendar)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// </summary>

@@ -13,7 +13,7 @@ public class StswSelectionBoxContext : ControlsContext
         ClearCommand = new StswCommand(Clear);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: clear
     private void Clear() => Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
     #endregion

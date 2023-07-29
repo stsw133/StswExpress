@@ -12,7 +12,7 @@ public class StswNotifyIconContext : ControlsContext
         TestCommand = new StswCommand(Test);
     }
 
-    #region Events
+    #region Events and methods
     /// Command: test
     private void Test()
     {

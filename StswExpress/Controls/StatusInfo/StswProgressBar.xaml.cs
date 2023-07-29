@@ -23,7 +23,7 @@ public class StswProgressBar : ProgressBar
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswProgressBar), new FrameworkPropertyMetadata(typeof(StswProgressBar)));
     }
 
-    #region Events
+    #region Events and methods
     /// <summary>
     /// Event handler to update the text displayed on the progress bar based on its state.
     /// </summary>
