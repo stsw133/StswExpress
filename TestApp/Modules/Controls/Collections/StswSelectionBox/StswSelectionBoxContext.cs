@@ -36,7 +36,7 @@ public class StswSelectionBoxContext : ControlsContext
     }
 
     /// Items
-    private ObservableCollection<StswComboItem> items = new()
+    private ObservableCollection<StswSelectionItem> items = new()
     {
         new() { Display = "Option 1", IsSelected = true },
         new() { Display = "Option 2", IsSelected = false },
@@ -44,7 +44,7 @@ public class StswSelectionBoxContext : ControlsContext
         new() { Display = "Option 4", IsSelected = true },
         new() { Display = "Option 5", IsSelected = false }
     };
-    public ObservableCollection<StswComboItem> Items
+    public ObservableCollection<StswSelectionItem> Items
     {
         get => items;
         set => SetProperty(ref items, value);

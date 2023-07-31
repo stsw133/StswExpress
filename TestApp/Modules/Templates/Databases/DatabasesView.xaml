@@ -16,10 +16,18 @@
             <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                 <UniformGrid Rows="1" HorizontalAlignment="Left">
                     <se:StswButton Margin="3" Command="{Binding ImportCommand}">
-                        <se:StswHeader IconFill="{x:Static se:StswColors.Neutral}" IconData="{x:Static se:StswIcons.DatabaseImport}" IconScale="2" Content="Import databases"/>
+                        <se:StswHeader Content="Import databases"
+                                       IconData="{x:Static se:StswIcons.DatabaseImport}"
+                                       IconFill="{x:Static se:StswColors.Neutral}"
+                                       IconScale="2"
+                                       IsBusy="{Binding ImportCommand.IsWorking}"/>
                     </se:StswButton>
                     <se:StswButton Margin="3" Command="{Binding ExportCommand}">
-                        <se:StswHeader IconFill="{x:Static se:StswColors.Modify}" IconData="{x:Static se:StswIcons.DatabaseExport}" IconScale="2" Content="Export databases"/>
+                        <se:StswHeader Content="Export databases"
+                                       IconData="{x:Static se:StswIcons.DatabaseExport}"
+                                       IconFill="{x:Static se:StswColors.Modify}"
+                                       IconScale="2"
+                                       IsBusy="{Binding ExportCommand.IsWorking}"/>
                     </se:StswButton>
                 </UniformGrid>
             </ScrollViewer>

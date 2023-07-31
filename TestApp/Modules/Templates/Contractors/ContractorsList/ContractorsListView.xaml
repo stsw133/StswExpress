@@ -19,17 +19,17 @@
             <UniformGrid Rows="1" HorizontalAlignment="Left">
                 <se:StswSplitButton Margin="3" Command="{Binding RefreshCommand}">
                     <se:StswSplitButton.Header>
-                        <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Refresh]}"/>
+                        <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding RefreshCommand.IsWorking}"/>
                     </se:StswSplitButton.Header>
                     <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding ClearCommand}">
-                        <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding IsBusy[Clear]}"/>
+                        <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding ClearCommand.IsWorking}"/>
                     </se:StswButton>
                 </se:StswSplitButton>
                 <se:StswButton Margin="3" Command="{Binding SaveCommand}">
-                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{x:Static se:StswColors.Modify}" IsBusy="{Binding IsBusy[Save]}"/>
+                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{x:Static se:StswColors.Modify}" IsBusy="{Binding SaveCommand.IsWorking}"/>
                 </se:StswButton>
                 <se:StswButton Margin="3" Command="{Binding ExportCommand}">
-                    <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{x:Static se:StswColors.Positive}" IsBusy="{Binding IsBusy[Export]}"/>
+                    <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{x:Static se:StswColors.Positive}" IsBusy="{Binding ExportCommand.IsWorking}"/>
                 </se:StswButton>
             </UniformGrid>
         </ScrollViewer>
@@ -38,16 +38,16 @@
         <DockPanel DockPanel.Dock="Bottom">
             <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding AddCommand}">
-                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Add]}"/>
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Plus}" Margin="0" Padding="0" IsBusy="{Binding AddCommand.IsWorking}"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding CloneCommand}">
-                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Clone]}"/>
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.ContentDuplicate}" Margin="0" Padding="0" IsBusy="{Binding CloneCommand.IsWorking}"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding EditCommand}">
-                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Edit]}"/>
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Positive}" IconData="{x:Static se:StswIcons.Pencil}" Margin="0" Padding="0" IsBusy="{Binding EditCommand.IsWorking}"/>
                 </se:StswButton>
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding DeleteCommand}">
-                    <se:StswHeader IconFill="{x:Static se:StswColors.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding IsBusy[Delete]}"/>
+                    <se:StswHeader IconFill="{x:Static se:StswColors.Negative}" IconData="{x:Static se:StswIcons.Delete}" Margin="0" Padding="0" IsBusy="{Binding DeleteCommand.IsWorking}"/>
                 </se:StswButton>
             </UniformGrid>
             <TextBlock Margin="3" VerticalAlignment="Center">

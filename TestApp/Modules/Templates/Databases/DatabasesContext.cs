@@ -1,9 +1,52 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TestApp;
 
 public class DatabasesContext : StswObservableObject
 {
+    public ICommand ImportCommand { get; set; }
+    public ICommand ExportCommand { get; set; }
+
+    public DatabasesContext()
+    {
+        ImportCommand = new StswAsyncCommand(Import);
+        ExportCommand = new StswAsyncCommand(Export);
+    }
+
+    #region Commands
+    /// Import
+    private async Task Import()
+    {
+        LoadingActions++;
+
+        await Task.Run(() =>
+        {
+            StswDatabase.ImportDatabases();
+            StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
+        });
+
+        LoadingActions--;
+    }
+
+    /// Export
+    private async Task Export()
+    {
+        LoadingActions++;
+
+        await Task.Run(() =>
+        {
+            if (StswDatabase.CurrentDatabase != null && !StswDatabase.AllDatabases.Contains(StswDatabase.CurrentDatabase))
+                StswDatabase.AllDatabases.Add(StswDatabase.CurrentDatabase);
+            StswDatabase.ExportDatabases();
+        });
+
+        LoadingActions--;
+    }
+    #endregion
+
+    #region Properties
     /// Loading
     private int loadingActions = 0;
     public int LoadingActions
@@ -12,37 +55,16 @@ public class DatabasesContext : StswObservableObject
         set
         {
             SetProperty(ref loadingActions, value);
-            NotifyPropertyChanged(nameof(LoadingState));
+
+            if (!LoadingState.In(StswProgressState.Paused, StswProgressState.Error))
+                LoadingState = LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
         }
     }
-    public StswProgressState LoadingState => LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
-
-    /// Commands
-    public StswCommand ImportCommand { get; set; }
-    public StswCommand ExportCommand { get; set; }
-
-    public DatabasesContext()
+    private StswProgressState loadingState;
+    public StswProgressState LoadingState
     {
-        ImportCommand = new StswCommand(Import);
-        ExportCommand = new StswCommand(Export);
+        get => loadingState;
+        set => SetProperty(ref loadingState, value);
     }
-
-    /// Import
-    private void Import()
-    {
-        LoadingActions++;
-        StswDatabase.ImportDatabases();
-        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
-        LoadingActions--;
-    }
-
-    /// Export
-    private void Export()
-    {
-        LoadingActions++;
-        if (StswDatabase.CurrentDatabase != null && !StswDatabase.AllDatabases.Contains(StswDatabase.CurrentDatabase))
-            StswDatabase.AllDatabases.Add(StswDatabase.CurrentDatabase);
-        StswDatabase.ExportDatabases();
-        LoadingActions--;
-    }
+    #endregion
 }

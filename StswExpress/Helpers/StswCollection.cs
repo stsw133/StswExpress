@@ -190,35 +190,3 @@ public interface IStswCollectionItem : INotifyPropertyChanged
     /// </summary>
     public bool? ShowDetails { get; set; }
 }
-
-/// <summary>
-/// 
-/// </summary>
-public interface IStswSelectionItem
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public bool IsSelected { get; set; }
-}
-
-/// <summary>
-/// Provides a way to store and display pairs of display and value objects for use in combo boxes.
-/// </summary>
-public class StswComboItem : IStswSelectionItem
-{
-    /// <summary>
-    /// Gets or sets the display text for the combo box item.
-    /// </summary>
-    public object? Display { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value associated with the combo box item.
-    /// </summary>
-    public object? Value { get; set; }
-
-    /// <summary>
-    /// Gets or sets the selection associated with the combo box item.
-    /// </summary>
-    public bool IsSelected { get; set; }
-}

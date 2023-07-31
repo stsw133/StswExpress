@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -29,96 +28,68 @@ public class ContractorsListContext : StswObservableObject
     public ContractorsListContext()
     {
         SQL.InitializeContractorsTables();
-        ClearCommand = new StswCommand(Clear);
-        RefreshCommand = new StswCommand(Refresh);
-        SaveCommand = new StswCommand(Save);
-        ExportCommand = new StswCommand(Export);
-        AddCommand = new StswCommand(Add);
-        CloneCommand = new StswCommand(Clone, CloneCondition);
-        EditCommand = new StswCommand(Edit, EditCondition);
-        DeleteCommand = new StswCommand(Delete, DeleteCondition);
-        AddPdfCommand = new StswCommand(AddPdf, AddPdfCondition);
+        ClearCommand = new StswAsyncCommand(Clear);
+        RefreshCommand = new StswAsyncCommand(Refresh);
+        SaveCommand = new StswAsyncCommand(Save);
+        ExportCommand = new StswAsyncCommand(Export);
+        AddCommand = new StswAsyncCommand(Add);
+        CloneCommand = new StswAsyncCommand(Clone, CloneCondition);
+        EditCommand = new StswAsyncCommand(Edit, EditCondition);
+        DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
+        AddPdfCommand = new StswAsyncCommand(AddPdf, AddPdfCondition);
     }
 
     #region Commands
     /// Clear
-    private async void Clear()
+    private async Task Clear()
     {
-        if (IsBusy[nameof(Clear)]) return;
-
-        IsBusy[nameof(Clear)] = true;
         LoadingActions++;
-
-        /// ...
+        
         await Task.Run(() => ListContractors = new());
-        /// ...
 
         LoadingActions--;
-        IsBusy[nameof(Clear)] = false;
     }
 
     /// Refresh
-    private async void Refresh()
+    private async Task Refresh()
     {
-        if (IsBusy[nameof(Refresh)]) return;
-
-        IsBusy[nameof(Refresh)] = true;
         LoadingActions++;
 
-        /// ...
         FiltersContractors.Refresh?.Invoke();
         await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter, FiltersContractors.SqlParameters));
-        /// ...
-
+        
         LoadingActions--;
-        IsBusy[nameof(Refresh)] = false;
     }
 
     /// Save
-    private void Save()
+    private async Task Save()
     {
-        if (IsBusy[nameof(Save)]) return;
-
-        IsBusy[nameof(Save)] = true;
         LoadingActions++;
 
-        /// ...
         if (SQL.SetContractors(ListContractors))
         {
-            Refresh();
+            await Task.Run(() => Refresh());
             MessageBox.Show("Data saved successfully.");
         }
-        /// ...
 
         LoadingActions--;
-        IsBusy[nameof(Save)] = false;
     }
 
     /// Export
-    private async void Export()
+    private async Task Export()
     {
-        if (IsBusy[nameof(Export)]) return;
-
-        IsBusy[nameof(Export)] = true;
         LoadingActions++;
 
-        /// ...
         await Task.Run(() => StswExport.ExportToExcel(("Sheet1", ListContractors), null, true));
-        /// ...
 
         LoadingActions--;
-        IsBusy[nameof(Export)] = false;
     }
 
     /// Add
-    private void Add()
+    private async Task Add()
     {
-        if (IsBusy[nameof(Add)]) return;
-
-        IsBusy[nameof(Add)] = true;
         LoadingActions++;
 
-        /// ...
         if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
         {
             if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
@@ -137,6 +108,9 @@ public class ContractorsListContext : StswObservableObject
                 //}
             }
         }
+        await Task.Run(() =>
+        {
+        });
 
         /// old methods with using StswNavigation
         //var navi = StswFn.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
@@ -150,21 +124,15 @@ public class ContractorsListContext : StswObservableObject
         var navi = StswExtensions.FindVisualChild<StswNavigation>(Application.Current.MainWindow);
         navi?.PageChange(typeof(ContractorsSingle.ContractorsSingleView).FullName ?? string.Empty, true);
         */
-        /// ...
 
         LoadingActions--;
-        IsBusy[nameof(Add)] = false;
     }
 
     /// Clone
-    private void Clone()
+    private async Task Clone()
     {
-        if (IsBusy[nameof(Clone)]) return;
-
-        IsBusy[nameof(Clone)] = true;
         LoadingActions++;
 
-        /// ...
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {
             if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
@@ -207,22 +175,19 @@ public class ContractorsListContext : StswObservableObject
             }
             */
         }
-        /// ...
+        await Task.Run(() =>
+        {
+        });
 
         LoadingActions--;
-        IsBusy[nameof(Clone)] = false;
     }
     private bool CloneCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
 
     /// Edit
-    private void Edit()
+    private async Task Edit()
     {
-        if (IsBusy[nameof(Edit)]) return;
-
-        IsBusy[nameof(Edit)] = true;
         LoadingActions++;
 
-        /// ...
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {
             if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
@@ -266,22 +231,19 @@ public class ContractorsListContext : StswObservableObject
             }
             */
         }
-        /// ...
+        await Task.Run(() =>
+        {
+        });
 
         LoadingActions--;
-        IsBusy[nameof(Edit)] = false;
     }
     private bool EditCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
 
     /// Delete
-    private void Delete()
+    private async Task Delete()
     {
-        if (IsBusy[nameof(Delete)]) return;
-
-        IsBusy[nameof(Delete)] = true;
         LoadingActions++;
 
-        /// ...
         if (SelectedContractor is ContractorModel m)
         {
             if (m.ID == 0)
@@ -292,22 +254,20 @@ public class ContractorsListContext : StswObservableObject
                     ListContractors.Remove(m);
             }
         }
-        /// ...
+        await Task.Run(() =>
+        {
+        });
 
         LoadingActions--;
-        IsBusy[nameof(Delete)] = false;
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel m and not null;
 
     /// AddPdf
-    private void AddPdf()
+    private async Task AddPdf()
     {
-        if (IsBusy[nameof(AddPdf)]) return;
-
-        IsBusy[nameof(AddPdf)] = true;
         LoadingActions++;
 
-        /// ...
+
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {
             var dialog = new OpenFileDialog()
@@ -315,24 +275,16 @@ public class ContractorsListContext : StswObservableObject
                 Filter = "PDF files|*.pdf"
             };
             if (dialog.ShowDialog() == true)
-                SQL.AddPdf(m.ID, File.ReadAllBytes(dialog.FileName));
+                await Task.Run(() => SQL.AddPdf(m.ID, File.ReadAllBytes(dialog.FileName)));
         }
-        /// ...
 
         LoadingActions--;
-        IsBusy[nameof(AddPdf)] = false;
     }
     private bool AddPdfCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
     #endregion
 
     #region Properties
-    /// Busy & loading
-    private StswDictionary<string, bool> isBusy = new();
-    public StswDictionary<string, bool> IsBusy
-    {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
-    }
+    /// Loading
     private int loadingActions = 0;
     public int LoadingActions
     {
