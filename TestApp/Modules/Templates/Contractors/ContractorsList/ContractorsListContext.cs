@@ -43,6 +43,7 @@ public class ContractorsListContext : StswObservableObject
     /// Clear
     private async Task Clear()
     {
+        IsRefreshOpen = false;
         LoadingActions++;
         
         await Task.Run(() => ListContractors = new());
@@ -284,6 +285,33 @@ public class ContractorsListContext : StswObservableObject
     #endregion
 
     #region Properties
+    /// Combo sources
+    public static ObservableCollection<StswComboItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
+
+    /// Data collections
+    private StswCollection<ContractorModel> listContractors = new();
+    public StswCollection<ContractorModel> ListContractors
+    {
+        get => listContractors;
+        set => SetProperty(ref listContractors, value);
+    }
+
+    /// Filters data
+    private StswDataGridFiltersDataModel filtersContractors = new();
+    public StswDataGridFiltersDataModel FiltersContractors
+    {
+        get => filtersContractors;
+        set => SetProperty(ref filtersContractors, value);
+    }
+
+    /// Is drop down open
+    private bool isRefreshOpen = false;
+    public bool IsRefreshOpen
+    {
+        get => isRefreshOpen;
+        set => SetProperty(ref isRefreshOpen, value);
+    }
+
     /// Loading
     private int loadingActions = 0;
     public int LoadingActions
@@ -302,25 +330,6 @@ public class ContractorsListContext : StswObservableObject
     {
         get => loadingState;
         set => SetProperty(ref loadingState, value);
-    }
-
-    /// Combo sources
-    public static ObservableCollection<StswComboItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
-
-    /// Data collections
-    private StswCollection<ContractorModel> listContractors = new();
-    public StswCollection<ContractorModel> ListContractors
-    {
-        get => listContractors;
-        set => SetProperty(ref listContractors, value);
-    }
-
-    /// Filters data
-    private StswDataGridFiltersDataModel filtersContractors = new();
-    public StswDataGridFiltersDataModel FiltersContractors
-    {
-        get => filtersContractors;
-        set => SetProperty(ref filtersContractors, value);
     }
 
     /// Selected items

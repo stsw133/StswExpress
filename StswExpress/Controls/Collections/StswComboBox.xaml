@@ -91,7 +91,7 @@
                                        StaysOpen="False">
                                     <se:StswClippingBorder x:Name="DropDownBorder"
                                                            Background="{DynamicResource StswPopup.Static.Background}"
-                                                           BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                           BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
                                                            BorderThickness="{TemplateBinding PopupBorderThickness}"
                                                            CornerRadius="{TemplateBinding CornerRadius}"
                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"

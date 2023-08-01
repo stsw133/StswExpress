@@ -259,13 +259,16 @@ public class StswSelectionBox : UserControl
     public string Text
     {
         get => (string)GetValue(TextProperty);
-        internal set => SetValue(TextProperty, value);
+        set => SetValue(TextProperty, value);
     }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
             nameof(Text),
             typeof(string),
-            typeof(StswSelectionBox)
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.None,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     #endregion
 

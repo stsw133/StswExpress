@@ -77,7 +77,7 @@
                                    StaysOpen="False">
                                 <se:StswListBox x:Name="PART_ListBox"
                                                 Background="{DynamicResource StswPopup.Static.Background}"
-                                                BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
                                                 BorderThickness="{TemplateBinding PopupBorderThickness}"
                                                 CornerRadius="{TemplateBinding CornerRadius}"
                                                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"

@@ -136,7 +136,7 @@
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
                                 <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                       BorderBrush="{DynamicResource StswNavigationElement.Checked.Border}"
                                                        BorderThickness="{TemplateBinding PopupBorderThickness}"
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"

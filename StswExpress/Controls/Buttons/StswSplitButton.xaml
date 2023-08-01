@@ -85,11 +85,12 @@
                                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                                        StaysOpen="False">
                                                     <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                                           BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                                           BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
                                                                            BorderThickness="{TemplateBinding PopupBorderThickness}"
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}"
                                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                                           MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}">
+                                                                           MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}"
+                                                                           SnapsToDevicePixels="True">
                                                         <se:RgsScrollViewer Focusable="False">
                                                             <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{Binding Items, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswSplitButton}}}"/>
                                                         </se:RgsScrollViewer>

@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace TestApp;
 
@@ -23,6 +24,14 @@ public class StswComponentPanelContext : ControlsContext
     {
         get => clickCounter;
         set => SetProperty(ref clickCounter, value);
+    }
+
+    /// ExpandDirection
+    private ExpandDirection expandDirection = ExpandDirection.Down;
+    public ExpandDirection ExpandDirection
+    {
+        get => expandDirection;
+        set => SetProperty(ref expandDirection, value);
     }
 
     /// IconScale

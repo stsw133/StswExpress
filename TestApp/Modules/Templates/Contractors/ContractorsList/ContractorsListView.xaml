@@ -13,11 +13,10 @@
     </d:UserControl.DataContext>
 
     <DockPanel Margin="5">
-
         <!-- button panel -->
         <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
-                <se:StswSplitButton Margin="3" Command="{Binding RefreshCommand}">
+                <se:StswSplitButton Margin="3" IsDropDownOpen="{Binding IsRefreshOpen}" Command="{Binding RefreshCommand}">
                     <se:StswSplitButton.Header>
                         <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{x:Static se:StswColors.Neutral}" IsBusy="{Binding RefreshCommand.IsWorking}"/>
                     </se:StswSplitButton.Header>
