@@ -273,7 +273,17 @@ public class StswNumericBox : TextBox
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        set
+        {
+            if (value != null)
+            {
+                if (Minimum != null && value < Minimum)
+                    value = Minimum;
+                if (Maximum != null && value > Maximum)
+                    value = Maximum;
+            }
+            SetValue(ValueProperty, value);
+        }
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
@@ -288,14 +298,6 @@ public class StswNumericBox : TextBox
     {
         if (obj is StswNumericBox stsw)
         {
-            if (stsw.Value != null)
-            {
-                if (stsw.Minimum != null && stsw.Value < stsw.Minimum)
-                    stsw.Value = stsw.Minimum;
-                if (stsw.Maximum != null && stsw.Value > stsw.Maximum)
-                    stsw.Value = stsw.Maximum;
-            }
-
             stsw.ValueChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }

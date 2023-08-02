@@ -262,7 +262,17 @@ public class StswDatePicker : TextBox
     public DateTime? SelectedDate
     {
         get => (DateTime?)GetValue(SelectedDateProperty);
-        set => SetValue(SelectedDateProperty, value);
+        set
+        {
+            if (value != null)
+            {
+                if (Minimum != null && value < Minimum)
+                    value = Minimum;
+                if (Maximum != null && value > Maximum)
+                    value = Maximum;
+            }
+            SetValue(SelectedDateProperty, value);
+        }
     }
     public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(
@@ -277,14 +287,6 @@ public class StswDatePicker : TextBox
     {
         if (obj is StswDatePicker stsw)
         {
-            if (stsw.SelectedDate != null)
-            {
-                if (stsw.Minimum != null && stsw.SelectedDate < stsw.Minimum)
-                    stsw.SelectedDate = stsw.Minimum;
-                if (stsw.Maximum != null && stsw.SelectedDate > stsw.Maximum)
-                    stsw.SelectedDate = stsw.Maximum;
-            }
-
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
