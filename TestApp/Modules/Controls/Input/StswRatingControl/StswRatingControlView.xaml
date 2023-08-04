@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="TestApp.StswRatingControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswRatingControlContext/>
+    </d:UserControl.DataContext>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- name and description -->
+                <StackPanel Grid.Column="0" Margin="5">
+                    <Label>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- ItemsNumber -->
+                    <Label Content="ItemsNumber:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswNumericBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
+                    <!-- Orientation -->
+                    <Label Content="Orientation:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Orientation}" SelectedValuePath="Value"/>
+                </StackPanel>
+                <GridSplitter Margin="-5" Width="5"/>
+                <!-- control -->
+                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                    <se:StswRatingControl DockPanel.Dock="Top"
+                                          IsEnabled="{Binding IsEnabled}"
+                                          ItemsNumber="{Binding ItemsNumber}"
+                                          Margin="5"
+                                          Orientation="{Binding Orientation}"
+                                          Value="{Binding SelectedValue}"/>
+                    <TextBlock DockPanel.Dock="Top" Margin="10">
+                        <Run Text="Current value of rating control: "/>
+                        <Run Text="{Binding SelectedValue}" FontWeight="Bold"/>
+                        <Run Text="/"/>
+                        <Run Text="{Binding ItemsNumber}" FontWeight="Bold"/>
+                    </TextBlock>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

@@ -32,6 +32,7 @@
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswNumericBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswPasswordBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswRatingControl.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswSlider.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextEditor.xaml"/>

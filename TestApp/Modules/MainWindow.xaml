@@ -51,6 +51,7 @@
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswNumericBox" ContextNamespace="TestApp.StswNumericBoxContext"/>
                 <se:StswNavigationElement Text="StswPasswordBox" ContextNamespace="TestApp.StswPasswordBoxContext"/>
+                <se:StswNavigationElement Text="StswRatingControl" ContextNamespace="TestApp.StswRatingControlContext"/>
                 <se:StswNavigationElement Text="StswSlider" ContextNamespace="TestApp.StswSliderContext"/>
                 <se:StswNavigationElement Text="StswTextBox" ContextNamespace="TestApp.StswTextBoxContext"/>
                 <se:StswNavigationElement Text="StswTextEditor" ContextNamespace="TestApp.StswTextEditorContext"/>

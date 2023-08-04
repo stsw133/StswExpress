@@ -58,6 +58,9 @@
     <Compile Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Input\StswRatingControl\StswRatingControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -200,6 +203,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Input\StswRatingControl\StswRatingControlView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">

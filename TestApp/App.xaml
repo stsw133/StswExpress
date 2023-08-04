@@ -95,6 +95,9 @@
             <DataTemplate DataType="{x:Type local:StswPasswordBoxContext}">
                 <local:StswPasswordBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswRatingControlContext}">
+                <local:StswRatingControlView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSliderContext}">
                 <local:StswSliderView/>
             </DataTemplate>

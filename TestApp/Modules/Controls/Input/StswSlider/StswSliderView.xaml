@@ -51,12 +51,12 @@
                 <!-- control -->
                 <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                     <se:StswSlider DockPanel.Dock="Top"
-                                   Margin="5"
-                                   Maximum="{Binding Maximum}"
-                                   Minimum="{Binding Minimum}"
                                    IsEnabled="{Binding IsEnabled}"
                                    IsSelectionRangeEnabled="True"
                                    IsSnapToTickEnabled="True"
+                                   Margin="5"
+                                   Maximum="{Binding Maximum}"
+                                   Minimum="{Binding Minimum}"
                                    SelectionEnd="{Binding SelectionEnd}"
                                    SelectionStart="{Binding SelectionStart}"
                                    TickFrequency="{Binding TickFrequency}"
