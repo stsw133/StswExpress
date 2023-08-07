@@ -101,7 +101,7 @@ public class StswTextEditor : RichTextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTextEditor), new FrameworkPropertyMetadata(typeof(StswTextEditor)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private string _originalContent = string.Empty;
     private StswComboBox? partFontFamily;
     private StswNumericBox? partFontSize;
@@ -132,16 +132,15 @@ public class StswTextEditor : RichTextBox
             partFontSize = nmbFontSize;
         }
 
-        SelectionChanged += PART_Editor_SelectionChanged;
-
         base.OnApplyTemplate();
     }
 
     /// <summary>
     /// Occurs when the editor's selection changes.
     /// </summary>
-    private void PART_Editor_SelectionChanged(object sender, RoutedEventArgs e)
+    protected override void OnSelectionChanged(RoutedEventArgs e)
     {
+        base.OnSelectionChanged(e);
         /*
         var temp = Selection.GetPropertyValue(Inline.FontWeightProperty);
         if (partFontBold != null)
@@ -751,7 +750,9 @@ public class StswTextEditor : RichTextBox
     public static void OnSelectedColorTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswTextEditor stsw)
+        {
             stsw.FontColorText_Executed();
+        }
     }
 
     /// <summary>
@@ -774,7 +775,9 @@ public class StswTextEditor : RichTextBox
     public static void OnSelectedColorHighlightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswTextEditor stsw)
+        {
             stsw.FontColorHighlight_Executed();
+        }
     }
     #endregion
 

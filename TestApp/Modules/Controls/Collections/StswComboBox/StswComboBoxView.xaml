@@ -9,16 +9,16 @@
     <d:UserControl.DataContext>
         <local:StswComboBoxContext/>
     </d:UserControl.DataContext>
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -44,27 +44,27 @@
                         <Label Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswComboBox DockPanel.Dock="Top"
-                                     IsEditable="{Binding IsEditable}"
-                                     IsEnabled="{Binding IsEnabled}"
-                                     IsReadOnly="{Binding IsReadOnly}"
-                                     ItemsSource="{Binding Items}"
-                                     Margin="5"
-                                     Placeholder="Select item..."
-                                     SelectedItem="{Binding SelectedItem}">
-                        <se:StswComboBox.Components>
-                            <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
-                        </se:StswComboBox.Components>
-                    </se:StswComboBox>
-                    <TextBlock DockPanel.Dock="Top" Margin="10">
-                        <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
-                        <Run Text=" is selected"/>
-                    </TextBlock>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswComboBox DockPanel.Dock="Top"
+                                 IsEditable="{Binding IsEditable}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsReadOnly="{Binding IsReadOnly}"
+                                 ItemsSource="{Binding Items}"
+                                 Margin="5"
+                                 Placeholder="Select item..."
+                                 SelectedItem="{Binding SelectedItem}">
+                    <se:StswComboBox.Components>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
+                    </se:StswComboBox.Components>
+                </se:StswComboBox>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
+                    <Run Text=" is selected"/>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

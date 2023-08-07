@@ -13,7 +13,7 @@ public class StswSeparator : Separator
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSeparator), new FrameworkPropertyMetadata(typeof(StswSeparator)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -38,7 +38,8 @@ public class StswSeparator : Separator
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswSeparator)
+            typeof(StswSeparator),
+            new PropertyMetadata(default(Orientation), OnBorderThicknessChanged)
         );
     #endregion
 

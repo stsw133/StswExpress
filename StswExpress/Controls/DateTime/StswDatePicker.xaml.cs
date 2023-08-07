@@ -25,7 +25,7 @@ public class StswDatePicker : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDatePicker), new FrameworkPropertyMetadata(typeof(StswDatePicker)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the selected date in the control changes.
     /// </summary>
@@ -36,13 +36,6 @@ public class StswDatePicker : TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
-        /// Content
-        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
-        {
-            content.KeyDown += PART_ContentHost_KeyDown;
-            content.LostFocus += PART_ContentHost_LostFocus;
-            content.MouseWheel += PART_ContentHost_MouseWheel;
-        }
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
@@ -52,10 +45,11 @@ public class StswDatePicker : TextBox
     /// Handles the KeyDown event for the internal content host of the date picker.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
-    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
+        base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
+            UpdateMainProperty();
     }
 
     /// <summary>
@@ -63,51 +57,87 @@ public class StswDatePicker : TextBox
     /// Parses the text input and updates the SelectedDate property based on the provided format.
     /// The new SelectedDate is displayed in the Text property, and the binding is updated if active.
     /// </summary>
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    protected override void OnLostFocus(RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(Text))
-            SelectedDate = null;
-        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var result1))
-            SelectedDate = result1;
-        else if (DateTime.TryParse(Text, out var result2))
-            SelectedDate = result2;
-
-        Text = SelectedDate?.ToString(Format);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+        UpdateMainProperty();
+        base.OnLostFocus(e);
     }
 
     /// <summary>
     /// Handles the MouseWheel event for the internal content host of the date picker.
     /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.
     /// </summary>
-    private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
-        if (IsKeyboardFocused && !IsReadOnly && SelectedDate.HasValue && IncrementType != StswDateIncrementType.None)
+        base.OnMouseWheel(e);
+
+        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateIncrementType.None && SelectedDate.HasValue)
         {
             if (DateTime.TryParse(Text, out var result))
                 SelectedDate = result;
 
-            var step = e.Delta > 0 ? 1 : -1;
-
-            try
+            if (e.Delta > 0)
             {
                 SelectedDate = IncrementType switch
                 {
-                    StswDateIncrementType.Year => SelectedDate.Value.AddYears(step),
-                    StswDateIncrementType.Month => SelectedDate.Value.AddMonths(step),
-                    StswDateIncrementType.Day => SelectedDate.Value.AddDays(step),
-                    StswDateIncrementType.Hour => SelectedDate.Value.AddHours(step),
-                    StswDateIncrementType.Minute => SelectedDate.Value.AddMinutes(step),
-                    StswDateIncrementType.Second => SelectedDate.Value.AddSeconds(step),
+                    StswDateIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= SelectedDate ? SelectedDate.Value.AddYears(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= SelectedDate ? SelectedDate.Value.AddMonths(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= SelectedDate ? SelectedDate.Value.AddDays(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= SelectedDate ? SelectedDate.Value.AddHours(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= SelectedDate ? SelectedDate.Value.AddMinutes(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= SelectedDate ? SelectedDate.Value.AddSeconds(1) : DateTime.MaxValue,
                     _ => SelectedDate
                 };
             }
-            catch { }
+            else if (e.Delta < 0)
+            {
+                SelectedDate = IncrementType switch
+                {
+                    StswDateIncrementType.Year => DateTime.MinValue.AddYears(1) <= SelectedDate ? SelectedDate.Value.AddYears(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Month => DateTime.MinValue.AddMonths(1) <= SelectedDate ? SelectedDate.Value.AddMonths(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Day => DateTime.MinValue.AddDays(1) <= SelectedDate ? SelectedDate.Value.AddDays(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Hour => DateTime.MinValue.AddHours(1) <= SelectedDate ? SelectedDate.Value.AddHours(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= SelectedDate ? SelectedDate.Value.AddMinutes(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= SelectedDate ? SelectedDate.Value.AddSeconds(-1) : DateTime.MinValue,
+                    _ => SelectedDate
+                };
+            }
 
             e.Handled = true;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private DateTime? MinMaxValidate(DateTime? newValue)
+    {
+        if (newValue.HasValue)
+        {
+            if (Minimum.HasValue && newValue < Minimum)
+                newValue = Minimum;
+            if (Maximum.HasValue && newValue > Maximum)
+                newValue = Maximum;
+        }
+        return newValue;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void UpdateMainProperty()
+    {
+        if (string.IsNullOrEmpty(Text))
+            SelectedDate = null;
+        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var result))
+            SelectedDate = result;
+        else if (DateTime.TryParse(Text, out result))
+            SelectedDate = result;
+
+        Text = SelectedDate?.ToString(Format);
+        var bindingExpression = GetBindingExpression(TextProperty);
+        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+            bindingExpression.UpdateSource();
     }
     #endregion
 
@@ -222,8 +252,15 @@ public class StswDatePicker : TextBox
             nameof(Maximum),
             typeof(DateTime?),
             typeof(StswDatePicker),
-            new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
+    public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswDatePicker stsw)
+        {
+            stsw.SelectedDate = stsw.MinMaxValidate(stsw.SelectedDate);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the minimum allowable date in the control.
@@ -238,7 +275,7 @@ public class StswDatePicker : TextBox
             nameof(Minimum),
             typeof(DateTime?),
             typeof(StswDatePicker),
-            new PropertyMetadata(default(DateTime?), OnSelectedDateChanged)
+            new PropertyMetadata(default(DateTime?), OnMinMaxChanged)
         );
 
     /// <summary>
@@ -262,17 +299,7 @@ public class StswDatePicker : TextBox
     public DateTime? SelectedDate
     {
         get => (DateTime?)GetValue(SelectedDateProperty);
-        set
-        {
-            if (value != null)
-            {
-                if (Minimum != null && value < Minimum)
-                    value = Minimum;
-                if (Maximum != null && value > Maximum)
-                    value = Maximum;
-            }
-            SetValue(SelectedDateProperty, value);
-        }
+        set => SetValue(SelectedDateProperty, MinMaxValidate(value));
     }
     public static readonly DependencyProperty SelectedDateProperty
         = DependencyProperty.Register(

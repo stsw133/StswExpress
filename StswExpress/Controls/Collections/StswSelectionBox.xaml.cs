@@ -27,7 +27,7 @@ public class StswSelectionBox : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

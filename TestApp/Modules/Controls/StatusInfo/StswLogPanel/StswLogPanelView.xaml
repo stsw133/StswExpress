@@ -10,15 +10,15 @@
         <local:StswLogPanelContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Disabled">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -40,15 +40,15 @@
                         <Label Content="Load from files" FontSize="15" FontWeight="Medium"/>
                     </se:StswButton>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswLogPanel DockPanel.Dock="Top"
-                                     IsEnabled="{Binding IsEnabled}"
-                                     Items="{Binding Items}"
-                                     Margin="5"/>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswLogPanel DockPanel.Dock="Top"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 Items="{Binding Items}"
+                                 Margin="5"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

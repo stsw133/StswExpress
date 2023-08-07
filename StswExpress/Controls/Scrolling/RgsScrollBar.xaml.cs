@@ -17,7 +17,7 @@ public class RgsScrollBar : ScrollBar
         DefaultStyleKeyProperty.OverrideMetadata(typeof(RgsScrollBar), new FrameworkPropertyMetadata(typeof(RgsScrollBar)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private Border? border;
     private RepeatButton? arrowButton1;
     private RepeatButton? arrowButton2;

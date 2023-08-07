@@ -10,15 +10,15 @@
         <local:StswNumericBoxContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -52,25 +52,25 @@
                     <Label Content="Maximum:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswNumericBox DockPanel.Dock="Top"
-                                       Format="{Binding Format}"
-                                       Increment="{Binding Increment}"
-                                       IsEnabled="{Binding IsEnabled}"
-                                       IsReadOnly="{Binding IsReadOnly}"
-                                       Margin="5"
-                                       Maximum="{Binding Maximum}"
-                                       Minimum="{Binding Minimum}"
-                                       Placeholder="Select value..."
-                                       Value="{Binding SelectedValue}">
-                        <se:StswNumericBox.Components>
-                            <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
-                        </se:StswNumericBox.Components>
-                    </se:StswNumericBox>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswNumericBox DockPanel.Dock="Top"
+                                   Format="{Binding Format}"
+                                   Increment="{Binding Increment}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   IsReadOnly="{Binding IsReadOnly}"
+                                   Margin="5"
+                                   Maximum="{Binding Maximum}"
+                                   Minimum="{Binding Minimum}"
+                                   Placeholder="Select value..."
+                                   Value="{Binding SelectedValue}">
+                    <se:StswNumericBox.Components>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
+                    </se:StswNumericBox.Components>
+                </se:StswNumericBox>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

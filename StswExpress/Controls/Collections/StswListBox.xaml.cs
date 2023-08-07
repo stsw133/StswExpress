@@ -22,7 +22,7 @@ public class StswListBox : ListBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// 
     /// </summary>

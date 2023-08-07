@@ -20,7 +20,7 @@ public class StswPasswordBox : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPasswordBox), new FrameworkPropertyMetadata(typeof(StswPasswordBox)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private bool _isPasswordChanging;
     private PasswordBox? partPasswordBox;
 

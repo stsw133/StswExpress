@@ -24,7 +24,7 @@ public class StswNumericBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the value of the control changes.
     /// </summary>
@@ -42,13 +42,6 @@ public class StswNumericBox : TextBox
         if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
             btnDown.Click += PART_ButtonDown_Click;
 
-        /// Content
-        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
-        {
-            content.KeyDown += PART_ContentHost_KeyDown;
-            content.LostFocus += PART_ContentHost_LostFocus;
-            content.MouseWheel += PART_ContentHost_MouseWheel;
-        }
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
@@ -75,19 +68,75 @@ public class StswNumericBox : TextBox
     }
 
     /// <summary>
-    /// Handles the KeyDown event for the internal content host of the date picker.
+    /// Handles the KeyDown event for the internal content host of the numeric box.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
-    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
+        base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
+            UpdateMainProperty();
     }
 
     /// <summary>
     /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
     /// </summary>
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        UpdateMainProperty();
+        base.OnLostFocus(e);
+    }
+
+    /// <summary>
+    /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
+    /// </summary>
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+        base.OnMouseWheel(e);
+
+        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && Value.HasValue)
+        {
+            if (double.TryParse(Text, out var result))
+                Value = result;
+
+            if (e.Delta > 0)
+            {
+                if (double.MaxValue - Increment >= Value)
+                    Value += Increment;
+                else
+                    Value = double.MaxValue;
+            }
+            else if (e.Delta < 0)
+            {
+                if (double.MinValue + Increment <= Value)
+                    Value -= Increment;
+                else
+                    Value = double.MinValue;
+            }
+
+            e.Handled = true;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private double? MinMaxValidate(double? newValue)
+    {
+        if (newValue.HasValue)
+        {
+            if (Minimum.HasValue && newValue < Minimum)
+                newValue = Minimum;
+            if (Maximum.HasValue && newValue > Maximum)
+                newValue = Maximum;
+        }
+        return newValue;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void UpdateMainProperty()
     {
         if (string.IsNullOrEmpty(Text))
             Value = null;
@@ -95,33 +144,11 @@ public class StswNumericBox : TextBox
             Value = result;
         else if (double.TryParse(Text, out result))
             Value = result;
-        
+
         Text = Value?.ToString(Format);
         var bindingExpression = GetBindingExpression(TextProperty);
         if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
             bindingExpression.UpdateSource();
-    }
-
-    /// <summary>
-    /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
-    /// </summary>
-    private void PART_ContentHost_MouseWheel(object sender, MouseWheelEventArgs e)
-    {
-        if (IsKeyboardFocused && !IsReadOnly && Value != null && Increment != 0)
-        {
-            if (double.TryParse(Text, out var result))
-                Value = result;
-
-            var step = e.Delta > 0 ? Increment : -Increment;
-
-            try
-            {
-                Value += step;
-            }
-            catch { }
-
-            e.Handled = true;
-        }
     }
     #endregion
 
@@ -220,8 +247,15 @@ public class StswNumericBox : TextBox
             nameof(Maximum),
             typeof(double?),
             typeof(StswNumericBox),
-            new PropertyMetadata(default(double?), OnValueChanged)
+            new PropertyMetadata(default(double?), OnMinMaxChanged)
         );
+    public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNumericBox stsw)
+        {
+            stsw.Value = stsw.MinMaxValidate(stsw.Value);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the minimum allowable value in the control.
@@ -236,7 +270,7 @@ public class StswNumericBox : TextBox
             nameof(Minimum),
             typeof(double?),
             typeof(StswNumericBox),
-            new PropertyMetadata(default(double?), OnValueChanged)
+            new PropertyMetadata(default(double?), OnMinMaxChanged)
         );
 
     /// <summary>
@@ -273,17 +307,7 @@ public class StswNumericBox : TextBox
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);
-        set
-        {
-            if (value != null)
-            {
-                if (Minimum != null && value < Minimum)
-                    value = Minimum;
-                if (Maximum != null && value > Maximum)
-                    value = Maximum;
-            }
-            SetValue(ValueProperty, value);
-        }
+        set => SetValue(ValueProperty, MinMaxValidate(value));
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(

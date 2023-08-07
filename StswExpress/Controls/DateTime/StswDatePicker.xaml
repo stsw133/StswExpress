@@ -14,7 +14,6 @@
 
         <Setter Property="Format" Value="d"/>
         <Setter Property="IncrementType" Value="Day"/>
-        <Setter Property="Placeholder" Value="Wybierz datę..."/>
         <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
         
         <Setter Property="ComponentsAlignment" Value="Right"/>
@@ -67,6 +66,7 @@
                                            Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                            IsHitTestVisible="False"
                                            Margin="{TemplateBinding Padding}"
+                                           Padding="2 0 0 0"
                                            Text="{TemplateBinding Placeholder}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

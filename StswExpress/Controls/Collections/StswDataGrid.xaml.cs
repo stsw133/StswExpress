@@ -29,7 +29,7 @@ public class StswDataGrid : DataGrid
     }
     */
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -56,9 +56,9 @@ public class StswDataGrid : DataGrid
         foreach (var stswFilter in stswFilters)
         {
             stswFilter.FilterMode = stswFilter.DefaultFilterMode;
-            var itemsSource = stswFilter.ItemsSource.OfType<IStswSelectionItem>().ToList();
+            var itemsSource = stswFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
             var defaultItemsSource = stswFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            itemsSource?.ToList()?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
+            itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
             stswFilter.Value1 = stswFilter.DefaultValue1;
             stswFilter.Value2 = stswFilter.DefaultValue2;
         }

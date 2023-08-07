@@ -9,16 +9,16 @@
     <d:UserControl.DataContext>
         <local:StswComponentCheckContext/>
     </d:UserControl.DataContext>
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -47,49 +47,49 @@
                         <Label Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
-                        <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
-                                               IconUnchecked="{x:Static se:StswIcons.EyeOff}"
-                                               IconChecked="{x:Static se:StswIcons.Eye}"
-                                               IconIndeterminate="{x:Static se:StswIcons.EyeOffOutline}"
-                                               IconScale="{Binding IconScale}"
-                                               IsBusy="{Binding IsBusy}"
-                                               IsEnabled="{Binding IsEnabled}"
-                                               IsThreeState="{Binding IsThreeState}"
-                                               Margin="0 0 5 0"
-                                               VerticalContentAlignment="Center">
-                            <Label Content="Visibility" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                        </se:StswComponentCheck>
-                        <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
-                                               IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
-                                               IconChecked="{x:Static se:StswIcons.MusicNote}"
-                                               IconIndeterminate="{x:Static se:StswIcons.MusicNoteOffOutline}"
-                                               IconScale="{Binding IconScale}"
-                                               IsBusy="{Binding IsBusy}"
-                                               IsEnabled="{Binding IsEnabled}"
-                                               IsThreeState="{Binding IsThreeState}"
-                                               Margin="0 0 5 0"
-                                               VerticalContentAlignment="Center">
-                            <Label Content="Sound" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                        </se:StswComponentCheck>
-                        <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
-                                               IconUnchecked="{x:Static se:StswIcons.WifiOff}"
-                                               IconChecked="{x:Static se:StswIcons.Wifi}"
-                                               IconIndeterminate="{x:Static se:StswIcons.WifiStrengthOffOutline}"
-                                               IconScale="{Binding IconScale}"
-                                               IsBusy="{Binding IsBusy}"
-                                               IsEnabled="{Binding IsEnabled}"
-                                               IsThreeState="{Binding IsThreeState}"
-                                               Margin="0 0 5 0"
-                                               VerticalContentAlignment="Center">
-                            <Label Content="Wifi" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                        </se:StswComponentCheck>
-                    </StackPanel>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                    <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                                           IconUnchecked="{x:Static se:StswIcons.EyeOff}"
+                                           IconChecked="{x:Static se:StswIcons.Eye}"
+                                           IconIndeterminate="{x:Static se:StswIcons.EyeOffOutline}"
+                                           IconScale="{Binding IconScale}"
+                                           IsBusy="{Binding IsBusy}"
+                                           IsEnabled="{Binding IsEnabled}"
+                                           IsThreeState="{Binding IsThreeState}"
+                                           Margin="0 0 5 0"
+                                           VerticalContentAlignment="Center">
+                        <Label Content="Visibility" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentCheck>
+                    <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                                           IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
+                                           IconChecked="{x:Static se:StswIcons.MusicNote}"
+                                           IconIndeterminate="{x:Static se:StswIcons.MusicNoteOffOutline}"
+                                           IconScale="{Binding IconScale}"
+                                           IsBusy="{Binding IsBusy}"
+                                           IsEnabled="{Binding IsEnabled}"
+                                           IsThreeState="{Binding IsThreeState}"
+                                           Margin="0 0 5 0"
+                                           VerticalContentAlignment="Center">
+                        <Label Content="Sound" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentCheck>
+                    <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                                           IconUnchecked="{x:Static se:StswIcons.WifiOff}"
+                                           IconChecked="{x:Static se:StswIcons.Wifi}"
+                                           IconIndeterminate="{x:Static se:StswIcons.WifiStrengthOffOutline}"
+                                           IconScale="{Binding IconScale}"
+                                           IsBusy="{Binding IsBusy}"
+                                           IsEnabled="{Binding IsEnabled}"
+                                           IsThreeState="{Binding IsThreeState}"
+                                           Margin="0 0 5 0"
+                                           VerticalContentAlignment="Center">
+                        <Label Content="Wifi" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentCheck>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

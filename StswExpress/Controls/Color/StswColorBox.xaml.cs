@@ -26,51 +26,46 @@ public class StswColorBox : TextBox
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorBox), new FrameworkPropertyMetadata(typeof(StswColorBox)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the selected color in the control changes.
     /// </summary>
     public event EventHandler? SelectedColorChanged;
 
     /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        /// Content
-        if (GetTemplateChild("PART_ContentHost") is ScrollViewer content)
-        {
-            content.KeyDown += PART_ContentHost_KeyDown;
-            content.LostFocus += PART_ContentHost_LostFocus;
-        }
-
-        base.OnApplyTemplate();
-    }
-
-    /// <summary>
     /// Handles the KeyDown event on the content host element in the control.
     /// Triggers the LostFocus event if the Enter key is pressed.
     /// </summary>
-    protected void PART_ContentHost_KeyDown(object sender, KeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
+        base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            PART_ContentHost_LostFocus(sender, new RoutedEventArgs());
+            UpdateMainProperty();
     }
 
     /// <summary>
     /// Handles the LostFocus event on the content host element in the control.
     /// Updates the selected color based on the text input and updates the source binding.
     /// </summary>
-    private void PART_ContentHost_LostFocus(object sender, RoutedEventArgs e)
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        UpdateMainProperty();
+        base.OnLostFocus(e);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void UpdateMainProperty()
     {
         if (string.IsNullOrEmpty(Text))
             SelectedColor = default;
         else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] argb && argb.Length == 4
-              && byte.TryParse(argb[0], out var a1) && byte.TryParse(argb[1], out var r1) && byte.TryParse(argb[2], out var g1) && byte.TryParse(argb[3], out var b1))
-            SelectedColor = Color.FromArgb(a1, r1, g1, b1);
+              && byte.TryParse(argb[0], out var a) && byte.TryParse(argb[1], out var r) && byte.TryParse(argb[2], out var g) && byte.TryParse(argb[3], out var b))
+            SelectedColor = Color.FromArgb(a, r, g, b);
         else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] rgb && rgb.Length == 3
-              && byte.TryParse(rgb[0], out var r2) && byte.TryParse(rgb[1], out var g2) && byte.TryParse(rgb[2], out var b2))
-            SelectedColor = Color.FromRgb(r2, g2, b2);
+              && byte.TryParse(rgb[0], out r) && byte.TryParse(rgb[1], out g) && byte.TryParse(rgb[2], out b))
+            SelectedColor = Color.FromRgb(r, g, b);
         else if (new ColorConverter().IsValid(Text))
             SelectedColor = (Color)ColorConverter.ConvertFromString(Text);
 
@@ -180,7 +175,9 @@ public class StswColorBox : TextBox
     public static void OnSelectedColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswColorBox stsw)
+        {
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
+        }
     }
 
     /// <summary>

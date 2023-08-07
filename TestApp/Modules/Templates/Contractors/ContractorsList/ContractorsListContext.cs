@@ -286,7 +286,7 @@ public class ContractorsListContext : StswObservableObject
 
     #region Properties
     /// Combo sources
-    public static ObservableCollection<StswComboItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
+    public static ObservableCollection<StswSelectionItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
 
     /// Data collections
     private StswCollection<ContractorModel> listContractors = new();

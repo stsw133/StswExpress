@@ -16,7 +16,7 @@ public class StswTabControl : TabControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTabControl), new FrameworkPropertyMetadata(typeof(StswTabControl)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -92,9 +92,9 @@ public class StswTabControl : TabControl
     /// <summary>
     /// Gets or sets the template for creating new tab items in the tab control.
     /// </summary>
-    public StswTabItemModel NewTabTemplate
+    public StswTabItemModel? NewTabTemplate
     {
-        get => (StswTabItemModel)GetValue(NewTabTemplateProperty);
+        get => (StswTabItemModel?)GetValue(NewTabTemplateProperty);
         set => SetValue(NewTabTemplateProperty, value);
     }
     public static readonly DependencyProperty NewTabTemplateProperty

@@ -22,14 +22,14 @@ public class StswFilter : UserControl
 
     public StswFilter()
     {
-        SelectModeCommand = new StswCommand<object?>(SelectMode_Executed);
+        SelectModeCommand = new StswCommand<StswFilterMode>(SelectMode_Executed);
     }
     static StswFilter()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilter), new FrameworkPropertyMetadata(typeof(StswFilter)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private ButtonBase? partFilterMode;
     private StswDataGrid? stswDataGrid;
 
@@ -45,8 +45,6 @@ public class StswFilter : UserControl
         if (GetTemplateChild("PART_FilterMode") is ButtonBase btnMode)
             partFilterMode = btnMode;
 
-        /// Refresh on enter
-        KeyDown += OnKeyDown;
         /*
         /// shortcuts for FilterMode items
         var keynumb = 1;
@@ -54,6 +52,7 @@ public class StswFilter : UserControl
             if (!char.IsNumber(((string)item.Header)[2]))
                 item.Header = $"_{keynumb++} {item.Header}";
         */
+
         /// default FilterMode
         if (FilterMode == null)
         {
@@ -83,11 +82,7 @@ public class StswFilter : UserControl
     /// <summary>
     /// Event handler for executing when the filter mode is selected.
     /// </summary>
-    protected void SelectMode_Executed(object? parameter)
-    {
-        if (parameter is MenuItem f && f.Tag is StswFilterMode m)
-            FilterMode = m;
-    }
+    protected void SelectMode_Executed(StswFilterMode parameter) => FilterMode = parameter;
 
     /// <summary>
     /// Generates the SQL string based on the current filter settings.
@@ -117,7 +112,7 @@ public class StswFilter : UserControl
 
         /// calculate SQL string
         var listValues = new List<object?>();
-        var selectedItems = ItemsSource.OfType<IStswSelectionItem>().ToList();
+        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
         if (selectedItems != null)
         {
             foreach (var selectedItem in selectedItems.Where(x => x.IsSelected))
@@ -155,8 +150,9 @@ public class StswFilter : UserControl
     /// <summary>
     /// Event handler for handling the KeyDown event.
     /// </summary>
-    private void OnKeyDown(object sender, KeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
+        base.OnKeyDown(e);
         if (e.Key == Key.Enter)
             stswDataGrid?.RefreshCommand?.Execute(null);
     }

@@ -20,7 +20,7 @@ public class StswColorPicker : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswColorPicker), new FrameworkPropertyMetadata(typeof(StswColorPicker)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private bool blockColorEllipse;
     private Grid? partColorGrid;
     private Ellipse? partColorEllipse;

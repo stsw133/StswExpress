@@ -19,7 +19,7 @@ public class StswClippingBorder : Border
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswClippingBorder), new FrameworkPropertyMetadata(typeof(StswClippingBorder)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private readonly RectangleGeometry _clipRect = new();
     private object? _oldClip;
 

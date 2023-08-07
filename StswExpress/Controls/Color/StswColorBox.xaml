@@ -12,12 +12,11 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
-        <Setter Property="Placeholder" Value="Wybierz kolor..."/>
-        <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -41,14 +40,14 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}" Scale="1.5"/>
                                 </se:StswDropButton.Header>
-                                <TabControl>
-                                    <TabItem Header="Standardowe">
+                                <se:StswTabControl>
+                                    <se:StswTabItem Header="Standardowe">
                                         <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    </TabItem>
-                                    <TabItem Header="Szczegółowe">
+                                    </se:StswTabItem>
+                                    <se:StswTabItem Header="Szczegółowe">
                                         <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
-                                    </TabItem>
-                                </TabControl>
+                                    </se:StswTabItem>
+                                </se:StswTabControl>
                             </se:StswDropButton>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"
@@ -76,6 +75,7 @@
                                                Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
                                                IsHitTestVisible="False"
                                                Margin="{TemplateBinding Padding}"
+                                               Padding="2 0 0 0"
                                                Text="{TemplateBinding Placeholder}"
                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

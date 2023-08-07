@@ -10,15 +10,15 @@
         <local:StswColorBoxContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -44,22 +44,22 @@
                         <Label Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswColorBox DockPanel.Dock="Top"
-                                     IsAlphaEnabled="{Binding IsAlphaEnabled}"
-                                     IsEnabled="{Binding IsEnabled}"
-                                     IsReadOnly="{Binding IsReadOnly}"
-                                     Margin="5"
-                                     Placeholder="Select color..."
-                                     SelectedColor="{Binding SelectedColor}">
-                        <se:StswColorBox.Components>
-                            <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
-                        </se:StswColorBox.Components>
-                    </se:StswColorBox>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswColorBox DockPanel.Dock="Top"
+                                 IsAlphaEnabled="{Binding IsAlphaEnabled}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsReadOnly="{Binding IsReadOnly}"
+                                 Margin="5"
+                                 Placeholder="Select color..."
+                                 SelectedColor="{Binding SelectedColor}">
+                    <se:StswColorBox.Components>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding RandomizeCommand}"/>
+                    </se:StswColorBox.Components>
+                </se:StswColorBox>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

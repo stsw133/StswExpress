@@ -10,15 +10,15 @@
         <local:StswHeaderContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -47,23 +47,23 @@
                         <Label Content="ShowDescription" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswHeader DockPanel.Dock="Top"
-                                   ContentVisibility="{Binding ContentVisibility}"
-                                   IconData="{x:Static se:StswIcons.Cake}"
-                                   IconScale="{Binding IconScale}"
-                                   IsBusy="{Binding IsBusy}"
-                                   IsEnabled="{Binding IsEnabled}"
-                                   Margin="5">
-                        <StackPanel>
-                            <TextBlock Text="Some header..."/>
-                            <TextBlock Text="Some description..." Opacity="0.6" FontSize="10" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                        </StackPanel>
-                    </se:StswHeader>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswHeader DockPanel.Dock="Top"
+                               ContentVisibility="{Binding ContentVisibility}"
+                               IconData="{x:Static se:StswIcons.Cake}"
+                               IconScale="{Binding IconScale}"
+                               IsBusy="{Binding IsBusy}"
+                               IsEnabled="{Binding IsEnabled}"
+                               Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="Some header..."/>
+                        <TextBlock Text="Some description..." Opacity="0.6" FontSize="10" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                    </StackPanel>
+                </se:StswHeader>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

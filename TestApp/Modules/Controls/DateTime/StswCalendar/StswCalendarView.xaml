@@ -10,15 +10,15 @@
         <local:StswCalendarContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -38,17 +38,17 @@
                     <Label Content="Maximum:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswCalendar DockPanel.Dock="Top"
-                                     IsEnabled="{Binding IsEnabled}"
-                                     Margin="5"
-                                     Maximum="{Binding Maximum}"
-                                     Minimum="{Binding Minimum}"
-                                     SelectedDate="{Binding SelectedDate}"/>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswCalendar DockPanel.Dock="Top"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 Margin="5"
+                                 Maximum="{Binding Maximum}"
+                                 Minimum="{Binding Minimum}"
+                                 SelectedDate="{Binding SelectedDate}"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

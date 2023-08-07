@@ -10,15 +10,15 @@
         <local:StswNotifyIconContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -34,19 +34,19 @@
                     </se:StswCheckBox>
                     -->
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                       IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
-                        <se:StswNotifyIcon.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
-                            </ContextMenu>
-                        </se:StswNotifyIcon.ContextMenu>
-                    </se:StswNotifyIcon>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                   IconPath="pack://application:,,,/TestApp;component/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
+                    <se:StswNotifyIcon.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
+                        </ContextMenu>
+                    </se:StswNotifyIcon.ContextMenu>
+                </se:StswNotifyIcon>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

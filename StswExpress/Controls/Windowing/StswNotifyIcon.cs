@@ -20,7 +20,7 @@ public class StswNotifyIcon : FrameworkElement
 
     internal NotifyIcon? Tray;
 
-    #region Events and methods
+    #region Events & methods
     private Window? _window;
 
     /// <summary>

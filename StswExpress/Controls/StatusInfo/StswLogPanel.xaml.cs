@@ -26,7 +26,7 @@ public class StswLogPanel : UserControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLogPanel), new FrameworkPropertyMetadata(typeof(StswLogPanel)));
     }
 
-    #region Events and methods
+    #region Events & methods
     private RgsScrollViewer? stswScrollViewer;
     
     /// <summary>

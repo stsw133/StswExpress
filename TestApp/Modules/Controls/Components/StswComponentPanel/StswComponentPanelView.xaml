@@ -9,16 +9,16 @@
     <d:UserControl.DataContext>
         <local:StswComponentPanelContext/>
     </d:UserControl.DataContext>
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -40,31 +40,31 @@
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswComponentPanel DockPanel.Dock="Top"
-                                           ExpandDirection="{Binding ExpandDirection}"
-                                           IconScale="{Binding IconScale}"
-                                           IsEnabled="{Binding IsEnabled}"
-                                           Margin="5">
-                        <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                                IconData="{x:Static se:StswIcons.Magnify}"
-                                                IconScale="{Binding IconScale}"/>
-                        <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                                IconData="{x:Static se:StswIcons.Filter}"
-                                                IconScale="{Binding IconScale}"/>
-                        <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                                IconData="{x:Static se:StswIcons.Close}"
-                                                IconScale="{Binding IconScale}"/>
-                    </se:StswComponentPanel>
-                    <TextBlock DockPanel.Dock="Top" Margin="10">
-                        <Run Text="You clicked "/>
-                        <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
-                        <Run Text=" time(s)"/>
-                    </TextBlock>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswComponentPanel DockPanel.Dock="Top"
+                                       ExpandDirection="{Binding ExpandDirection}"
+                                       IconScale="{Binding IconScale}"
+                                       IsEnabled="{Binding IsEnabled}"
+                                       Margin="5">
+                    <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                            IconData="{x:Static se:StswIcons.Magnify}"
+                                            IconScale="{Binding IconScale}"/>
+                    <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                            IconData="{x:Static se:StswIcons.Filter}"
+                                            IconScale="{Binding IconScale}"/>
+                    <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                            IconData="{x:Static se:StswIcons.Close}"
+                                            IconScale="{Binding IconScale}"/>
+                </se:StswComponentPanel>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="You clicked "/>
+                    <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                    <Run Text=" time(s)"/>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

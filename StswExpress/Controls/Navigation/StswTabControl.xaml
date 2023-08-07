@@ -11,6 +11,7 @@
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
+        <Setter Property="NewTabButtonVisibility" Value="Visible"/>
         
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -57,6 +58,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="AreTabsVisible" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_HeaderPanel"/>
+                        </Trigger>
+                        <Trigger Property="NewTabTemplate" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FunctionButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>

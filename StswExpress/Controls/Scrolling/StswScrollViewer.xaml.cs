@@ -14,7 +14,7 @@ public class StswScrollViewer : ScrollViewer
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollViewer), new FrameworkPropertyMetadata(typeof(StswScrollViewer)));
     }
 
-    #region Events and methods
+    #region Events & methods
     /// <summary>
     /// Overrides the MouseWheel event to handle scrolling behavior.
     /// When the scroll reaches the top or bottom, it raises the MouseWheel event for the parent UIElement.

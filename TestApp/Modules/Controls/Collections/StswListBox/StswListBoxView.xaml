@@ -10,15 +10,15 @@
         <local:StswListBoxContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -36,22 +36,22 @@
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}" SelectedValuePath="Value"/>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswListBox x:Name="StswListBox" DockPanel.Dock="Top"
-                                    DisplayMemberPath="Display"
-                                    IsEnabled="{Binding IsEnabled}"
-                                    ItemsSource="{Binding Items}"
-                                    Margin="5"
-                                    SelectionMode="{Binding SelectionMode}"
-                                    SelectedValuePath="Display"/>
-                    <TextBlock DockPanel.Dock="Top" Margin="10">
-                        <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswListBox}" FontWeight="Bold"/>
-                        <Run Text=" option(s) are selected"/>
-                    </TextBlock>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswListBox x:Name="StswListBox" DockPanel.Dock="Top"
+                                DisplayMemberPath="Display"
+                                IsEnabled="{Binding IsEnabled}"
+                                ItemsSource="{Binding Items}"
+                                Margin="5"
+                                SelectionMode="{Binding SelectionMode}"
+                                SelectedValuePath="Display"/>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswListBox}" FontWeight="Bold"/>
+                    <Run Text=" option(s) are selected"/>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

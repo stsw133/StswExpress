@@ -10,15 +10,15 @@
         <local:StswScrollViewerContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -32,31 +32,31 @@
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswScrollViewer DockPanel.Dock="Top"
-                                         Height="200"
-                                         Margin="5"
-                                         HorizontalScrollBarVisibility="Visible"
-                                         VerticalScrollBarVisibility="Visible">
-                        <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                                   Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
-                            <Rectangle.Fill>
-                                <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
-                                    <GradientStop Color="#F00" Offset="0"/>
-                                    <GradientStop Color="#FF0" Offset="0.1666666666"/>
-                                    <GradientStop Color="#0F0" Offset="0.3333333333"/>
-                                    <GradientStop Color="#0FF" Offset="0.5"/>
-                                    <GradientStop Color="#00F" Offset="0.6666666666"/>
-                                    <GradientStop Color="#F0F" Offset="0.8333333333"/>
-                                    <GradientStop Color="#F00" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </se:StswScrollViewer>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswScrollViewer DockPanel.Dock="Top"
+                                     Height="200"
+                                     Margin="5"
+                                     HorizontalScrollBarVisibility="Visible"
+                                     VerticalScrollBarVisibility="Visible">
+                    <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
+                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
+                                <GradientStop Color="#F00" Offset="0"/>
+                                <GradientStop Color="#FF0" Offset="0.1666666666"/>
+                                <GradientStop Color="#0F0" Offset="0.3333333333"/>
+                                <GradientStop Color="#0FF" Offset="0.5"/>
+                                <GradientStop Color="#00F" Offset="0.6666666666"/>
+                                <GradientStop Color="#F0F" Offset="0.8333333333"/>
+                                <GradientStop Color="#F00" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </se:StswScrollViewer>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

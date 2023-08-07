@@ -50,13 +50,12 @@ internal static class SQL
     }
 
     /// ListOfTypes
-    internal static ObservableCollection<StswComboItem> ListOfContractorTypes()
+    internal static ObservableCollection<StswSelectionItem> ListOfContractorTypes()
     {
-        return new ObservableCollection<StswComboItem>() {
+        return new ObservableCollection<StswSelectionItem>() {
             new() { Display = "Test1" },
             new() { Display = "Test2" },
-            new() { Display = "Test3" },
-            null
+            new() { Display = "Test3" }
         };
         /*
         var result = new DataTable();

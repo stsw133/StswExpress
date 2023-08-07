@@ -10,15 +10,15 @@
         <local:StswTabControlContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -40,22 +40,22 @@
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding NewTabButtonVisibility}" SelectedValuePath="Value"/>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswTabControl DockPanel.Dock="Top"
-                                       AreTabsVisible="{Binding AreTabsVisible}"
-                                       IsEnabled="{Binding IsEnabled}"
-                                       ItemsSource="{Binding Items}"
-                                       Margin="5"
-                                       NewTabButtonVisibility="{Binding NewTabButtonVisibility}"
-                                       SelectedIndex="0">
-                        <se:StswTabControl.NewTabTemplate>
-                            <se:StswTabItemModel Icon="{x:Static se:StswIcons.PlusThick}" Name="New tab" Type="{x:Type local:HomeContext}"/>
-                        </se:StswTabControl.NewTabTemplate>
-                    </se:StswTabControl>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswTabControl DockPanel.Dock="Top"
+                                   AreTabsVisible="{Binding AreTabsVisible}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   ItemsSource="{Binding Items}"
+                                   Margin="5"
+                                   NewTabButtonVisibility="{Binding NewTabButtonVisibility}"
+                                   SelectedIndex="0">
+                    <se:StswTabControl.NewTabTemplate>
+                        <se:StswTabItemModel Icon="{x:Static se:StswIcons.PlusThick}" Name="New tab" Type="{x:Type local:HomeContext}"/>
+                    </se:StswTabControl.NewTabTemplate>
+                </se:StswTabControl>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

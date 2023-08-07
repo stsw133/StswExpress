@@ -10,15 +10,15 @@
         <local:StswNavigationContext/>
     </d:UserControl.DataContext>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!-- name and description -->
-                <StackPanel Grid.Column="0" Margin="5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
@@ -32,21 +32,21 @@
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-                <GridSplitter Margin="-5" Width="5"/>
-                <!-- control -->
-                <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                    <se:StswNavigation DockPanel.Dock="Top"
-                                       BorderThickness="1"
-                                       IsEnabled="{Binding IsEnabled}"
-                                       Margin="5">
-                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice1}" Text="Page 1" ContextNamespace="TestApp.HomeContext"/>
-                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice2}" Text="Page 2" ContextNamespace="TestApp.HomeContext"/>
-                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice3}" Text="Page 3" ContextNamespace="TestApp.HomeContext"/>
-                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice4}" Text="Page 4" ContextNamespace="TestApp.HomeContext"/>
-                        <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice5}" Text="Page 5" ContextNamespace="TestApp.HomeContext"/>
-                    </se:StswNavigation>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-    </ScrollViewer>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <se:StswNavigation DockPanel.Dock="Top"
+                                   BorderThickness="1"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   Margin="5">
+                    <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice1}" Text="Page 1" ContextNamespace="TestApp.HomeContext"/>
+                    <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice2}" Text="Page 2" ContextNamespace="TestApp.HomeContext"/>
+                    <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice3}" Text="Page 3" ContextNamespace="TestApp.HomeContext"/>
+                    <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice4}" Text="Page 4" ContextNamespace="TestApp.HomeContext"/>
+                    <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice5}" Text="Page 5" ContextNamespace="TestApp.HomeContext"/>
+                </se:StswNavigation>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>
