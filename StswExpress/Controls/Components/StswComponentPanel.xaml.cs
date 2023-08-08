@@ -12,7 +12,7 @@ namespace StswExpress;
 /// It can expand to show additional components when the mouse is over an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswComponentPanel : Expander, IStswComponent
+public class StswComponentPanel : Expander
 {
     public StswComponentPanel()
     {

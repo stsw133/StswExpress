@@ -28,24 +28,36 @@
                                            SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- select year & month -->
-                            <DockPanel DockPanel.Dock="Top" Background="{DynamicResource StswButton.Static.Background}">
-                                <DockPanel.Resources>
+                            <Grid DockPanel.Dock="Top" Background="{DynamicResource StswButton.Static.Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
                                     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
-                                </DockPanel.Resources>
-                                <se:StswRepeatButton x:Name="PART_ButtonPreviousYear" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                </Grid.Resources>
+                                
+                                <se:StswRepeatButton x:Name="PART_ButtonPreviousYear" Grid.Column="0" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronDoubleLeft}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonPreviousMonth" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                
+                                <se:StswRepeatButton x:Name="PART_ButtonPreviousMonth" Grid.Column="1" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronLeft}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonNextYear" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
-                                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDoubleRight}" Scale="1.25"/>
-                                </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonNextMonth" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                
+                                <se:StswButton x:Name="PART_ButtonSelectionMode" Grid.Column="2" Content="{TemplateBinding SelectionName}" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}"/>
+                                
+                                <se:StswRepeatButton x:Name="PART_ButtonNextMonth" Grid.Column="3" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
                                     <se:StswIcon Data="{x:Static se:StswIcons.ChevronRight}" Scale="1.25"/>
                                 </se:StswRepeatButton>
-                                <se:StswButton x:Name="PART_ButtonSelectionMode" Content="{TemplateBinding SelectionName}" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}"/>
-                            </DockPanel>
+
+                                <se:StswRepeatButton x:Name="PART_ButtonNextYear" Grid.Column="4" BorderThickness="0" CornerRadius="0" Margin="{TemplateBinding SubPadding}">
+                                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDoubleRight}" Scale="1.25"/>
+                                </se:StswRepeatButton>
+                            </Grid>
                             <!-- content -->
                             <ContentControl DockPanel.Dock="Top"
                                             Focusable="False"

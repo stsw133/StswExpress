@@ -152,7 +152,6 @@
                                            CommandTarget="{TemplateBinding CommandTarget}"
                                            Content="{TemplateBinding Header}"
                                            CornerRadius="0"
-                                           Focusable="True"
                                            Padding="{TemplateBinding Padding}"
                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

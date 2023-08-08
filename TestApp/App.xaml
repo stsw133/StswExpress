@@ -74,6 +74,9 @@
             <DataTemplate DataType="{x:Type local:StswComponentPanelContext}">
                 <local:StswComponentPanelView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComponentRebuttonContext}">
+                <local:StswComponentRebuttonView/>
+            </DataTemplate>
             
             <!-- DateTime -->
             <DataTemplate DataType="{x:Type local:StswCalendarContext}">

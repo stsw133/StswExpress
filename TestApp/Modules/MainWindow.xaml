@@ -3,6 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:local="clr-namespace:TestApp"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
@@ -40,6 +41,7 @@
                 <se:StswNavigationElement Text="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
                 <se:StswNavigationElement Text="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
                 <se:StswNavigationElement Text="StswComponentPanel" ContextNamespace="TestApp.StswComponentPanelContext"/>
+                <se:StswNavigationElement Text="StswComponentRebutton" ContextNamespace="TestApp.StswComponentRebuttonContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Date &amp; time" IconData="{x:Static se:StswIcons.Calendar}">
                 <se:StswNavigationElement Text="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>

@@ -26,6 +26,7 @@ public class StswContentDialogContext : ControlsContext
             OnCancelCommand = new StswCommand(DialogCancel),
             IsOpen = true
         };
+        //IsOpen = true;
     }
 
     /// Command: dialog yes
@@ -79,6 +80,14 @@ public class StswContentDialogContext : ControlsContext
     {
         get => contentDialogResult;
         set => SetProperty(ref contentDialogResult, value);
+    }
+
+    /// IsOpen
+    private bool isOpen;
+    public bool IsOpen
+    {
+        get => isOpen;
+        set => SetProperty(ref isOpen, value);
     }
     #endregion
 }

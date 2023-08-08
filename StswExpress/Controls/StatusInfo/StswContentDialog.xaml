@@ -28,17 +28,17 @@
                                 <Style TargetType="{x:Type ContentControl}">
                                     <Style.Triggers>
                                         <!-- custom dialog -->
-                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="True">
                                             <Setter Property="ContentTemplate">
                                                 <Setter.Value>
                                                     <DataTemplate>
-                                                        <ContentPresenter/>
+                                                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"/>
                                                     </DataTemplate>
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
                                         <!-- predefined dialog -->
-                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                                        <DataTrigger Binding="{Binding HasContent, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="False">
                                             <Setter Property="ContentTemplate">
                                                 <Setter.Value>
                                                     <DataTemplate>

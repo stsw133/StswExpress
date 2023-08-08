@@ -24,6 +24,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentButton.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentCheck.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentPanel.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Components/StswComponentRebutton.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/DateTime/StswDatePicker.xaml"/>

@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="TestApp.StswComponentRebuttonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswComponentRebuttonContext/>
+    </d:UserControl.DataContext>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:RgsScrollViewer>
+                <StackPanel Margin="5">
+                    <Label>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Represents a control that functions as a component and displays an icon.
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- ContentVisibility -->
+                    <Label Content="ContentVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
+                    <!-- IconScale -->
+                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
+                    <!-- IsBusy -->
+                    <se:StswCheckBox IsChecked="{Binding IsBusy}">
+                        <Label Content="IsBusy" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+            </se:RgsScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                    <se:StswComponentRebutton Command="{Binding OnClickCommand}"
+                                              ContentVisibility="{Binding ContentVisibility}"
+                                              IconData="{x:Static se:StswIcons.Plus}"
+                                              IconScale="{Binding IconScale}"
+                                              IsBusy="{Binding IsBusy}"
+                                              IsEnabled="{Binding IsEnabled}"
+                                              Margin="0 0 5 0"
+                                              VerticalContentAlignment="Center">
+                        <Label Content="Increment" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentRebutton>
+                    <se:StswComponentRebutton Command="{Binding OnClickCommand}"
+                                              ContentVisibility="{Binding ContentVisibility}"
+                                              IconData="{x:Static se:StswIcons.Minus}"
+                                              IconScale="{Binding IconScale}"
+                                              IsBusy="{Binding IsBusy}"
+                                              IsEnabled="{Binding IsEnabled}"
+                                              Margin="0 0 5 0"
+                                              VerticalContentAlignment="Center">
+                        <Label Content="Decrement" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentRebutton>
+                    <se:StswComponentRebutton Command="{Binding OnClickCommand}"
+                                              ContentVisibility="{Binding ContentVisibility}"
+                                              IconData="{x:Static se:StswIcons.RotateRight}"
+                                              IconScale="{Binding IconScale}"
+                                              IsBusy="{Binding IsBusy}"
+                                              IsEnabled="{Binding IsEnabled}"
+                                              Margin="0 0 5 0"
+                                              VerticalContentAlignment="Center">
+                        <Label Content="Rotate right" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
+                    </se:StswComponentRebutton>
+                </StackPanel>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="You clicked "/>
+                    <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                    <Run Text=" time(s)"/>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

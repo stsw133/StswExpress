@@ -78,7 +78,7 @@ public class StswNavigation : UserControl
     public StswDictionary<string, object?> Contexts
     {
         get => (StswDictionary<string, object?>)GetValue(ContextsProperty);
-        internal set => SetValue(ContextsProperty, value);
+        set => SetValue(ContextsProperty, value);
     }
     public static readonly DependencyProperty ContextsProperty
         = DependencyProperty.Register(
