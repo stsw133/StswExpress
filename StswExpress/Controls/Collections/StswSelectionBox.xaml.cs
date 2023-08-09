@@ -339,5 +339,10 @@ public class StswSelectionItem : StswComboItem, IStswSelectionItem
     /// <summary>
     /// Gets or sets the selection associated with the selecion box item.
     /// </summary>
-    public bool IsSelected { get; set; }
+    public bool IsSelected
+    {
+        get => isSelected;
+        set => SetProperty(ref isSelected, value);
+    }
+    private bool isSelected;
 }

@@ -63,10 +63,10 @@
         </DockPanel>
         <!-- data grid -->
         <se:StswDataGrid Margin="3"
-                             FiltersData="{Binding FiltersContractors, Mode=OneWayToSource}"
-                             ItemsSource="{Binding ListContractors}"
-                             RefreshCommand="{Binding RefreshCommand}"
-                             SelectedItem="{Binding SelectedContractor}">
+                         FiltersData="{Binding FiltersContractors, Mode=OneWayToSource}"
+                         ItemsSource="{Binding ListContractors}"
+                         RefreshCommand="{Binding RefreshCommand}"
+                         SelectedItem="{Binding SelectedContractor}">
             <DataGrid.Resources>
                 <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
             </DataGrid.Resources>

@@ -342,6 +342,13 @@
                         <Trigger Property="FilterMode" Value="Between">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SecondControl"/>
                         </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsInDataGrid, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                <Condition Binding="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainBorder"/>
+                        </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder"/>

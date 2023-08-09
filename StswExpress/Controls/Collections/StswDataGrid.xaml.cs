@@ -179,8 +179,8 @@ public class StswDataGrid : DataGrid
                 }
 
                 /// set visibility for header
-                if (specialColumn?.Header is UniformGrid header and not null)
-                    header.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
+                //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid and not null)
+                //    grid.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
             }
             else if (specialColumn != null)
             {

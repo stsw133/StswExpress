@@ -51,6 +51,7 @@
                                  ItemsSource="{Binding Items, Mode=TwoWay}"
                                  Margin="5"
                                  SpecialColumnVisibility="{Binding SpecialColumnVisibility}">
+                    
                     <se:StswDataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ID}" Width="100">
                             <DataGridTextColumn.Header>
@@ -63,6 +64,25 @@
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn>
                     </se:StswDataGrid.Columns>
+
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="There are some row details..." Margin="5"/>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+
+                    <se:StswDataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowDetails}" Value="False">
+                                    <Setter Property="DetailsVisibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowDetails}" Value="True">
+                                    <Setter Property="DetailsVisibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </se:StswDataGrid.RowStyle>
                 </se:StswDataGrid>
                 <TextBlock DockPanel.Dock="Top" Margin="10">
                     <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>

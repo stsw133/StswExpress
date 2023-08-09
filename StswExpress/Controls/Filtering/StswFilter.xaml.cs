@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -39,7 +40,10 @@ public class StswFilter : UserControl
     public override void OnApplyTemplate()
     {
         if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid dataGrid)
+        {
             stswDataGrid = dataGrid;
+            IsInDataGrid = true;
+        }
 
         /// ToggleButton: filter mode
         if (GetTemplateChild("PART_FilterMode") is ButtonBase btnMode)
@@ -318,6 +322,21 @@ public class StswFilter : UserControl
     public static readonly DependencyProperty IsFilterNullSensitiveProperty
         = DependencyProperty.Register(
             nameof(IsFilterNullSensitive),
+            typeof(bool),
+            typeof(StswFilter)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal bool IsInDataGrid
+    {
+        get => (bool)GetValue(IsInDataGridProperty);
+        set => SetValue(IsInDataGridProperty, value);
+    }
+    public static readonly DependencyProperty IsInDataGridProperty
+        = DependencyProperty.Register(
+            nameof(IsInDataGrid),
             typeof(bool),
             typeof(StswFilter)
         );

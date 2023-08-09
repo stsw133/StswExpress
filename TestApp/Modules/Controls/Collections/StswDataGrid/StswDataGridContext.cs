@@ -18,10 +18,10 @@ public class StswDataGridContext : ControlsContext
     private StswCollection<StswDataGridTestModel> items = new(
             new List<StswDataGridTestModel>()
             {
-                new() { ID = 1, Name = "First row" },
+                new() { ID = 1, Name = "First row", ShowDetails = false },
                 new() { ID = 2, Name = "Second row" },
                 new() { ID = 3, Name = "Third row" },
-                new() { ID = 4, Name = "Fourth row" },
+                new() { ID = 4, Name = "Fourth row", ShowDetails = false },
                 new() { ID = 5, Name = "Fifth row" }
             }
         );

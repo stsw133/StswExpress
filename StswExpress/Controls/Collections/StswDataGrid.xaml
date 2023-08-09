@@ -41,7 +41,7 @@
 
     <!-- StswDataGridSpecialColumnHeaderTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnHeaderTemplate">
-        <UniformGrid Columns="1">
+        <UniformGrid x:Name="PART_Buttons" Columns="1" Visibility="Collapsed">
             <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0"
                                  IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
                 <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
@@ -52,6 +52,11 @@
                 <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
             </se:StswButton>
         </UniformGrid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding SpecialColumnVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="All">
+                <Setter Property="Visibility" Value="Visible" TargetName="PART_Buttons"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <!-- StswDataGridSpecialColumnCellTemplate -->
