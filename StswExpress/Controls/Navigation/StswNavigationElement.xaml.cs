@@ -66,7 +66,7 @@ public class StswNavigationElement : UserControl
         var ancestorElement = this;
         while (ancestorElement != null)
         {
-            if (ancestorElement != null && ancestorElement.Container is Popup popup)
+            if (ancestorElement.Container is Popup popup)
                 return popup;
             ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
         }

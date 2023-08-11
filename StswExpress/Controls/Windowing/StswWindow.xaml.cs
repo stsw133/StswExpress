@@ -146,7 +146,7 @@ public class StswWindow : Window
     /// <summary>
     /// Event handler to show/hide the fullscreen panel based on mouse movement.
     /// </summary>
-    private void OnMouseMove(object sender, MouseEventArgs e)
+    private void OnMouseMove(object? sender, MouseEventArgs e)
     {
         if (Fullscreen && partFullscreenPanel is not null)
         {
@@ -178,32 +178,35 @@ public class StswWindow : Window
     /// <summary>
     /// Event handler for the fullscreen button click to toggle fullscreen mode.
     /// </summary>
-    private void FullscreenClick(object sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
+    private void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
     /// <summary>
     /// Event handler for the center button click to center the window on the screen.
     /// </summary>
-    protected void CenterClick(object sender, RoutedEventArgs e)
+    protected void CenterClick(object? sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
             WindowState = WindowState.Normal;
 
-        int MONITOR_DEFAULTTONEAREST = 0x00000002;
-        var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
-        if (monitor != IntPtr.Zero)
+        if (_hwndSource != null)
         {
-            var monitorInfo = new MONITORINFO();
-            GetMonitorInfo(monitor, monitorInfo);
-            var rcWorkArea = monitorInfo.rcWork;
-            Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
-            Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero)
+            {
+                var monitorInfo = new MONITORINFO();
+                GetMonitorInfo(monitor, monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                Left = (rcWorkArea.Width - Width) / 2 + rcWorkArea.left;
+                Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
+            }
         }
     }
 
     /// <summary>
     /// Event handler for the default button click to reset the window size to its default.
     /// </summary>
-    protected void DefaultClick(object sender, RoutedEventArgs e)
+    protected void DefaultClick(object? sender, RoutedEventArgs e)
     {
         Height = defaultHeight;
         Width = defaultWidth;
@@ -213,17 +216,17 @@ public class StswWindow : Window
     /// <summary>
     /// Event handler for the minimize button click to minimize the window.
     /// </summary>
-    protected void MinimizeClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    protected void MinimizeClick(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
     /// <summary>
     /// Event handler for the restore button click to toggle between normal and maximized window state.
     /// </summary>
-    protected void RestoreClick(object sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+    protected void RestoreClick(object? sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 
     /// <summary>
     /// Event handler for the close button click to close the window.
     /// </summary>
-    protected void CloseClick(object sender, RoutedEventArgs e) => Close();
+    protected void CloseClick(object? sender, RoutedEventArgs e) => Close();
     #endregion
 
     #region Main properties
@@ -245,15 +248,15 @@ public class StswWindow : Window
     /// <summary>
     /// Gets or sets the content of the custom window dialog.
     /// </summary>
-    public UIElement? ContentDialog
+    public StswContentDialogModel? ContentDialogBinding
     {
-        get => (UIElement?)GetValue(ContentDialogProperty);
+        get => (StswContentDialogModel?)GetValue(ContentDialogProperty);
         set => SetValue(ContentDialogProperty, value);
     }
     public static readonly DependencyProperty ContentDialogProperty
         = DependencyProperty.Register(
-            nameof(ContentDialog),
-            typeof(UIElement),
+            nameof(ContentDialogBinding),
+            typeof(StswContentDialogModel),
             typeof(StswWindow)
         );
 
@@ -276,34 +279,37 @@ public class StswWindow : Window
         );
     public static void OnFullscreenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw && stsw.partFullscreenPanel is not null && stsw.partTitleBar is not null)
+        if (obj is StswWindow stsw)
         {
-            if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
-                return;
-
-            if (stsw.Fullscreen)
+            if (stsw.partFullscreenPanel is not null && stsw.partTitleBar is not null)
             {
-                stsw.preFullscreenState = stsw.WindowState;
+                if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
+                    return;
 
-                if (stsw.WindowState == WindowState.Maximized)
-                    stsw.WindowState = WindowState.Minimized;
+                if (stsw.Fullscreen)
+                {
+                    stsw.preFullscreenState = stsw.WindowState;
 
-                stsw.partTitleBar.Visibility = Visibility.Collapsed;
-                stsw.WindowState = WindowState.Maximized;
+                    if (stsw.WindowState == WindowState.Maximized)
+                        stsw.WindowState = WindowState.Minimized;
+
+                    stsw.partTitleBar.Visibility = Visibility.Collapsed;
+                    stsw.WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    stsw.partTitleBar.Visibility = Visibility.Visible;
+                    stsw.partFullscreenPanel.Visibility = Visibility.Collapsed;
+
+                    if (stsw.preFullscreenState == WindowState.Maximized)
+                        stsw.WindowState = WindowState.Minimized;
+
+                    stsw.WindowState = stsw.preFullscreenState;
+                }
+                stsw.Focus();
+
+                stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
             }
-            else
-            {
-                stsw.partTitleBar.Visibility = Visibility.Visible;
-                stsw.partFullscreenPanel.Visibility = Visibility.Collapsed;
-
-                if (stsw.preFullscreenState == WindowState.Maximized)
-                    stsw.WindowState = WindowState.Minimized;
-
-                stsw.WindowState = stsw.preFullscreenState;
-            }
-            stsw.Focus();
-
-            stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
 
@@ -341,29 +347,34 @@ public class StswWindow : Window
         );
     public static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswWindow stsw && !stsw.IsLoaded)
-            stsw.AllowsTransparency = stsw.CornerRadius.TopLeft > 0
-                                   || stsw.CornerRadius.TopRight > 0
-                                   || stsw.CornerRadius.BottomLeft > 0
-                                   || stsw.CornerRadius.BottomRight > 0;
+        if (obj is StswWindow stsw)
+        {
+            if (!stsw.IsLoaded)
+                stsw.AllowsTransparency = stsw.CornerRadius.TopLeft > 0
+                                       || stsw.CornerRadius.TopRight > 0
+                                       || stsw.CornerRadius.BottomLeft > 0
+                                       || stsw.CornerRadius.BottomRight > 0;
+        }
     }
     #endregion
 
     #region OnInitialized
     private HwndSource? _hwndSource;
 
+    /// OnInitialized
     protected override void OnInitialized(EventArgs e)
     {
-        SourceInitialized += OnSourceInitialized;
-        Loaded += OnLoaded;
-        Closed += OnClosed;
+        SourceInitialized += OnSourceInitialized; /// Avoid hiding task bar upon maximization
+        Loaded += OnLoaded; /// Hide default context menu and show custom
+        Closed += OnClosed; /// Hide default context menu and show custom
         base.OnInitialized(e);
 
         defaultHeight = Height;
         defaultWidth = Width;
     }
 
-    void OnSourceInitialized(object sender, EventArgs e)
+    /// OnSourceInitialized
+    void OnSourceInitialized(object? sender, EventArgs e)
     {
         _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
         IntPtr handle = new WindowInteropHelper(this).Handle;
@@ -374,7 +385,8 @@ public class StswWindow : Window
     #region Hide default context menu and show custom
     private HwndSourceHook? _hook;
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    /// OnLoaded
+    private void OnLoaded(object? sender, RoutedEventArgs e)
     {
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
         {
@@ -382,17 +394,21 @@ public class StswWindow : Window
             hwndSource.AddHook(_hook);
         }
     }
-    private void OnClosed(object sender, EventArgs e)
+
+    /// OnClosed
+    private void OnClosed(object? sender, EventArgs e)
     {
         if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
             hwndSource.RemoveHook(_hook);
     }
 
+    /// WndProc
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 165)
         {
-            partTitleBar.ContextMenu.IsOpen = true;
+            if (partTitleBar != null)
+                partTitleBar.ContextMenu.IsOpen = true;
             handled = true;
         }
         return IntPtr.Zero;
@@ -400,6 +416,7 @@ public class StswWindow : Window
     #endregion
 
     #region Avoid hiding task bar upon maximization
+    /// WindowProc
     private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         switch (msg)
@@ -413,28 +430,32 @@ public class StswWindow : Window
         return (IntPtr)0;
     }
 
+    /// WmGetMinMaxInfo
     private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
-        var mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
-        int MONITOR_DEFAULTTONEAREST = 0x00000002;
-        var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-        if (monitor != IntPtr.Zero)
+        if (Marshal.PtrToStructure(lParam, typeof(MINMAXINFO)) is MINMAXINFO mmi)
         {
-            var monitorInfo = new MONITORINFO();
-            GetMonitorInfo(monitor, monitorInfo);
-            var rcWorkArea = monitorInfo.rcWork;
-            var rcMonitorArea = monitorInfo.rcMonitor;
-            mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-            mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-            mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-            mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
-            mmi.ptMaxTrackSize.x = Math.Abs(rcWorkArea.Width);
-            mmi.ptMaxTrackSize.y = Math.Abs(rcWorkArea.Height);
-        }
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero)
+            {
+                var monitorInfo = new MONITORINFO();
+                GetMonitorInfo(monitor, monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                var rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
+                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+                mmi.ptMaxTrackSize.x = Math.Abs(rcWorkArea.Width);
+                mmi.ptMaxTrackSize.y = Math.Abs(rcWorkArea.Height);
+            }
 
-        Marshal.StructureToPtr(mmi, lParam, true);
+            Marshal.StructureToPtr(mmi, lParam, true);
+        }
     }
 
+    /// POINT
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT
     {
@@ -447,6 +468,7 @@ public class StswWindow : Window
         }
     }
 
+    /// MINMAXINFO
     [StructLayout(LayoutKind.Sequential)]
     public struct MINMAXINFO
     {
@@ -457,6 +479,7 @@ public class StswWindow : Window
         public POINT ptMaxTrackSize;
     };
 
+    /// MONITORINFO
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     public class MONITORINFO
     {
@@ -466,13 +489,14 @@ public class StswWindow : Window
         public int dwFlags = 0;
     }
 
+    /// RECT
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct RECT
     {
         public int left, top, right, bottom;
         public static readonly RECT Empty = new RECT();
-        public int Width => Math.Abs(right - left);
-        public int Height => bottom - top;
+        public readonly int Width => Math.Abs(right - left);
+        public readonly int Height => bottom - top;
 
         public RECT(int left, int top, int right, int bottom)
         {
@@ -490,11 +514,11 @@ public class StswWindow : Window
             bottom = rcSrc.bottom;
         }
 
-        public bool IsEmpty => left >= right || top >= bottom;
+        public readonly bool IsEmpty => left >= right || top >= bottom;
 
-        public override string ToString() => this == Empty ? "RECT {Empty}" : $"RECT {{ left : {left} / top : {top} / right : {right} / bottom : {bottom} }}";
-        public override bool Equals(object? obj) => obj is Rect && this == (RECT)obj;
-        public override int GetHashCode() => left.GetHashCode() + top.GetHashCode() + right.GetHashCode() + bottom.GetHashCode();
+        public override readonly string ToString() => this == Empty ? "RECT {Empty}" : $"RECT {{ left : {left} / top : {top} / right : {right} / bottom : {bottom} }}";
+        public override readonly bool Equals(object? obj) => obj is Rect && this == (RECT)obj;
+        public override readonly int GetHashCode() => left.GetHashCode() + top.GetHashCode() + right.GetHashCode() + bottom.GetHashCode();
         public static bool operator ==(RECT rect1, RECT rect2) => rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
         public static bool operator !=(RECT rect1, RECT rect2) => !(rect1 == rect2);
     }

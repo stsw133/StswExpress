@@ -149,7 +149,7 @@ public class StswComboItem : StswObservableObject
     public object? Value
     {
         get => value;
-        set => SetProperty(ref value, value);
+        set => SetProperty(ref this.value, value);
     }
     private object? value;
 }

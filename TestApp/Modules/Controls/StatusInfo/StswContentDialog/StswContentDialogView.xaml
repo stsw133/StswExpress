@@ -11,7 +11,7 @@
     </d:UserControl.DataContext>
 
     <Grid>
-        <DockPanel>
+        <DockPanel IsEnabled="{Binding IsOpen, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -59,6 +59,6 @@
                 </DockPanel>
             </Grid>
         </DockPanel>
-        <se:StswContentDialog BindingModel="{Binding ContentDialogBinding}"/>
+        <se:StswContentDialog BindingModel="{Binding ContentDialogBinding}" IsOpen="{Binding IsOpen}"/>
     </Grid>
 </UserControl>

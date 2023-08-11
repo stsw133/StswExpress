@@ -32,11 +32,12 @@ public class StswBindingProxy : Freezable
         <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
     </DataGrid.Resources>
     <DataGrid.Columns>
-        <DataGridTextColumn Binding="{Binding Name}">
-            <DataGridTextColumn.Header>
-                <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains" FilterSqlColumn="c.Name"/>
-            </DataGridTextColumn.Header>
-        </DataGridTextColumn>
+        <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display">
+            <DataGridComboBoxColumn.Header>
+                <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type"
+                               ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"/>
+            </DataGridComboBoxColumn.Header>
+        </DataGridComboBoxColumn>
     </DataGrid.Columns>
 </DataGrid>
 

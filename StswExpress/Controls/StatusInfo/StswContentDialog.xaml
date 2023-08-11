@@ -10,7 +10,7 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
-        <Setter Property="IsOpen" Value="{Binding BindingModel.IsOpen, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="IsOpen" Value="{Binding BindingModel.IsOpen, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>

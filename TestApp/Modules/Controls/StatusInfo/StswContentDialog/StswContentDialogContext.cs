@@ -24,28 +24,28 @@ public class StswContentDialogContext : ControlsContext
             OnYesCommand = new StswCommand(DialogYes),
             OnNoCommand = new StswCommand(DialogNo),
             OnCancelCommand = new StswCommand(DialogCancel),
-            IsOpen = true
+            //IsOpen = true
         };
-        //IsOpen = true;
+        IsOpen = true;
     }
 
     /// Command: dialog yes
     private void DialogYes()
     {
         ContentDialogResult = "yes";
-        ContentDialogBinding = new();
+        IsOpen = false;
     }
     /// Command: dialog no
     private void DialogNo()
     {
         ContentDialogResult = "no";
-        ContentDialogBinding = new();
+        IsOpen = false;
     }
     /// Command: dialog cancel
     private void DialogCancel()
     {
         ContentDialogResult = "cancel";
-        ContentDialogBinding = new();
+        IsOpen = false;
     }
     #endregion
 

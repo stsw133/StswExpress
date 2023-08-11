@@ -198,17 +198,14 @@
                             </Grid>
                             
                             <!-- content dialog -->
-                            <Grid x:Name="PART_ContentDialog" Grid.Row="1" Background="#7000">
-                                <ContentControl Content="{TemplateBinding ContentDialog}" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Grid>
+                            <se:StswContentDialog Grid.Row="1" BindingModel="{Binding ContentDialogBinding}"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ContentDialog" Value="{x:Null}">
+                        <Trigger Property="ContentDialogBinding" Value="{x:Null}">
                             <Setter Property="Focusable" Value="True" TargetName="PART_Content"/>
                             <Setter Property="IsEnabled" Value="True" TargetName="PART_Content"/>
                             <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentDialog"/>
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
