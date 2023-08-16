@@ -73,7 +73,7 @@
     <Compile Update="Modules\Controls\Style\StswLoadingCircle\StswLoadingCircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Text\StswLabel\StswLabelView.xaml.cs">
+    <Compile Update="Modules\Controls\Text\StswTruncateLabel\StswTruncateLabelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Text\StswText\StswTextView.xaml.cs">
@@ -223,7 +223,7 @@
     <Page Update="Modules\Controls\Style\StswLoadingCircle\StswLoadingCircleView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Text\StswLabel\StswLabelView.xaml">
+    <Page Update="Modules\Controls\Text\StswTruncateLabel\StswTruncateLabelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Text\StswText\StswTextView.xaml">

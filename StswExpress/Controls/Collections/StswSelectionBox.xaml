@@ -75,20 +75,27 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:StswListBox x:Name="PART_ListBox"
-                                                Background="{DynamicResource StswPopup.Static.Background}"
-                                                BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
-                                                BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                CornerRadius="{TemplateBinding CornerRadius}"
-                                                DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                                Focusable="False"
-                                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                                ItemsSource="{TemplateBinding ItemsSource}"
-                                                KeyboardNavigation.DirectionalNavigation="Contained"
-                                                SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                SelectionMode="Multiple"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <se:StswClippingBorder x:Name="DropDownBorder"
+                                                       Background="{DynamicResource StswPopup.Static.Background}"
+                                                       BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
+                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
+                                    <se:RgsScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
+                                        <se:StswListBox x:Name="PART_ListBox"
+                                                        Background="{DynamicResource StswPopup.Static.Background}"
+                                                        BorderThickness="0" CornerRadius="0"
+                                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                        Focusable="False"
+                                                        ItemsSource="{TemplateBinding ItemsSource}"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"
+                                                        ScrollViewer.CanContentScroll="False"
+                                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                        SelectionMode="Multiple"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </se:RgsScrollViewer>
+                                </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->
                             <Grid>
@@ -120,6 +127,9 @@
                         <Trigger Property="Text" Value="">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding HasItems, ElementName=PART_ListBox}" Value="False">
+                            <Setter Property="Height" Value="95" TargetName="DropDownBorder"/>
+                        </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton"/>

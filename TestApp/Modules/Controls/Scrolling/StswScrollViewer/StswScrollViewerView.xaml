@@ -27,6 +27,14 @@
                             </TextBlock>
                         </StackPanel>
                     </Label>
+                    <!-- HorizontalScrollBarVisibility -->
+                    <Label Content="HorizontalScrollBarVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}" SelectedValuePath="Value"/>
+                    <!-- VerticalScrollBarVisibility -->
+                    <Label Content="VerticalScrollBarVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}" SelectedValuePath="Value"/>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -39,10 +47,9 @@
                 <se:StswScrollViewer DockPanel.Dock="Top"
                                      Height="200"
                                      Margin="5"
-                                     HorizontalScrollBarVisibility="Visible"
-                                     VerticalScrollBarVisibility="Visible">
-                    <Rectangle Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}"
-                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
+                                     HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
+                                     VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}">
+                    <Rectangle Height="720" Width="1280">
                         <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
                                 <GradientStop Color="#F00" Offset="0"/>

@@ -130,7 +130,7 @@
                                 <Condition Property="IsChecked" Value="True"/>
                                 <Condition Property="IsEnabled" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswButton.CheckedAndDisabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.CheckedAndDisabled.Background}" TargetName="PART_MainBorder"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -9,15 +9,15 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control functioning as label with content truncation support.
 /// </summary>
-public class StswLabel : Label
+public class StswTruncateLabel : Label
 {
-    public StswLabel()
+    public StswTruncateLabel()
     {
-        DependencyPropertyDescriptor.FromProperty(IsTruncationAllowedProperty, typeof(StswLabel)).AddValueChanged(this, (s, e) => UpdateContentTruncation());
+        DependencyPropertyDescriptor.FromProperty(IsTruncationAllowedProperty, typeof(StswTruncateLabel)).AddValueChanged(this, (s, e) => UpdateContentTruncation());
     }
-    static StswLabel()
+    static StswTruncateLabel()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLabel), new FrameworkPropertyMetadata(typeof(StswLabel)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTruncateLabel), new FrameworkPropertyMetadata(typeof(StswTruncateLabel)));
     }
 
     #region Events & methods
@@ -98,7 +98,7 @@ public class StswLabel : Label
         = DependencyProperty.RegisterReadOnly(
             nameof(IsContentTruncated),
             typeof(bool),
-            typeof(StswLabel),
+            typeof(StswTruncateLabel),
             new PropertyMetadata(false)
         );
 
@@ -114,7 +114,7 @@ public class StswLabel : Label
         = DependencyProperty.Register(
             nameof(IsTruncationAllowed),
             typeof(bool),
-            typeof(StswLabel)
+            typeof(StswTruncateLabel)
         );
     #endregion
 
@@ -131,7 +131,7 @@ public class StswLabel : Label
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswLabel)
+            typeof(StswTruncateLabel)
         );
     #endregion
 }

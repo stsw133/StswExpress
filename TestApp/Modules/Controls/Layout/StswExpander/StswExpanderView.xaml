@@ -31,6 +31,14 @@
                     <Label Content="ExpandDirection:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ExpandDirection}" SelectedValuePath="Value"/>
+                    <!-- HorizontalAlignment -->
+                    <Label Content="HorizontalAlignment:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                    <!-- VerticalAlignment -->
+                    <Label Content="VerticalAlignment:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
@@ -39,11 +47,13 @@
             </se:RgsScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+            <DockPanel Grid.Column="1" Margin="5">
                 <se:StswExpander DockPanel.Dock="Top"
                                  ExpandDirection="{Binding ExpandDirection}"
                                  IsEnabled="{Binding IsEnabled}"
-                                 Margin="5">
+                                 Margin="5"
+                                 HorizontalAlignment="{Binding HorizontalAlignment}"
+                                 VerticalAlignment="{Binding VerticalAlignment}">
                     <se:StswExpander.Header>
                         <se:StswHeader Content="Some header..." IconData="{x:Static se:StswIcons.Cake}"/>
                     </se:StswExpander.Header>

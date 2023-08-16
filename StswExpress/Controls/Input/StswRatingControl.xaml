@@ -67,7 +67,7 @@
                                                 <Condition Binding="{Binding IsChecked}" Value="True"/>
                                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="False"/>
                                             </MultiDataTrigger.Conditions>
-                                            <Setter Property="Fill" Value="{DynamicResource StswButton.CheckedAndDisabled.Background}" TargetName="PART_Icon"/>
+                                            <Setter Property="Fill" Value="{DynamicResource StswRating.CheckedAndDisabled.Background}" TargetName="PART_Icon"/>
                                         </MultiDataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>

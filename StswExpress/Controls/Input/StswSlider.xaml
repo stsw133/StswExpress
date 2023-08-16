@@ -41,7 +41,18 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
                             <Canvas x:Name="PART_Canvas">
-                                <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource StswSlider.Range.Background}" Visibility="Hidden"/>
+                                <Rectangle x:Name="PART_SelectionRange" Visibility="Hidden">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill" Value="{DynamicResource StswSlider.Range.Background}"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="{DynamicResource StswItem.CheckedAndDisabled.Background}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
                             </Canvas>
                         </Border>
                         <Track x:Name="PART_Track">

@@ -79,7 +79,7 @@
     <Page Update="Controls\Text\StswText.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Text\StswLabel.xaml">
+    <Page Update="Controls\Text\StswTruncateLabel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Filtering\StswFilter.xaml">

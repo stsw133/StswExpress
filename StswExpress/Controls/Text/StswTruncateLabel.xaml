@@ -2,17 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswLabel}">
+    <Style TargetType="{x:Type se:StswTruncateLabel}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
 
-        <Setter Property="IsTruncationAllowed" Value="False"/>
+        <Setter Property="IsTruncationAllowed" Value="True"/>
         
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswLabel}">
+                <ControlTemplate TargetType="{x:Type se:StswTruncateLabel}">
                     <se:StswClippingBorder x:Name="PART_MainBorder"
                                            Background="{TemplateBinding Background}"
                                            BorderBrush="{TemplateBinding BorderBrush}"

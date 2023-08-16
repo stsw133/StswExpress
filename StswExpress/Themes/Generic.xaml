@@ -62,8 +62,8 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswIcon.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Style/StswLoadingCircle.xaml"/>
 
-        <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswLabel.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswText.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswTruncateLabel.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
         

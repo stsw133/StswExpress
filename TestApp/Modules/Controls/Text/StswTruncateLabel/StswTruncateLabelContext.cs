@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswLabelContext : ControlsContext
+public class StswTruncateLabelContext : ControlsContext
 {
     #region Properties
     /// IsTruncationAllowed

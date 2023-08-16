@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswLabelView"
+﻿<UserControl x:Class="TestApp.StswTruncateLabelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswLabelContext/>
+        <local:StswTruncateLabelContext/>
     </d:UserControl.DataContext>
 
     <DockPanel>
@@ -40,12 +40,12 @@
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswLabel DockPanel.Dock="Top"
-                              Content="Some random text with visible truncation button if text is too long"
-                              FontSize="20"
-                              IsEnabled="{Binding IsEnabled}"
-                              IsTruncationAllowed="{Binding IsTruncationAllowed}"
-                              Margin="5"/>
+                <se:StswTruncateLabel DockPanel.Dock="Top"
+                                      Content="Some random text with visible truncation button if text is too long"
+                                      FontSize="20"
+                                      IsEnabled="{Binding IsEnabled}"
+                                      IsTruncationAllowed="{Binding IsTruncationAllowed}"
+                                      Margin="5"/>
             </DockPanel>
         </Grid>
     </DockPanel>
