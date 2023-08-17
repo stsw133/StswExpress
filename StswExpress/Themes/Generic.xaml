@@ -11,6 +11,7 @@
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Checks/StswCheckBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Checks/StswRadioBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Checks/RgsToggleSwitch.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDataGrid.xaml"/>
