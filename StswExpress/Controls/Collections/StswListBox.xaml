@@ -28,9 +28,9 @@
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
-                        <se:RgsScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                        <se:StswScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" IsDynamic="True">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </se:RgsScrollViewer>
+                        </se:StswScrollViewer>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

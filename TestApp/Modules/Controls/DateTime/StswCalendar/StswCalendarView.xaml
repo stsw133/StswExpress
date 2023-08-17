@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <!-- name and description -->
-            <se:RgsScrollViewer>
+            <se:StswScrollViewer IsDynamic="True">
                 <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
@@ -38,7 +38,7 @@
                     <Label Content="Maximum:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
                 </StackPanel>
-            </se:RgsScrollViewer>
+            </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">

@@ -141,7 +141,7 @@
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <se:RgsScrollViewer Focusable="False">
+                                    <se:StswScrollViewer Focusable="False">
                                         <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
                                             <ItemsControl.Resources>
                                                 <Style TargetType="{x:Type se:StswNavigationElement}">
@@ -149,7 +149,7 @@
                                                 </Style>
                                             </ItemsControl.Resources>
                                         </ItemsControl>
-                                    </se:RgsScrollViewer>
+                                    </se:StswScrollViewer>
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->

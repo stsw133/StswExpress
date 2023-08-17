@@ -39,19 +39,19 @@ public class StswScrollViewer : ScrollViewer
     }
     #endregion
 
-    #region Style properties
+    #region Main properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// 
     /// </summary>
-    public CornerRadius CornerRadius
+    public bool IsDynamic
     {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
+        get => (bool)GetValue(IsDynamicProperty);
+        set => SetValue(IsDynamicProperty, value);
     }
-    public static readonly DependencyProperty CornerRadiusProperty
+    public static readonly DependencyProperty IsDynamicProperty
         = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
+            nameof(IsDynamic),
+            typeof(bool),
             typeof(StswScrollViewer)
         );
     #endregion

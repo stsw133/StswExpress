@@ -9,12 +9,12 @@
     <d:UserControl.DataContext>
         <local:HomeContext/>
     </d:UserControl.DataContext>
-    <se:RgsScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <se:StswScrollViewer IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <DockPanel Margin="5" VerticalAlignment="Top">
             <!--
             <se:StswColorPicker DockPanel.Dock="Top" Margin="10"/>
             <se:StswSlider DockPanel.Dock="Top" Margin="10"/>
             -->
         </DockPanel>
-    </se:RgsScrollViewer>
+    </se:StswScrollViewer>
 </UserControl>

@@ -9,7 +9,7 @@
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
 
-    <se:StswNavigation Padding="5" ItemsWidth="200">
+    <se:StswNavigation Padding="5" ItemsWidth="210">
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext"/>
         <se:StswNavigationElement/>
@@ -73,7 +73,6 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
                 <se:StswNavigationElement Text="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
-                <se:StswNavigationElement Text="RgsScrollViewer" ContextNamespace="TestApp.RgsScrollViewerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>

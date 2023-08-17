@@ -73,9 +73,9 @@
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
                                                        SnapsToDevicePixels="True">
-                                    <se:RgsScrollViewer Focusable="False">
+                                    <se:StswScrollViewer Focusable="False" IsDynamic="True">
                                         <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{TemplateBinding Items}"/>
-                                    </se:RgsScrollViewer>
+                                    </se:StswScrollViewer>
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->

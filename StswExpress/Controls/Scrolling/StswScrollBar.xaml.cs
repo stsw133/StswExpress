@@ -10,11 +10,11 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class RgsScrollBar : ScrollBar
+public class StswScrollBar : ScrollBar
 {
-    static RgsScrollBar()
+    static StswScrollBar()
 	{
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(RgsScrollBar), new FrameworkPropertyMetadata(typeof(RgsScrollBar)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollBar), new FrameworkPropertyMetadata(typeof(StswScrollBar)));
     }
 
     #region Events & methods
@@ -29,15 +29,11 @@ public class RgsScrollBar : ScrollBar
     {
         /// Border
         if (GetTemplateChild("PART_Border") is Border border)
-        {
-            border.Opacity = 0;
             this.border = border;
-        }
 
+        /// Orientation
         if (Orientation == Orientation.Vertical)
         {
-            Width = CollapsedWidth;
-
             if (GetTemplateChild("PART_LineUpButton") is RepeatButton btnUp)
                 arrowButton1 = btnUp;
             if (GetTemplateChild("PART_LineDownButton") is RepeatButton btnDown)
@@ -45,46 +41,53 @@ public class RgsScrollBar : ScrollBar
         }
         else
         {
-            Height = CollapsedWidth;
-
             if (GetTemplateChild("PART_LineLeftButton") is RepeatButton btnLeft)
                 arrowButton1 = btnLeft;
             if (GetTemplateChild("PART_LineRightButton") is RepeatButton btnRight)
                 arrowButton2 = btnRight;
         }
 
-        if (arrowButton1 != null)
-            arrowButton1.Opacity = 0;
-        if (arrowButton2 != null)
-            arrowButton2.Opacity = 0;
+        /// IsDynamic
+        OnIsDynamicChanged(this, new DependencyPropertyChangedEventArgs());
 
         base.OnApplyTemplate();
     }
 
-    /// OnMouseEnter
+    /// <summary>
+    /// 
+    /// </summary>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-        MouseEnterAnimation();
+        if (IsDynamic)
+            MouseEnterAnimation();
     }
 
-    /// OnMouseLeave
+    /// <summary>
+    /// 
+    /// </summary>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        MouseLeaveAnimation();
+        if (IsDynamic)
+            MouseLeaveAnimation();
     }
 
-    /// OnValueChanged
+    /// <summary>
+    /// 
+    /// </summary>
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);
-        ValueChangedAnimation();
+        if (IsDynamic)
+            ValueChangedAnimation();
     }
     #endregion
 
     #region Style properties
-    /// CollapsedWidth
+    /// <summary>
+    /// 
+    /// </summary>
     public double CollapsedWidth
     {
         get => (double)GetValue(CollapsedWidthProperty);
@@ -94,10 +97,12 @@ public class RgsScrollBar : ScrollBar
         = DependencyProperty.Register(
             nameof(CollapsedWidth),
             typeof(double),
-            typeof(RgsScrollBar)
+            typeof(StswScrollBar)
         );
 
-    /// ExpandedWidth
+    /// <summary>
+    /// 
+    /// </summary>
     public double ExpandedWidth
     {
         get => (double)GetValue(ExpandedWidthProperty);
@@ -107,12 +112,53 @@ public class RgsScrollBar : ScrollBar
         = DependencyProperty.Register(
             nameof(ExpandedWidth),
             typeof(double),
-            typeof(RgsScrollBar)
+            typeof(StswScrollBar)
         );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsDynamic
+    {
+        get => (bool)GetValue(IsDynamicProperty);
+        set => SetValue(IsDynamicProperty, value);
+    }
+    public static readonly DependencyProperty IsDynamicProperty
+        = DependencyProperty.Register(
+            nameof(IsDynamic),
+            typeof(bool),
+            typeof(StswScrollBar),
+            new PropertyMetadata(default(bool), OnIsDynamicChanged)
+        );
+    public static void OnIsDynamicChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswScrollBar stsw)
+        {
+            /// height & width
+            var newSize = stsw.IsDynamic ? stsw.CollapsedWidth : stsw.ExpandedWidth;
+
+            if (stsw.Orientation == Orientation.Horizontal)
+                stsw.Height = newSize;
+            else
+                stsw.Width = newSize;
+
+            /// opacity
+            var newOpacity = stsw.IsDynamic ? 0 : 1;
+
+            if (stsw.border != null)
+                stsw.border.Opacity = newOpacity;
+            if (stsw.arrowButton1 != null)
+                stsw.arrowButton1.Opacity = newOpacity;
+            if (stsw.arrowButton2 != null)
+                stsw.arrowButton2.Opacity = newOpacity;
+        }
+    }
     #endregion
 
     #region Animations
-    /// MouseEnterAnimation
+    /// <summary>
+    /// 
+    /// </summary>
     private void MouseEnterAnimation()
     {
         var duration = TimeSpan.FromMilliseconds(500);
@@ -172,7 +218,9 @@ public class RgsScrollBar : ScrollBar
         sb.Begin();
     }
 
-    /// MouseLeaveAnimation
+    /// <summary>
+    /// 
+    /// </summary>
     private void MouseLeaveAnimation()
     {
         var duration = TimeSpan.FromMilliseconds(500);
@@ -233,7 +281,9 @@ public class RgsScrollBar : ScrollBar
         sb.Begin();
     }
 
-    /// ValueChangedAnimation
+    /// <summary>
+    /// 
+    /// </summary>
     private void ValueChangedAnimation()
     {
         if (IsMouseOver)

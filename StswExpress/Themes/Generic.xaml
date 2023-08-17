@@ -50,9 +50,8 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswTabControl.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Navigation/StswTabItem.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/StswScrollBar.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/StswScrollViewer.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/RgsScrollBar.xaml"/>
-        <ResourceDictionary Source="/StswExpress;component/Controls/Scrolling/RgsScrollViewer.xaml"/>
 
         <ResourceDictionary Source="/StswExpress;component/Controls/StatusInfo/StswContentDialog.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/StatusInfo/StswLogPanel.xaml"/>

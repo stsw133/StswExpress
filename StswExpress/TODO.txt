@@ -1,7 +1,7 @@
 ﻿/// Changes for future:
 // TODO - animations (so Hubert can be satisfied)
 // TODO - performance tests (application that uses this library should work fast and effective)
-// TODO - new custom controls: Chart, Clock, FileDialog, FlipView, ScrollViewer, ToggleSwitch, TreeView, Alert (for fullscreen) etc.
+// TODO - new custom controls: Chart, Clock, FileDialog, FlipView, FlipViewer, ToggleSwitch, TreeView, Alert (for fullscreen) etc.
 // TODO - new custom Grid with dynamic number of rows or columns with auto height and width
 // TODO - StswDataGrid with row offset loading (for example 50 rows from database per scroll down by indexer list - IDs downloaded with refresh function)
 // TODO - StswDataGrid should have its own auto generated columns
@@ -11,4 +11,8 @@
 // TODO - new option in StswFilters to download or not data from database
 
 /// Changes to do for now:
-// TODO - StswNavigationElement needs bugfixes for not extended mode
+// TODO - StswTextEditor needs to be simplified
+// TODO - StswNavigationElement needs bugfixes for compact mode
+// TODO - StswNavigationElement needs to be separated into different controls (Container, Button, Separator(?))
+// TODO - StswTabControl and StswTabItem needs some bugfixes and improvements for DataContext purposes
+// TODO - StswCalendar needs to use ListView

@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <!-- name and description -->
-            <se:RgsScrollViewer>
+            <se:StswScrollViewer IsDynamic="True">
                 <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
@@ -36,16 +36,16 @@
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}" SelectedValuePath="Value"/>
                 </StackPanel>
-            </se:RgsScrollViewer>
+            </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:RgsScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                <se:StswScrollViewer IsDynamic="True" DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
                     <se:StswImage IsEnabled="{Binding IsEnabled}"
                                   MenuMode="{Binding MenuMode}"
                                   Source="/Resources/icon.ico"
                                   Stretch="None"/>
-                </se:RgsScrollViewer>
+                </se:StswScrollViewer>
             </DockPanel>
         </Grid>
     </DockPanel>

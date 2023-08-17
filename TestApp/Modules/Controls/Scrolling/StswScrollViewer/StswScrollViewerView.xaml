@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <!-- name and description -->
-            <se:RgsScrollViewer>
+            <se:StswScrollViewer IsDynamic="True">
                 <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
@@ -35,17 +35,23 @@
                     <Label Content="VerticalScrollBarVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}" SelectedValuePath="Value"/>
+                    <!-- IsDynamic -->
+                    <se:StswCheckBox IsChecked="{Binding IsDynamic}" Margin="0 3">
+                        <Label Content="IsDynamic" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
                     <!-- IsEnabled -->
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
-            </se:RgsScrollViewer>
+            </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
                 <se:StswScrollViewer DockPanel.Dock="Top"
                                      Height="200"
+                                     IsDynamic="{Binding IsDynamic}"
+                                     IsEnabled="{Binding IsEnabled}"
                                      Margin="5"
                                      HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
                                      VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}">

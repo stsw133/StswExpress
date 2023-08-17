@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <!-- name and description -->
-            <se:RgsScrollViewer>
+            <se:StswScrollViewer IsDynamic="True">
                 <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
@@ -53,7 +53,7 @@
                     <Label Content="Value:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>
                 </StackPanel>
-            </se:RgsScrollViewer>
+            </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">

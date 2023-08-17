@@ -142,10 +142,7 @@
             <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
                 <local:StswScrollViewerView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:RgsScrollViewerContext}">
-                <local:RgsScrollViewerView/>
-            </DataTemplate>
-            
+
             <!-- StatusInfo -->
             <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
                 <local:StswContentDialogView/>

@@ -20,5 +20,13 @@ public class StswScrollViewerContext : ControlsContext
         get => verticalScrollBarVisibility;
         set => SetProperty(ref verticalScrollBarVisibility, value);
     }
+
+    /// IsDynamic
+    private bool isDynamic = false;
+    public bool IsDynamic
+    {
+        get => isDynamic;
+        set => SetProperty(ref isDynamic, value);
+    }
     #endregion
 }

@@ -27,7 +27,7 @@ public class StswLogPanel : UserControl
     }
 
     #region Events & methods
-    private RgsScrollViewer? stswScrollViewer;
+    private StswScrollViewer? stswScrollViewer;
     
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -35,7 +35,7 @@ public class StswLogPanel : UserControl
     public override void OnApplyTemplate()
     {
         /// Content
-        if (GetTemplateChild("PART_ScrollViewer") is RgsScrollViewer scrollViewer)
+        if (GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
             stswScrollViewer = scrollViewer;
         if (Items == null)
             Items = new();

@@ -96,7 +96,7 @@
                                                            CornerRadius="{TemplateBinding CornerRadius}"
                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                            MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
-                                        <se:RgsScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
+                                        <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <Rectangle x:Name="OpaqueRect"
@@ -106,7 +106,7 @@
                                                 </Canvas>
                                                 <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Grid>
-                                        </se:RgsScrollViewer>
+                                        </se:StswScrollViewer>
                                     </se:StswClippingBorder>
                                 </Popup>
                                 <!-- content -->

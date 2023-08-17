@@ -25,7 +25,7 @@
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
-                        <se:RgsScrollViewer x:Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Disabled">
+                        <se:StswScrollViewer x:Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Disabled" IsDynamic="True">
                             <ItemsControl ItemsSource="{Binding Items, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Margin="{TemplateBinding Padding}"
                                           SnapsToDevicePixels="True">
@@ -129,7 +129,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </se:RgsScrollViewer>
+                        </se:StswScrollViewer>
                     </se:StswClippingBorder>
                     <!--
                     <ControlTemplate.Triggers>

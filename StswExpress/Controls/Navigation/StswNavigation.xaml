@@ -61,7 +61,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:RgsScrollViewer x:Name="PART_Items" VerticalScrollBarVisibility="Auto">
+                                <se:StswScrollViewer x:Name="PART_Items" VerticalScrollBarVisibility="Auto">
                                     <ItemsControl ItemsSource="{TemplateBinding Items}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -88,7 +88,7 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                </se:RgsScrollViewer>
+                                </se:StswScrollViewer>
                             </DockPanel>
                             <!-- subborder -->
                             <Border x:Name="PART_SubBorder"

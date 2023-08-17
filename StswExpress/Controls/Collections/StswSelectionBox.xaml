@@ -82,7 +82,7 @@
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <se:RgsScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
+                                    <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
                                         <se:StswListBox x:Name="PART_ListBox"
                                                         Background="{DynamicResource StswPopup.Static.Background}"
                                                         BorderThickness="0" CornerRadius="0"
@@ -94,7 +94,7 @@
                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                         SelectionMode="Multiple"
                                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </se:RgsScrollViewer>
+                                    </se:StswScrollViewer>
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->
