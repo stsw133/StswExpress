@@ -1,4 +1,6 @@
-﻿namespace TestApp;
+﻿using System.Windows;
+
+namespace TestApp;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

@@ -49,24 +49,24 @@ public class StswIcon : UserControl
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public GridLength Scale
+    public GridLength? Scale
     {
-        get => (GridLength)GetValue(ScaleProperty);
+        get => (GridLength?)GetValue(ScaleProperty);
         set => SetValue(ScaleProperty, value);
     }
     public static readonly DependencyProperty ScaleProperty
         = DependencyProperty.Register(
             nameof(Scale),
-            typeof(GridLength),
+            typeof(GridLength?),
             typeof(StswIcon),
-            new PropertyMetadata(default(GridLength), OnScaleChanged)
+            new PropertyMetadata(default(GridLength?), OnScaleChanged)
         );
     public static void OnScaleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswIcon stsw)
         {
-            stsw.Height = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
-            stsw.Width = stsw.Scale == GridLength.Auto ? double.NaN : stsw.Scale.Value * 12;
+            stsw.Height = stsw.Scale.In(null, GridLength.Auto) ? double.NaN : stsw.Scale!.Value.Value * 12;
+            stsw.Width = stsw.Scale.In(null, GridLength.Auto) ? double.NaN : stsw.Scale!.Value.Value * 12;
         }
     }
     #endregion

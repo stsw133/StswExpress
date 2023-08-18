@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -11,8 +12,10 @@ public class StswApp : Application
     /// <summary>
     /// Starting method that sets up various aspects of the application such as the theme, resources, commands, culture, and a callback for when the application exits.
     /// </summary>
-    public StswApp()
+    protected override void OnStartup(StartupEventArgs e)
     {
+        base.OnStartup(e);
+
         /// hash key
         //StswSecurity.Key = hashKey;
 
@@ -21,12 +24,14 @@ public class StswApp : Application
         //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
         /// merged dictionaries
-        //if (!Resources.MergedDictionaries.Any(x => x is Theme))
-        //    Resources.MergedDictionaries.Add(new Theme());
-        //((Theme)Resources.MergedDictionaries.First(x => x is Theme)).Color = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)StswSettings.Default.Theme;
-        //
-        //if (!Resources.MergedDictionaries.Any(x => x.Source == new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
-        //    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
+        Current.Resources.MergedDictionaries.Add(new Theme()
+        {
+            Color = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)StswSettings.Default.Theme
+        });
+        Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+        {
+            Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")
+        });
 
         /// global commands
         var cmdFullscreen = new RoutedUICommand("Fullscreen", "Fullscreen", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F11) });

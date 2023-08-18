@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestApp"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
     <d:UserControl.DataContext>
         <local:StswCheckBoxContext/>
     </d:UserControl.DataContext>
@@ -18,7 +17,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <!-- name and description -->
-            <se:RgsScrollViewer>
+            <se:StswScrollViewer IsDynamic="True">
                 <StackPanel Margin="5">
                     <Label>
                         <StackPanel>
@@ -37,7 +36,7 @@
                         <Label Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
                     </se:RgsToggleSwitch>
                 </StackPanel>
-            </se:RgsScrollViewer>
+            </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
