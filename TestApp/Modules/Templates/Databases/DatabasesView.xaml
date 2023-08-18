@@ -18,14 +18,14 @@
                     <se:StswButton Margin="3" Command="{Binding ImportCommand}">
                         <se:StswHeader Content="Import databases"
                                        IconData="{x:Static se:StswIcons.DatabaseImport}"
-                                       IconFill="{x:Static se:StswColors.Neutral}"
+                                       IconFill="{DynamicResource StswColor.Neutral}"
                                        IconScale="2"
                                        IsBusy="{Binding ImportCommand.IsWorking}"/>
                     </se:StswButton>
                     <se:StswButton Margin="3" Command="{Binding ExportCommand}">
                         <se:StswHeader Content="Export databases"
                                        IconData="{x:Static se:StswIcons.DatabaseExport}"
-                                       IconFill="{x:Static se:StswColors.Modify}"
+                                       IconFill="{DynamicResource StswColor.Modify}"
                                        IconScale="2"
                                        IsBusy="{Binding ExportCommand.IsWorking}"/>
                     </se:StswButton>

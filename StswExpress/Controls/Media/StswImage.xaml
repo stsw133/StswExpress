@@ -43,7 +43,7 @@
                                 <!-- delete -->
                                 <MenuItem x:Name="PART_Delete" Header="Usuń">
                                     <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Fill="{x:Static se:StswColors.Negative}"/>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Fill="{DynamicResource StswColor.Negative}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- ... -->
@@ -51,13 +51,13 @@
                                 <!-- load -->
                                 <MenuItem x:Name="PART_Load" Header="Wczytaj">
                                     <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{x:Static se:StswColors.Structure}"/>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{DynamicResource StswColor.Structure}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- save-->
                                 <MenuItem x:Name="PART_Save" Header="Zapisz">
                                     <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Fill="{x:Static se:StswColors.Positive}"/>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Fill="{DynamicResource StswColor.Positive}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
