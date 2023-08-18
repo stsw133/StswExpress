@@ -7,11 +7,6 @@
             StartupUri="Modules/MainWindow.xaml">
     <se:StswApp.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/StswExpress;component/Themes/Theme.xaml"/>
-                <ResourceDictionary Source="/StswExpress;component/Themes/Generic.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
             <!-- Buttons -->
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
@@ -213,7 +208,6 @@
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>
             </DataTemplate>
-
         </ResourceDictionary>
     </se:StswApp.Resources>
 </se:StswApp>

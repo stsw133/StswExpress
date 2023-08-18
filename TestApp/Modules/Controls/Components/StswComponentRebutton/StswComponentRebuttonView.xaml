@@ -32,14 +32,14 @@
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
                     <!-- IconScale -->
-                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium"/>
-                    <se:StswNumericBox Format="N2" Increment="0.1" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
+                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswNumericBox Format="N2" Increment="0.1" Margin="0 0 0 3" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
                     <!-- IsBusy -->
-                    <se:StswCheckBox IsChecked="{Binding IsBusy}">
+                    <se:StswCheckBox IsChecked="{Binding IsBusy}" Margin="0 3">
                         <Label Content="IsBusy" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}">
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
                 </StackPanel>
