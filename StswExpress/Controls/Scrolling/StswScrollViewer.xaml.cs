@@ -21,19 +21,19 @@ public class StswScrollViewer : ScrollViewer
     /// </summary>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
-        if (Parent is UIElement parentElement)
-        {
-            if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))
-            {
-                e.Handled = true;
+        //if (Parent is UIElement parentElement)
+        //{
+        //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))
+        //    {
+        //        e.Handled = true;
 
-                var routedArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-                {
-                    RoutedEvent = MouseWheelEvent
-                };
-                parentElement.RaiseEvent(routedArgs);
-            }
-        }
+        //        var routedArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        //        {
+        //            RoutedEvent = MouseWheelEvent
+        //        };
+        //        parentElement.RaiseEvent(routedArgs);
+        //    }
+        //}
 
         base.OnMouseWheel(e);
     }

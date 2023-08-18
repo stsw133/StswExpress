@@ -201,6 +201,32 @@
 
     <SolidColorBrush x:Key="StswText.Disabled" Color="#999"/>
 
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Static.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.MouseOver.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.MouseOver.Border" Color="#AAA"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Pressed.Background" Color="#DDD"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Pressed.Border" Color="#999"/>
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Marker.Background" Color="#999"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Static.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.MouseOver.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=40%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.MouseOver.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=55%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Pressed.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=30%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Pressed.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=45%}"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Marker.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=25%}"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Static.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.MouseOver.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.MouseOver.Border" Color="#AAA"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Pressed.Background" Color="#DDD"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Pressed.Border" Color="#999"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Marker.Background" Color="#999"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Border" Color="#DDD"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswToggle.CheckedAndDisabled.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=75%}"/>
+    
     <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7BBB"/>
 
     <!-- . . . -->
