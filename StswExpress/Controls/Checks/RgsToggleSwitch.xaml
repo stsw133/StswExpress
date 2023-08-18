@@ -11,6 +11,8 @@
         <Setter Property="Background" Value="{StaticResource StswBox.Static.Background}" />
         <Setter Property="BorderBrush" Value="{StaticResource StswBox.Static.Border}" />
         <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="SwitchMargin" Value="0" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -48,21 +50,31 @@
                                           Height="24"/>
                                 </Viewbox>
 
-                                <Border x:Name="PART_SwitchBorder"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                        Background="#999"
-                                        Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Left">
+                                <Grid x:Name="PART_SwitchGrid"
+                                      Grid.ColumnSpan="2"
+                                      HorizontalAlignment="Left"
+                                      Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                    <Border x:Name="PART_SwitchBorder"
+                                            Background="#999"
+                                            Grid.ColumnSpan="2"
+                                            HorizontalAlignment="Left">
 
-                                    <Viewbox>
-                                        <Path x:Name="PART_Path" 
+                                        <Border.Effect>
+                                            <DropShadowEffect ShadowDepth="2" Direction="0" BlurRadius="10" Color="#9111" />
+                                        </Border.Effect>
+                                        
+                                        <Viewbox>
+                                            <Path x:Name="PART_Path" 
                                               Fill="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                               Data="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
                                               Width="24"
                                               Height="24"/>
-                                    </Viewbox>
+                                        </Viewbox>
 
-                                </Border>
+                                    </Border>
+                                </Grid>
+                                
+                                
 
                             </Grid>
 
