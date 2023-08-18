@@ -12,7 +12,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource StswBox.Static.Border}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="SwitchMargin" Value="0" />
+        <Setter Property="SwitchMargin" Value="2" />
 
         <Setter Property="Template">
             <Setter.Value>
