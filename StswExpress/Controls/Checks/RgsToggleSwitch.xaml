@@ -3,40 +3,64 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:RgsToggleSwitch}">
-        
+
+        <Style.Resources>
+            <se:StswMultiplyConverter x:Key="MultiplyConv" />
+        </Style.Resources>
+
+        <Setter Property="Background" Value="{StaticResource StswBox.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource StswBox.Static.Border}" />
+        <Setter Property="BorderThickness" Value="2" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:RgsToggleSwitch}">
 
-                    <Grid>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" />
-                            <ColumnDefinition Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                    <DockPanel>
 
                         <Border x:Name="PART_OuterBorder"
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                 BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                Background="Blue"
-                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}" >
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource MultiplyConv}, ConverterParameter=2}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
 
-                            <Grid>
+                            <Grid Margin="{Binding SwitchMargin, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <ContentControl Grid.Column="0"/>
-                                <ContentControl Grid.Column="1"/>
+                                <Viewbox x:Name="PART_CheckedPath"
+                                         Grid.Column="0">
+                                    <Path Fill="{Binding CheckedGlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Data="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Width="24"
+                                          Height="24"/>
+                                </Viewbox>
+
+                                <Viewbox x:Name="PART_UncheckedPath"
+                                         Grid.Column="1">
+                                    <Path Fill="{Binding UncheckedGlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Data="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Width="24"
+                                          Height="24"/>
+                                </Viewbox>
 
                                 <Border x:Name="PART_SwitchBorder"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                         Background="#999"
-                                        Grid.ColumnSpan="2">
+                                        Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Left">
 
-                                    <ContentControl />
+                                    <Viewbox>
+                                        <Path x:Name="PART_Path" 
+                                              Fill="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Data="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Width="24"
+                                              Height="24"/>
+                                    </Viewbox>
 
                                 </Border>
 
@@ -51,12 +75,22 @@
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 
-                    </Grid>
+                    </DockPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswToggle.Disabled.Background}" TargetName="PART_OuterBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswToggle.Disabled.Border}" TargetName="PART_OuterBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswToggle.Disabled.Foreground}" TargetName="PART_Path"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswToggle.Disabled.Foreground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
 
                 </ControlTemplate>
-            </Setter.Value>    
+            </Setter.Value>
         </Setter>
-        
+
     </Style>
-    
+
 </ResourceDictionary>
