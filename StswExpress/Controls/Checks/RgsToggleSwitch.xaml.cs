@@ -238,23 +238,6 @@ public class RgsToggleSwitch : ToggleButton
         Storyboard.SetTarget(switchMargin, switchBorder);
         Storyboard.SetTargetProperty(switchMargin, new PropertyPath(MarginProperty));
 
-        var shadowDepthAnim = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(300),
-            fillBehavior: FillBehavior.HoldEnd);
-        shadowDepthAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepthAnim);
-        Storyboard.SetTarget(shadowDepthAnim, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepthAnim, new PropertyPath("(Border.Effect).(DropShadowEffect.BlurRadius)"));
-
-        var shadowDepth = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(300));
-        shadowDepth.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepth);
-        Storyboard.SetTarget(shadowDepth, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepth, new PropertyPath("(Border.Effect).(DropShadowEffect.ShadowDepth)"));
-
         sb.Begin();
     }
 
@@ -269,23 +252,6 @@ public class RgsToggleSwitch : ToggleButton
         sb.Children.Add(switchMargin);
         Storyboard.SetTarget(switchMargin, switchBorder);
         Storyboard.SetTargetProperty(switchMargin, new PropertyPath(MarginProperty));
-
-        var shadowDepthAnim = new DoubleAnimation(
-            toValue: switchGrid.ActualHeight * 0.3,
-            duration: TimeSpan.FromMilliseconds(300),
-            fillBehavior: FillBehavior.HoldEnd);
-        shadowDepthAnim.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepthAnim);
-        Storyboard.SetTarget(shadowDepthAnim, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepthAnim, new PropertyPath("(Border.Effect).(DropShadowEffect.BlurRadius)"));
-
-        //var shadowDepth = new DoubleAnimation(
-        //    toValue: switchGrid.ActualHeight * 0.1,
-        //    duration: TimeSpan.FromMilliseconds(300));
-        //shadowDepth.EasingFunction = new CubicEase();
-        //sb.Children.Add(shadowDepth);
-        //Storyboard.SetTarget(shadowDepth, switchBorder);
-        //Storyboard.SetTargetProperty(shadowDepth, new PropertyPath("(Border.Effect).(DropShadowEffect.ShadowDepth)"));
 
         sb.Begin();
     }
@@ -345,22 +311,6 @@ public class RgsToggleSwitch : ToggleButton
         sb.Children.Add(checkedContentSlide);
         Storyboard.SetTarget(checkedContentSlide, checkedPath);
         Storyboard.SetTargetProperty(checkedContentSlide, new PropertyPath(MarginProperty));
-
-        var shadowDirection = new DoubleAnimation(
-            toValue: 180,
-            duration: TimeSpan.FromMilliseconds(0));
-        shadowDirection.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDirection);
-        Storyboard.SetTarget(shadowDirection, switchBorder);
-        Storyboard.SetTargetProperty(shadowDirection, new PropertyPath("(Border.Effect).(DropShadowEffect.Direction)"));
-
-        var shadowDepth = new DoubleAnimation(
-            toValue: switchGrid.ActualHeight * 0.1,
-            duration: TimeSpan.FromMilliseconds(300));
-        shadowDepth.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepth);
-        Storyboard.SetTarget(shadowDepth, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepth, new PropertyPath("(Border.Effect).(DropShadowEffect.ShadowDepth)"));
 
         sb.Begin();
 
@@ -422,22 +372,6 @@ public class RgsToggleSwitch : ToggleButton
         Storyboard.SetTarget(uncheckedContentSlide, uncheckedPath);
         Storyboard.SetTargetProperty(uncheckedContentSlide, new PropertyPath(MarginProperty));
 
-        var shadowDirection = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(0));
-        shadowDirection.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDirection);
-        Storyboard.SetTarget(shadowDirection, switchBorder);
-        Storyboard.SetTargetProperty(shadowDirection, new PropertyPath("(Border.Effect).(DropShadowEffect.Direction)"));
-
-        var shadowDepth = new DoubleAnimation(
-            toValue: switchGrid.ActualHeight * 0.1,
-            duration: TimeSpan.FromMilliseconds(300));
-        shadowDepth.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepth);
-        Storyboard.SetTarget(shadowDepth, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepth, new PropertyPath("(Border.Effect).(DropShadowEffect.ShadowDepth)"));
-
         sb.Begin();
     }
 
@@ -486,22 +420,6 @@ public class RgsToggleSwitch : ToggleButton
         sb.Children.Add(uncheckedContentOpacity);
         Storyboard.SetTarget(uncheckedContentOpacity, uncheckedPath);
         Storyboard.SetTargetProperty(uncheckedContentOpacity, new PropertyPath(OpacityProperty));
-
-        var shadowDirection = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(0));
-        shadowDirection.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDirection);
-        Storyboard.SetTarget(shadowDirection, switchBorder);
-        Storyboard.SetTargetProperty(shadowDirection, new PropertyPath("(Border.Effect).(DropShadowEffect.Direction)"));
-
-        var shadowDepth = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(300));
-        shadowDepth.EasingFunction = new CubicEase();
-        sb.Children.Add(shadowDepth);
-        Storyboard.SetTarget(shadowDepth, switchBorder);
-        Storyboard.SetTargetProperty(shadowDepth, new PropertyPath("(Border.Effect).(DropShadowEffect.ShadowDepth)"));
 
         sb.Begin();
     }

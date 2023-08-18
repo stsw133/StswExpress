@@ -59,10 +59,6 @@
                                             Grid.ColumnSpan="2"
                                             HorizontalAlignment="Left">
 
-                                        <Border.Effect>
-                                            <DropShadowEffect ShadowDepth="2" Direction="0" BlurRadius="10" Color="#9111" />
-                                        </Border.Effect>
-                                        
                                         <Viewbox>
                                             <Path x:Name="PART_Path" 
                                               Fill="{Binding GlyphBrush, RelativeSource={RelativeSource TemplatedParent}}"
