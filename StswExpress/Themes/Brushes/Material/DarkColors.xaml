@@ -4,10 +4,16 @@
 
     <!-- StswColors -->
     <SolidColorBrush x:Key="StswColor.Primary" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}"/>
-
+    <SolidColorBrush x:Key="StswColor.Positive" Color="#70c76b"/>
+    <SolidColorBrush x:Key="StswColor.Negative" Color="#f05f42"/>
+    <SolidColorBrush x:Key="StswColor.Neutral" Color="#33a0ff"/>
+    <SolidColorBrush x:Key="StswColor.Modify" Color="#b666cc"/>
+    <SolidColorBrush x:Key="StswColor.Structure" Color="#e7c24b"/>
+    <SolidColorBrush x:Key="StswColor.Designer" Color="#37d4fb"/>
+    
     <SolidColorBrush x:Key="StswBorder.Static" Color="#555"/>
     <SolidColorBrush x:Key="StswBorder.Disabled" Color="#333"/>
-
+    
     <SolidColorBrush x:Key="StswBox.Static.Background" Color="#111"/>
     <SolidColorBrush x:Key="StswBox.Static.Border" Color="#555"/>
     <SolidColorBrush x:Key="StswBox.MouseOver.Background" Color="#111"/>
@@ -172,18 +178,18 @@
     <SolidColorBrush x:Key="StswRating.Disabled.Border" Color="#3777"/>
     <SolidColorBrush x:Key="StswRating.CheckedAndDisabled.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-50%}"/>
 
-    <SolidColorBrush x:Key="StswScroll.Static.Background" Color="#222"/>
-    <SolidColorBrush x:Key="StswScroll.Static.Border" Color="#222"/>
-    <SolidColorBrush x:Key="StswScroll.Static.Glyph" Color="#888"/>
-    <SolidColorBrush x:Key="StswScroll.Static.Thumb" Color="#555"/>
-    <SolidColorBrush x:Key="StswScroll.MouseOver.Background" Color="#222"/>
-    <SolidColorBrush x:Key="StswScroll.MouseOver.Border" Color="#222"/>
-    <SolidColorBrush x:Key="StswScroll.MouseOver.Glyph" Color="#EEE"/>
-    <SolidColorBrush x:Key="StswScroll.MouseOver.Thumb" Color="#666"/>
-    <SolidColorBrush x:Key="StswScroll.Pressed.Background" Color="#222"/>
-    <SolidColorBrush x:Key="StswScroll.Pressed.Border" Color="#222"/>
+    <SolidColorBrush x:Key="StswScroll.Static.Background" Color="#282828"/>
+    <SolidColorBrush x:Key="StswScroll.Static.Border" Color="#282828"/>
+    <SolidColorBrush x:Key="StswScroll.Static.Glyph" Color="#999"/>
+    <SolidColorBrush x:Key="StswScroll.Static.Thumb" Color="#4C4C4C"/>
+    <SolidColorBrush x:Key="StswScroll.MouseOver.Background" Color="#282828"/>
+    <SolidColorBrush x:Key="StswScroll.MouseOver.Border" Color="#282828"/>
+    <SolidColorBrush x:Key="StswScroll.MouseOver.Glyph" Color="#CCC"/>
+    <SolidColorBrush x:Key="StswScroll.MouseOver.Thumb" Color="#5C5C5C"/>
+    <SolidColorBrush x:Key="StswScroll.Pressed.Background" Color="#282828"/>
+    <SolidColorBrush x:Key="StswScroll.Pressed.Border" Color="#282828"/>
     <SolidColorBrush x:Key="StswScroll.Pressed.Glyph" Color="#EEE"/>
-    <SolidColorBrush x:Key="StswScroll.Pressed.Thumb" Color="#777"/>
+    <SolidColorBrush x:Key="StswScroll.Pressed.Thumb" Color="#6C6C6C"/>
     <SolidColorBrush x:Key="StswScroll.Disabled.Background" Color="#222"/>
     <SolidColorBrush x:Key="StswScroll.Disabled.Border" Color="#222"/>
     <SolidColorBrush x:Key="StswScroll.Disabled.Glyph" Color="#333"/>
@@ -220,6 +226,8 @@
 
     <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7555"/>
 
+    
+    
     <!-- . . . -->
     <Color x:Key="Color50">#fffcfcfc</Color>
     <Color x:Key="Color100">#fff8f8f8</Color>

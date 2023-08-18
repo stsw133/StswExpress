@@ -61,7 +61,12 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollViewer x:Name="PART_Items" VerticalScrollBarVisibility="Auto">
+                                <se:StswScrollViewer x:Name="PART_Items" IsDynamic="False" VerticalScrollBarVisibility="Auto">
+                                    <se:StswScrollViewer.Resources>
+                                        <Style TargetType="{x:Type se:StswScrollBar}">
+                                            <Setter Property="ExpandedWidth" Value="12"/>
+                                        </Style>
+                                    </se:StswScrollViewer.Resources>
                                     <ItemsControl ItemsSource="{TemplateBinding Items}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>

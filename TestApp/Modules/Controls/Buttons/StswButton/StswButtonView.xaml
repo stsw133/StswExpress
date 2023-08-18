@@ -73,7 +73,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{x:Static se:StswColors.Positive}"/>
+                                                    <se:StswHeader Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{DynamicResource StswColor.Positive}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -82,7 +82,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{x:Static se:StswColors.Negative}"/>
+                                                    <se:StswHeader Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{DynamicResource StswColor.Negative}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -91,7 +91,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{x:Static se:StswColors.Neutral}"/>
+                                                    <se:StswHeader Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{DynamicResource StswColor.Neutral}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -100,7 +100,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{x:Static se:StswColors.Modify}"/>
+                                                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -109,7 +109,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{x:Static se:StswColors.Structure}"/>
+                                                    <se:StswHeader Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -118,7 +118,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <se:StswHeader Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{x:Static se:StswColors.Designer}"/>
+                                                    <se:StswHeader Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{DynamicResource StswColor.Designer}"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>

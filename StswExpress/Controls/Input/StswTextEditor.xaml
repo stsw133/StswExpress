@@ -88,30 +88,30 @@
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                                     <se:StswButton x:Name="PART_FileNew" ToolTip="Nowy" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.File}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.File}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FileOpen" ToolTip="Otwórz" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileOpenCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Fill="{x:Static se:StswColors.Structure}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Fill="{DynamicResource StswColor.Structure}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FileSave" ToolTip="Zapisz" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Scale="1.5" Fill="{x:Static se:StswColors.Modify}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Scale="1.5" Fill="{DynamicResource StswColor.Modify}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FileSaveAs" ToolTip="Zapisz jako" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveAsCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentSaveAll}" Scale="1.5" Fill="{x:Static se:StswColors.Modify}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentSaveAll}" Scale="1.5" Fill="{DynamicResource StswColor.Modify}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                                     <se:StswButton x:Name="PART_FileReload" ToolTip="Załaduj ponownie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Reload}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Reload}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FileInfo" ToolTip="Pokaż w eksploratorze" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileInfoCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderInformation}" Scale="1.5" Fill="{x:Static se:StswColors.Structure}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderInformation}" Scale="1.5" Fill="{DynamicResource StswColor.Structure}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FilePrint" ToolTip="Drukuj" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FilePrintCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Printer}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Printer}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_FileEmail" ToolTip="Wyślij e-mail" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileMailCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Email}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Email}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
                                                 <TextBlock x:Name="PART_FileText" Text="Plik" ToolTip="{TemplateBinding FilePath}" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
@@ -122,16 +122,16 @@
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                                     <se:StswButton x:Name="PART_EditUndo" ToolTip="Cofnij (Ctrl + Z)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditUndoCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_EditRedo" ToolTip="Przywróć (Ctrl + Y)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditRedoCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Scale="1.5" Fill="{x:Static se:StswColors.Neutral}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_EditFindReplace" ToolTip="Znajdź i zamień" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Visibility="Hidden">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FindReplace}" Scale="1.5"/>
                                                     </se:StswButton>
                                                     <se:StswButton x:Name="PART_EditClear" ToolTip="Usuń zaznaczenie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditClearCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                        <se:StswIcon Data="{x:Static se:StswIcons.Backspace}" Scale="1.5" Fill="{x:Static se:StswColors.Negative}"/>
+                                                        <se:StswIcon Data="{x:Static se:StswIcons.Backspace}" Scale="1.5" Fill="{DynamicResource StswColor.Negative}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
@@ -313,7 +313,7 @@
                             <!-- content -->
                             <se:StswScrollViewer x:Name="PART_ContentHost" 
                                                  Focusable="False" 
-                                                 IsDynamic="False"
+                                                 IsDynamic="True"
                                                  HorizontalScrollBarVisibility="Hidden" 
                                                  VerticalScrollBarVisibility="Hidden"/>
                         </DockPanel>

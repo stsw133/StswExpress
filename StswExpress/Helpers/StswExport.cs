@@ -48,7 +48,7 @@ public static class StswExport
                             Attribute = p.GetCustomAttribute<StswExportAttribute>(),
                             Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
                         })
-                        .Where(p => p.Attribute == null || !p.Attribute.IsColumnIgnored)
+                        .Where(p => p.Attribute?.IsColumnIgnored == false)
                         .OrderBy(p => p.Order)
                         .Select(p => p.Property)
                         .ToList();

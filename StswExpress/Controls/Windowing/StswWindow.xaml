@@ -157,7 +157,7 @@
                                         <!-- close -->
                                         <MenuItem x:Name="PART_MenuClose" Header="Zamknij">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{x:Static se:StswColors.Negative}"/>
+                                                <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource StswColor.Negative}"/>
                                             </MenuItem.Icon>
                                             <MenuItem.InputGestureText>Alt + F4</MenuItem.InputGestureText>
                                         </MenuItem>
