@@ -108,6 +108,9 @@
                                                                 <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
                                                                 <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                                                             </DataTrigger>
+                                                            <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="None">
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                                                            </DataTrigger>
                                                             <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}" Value="Error">
                                                                 <Setter Property="Data" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Icon"/>
                                                                 <Setter Property="Fill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Icon"/>

@@ -21,12 +21,27 @@ public class StswScrollViewer : ScrollViewer
     /// </summary>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
+        /// horizontal scrolling
+        if (ComputedHorizontalScrollBarVisibility == Visibility.Visible
+        && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
+        {
+            if (e.Delta < 0)
+                ScrollInfo.MouseWheelRight();
+            else
+                ScrollInfo.MouseWheelLeft();
+
+            e.Handled = true;
+        }
+
+        base.OnMouseWheel(e);
+
+        /// scrolling scroll in another scroll
         //if (Parent is UIElement parentElement)
         //{
         //    if ((e.Delta > 0 && VerticalOffset == 0) || (e.Delta < 0 && VerticalOffset == ScrollableHeight))
         //    {
         //        e.Handled = true;
-
+        //
         //        var routedArgs = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
         //        {
         //            RoutedEvent = MouseWheelEvent
@@ -34,8 +49,6 @@ public class StswScrollViewer : ScrollViewer
         //        parentElement.RaiseEvent(routedArgs);
         //    }
         //}
-
-        base.OnMouseWheel(e);
     }
     #endregion
 

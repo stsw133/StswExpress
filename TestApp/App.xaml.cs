@@ -1,6 +1,5 @@
 ﻿global using StswExpress;
 using System.Linq;
-using System.Windows;
 using System.Windows.Threading;
 
 namespace TestApp;
@@ -8,17 +7,14 @@ namespace TestApp;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App : StswApp
 {
-    private void Application_Startup(object sender, StartupEventArgs e)
+    public App()
     {
-        StswFn.AppStart(this, "myOwnStswHashKey");
+        StswSecurity.Key = "myOwnStswHashKey";
 
         StswDatabase.ImportDatabases();
         StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
-
-        MainWindow = new MainWindow();
-        MainWindow.Show();
     }
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

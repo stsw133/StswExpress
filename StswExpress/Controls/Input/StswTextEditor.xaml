@@ -313,7 +313,7 @@
                             <!-- content -->
                             <se:StswScrollViewer x:Name="PART_ContentHost" 
                                                  Focusable="False" 
-                                                 IsDynamic="True"
+                                                 IsDynamic="False"
                                                  HorizontalScrollBarVisibility="Hidden" 
                                                  VerticalScrollBarVisibility="Hidden"/>
                         </DockPanel>

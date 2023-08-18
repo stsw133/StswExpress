@@ -17,39 +17,6 @@ namespace StswExpress;
 /// </summary>
 public static class StswFn
 {
-    /// <summary>
-    /// Starting function that should be placed in constructor of App class so StswExpress library will work properly.
-    /// It sets up various aspects of the application such as the theme, resources, commands, culture, and a callback for when the application exits.
-    /// </summary>
-    public static void AppStart(Application app, string hashKey)
-    {
-        /// hash keys
-        StswSecurity.Key = hashKey;
-
-        /// merged dictionaries
-        if (!app.Resources.MergedDictionaries.Any(x => x is Theme))
-            app.Resources.MergedDictionaries.Add(new Theme());
-        ((Theme)app.Resources.MergedDictionaries.First(x => x is Theme)).Color = StswSettings.Default.Theme < 0 ? GetWindowsTheme() : (ThemeColor)StswSettings.Default.Theme;
-
-        if (!app.Resources.MergedDictionaries.Any(x => x.Source == new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
-            app.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml") });
-
-        /// global commands
-        var cmdFullscreen = new RoutedUICommand("Fullscreen", "Fullscreen", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F11) });
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(cmdFullscreen, (s, e) => {
-            if (s is StswWindow stsw)
-                stsw.Fullscreen = !stsw.Fullscreen;
-        }));
-
-        /// global culture (does not work with converters)
-        //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
-        //Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentCulture;
-        //FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-
-        /// on exit
-        app.Exit += (sender, e) => StswSettings.Default.Save();
-    }
-
     #region Assembly functions
     /// <summary>
     /// Returns the name of the currently executing application.
