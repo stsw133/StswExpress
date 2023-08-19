@@ -12,7 +12,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
-    <Description>This is test application for StswExpress library.</Description>
+    <Description></Description>
     <PackageIcon></PackageIcon>
     <PackageReadmeFile></PackageReadmeFile>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
@@ -30,13 +30,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StswExpress\StswExpress.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Resources\manual_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StswExpress\StswExpress.csproj" />
   </ItemGroup>
 
   <ItemGroup>
