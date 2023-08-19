@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace StswExpress;
 
-public class RgsToggleSwitch : ToggleButton
+internal class RgsToggleSwitch : ToggleButton
 {
     #region Parts
 

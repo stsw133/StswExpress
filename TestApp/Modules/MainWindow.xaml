@@ -3,7 +3,6 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:local="clr-namespace:TestApp"
                xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
@@ -25,7 +24,7 @@
             <se:StswNavigationElement Text="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Text="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Text="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>
-                <se:StswNavigationElement Text="RgsToggleSwitch" ContextNamespace="TestApp.RgsToggleSwitchContext"/>
+                <se:StswNavigationElement Text="RgsToggleSwitch" ContextNamespace="TestApp.RgsToggleSwitchContext" Visibility="Collapsed"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>

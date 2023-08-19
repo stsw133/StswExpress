@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,14 +25,17 @@ public class StswApp : Application
         //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
         /// merged dictionaries
-        Current.Resources.MergedDictionaries.Add(new Theme()
-        {
-            Color = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)StswSettings.Default.Theme
-        });
-        Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
-        {
-            Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")
-        });
+        if (!Resources.MergedDictionaries.Any(x => x is Theme))
+            Current.Resources.MergedDictionaries.Add(new Theme()
+            {
+                Color = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)StswSettings.Default.Theme
+            });
+
+        if (!Resources.MergedDictionaries.Any(x => x.Source == new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")))
+            Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("pack://application:,,,/StswExpress;component/Themes/Generic.xaml")
+            });
 
         /// global commands
         var cmdFullscreen = new RoutedUICommand("Fullscreen", "Fullscreen", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F11) });
