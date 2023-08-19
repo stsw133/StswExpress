@@ -7,10 +7,17 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Version>0.9.0</Version>
+    <Version>0.1.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <Description>This is package containing:
+- new controls (many of them was based on WinUI 3) or WPF controls with new style and/or new functionalities
+- many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
+- possibility to scale GUI and change themes (light/dark)</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="StswSettings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>StswSettings.Designer.cs</LastGenOutput>
@@ -34,6 +45,17 @@
 
   <ItemGroup>
     <Folder Include="Translator\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\TestApp\Resources\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

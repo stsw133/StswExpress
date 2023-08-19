@@ -6,14 +6,21 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>TestApp</AssemblyName>
-    <Version>0.9</Version>
-    <Copyright>~ Karol Staszewski</Copyright>
-    <Authors>© 2022 Karol Staszewski</Authors>
+    <Version>0.1</Version>
+    <Copyright></Copyright>
+    <Authors>Karol Staszewski</Authors>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
+    <Description>This is test application for StswExpress library.</Description>
+    <PackageIcon></PackageIcon>
+    <PackageReadmeFile></PackageReadmeFile>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\icon.ico" />
+    <None Remove="Resources\logo.png" />
     <None Remove="Resources\manual_en.pdf" />
   </ItemGroup>
 
@@ -34,6 +41,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
