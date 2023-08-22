@@ -387,6 +387,24 @@ public static class StswExtensions
 
     #region Universal extensions
     /// <summary>
+    /// Converts <see cref="T"/> to different type.
+    /// </summary>
+    /// <param name="o">Object to convert.</param>
+    /// <returns>Object of different type.</returns>
+    public static T? ConvertTo<T>(this object o)
+    {
+        if (o == null || o == DBNull.Value)
+            return Nullable.GetUnderlyingType(typeof(T?)) == null ? default : (T?)(object?)null;
+        else
+        {
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            return underlyingType == null
+                ? (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture)
+                : (T)Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <summary>
     /// Converts <see cref="object"/> to different type.
     /// </summary>
     /// <param name="o">Object to convert.</param>
