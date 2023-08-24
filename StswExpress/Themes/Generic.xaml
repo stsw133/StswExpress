@@ -39,6 +39,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Input/StswTextEditor.xaml"/>
 
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/RgsClippingBorder.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswClippingBorder.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswGroupBox.xaml"/>
