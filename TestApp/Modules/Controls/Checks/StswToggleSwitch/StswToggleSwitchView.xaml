@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="TestApp.StswToggleSwitchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestApp"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
+    <d:UserControl.DataContext>
+        <local:StswToggleSwitchContext/>
+    </d:UserControl.DataContext>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:StswScrollViewer IsDynamic="True">
+                <StackPanel Margin="5">
+                    <Label>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                    <!-- IsThreeState -->
+                    <se:StswCheckBox IsChecked="{Binding IsThreeState}" Margin="0 3">
+                        <Label Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+            </se:StswScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
+                <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5">
+                    <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[0]}"
+                                         Margin="0 0 0 5" Content="Option 1" Command="{Binding OnClickCommand}" CommandParameter="1"/>
+                    <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[1]}"
+                                         Margin="0 0 0 5" Content="Option 2" Command="{Binding OnClickCommand}" CommandParameter="2"/>
+                    <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[2]}"
+                                         Margin="0 0 0 5" Content="Option 3" Command="{Binding OnClickCommand}" CommandParameter="3"/>
+                    <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[3]}"
+                                         Margin="0 0 0 5" Content="Option 4" Command="{Binding OnClickCommand}" CommandParameter="4"/>
+                    <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[4]}"
+                                         Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"/>
+                </UniformGrid>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="You changed state of option "/>
+                    <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

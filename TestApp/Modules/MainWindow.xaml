@@ -24,7 +24,7 @@
             <se:StswNavigationElement Text="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Text="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Text="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>
-                <se:StswNavigationElement Text="RgsToggleSwitch" ContextNamespace="TestApp.RgsToggleSwitchContext" Visibility="Collapsed"/>
+                <se:StswNavigationElement Text="StswToggleSwitch" ContextNamespace="TestApp.StswToggleSwitchContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>

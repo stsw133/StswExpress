@@ -2,12 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:RgsToggleSwitch}">
-
-        <Style.Resources>
-            <se:StswMultiplyConverter x:Key="MultiplyConv" />
-        </Style.Resources>
-
+    <Style TargetType="{x:Type se:StswToggleSwitch}">
         <Setter Property="Background" Value="{StaticResource StswBox.Static.Background}" />
         <Setter Property="BorderBrush" Value="{StaticResource StswBox.Static.Border}" />
         <Setter Property="BorderThickness" Value="2" />
@@ -16,7 +11,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:RgsToggleSwitch}">
+                <ControlTemplate TargetType="{x:Type se:StswToggleSwitch}">
 
                     <DockPanel>
 
@@ -24,7 +19,7 @@
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                 BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource MultiplyConv}, ConverterParameter=2}"
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
 

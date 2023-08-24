@@ -41,8 +41,8 @@
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:RgsToggleSwitchContext}">
-                <local:RgsToggleSwitchView/>
+            <DataTemplate DataType="{x:Type local:StswToggleSwitchContext}">
+                <local:StswToggleSwitchView/>
             </DataTemplate>
             
             <!-- Collections -->

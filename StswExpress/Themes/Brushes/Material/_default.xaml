@@ -78,6 +78,8 @@
 
     <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswDataGrid.Header.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswDataGrid.Header.Border" Color="#BBB"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Error.Fill" Color="#E22"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#2AE"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#EA2"/>

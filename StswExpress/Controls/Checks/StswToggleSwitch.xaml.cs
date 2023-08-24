@@ -9,8 +9,13 @@ using System.Windows.Shapes;
 
 namespace StswExpress;
 
-internal class RgsToggleSwitch : ToggleButton
+public class StswToggleSwitch : ToggleButton
 {
+    static StswToggleSwitch()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(typeof(StswToggleSwitch)));
+    }
+
     #region Parts
 
     Grid switchGrid;
@@ -27,15 +32,6 @@ internal class RgsToggleSwitch : ToggleButton
     Thickness checkedMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth-(BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + SwitchMargin.Right + SwitchMargin.Left),0,0,0) : new Thickness(0);
     Thickness uncheckedMargin => new Thickness(0);
     Thickness indeterminateMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0,0,0) : new Thickness(0);
-
-    #endregion
-
-    #region Constructor
-
-    static RgsToggleSwitch()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(RgsToggleSwitch), new FrameworkPropertyMetadata(typeof(RgsToggleSwitch)));
-    }
 
     #endregion
 
@@ -65,7 +61,7 @@ internal class RgsToggleSwitch : ToggleButton
 
     #endregion
 
-    #region Style Properties
+    #region Style properties
 
     public CornerRadius CornerRadius
     {
@@ -76,7 +72,7 @@ internal class RgsToggleSwitch : ToggleButton
         DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(RgsToggleSwitch),
+            typeof(StswToggleSwitch),
             new PropertyMetadata(new CornerRadius(10)));
 
     public Thickness SwitchMargin
@@ -88,12 +84,12 @@ internal class RgsToggleSwitch : ToggleButton
         DependencyProperty.Register(
             nameof(SwitchMargin),
             typeof(Thickness),
-            typeof(RgsToggleSwitch),
+            typeof(StswToggleSwitch),
             new PropertyMetadata(new Thickness(4)));
 
     #endregion
 
-    #region Main Properties
+    #region Main properties
 
     public Geometry? Icon
     {
@@ -104,7 +100,7 @@ internal class RgsToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(Icon),
             typeof(Geometry),
-            typeof(RgsToggleSwitch)
+            typeof(StswToggleSwitch)
         );
 
     public Geometry? IconChecked
@@ -116,7 +112,7 @@ internal class RgsToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(IconChecked),
             typeof(Geometry),
-            typeof(RgsToggleSwitch)
+            typeof(StswToggleSwitch)
         );
 
     public Geometry? IconUnchecked
@@ -128,7 +124,7 @@ internal class RgsToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(IconUnchecked),
             typeof(Geometry),
-            typeof(RgsToggleSwitch)
+            typeof(StswToggleSwitch)
         );
 
     public Brush? GlyphBrush
@@ -140,7 +136,7 @@ internal class RgsToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(GlyphBrush),
             typeof(Brush),
-            typeof(RgsToggleSwitch)
+            typeof(StswToggleSwitch)
         );
 
     public Brush? CheckedGlyphBrush

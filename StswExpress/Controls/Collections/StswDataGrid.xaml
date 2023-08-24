@@ -17,26 +17,17 @@
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="SpecialColumnVisibility" Value="All"/>
-
     </Style>
 
     <!-- StswDataGridColumnHeaderStyle -->
     <Style x:Key="StswDataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
+        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Header.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Header.Border}"/>
         <Setter Property="BorderThickness" Value="0 0 1 1"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="Background" Value="{Binding BackgroundHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding BorderBrushHeader, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <!-- StswDataGridSpecialColumnHeaderTemplate -->

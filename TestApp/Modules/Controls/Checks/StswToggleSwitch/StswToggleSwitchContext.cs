@@ -3,11 +3,11 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class RgsToggleSwitchContext : ControlsContext
+public class StswToggleSwitchContext : ControlsContext
 {
     public ICommand OnClickCommand { get; set; }
 
-    public RgsToggleSwitchContext()
+    public StswToggleSwitchContext()
     {
         OnClickCommand = new StswCommand<string?>(OnClick);
     }

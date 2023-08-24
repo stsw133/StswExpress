@@ -2,9 +2,9 @@
 
 namespace TestApp;
 
-public partial class RgsToggleSwitchView : UserControl
+public partial class StswToggleSwitchView : UserControl
 {
-    public RgsToggleSwitchView()
+    public StswToggleSwitchView()
     {
         InitializeComponent();
     }
