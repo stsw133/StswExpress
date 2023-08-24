@@ -60,6 +60,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Layout" IconData="{x:Static se:StswIcons.Group}">
                 <se:StswNavigationElement Text="StswClippingBorder" ContextNamespace="TestApp.StswClippingBorderContext"/>
+                <se:StswNavigationElement Text="RgsClippingBorder" ContextNamespace="TestApp.RgsClippingBorderContext"/>
                 <se:StswNavigationElement Text="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Text="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Text="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>

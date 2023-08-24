@@ -130,6 +130,9 @@
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:RgsClippingBorderContext}">
+                <local:RgsClippingBorderView/>
+            </DataTemplate>
             
             <!-- Media -->
             <DataTemplate DataType="{x:Type local:StswImageContext}">
