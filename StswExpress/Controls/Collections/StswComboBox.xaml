@@ -184,6 +184,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
+                            <Setter Property="Opacity" Value="0.8" TargetName="PART_ContentPresenter"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="Transparent" TargetName="PART_EditableTextBox"/>

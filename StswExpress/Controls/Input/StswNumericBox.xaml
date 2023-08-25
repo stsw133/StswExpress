@@ -85,6 +85,7 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton"/>
+                            <Setter Property="Opacity" Value="0.8" TargetName="PART_ContentHost"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>

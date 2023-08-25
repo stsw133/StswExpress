@@ -79,7 +79,8 @@
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Header}"
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              Content="{TemplateBinding Header}"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               RecognizesAccessKey="True"
@@ -99,6 +100,7 @@
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
+                            <Setter Property="Opacity" Value="0.8" TargetName="PART_ContentPresenter"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton"/>
