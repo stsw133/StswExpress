@@ -384,7 +384,7 @@
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignCenter"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignRight"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify"/>
-                            <Setter Property="Opacity" Value="0.8" TargetName="PART_ContentHost"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>

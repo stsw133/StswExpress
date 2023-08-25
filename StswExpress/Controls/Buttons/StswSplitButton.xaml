@@ -116,6 +116,7 @@
                                                 <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton"/>
                                             </Trigger>
                                             <Trigger Property="IsReadOnly" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                                                 <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
                                             </Trigger>
                                             <Trigger Property="IsEnabled" Value="False">
@@ -168,6 +169,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainBorder"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_HeaderButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

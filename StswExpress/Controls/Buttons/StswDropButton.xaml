@@ -99,8 +99,8 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
-                            <Setter Property="Opacity" Value="0.8" TargetName="PART_ContentPresenter"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton"/>

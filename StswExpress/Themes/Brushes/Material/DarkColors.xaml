@@ -21,10 +21,11 @@
     <SolidColorBrush x:Key="StswBox.Focused.Background" Color="#111"/>
     <SolidColorBrush x:Key="StswBox.Focused.Border" Color="#999"/>
     <SolidColorBrush x:Key="StswBox.ReadOnly.Background" Color="#181818"/>
+    <SolidColorBrush x:Key="StswBox.ReadOnly.Foreground" Color="#555"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Background" Color="#222"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Border" Color="#333"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Foreground" Color="#999"/>
-    <SolidColorBrush x:Key="StswBox.Placeholder.Foreground" Color="#B777"/>
+    <SolidColorBrush x:Key="StswBox.Placeholder.Foreground" Color="#999"/>
     
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#333"/>
     <SolidColorBrush x:Key="StswButton.Static.Border" Color="#555"/>
@@ -98,6 +99,7 @@
     <SolidColorBrush x:Key="StswDropButton.Checked.Background" Color="#555"/>
     <SolidColorBrush x:Key="StswDropButton.Checked.Border" Color="#777"/>
     <SolidColorBrush x:Key="StswDropButton.Defaulted.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}"/>
+    <SolidColorBrush x:Key="StswDropButton.ReadOnly.Foreground" Color="#555"/>
     <SolidColorBrush x:Key="StswDropButton.Disabled.Background" Color="#222"/>
     <SolidColorBrush x:Key="StswDropButton.Disabled.Border" Color="#333"/>
     <SolidColorBrush x:Key="StswDropButton.Disabled.Foreground" Color="#999"/>
