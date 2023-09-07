@@ -48,6 +48,9 @@
     <Compile Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -193,6 +196,9 @@
 
   <ItemGroup>
     <Page Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml">

@@ -6,7 +6,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{x:Static SystemParameters.WindowGlassBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-        
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="WindowStyle" Value="None"/>
@@ -31,7 +31,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <!-- title bar -->
-                            <Grid x:Name="PART_TitleBar">
+                            <Grid x:Name="PART_TitleBar" Grid.Row="0" Height="30">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>
@@ -41,15 +41,32 @@
                                                Grid.ColumnSpan="2"
                                                BorderBrush="{DynamicResource StswWindow.Separator.Border}"
                                                BorderThickness="0 0 0 1"
+                                               Content="{TemplateBinding Title}"
                                                IconScale="2"
-                                               IconSource="{TemplateBinding Icon}">
-                                    <StackPanel>
-                                        <TextBlock Text="{TemplateBinding Title}"/>
-                                        <TextBlock x:Name="PART_SubTitle" Text="{TemplateBinding SubTitle}" Opacity="0.8" FontSize="10"/>
-                                    </StackPanel>
-                                </se:StswHeader>
+                                               IconSource="{TemplateBinding Icon}"/>
                                 <!-- buttons panel -->
                                 <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
+                                    <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                    <se:StswButton x:Name="PART_ButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
+                                        <se:StswOutlinedText Text="🗕"/>
+                                    </se:StswButton>
+                                    <se:StswButton x:Name="PART_ButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Maksymalizuj">
+                                        <se:StswOutlinedText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
+                                    </se:StswButton>
+                                    <se:StswButton x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij">
+                                        <se:StswOutlinedText Text="🗙"/>
+                                        <se:StswButton.Resources>
+                                            <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
+                                            <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
+                                        </se:StswButton.Resources>
+                                    </se:StswButton>
+                                    
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type se:StswOutlinedText}">
                                             <Setter Property="Fill" Value="White"/>
@@ -63,22 +80,6 @@
                                             </Style.Triggers>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                    <Button x:Name="PART_ButtonMinimize" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
-                                        <se:StswOutlinedText Text="🗕"/>
-                                    </Button>
-                                    <Button x:Name="PART_ButtonRestore" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Maksymalizuj">
-                                        <se:StswOutlinedText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
-                                    </Button>
-                                    <Button x:Name="PART_ButtonClose" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij" Tag="Close">
-                                        <se:StswOutlinedText Text="🗙"/>
-                                    </Button>
                                 </StackPanel>
                                 <!-- context menu -->
                                 <Grid.ContextMenu>
@@ -165,13 +166,27 @@
                                 </Grid.ContextMenu>
                             </Grid>
                             <!-- content grid -->
-                            <Grid x:Name="PART_Content" Grid.Row="1" Focusable="False" IsEnabled="False" IsHitTestVisible="False">
+                            <Grid x:Name="PART_Content" Grid.Row="1">
                                 <AdornerDecorator>
                                     <ContentPresenter/>
                                 </AdornerDecorator>
 
                                 <!-- fullscreen button panel -->
                                 <StackPanel x:Name="PART_FullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
+                                    <se:StswButton x:Name="PART_FsButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
+                                        <se:StswOutlinedText Text="🗕"/>
+                                    </se:StswButton>
+                                    <se:StswButton x:Name="PART_FsButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Wyłącz tryb pełnego ekranu">
+                                        <se:StswOutlinedText Text="⛶"/>
+                                    </se:StswButton>
+                                    <se:StswButton x:Name="PART_FsButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij">
+                                        <se:StswOutlinedText Text="🗙"/>
+                                        <se:StswButton.Resources>
+                                            <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
+                                            <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
+                                        </se:StswButton.Resources>
+                                    </se:StswButton>
+                                    
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type se:StswOutlinedText}">
                                             <Setter Property="Fill" Value="White"/>
@@ -185,28 +200,14 @@
                                             </Style.Triggers>
                                         </Style>
                                     </StackPanel.Resources>
-                                    <Button x:Name="PART_FsButtonMinimize" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
-                                        <se:StswOutlinedText Text="🗕"/>
-                                    </Button>
-                                    <Button x:Name="PART_FsButtonRestore" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Wyłącz tryb pełnego ekranu">
-                                        <se:StswOutlinedText Text="⛶"/>
-                                    </Button>
-                                    <Button x:Name="PART_FsButtonClose" IsTabStop="False" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij" Tag="Close">
-                                        <se:StswOutlinedText Text="🗙"/>
-                                    </Button>
                                 </StackPanel>
                             </Grid>
                             
                             <!-- content dialog -->
-                            <se:StswContentDialog Grid.Row="1" BindingModel="{Binding ContentDialogBinding}"/>
+                            <se:StswContentDialog Grid.Row="1" BindingModel="{TemplateBinding ContentDialogBinding}"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ContentDialogBinding" Value="{x:Null}">
-                            <Setter Property="Focusable" Value="True" TargetName="PART_Content"/>
-                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Content"/>
-                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content"/>
-                        </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="#B777" TargetName="PART_Header"/>
@@ -228,9 +229,6 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
                         </Trigger>
-                        <Trigger Property="SubTitle" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubTitle"/>
-                        </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
                             <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
@@ -243,45 +241,18 @@
         </Setter>
     </Style>
 
+    
+    
     <!-- StswWindowButton -->
-    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-										  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										  RecognizesAccessKey="True"
-										  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type se:StswButton}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="FontSize" Value="15"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="Width" Value="45"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7777"/>
-            </Trigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True"/>
-                    <Condition Property="Tag" Value="Close"/>
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="Red"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-        </Style.Triggers>
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
     </Style>
 
 </ResourceDictionary>

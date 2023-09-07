@@ -35,6 +35,8 @@ public class StswDataGrid : DataGrid
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
         FiltersData = new()
         {
@@ -43,8 +45,6 @@ public class StswDataGrid : DataGrid
             SqlFilter = null,
             SqlParameters = null
         };
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

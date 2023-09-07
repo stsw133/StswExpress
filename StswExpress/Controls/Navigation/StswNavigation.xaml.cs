@@ -33,10 +33,10 @@ public class StswNavigation : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         if (IsExtended == default)
             OnIsExtendedChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

@@ -30,6 +30,7 @@
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
                 <se:StswNavigationElement Text="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
                 <se:StswNavigationElement Text="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
+                <se:StswNavigationElement Text="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
                 <se:StswNavigationElement Text="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.SelectColor}">

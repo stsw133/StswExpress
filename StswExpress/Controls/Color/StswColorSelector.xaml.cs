@@ -18,7 +18,7 @@ public class StswColorSelector : UserControl
 
     public StswColorSelector()
     {
-        SelectColorCommand = new StswCommand<SolidColorBrush?>(SelectColor_Executed);
+        SelectColorCommand = new StswCommand<SolidColorBrush?>(SelectColor);
     }
     static StswColorSelector()
     {
@@ -35,7 +35,7 @@ public class StswColorSelector : UserControl
     /// <summary>
     /// Executes the command to select a color in the color selector.
     /// </summary>
-    public void SelectColor_Executed(SolidColorBrush? brush)
+    private void SelectColor(SolidColorBrush? brush)
     {
         if (brush != null)
             SelectedColor = brush.Color;

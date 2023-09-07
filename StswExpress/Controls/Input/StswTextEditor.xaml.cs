@@ -111,6 +111,8 @@ public class StswTextEditor : RichTextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         if (FilePath != null)
             LoadDocument();
         else
@@ -131,8 +133,6 @@ public class StswTextEditor : RichTextBox
             nmbFontSize.ValueChanged += PART_FontSize_ValueChanged;
             partFontSize = nmbFontSize;
         }
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

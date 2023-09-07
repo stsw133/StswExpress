@@ -22,8 +22,8 @@ public class StswColorPicker : UserControl
 
     #region Events & methods
     private bool blockColorEllipse;
-    private Grid? partColorGrid;
     private Ellipse? partColorEllipse;
+    private Grid? partColorGrid;
 
     /// <summary>
     /// Occurs when the selected color in the control changes.
@@ -35,18 +35,18 @@ public class StswColorPicker : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// PART_ColorGrid
-        if (GetTemplateChild("PART_ColorGrid") is Grid grid)
+        if (GetTemplateChild("PART_ColorGrid") is Grid partColorGrid)
         {
-            grid.MouseDown += PART_ColorGrid_MouseDown;
-            grid.MouseMove += PART_ColorGrid_MouseMove;
-            partColorGrid = grid;
+            partColorGrid.MouseDown += PART_ColorGrid_MouseDown;
+            partColorGrid.MouseMove += PART_ColorGrid_MouseMove;
+            this.partColorGrid = partColorGrid;
         }
         /// PART_ColorEllipse
-        if (GetTemplateChild("PART_ColorEllipse") is Ellipse ellipse)
-            partColorEllipse = ellipse;
-
-        base.OnApplyTemplate();
+        if (GetTemplateChild("PART_ColorEllipse") is Ellipse partColorEllipse)
+            this.partColorEllipse = partColorEllipse;
     }
 
     /// <summary>

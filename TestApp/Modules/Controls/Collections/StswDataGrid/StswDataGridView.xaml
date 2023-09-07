@@ -87,7 +87,7 @@
                         </Style>
                     </se:StswDataGrid.RowStyle>
                 </se:StswDataGrid>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
+                <TextBlock DockPanel.Dock="Top" Margin="10 5">
                     <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Text=" total rows, "/>
                     <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>

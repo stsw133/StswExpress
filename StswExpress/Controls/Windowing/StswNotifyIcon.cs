@@ -46,7 +46,7 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Helper method to create an Icon from the specified path.
     /// </summary>
-    private static Icon IconFromPath(string path) => new(System.Windows.Application.GetResourceStream(new Uri(path)).Stream);
+    private static Icon IconFromPath(string path) => new(System.Windows.Application.GetResourceStream(new Uri(path, UriKind.RelativeOrAbsolute)).Stream);
 
     /// <summary>
     /// Handles the StateChanged event of the associated Window to show/hide the window when minimized.

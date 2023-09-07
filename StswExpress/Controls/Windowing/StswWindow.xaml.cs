@@ -19,6 +19,7 @@ public class StswWindow : Window
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ContentDialogBindingProperty, new StswContentDialogModel());
     }
     static StswWindow()
     {
@@ -26,7 +27,6 @@ public class StswWindow : Window
     }
 
     #region Events & methods
-    private double defaultHeight, defaultWidth;
     private FrameworkElement? partFullscreenPanel, partTitleBar;
     private WindowState preFullscreenState;
 
@@ -40,6 +40,8 @@ public class StswWindow : Window
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Button: minimize
         if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
             btnMinimize.Click += MinimizeClick;
@@ -102,7 +104,6 @@ public class StswWindow : Window
             partFullscreenPanel = fmeFullscreen;
         MouseMove += OnMouseMove;
 
-        base.OnApplyTemplate();
         //UpdateLayout();
     }
 
@@ -118,26 +119,17 @@ public class StswWindow : Window
         {
             WindowChrome.SetWindowChrome(this, null);
         }
-        else if (chrome != null && partTitleBar is not null)
+        else if (partTitleBar != null)
         {
-            chrome.CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize);
-            chrome.CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0;
-            chrome.GlassFrameThickness = new Thickness(0);
-            chrome.ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5 * iSize);
-            chrome.UseAeroCaptionButtons = false;
+            var max = WindowState == WindowState.Maximized;
+            var cr = CornerRadius;
 
-            WindowChrome.SetWindowChrome(this, chrome);
-        }
-        else if (partTitleBar is not null)
-        {
-            chrome = new WindowChrome()
-            {
-                CornerRadius = new CornerRadius(CornerRadius.TopLeft * iSize, CornerRadius.TopRight * iSize, CornerRadius.BottomRight * iSize, CornerRadius.BottomLeft * iSize),
-                CaptionHeight = (partTitleBar.ActualHeight - 2) * iSize >= 0 ? (partTitleBar.ActualHeight - 2) * iSize : 0,
-                GlassFrameThickness = new Thickness(0),
-                ResizeBorderThickness = new Thickness(WindowState == WindowState.Maximized ? 0 : 5 * iSize),
-                UseAeroCaptionButtons = false
-            };
+            chrome ??= new WindowChrome();
+            chrome.CornerRadius = new CornerRadius(cr.TopLeft * iSize, cr.TopRight * iSize, cr.BottomRight * iSize, cr.BottomLeft * iSize);
+            chrome.CaptionHeight = (partTitleBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (partTitleBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
+            chrome.GlassFrameThickness = new Thickness(0);
+            chrome.ResizeBorderThickness = new Thickness(max ? 0 : 5 * iSize);
+            chrome.UseAeroCaptionButtons = false;
 
             WindowChrome.SetWindowChrome(this, chrome);
         }
@@ -208,8 +200,8 @@ public class StswWindow : Window
     /// </summary>
     protected void DefaultClick(object? sender, RoutedEventArgs e)
     {
-        Height = defaultHeight;
-        Width = defaultWidth;
+        Height = DefaultHeight;
+        Width = DefaultWidth;
         //CenterClick(sender, e);
     }
 
@@ -248,12 +240,12 @@ public class StswWindow : Window
     /// <summary>
     /// Gets or sets the content of the custom window dialog.
     /// </summary>
-    public StswContentDialogModel? ContentDialogBinding
+    public StswContentDialogModel ContentDialogBinding
     {
-        get => (StswContentDialogModel?)GetValue(ContentDialogProperty);
-        set => SetValue(ContentDialogProperty, value);
+        get => (StswContentDialogModel)GetValue(ContentDialogBindingProperty);
+        set => SetValue(ContentDialogBindingProperty, value);
     }
-    public static readonly DependencyProperty ContentDialogProperty
+    public static readonly DependencyProperty ContentDialogBindingProperty
         = DependencyProperty.Register(
             nameof(ContentDialogBinding),
             typeof(StswContentDialogModel),
@@ -312,21 +304,6 @@ public class StswWindow : Window
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the subtitle text of the custom window.
-    /// </summary>
-    public string SubTitle
-    {
-        get => (string)GetValue(SubTitleProperty);
-        set => SetValue(SubTitleProperty, value);
-    }
-    public static readonly DependencyProperty SubTitleProperty
-        = DependencyProperty.Register(
-            nameof(SubTitle),
-            typeof(string),
-            typeof(StswWindow)
-        );
     #endregion
 
     #region Style properties
@@ -356,6 +333,36 @@ public class StswWindow : Window
                                        || stsw.CornerRadius.BottomRight > 0;
         }
     }
+
+    /// <summary>
+    /// Gets or sets the default height of the custom window.
+    /// </summary>
+    public double DefaultHeight
+    {
+        get => (double)GetValue(DefaultHeightProperty);
+        set => SetValue(DefaultHeightProperty, value);
+    }
+    public static readonly DependencyProperty DefaultHeightProperty
+        = DependencyProperty.Register(
+            nameof(DefaultHeight),
+            typeof(double),
+            typeof(StswWindow)
+        );
+
+    /// <summary>
+    /// Gets or sets the default width of the custom window.
+    /// </summary>
+    public double DefaultWidth
+    {
+        get => (double)GetValue(DefaultWidthProperty);
+        set => SetValue(DefaultWidthProperty, value);
+    }
+    public static readonly DependencyProperty DefaultWidthProperty
+        = DependencyProperty.Register(
+            nameof(DefaultWidth),
+            typeof(double),
+            typeof(StswWindow)
+        );
     #endregion
 
     #region OnInitialized
@@ -369,8 +376,10 @@ public class StswWindow : Window
         Closed += OnClosed; /// Hide default context menu and show custom
         base.OnInitialized(e);
 
-        defaultHeight = Height;
-        defaultWidth = Width;
+        if (DefaultHeight == 0)
+            DefaultHeight = Height;
+        if (DefaultWidth == 0)
+            DefaultWidth = Width;
     }
 
     /// OnSourceInitialized

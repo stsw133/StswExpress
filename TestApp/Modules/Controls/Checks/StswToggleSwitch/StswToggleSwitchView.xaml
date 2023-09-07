@@ -50,7 +50,9 @@
                     <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[3]}"
                                          Margin="0 0 0 5" Content="Option 4" Command="{Binding OnClickCommand}" CommandParameter="4"/>
                     <se:StswToggleSwitch IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[4]}"
-                                         Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"/>
+                                         Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"
+                                         GlyphBrush="{DynamicResource StswColor.Structure}" UncheckedGlyphBrush="{DynamicResource StswColor.Modify}" CheckedGlyphBrush="{DynamicResource StswColor.Negative}"
+                                         Icon="{x:Static se:StswIcons.Heart}" IconUnchecked="{x:Static se:StswIcons.HeartBroken}" IconChecked="{x:Static se:StswIcons.HeartFlash}"/>
                 </UniformGrid>
                 <TextBlock DockPanel.Dock="Top" Margin="10">
                     <Run Text="You changed state of option "/>

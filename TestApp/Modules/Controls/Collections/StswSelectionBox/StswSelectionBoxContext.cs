@@ -7,15 +7,21 @@ namespace TestApp;
 public class StswSelectionBoxContext : ControlsContext
 {
     public ICommand ClearCommand { get; set; }
+    public ICommand? SetTextCommand { get; set; }
 
     public StswSelectionBoxContext()
     {
         ClearCommand = new StswCommand(Clear);
+        SetTextCommand = null;
     }
 
     #region Events and methods
     /// Command: clear
-    private void Clear() => Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
+    private void Clear()
+    {
+        Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
+        SetTextCommand?.Execute(null);
+    }
     #endregion
 
     #region Properties

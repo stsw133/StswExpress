@@ -102,6 +102,14 @@
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IconChecked" Value="{x:Null}"/>
+                                <Condition Property="IconUnchecked" Value="{x:Null}"/>
+                                <Condition Property="IconIndeterminate" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                        </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}"/>
                         </Trigger>

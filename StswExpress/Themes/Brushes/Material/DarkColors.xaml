@@ -228,6 +228,13 @@
     
     <SolidColorBrush x:Key="StswText.Disabled" Color="#666"/>
 
+    <SolidColorBrush x:Key="StswToggle.Unchecked.Marker.Background" Color="#666"/>
+    <SolidColorBrush x:Key="StswToggle.Checked.Marker.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-25%}"/>
+    <SolidColorBrush x:Key="StswToggle.Indeterminate.Marker.Background" Color="#666"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Background" Color="#222"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Border" Color="#333"/>
+    <SolidColorBrush x:Key="StswToggle.Disabled.Foreground" Color="#999"/>
+
     <SolidColorBrush x:Key="StswWindow.Separator.Border" Color="#7555"/>
 
     

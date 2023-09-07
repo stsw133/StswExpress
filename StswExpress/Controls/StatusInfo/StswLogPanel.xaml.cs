@@ -34,13 +34,13 @@ public class StswLogPanel : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Content
         if (GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
             stswScrollViewer = scrollViewer;
         if (Items == null)
             Items = new();
-
-        base.OnApplyTemplate();
     }
 
     /// Command: remove log

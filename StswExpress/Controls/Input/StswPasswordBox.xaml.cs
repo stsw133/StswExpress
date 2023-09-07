@@ -34,6 +34,8 @@ public class StswPasswordBox : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// PasswordBox: password changed
         if (GetTemplateChild("PART_PasswordBox") is PasswordBox pwdBox)
         {
@@ -41,8 +43,6 @@ public class StswPasswordBox : UserControl
             pwdBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
             partPasswordBox = pwdBox;
         }
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

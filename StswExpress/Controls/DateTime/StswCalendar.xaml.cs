@@ -24,7 +24,7 @@ public class StswCalendar : UserControl
     {
         SetValue(ItemsProperty, new ObservableCollection<StswCalendarItem>());
 
-        SelectDateCommand = new StswCommand<DateTime?>(SelectDate_Executed);
+        SelectDateCommand = new StswCommand<DateTime?>(SelectDate);
     }
     static StswCalendar()
     {
@@ -42,6 +42,8 @@ public class StswCalendar : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         SelectedMonth = SelectedDate ?? DateTime.Now;
 
         /// Button: previous year
@@ -59,8 +61,6 @@ public class StswCalendar : UserControl
         /// Button: selection mode
         if (GetTemplateChild("PART_ButtonSelectionMode") is StswButton btnSelectionMode)
             btnSelectionMode.Click += PART_ButtonSelectionMode_Click;
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class StswCalendar : UserControl
     /// If SelectionMode is ByMonth, it sets the SelectedDate property and updates the SelectedMonth to match the selected date's month.
     /// Also, closes any open popups that contain the calendar control.
     /// </summary>
-    public void SelectDate_Executed(DateTime? date)
+    private void SelectDate(DateTime? date)
     {
         if (SelectionMode == StswCalendarMode.ByYear)
         {

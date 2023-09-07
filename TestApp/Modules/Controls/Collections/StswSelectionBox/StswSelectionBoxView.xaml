@@ -51,7 +51,8 @@
                                      ItemsSource="{Binding Items}"
                                      Margin="5"
                                      Placeholder="Select items..."
-                                     SelectedValuePath="Display">
+                                     SelectedValuePath="Display"
+                                     SetTextCommand="{Binding SetTextCommand, Mode=OneWayToSource}">
                     <se:StswSelectionBox.Components>
                         <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
                     </se:StswSelectionBox.Components>

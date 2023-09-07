@@ -27,7 +27,6 @@ partial class Theme
     private void SetColor(ThemeColor color)
     {
         MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{color}.xaml", UriKind.Relative) };
-
     }
 }
 

@@ -1,4 +1,7 @@
-﻿namespace StswExpress;
+﻿using System.ComponentModel;
+using System.Configuration;
+
+namespace StswExpress;
 
 public sealed partial class StswSettings
 {
@@ -7,11 +10,11 @@ public sealed partial class StswSettings
     {
     }
 
-    private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e)
+    private void SettingChangingEventHandler(object sender, SettingChangingEventArgs e)
     {
     }
 
-    private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e)
+    private void SettingsSavingEventHandler(object sender, CancelEventArgs e)
     {
     }
 }

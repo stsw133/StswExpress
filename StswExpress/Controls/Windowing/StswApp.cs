@@ -52,4 +52,7 @@ public class StswApp : Application
         /// on exit
         Exit += (sender, e) => StswSettings.Default.Save();
     }
+
+    /// MainStswWindow
+    public static StswWindow StswWindow => (StswWindow)Current.MainWindow;
 }

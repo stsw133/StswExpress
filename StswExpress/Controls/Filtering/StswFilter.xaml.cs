@@ -39,15 +39,17 @@ public class StswFilter : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
-        if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid dataGrid)
+        base.OnApplyTemplate();
+
+        if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid stswDataGrid)
         {
-            stswDataGrid = dataGrid;
+            this.stswDataGrid = stswDataGrid;
             IsInDataGrid = true;
         }
 
         /// ToggleButton: filter mode
-        if (GetTemplateChild("PART_FilterMode") is ButtonBase btnMode)
-            partFilterMode = btnMode;
+        if (GetTemplateChild("PART_FilterMode") is ButtonBase partFilterMode)
+            this.partFilterMode = partFilterMode;
 
         /*
         /// shortcuts for FilterMode items
@@ -78,8 +80,6 @@ public class StswFilter : UserControl
         DefaultValue2 = Value2;
 
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// Command: select mode

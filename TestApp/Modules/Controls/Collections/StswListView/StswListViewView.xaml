@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswNotifyIconView"
+﻿<UserControl x:Class="TestApp.StswListViewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswNotifyIconContext/>
+        <local:StswListViewContext/>
     </d:UserControl.DataContext>
 
     <DockPanel>
@@ -23,29 +23,34 @@
                         <StackPanel>
                             <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control for displaying a system tray icon with various properties for customization.
+                                Represents a control that displays a collection of items in a vertical list.
                             </TextBlock>
                         </StackPanel>
                     </Label>
                     <!-- IsEnabled -->
-                    <!--
                     <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
                         <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
                     </se:StswCheckBox>
-                    -->
+                    <!-- SelectionMode -->
+                    <Label Content="SelectionMode:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}" SelectedValuePath="Value"/>
                 </StackPanel>
             </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
             <!-- control -->
             <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                   IconPath="/Resources/icon.ico" Text="{x:Static se:StswFn.AppNameAndVersion}">
-                    <se:StswNotifyIcon.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
-                        </ContextMenu>
-                    </se:StswNotifyIcon.ContextMenu>
-                </se:StswNotifyIcon>
+                <se:StswListView x:Name="StswListView" DockPanel.Dock="Top"
+                                 DisplayMemberPath="Display"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 ItemsSource="{Binding Items}"
+                                 Margin="5"
+                                 SelectionMode="{Binding SelectionMode}"
+                                 SelectedValuePath="Display"/>
+                <TextBlock DockPanel.Dock="Top" Margin="10">
+                    <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswListView}" FontWeight="Bold"/>
+                    <Run Text=" option(s) are selected"/>
+                </TextBlock>
             </DockPanel>
         </Grid>
     </DockPanel>

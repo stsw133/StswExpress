@@ -19,9 +19,9 @@ public class StswSeparator : Separator
     /// </summary>
     public override void OnApplyTemplate()
     {
-        OnBorderThicknessChanged(this, new DependencyPropertyChangedEventArgs());
-
         base.OnApplyTemplate();
+
+        OnBorderThicknessChanged(this, new DependencyPropertyChangedEventArgs());
     }
     #endregion
 

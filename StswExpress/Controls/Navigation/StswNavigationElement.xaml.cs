@@ -31,14 +31,14 @@ public class StswNavigationElement : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// StswNavigation
         if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
             stswNavi = stswNavigation;
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
 
         CheckSubItemPadding();
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

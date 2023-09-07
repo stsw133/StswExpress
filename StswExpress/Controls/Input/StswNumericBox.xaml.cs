@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,6 +34,8 @@ public class StswNumericBox : TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
             btnUp.Click += PART_ButtonUp_Click;
@@ -43,8 +44,6 @@ public class StswNumericBox : TextBox
             btnDown.Click += PART_ButtonDown_Click;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -288,18 +287,18 @@ public class StswNumericBox : TextBox
             typeof(StswNumericBox)
         );
 
-    /// <summary>
-    /// Gets or sets the text value of the control.
-    /// </summary>
-    [Browsable(false)]
-    //[Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public new string? Text
-    {
-        get => base.Text;
-        internal set => base.Text = value;
-    }
+    //// <summary>
+    //// Gets or sets the text value of the control.
+    //// </summary>
+    //[Browsable(false)]
+    ////[Bindable(false)]
+    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    //[EditorBrowsable(EditorBrowsableState.Never)]
+    //public new string? Text
+    //{
+    //    get => base.Text;
+    //    internal set => base.Text = value;
+    //}
 
     /// <summary>
     /// Gets or sets the numeric value of the control.

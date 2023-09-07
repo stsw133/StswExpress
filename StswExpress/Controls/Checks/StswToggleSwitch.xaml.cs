@@ -16,117 +16,152 @@ public class StswToggleSwitch : ToggleButton
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToggleSwitch), new FrameworkPropertyMetadata(typeof(StswToggleSwitch)));
     }
 
-    #region Parts
+    #region Events & methods
+    private Border? switchBorder, outerBorder;
+    private Grid? switchGrid;
+    private Path? path;
+    private Viewbox? checkedPath, uncheckedPath;
 
-    Grid switchGrid;
-    Border switchBorder;
-    Border outerBorder;
-    Path path;
-    Viewbox checkedPath;
-    Viewbox uncheckedPath;
-
-    #endregion
-
-    #region Private Properties
-
-    Thickness checkedMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth-(BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + SwitchMargin.Right + SwitchMargin.Left),0,0,0) : new Thickness(0);
-    Thickness uncheckedMargin => new Thickness(0);
-    Thickness indeterminateMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0,0,0) : new Thickness(0);
-
-    #endregion
-
-    #region OnApplyTemplate
-
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        switchGrid = GetTemplateChild("PART_SwitchGrid") as Grid;
-        switchBorder = GetTemplateChild("PART_SwitchBorder") as Border;
-        outerBorder = GetTemplateChild("PART_OuterBorder") as Border;
-        path = GetTemplateChild("PART_Path") as Path;
-        checkedPath = GetTemplateChild("PART_CheckedPath") as Viewbox;
-        uncheckedPath = GetTemplateChild("PART_UncheckedPath") as Viewbox;
+        if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
+            this.switchBorder = switchBorder;
+        if (GetTemplateChild("PART_OuterBorder") is Border outerBorder)
+            this.outerBorder = outerBorder;
+        if (GetTemplateChild("PART_SwitchGrid") is Grid switchGrid)
+            this.switchGrid = switchGrid;
+        if (GetTemplateChild("PART_Path") is Path path)
+        {
+            path.Opacity = (IsChecked == true ? 1 : 0);
+            this.path = path;
+        }
+        if (GetTemplateChild("PART_CheckedPath") is Viewbox checkedPath)
+            this.checkedPath = checkedPath;
+        if (GetTemplateChild("PART_UncheckedPath") is Viewbox uncheckedPath)
+            this.uncheckedPath = uncheckedPath;
 
-        path.Opacity = IsChecked == true ? 1 : 0;
-
-        Loaded += OnLoaded;
-        PreviewMouseDown += OnMouseDown;
-        PreviewMouseUp += OnMouseUp;
-        Checked += OnChecked;
-        Unchecked += OnUnchecked;
-        Indeterminate += OnIndeterminate;
-        SizeChanged += OnSizeChanged;
+        Loaded += (s, e) => AdjustSize();
+        SizeChanged += (s, e) => AdjustSize();
     }
 
-    #endregion
-
-    #region Style properties
-
-    public CornerRadius CornerRadius
+    private Thickness checkedMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + SwitchMargin.Right + SwitchMargin.Left), 0, 0, 0) : new Thickness(0);
+    private Thickness uncheckedMargin => new Thickness(0);
+    private Thickness indeterminateMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
+    /*
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnMouseDown(MouseButtonEventArgs e)
     {
-        get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-        set { SetValue(CornerRadiusProperty, value); }
+        base.OnMouseDown(e);
+        MouseDownAnimation();
     }
-    public static readonly DependencyProperty CornerRadiusProperty =
-        DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswToggleSwitch),
-            new PropertyMetadata(new CornerRadius(10)));
 
-    public Thickness SwitchMargin
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnMouseUp(MouseButtonEventArgs e)
     {
-        get { return (Thickness)GetValue(SwitchMarginProperty); }
-        set { SetValue(SwitchMarginProperty, value); }
+        base.OnMouseUp(e);
+        MouseUpAnimation();
     }
-    public static readonly DependencyProperty SwitchMarginProperty =
-        DependencyProperty.Register(
-            nameof(SwitchMargin),
-            typeof(Thickness),
-            typeof(StswToggleSwitch),
-            new PropertyMetadata(new Thickness(4)));
+    */
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+        CheckedAnimation();
+    }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+        UncheckedAnimation();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnIndeterminate(RoutedEventArgs e)
+    {
+        base.OnIndeterminate(e);
+        IndeterminateAnimation();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void AdjustSize()
+    {
+        if (switchBorder != null)
+            switchBorder.CornerRadius = new CornerRadius(
+                    CornerRadius.TopLeft - BorderThickness.Top - SwitchMargin.Top,
+                    CornerRadius.TopRight - BorderThickness.Top - SwitchMargin.Top,
+                    CornerRadius.BottomLeft - BorderThickness.Bottom - SwitchMargin.Bottom,
+                    CornerRadius.BottomRight - BorderThickness.Bottom - SwitchMargin.Bottom
+                );
+
+        if (switchGrid != null)
+            switchGrid.Margin = IsChecked switch
+            {
+                false => uncheckedMargin,
+                true => checkedMargin,
+                null => indeterminateMargin
+            };
+    }
     #endregion
 
     #region Main properties
-
-    public Geometry? Icon
+    /// <summary>
+    /// Gets or sets the scale of the icon in the box.
+    /// </summary>
+    public GridLength IconScale
     {
-        get => (Geometry?)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
     }
-    public static readonly DependencyProperty IconProperty
+    public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
-            nameof(Icon),
-            typeof(Geometry),
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswToggleSwitch)
+        );
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswToggleSwitch)
         );
 
-    public Geometry? IconChecked
-    {
-        get => (Geometry?)GetValue(IconCheckedProperty);
-        set => SetValue(IconCheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconCheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconChecked),
-            typeof(Geometry),
-            typeof(StswToggleSwitch)
-        );
-
-    public Geometry? IconUnchecked
-    {
-        get => (Geometry?)GetValue(IconUncheckedProperty);
-        set => SetValue(IconUncheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconUncheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconUnchecked),
-            typeof(Geometry),
-            typeof(StswToggleSwitch)
-        );
-
+    /// <summary>
+    /// Gets or sets the brush used to render the glyph (icon).
+    /// </summary>
     public Brush? GlyphBrush
     {
         get => (Brush?)GetValue(GlyphBrushProperty);
@@ -139,6 +174,9 @@ public class StswToggleSwitch : ToggleButton
             typeof(StswToggleSwitch)
         );
 
+    /// <summary>
+    /// Gets or sets the brush used to render the glyph (icon).
+    /// </summary>
     public Brush? CheckedGlyphBrush
     {
         get => (Brush?)GetValue(CheckedGlyphBrushProperty);
@@ -148,9 +186,12 @@ public class StswToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(CheckedGlyphBrush),
             typeof(Brush),
-            typeof(StswCheckBox)
+            typeof(StswToggleSwitch)
         );
 
+    /// <summary>
+    /// Gets or sets the brush used to render the glyph (icon).
+    /// </summary>
     public Brush? UncheckedGlyphBrush
     {
         get => (Brush?)GetValue(UncheckedGlyphBrushProperty);
@@ -160,67 +201,75 @@ public class StswToggleSwitch : ToggleButton
         = DependencyProperty.Register(
             nameof(UncheckedGlyphBrush),
             typeof(Brush),
-            typeof(StswCheckBox)
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon.
+    /// </summary>
+    public Geometry? Icon
+    {
+        get => (Geometry?)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    public static readonly DependencyProperty IconProperty
+        = DependencyProperty.Register(
+            nameof(Icon),
+            typeof(Geometry),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon in the checked state.
+    /// </summary>
+    public Geometry? IconChecked
+    {
+        get => (Geometry?)GetValue(IconCheckedProperty);
+        set => SetValue(IconCheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconCheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconChecked),
+            typeof(Geometry),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon in the unchecked state.
+    /// </summary>
+    public Geometry? IconUnchecked
+    {
+        get => (Geometry?)GetValue(IconUncheckedProperty);
+        set => SetValue(IconUncheckedProperty, value);
+    }
+    public static readonly DependencyProperty IconUncheckedProperty
+        = DependencyProperty.Register(
+            nameof(IconUnchecked),
+            typeof(Geometry),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness SwitchMargin
+    {
+        get => (Thickness)GetValue(SwitchMarginProperty);
+        set => SetValue(SwitchMarginProperty, value);
+    }
+    public static readonly DependencyProperty SwitchMarginProperty
+        = DependencyProperty.Register(
+            nameof(SwitchMargin),
+            typeof(Thickness),
+            typeof(StswToggleSwitch)
         );
 
     #endregion
 
-    #region Methods and Events
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        AdjustSize();
-    }
-    private void OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        MouseDownAnimation();
-    }
-    private void OnMouseUp(object sender, MouseButtonEventArgs e)
-    {
-        MouseUpAnimation();
-    }
-    private void OnChecked(object sender, RoutedEventArgs e)
-    {
-        CheckedAnimation();
-    }
-    private void OnUnchecked(object sender, RoutedEventArgs e)
-    {
-        UncheckedAnimation();
-    }
-    private void OnIndeterminate(object sender, RoutedEventArgs e)
-    {
-        IndeterminateAnimation();
-    }
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        AdjustSize();
-    }
-
-    void AdjustSize()
-    {
-        switchBorder.CornerRadius = new CornerRadius(
-            CornerRadius.TopLeft - BorderThickness.Top - SwitchMargin.Top,
-            CornerRadius.TopRight - BorderThickness.Top - SwitchMargin.Top,
-            CornerRadius.BottomLeft - BorderThickness.Bottom - SwitchMargin.Bottom,
-            CornerRadius.BottomRight - BorderThickness.Bottom - SwitchMargin.Bottom);
-
-        switch (IsChecked)
-        {
-            case true:
-                switchGrid.Margin = checkedMargin;
-                break;
-            case false:
-                switchGrid.Margin = uncheckedMargin;
-                break;
-            case null:
-                switchGrid.Margin = indeterminateMargin;
-                break;
-        }
-    }
-
-    #endregion
-
     #region Animations
-
+    /// <summary>
+    /// 
+    /// </summary>
     void MouseDownAnimation()
     {
         var sb = new Storyboard();
@@ -236,6 +285,9 @@ public class StswToggleSwitch : ToggleButton
         sb.Begin();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void MouseUpAnimation()
     {
         var sb = new Storyboard();
@@ -251,6 +303,9 @@ public class StswToggleSwitch : ToggleButton
         sb.Begin();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void CheckedAnimation()
     {
         var sb = new Storyboard();
@@ -311,6 +366,9 @@ public class StswToggleSwitch : ToggleButton
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void UncheckedAnimation()
     {
         var sb = new Storyboard();
@@ -370,6 +428,9 @@ public class StswToggleSwitch : ToggleButton
         sb.Begin();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void IndeterminateAnimation()
     {
         var sb = new Storyboard();
@@ -418,6 +479,5 @@ public class StswToggleSwitch : ToggleButton
 
         sb.Begin();
     }
-
     #endregion
 }

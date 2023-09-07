@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,9 +35,9 @@ public class StswDatePicker : TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
-        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-
         base.OnApplyTemplate();
+
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -318,18 +317,18 @@ public class StswDatePicker : TextBox
         }
     }
 
-    /// <summary>
-    /// Gets or sets the text value of the control.
-    /// </summary>
-    [Browsable(false)]
-    //[Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public new string? Text
-    {
-        get => base.Text;
-        internal set => base.Text = value;
-    }
+    //// <summary>
+    //// Gets or sets the text value of the control.
+    //// </summary>
+    //[Browsable(false)]
+    ////[Bindable(false)]
+    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    //[EditorBrowsable(EditorBrowsableState.Never)]
+    //public new string? Text
+    //{
+    //    get => base.Text;
+    //    internal set => base.Text = value;
+    //}
     #endregion
 
     #region Style properties

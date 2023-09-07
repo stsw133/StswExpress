@@ -16,6 +16,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswComboBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswDataGrid.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswListBox.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswListView.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Collections/StswSelectionBox.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Color/StswColorBox.xaml"/>
