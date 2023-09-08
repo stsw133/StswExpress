@@ -78,6 +78,12 @@
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -229,6 +235,12 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">

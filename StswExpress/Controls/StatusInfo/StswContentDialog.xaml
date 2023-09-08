@@ -49,6 +49,8 @@
                                                                          CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
                                                                          MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                                                          MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                                                         MinHeight="120"
+                                                                         MinWidth="200"
                                                                          SnapsToDevicePixels="True">
                                                             <se:StswGroupBox.Header>
                                                                 <StackPanel Height="20" Orientation="Horizontal" VerticalAlignment="Center">
@@ -80,13 +82,13 @@
                                                                                    Padding="15 5"
                                                                                    Visibility="Collapsed"/>
                                                                 </UniformGrid>
-                                                                <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}">
-                                                                    <se:StswTextBox IsReadOnly="True"
-                                                                                    Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
-                                                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                                                    Text="{Binding BindingModel.Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
-                                                                                    TextWrapping="Wrap"/>
-                                                                </DockPanel>
+                                                                <se:StswTextBox BorderBrush="#5777"
+                                                                                BorderThickness="1"
+                                                                                IsReadOnly="True"
+                                                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                                                Text="{Binding BindingModel.Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                                                                TextWrapping="Wrap"/>
                                                             </DockPanel>
                                                         </se:StswGroupBox>
                                                         <DataTemplate.Triggers>

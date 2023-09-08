@@ -550,33 +550,60 @@ public class StswAddConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var val = System.Convert.ToDouble(value, culture);
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is CornerRadius val1)
             {
-                4 => new CornerRadius(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
-                2 => new CornerRadius(val + pmrArray[0], val + pmrArray[1], val + pmrArray[0], val + pmrArray[1]),
-                1 => new CornerRadius(val + pmrArray[0]),
-                _ => new CornerRadius(val),
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.TopLeft + pmrArray[0], val1.TopRight + pmrArray[1], val1.BottomRight + pmrArray[2], val1.BottomLeft + pmrArray[3]),
+                    2 => new CornerRadius(val1.TopLeft + pmrArray[0], val1.TopRight + pmrArray[1], val1.BottomRight + pmrArray[0], val1.BottomLeft + pmrArray[1]),
+                    1 => new CornerRadius(val1.TopLeft + pmrArray[0]),
+                    _ => new CornerRadius(val1.TopLeft)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val2 + pmrArray[0], val2 + pmrArray[1], val2 + pmrArray[2], val2 + pmrArray[3]),
+                    2 => new CornerRadius(val2 + pmrArray[0], val2 + pmrArray[1], val2 + pmrArray[0], val2 + pmrArray[1]),
+                    1 => new CornerRadius(val2 + pmrArray[0]),
+                    _ => new CornerRadius(val2)
+                };
+            }
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is Thickness val1)
             {
-                4 => new Thickness(val + pmrArray[0], val + pmrArray[1], val + pmrArray[2], val + pmrArray[3]),
-                2 => new Thickness(val + pmrArray[0], val + pmrArray[1], val + pmrArray[0], val + pmrArray[1]),
-                1 => new Thickness(val + pmrArray[0]),
-                _ => new Thickness(val)
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[2], val1.Bottom + pmrArray[3]),
+                    2 => new CornerRadius(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[0], val1.Bottom + pmrArray[1]),
+                    1 => new CornerRadius(val1.Left + pmrArray[0]),
+                    _ => new CornerRadius(val1.Left)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new Thickness(val2 + pmrArray[0], val2 + pmrArray[1], val2 + pmrArray[2], val2 + pmrArray[3]),
+                    2 => new Thickness(val2 + pmrArray[0], val2 + pmrArray[1], val2 + pmrArray[0], val2 + pmrArray[1]),
+                    1 => new Thickness(val2 + pmrArray[0]),
+                    _ => new Thickness(val2)
+                };
+            }
         }
-        else return val + pmr;
+        else return System.Convert.ToDouble(value, culture) + pmr;
     }
 
     /// ConvertBack
@@ -631,33 +658,60 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var val = System.Convert.ToDouble(value, culture);
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is CornerRadius val1)
             {
-                4 => new CornerRadius(val % pmrArray[0], val % pmrArray[1], val % pmrArray[2], val % pmrArray[3]),
-                2 => new CornerRadius(val % pmrArray[0], val % pmrArray[1], val % pmrArray[0], val % pmrArray[1]),
-                1 => new CornerRadius(val % pmrArray[0]),
-                _ => new CornerRadius(val)
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.TopLeft % pmrArray[0], val1.TopRight % pmrArray[1], val1.BottomRight % pmrArray[2], val1.BottomLeft % pmrArray[3]),
+                    2 => new CornerRadius(val1.TopLeft % pmrArray[0], val1.TopRight % pmrArray[1], val1.BottomRight % pmrArray[0], val1.BottomLeft % pmrArray[1]),
+                    1 => new CornerRadius(val1.TopLeft % pmrArray[0]),
+                    _ => new CornerRadius(val1.TopLeft)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val2 % pmrArray[0], val2 % pmrArray[1], val2 % pmrArray[2], val2 % pmrArray[3]),
+                    2 => new CornerRadius(val2 % pmrArray[0], val2 % pmrArray[1], val2 % pmrArray[0], val2 % pmrArray[1]),
+                    1 => new CornerRadius(val2 % pmrArray[0]),
+                    _ => new CornerRadius(val2)
+                };
+            }
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is Thickness val1)
             {
-                4 => new Thickness(val % pmrArray[0], val % pmrArray[1], val % pmrArray[2], val % pmrArray[3]),
-                2 => new Thickness(val % pmrArray[0], val % pmrArray[1], val % pmrArray[0], val % pmrArray[1]),
-                1 => new Thickness(val % pmrArray[0]),
-                _ => new Thickness(val)
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[2], val1.Bottom % pmrArray[3]),
+                    2 => new CornerRadius(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[0], val1.Bottom % pmrArray[1]),
+                    1 => new CornerRadius(val1.Left % pmrArray[0]),
+                    _ => new CornerRadius(val1.Left)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new Thickness(val2 % pmrArray[0], val2 % pmrArray[1], val2 % pmrArray[2], val2 % pmrArray[3]),
+                    2 => new Thickness(val2 % pmrArray[0], val2 % pmrArray[1], val2 % pmrArray[0], val2 % pmrArray[1]),
+                    1 => new Thickness(val2 % pmrArray[0]),
+                    _ => new Thickness(val2)
+                };
+            }
         }
-        else return val % pmr;
+        else return System.Convert.ToDouble(value, culture) * pmr;
     }
 
     /// ConvertBack
@@ -677,33 +731,60 @@ public class StswMultiplyConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var val = System.Convert.ToDouble(value, culture);
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is CornerRadius val1)
             {
-                4 => new CornerRadius(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
-                2 => new CornerRadius(val * pmrArray[0], val * pmrArray[1], val * pmrArray[0], val * pmrArray[1]),
-                1 => new CornerRadius(val * pmrArray[0]),
-                _ => new CornerRadius(val)
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.TopLeft * pmrArray[0], val1.TopRight * pmrArray[1], val1.BottomRight * pmrArray[2], val1.BottomLeft * pmrArray[3]),
+                    2 => new CornerRadius(val1.TopLeft * pmrArray[0], val1.TopRight * pmrArray[1], val1.BottomRight * pmrArray[0], val1.BottomLeft * pmrArray[1]),
+                    1 => new CornerRadius(val1.TopLeft * pmrArray[0]),
+                    _ => new CornerRadius(val1.TopLeft)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val2 * pmrArray[0], val2 * pmrArray[1], val2 * pmrArray[2], val2 * pmrArray[3]),
+                    2 => new CornerRadius(val2 * pmrArray[0], val2 * pmrArray[1], val2 * pmrArray[0], val2 * pmrArray[1]),
+                    1 => new CornerRadius(val2 * pmrArray[0]),
+                    _ => new CornerRadius(val2)
+                };
+            }
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
             var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
-            return pmrArray.Length switch
+            if (value is Thickness val1)
             {
-                4 => new Thickness(val * pmrArray[0], val * pmrArray[1], val * pmrArray[2], val * pmrArray[3]),
-                2 => new Thickness(val * pmrArray[0], val * pmrArray[1], val * pmrArray[0], val * pmrArray[1]),
-                1 => new Thickness(val * pmrArray[0]),
-                _ => new Thickness(val)
-            };
+                return pmrArray.Length switch
+                {
+                    4 => new CornerRadius(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[2], val1.Bottom * pmrArray[3]),
+                    2 => new CornerRadius(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[0], val1.Bottom * pmrArray[1]),
+                    1 => new CornerRadius(val1.Left * pmrArray[0]),
+                    _ => new CornerRadius(val1.Left)
+                };
+            }
+            else
+            {
+                var val2 = System.Convert.ToDouble(value, culture);
+                return pmrArray.Length switch
+                {
+                    4 => new Thickness(val2 * pmrArray[0], val2 * pmrArray[1], val2 * pmrArray[2], val2 * pmrArray[3]),
+                    2 => new Thickness(val2 * pmrArray[0], val2 * pmrArray[1], val2 * pmrArray[0], val2 * pmrArray[1]),
+                    1 => new Thickness(val2 * pmrArray[0]),
+                    _ => new Thickness(val2)
+                };
+            }
         }
-        else return val * pmr;
+        else return System.Convert.ToDouble(value, culture) * pmr;
     }
 
     /// ConvertBack
