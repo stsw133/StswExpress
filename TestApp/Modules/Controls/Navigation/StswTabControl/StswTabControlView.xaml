@@ -39,6 +39,10 @@
                     <Label Content="NewTabButtonVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding NewTabButtonVisibility}" SelectedValuePath="Value"/>
+                    <!-- TabStripPlacement -->
+                    <Label Content="TabStripPlacement:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Dock}}"
+                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}" SelectedValuePath="Value"/>
                 </StackPanel>
             </se:StswScrollViewer>
             <GridSplitter Margin="-5" Width="5"/>
@@ -50,7 +54,8 @@
                                    ItemsSource="{Binding Items}"
                                    Margin="5"
                                    NewTabButtonVisibility="{Binding NewTabButtonVisibility}"
-                                   SelectedIndex="0">
+                                   SelectedIndex="0"
+                                   TabStripPlacement="{Binding TabStripPlacement}">
                     <se:StswTabControl.NewTabTemplate>
                         <se:StswTabItemModel Icon="{x:Static se:StswIcons.PlusThick}" Name="New tab" Type="{x:Type local:HomeContext}"/>
                     </se:StswTabControl.NewTabTemplate>

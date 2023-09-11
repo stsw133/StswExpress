@@ -35,49 +35,58 @@ public class StswPager : UserControl
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        OnItemsChanged(this, new DependencyPropertyChangedEventArgs());
+        OnItemsSourceChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
     /// 
     /// </summary>
-    private void Down()
+    /// <param name="oldContent"></param>
+    /// <param name="newContent"></param>
+    protected override void OnContentChanged(object oldContent, object newContent)
     {
-        if (DownCondition())
-            SelectedIndex++;
+        base.OnContentChanged(oldContent, newContent);
+
+        /// setting DataContext of Content element
+        if (Content is FrameworkElement elem)
+        {
+            elem.SetBinding(DataContextProperty, new Binding()
+            {
+                Mode = BindingMode.OneWay,
+                Path = new PropertyPath(nameof(SelectedItem)),
+                Source = this
+            });
+        }
     }
-    private bool DownCondition() => SelectedIndex < (Items?.Count - 1);
 
     /// <summary>
     /// 
     /// </summary>
-    private void Left()
+    /// <param name="e"></param>
+    protected override void OnKeyDown(KeyEventArgs e)
     {
-        if (LeftCondition())
-            SelectedIndex--;
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.Down)
+            Down();
+        else if (e.Key == Key.Left)
+            Left();
+        else if (e.Key == Key.Right)
+            Right();
+        else if (e.Key == Key.Up)
+            Up();
     }
-    private bool LeftCondition() => SelectedIndex > 0;
 
     /// <summary>
     /// 
     /// </summary>
-    private void Right()
+    /// <param name="e"></param>
+    protected override void OnMouseDown(MouseButtonEventArgs e)
     {
-        if (RightCondition())
-            SelectedIndex++;
+        base.OnMouseDown(e);
+        Keyboard.Focus(this);
     }
-    private bool RightCondition() => SelectedIndex < (Items?.Count - 1);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private void Up()
-    {
-        if (UpCondition())
-            SelectedIndex--;
-    }
-    private bool UpCondition() => SelectedIndex > 0;
-
+    /*
     /// <summary>
     /// 
     /// </summary>
@@ -103,34 +112,80 @@ public class StswPager : UserControl
 
         CommandManager.InvalidateRequerySuggested();
     }
+    */
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Down()
+    {
+        if (DownCondition())
+            SelectedIndex++;
+    }
+    private bool DownCondition() => SelectedIndex < (ItemsSource?.Count - 1);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Left()
+    {
+        if (LeftCondition())
+            SelectedIndex--;
+    }
+    private bool LeftCondition() => SelectedIndex > 0;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Right()
+    {
+        if (RightCondition())
+            SelectedIndex++;
+    }
+    private bool RightCondition() => SelectedIndex < (ItemsSource?.Count - 1);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Up()
+    {
+        if (UpCondition())
+            SelectedIndex--;
+    }
+    private bool UpCondition() => SelectedIndex > 0;
     #endregion
 
     #region Main properties
     /// <summary>
     /// 
     /// </summary>
-    public IList Items
+    public IList ItemsSource
     {
-        get => (IList)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
-    public static readonly DependencyProperty ItemsProperty
+    public static readonly DependencyProperty ItemsSourceProperty
         = DependencyProperty.Register(
-            nameof(Items),
+            nameof(ItemsSource),
             typeof(IList),
             typeof(StswPager),
             new FrameworkPropertyMetadata(default(IList),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnItemsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswPager stsw)
         {
-            if (stsw.Items?.Count > 0)
+            if (stsw.ItemsSource?.Count > 0)
+            {
                 stsw.SelectedIndex = 0;
+                stsw.SelectedItem = stsw.ItemsSource[stsw.SelectedIndex];
+            }
             else
+            {
                 stsw.SelectedIndex = -1;
+                stsw.SelectedItem = null;
+            }
         }
     }
 
@@ -171,7 +226,7 @@ public class StswPager : UserControl
         if (obj is StswPager stsw)
         {
             if (stsw.SelectedIndex >= 0)
-                stsw.SelectedItem = stsw.Items[stsw.SelectedIndex];
+                stsw.SelectedItem = stsw.ItemsSource[stsw.SelectedIndex];
             else
                 stsw.SelectedItem = null;
         }
@@ -199,7 +254,7 @@ public class StswPager : UserControl
         if (obj is StswPager stsw)
         {
             if (stsw.SelectedItem != null)
-                stsw.SelectedIndex = stsw.Items.IndexOf(stsw.SelectedItem);
+                stsw.SelectedIndex = stsw.ItemsSource.IndexOf(stsw.SelectedItem);
             else
                 stsw.SelectedIndex = -1;
         }
