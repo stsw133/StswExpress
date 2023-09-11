@@ -129,6 +129,9 @@
     <Compile Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswPopup\StswPopupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -296,6 +299,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswPopup\StswPopupView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml">

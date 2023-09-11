@@ -70,6 +70,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswText.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Text/StswTruncateLabel.xaml"/>
         
+        <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswPopup.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Windowing/StswWindow.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>

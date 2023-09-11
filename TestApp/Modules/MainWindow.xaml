@@ -96,6 +96,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
                 <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
+                <se:StswNavigationElement Text="StswPopup" ContextNamespace="TestApp.StswPopupContext"/>
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>
