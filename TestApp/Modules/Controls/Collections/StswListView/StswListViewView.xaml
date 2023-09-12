@@ -46,7 +46,13 @@
                                  ItemsSource="{Binding Items}"
                                  Margin="5"
                                  SelectionMode="{Binding SelectionMode}"
-                                 SelectedValuePath="Display"/>
+                                 SelectedValuePath="Display">
+                    <se:StswListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </se:StswListView.ItemsPanel>
+                </se:StswListView>
                 <TextBlock DockPanel.Dock="Top" Margin="10">
                     <Run Text="{Binding SelectedItems.Count, Mode=OneWay, ElementName=StswListView}" FontWeight="Bold"/>
                     <Run Text=" option(s) are selected"/>

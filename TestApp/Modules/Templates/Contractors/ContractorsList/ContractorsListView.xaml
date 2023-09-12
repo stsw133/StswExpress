@@ -12,11 +12,11 @@
         <local:ContractorsListContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel Margin="5">
+    <DockPanel>
         <!-- button panel -->
-        <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+        <se:StswShifter DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
-                <se:StswSplitButton Margin="3" IsDropDownOpen="{Binding IsRefreshOpen}" Command="{Binding RefreshCommand}">
+                <se:StswSplitButton Margin=" 0 0 6 0" IsDropDownOpen="{Binding IsRefreshOpen}" Command="{Binding RefreshCommand}">
                     <se:StswSplitButton.Header>
                         <se:StswHeader Content="Refresh data" IconData="{x:Static se:StswIcons.Refresh}" IconFill="{DynamicResource StswColor.Neutral}" IsBusy="{Binding RefreshCommand.IsWorking}"/>
                     </se:StswSplitButton.Header>
@@ -24,14 +24,14 @@
                         <se:StswHeader Content="Clear table" IconData="{x:Static se:StswIcons.Broom}" IconFill="{DynamicResource StswColor.Neutral}" IsBusy="{Binding ClearCommand.IsWorking}"/>
                     </se:StswButton>
                 </se:StswSplitButton>
-                <se:StswButton Margin="3" Command="{Binding SaveCommand}">
+                <se:StswButton Margin="0 0 6 0" Command="{Binding SaveCommand}">
                     <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}" IsBusy="{Binding SaveCommand.IsWorking}"/>
                 </se:StswButton>
-                <se:StswButton Margin="3" Command="{Binding ExportCommand}">
+                <se:StswButton Margin="0" Command="{Binding ExportCommand}">
                     <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{DynamicResource StswColor.Positive}" IsBusy="{Binding ExportCommand.IsWorking}"/>
                 </se:StswButton>
             </UniformGrid>
-        </ScrollViewer>
+        </se:StswShifter>
         <!-- progress panel -->
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
         <DockPanel DockPanel.Dock="Bottom">

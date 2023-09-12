@@ -10,33 +10,41 @@
         <local:StswButtonContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a control that provides a user interface element used to trigger actions upon being clicked.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control that provides a user interface element used to trigger actions upon being clicked.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- IsDefault -->
-                    <se:StswCheckBox IsChecked="{Binding IsDefault}" Margin="0 3">
-                        <Label Content="IsDefault" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsDefault" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsDefault}" Margin="0 3"/>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- Type -->
-                    <Label Content="Type:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Type:"/>
                     <se:StswComboBox Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Standard" Tag="0"/>
                         <ComboBoxItem Content="Positive" Tag="1"/>
@@ -47,93 +55,101 @@
                         <ComboBoxItem Content="Designer" Tag="6"/>
                     </se:StswComboBox>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswButton DockPanel.Dock="Top"
-                               Command="{Binding OnClickCommand}"
-                               IsDefault="{Binding IsDefault}"
-                               IsEnabled="{Binding IsEnabled}"
-                               Margin="5">
-                    <ContentControl>
-                        <ContentControl.Style>
-                            <Style TargetType="{x:Type ContentControl}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Type}" Value="0">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Click the button" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="1">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{DynamicResource StswColor.Positive}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="2">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{DynamicResource StswColor.Negative}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="3">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{DynamicResource StswColor.Neutral}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="4">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="5">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Type}" Value="6">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <se:StswHeader Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{DynamicResource StswColor.Designer}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                </se:StswButton>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="You clicked "/>
-                    <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
-                    <Run Text=" time(s)"/>
-                </TextBlock>
-            </DockPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswButton Command="{Binding OnClickCommand}"
+                           IsDefault="{Binding IsDefault}"
+                           IsEnabled="{Binding IsEnabled}"
+                           Margin="5"
+                           HorizontalAlignment="{Binding HorizontalAlignment}"
+                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                           VerticalAlignment="{Binding VerticalAlignment}"
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="{x:Type ContentControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="0">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Click the button" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="1">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Add new item" IconData="{x:Static se:StswIcons.PlusThick}" IconFill="{DynamicResource StswColor.Positive}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="2">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Delete item" IconData="{x:Static se:StswIcons.Delete}" IconFill="{DynamicResource StswColor.Negative}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="3">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Show item info" IconData="{x:Static se:StswIcons.Information}" IconFill="{DynamicResource StswColor.Neutral}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="4">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Save changes" IconData="{x:Static se:StswIcons.ContentSave}" IconFill="{DynamicResource StswColor.Modify}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="5">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Open file" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="6">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <se:StswHeader Content="Rotate right" IconData="{x:Static se:StswIcons.RotateRight}" IconFill="{DynamicResource StswColor.Designer}"/>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </se:StswButton>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="You clicked "/>
+                <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                <Run Text=" time(s)"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

@@ -10,53 +10,93 @@
         <local:StswCheckBoxContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
+                    <!-- HasContent -->
+                    <se:StswCheckBox Content="HasContent" FontSize="15" FontWeight="Medium" IsChecked="{Binding HasContent}" Margin="0 3"/>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- IsThreeState -->
-                    <se:StswCheckBox IsChecked="{Binding IsThreeState}" Margin="0 3">
-                        <Label Content="IsThreeState" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsThreeState" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsThreeState}" Margin="0 3"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5">
-                    <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[0]}"
-                                     Margin="0 0 0 5" Content="Option 1" Command="{Binding OnClickCommand}" CommandParameter="1"/>
-                    <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[1]}"
-                                     Margin="0 0 0 5" Content="Option 2" Command="{Binding OnClickCommand}" CommandParameter="2"/>
-                    <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[2]}"
-                                     Margin="0 0 0 5" Content="Option 3" Command="{Binding OnClickCommand}" CommandParameter="3"/>
-                    <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[3]}"
-                                     Margin="0 0 0 5" Content="Option 4" Command="{Binding OnClickCommand}" CommandParameter="4"/>
-                    <se:StswCheckBox IsEnabled="{Binding IsEnabled}" IsThreeState="{Binding IsThreeState}" IsChecked="{Binding SelectedOption[4]}"
-                                     Margin="0 0 0 5" Content="Option 5" Command="{Binding OnClickCommand}" CommandParameter="5"/>
-                </UniformGrid>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="You changed state of option "/>
-                    <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
-                </TextBlock>
-            </DockPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+                <se:StswCheckBox Command="{Binding OnClickCommand}"
+                                 CommandParameter="1"
+                                 Content="{Binding Content1}"
+                                 IsChecked="{Binding SelectedOption[0]}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsThreeState="{Binding IsThreeState}"
+                                 Margin="0 0 0 5"/>
+                <se:StswCheckBox Command="{Binding OnClickCommand}"
+                                 CommandParameter="2"
+                                 Content="{Binding Content2}"
+                                 IsChecked="{Binding SelectedOption[1]}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsThreeState="{Binding IsThreeState}"
+                                 Margin="0 0 0 5"/>
+                <se:StswCheckBox Command="{Binding OnClickCommand}"
+                                 CommandParameter="3"
+                                 Content="{Binding Content3}"
+                                 IsChecked="{Binding SelectedOption[2]}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsThreeState="{Binding IsThreeState}"
+                                 Margin="0 0 0 5"/>
+                <se:StswCheckBox Command="{Binding OnClickCommand}"
+                                 CommandParameter="4"
+                                 Content="{Binding Content4}"
+                                 IsChecked="{Binding SelectedOption[3]}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsThreeState="{Binding IsThreeState}"
+                                 Margin="0 0 0 5"/>
+                <se:StswCheckBox Command="{Binding OnClickCommand}"
+                                 CommandParameter="5"
+                                 Content="{Binding Content5}"
+                                 IsChecked="{Binding SelectedOption[4]}"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 IsThreeState="{Binding IsThreeState}"
+                                 Margin="0 0 0 5"/>
+            </UniformGrid>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="You changed state of option "/>
+                <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

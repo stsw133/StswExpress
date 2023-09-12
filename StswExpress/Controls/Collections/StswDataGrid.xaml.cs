@@ -177,6 +177,8 @@ public class StswDataGrid : DataGrid
 
                     specialColumn = stsw.Columns[0];
                 }
+                specialColumn.CanUserReorder = false;
+                specialColumn.CanUserResize = false;
 
                 /// set visibility for header
                 //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid and not null)

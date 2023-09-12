@@ -9,59 +9,56 @@
     <d:UserControl.DataContext>
         <local:DatabasesContext/>
     </d:UserControl.DataContext>
-    <se:StswScrollViewer IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <DockPanel Margin="5">
-            
-            <!-- button panel -->
-            <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                <UniformGrid Rows="1" HorizontalAlignment="Left">
-                    <se:StswButton Margin="3" Command="{Binding ImportCommand}">
-                        <se:StswHeader Content="Import databases"
-                                       IconData="{x:Static se:StswIcons.DatabaseImport}"
-                                       IconFill="{DynamicResource StswColor.Neutral}"
-                                       IconScale="2"
-                                       IsBusy="{Binding ImportCommand.IsWorking}"/>
-                    </se:StswButton>
-                    <se:StswButton Margin="3" Command="{Binding ExportCommand}">
-                        <se:StswHeader Content="Export databases"
-                                       IconData="{x:Static se:StswIcons.DatabaseExport}"
-                                       IconFill="{DynamicResource StswColor.Modify}"
-                                       IconScale="2"
-                                       IsBusy="{Binding ExportCommand.IsWorking}"/>
-                    </se:StswButton>
-                </UniformGrid>
-            </ScrollViewer>
-            <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
 
-            <!-- server -->
-            <StackPanel DockPanel.Dock="Top" Margin="3">
-                <Label Content="Server:"/>
-                <se:StswTextBox Text="{Binding Server, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
-            </StackPanel>
+    <DockPanel Margin="3">
+        <!-- button panel -->
+        <se:StswShifter DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <UniformGrid Rows="1" HorizontalAlignment="Left">
+                <se:StswButton Margin="0 0 6 0" Command="{Binding ImportCommand}">
+                    <se:StswHeader Content="Import databases"
+                                   IconData="{x:Static se:StswIcons.DatabaseImport}"
+                                   IconFill="{DynamicResource StswColor.Neutral}"
+                                   IconScale="2"
+                                   IsBusy="{Binding ImportCommand.IsWorking}"/>
+                </se:StswButton>
+                <se:StswButton Margin="0" Command="{Binding ExportCommand}">
+                    <se:StswHeader Content="Export databases"
+                                   IconData="{x:Static se:StswIcons.DatabaseExport}"
+                                   IconFill="{DynamicResource StswColor.Modify}"
+                                   IconScale="2"
+                                   IsBusy="{Binding ExportCommand.IsWorking}"/>
+                </se:StswButton>
+            </UniformGrid>
+        </se:StswShifter>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
 
-            <!-- database -->
-            <StackPanel DockPanel.Dock="Top" Margin="3">
-                <Label Content="Database:"/>
-                <se:StswTextBox Text="{Binding Database, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
-            </StackPanel>
+        <!-- server -->
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Server:"/>
+            <se:StswTextBox Text="{Binding Server, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
+        </StackPanel>
 
-            <!-- login -->
-            <StackPanel DockPanel.Dock="Top" Margin="3">
-                <Label Content="Login:"/>
-                <se:StswTextBox Text="{Binding Login, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
-            </StackPanel>
+        <!-- database -->
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Database:"/>
+            <se:StswTextBox Text="{Binding Database, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
+        </StackPanel>
 
-            <!-- password -->
-            <StackPanel DockPanel.Dock="Top" Margin="3">
-                <Label Content="Password:"/>
-                <se:StswPasswordBox Password="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
-                    <se:StswPasswordBox.Components>
-                        <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}"
-                                               IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
-                    </se:StswPasswordBox.Components>
-                </se:StswPasswordBox>
-            </StackPanel>
+        <!-- login -->
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Login:"/>
+            <se:StswTextBox Text="{Binding Login, Source={x:Static se:StswDatabase.CurrentDatabase}}"/>
+        </StackPanel>
 
-        </DockPanel>
-    </se:StswScrollViewer>
+        <!-- password -->
+        <StackPanel DockPanel.Dock="Top" Margin="3">
+            <Label Content="Password:"/>
+            <se:StswPasswordBox Password="{Binding Password, Source={x:Static se:StswDatabase.CurrentDatabase}}">
+                <se:StswPasswordBox.Components>
+                    <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}"
+                                           IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
+                </se:StswPasswordBox.Components>
+            </se:StswPasswordBox>
+        </StackPanel>
+    </DockPanel>
 </UserControl>

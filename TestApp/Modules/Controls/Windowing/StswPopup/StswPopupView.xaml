@@ -44,7 +44,7 @@
                                      Margin="5"/>
             </DockPanel>
             <se:StswPopup IsOpen="{Binding IsOpen}"
-                          MaxHeight="120" MaxWidth="300"
+                          MaxHeight="120"
                           Placement="MousePoint"
                           StaysOpen="False">
                 <StackPanel>

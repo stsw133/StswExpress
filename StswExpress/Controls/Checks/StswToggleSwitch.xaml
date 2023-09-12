@@ -13,8 +13,9 @@
         
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="SwitchMargin" Value="2"/>
-        
-        <Setter Property="VerticalAlignment" Value="Top"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
