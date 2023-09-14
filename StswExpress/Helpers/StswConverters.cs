@@ -585,10 +585,10 @@ public class StswAddConverter : MarkupExtension, IValueConverter
             {
                 return pmrArray.Length switch
                 {
-                    4 => new CornerRadius(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[2], val1.Bottom + pmrArray[3]),
-                    2 => new CornerRadius(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[0], val1.Bottom + pmrArray[1]),
-                    1 => new CornerRadius(val1.Left + pmrArray[0]),
-                    _ => new CornerRadius(val1.Left)
+                    4 => new Thickness(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[2], val1.Bottom + pmrArray[3]),
+                    2 => new Thickness(val1.Left + pmrArray[0], val1.Top + pmrArray[1], val1.Right + pmrArray[0], val1.Bottom + pmrArray[1]),
+                    1 => new Thickness(val1.Left + pmrArray[0]),
+                    _ => new Thickness(val1.Left)
                 };
             }
             else
@@ -693,10 +693,10 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
             {
                 return pmrArray.Length switch
                 {
-                    4 => new CornerRadius(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[2], val1.Bottom % pmrArray[3]),
-                    2 => new CornerRadius(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[0], val1.Bottom % pmrArray[1]),
-                    1 => new CornerRadius(val1.Left % pmrArray[0]),
-                    _ => new CornerRadius(val1.Left)
+                    4 => new Thickness(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[2], val1.Bottom % pmrArray[3]),
+                    2 => new Thickness(val1.Left % pmrArray[0], val1.Top % pmrArray[1], val1.Right % pmrArray[0], val1.Bottom % pmrArray[1]),
+                    1 => new Thickness(val1.Left % pmrArray[0]),
+                    _ => new Thickness(val1.Left)
                 };
             }
             else
@@ -766,10 +766,10 @@ public class StswMultiplyConverter : MarkupExtension, IValueConverter
             {
                 return pmrArray.Length switch
                 {
-                    4 => new CornerRadius(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[2], val1.Bottom * pmrArray[3]),
-                    2 => new CornerRadius(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[0], val1.Bottom * pmrArray[1]),
-                    1 => new CornerRadius(val1.Left * pmrArray[0]),
-                    _ => new CornerRadius(val1.Left)
+                    4 => new Thickness(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[2], val1.Bottom * pmrArray[3]),
+                    2 => new Thickness(val1.Left * pmrArray[0], val1.Top * pmrArray[1], val1.Right * pmrArray[0], val1.Bottom * pmrArray[1]),
+                    1 => new Thickness(val1.Left * pmrArray[0]),
+                    _ => new Thickness(val1.Left)
                 };
             }
             else

@@ -11,6 +11,8 @@
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        
+        <Setter Property="MaxDropDownHeight" Value="120"/>
 
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

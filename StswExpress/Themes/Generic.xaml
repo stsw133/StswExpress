@@ -45,6 +45,7 @@
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswSeparator.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswSidePanel.xaml"/>
         <ResourceDictionary Source="/StswExpress;component/Controls/Layout/StswZoomControl.xaml"/>
         
         <ResourceDictionary Source="/StswExpress;component/Controls/Media/StswImage.xaml"/>

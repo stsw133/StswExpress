@@ -8,12 +8,15 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="MaxDropDownHeight" Value="120"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
@@ -35,12 +38,12 @@
                                          Padding="0"
                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                         HorizontalContentAlignment="Stretch"
+                                         VerticalContentAlignment="Stretch"
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                            <ContentControl DockPanel.Dock="Right" Focusable="False" HorizontalAlignment="Right" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- popup -->
@@ -51,18 +54,28 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                                       SnapsToDevicePixels="True">
-                                    <se:StswScrollViewer Focusable="False" IsDynamic="True">
-                                        <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{TemplateBinding Items}"/>
-                                    </se:StswScrollViewer>
-                                </se:StswClippingBorder>
+                                <Grid Margin="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 1'}">
+                                    <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
+                                                           BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
+                                                           BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                                           Margin="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 -1'}"
+                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                           MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                                           SnapsToDevicePixels="True">
+                                        <se:StswScrollViewer Focusable="False" IsDynamic="True">
+                                            <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{TemplateBinding Items}"/>
+                                        </se:StswScrollViewer>
+                                    </se:StswClippingBorder>
+                                </Grid>
                             </Popup>
+                            <!-- subborder -->
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="Right"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
+                                    SnapsToDevicePixels="True"
+                                    Visibility="Hidden"/>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
                                               Focusable="False"

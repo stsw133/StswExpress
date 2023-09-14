@@ -65,6 +65,7 @@
                 <se:StswNavigationElement Text="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Text="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Text="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
+                <se:StswNavigationElement Text="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
                 <se:StswNavigationElement Text="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Media" IconData="{x:Static se:StswIcons.ImageOutline}">

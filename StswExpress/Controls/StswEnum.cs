@@ -94,6 +94,15 @@ public enum StswFilterType
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswSidePanel"/>'s hiding variant.
+/// </summary>
+public enum StswHidingVariant
+{
+    Hidden = 1,
+    Collapsed = 2
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswLogItem"/>'s type.
 /// </summary>
 public enum StswLogType

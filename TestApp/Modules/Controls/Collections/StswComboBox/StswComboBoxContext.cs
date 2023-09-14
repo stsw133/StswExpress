@@ -43,7 +43,19 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// Items
-    private List<string?> items = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
+    private List<string?> items = new()
+    {
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Option 5",
+        "Option 6",
+        "Option 7",
+        "Option 8",
+        "Option 9",
+        "Option 10"
+    };
     public List<string?> Items
     {
         get => items;

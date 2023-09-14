@@ -10,7 +10,9 @@
         <Setter Property="PopupBorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        
+
+        <Setter Property="MaxDropDownHeight" Value="120"/>
+
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -82,19 +84,17 @@
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
-                                        <se:StswListBox x:Name="PART_ListBox"
-                                                        Background="{DynamicResource StswPopup.Static.Background}"
-                                                        BorderThickness="0" CornerRadius="0"
-                                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                                        Focusable="False"
-                                                        ItemsSource="{TemplateBinding ItemsSource}"
-                                                        KeyboardNavigation.DirectionalNavigation="Contained"
-                                                        ScrollViewer.CanContentScroll="False"
-                                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                        SelectionMode="Multiple"
-                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </se:StswScrollViewer>
+                                    <se:StswListBox x:Name="PART_ListBox"
+                                                    Background="{DynamicResource StswPopup.Static.Background}"
+                                                    BorderThickness="0" CornerRadius="0"
+                                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                    Focusable="False"
+                                                    ItemsSource="{TemplateBinding ItemsSource}"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    ScrollViewer.CanContentScroll="True"
+                                                    SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                    SelectionMode="Multiple"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->

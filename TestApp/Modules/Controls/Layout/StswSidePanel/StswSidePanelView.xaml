@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="TestApp.StswSidePanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswSidePanelContext/>
+    </d:UserControl.DataContext>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:StswScrollViewer IsDynamic="True">
+                <StackPanel Margin="5">
+                    <Label>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+                                Represents a custom border control that applies clipping to its child element with rounded corners.
+                            </TextBlock>
+                        </StackPanel>
+                    </Label>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
+                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
+                    </se:StswCheckBox>
+                </StackPanel>
+            </se:StswScrollViewer>
+            <GridSplitter Margin="-5" Width="5"/>
+            <!-- control -->
+            <Grid Grid.Column="1">
+                <se:StswSidePanel IsEnabled="{Binding IsEnabled}" VerticalAlignment="Top">
+                    <UniformGrid HorizontalAlignment="Center" Rows="1">
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowMinimize}" Padding="3" Command="{Binding MinimizeCommand}"/>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowMaximize}" Padding="3" Command="{Binding MaximizeCommand}"/>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowRestore}" Padding="3" Command="{Binding RestoreCommand}"/>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Fullscreen}" Padding="3" Command="{Binding FullscreenCommand}"/>
+                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowClose}" Padding="3" Command="{Binding CloseCommand}"/>
+                    </UniformGrid>
+                </se:StswSidePanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

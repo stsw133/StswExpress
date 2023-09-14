@@ -77,8 +77,7 @@
                                BorderThickness="{TemplateBinding BorderThickness}"
                                CornerRadius="{TemplateBinding CornerRadius}"
                                SnapsToDevicePixels="True">
-            <Grid>
-                <!-- Grid is just a bugfix for ClippingBorder -->
+            <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
                 <ContentPresenter Focusable="False"
                                   Margin="{TemplateBinding Padding}"
                                   RecognizesAccessKey="True"
