@@ -9,6 +9,9 @@
         <Setter Property="MenuMode" Value="Disabled"/>
         <Setter Property="Scale" Value="auto"/>
         <Setter Property="Stretch" Value="Uniform"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -10,42 +10,77 @@
         <local:StswSidePanelContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a custom border control that applies clipping to its child element with rounded corners.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a custom border control that applies clipping to its child element with rounded corners.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
-                </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <Grid Grid.Column="1">
-                <se:StswSidePanel IsEnabled="{Binding IsEnabled}" VerticalAlignment="Top">
-                    <UniformGrid HorizontalAlignment="Center" Rows="1">
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowMinimize}" Padding="3" Command="{Binding MinimizeCommand}"/>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowMaximize}" Padding="3" Command="{Binding MaximizeCommand}"/>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowRestore}" Padding="3" Command="{Binding RestoreCommand}"/>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Fullscreen}" Padding="3" Command="{Binding FullscreenCommand}"/>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.WindowClose}" Padding="3" Command="{Binding CloseCommand}"/>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
                     </UniformGrid>
-                </se:StswSidePanel>
-            </Grid>
+                    <!-- IsEnabled -->
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
+                </StackPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswSidePanel IsEnabled="{Binding IsEnabled}"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <Border BorderBrush="{DynamicResource StswBorder.Static}" BorderThickness="2">
+                    <UniformGrid HorizontalAlignment="Center" Rows="1">
+                        <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding MinimizeCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.WindowMinimize}" Scale="1.5"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding MaximizeCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.WindowMaximize}" Scale="1.5"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding RestoreCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.WindowRestore}" Scale="1.5"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FullscreenCommand}">
+                            <se:StswIcon Data="{x:Static se:StswIcons.Fullscreen}" Scale="1.5"/>
+                        </se:StswButton>
+                        <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding CloseCommand}">
+                            <se:StswButton.Resources>
+                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="#BE22"/>
+                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="#7E22"/>
+                            </se:StswButton.Resources>
+                            <se:StswIcon Data="{x:Static se:StswIcons.WindowClose}" Scale="1.5"/>
+                        </se:StswButton>
+                    </UniformGrid>
+                </Border>
+            </se:StswSidePanel>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

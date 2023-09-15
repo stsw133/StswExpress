@@ -16,6 +16,10 @@
         <Setter Property="CornerRadius" Value="2"/>
         
         <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -8,6 +8,9 @@
 
         <Setter Property="ClipToBounds" Value="True"/>
         
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Disabled}"/>

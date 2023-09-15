@@ -711,7 +711,7 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
                 };
             }
         }
-        else return System.Convert.ToDouble(value, culture) * pmr;
+        else return System.Convert.ToDouble(value, culture) % pmr;
     }
 
     /// ConvertBack

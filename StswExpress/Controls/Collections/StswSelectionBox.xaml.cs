@@ -335,6 +335,21 @@ public class StswSelectionBox : UserControl
             typeof(Thickness),
             typeof(StswSelectionBox)
         );
+
+    /// <summary>
+    /// Gets or sets the thickness of the border used as separator between arrow icon and main button.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
+            typeof(StswSelectionBox)
+        );
     #endregion
 }
 

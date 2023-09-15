@@ -8,12 +8,15 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="MaxDropDownHeight" Value="120"/>
 
         <Setter Property="ComponentsAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -58,7 +61,11 @@
                         </se:StswToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                            <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                            Focusable="False"
+                                            HorizontalAlignment="Right"
+                                            Width="24"
+                                            Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- components -->
@@ -97,6 +104,13 @@
                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </se:StswClippingBorder>
                             </Popup>
+                            <!-- subborder -->
+                            <Border x:Name="PART_SubBorder"
+                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                    BorderThickness="{TemplateBinding SubBorderThickness}"
+                                    SnapsToDevicePixels="True"
+                                    Visibility="Hidden"/>
                             <!-- content -->
                             <Grid>
                                 <TextBlock x:Name="PART_Placeholder"

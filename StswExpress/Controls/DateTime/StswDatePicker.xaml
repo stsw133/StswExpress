@@ -17,6 +17,8 @@
         <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
         
         <Setter Property="ComponentsAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -34,7 +36,7 @@
                             <se:StswDropButton x:Name="PART_FunctionButton"
                                                DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
                                                ArrowVisibility="Collapsed" Focusable="False"
-                                               BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" Padding="0" Width="24"
+                                               BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDropButton.Resources>
                                     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>

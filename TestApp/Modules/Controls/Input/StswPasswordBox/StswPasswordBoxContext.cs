@@ -5,14 +5,19 @@ namespace TestApp;
 
 public class StswPasswordBoxContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
     public ICommand RandomizeCommand { get; set; }
 
     public StswPasswordBoxContext()
     {
+        ClearCommand = new StswCommand(Clear);
         RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events and methods
+    /// Command: clear
+    private void Clear() => Password = string.Empty;
+
     /// Command: randomize
     private void Randomize() => Password = Guid.NewGuid().ToString();
     #endregion

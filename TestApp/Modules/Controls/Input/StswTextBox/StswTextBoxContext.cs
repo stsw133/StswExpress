@@ -5,14 +5,19 @@ namespace TestApp;
 
 public class StswTextBoxContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
     public ICommand RandomizeCommand { get; set; }
 
     public StswTextBoxContext()
     {
+        ClearCommand = new StswCommand(Clear);
         RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events and methods
+    /// Command: clear
+    private void Clear() => Text = string.Empty;
+
     /// Command: randomize
     private void Randomize() => Text = Guid.NewGuid().ToString();
     #endregion

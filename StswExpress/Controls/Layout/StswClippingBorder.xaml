@@ -5,7 +5,10 @@
     <Style TargetType="{x:Type se:StswClippingBorder}">
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
         <Setter Property="BorderThickness" Value="2"/>
-        
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Disabled}"/>

@@ -10,61 +10,78 @@
         <local:StswComboBoxContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a control that allows selection from a drop-down list of items.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control that allows selection from a drop-down list of items.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- Components -->
-                    <se:StswCheckBox IsChecked="{Binding Components}" Margin="0 3">
-                        <Label Content="Components" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="Components" FontSize="15" FontWeight="Medium" IsChecked="{Binding Components}" Margin="0 3"/>
                     <!-- IsEditable -->
-                    <se:StswCheckBox IsChecked="{Binding IsEditable}" Margin="0 3">
-                        <Label Content="IsEditable" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEditable" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEditable}" Margin="0 3"/>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- IsReadOnly -->
-                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}" Margin="0 3">
-                        <Label Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsReadOnly" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsReadOnly}" Margin="0 3"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswComboBox DockPanel.Dock="Top"
-                                 IsEditable="{Binding IsEditable}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsReadOnly="{Binding IsReadOnly}"
-                                 ItemsSource="{Binding Items}"
-                                 Margin="5"
-                                 Placeholder="Select item..."
-                                 SelectedItem="{Binding SelectedItem}">
-                    <se:StswComboBox.Components>
-                        <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}" Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}" Command="{Binding ClearCommand}"/>
-                    </se:StswComboBox.Components>
-                </se:StswComboBox>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
-                    <Run Text=" is selected"/>
-                </TextBlock>
-            </DockPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswComboBox IsEditable="{Binding IsEditable}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsReadOnly="{Binding IsReadOnly}"
+                             ItemsSource="{Binding Items}"
+                             Margin="5"
+                             Placeholder="Select item..."
+                             SelectedItem="{Binding SelectedItem}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswComboBox.Components>
+                    <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}"
+                                            Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"
+                                            Command="{Binding RandomizeCommand}"/>
+                    <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}"
+                                            Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"
+                                            Command="{Binding ClearCommand}"/>
+                </se:StswComboBox.Components>
+            </se:StswComboBox>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="{Binding SelectedItem}" FontWeight="Bold"/>
+                <Run Text=" is selected"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

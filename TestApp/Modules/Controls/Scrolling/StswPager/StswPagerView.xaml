@@ -10,51 +10,69 @@
         <local:StswPagerContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a control that extends the ScrollViewer class with additional functionality.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control that extends the ScrollViewer class with additional functionality.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- ItemsSource -->
-                    <Label Content="ItemsSource:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ItemsSource:"/>
                     <se:StswButton Margin="0 0 0 3" Command="{Binding SelectItemsSourceCommand}" HorizontalContentAlignment="{Binding DirectoryPath, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='~Center~Left'}">
                         <se:StswHeader Content="{Binding DirectoryPath}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}" IconScale="1.33" Padding="0"/>
                     </se:StswButton>
                     <!-- Orientation -->
-                    <Label Content="Orientation:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Orientation:"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Orientation}" SelectedValuePath="Value"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5">
-                <se:StswPager x:Name="StswPager"
-                              IsEnabled="{Binding IsEnabled}"
-                              ItemsSource="{Binding ItemsSource}"
-                              Margin="5"
-                              Orientation="{Binding Orientation}">
-                    <se:StswZoomControl>
-                        <se:StswImage Source="{Binding}"/>
-                    </se:StswZoomControl>
-                </se:StswPager>
-            </DockPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswPager IsEnabled="{Binding IsEnabled}"
+                          ItemsSource="{Binding ItemsSource}"
+                          Margin="5"
+                          Orientation="{Binding Orientation}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswZoomControl>
+                    <se:StswImage Source="{Binding}"/>
+                </se:StswZoomControl>
+            </se:StswPager>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

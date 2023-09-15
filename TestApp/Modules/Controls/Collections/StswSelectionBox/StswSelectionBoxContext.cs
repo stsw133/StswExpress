@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
@@ -7,12 +8,14 @@ namespace TestApp;
 public class StswSelectionBoxContext : ControlsContext
 {
     public ICommand ClearCommand { get; set; }
+    public ICommand RandomizeCommand { get; set; }
     public ICommand? SetTextCommand { get; set; }
 
     public StswSelectionBoxContext()
     {
         ClearCommand = new StswCommand(Clear);
-        SetTextCommand = null;
+        RandomizeCommand = new StswCommand(Randomize);
+        SetTextCommand = null; /// this command is only for updating text in box when popup did not load yet
     }
 
     #region Events and methods
@@ -20,6 +23,13 @@ public class StswSelectionBoxContext : ControlsContext
     private void Clear()
     {
         Items.Where(x => x.IsSelected).ToList().ForEach(x => x.IsSelected = false);
+        SetTextCommand?.Execute(null);
+    }
+    /// Command: randomize
+    private void Randomize()
+    {
+        foreach (var item in Items.Where(x => new Random().NextDouble() > 0.5))
+            item.IsSelected = !item.IsSelected;
         SetTextCommand?.Execute(null);
     }
     #endregion
