@@ -56,7 +56,11 @@
                         </se:StswToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                            <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                            Focusable="False"
+                                            HorizontalAlignment="Right"
+                                            Width="24"
+                                            Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- components -->
@@ -82,19 +86,17 @@
                                                        CornerRadius="{TemplateBinding CornerRadius}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
-                                        <se:StswListBox x:Name="PART_ListBox"
-                                                        Background="{DynamicResource StswPopup.Static.Background}"
-                                                        BorderThickness="0" CornerRadius="0"
-                                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                                        Focusable="False"
-                                                        ItemsSource="{TemplateBinding ItemsSource}"
-                                                        KeyboardNavigation.DirectionalNavigation="Contained"
-                                                        ScrollViewer.CanContentScroll="False"
-                                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                        SelectionMode="Multiple"
-                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </se:StswScrollViewer>
+                                    <se:StswListBox x:Name="PART_ListBox"
+                                                    Background="{DynamicResource StswPopup.Static.Background}"
+                                                    BorderThickness="0" CornerRadius="0"
+                                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                    Focusable="False"
+                                                    ItemsSource="{TemplateBinding ItemsSource}"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    ScrollViewer.CanContentScroll="True"
+                                                    SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                    SelectionMode="Multiple"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </se:StswClippingBorder>
                             </Popup>
                             <!-- content -->

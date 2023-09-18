@@ -318,18 +318,18 @@ public class StswDatePicker : TextBox
         }
     }
 
-    /// <summary>
-    /// Gets or sets the text value of the control.
-    /// </summary>
-    [Browsable(false)]
-    //[Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public new string? Text
-    {
-        get => base.Text;
-        internal set => base.Text = value;
-    }
+    ///// <summary>
+    ///// Gets or sets the text value of the control.
+    ///// </summary>
+    //[Browsable(false)]
+    ////[Bindable(false)]
+    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    //[EditorBrowsable(EditorBrowsableState.Never)]
+    //public new string? Text
+    //{
+    //    get => base.Text;
+    //    internal set => base.Text = value;
+    //}
     #endregion
 
     #region Style properties

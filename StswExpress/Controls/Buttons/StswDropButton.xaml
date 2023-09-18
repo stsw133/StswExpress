@@ -33,8 +33,8 @@
                                          Padding="0"
                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                         HorizontalContentAlignment="Stretch"
+                                         VerticalContentAlignment="Stretch">
                         <se:StswToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
                                 <se:StswClippingBorder Background="{TemplateBinding Background}"
@@ -55,7 +55,11 @@
                         </se:StswToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                            <ContentControl DockPanel.Dock="Right"
+                                            Focusable="False"
+                                            HorizontalAlignment="Right"
+                                            Width="24"
+                                            Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
                             <!-- popup -->

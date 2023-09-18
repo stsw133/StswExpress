@@ -33,11 +33,14 @@ public class StswSelectionBox : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
             listBox.SelectionChanged += (s, e) => SetText();
 
-        base.OnApplyTemplate();
+        /// SetTextCommand
+        SetTextCommand ??= new StswCommand(SetText);
     }
 
     /// <summary>
@@ -250,6 +253,21 @@ public class StswSelectionBox : UserControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    public ICommand SetTextCommand
+    {
+        get => (ICommand)GetValue(SetTextCommandProperty);
+        set => SetValue(SetTextCommandProperty, value);
+    }
+    public static readonly DependencyProperty SetTextCommandProperty
+        = DependencyProperty.Register(
+            nameof(SetTextCommand),
+            typeof(ICommand),
             typeof(StswSelectionBox)
         );
 

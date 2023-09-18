@@ -19,6 +19,7 @@ public class StswWindow : Window
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+        SetValue(ContentDialogBindingProperty, new StswContentDialogModel());
     }
     static StswWindow()
     {
@@ -248,12 +249,12 @@ public class StswWindow : Window
     /// <summary>
     /// Gets or sets the content of the custom window dialog.
     /// </summary>
-    public StswContentDialogModel? ContentDialogBinding
+    public StswContentDialogModel ContentDialogBinding
     {
-        get => (StswContentDialogModel?)GetValue(ContentDialogProperty);
-        set => SetValue(ContentDialogProperty, value);
+        get => (StswContentDialogModel)GetValue(ContentDialogBindingProperty);
+        set => SetValue(ContentDialogBindingProperty, value);
     }
-    public static readonly DependencyProperty ContentDialogProperty
+    public static readonly DependencyProperty ContentDialogBindingProperty
         = DependencyProperty.Register(
             nameof(ContentDialogBinding),
             typeof(StswContentDialogModel),

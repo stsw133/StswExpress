@@ -94,6 +94,9 @@
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
                         </Trigger>
+                        <Trigger Property="IconData" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}"/>
                         </Trigger>
