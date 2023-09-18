@@ -165,7 +165,7 @@
                                 </Grid.ContextMenu>
                             </Grid>
                             <!-- content grid -->
-                            <Grid x:Name="PART_Content" Grid.Row="1" Focusable="False" IsEnabled="False" IsHitTestVisible="False">
+                            <Grid x:Name="PART_Content" Grid.Row="1">
                                 <AdornerDecorator>
                                     <ContentPresenter/>
                                 </AdornerDecorator>
@@ -198,15 +198,10 @@
                             </Grid>
                             
                             <!-- content dialog -->
-                            <se:StswContentDialog Grid.Row="1" BindingModel="{Binding ContentDialogBinding}"/>
+                            <se:StswContentDialog Grid.Row="1" BindingModel="{TemplateBinding ContentDialogBinding}"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ContentDialogBinding" Value="{x:Null}">
-                            <Setter Property="Focusable" Value="True" TargetName="PART_Content"/>
-                            <Setter Property="IsEnabled" Value="True" TargetName="PART_Content"/>
-                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_Content"/>
-                        </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="#B777" TargetName="PART_Header"/>

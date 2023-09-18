@@ -213,6 +213,21 @@ public class StswFilter : UserControl
     internal StswFilterMode? DefaultFilterMode { get; set; } = null;
 
     /// <summary>
+    /// Gets or sets the visibility of filter mode.
+    /// </summary>
+    public Visibility FilterModeVisibility
+    {
+        get => (Visibility)GetValue(FilterModeVisibilityProperty);
+        set => SetValue(FilterModeVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty FilterModeVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(FilterModeVisibility),
+            typeof(Visibility),
+            typeof(StswFilter)
+        );
+
+    /// <summary>
     /// Gets or sets the SQL column used for filtering.
     /// </summary>
     public string FilterSqlColumn

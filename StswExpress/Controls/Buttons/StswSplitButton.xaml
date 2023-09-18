@@ -38,7 +38,9 @@
                                                Focusable="False"
                                                BorderThickness="0" CornerRadius="0" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                               IsReadOnly="{TemplateBinding IsReadOnly}">
+                                               IsReadOnly="{TemplateBinding IsReadOnly}"
+                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <se:StswDropButton.Template>
                                     <ControlTemplate TargetType="{x:Type se:StswDropButton}">
                                         <se:StswToggleButton x:Name="PART_MainButton"
@@ -51,8 +53,8 @@
                                                              Padding="0"
                                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                             HorizontalContentAlignment="Stretch"
+                                                             VerticalContentAlignment="Stretch">
                                             <ToggleButton.Template>
                                                 <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
                                                     <se:StswClippingBorder Background="{TemplateBinding Background}"
@@ -73,7 +75,11 @@
                                             </ToggleButton.Template>
                                             <DockPanel>
                                                 <!-- arrow -->
-                                                <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{TemplateBinding ArrowVisibility}">
+                                                <ContentControl DockPanel.Dock="Right"
+                                                                Focusable="False"
+                                                                HorizontalAlignment="Right"
+                                                                Width="24"
+                                                                Visibility="{TemplateBinding ArrowVisibility}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                                                 </ContentControl>
                                                 <!-- popup -->
@@ -154,8 +160,10 @@
                                            CornerRadius="0"
                                            Padding="{TemplateBinding Padding}"
                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>

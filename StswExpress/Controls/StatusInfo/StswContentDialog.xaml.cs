@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -46,7 +47,10 @@ public class StswContentDialog : UserControl
         = DependencyProperty.Register(
             nameof(IsOpen),
             typeof(bool),
-            typeof(StswContentDialog)
+            typeof(StswContentDialog),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     #endregion
 

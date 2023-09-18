@@ -2,12 +2,14 @@
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System.Windows.Markup;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a control displaying vector icon.
 /// </summary>
+[ContentProperty(nameof(Data))]
 public class StswIcon : UserControl
 {
     static StswIcon()
