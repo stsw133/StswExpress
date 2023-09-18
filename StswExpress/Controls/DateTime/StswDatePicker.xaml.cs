@@ -317,9 +317,9 @@ public class StswDatePicker : TextBox
         }
     }
 
-    //// <summary>
-    //// Gets or sets the text value of the control.
-    //// </summary>
+    ///// <summary>
+    ///// Gets or sets the text value of the control.
+    ///// </summary>
     //[Browsable(false)]
     ////[Bindable(false)]
     //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
