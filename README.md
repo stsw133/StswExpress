@@ -7,3 +7,5 @@ WPF .NET 6.0 library containing:
 Licencing:
 - icons contained in StswIcons class (with a few exceptions) are copied from Material Design Icons: https://pictogrammers.com/library/mdi/
 - themes are modified version from DynamicAero2: https://github.com/manju-summoner/DynamicAero2
+
+Packages are available in NuGet at the following link: https://www.nuget.org/packages/StswExpress
