@@ -76,7 +76,7 @@ public class ContractorsListContext : StswObservableObject
         LoadingActions++;
 
         FiltersContractors.Refresh?.Invoke();
-        await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter, FiltersContractors.SqlParameters));
+        await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter!, FiltersContractors.SqlParameters!));
         
         LoadingActions--;
     }
@@ -86,9 +86,12 @@ public class ContractorsListContext : StswObservableObject
     {
         LoadingActions++;
 
-        if (SQL.SetContractors(ListContractors))
+        var test = false;
+
+        await Task.Run(() => test = SQL.SetContractors(ListContractors));
+        if (test)
         {
-            await Task.Run(() => Refresh());
+            RefreshCommand.Execute(null);
             MessageBox.Show("Data saved successfully.");
         }
 

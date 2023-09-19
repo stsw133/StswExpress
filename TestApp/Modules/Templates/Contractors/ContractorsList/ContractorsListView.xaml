@@ -12,7 +12,7 @@
         <local:ContractorsListContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
+    <DockPanel IsHitTestVisible="{Binding SaveCommand.IsWorking, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
         <!-- button panel -->
         <se:StswShifter DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
@@ -62,9 +62,9 @@
             </TextBlock>
         </DockPanel>
         <!-- data grid -->
-        <se:StswDataGrid Margin="3"
-                         FiltersData="{Binding FiltersContractors, Mode=OneWayToSource}"
+        <se:StswDataGrid FiltersData="{Binding FiltersContractors, Mode=OneWayToSource}"
                          ItemsSource="{Binding ListContractors}"
+                         Margin="3"
                          RefreshCommand="{Binding RefreshCommand}"
                          SelectedItem="{Binding SelectedContractor}">
             <DataGrid.Resources>
@@ -94,7 +94,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswImage MaxHeight="64" MaxWidth="64" MenuMode="Full" Source="{Binding Icon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <se:StswImage MaxHeight="64" MaxWidth="64" MenuMode="Full" Source="{Binding IconSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

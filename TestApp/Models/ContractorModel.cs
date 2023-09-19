@@ -26,12 +26,25 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     }
 
     /// Icon
-    private ImageSource? icon;
+    private byte[]? icon;
     [StswExport(IsColumnIgnored = true)]
-    public ImageSource? Icon
+    public byte[]? Icon
     {
         get => icon;
-        set => SetProperty(ref icon, value);
+        set
+        {
+            SetProperty(ref icon, value);
+            if (value != null)
+                IconSource = value.ToBitmapImage();
+        }
+    }
+
+    private ImageSource? iconSource;
+    [StswExport(IsColumnIgnored = true)]
+    public ImageSource? IconSource
+    {
+        get => iconSource;
+        set => SetProperty(ref iconSource, value);
     }
 
     /// Name

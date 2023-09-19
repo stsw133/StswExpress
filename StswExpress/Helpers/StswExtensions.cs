@@ -81,26 +81,30 @@ public static class StswExtensions
     /// <summary>
     /// Converts <see cref="DataTable"/> to <see cref="List{T}"/>.
     /// </summary>
-    public static List<T> ToObjectList<T>(this DataTable value) where T : class, new()
+    public static List<T> ToObjectList<T>(this DataTable dt) where T : class, new()
     {
         var result = new List<T>();
+        var objProps = new T().GetType().GetProperties().ToList();
 
-        foreach (var row in value.AsEnumerable())
+        var indexer = new List<int>();
+        foreach (DataColumn col in dt.Columns)
+            indexer.Add(objProps.FindIndex(x => x.Name.ToLower() == col.ColumnName.ToLower()));
+        int[] mappings = indexer.Where(x => x >= 0).ToArray();
+
+        foreach (var row in dt.AsEnumerable())
         {
             var obj = new T();
 
-            foreach (var prop in obj.GetType().GetProperties().Where(p => p.Name.ToLower().In(value.Columns.Cast<DataColumn>().Select(x => x.ColumnName.ToLower()))))
+            for (int i = 0; i < mappings.Length; i++)
             {
                 try
                 {
-                    var propertyInfo = obj.GetType().GetProperty(prop.Name);
+                    var propertyInfo = objProps[mappings[i]];
 
-                    if (propertyInfo?.PropertyType == typeof(ImageSource))
-                        propertyInfo.SetValue(obj, ((byte[])row[prop.Name]).ToBitmapImage(), null);
-                    else if (propertyInfo?.PropertyType != typeof(object))
-                        propertyInfo?.SetValue(obj, row[prop.Name].ConvertTo(propertyInfo.PropertyType), null);
+                    if (propertyInfo?.PropertyType != typeof(object))
+                        propertyInfo?.SetValue(obj, row[i].ConvertTo(propertyInfo.PropertyType), null);
                     else
-                        propertyInfo?.SetValue(obj, row[prop.Name], null);
+                        propertyInfo?.SetValue(obj, row[i], null);
                 }
                 catch
                 {
