@@ -22,8 +22,8 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
                         <se:StswClippingBorder.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
-                                            ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                            <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:Settings.Default}}"
+                                            ScaleY="{Binding iSize, Source={x:Static se:Settings.Default}}"/>
                         </se:StswClippingBorder.LayoutTransform>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -94,9 +94,9 @@
                                                 <DockPanel>
                                                     <Slider x:Name="PART_MenuScalingSlider"
                                                             Minimum="0.5" Maximum="3" TickFrequency="0.1" IsSnapToTickEnabled="True" Width="220"
-                                                            Value="{Binding iSize, Source={x:Static se:StswSettings.Default}, UpdateSourceTrigger=PropertyChanged}"/>
+                                                            Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}"/>
                                                     <TextBlock Margin="5 0 0 0" Width="40" VerticalAlignment="Center">
-                                                        <Run Text="{Binding iSize, Source={x:Static se:StswSettings.Default}, StringFormat={}{0:N0}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=100}"/>
+                                                        <Run Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=100}"/>
                                                         <Run Text="%"/>
                                                     </TextBlock>
                                                 </DockPanel>
@@ -106,17 +106,17 @@
                                                 <MenuItem.Icon>
                                                     <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </MenuItem.Icon>
-                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=-1}">
+                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=-1}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text=" " FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}">
+                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:StswSettings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=1}">
+                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=1}">
                                                     <MenuItem.Icon>
                                                         <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>

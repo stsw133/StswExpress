@@ -20,6 +20,9 @@ public class StswWindow : Window
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
         SetValue(ContentDialogBindingProperty, new StswContentDialogModel());
+
+        var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
+        CommandBindings.Add(new CommandBinding(commandBinding, (s, e) => Fullscreen = !Fullscreen));
     }
     static StswWindow()
     {
@@ -64,7 +67,7 @@ public class StswWindow : Window
 
         /// Menu: scaling
         if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
-            mniScaling.Click += (s, e) => StswSettings.Default.iSize = 1;
+            mniScaling.Click += (s, e) => Settings.Default.iSize = 1;
         if (GetTemplateChild("PART_MenuScalingSlider") is Slider sliScaling)
             sliScaling.ValueChanged += (s, e) => UpdateChrome();
         /// Menu: theme
@@ -113,7 +116,7 @@ public class StswWindow : Window
     private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
-        var iSize = StswSettings.Default.iSize;
+        var iSize = Settings.Default.iSize;
 
         if (Fullscreen)
         {
@@ -159,12 +162,10 @@ public class StswWindow : Window
             Application.Current.Resources.MergedDictionaries.Add(new Theme());
         var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
 
-        if (themeID < 0)
-            theme.Color = StswFn.GetWindowsTheme();
-        else
-            theme.Color = (ThemeColor)themeID;
-
-        StswSettings.Default.Theme = themeID;
+        //var stswResDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute));
+        //if (stswResDict != null && stswResDict.MergedDictionaries[0] is Theme theme)
+            theme.Color = themeID < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)themeID;
+        Settings.Default.Theme = themeID;
     }
 
     /// <summary>

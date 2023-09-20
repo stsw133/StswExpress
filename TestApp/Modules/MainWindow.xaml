@@ -10,7 +10,7 @@
 
     <se:StswNavigation Padding="5" ItemsWidth="210">
         <se:StswNavigationElement/>
-        <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext"/>
+        <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}">
             <se:StswNavigationElement Text="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">
@@ -101,10 +101,10 @@
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>
-        <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">
+        <se:StswNavigationElement Text="Templates" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}">
             <se:StswNavigationElement Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" ContextNamespace="TestApp.DatabasesContext"/>
             <se:StswNavigationElement Text="Account" IconData="{x:Static se:StswIcons.Account}" IsEnabled="False"/>
-            <se:StswNavigationElement Text="Contractors" IconData="{x:Static se:StswIcons.AccountGroup}" ContextNamespace="TestApp.ContractorsContext" IsChecked="True"/>
+            <se:StswNavigationElement Text="Contractors" IconData="{x:Static se:StswIcons.AccountGroup}" ContextNamespace="TestApp.ContractorsContext"/>
             <se:StswNavigationElement Text="Articles" IconData="{x:Static se:StswIcons.Package}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Documents" IconData="{x:Static se:StswIcons.FileDocument}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Attributes" IconData="{x:Static se:StswIcons.Tag}" IsEnabled="False"/>

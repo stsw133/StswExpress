@@ -2,10 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace StswExpress;
 
@@ -17,10 +15,9 @@ public class StswToggleSwitch : ToggleButton
     }
 
     #region Events & methods
-    private Border? switchBorder, outerBorder;
+    private Border? switchBorder, mainBorder;
     private Grid? switchGrid;
-    private Path? path;
-    private Viewbox? checkedPath, uncheckedPath;
+    private StswIcon? path, checkedPath, uncheckedPath;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -31,27 +28,27 @@ public class StswToggleSwitch : ToggleButton
 
         if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
             this.switchBorder = switchBorder;
-        if (GetTemplateChild("PART_OuterBorder") is Border outerBorder)
-            this.outerBorder = outerBorder;
+        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
+            this.mainBorder = mainBorder;
         if (GetTemplateChild("PART_SwitchGrid") is Grid switchGrid)
             this.switchGrid = switchGrid;
-        if (GetTemplateChild("PART_Path") is Path path)
+        if (GetTemplateChild("PART_Icon") is StswIcon path)
         {
             path.Opacity = (IsChecked == true ? 1 : 0);
             this.path = path;
         }
-        if (GetTemplateChild("PART_CheckedPath") is Viewbox checkedPath)
+        if (GetTemplateChild("PART_CheckedPath") is StswIcon checkedPath)
             this.checkedPath = checkedPath;
-        if (GetTemplateChild("PART_UncheckedPath") is Viewbox uncheckedPath)
+        if (GetTemplateChild("PART_UncheckedPath") is StswIcon uncheckedPath)
             this.uncheckedPath = uncheckedPath;
 
         Loaded += (s, e) => AdjustSize();
         SizeChanged += (s, e) => AdjustSize();
     }
 
-    private Thickness checkedMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + SwitchMargin.Right + SwitchMargin.Left), 0, 0, 0) : new Thickness(0);
+    private Thickness checkedMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + Padding.Right + Padding.Left), 0, 0, 0) : new Thickness(0);
     private Thickness uncheckedMargin => new Thickness(0);
-    private Thickness indeterminateMargin => outerBorder != null ? new Thickness(outerBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
+    private Thickness indeterminateMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
     /*
     /// <summary>
     /// 
@@ -110,10 +107,10 @@ public class StswToggleSwitch : ToggleButton
     {
         if (switchBorder != null)
             switchBorder.CornerRadius = new CornerRadius(
-                    CornerRadius.TopLeft - BorderThickness.Top - SwitchMargin.Top,
-                    CornerRadius.TopRight - BorderThickness.Top - SwitchMargin.Top,
-                    CornerRadius.BottomLeft - BorderThickness.Bottom - SwitchMargin.Bottom,
-                    CornerRadius.BottomRight - BorderThickness.Bottom - SwitchMargin.Bottom
+                    CornerRadius.TopLeft - BorderThickness.Top - Padding.Top,
+                    CornerRadius.TopRight - BorderThickness.Top - Padding.Top,
+                    CornerRadius.BottomLeft - BorderThickness.Bottom - Padding.Bottom,
+                    CornerRadius.BottomRight - BorderThickness.Bottom - Padding.Bottom
                 );
 
         if (switchGrid != null)
@@ -248,22 +245,6 @@ public class StswToggleSwitch : ToggleButton
             typeof(Geometry),
             typeof(StswToggleSwitch)
         );
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public Thickness SwitchMargin
-    {
-        get => (Thickness)GetValue(SwitchMarginProperty);
-        set => SetValue(SwitchMarginProperty, value);
-    }
-    public static readonly DependencyProperty SwitchMarginProperty
-        = DependencyProperty.Register(
-            nameof(SwitchMargin),
-            typeof(Thickness),
-            typeof(StswToggleSwitch)
-        );
-
     #endregion
 
     #region Animations

@@ -9,10 +9,9 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="3"/>
-        
-        <Setter Property="IconScale" Value="1.33"/>
-        <Setter Property="SwitchMargin" Value="2"/>
+        <Setter Property="Padding" Value="2"/>
+
+        <Setter Property="IconScale" Value="1.5"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -22,62 +21,76 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswToggleSwitch}">
-                    <DockPanel>
-                        <Border x:Name="PART_OuterBorder"
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- box -->
+                        <Border x:Name="PART_MainBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
-                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}">
-                            <Grid Margin="{TemplateBinding SwitchMargin}">
+                                SnapsToDevicePixels="True">
+                            <Grid Margin="{TemplateBinding Padding}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Viewbox x:Name="PART_CheckedPath" Grid.Column="0" Height="30" Width="30">
-                                    <Path Fill="{TemplateBinding CheckedGlyphBrush}"
-                                          Data="{TemplateBinding IconChecked}"
-                                          Width="24"
-                                          Height="24"/>
-                                </Viewbox>
-                                <Viewbox x:Name="PART_UncheckedPath" Grid.Column="1" Height="30" Width="30">
-                                    <Path Fill="{TemplateBinding UncheckedGlyphBrush}"
-                                          Data="{TemplateBinding IconUnchecked}"
-                                          Width="24"
-                                          Height="24"/>
-                                </Viewbox>
+                                <se:StswIcon x:Name="PART_CheckedPath" Grid.Column="0"
+                                             Data="{TemplateBinding IconChecked}"
+                                             Fill="{TemplateBinding CheckedGlyphBrush}"
+                                             Scale="{TemplateBinding IconScale}"/>
+                                <se:StswIcon x:Name="PART_UncheckedPath" Grid.Column="1"
+                                             Data="{TemplateBinding IconUnchecked}"
+                                             Fill="{TemplateBinding UncheckedGlyphBrush}"
+                                             Scale="{TemplateBinding IconScale}"/>
                                 <Grid x:Name="PART_SwitchGrid" Grid.ColumnSpan="2"
                                       HorizontalAlignment="Left"
                                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
                                     <Border x:Name="PART_SwitchBorder" Grid.ColumnSpan="2"
-                                            Background="#999"
+                                            Background="{DynamicResource StswBorder.Static}"
                                             HorizontalAlignment="Left">
-                                        <Viewbox Height="30" Width="30">
-                                            <Path x:Name="PART_Path" 
-                                                  Fill="{TemplateBinding GlyphBrush}"
-                                                  Data="{TemplateBinding Icon}"
-                                                  Width="24"
-                                                  Height="24"/>
-                                        </Viewbox>
+                                        <se:StswIcon x:Name="PART_Icon"
+                                                     Data="{TemplateBinding Icon}"
+                                                     Fill="{TemplateBinding GlyphBrush}"
+                                                     Scale="{TemplateBinding IconScale}"/>
                                     </Border>
                                 </Grid>
                             </Grid>
                         </Border>
                         <!-- content -->
-                        <ContentPresenter Focusable="False"
-                                          Margin="{TemplateBinding Padding}"
+                        <ContentPresenter x:Name="PART_Content" Grid.Column="1"
+                                          Focusable="False"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </DockPanel>
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswToggle.Disabled.Background}" TargetName="PART_OuterBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswToggle.Disabled.Border}" TargetName="PART_OuterBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswToggle.Disabled.Foreground}" TargetName="PART_Path"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswToggle.Disabled.Foreground}"/>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>
                         </Trigger>
+                        <Trigger Property="HasContent" Value="True">
+                            <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Content"/>
+                            <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
+                            <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=2}" TargetName="PART_MainBorder"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Foreground}" TargetName="PART_Icon"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="IsEnabled" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.CheckedAndDisabled.Background}" TargetName="PART_SwitchBorder"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

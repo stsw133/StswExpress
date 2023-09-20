@@ -72,7 +72,7 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                <ContentControl>
+                <ContentControl IsTabStop="False">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Style.Triggers>
