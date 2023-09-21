@@ -84,12 +84,8 @@ public static class StswExtensions
     public static List<T> ToObjectList<T>(this DataTable dt) where T : class, new()
     {
         var result = new List<T>();
-        var objProps = new T().GetType().GetProperties().ToList();
-
-        var indexer = new List<int>();
-        foreach (DataColumn col in dt.Columns)
-            indexer.Add(objProps.FindIndex(x => x.Name.ToLower() == col.ColumnName.ToLower()));
-        int[] mappings = indexer.Where(x => x >= 0).ToArray();
+        var objProps = typeof(T).GetProperties().ToList();
+        var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).Where(x => x >= 0).ToArray();
 
         foreach (var row in dt.AsEnumerable())
         {

@@ -29,20 +29,16 @@ public class StswProgressBar : ProgressBar
     /// </summary>
     private void OnTextChanged(object? sender, EventArgs e)
     {
-        if (Maximum != Minimum)
+        if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
         {
-            if (TextMode == StswProgressTextMode.Percentage)
+            Text = TextMode switch
             {
-                Text = $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %";
-                return;
-            }
-            else if (TextMode == StswProgressTextMode.Value)
-            {
-                Text = $"{Value - Minimum} / {Maximum - Minimum}";
-                return;
-            }
+                StswProgressTextMode.None => string.Empty,
+                StswProgressTextMode.Value => $"{Value - Minimum} / {Maximum - Minimum}",
+                StswProgressTextMode.Percentage => $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %",
+                _ => null
+            };
         }
-        Text = string.Empty;
     }
     #endregion
 
@@ -68,7 +64,7 @@ public class StswProgressBar : ProgressBar
     public string? Text
     {
         get => (string?)GetValue(TextProperty);
-        private set => SetValue(TextProperty, value);
+        set => SetValue(TextProperty, value);
     }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(

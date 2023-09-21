@@ -141,6 +141,7 @@ public enum StswProgressState
 /// </summary>
 public enum StswProgressTextMode
 {
+    Custom = -1,
     None,
     Value,
     Percentage
