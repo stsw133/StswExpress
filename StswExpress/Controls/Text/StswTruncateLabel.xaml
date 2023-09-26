@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswTruncateLabel}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
 
         <Setter Property="IsTruncationAllowed" Value="True"/>
         
@@ -34,18 +34,17 @@
                                               RecognizesAccessKey="True"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <Popup IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
-                                   Placement="Relative"
-                                   PlacementTarget="{Binding ElementName=PART_MainBorder}"
-                                   StaysOpen="False">
-                                <!-- <se:RgsScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"> -->
-                                <Grid Background="{TemplateBinding Background}">
-                                    <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                </Grid>
-                                <!-- </se:RgsScrollViewer> -->
-                            </Popup>
+                            <se:StswPopup Background="{TemplateBinding Background}"
+                                          BorderThickness="0"
+                                          CornerRadius="0"
+                                          IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
+                                          Padding="{TemplateBinding Padding}"
+                                          Placement="Relative"
+                                          PlacementTarget="{Binding ElementName=PART_MainBorder}"
+                                          StaysOpen="False">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </se:StswPopup>
                         </DockPanel>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
