@@ -116,4 +116,11 @@ public class StswContentDialogModel
     /// Gets or sets a value indicating whether the content dialog is open or not.
     /// </summary>
     public bool IsOpen { get; set; }
+
+    public StswContentDialogModel()
+    {
+        OnYesCommand = new StswCommand(() => IsOpen = false);
+        OnNoCommand = new StswCommand(() => IsOpen = false);
+        OnCancelCommand = new StswCommand(() => IsOpen = false);
+    }
 }

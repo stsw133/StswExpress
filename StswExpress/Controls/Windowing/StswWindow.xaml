@@ -3,9 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswWindow}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="BorderBrush" Value="{x:Static SystemParameters.WindowGlassBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontSize" Value="12"/>
@@ -39,8 +39,6 @@
                                 <!-- icon & title -->
                                 <se:StswHeader x:Name="PART_Header"
                                                Grid.ColumnSpan="2"
-                                               BorderBrush="{DynamicResource StswWindow.Separator.Border}"
-                                               BorderThickness="0 0 0 1"
                                                Content="{TemplateBinding Title}"
                                                IconScale="2"
                                                IconSource="{TemplateBinding Icon}"/>
@@ -121,6 +119,11 @@
                                                         <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </MenuItem.Icon>
                                                 </MenuItem>
+                                                <MenuItem Header="Różowy" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=2}">
+                                                    <MenuItem.Icon>
+                                                        <TextBlock Text="✿" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
                                             </MenuItem>
                                             <!-- fullscreen -->
                                             <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
@@ -172,22 +175,24 @@
                                 </AdornerDecorator>
 
                                 <!-- fullscreen button panel -->
-                                <StackPanel x:Name="PART_FullscreenPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
-                                    <se:StswButton x:Name="PART_FsButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
-                                        <se:StswOutlinedText Text="🗕"/>
-                                    </se:StswButton>
-                                    <se:StswButton x:Name="PART_FsButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Wyłącz tryb pełnego ekranu">
-                                        <se:StswOutlinedText Text="⛶"/>
-                                    </se:StswButton>
-                                    <se:StswButton x:Name="PART_FsButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij">
-                                        <se:StswOutlinedText Text="🗙"/>
-                                        <se:StswButton.Resources>
-                                            <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
-                                            <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
-                                        </se:StswButton.Resources>
-                                    </se:StswButton>
-                                    
-                                    <StackPanel.Resources>
+                                <se:StswSidePanel x:Name="PART_FullscreenPanel" MinHeight="10" HorizontalContentAlignment="Right" VerticalAlignment="Top">
+                                    <DockPanel Height="30">
+                                        <se:StswButton x:Name="PART_FsButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Minimalizuj">
+                                            <se:StswOutlinedText Text="🗕"/>
+                                        </se:StswButton>
+                                        <se:StswButton x:Name="PART_FsButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Wyłącz tryb pełnego ekranu">
+                                            <se:StswOutlinedText Text="⛶"/>
+                                        </se:StswButton>
+                                        <se:StswButton x:Name="PART_FsButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="Zamknij">
+                                            <se:StswOutlinedText Text="🗙"/>
+                                            <se:StswButton.Resources>
+                                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
+                                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
+                                            </se:StswButton.Resources>
+                                        </se:StswButton>
+                                    </DockPanel>
+
+                                    <se:StswSidePanel.Resources>
                                         <Style TargetType="{x:Type se:StswOutlinedText}">
                                             <Setter Property="Fill" Value="White"/>
                                             <Setter Property="Stroke" Value="Black"/>
@@ -199,8 +204,8 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </StackPanel.Resources>
-                                </StackPanel>
+                                    </se:StswSidePanel.Resources>
+                                </se:StswSidePanel>
                             </Grid>
                             
                             <!-- content dialog -->
@@ -210,7 +215,10 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="#B777" TargetName="PART_Header"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_Header"/>
+                        </Trigger>
+                        <Trigger Property="Fullscreen" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FullscreenPanel"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize"/>

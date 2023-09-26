@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswPopup}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
@@ -23,17 +23,13 @@
                                BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                SnapsToDevicePixels="True">
-            <se:StswShifter BorderThickness="0"
-                            CornerRadius="0"
-                            Padding="0"
-                            HorizontalScrollBarVisibility="Auto"
-                            VerticalScrollBarVisibility="Auto">
+            <se:StswScrollViewer Focusable="False" IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   RecognizesAccessKey="True"
                                   SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>
-            </se:StswShifter>
+            </se:StswScrollViewer>
         </se:StswClippingBorder>
         <DataTemplate.Triggers>
 

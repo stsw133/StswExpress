@@ -4,9 +4,9 @@
 
     <Style TargetType="{x:Type se:StswCheckBox}">
         <Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="IconIndeterminate" Value="{x:Static se:StswIcons.Minus}"/>
-        <Setter Property="IconUnchecked" Value="{x:Null}"/>
-        <Setter Property="IconChecked" Value="{x:Static se:StswIcons.Check}"/>
+        <Setter Property="IconUnchecked" Value="{DynamicResource StswCheck.Unchecked.Icon}"/>
+        <Setter Property="IconChecked" Value="{DynamicResource StswCheck.Checked.Icon}"/>
+        <Setter Property="IconIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Icon}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>

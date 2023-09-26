@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StswExpress;
 
@@ -85,8 +86,19 @@ public class StswProgressBar : ProgressBar
         = DependencyProperty.Register(
             nameof(TextMode),
             typeof(StswProgressTextMode),
-            typeof(StswProgressBar)
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(StswProgressTextMode),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnTextModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswProgressBar stsw)
+        {
+            if (stsw.TextMode == StswProgressTextMode.Custom)
+                stsw.Text = string.Empty;
+        }
+    }
     #endregion
 
     #region Style properties

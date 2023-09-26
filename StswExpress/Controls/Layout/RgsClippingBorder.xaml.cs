@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace StswExpress;
 
-public class RgsClippingBorder : ContentControl
+internal class RgsClippingBorder : ContentControl
 {
     #region PARTS
 

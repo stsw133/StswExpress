@@ -25,8 +25,8 @@ public class StswTabControl : TabControl
         base.OnApplyTemplate();
 
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton partFunctionButton)
-            partFunctionButton.Click += PART_FunctionButton_Click;
+        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+            functionButton.Click += PART_FunctionButton_Click;
     }
 
     /// <summary>

@@ -208,20 +208,5 @@ public class StswNavigation : UserControl
             typeof(double),
             typeof(StswNavigation)
         );
-
-    /// <summary>
-    /// Gets or sets the thickness of the border used as separator between content and items list.
-    /// </summary>
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswNavigation)
-        );
     #endregion
 }

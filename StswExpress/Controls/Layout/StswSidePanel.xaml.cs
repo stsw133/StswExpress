@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -16,13 +16,14 @@ public class StswSidePanel : UserControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Occurs when the template is applied to the control.
     /// </summary>
-    /// <param name="e"></param>
-    protected override void OnMouseEnter(MouseEventArgs e)
+    public override void OnApplyTemplate()
     {
-        base.OnMouseEnter(e);
-        IsExpanded = true;
+        base.OnApplyTemplate();
+
+        if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
+            expandBorder.MouseEnter += (s, e) => IsExpanded = true;
     }
 
     /// <summary>
@@ -40,21 +41,6 @@ public class StswSidePanel : UserControl
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
-    public StswHidingVariant HidingVariant
-    {
-        get => (StswHidingVariant)GetValue(HidingVariantProperty);
-        set => SetValue(HidingVariantProperty, value);
-    }
-    public static readonly DependencyProperty HidingVariantProperty
-        = DependencyProperty.Register(
-            nameof(HidingVariant),
-            typeof(StswHidingVariant),
-            typeof(StswSidePanel)
-        );
-
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
-    /// </summary>
     public bool IsExpanded
     {
         get => (bool)GetValue(IsExpandedProperty);
@@ -64,6 +50,23 @@ public class StswSidePanel : UserControl
         = DependencyProperty.Register(
             nameof(IsExpanded),
             typeof(bool),
+            typeof(StswSidePanel)
+        );
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
             typeof(StswSidePanel)
         );
     #endregion

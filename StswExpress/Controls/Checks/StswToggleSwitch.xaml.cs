@@ -292,7 +292,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswToggle.Checked.Marker.Background")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Checked.Static.Border")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);
@@ -344,7 +344,6 @@ public class StswToggleSwitch : ToggleButton
         Storyboard.SetTargetProperty(checkedContentSlide, new PropertyPath(MarginProperty));
 
         sb.Begin();
-
     }
 
     /// <summary>
@@ -355,7 +354,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswToggle.Unchecked.Marker.Background")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Unchecked.Static.Border")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);
@@ -417,7 +416,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswToggle.Indeterminate.Marker.Background")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Indeterminate.Static.Border")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);

@@ -30,7 +30,7 @@ public class StswWindow : Window
     }
 
     #region Events & methods
-    private FrameworkElement? partFullscreenPanel, partTitleBar;
+    private FrameworkElement? titleBar;
     private WindowState preFullscreenState;
 
     /// <summary>
@@ -94,20 +94,13 @@ public class StswWindow : Window
             mniClose.Click += CloseClick;
 
         /// Chrome change
-        if (GetTemplateChild("PART_TitleBar") is FrameworkElement fmeTitlebar)
+        if (GetTemplateChild("PART_TitleBar") is FrameworkElement titleBar)
         {
-            fmeTitlebar.SizeChanged += (s, e) => UpdateChrome();
-            fmeTitlebar.IsVisibleChanged += (s, e) => UpdateChrome();
-            partTitleBar = fmeTitlebar;
+            titleBar.SizeChanged += (s, e) => UpdateChrome();
+            titleBar.IsVisibleChanged += (s, e) => UpdateChrome();
+            this.titleBar = titleBar;
         }
         StateChanged += (s, e) => UpdateChrome();
-
-        /// Fullscreen panel
-        if (GetTemplateChild("PART_FullscreenPanel") is FrameworkElement fmeFullscreen)
-            partFullscreenPanel = fmeFullscreen;
-        MouseMove += OnMouseMove;
-
-        //UpdateLayout();
     }
 
     /// <summary>
@@ -122,14 +115,14 @@ public class StswWindow : Window
         {
             WindowChrome.SetWindowChrome(this, null);
         }
-        else if (partTitleBar != null)
+        else if (titleBar != null)
         {
             var max = WindowState == WindowState.Maximized;
             var cr = CornerRadius;
 
             chrome ??= new WindowChrome();
             chrome.CornerRadius = new CornerRadius(cr.TopLeft * iSize, cr.TopRight * iSize, cr.BottomRight * iSize, cr.BottomLeft * iSize);
-            chrome.CaptionHeight = (partTitleBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (partTitleBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
+            chrome.CaptionHeight = (titleBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (titleBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
             chrome.GlassFrameThickness = new Thickness(0);
             chrome.ResizeBorderThickness = new Thickness(max ? 0 : 5 * iSize);
             chrome.UseAeroCaptionButtons = false;
@@ -139,39 +132,19 @@ public class StswWindow : Window
     }
 
     /// <summary>
-    /// Event handler to show/hide the fullscreen panel based on mouse movement.
-    /// </summary>
-    private void OnMouseMove(object? sender, MouseEventArgs e)
-    {
-        if (Fullscreen && partFullscreenPanel is not null)
-        {
-            var pos = Mouse.GetPosition(this);
-            if (pos.Y <= 10 || pos.Y < partFullscreenPanel.ActualHeight)
-                partFullscreenPanel.Visibility = Visibility.Visible;
-            else
-                partFullscreenPanel.Visibility = Visibility.Collapsed;
-        }
-    }
-
-    /// <summary>
     /// Event handler for changing the theme based on the clicked menu item.
     /// </summary>
-    private static void ThemeClick(int themeID)
+    protected void ThemeClick(int themeID)
     {
-        if (!Application.Current.Resources.MergedDictionaries.Any(x => x is Theme))
-            Application.Current.Resources.MergedDictionaries.Add(new Theme());
-        var theme = (Theme)Application.Current.Resources.MergedDictionaries.First(x => x is Theme);
-
-        //var stswResDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute));
-        //if (stswResDict != null && stswResDict.MergedDictionaries[0] is Theme theme)
-            theme.Color = themeID < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)themeID;
+        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources theme)
+            theme.Theme = themeID < 0 ? StswFn.GetWindowsTheme() : (StswTheme)themeID;
         Settings.Default.Theme = themeID;
     }
 
     /// <summary>
     /// Event handler for the fullscreen button click to toggle fullscreen mode.
     /// </summary>
-    private void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
+    protected void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
     /// <summary>
     /// Event handler for the center button click to center the window on the screen.
@@ -274,7 +247,7 @@ public class StswWindow : Window
     {
         if (obj is StswWindow stsw)
         {
-            if (stsw.partFullscreenPanel is not null && stsw.partTitleBar is not null)
+            if (/*stsw.fullscreenPanel is not null &&*/ stsw.titleBar is not null)
             {
                 if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                     return;
@@ -286,13 +259,13 @@ public class StswWindow : Window
                     if (stsw.WindowState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;
 
-                    stsw.partTitleBar.Visibility = Visibility.Collapsed;
+                    stsw.titleBar.Visibility = Visibility.Collapsed;
                     stsw.WindowState = WindowState.Maximized;
                 }
                 else
                 {
-                    stsw.partTitleBar.Visibility = Visibility.Visible;
-                    stsw.partFullscreenPanel.Visibility = Visibility.Collapsed;
+                    stsw.titleBar.Visibility = Visibility.Visible;
+                    //stsw.fullscreenPanel.Visibility = Visibility.Collapsed;
 
                     if (stsw.preFullscreenState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;
@@ -328,10 +301,10 @@ public class StswWindow : Window
         if (obj is StswWindow stsw)
         {
             if (!stsw.IsLoaded)
-                stsw.AllowsTransparency = stsw.CornerRadius.TopLeft > 0
-                                       || stsw.CornerRadius.TopRight > 0
-                                       || stsw.CornerRadius.BottomLeft > 0
-                                       || stsw.CornerRadius.BottomRight > 0;
+            {
+                var cr = stsw.CornerRadius;
+                stsw.AllowsTransparency = stsw.AllowsTransparency || (cr.TopLeft + cr.TopRight + cr.BottomLeft + cr.BottomRight) > 0;
+            }
         }
     }
 
@@ -417,8 +390,8 @@ public class StswWindow : Window
     {
         if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 165)
         {
-            if (partTitleBar != null)
-                partTitleBar.ContextMenu.IsOpen = true;
+            if (titleBar != null)
+                titleBar.ContextMenu.IsOpen = true;
             handled = true;
         }
         return IntPtr.Zero;

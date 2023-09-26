@@ -52,11 +52,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <se:StswSidePanel IsEnabled="{Binding IsEnabled}"
+                              MinHeight="10" MinWidth="10"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                               VerticalAlignment="{Binding VerticalAlignment}"
                               VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                <Border BorderBrush="{DynamicResource StswBorder.Static}" BorderThickness="2">
+                <Border BorderBrush="{DynamicResource StswBorder.Static}" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <UniformGrid HorizontalAlignment="Center" Rows="1">
                         <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding MinimizeCommand}">
                             <se:StswIcon Data="{x:Static se:StswIcons.WindowMinimize}" Scale="1.5"/>

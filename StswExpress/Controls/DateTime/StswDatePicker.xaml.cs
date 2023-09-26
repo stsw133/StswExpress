@@ -48,7 +48,7 @@ public class StswDatePicker : TextBox
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            UpdateMainProperty();
+            UpdateMainProperty(true);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class StswDatePicker : TextBox
     /// </summary>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
-        UpdateMainProperty();
+        UpdateMainProperty(false);
         base.OnLostFocus(e);
     }
 
@@ -124,19 +124,26 @@ public class StswDatePicker : TextBox
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateMainProperty()
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
+        var result = SelectedDate;
+
         if (string.IsNullOrEmpty(Text))
-            SelectedDate = null;
-        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var result))
-            SelectedDate = result;
-        else if (DateTime.TryParse(Text, out result))
+            result = null;
+        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var res))
+            result = res;
+        else if (DateTime.TryParse(Text, out res))
+            result = res;
+
+        if (result != SelectedDate || alwaysUpdate)
+        {
             SelectedDate = result;
 
-        Text = SelectedDate?.ToString(Format);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+            Text = SelectedDate?.ToString(Format);
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
     }
     #endregion
 

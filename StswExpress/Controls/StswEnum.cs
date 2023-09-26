@@ -133,7 +133,8 @@ public enum StswProgressState
     Ready,
     Running,
     Paused,
-    Error
+    Error,
+    Finished
 }
 
 /// <summary>

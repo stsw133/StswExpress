@@ -7,8 +7,8 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigation.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="SubBorderThickness" Value="0.5"/>
         <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
 
         <Setter Property="IsExtended" Value="True"/>
         <Setter Property="ItemsAlignment" Value="Left"/>
@@ -17,13 +17,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
-                        <DockPanel>
-                            <!-- navigation list part -->
+                    <DockPanel>
+                        <!-- navigation list part -->
+                        <se:StswClippingBorder x:Name="PART_MainBorder"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="{TemplateBinding CornerRadius}"
+                                               SnapsToDevicePixels="True">
                             <DockPanel x:Name="PART_ItemsPanel" DockPanel.Dock="{TemplateBinding ItemsAlignment}" Background="{TemplateBinding Background}">
                                 <!-- function button -->
                                 <se:StswToggleButton x:Name="PART_FunctionButton"
@@ -95,19 +95,19 @@
                                     </ItemsControl>
                                 </se:StswScrollViewer>
                             </DockPanel>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ItemsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
-                            <!-- content -->
-                            <ContentControl Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
-                        </DockPanel>
-                    </se:StswClippingBorder>
+                        </se:StswClippingBorder>
+                        <!-- content -->
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                          Focusable="False"
+                                          Margin="{TemplateBinding Padding}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="True">
                             <Setter Property="Width" Value="{Binding ItemsWidth, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ItemsPanel"/>

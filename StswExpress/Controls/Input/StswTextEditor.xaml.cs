@@ -103,8 +103,8 @@ public class StswTextEditor : RichTextBox
 
     #region Events & methods
     private string _originalContent = string.Empty;
-    private StswComboBox? partFontFamily;
-    private StswNumericBox? partFontSize;
+    private StswComboBox? fontFamily;
+    private StswNumericBox? fontSize;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -121,17 +121,17 @@ public class StswTextEditor : RichTextBox
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
 
         /// Box: font families
-        if (GetTemplateChild("PART_FontFamily") is StswComboBox cmbFontFamily)
+        if (GetTemplateChild("PART_FontFamily") is StswComboBox fontFamily)
         {
-            cmbFontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
-            cmbFontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
-            partFontFamily = cmbFontFamily;
+            fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
+            fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
+            this.fontFamily = fontFamily;
         }
         /// Box: font size
-        if (GetTemplateChild("PART_FontSize") is StswNumericBox nmbFontSize)
+        if (GetTemplateChild("PART_FontSize") is StswNumericBox fontSize)
         {
-            nmbFontSize.ValueChanged += PART_FontSize_ValueChanged;
-            partFontSize = nmbFontSize;
+            fontSize.ValueChanged += PART_FontSize_ValueChanged;
+            this.fontSize = fontSize;
         }
     }
 
@@ -155,16 +155,16 @@ public class StswTextEditor : RichTextBox
             partFontUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
         */
         var temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
-        if (partFontFamily != null)
-            partFontFamily.SelectedItem = temp;
+        if (fontFamily != null)
+            fontFamily.SelectedItem = temp;
 
         temp = Selection.GetPropertyValue(Inline.FontSizeProperty);
-        if (partFontSize != null)
+        if (fontSize != null)
         {
             if (temp != DependencyProperty.UnsetValue)
-                partFontSize.Value = Convert.ToDouble(temp);
+                fontSize.Value = Convert.ToDouble(temp);
             else
-                partFontSize.Value = null;
+                fontSize.Value = null;
         }
     }
     #endregion
@@ -441,8 +441,8 @@ public class StswTextEditor : RichTextBox
     /// </summary>
     private void PART_FontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!Selection.IsEmpty && partFontFamily?.SelectedItem != null)
-            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, partFontFamily.SelectedItem);
+        if (!Selection.IsEmpty && fontFamily?.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, fontFamily.SelectedItem);
         Focus();
     }
 
@@ -452,8 +452,8 @@ public class StswTextEditor : RichTextBox
     /// </summary>
     private void PART_FontSize_ValueChanged(object? sender, EventArgs e)
     {
-        if (!Selection.IsEmpty && partFontSize?.Value != null)
-            Selection.ApplyPropertyValue(Inline.FontSizeProperty, partFontSize.Value);
+        if (!Selection.IsEmpty && fontSize?.Value != null)
+            Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize.Value);
         Focus();
     }
 

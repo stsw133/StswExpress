@@ -15,7 +15,7 @@ public class StswShifter : ScrollViewer
     }
 
     #region Events & methods
-    private StswRepeatButton? partButtonUp, partButtonDown, partButtonLeft, partButtonRight;
+    private StswRepeatButton? btnUp, btnDown, btnLeft, btnRight;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -25,28 +25,28 @@ public class StswShifter : ScrollViewer
         base.OnApplyTemplate();
 
         /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton partButtonUp)
+        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
         {
-            partButtonUp.Click += BtnUp_Click;
-            this.partButtonUp = partButtonUp;
+            btnUp.Click += BtnUp_Click;
+            this.btnUp = btnUp;
         }
         /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton partButtonDown)
+        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
         {
-            partButtonDown.Click += BtnDown_Click;
-            this.partButtonDown = partButtonDown;
+            btnDown.Click += BtnDown_Click;
+            this.btnDown = btnDown;
         }
         /// Button: left
-        if (GetTemplateChild("PART_ButtonLeft") is StswRepeatButton partButtonLeft)
+        if (GetTemplateChild("PART_ButtonLeft") is StswRepeatButton btnLeft)
         {
-            partButtonLeft.Click += BtnLeft_Click;
-            this.partButtonLeft = partButtonLeft;
+            btnLeft.Click += BtnLeft_Click;
+            this.btnLeft = btnLeft;
         }
         /// Button: right
-        if (GetTemplateChild("PART_ButtonRight") is StswRepeatButton partButtonRight)
+        if (GetTemplateChild("PART_ButtonRight") is StswRepeatButton btnRight)
         {
-            partButtonRight.Click += BtnRight_Click;
-            this.partButtonRight = partButtonRight;
+            btnRight.Click += BtnRight_Click;
+            this.btnRight = btnRight;
         }
 
         OnHorizontalOffsetChanged();
@@ -125,17 +125,17 @@ public class StswShifter : ScrollViewer
     {
         if (e.HorizontalChange != 0)
         {
-            if (partButtonLeft != null)
-                partButtonLeft.IsEnabled = e.HorizontalOffset > 0;
-            if (partButtonRight != null)
-                partButtonRight.IsEnabled = e.HorizontalOffset + e.ViewportWidth < e.ExtentWidth;
+            if (btnLeft != null)
+                btnLeft.IsEnabled = e.HorizontalOffset > 0;
+            if (btnRight != null)
+                btnRight.IsEnabled = e.HorizontalOffset + e.ViewportWidth < e.ExtentWidth;
         }
         if (e.VerticalChange != 0)
         {
-            if (partButtonUp != null)
-                partButtonUp.IsEnabled = e.VerticalOffset > 0;
-            if (partButtonDown != null)
-                partButtonDown.IsEnabled = e.VerticalOffset + e.ViewportHeight < e.ExtentHeight;
+            if (btnUp != null)
+                btnUp.IsEnabled = e.VerticalOffset > 0;
+            if (btnDown != null)
+                btnDown.IsEnabled = e.VerticalOffset + e.ViewportHeight < e.ExtentHeight;
         }
     }
 
@@ -146,17 +146,17 @@ public class StswShifter : ScrollViewer
     /// <param name="e"></param>
     private void OnHorizontalOffsetChanged()
     {
-        if (partButtonLeft == null || partButtonRight == null)
+        if (btnLeft == null || btnRight == null)
             return;
 
         if (HorizontalOffset == 0)
-            partButtonLeft.IsEnabled = false;
+            btnLeft.IsEnabled = false;
         else if (HorizontalOffset >= ScrollableWidth)
-            partButtonRight.IsEnabled = false;
+            btnRight.IsEnabled = false;
         else
         {
-            partButtonLeft.IsEnabled = true;
-            partButtonRight.IsEnabled = true;
+            btnLeft.IsEnabled = true;
+            btnRight.IsEnabled = true;
         }
     }
 
@@ -167,17 +167,17 @@ public class StswShifter : ScrollViewer
     /// <param name="e"></param>
     private void OnVerticalOffsetChanged()
     {
-        if (partButtonUp == null || partButtonDown == null)
+        if (btnUp == null || btnDown == null)
             return;
 
         if (VerticalOffset == 0)
-            partButtonUp.IsEnabled = false;
+            btnUp.IsEnabled = false;
         else if (VerticalOffset >= ScrollableWidth)
-            partButtonDown.IsEnabled = false;
+            btnDown.IsEnabled = false;
         else
         {
-            partButtonUp.IsEnabled = true;
-            partButtonDown.IsEnabled = true;
+            btnUp.IsEnabled = true;
+            btnDown.IsEnabled = true;
         }
     }
     #endregion

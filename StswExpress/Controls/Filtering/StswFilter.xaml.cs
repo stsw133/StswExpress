@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -31,7 +30,7 @@ public class StswFilter : UserControl
     }
 
     #region Events & methods
-    private ButtonBase? partFilterMode;
+    private ButtonBase? filterMode;
     private StswDataGrid? stswDataGrid;
 
     /// <summary>
@@ -48,8 +47,8 @@ public class StswFilter : UserControl
         }
 
         /// ToggleButton: filter mode
-        if (GetTemplateChild("PART_FilterMode") is ButtonBase partFilterMode)
-            this.partFilterMode = partFilterMode;
+        if (GetTemplateChild("PART_FilterMode") is ButtonBase filterMode)
+            this.filterMode = filterMode;
 
         /*
         /// shortcuts for FilterMode items
@@ -200,8 +199,8 @@ public class StswFilter : UserControl
         if (obj is StswFilter stsw)
         {
             if (stsw.FilterMode != null
-             && stsw.partFilterMode?.Content is StswOutlinedText symbolBlock and not null
-             && stsw.partFilterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.ToList()?[(int)stsw.FilterMode]?.Icon is StswOutlinedText newSymbolBlock and not null)
+             && stsw.filterMode?.Content is StswOutlinedText symbolBlock and not null
+             && stsw.filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.ToList()?[(int)stsw.FilterMode]?.Icon is StswOutlinedText newSymbolBlock and not null)
             {
                 symbolBlock.Fill = newSymbolBlock.Fill;
                 symbolBlock.Text = newSymbolBlock.Text;

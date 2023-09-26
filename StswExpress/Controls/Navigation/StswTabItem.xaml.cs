@@ -23,8 +23,8 @@ public class StswTabItem : TabItem
         base.OnApplyTemplate();
 
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton btn)
-            btn.Click += PART_FunctionButton_Click;
+        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+            functionButton.Click += PART_FunctionButton_Click;
     }
 
     /// <summary>

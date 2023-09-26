@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
         <!-- <ResourceDictionary Source="/StswExpress;component/Themes/Theme.xaml"/> -->
-        <ResourceDictionary Source="/StswExpress;component/Controls/Controls.xaml"/>
+        <ResourceDictionary Source="/StswExpress;component/Controls/StswControls.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

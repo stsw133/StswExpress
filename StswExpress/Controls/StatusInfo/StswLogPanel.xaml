@@ -81,11 +81,12 @@
                                                 </ControlTemplate>
                                             </se:StswHeader.Template>
                                             <DockPanel>
-                                                <se:StswComponentButton DockPanel.Dock="Right"
+                                                <se:StswComponentButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
                                                                         Command="{Binding RemoveLogCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
                                                                         CommandParameter="{Binding}"
                                                                         IconData="{x:Static se:StswIcons.Close}"
-                                                                        VerticalAlignment="Top"/>
+                                                                        VerticalAlignment="Top"
+                                                                        Visibility="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                                 <se:StswText DockPanel.Dock="Top" Text="{Binding DateTime, StringFormat=yyyy-MM-dd HH:mm:ss}" FontSize="11" FontWeight="Bold"/>
                                                 <se:StswText DockPanel.Dock="Top" Text="{Binding Description}" TextWrapping="Wrap"/>
                                             </DockPanel>

@@ -74,7 +74,7 @@ public class StswNumericBox : TextBox
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            UpdateMainProperty();
+            UpdateMainProperty(true);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class StswNumericBox : TextBox
     /// </summary>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
-        UpdateMainProperty();
+        UpdateMainProperty(false);
         base.OnLostFocus(e);
     }
 
@@ -135,19 +135,26 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateMainProperty()
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
+        var result = Value;
+
         if (string.IsNullOrEmpty(Text))
-            Value = null;
-        else if (StswFn.TryCalculateString(Text, out var result))
-            Value = result;
-        else if (double.TryParse(Text, out result))
+            result = null;
+        else if (StswFn.TryCalculateString(Text, out var res))
+            result = res;
+        else if (double.TryParse(Text, out res))
+            result = res;
+
+        if (result != Value || alwaysUpdate)
+        {
             Value = result;
 
-        Text = Value?.ToString(Format);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+            Text = result?.ToString(Format);
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
     }
     #endregion
 

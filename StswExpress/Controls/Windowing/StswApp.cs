@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -24,38 +25,14 @@ public class StswApp : Application
         //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
         /// merged dictionaries
-        if (!Resources.MergedDictionaries.Any(x => x is Theme))
-            Current.Resources.MergedDictionaries.Add(new Theme()
-            {
-                Color = Settings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)Settings.Default.Theme
-            });
-
-        //var stswResDict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute));
-        //if (stswResDict == null)
-        //{
-        //    Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
-        //    {
-        //        Source = new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute)
-        //    });
-        //    stswResDict = Resources.MergedDictionaries.First(x => x.Source == new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute));
-        //}
-        //stswResDict.MergedDictionaries[0] = new Theme()
-        //{
-        //    Color = Settings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (ThemeColor)Settings.Default.Theme
-        //};
-
-        if (!Resources.MergedDictionaries.Any(x => x.Source == new Uri("/StswExpress;component/Controls/Controls.xaml", UriKind.RelativeOrAbsolute)))
-            Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
-            {
-                Source = new Uri("/StswExpress;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute)
-            });
+        var dict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/StswResources.xaml", UriKind.RelativeOrAbsolute));
+        dict ??= Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources);
+        Current.Resources.MergedDictionaries.Remove(dict);
+        Current.Resources.MergedDictionaries.Add(new StswResources(Settings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (StswTheme)Settings.Default.Theme));
 
         /// global commands
-        //var cmdFullscreen = new RoutedUICommand("Fullscreen", "Fullscreen", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F11) });
-        //CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(cmdFullscreen, (s, e) => {
-        //    if (s is StswWindow stsw)
-        //        stsw.Fullscreen = !stsw.Fullscreen;
-        //}));
+        var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp?.Invoke()));
 
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
@@ -66,6 +43,13 @@ public class StswApp : Application
         Exit += (sender, e) => Settings.Default.Save();
     }
 
-    /// MainStswWindow
+    /// <summary>
+    /// Current application's main StswWindow.
+    /// </summary>
     public static StswWindow StswWindow => (StswWindow)Current.MainWindow;
+
+    /// <summary>
+    /// Open current application's help.
+    /// </summary>
+    public static Action? OpenHelp;
 }
