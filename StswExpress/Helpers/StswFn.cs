@@ -25,7 +25,7 @@ public static class StswFn
     /// <summary>
     /// Returns the version number of the currently executing application.
     /// </summary>
-    public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0").TrimEnd(".0").TrimEnd(".0");
+    public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd('0', '.');
 
     /// <summary>
     /// Returns the name and version number of the currently executing application.

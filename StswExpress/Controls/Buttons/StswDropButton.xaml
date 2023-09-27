@@ -58,7 +58,7 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
+                                <se:StswClippingBorder Background="{DynamicResource StswWindow.Static.Background}"
                                                        BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
                                                        BorderThickness="{TemplateBinding PopupBorderThickness}"
                                                        CornerRadius="{TemplateBinding CornerRadius}"

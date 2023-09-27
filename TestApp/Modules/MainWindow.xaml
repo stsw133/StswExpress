@@ -9,7 +9,7 @@
                Icon="/TestApp;component/Resources/icon.ico">
 
     <Border BorderBrush="{DynamicResource StswBorder.Static}" BorderThickness="0 1 0 0" Visibility="{Binding Fullscreen, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-        <se:StswNavigation BorderThickness="0 0 1 0" ItemsWidth="210">
+        <se:StswNavigation BorderThickness="0 0 1 0" Padding="3" ItemsWidth="210">
             <se:StswNavigationElement/>
             <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
             <se:StswNavigationElement/>

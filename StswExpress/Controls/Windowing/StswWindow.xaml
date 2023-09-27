@@ -214,8 +214,8 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsActive" Value="False">
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswBox.Static.Border}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswWindow.Inactive.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Fullscreen" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FullscreenPanel"/>

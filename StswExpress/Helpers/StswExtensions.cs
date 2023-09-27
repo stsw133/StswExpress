@@ -60,30 +60,28 @@ public static class StswExtensions
 
     #region Collection extensions
     /// <summary>
-    /// Clones an <see cref="IList"/> into another <see cref="IList"/> while preserving the items in the new list.
+    /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
     /// </summary>
-    public static IList Clone(this IList source)
+    public static IEnumerable Clone(this IEnumerable source)
     {
-        if (Activator.CreateInstance(source.GetType()) is IList clonedList)
+        if (Activator.CreateInstance(source.GetType()) is IEnumerable clonedList)
         {
             foreach (var item in source)
             {
                 if (item is ICloneable cloneableItem)
-                    clonedList.Add(cloneableItem.Clone());
+                    yield return cloneableItem.Clone();
                 else
-                    clonedList.Add(item);
+                    yield return item;
             }
-            return clonedList;
         }
         else throw new ArgumentNullException("The source is not a proper IList.");
     }
 
     /// <summary>
-    /// Converts <see cref="DataTable"/> to <see cref="List{T}"/>.
+    /// Converts <see cref="DataTable"/> to <see cref="IEnumerable{T}"/>.
     /// </summary>
-    public static List<T> ToObjectList<T>(this DataTable dt) where T : class, new()
+    public static IEnumerable<T> ToObjectList<T>(this DataTable dt) where T : class, new()
     {
-        var result = new List<T>();
         var objProps = typeof(T).GetProperties().ToList();
         var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).Where(x => x >= 0).ToArray();
 
@@ -108,10 +106,8 @@ public static class StswExtensions
                 }
             }
 
-            result.Add(obj);
+            yield return obj;
         }
-
-        return result;
     }
 
     /// <summary>

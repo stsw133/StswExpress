@@ -169,7 +169,7 @@
                                         SnapsToDevicePixels="True"
                                         Visibility="{TemplateBinding FilterModeVisibility}"/>
                                 <!-- controls -->
-                                <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource TextBox.Static.Background}">
+                                <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
                                     <ContentControl x:Name="PART_FirstControl">
                                         <ContentControl.Style>
