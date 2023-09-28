@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSplitButton : UserControl
+public class StswSplitButton : ContentControl
 {
     public StswSplitButton()
     {

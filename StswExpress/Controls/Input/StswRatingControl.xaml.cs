@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
 /// </summary>
-public class StswRatingControl : UserControl
+public class StswRatingControl : Control
 {
     public StswRatingControl()
     {
@@ -50,6 +50,9 @@ public class StswRatingControl : UserControl
             Placeholder = Convert.ToInt32(Math.Round(x / ActualWidth * Items.Count + 0.4));
         else if (Orientation == Orientation.Vertical && ActualHeight != 0)
             Placeholder = Convert.ToInt32(Math.Round(y / ActualHeight * Items.Count + 0.4));
+
+        if (!CanReset && Placeholder == 0)
+            Placeholder = 1;
     }
 
     /// <summary>
@@ -63,6 +66,21 @@ public class StswRatingControl : UserControl
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets the reseting behaviour of the control.
+    /// </summary>
+    public bool CanReset
+    {
+        get => (bool)GetValue(CanResetProperty);
+        set => SetValue(CanResetProperty, value);
+    }
+    public static readonly DependencyProperty CanResetProperty
+        = DependencyProperty.Register(
+            nameof(CanReset),
+            typeof(bool),
+            typeof(StswRatingControl)
+        );
+
     /// <summary>
     /// Gets or sets the geometry data of the icon.
     /// </summary>

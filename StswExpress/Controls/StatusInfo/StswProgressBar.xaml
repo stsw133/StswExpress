@@ -14,7 +14,7 @@
         <Setter Property="TextMode" Value="Percentage"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         
         <Setter Property="Template">
             <Setter.Value>

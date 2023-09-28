@@ -42,34 +42,10 @@ public class StswToggleSwitch : ToggleButton
         if (GetTemplateChild("PART_UncheckedPath") is StswIcon uncheckedPath)
             this.uncheckedPath = uncheckedPath;
 
-        Loaded += (s, e) => AdjustSize();
+        Loaded += (s, e) => AdjustAll();
         SizeChanged += (s, e) => AdjustSize();
     }
 
-    private Thickness checkedMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + Padding.Right + Padding.Left), 0, 0, 0) : new Thickness(0);
-    private Thickness uncheckedMargin => new Thickness(0);
-    private Thickness indeterminateMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
-    /*
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnMouseDown(MouseButtonEventArgs e)
-    {
-        base.OnMouseDown(e);
-        MouseDownAnimation();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnMouseUp(MouseButtonEventArgs e)
-    {
-        base.OnMouseUp(e);
-        MouseUpAnimation();
-    }
-    */
     /// <summary>
     /// 
     /// </summary>
@@ -77,7 +53,8 @@ public class StswToggleSwitch : ToggleButton
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-        CheckedAnimation();
+        if (IsLoaded)
+            CheckedAnimation();
     }
 
     /// <summary>
@@ -87,7 +64,8 @@ public class StswToggleSwitch : ToggleButton
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-        UncheckedAnimation();
+        if (IsLoaded)
+            UncheckedAnimation();
     }
 
     /// <summary>
@@ -97,7 +75,8 @@ public class StswToggleSwitch : ToggleButton
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
-        IndeterminateAnimation();
+        if (IsLoaded)
+            IndeterminateAnimation();
     }
 
     /// <summary>
@@ -119,6 +98,25 @@ public class StswToggleSwitch : ToggleButton
                 false => uncheckedMargin,
                 true => checkedMargin,
                 null => indeterminateMargin
+            };
+    }
+    private Thickness checkedMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + Padding.Right + Padding.Left), 0, 0, 0) : new Thickness(0);
+    private Thickness uncheckedMargin => new Thickness(0);
+    private Thickness indeterminateMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void AdjustAll()
+    {
+        AdjustSize();
+
+        if (switchBorder != null)
+            switchBorder.Background = IsChecked switch
+            {
+                false => (SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background"),
+                true => (SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background"),
+                _ => (SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")
             };
     }
     #endregion
@@ -292,7 +290,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Checked.Static.Border")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);
@@ -354,7 +352,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Unchecked.Static.Border")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);
@@ -416,7 +414,7 @@ public class StswToggleSwitch : ToggleButton
         var sb = new Storyboard();
 
         var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Indeterminate.Static.Border")).Color,
+            toValue: ((SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
         switchColor.EasingFunction = new CubicEase();
         sb.Children.Add(switchColor);

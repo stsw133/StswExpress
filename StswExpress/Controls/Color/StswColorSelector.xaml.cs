@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a color selector control that provides a selection of standard and theme colors.
 /// </summary>
 [ContentProperty(nameof(ColorPaletteStandard))]
-public class StswColorSelector : UserControl
+public class StswColorSelector : Control
 {
     public ICommand SelectColorCommand { get; set; }
 

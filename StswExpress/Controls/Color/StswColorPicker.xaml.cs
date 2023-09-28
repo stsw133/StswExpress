@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorPicker : UserControl
+public class StswColorPicker : Control
 {
     static StswColorPicker()
     {

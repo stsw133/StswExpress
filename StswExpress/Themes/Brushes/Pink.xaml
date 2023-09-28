@@ -60,18 +60,21 @@
     <SolidColorBrush x:Key="StswCheck.Unchecked.MouseOver.Border" Color="#C8A"/>
     <SolidColorBrush x:Key="StswCheck.Unchecked.Pressed.Background" Color="#DFD5DA"/>
     <SolidColorBrush x:Key="StswCheck.Unchecked.Pressed.Border" Color="#B79"/>
+    <SolidColorBrush x:Key="StswCheck.Unchecked.Toggle.Background" Color="#CAB"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Static.Background" Color="#C7A7B7"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Static.Border" Color="#D7B7C7"/>
     <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Background" Color="#BF9FAF"/>
     <SolidColorBrush x:Key="StswCheck.Checked.MouseOver.Border" Color="#AF8F9F"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Background" Color="#B797A7"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Border" Color="#A78797"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.Toggle.Background" Color="#C7A7B7"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Static.Border" Color="#D9B"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.MouseOver.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.MouseOver.Border" Color="#C8A"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Pressed.Background" Color="#DFD5DA"/>
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Pressed.Border" Color="#B79"/>
+    <SolidColorBrush x:Key="StswCheck.Indeterminate.Toggle.Background" Color="#CAB"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#666"/>
@@ -234,13 +237,6 @@
     <SolidColorBrush x:Key="StswTabItem.Disabled.Border" Color="#ECD"/>
 
     <SolidColorBrush x:Key="StswText.Disabled" Color="#999"/>
-
-    <SolidColorBrush x:Key="StswToggle.Unchecked.Marker.Background" Color="#999"/>
-    <SolidColorBrush x:Key="StswToggle.Checked.Marker.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=25%}"/>
-    <SolidColorBrush x:Key="StswToggle.Indeterminate.Marker.Background" Color="#999"/>
-    <SolidColorBrush x:Key="StswToggle.Disabled.Background" Color="#EEE"/>
-    <SolidColorBrush x:Key="StswToggle.Disabled.Border" Color="#DDD"/>
-    <SolidColorBrush x:Key="StswToggle.Disabled.Foreground" Color="#666"/>
 
     <SolidColorBrush x:Key="StswWindow.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswWindow.Static.Border" Color="#D9B"/>

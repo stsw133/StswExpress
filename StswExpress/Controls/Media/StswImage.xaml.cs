@@ -10,7 +10,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control to display image with additional features such as context menu options.
 /// </summary>
-public class StswImage : UserControl
+public class StswImage : Control
 {
     static StswImage()
     {

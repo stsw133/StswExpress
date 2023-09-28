@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswPager : UserControl
+public class StswPager : ContentControl
 {
     public ICommand UpCommand { get; set; }
     public ICommand DownCommand { get; set; }

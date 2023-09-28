@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to enter a secured password.
 /// </summary>
-public class StswPasswordBox : UserControl
+public class StswPasswordBox : Control
 {
     public StswPasswordBox()
     {

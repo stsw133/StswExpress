@@ -184,6 +184,21 @@ public class StswShifter : ScrollViewer
 
     #region Style properties
     /// <summary>
+    /// Gets or sets the style of buttons inside the control.
+    /// </summary>
+    public Style ButtonStyle
+    {
+        get => (Style)GetValue(ButtonStyleProperty);
+        set => SetValue(ButtonStyleProperty, value);
+    }
+    public static readonly DependencyProperty ButtonStyleProperty
+        = DependencyProperty.Register(
+            nameof(ButtonStyle),
+            typeof(Style),
+            typeof(StswShifter)
+        );
+
+    /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
     public CornerRadius CornerRadius

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : UserControl
+public class StswLogPanel : Control
 {
     public ICommand RemoveLogCommand { get; set; }
 

@@ -49,9 +49,7 @@
                                 <Grid x:Name="PART_SwitchGrid" Grid.ColumnSpan="2"
                                       HorizontalAlignment="Left"
                                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-                                    <Border x:Name="PART_SwitchBorder" Grid.ColumnSpan="2"
-                                            Background="{DynamicResource StswBorder.Static}"
-                                            HorizontalAlignment="Left">
+                                    <Border x:Name="PART_SwitchBorder" Grid.ColumnSpan="2">
                                         <se:StswIcon x:Name="PART_Icon"
                                                      Data="{TemplateBinding Icon}"
                                                      Fill="{TemplateBinding GlyphBrush}"
@@ -146,6 +144,7 @@
                             <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Foreground}" TargetName="PART_Icon"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                         </Trigger>
+                        <!--
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="True"/>
@@ -153,6 +152,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.CheckedAndDisabled.Background}" TargetName="PART_SwitchBorder"/>
                         </MultiTrigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

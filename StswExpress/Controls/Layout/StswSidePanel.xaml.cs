@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom border control that enable user to zoom and move content.
 /// </summary>
-public class StswSidePanel : UserControl
+public class StswSidePanel : ContentControl
 {
     static StswSidePanel()
     {

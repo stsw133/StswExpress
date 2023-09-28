@@ -5,6 +5,11 @@
     <Style TargetType="{x:Type se:StswScrollViewer}">
         <Setter Property="IsDynamic" Value="False"/>
 
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswScrollViewer}">
@@ -17,6 +22,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+                        <!-- content -->
                         <Rectangle x:Name="Corner" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="0" Grid.Row="0"
                                                 CanContentScroll="{TemplateBinding CanContentScroll}"
@@ -24,6 +30,7 @@
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Content="{TemplateBinding Content}"
                                                 Margin="{TemplateBinding Padding}"/>
+                        <!-- bars -->
                         <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0"
                                           AutomationProperties.AutomationId="VerticalScrollBar"
                                           Cursor="Arrow"

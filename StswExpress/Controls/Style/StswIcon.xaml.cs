@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control displaying vector icon.
 /// </summary>
 [ContentProperty(nameof(Data))]
-public class StswIcon : UserControl
+public class StswIcon : Control
 {
     static StswIcon()
     {

@@ -16,7 +16,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
-public class StswFilter : UserControl
+public class StswFilter : Control
 {
     public ICommand SelectModeCommand { get; set; }
 

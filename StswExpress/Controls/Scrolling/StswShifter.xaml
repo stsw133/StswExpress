@@ -6,64 +6,85 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswShifter}">
-                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MaxWidth="30"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition MaxWidth="30"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition MaxHeight="30"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition MaxHeight="30"/>
-                        </Grid.RowDefinitions>
-                        <!-- buttons -->
-                        <se:StswRepeatButton x:Name="PART_ButtonUp" Grid.Column="1" Grid.Row="0"
-                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 0'}"
-                                             Cursor="Arrow" Delay="0"
-                                             HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}" Scale="1.5"/>
-                        </se:StswRepeatButton>
-                        <se:StswRepeatButton x:Name="PART_ButtonDown" Grid.Column="1" Grid.Row="2"
-                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 0 1 1'}"
-                                             Cursor="Arrow" Delay="0"
-                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
-                        </se:StswRepeatButton>
-                        <se:StswRepeatButton x:Name="PART_ButtonLeft" Grid.Column="0" Grid.Row="1"
-                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 0 0 1'}"
-                                             Cursor="Arrow" Delay="0"
-                                             HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                                             Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.MenuLeft}" Scale="1.5"/>
-                        </se:StswRepeatButton>
-                        <se:StswRepeatButton x:Name="PART_ButtonRight" Grid.Column="2" Grid.Row="1"
-                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                             CornerRadius="{TemplateBinding CornerRadius, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='0 1 1 0'}"
-                                             Cursor="Arrow" Delay="0"
-                                             HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                                             Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
-                            <se:StswIcon Data="{x:Static se:StswIcons.MenuRight}" Scale="1.5"/>
-                        </se:StswRepeatButton>
-                        <!-- content -->
-                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="1" Grid.Row="1"
-                                                CanContentScroll="{TemplateBinding CanContentScroll}"
-                                                CanVerticallyScroll="False"
-                                                Content="{TemplateBinding Content}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                Margin="{TemplateBinding Padding}"/>
-                    </Grid>
+                    <se:StswClippingBorder x:Name="PART_MainBorder"
+                                           Background="{TemplateBinding Background}"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           SnapsToDevicePixels="True">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MaxWidth="30"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition MaxWidth="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MaxHeight="30"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition MaxHeight="30"/>
+                            </Grid.RowDefinitions>
+                            <!-- content -->
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="1" Grid.Row="1"
+                                                    CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                    CanVerticallyScroll="False"
+                                                    Content="{TemplateBinding Content}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    Margin="{TemplateBinding Padding}"/>
+                            <!-- buttons -->
+                            <se:StswRepeatButton x:Name="PART_ButtonUp" Grid.Column="1" Grid.Row="0"
+                                                 CornerRadius="0"
+                                                 Cursor="Arrow"
+                                                 Delay="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Style="{TemplateBinding ButtonStyle}"
+                                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}" Scale="1.5"/>
+                            </se:StswRepeatButton>
+                            <se:StswRepeatButton x:Name="PART_ButtonDown" Grid.Column="1" Grid.Row="2"
+                                                 CornerRadius="0"
+                                                 Cursor="Arrow"
+                                                 Delay="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Style="{TemplateBinding ButtonStyle}"
+                                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                            </se:StswRepeatButton>
+                            <se:StswRepeatButton x:Name="PART_ButtonLeft" Grid.Column="0" Grid.Row="1"
+                                                 CornerRadius="0"
+                                                 Cursor="Arrow"
+                                                 Delay="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Style="{TemplateBinding ButtonStyle}"
+                                                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuLeft}" Scale="1.5"/>
+                            </se:StswRepeatButton>
+                            <se:StswRepeatButton x:Name="PART_ButtonRight" Grid.Column="2" Grid.Row="1"
+                                                 CornerRadius="0"
+                                                 Cursor="Arrow"
+                                                 Delay="0"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"
+                                                 Style="{TemplateBinding ButtonStyle}"
+                                                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuRight}" Scale="1.5"/>
+                            </se:StswRepeatButton>
+                        </Grid>
+                    </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
