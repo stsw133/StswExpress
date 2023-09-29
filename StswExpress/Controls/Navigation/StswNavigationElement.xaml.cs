@@ -307,15 +307,15 @@ public class StswNavigationElement : ContentControl
     /// <summary>
     /// Gets or sets the thickness of the sub-item border.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswNavigationElement)
         );
 

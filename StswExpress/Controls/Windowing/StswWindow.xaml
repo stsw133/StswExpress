@@ -208,8 +208,8 @@
                                 </se:StswSidePanel>
                             </Grid>
                             
-                            <!-- content dialog -->
-                            <se:StswContentDialog Grid.Row="1" BindingModel="{TemplateBinding ContentDialogBinding}"/>
+                            <!-- message dialog -->
+                            <se:StswMessageDialog Grid.Row="1" BindingModel="{TemplateBinding MessageDialogBinding}"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>

@@ -112,17 +112,17 @@ public class StswComboBox : ComboBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between arrow icon and main button.
+    /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswComboBox)
         );
     #endregion

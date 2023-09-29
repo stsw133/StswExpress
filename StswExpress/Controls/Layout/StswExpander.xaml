@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -111,13 +111,13 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="Top"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"
-                                    Visibility="Collapsed"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="Top"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Horizontal"
+                                              Visibility="Collapsed"/>
                             <!-- content -->
                             <ContentPresenter x:Name="PART_ExpandSite"
                                               Focusable="False"
@@ -130,18 +130,18 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Up">
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_SubBorder"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_SubBorder"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_SubBorder"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=PART_Header}" Value="True">

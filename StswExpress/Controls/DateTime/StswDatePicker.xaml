@@ -8,7 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -48,12 +48,12 @@
                                                  Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </se:StswDropButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"/>
                             <!-- components -->
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>

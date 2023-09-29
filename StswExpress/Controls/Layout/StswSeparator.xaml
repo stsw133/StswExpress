@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="1"/>
+        <Setter Property="CornerRadius" Value="0"/>
 
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Orientation" Value="Horizontal"/>

@@ -90,6 +90,14 @@
             <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
                 <local:StswDatePickerView/>
             </DataTemplate>
+            
+            <!-- Dialogs -->
+            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
+                <local:StswContentDialogView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswMessageDialogContext}">
+                <local:StswMessageDialogView/>
+            </DataTemplate>
 
             <!-- Filtering -->
             <DataTemplate DataType="{x:Type local:StswFilterContext}">
@@ -164,9 +172,6 @@
             </DataTemplate>
 
             <!-- StatusInfo -->
-            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
-                <local:StswContentDialogView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLogPanelContext}">
                 <local:StswLogPanelView/>
             </DataTemplate>

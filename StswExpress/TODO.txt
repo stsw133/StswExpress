@@ -10,6 +10,8 @@
 // TODO - null filter in StswFilter should completely hide filter field
 // TODO - new option in StswFilters to download or not data from database
 // TODO - editable SelectionBox, auto filtering after writing text
+// TODO - StswNavigation - ItemsSource
+// TODO - StswWindow - check if it is possible to change Theme at app start
 // TODO - 
 
 /// Changes to do for now:

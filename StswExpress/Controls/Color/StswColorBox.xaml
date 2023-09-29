@@ -8,7 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -51,12 +51,12 @@
                                     </se:StswTabItem>
                                 </se:StswTabControl>
                             </se:StswDropButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"/>
                             <!-- components -->
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
@@ -70,7 +70,7 @@
                                 <Ellipse Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"
                                          Margin="{TemplateBinding Padding}"
                                          Stroke="{TemplateBinding BorderBrush}"
-                                         StrokeThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
+                                         StrokeThickness="1"
                                          Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
                                 <Grid>
                                     <TextBlock x:Name="PART_Placeholder"

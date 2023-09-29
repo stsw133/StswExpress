@@ -8,7 +8,7 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
@@ -83,12 +83,12 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- subborder -->
-                                <Border x:Name="PART_SubBorder"
-                                        DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                        BorderThickness="{TemplateBinding SubBorderThickness}"
-                                        SnapsToDevicePixels="True"
-                                        Visibility="{TemplateBinding ArrowVisibility}"/>
+                                <se:StswSeparator x:Name="PART_Separator"
+                                                  DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
+                                                  Orientation="Vertical"
+                                                  Visibility="{TemplateBinding ArrowVisibility}"/>
                                 <!-- popup -->
                                 <Popup Grid.ColumnSpan="2"
                                        AllowsTransparency="True"
@@ -155,7 +155,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SubBorder"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ContentPresenter"/>
                         </Trigger>
                         <Trigger Property="IsEditable" Value="True">

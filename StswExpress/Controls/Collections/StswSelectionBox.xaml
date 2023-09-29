@@ -8,7 +8,7 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -100,13 +100,13 @@
                                                 SelectionMode="Multiple"
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Popup>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"
-                                    Visibility="Hidden"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"
+                                              Visibility="Hidden"/>
                             <!-- content -->
                             <Grid>
                                 <TextBlock x:Name="PART_Placeholder"

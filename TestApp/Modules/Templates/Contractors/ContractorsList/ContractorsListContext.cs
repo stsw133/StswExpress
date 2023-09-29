@@ -56,8 +56,8 @@ public class ContractorsListContext : StswObservableObject
         //    Image = StswDialogImage.Error,
         //    IsOpen = true
         //};
-        if (StswFn.FindVisualChild<StswContentDialog>(StswApp.StswWindow) is StswContentDialog stsw)
-            stsw.BindingModel = new StswContentDialogModel()
+        if (StswFn.FindVisualChild<StswMessageDialog>(StswApp.StswWindow) is StswMessageDialog stsw)
+            stsw.BindingModel = new StswMessageDialogModel()
             {
                 Title = "Błąd",
                 Content = "Wystąpił błąd...",

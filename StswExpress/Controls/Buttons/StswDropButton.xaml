@@ -8,7 +8,7 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -70,13 +70,13 @@
                                     </se:StswScrollViewer>
                                 </se:StswClippingBorder>
                             </Popup>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="Right"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"
-                                    Visibility="Hidden"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="Right"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"
+                                              Visibility="Hidden"/>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
                                               Focusable="False"

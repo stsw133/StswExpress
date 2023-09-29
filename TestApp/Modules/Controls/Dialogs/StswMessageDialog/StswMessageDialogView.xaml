@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswContentDialogView"
+﻿<UserControl x:Class="TestApp.StswMessageDialogView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswContentDialogContext/>
+        <local:StswMessageDialogContext/>
     </d:UserControl.DataContext>
 
     <Grid>
@@ -43,11 +43,11 @@
                         <!-- Buttons -->
                         <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Buttons:"/>
                         <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogButtons}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentDialogButtons}" SelectedValuePath="Value"/>
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogButtons}" SelectedValuePath="Value"/>
                         <!-- Image -->
                         <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Image:"/>
                         <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogImage}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentDialogImage}" SelectedValuePath="Value"/>
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogImage}" SelectedValuePath="Value"/>
                         <!-- IsEnabled -->
                         <!-- <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/> -->
                     </StackPanel>
@@ -60,19 +60,19 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-                <se:StswButton Command="{Binding OpenContentDialogCommand}"
+                <se:StswButton Command="{Binding OpenMessageDialogCommand}"
                                Content="Open content dialog"
                                Margin="5"/>
                 <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
                 <se:StswText Grid.Row="1" Margin="5" Padding="5">
                     <Run Text="Dialog ended with "/>
-                    <Run Text="{Binding ContentDialogResult}" FontWeight="Bold"/>
+                    <Run Text="{Binding MessageDialogResult}" FontWeight="Bold"/>
                     <Run Text=" result"/>
                 </se:StswText>
             </Grid>
         </Grid>
         <!-- control -->
-        <se:StswContentDialog BindingModel="{Binding ContentDialogBinding}"
+        <se:StswMessageDialog BindingModel="{Binding MessageDialogBinding}"
                               IsOpen="{Binding IsOpen}"
                               HorizontalAlignment="{Binding HorizontalAlignment}"
                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

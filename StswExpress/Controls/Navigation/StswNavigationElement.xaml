@@ -8,7 +8,7 @@
         
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
         <Setter Property="SubItemIndentation" Value="20"/>
@@ -195,7 +195,7 @@
         <se:StswExpander Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                         SubBorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                         SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          ExpandDirection="Down"
                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
@@ -268,13 +268,13 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="Top"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"
-                                    Visibility="Collapsed"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="Top"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Horizontal"
+                                              Visibility="Collapsed"/>
                             <!-- content -->
                             <ItemsControl x:Name="PART_ExpandSite"
                                           Focusable="False"
@@ -293,7 +293,7 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_SubBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding IsMouseOver, ElementName=PART_Header}" Value="True">
