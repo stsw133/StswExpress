@@ -269,21 +269,6 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    public Thickness DialogMargin
-    {
-        get => (Thickness)GetValue(DialogMarginProperty);
-        set => SetValue(DialogMarginProperty, value);
-    }
-    public static readonly DependencyProperty DialogMarginProperty
-        = DependencyProperty.Register(
-            nameof(DialogMargin),
-            typeof(Thickness),
-            typeof(StswContentDialog)
-        );
-
-    /// <summary>
-    /// 
-    /// </summary>
     public DataTemplate? DialogContentTemplate
     {
         get => (DataTemplate?)GetValue(DialogContentTemplateProperty);
@@ -308,6 +293,21 @@ public class StswContentDialog : ContentControl
         = DependencyProperty.Register(
             nameof(DialogContentTemplateSelector),
             typeof(DataTemplateSelector),
+            typeof(StswContentDialog)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Thickness DialogMargin
+    {
+        get => (Thickness)GetValue(DialogMarginProperty);
+        set => SetValue(DialogMarginProperty, value);
+    }
+    public static readonly DependencyProperty DialogMarginProperty
+        = DependencyProperty.Register(
+            nameof(DialogMargin),
+            typeof(Thickness),
             typeof(StswContentDialog)
         );
 

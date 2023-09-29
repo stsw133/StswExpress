@@ -48,25 +48,6 @@ public class ContractorsListContext : StswObservableObject
         
         await Task.Run(() => ListContractors = new());
 
-        //StswApp.StswWindow.ContentDialogBinding = new StswContentDialogModel()
-        //{
-        //    Title = "Błąd",
-        //    Content = "Wystąpił błąd...",
-        //    Buttons = StswDialogButtons.OK,
-        //    Image = StswDialogImage.Error,
-        //    IsOpen = true
-        //};
-        if (StswFn.FindVisualChild<StswMessageDialog>(StswApp.StswWindow) is StswMessageDialog stsw)
-            stsw.BindingModel = new StswMessageDialogModel()
-            {
-                Title = "Błąd",
-                Content = "Wystąpił błąd...",
-                Buttons = StswDialogButtons.OK,
-                Image = StswDialogImage.Error,
-                OnYesCommand = ClearCommand,
-                IsOpen = !stsw.IsOpen
-            };
-
         LoadingActions--;
     }
 

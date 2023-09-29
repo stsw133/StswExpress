@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswMessageDialog}">
@@ -10,114 +11,116 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
-        <Setter Property="IsOpen" Value="{Binding BindingModel.IsOpen, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
-        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswMessageDialog}">
-                    <Grid Background="#B000">
-                        <se:StswGroupBox x:Name="PART_MainBorder"
-                                         Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                         Focusable="False"
-                                         MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
-                                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
-                                         MinHeight="120"
-                                         MinWidth="200"
-                                         SnapsToDevicePixels="True"
-                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <se:StswGroupBox.Header>
-                                <StackPanel Height="20" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <se:StswIcon x:Name="PART_Icon"/>
-                                    <se:StswText FontWeight="Medium"
-                                                 Padding="3 0 0 0"
-                                                 Text="{Binding BindingModel.Title, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                 VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </se:StswGroupBox.Header>
-                            <DockPanel>
-                                <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}">
-                                    <se:StswButton x:Name="PART_ButtonYes"
-                                                   Command="{Binding BindingModel.OnYesCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Content="Tak"
-                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Padding="15 5"
-                                                   Visibility="Collapsed"/>
-                                    <se:StswButton x:Name="PART_ButtonNo"
-                                                   Command="{Binding BindingModel.OnNoCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Content="Nie"
-                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Padding="15 5"
-                                                   Visibility="Collapsed"/>
-                                    <se:StswButton x:Name="PART_ButtonCancel"
-                                                   Command="{Binding BindingModel.OnCancelCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Content="Anuluj"
-                                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                   Padding="15 5"
-                                                   Visibility="Collapsed"/>
-                                </UniformGrid>
-                                <se:StswTextBox BorderBrush="#5777"
-                                                BorderThickness="1"
-                                                IsReadOnly="True"
-                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                                Text="{Binding BindingModel.Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
-                                                TextWrapping="Wrap"/>
-                            </DockPanel>
-                        </se:StswGroupBox>
-                    </Grid>
+                    <se:StswGroupBox x:Name="PART_MainBorder"
+                                     Background="{TemplateBinding Background}"
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerRadius="{TemplateBinding CornerRadius}"
+                                     Focusable="False"
+                                     MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                     MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
+                                     MinHeight="120"
+                                     MinWidth="200"
+                                     SnapsToDevicePixels="True"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <se:StswGroupBox.Header>
+                            <StackPanel Height="20" Orientation="Horizontal" VerticalAlignment="Center">
+                                <se:StswIcon x:Name="PART_Icon"/>
+                                <se:StswText FontWeight="Medium"
+                                             Padding="3 0 0 0"
+                                             Text="{TemplateBinding Title}"
+                                             VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </se:StswGroupBox.Header>
+                        <DockPanel>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}">
+                                <se:StswButton x:Name="PART_ButtonYes"
+                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                               Content="Tak"
+                                               Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
+                                               Padding="15 5"
+                                               Visibility="Collapsed">
+                                    <se:StswButton.CommandParameter>
+                                        <sys:Boolean>True</sys:Boolean>
+                                    </se:StswButton.CommandParameter>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonNo"
+                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                               Content="Nie"
+                                               Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
+                                               Padding="15 5"
+                                               Visibility="Collapsed">
+                                    <se:StswButton.CommandParameter>
+                                        <sys:Boolean>False</sys:Boolean>
+                                    </se:StswButton.CommandParameter>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonCancel"
+                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandParameter="{x:Null}"
+                                               Content="Anuluj"
+                                               Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
+                                               Padding="15 5"
+                                               Visibility="Collapsed"/>
+                            </UniformGrid>
+                            <se:StswTextBox BorderBrush="#5777"
+                                            BorderThickness="1"
+                                            IsReadOnly="True"
+                                            Margin="{TemplateBinding Padding}"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                            Text="{TemplateBinding Content}"
+                                            TextWrapping="Wrap"/>
+                        </DockPanel>
+                    </se:StswGroupBox>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OK">
+                        <Trigger Property="Buttons" Value="OK">
                             <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="OKCancel">
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="OKCancel">
                             <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="YesNo">
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="YesNo">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Buttons, RelativeSource={RelativeSource Self}}" Value="YesNoCancel">
+                        </Trigger>
+                        <Trigger Property="Buttons" Value="YesNoCancel">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="None">
+                        </Trigger>
+                        <Trigger Property="Image" Value="None">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Error">
+                        </Trigger>
+                        <Trigger Property="Image" Value="Error">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Information">
+                        </Trigger>
+                        <Trigger Property="Image" Value="Information">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Question">
+                        </Trigger>
+                        <Trigger Property="Image" Value="Question">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Success">
+                        </Trigger>
+                        <Trigger Property="Image" Value="Success">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding BindingModel.Image, RelativeSource={RelativeSource Self}}" Value="Warning">
+                        </Trigger>
+                        <Trigger Property="Image" Value="Warning">
                             <Setter Property="Data" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <Trigger Property="IsOpen" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -10,8 +10,8 @@
         <local:StswMessageDialogContext/>
     </d:UserControl.DataContext>
 
-    <Grid>
-        <Grid IsEnabled="{Binding IsOpen, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
+    <se:StswContentDialog Identifier="StswMessageDialogView">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
@@ -56,10 +56,10 @@
             <GridSplitter Width="5"/>
             <!-- control -->
             <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <se:StswButton Command="{Binding OpenMessageDialogCommand}"
                                Content="Open content dialog"
                                Margin="5"/>
@@ -71,12 +71,5 @@
                 </se:StswText>
             </Grid>
         </Grid>
-        <!-- control -->
-        <se:StswMessageDialog BindingModel="{Binding MessageDialogBinding}"
-                              IsOpen="{Binding IsOpen}"
-                              HorizontalAlignment="{Binding HorizontalAlignment}"
-                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                              VerticalAlignment="{Binding VerticalAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-    </Grid>
+    </se:StswContentDialog>
 </UserControl>

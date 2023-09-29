@@ -171,7 +171,9 @@
                             <!-- content grid -->
                             <Grid x:Name="PART_Content" Grid.Row="1">
                                 <AdornerDecorator>
-                                    <ContentPresenter/>
+                                    <se:StswContentDialog Identifier="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
+                                        <ContentPresenter/>
+                                    </se:StswContentDialog>
                                 </AdornerDecorator>
 
                                 <!-- fullscreen button panel -->
@@ -207,9 +209,6 @@
                                     </se:StswSidePanel.Resources>
                                 </se:StswSidePanel>
                             </Grid>
-                            
-                            <!-- message dialog -->
-                            <se:StswMessageDialog Grid.Row="1" BindingModel="{TemplateBinding MessageDialogBinding}"/>
                         </Grid>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>

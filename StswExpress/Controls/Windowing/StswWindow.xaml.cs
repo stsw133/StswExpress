@@ -19,7 +19,6 @@ public class StswWindow : Window
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-        SetValue(MessageDialogBindingProperty, new StswMessageDialogModel());
 
         var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
         CommandBindings.Add(new CommandBinding(commandBinding, (s, e) => Fullscreen = !Fullscreen));
@@ -208,21 +207,6 @@ public class StswWindow : Window
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswWindow)
-        );
-
-    /// <summary>
-    /// Gets or sets the content of the custom window dialog.
-    /// </summary>
-    public StswMessageDialogModel MessageDialogBinding
-    {
-        get => (StswMessageDialogModel)GetValue(MessageDialogBindingProperty);
-        set => SetValue(MessageDialogBindingProperty, value);
-    }
-    public static readonly DependencyProperty MessageDialogBindingProperty
-        = DependencyProperty.Register(
-            nameof(MessageDialogBinding),
-            typeof(StswMessageDialogModel),
             typeof(StswWindow)
         );
 
