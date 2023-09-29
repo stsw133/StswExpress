@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control behaving like content dialog with various properties for customization.
 /// </summary>
-public class StswMessageDialog : Control, IStswDialog
+public class StswMessageDialog : Control
 {
     public StswMessageDialog()
     {

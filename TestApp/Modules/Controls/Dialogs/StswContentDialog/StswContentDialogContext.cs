@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TestApp;
 
@@ -8,12 +9,22 @@ public class StswContentDialogContext : ControlsContext
 
     public StswContentDialogContext()
     {
-        OpenContentDialogCommand = new StswCommand(OpenContentDialog);
+        OpenContentDialogCommand = new StswAsyncCommand(OpenContentDialog);
     }
 
     #region Events and methods
     /// Command: open content dialog
-    private void OpenContentDialog() => IsOpen = true;
+    private async Task OpenContentDialog()
+    {
+        //if (await StswContentDialog.Show(new ContractorsContext(), "TEST") is string result)
+        //    ContentDialogResult = result;
+
+        //StswContentDialog.Show(new ContractorsContext(), StswApp.StswWindow);
+
+        IsOpen = true;
+
+        //StswContentDialog.Close("TEST", true);
+    }
     #endregion
 
     #region Properties

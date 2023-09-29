@@ -10,7 +10,7 @@
         <local:StswContentDialogContext/>
     </d:UserControl.DataContext>
 
-    <Grid>
+    <se:StswContentDialog Identifier="TEST" IsOpen="{Binding IsOpen}">
         <Grid IsEnabled="{Binding IsOpen, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -64,17 +64,13 @@
             </Grid>
         </Grid>
         <!-- control -->
-        <se:StswContentDialog IsOpen="{Binding IsOpen}"
-                              HorizontalAlignment="{Binding HorizontalAlignment}"
-                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                              VerticalAlignment="{Binding VerticalAlignment}"
-                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
+        <se:StswContentDialog.DialogContent>
             <se:StswGroupBox Header="TEST">
                 <DockPanel>
                     <se:StswToggleButton DockPanel.Dock="Bottom" Content="Close" IsChecked="{Binding IsOpen}"/>
                     <Label Content="There is some test text..."/>
                 </DockPanel>
             </se:StswGroupBox>
-        </se:StswContentDialog>
-    </Grid>
+        </se:StswContentDialog.DialogContent>
+    </se:StswContentDialog>
 </UserControl>
