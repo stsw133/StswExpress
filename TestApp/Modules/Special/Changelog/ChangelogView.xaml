@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="TestApp.ChangelogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestApp"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:ChangelogContext/>
+    </d:UserControl.DataContext>
+    
+    <se:StswTextEditor BorderThickness="0" CornerRadius="0" FilePath="{Binding FilePath}" IsReadOnly="True" Padding="10" ToolBarMode="Collapsed"/>
+</UserControl>

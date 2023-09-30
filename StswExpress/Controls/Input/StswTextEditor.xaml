@@ -17,7 +17,7 @@
         <Setter Property="AcceptsTab" Value="True"/>
         <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="SelectedColorHighlight" Value="Transparent"/>
-        <Setter Property="IsExtended" Value="True"/>
+        <Setter Property="ToolBarMode" Value="Full"/>
         
         <Setter Property="ComponentsAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -64,16 +64,19 @@
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarDropButtonStyle" TargetType="{x:Type se:StswDropButton}">
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarNumericBoxStyle" TargetType="{x:Type se:StswNumericBox}">
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarTextBlockStyle" TargetType="{x:Type TextBlock}">
                                         <Setter Property="FontSize" Value="10"/>
@@ -82,15 +85,13 @@
                                         <Setter Property="Opacity" Value="0.6"/>
                                     </Style>
                                 </Grid.Resources>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <se:StswExpander x:Name="PART_ToolBarExpander" Grid.Column="0"
-                                                 BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" CornerRadius="0" Padding="0"
-                                                 ExpandDirection="Right" IsExpanded="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 VerticalAlignment="Stretch"/>
-                                <se:StswShifter Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswShifter HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <se:StswShifter.ButtonStyle>
+                                        <Style TargetType="{x:Type ButtonBase}">
+                                            <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextEditor}}}"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </se:StswShifter.ButtonStyle>
                                     <DockPanel>
                                         <!-- file -->
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
@@ -328,7 +329,11 @@
                         </DockPanel>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsExtended" Value="False">
+                        <Trigger Property="ToolBarMode" Value="Collapsed">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ToolBar"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                        </Trigger>
+                        <Trigger Property="ToolBarMode" Value="Compact">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileInfo"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilePrint"/>

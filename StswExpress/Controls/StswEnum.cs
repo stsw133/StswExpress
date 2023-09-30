@@ -157,3 +157,13 @@ public enum StswSpecialColumnVisibility
     All,
     OnlyRows
 }
+
+/// <summary>
+/// Enumeration for <see cref="StswTextEditor"/>'s toolbar mode.
+/// </summary>
+public enum StswToolbarMode
+{
+    Collapsed,
+    Compact,
+    Full
+}

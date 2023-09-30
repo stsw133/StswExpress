@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\changelog_en.rtf" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\manual_en.pdf" />
@@ -30,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\changelog_en.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\manual_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -45,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Special\Changelog\ChangelogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,10 +148,10 @@
     <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Wiki\WikiView.xaml.cs">
+    <Compile Update="Modules\Special\Wiki\WikiView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Home\HomeView.xaml.cs">
+    <Compile Update="Modules\Special\Home\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswCalendar\StswCalendarView.xaml.cs">
@@ -213,6 +220,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Special\Changelog\ChangelogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -319,11 +329,11 @@
     <Page Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Wiki\WikiView.xaml">
+    <Page Update="Modules\Special\Wiki\WikiView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Home\HomeView.xaml">
+    <Page Update="Modules\Special\Home\HomeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

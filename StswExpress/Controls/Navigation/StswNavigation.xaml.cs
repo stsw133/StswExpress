@@ -208,5 +208,20 @@ public class StswNavigation : ContentControl
             typeof(double),
             typeof(StswNavigation)
         );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between items and content.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswNavigation)
+        );
     #endregion
 }

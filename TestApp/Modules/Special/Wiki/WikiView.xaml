@@ -9,5 +9,6 @@
     <d:UserControl.DataContext>
         <local:WikiContext/>
     </d:UserControl.DataContext>
+    
     <wv2:WebView2 Source="https://github.com/stsw133/StswExpress/wiki"/>
 </UserControl>

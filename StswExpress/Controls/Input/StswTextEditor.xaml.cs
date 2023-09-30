@@ -113,10 +113,7 @@ public class StswTextEditor : RichTextBox
     {
         base.OnApplyTemplate();
 
-        if (FilePath != null)
-            LoadDocument();
-        else
-            Document.Blocks.Clear();
+        OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
 
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
 
@@ -217,7 +214,7 @@ public class StswTextEditor : RichTextBox
             return;
 
         FilePath = null;
-        ClearDocument();
+        //ClearDocument();
     }
     private bool FileNew_CanExecute() => true;
 
@@ -237,7 +234,7 @@ public class StswTextEditor : RichTextBox
                 return;
 
             FilePath = dialog.FileName;
-            LoadDocument();
+            //LoadDocument();
         }
     }
     private bool FileOpen_CanExecute() => true;
@@ -712,23 +709,21 @@ public class StswTextEditor : RichTextBox
         = DependencyProperty.Register(
             nameof(FilePath),
             typeof(string),
-            typeof(StswTextEditor)
+            typeof(StswTextEditor),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilePathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in extended mode (shows more options in component panel).
-    /// </summary>
-    public bool IsExtended
+    public static void OnFilePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        get => (bool)GetValue(IsExtendedProperty);
-        set => SetValue(IsExtendedProperty, value);
+        if (obj is StswTextEditor stsw)
+        {
+            if (stsw.FilePath != null)
+                stsw.LoadDocument();
+            else
+                stsw.ClearDocument();
+        }
     }
-    public static readonly DependencyProperty IsExtendedProperty
-        = DependencyProperty.Register(
-            nameof(IsExtended),
-            typeof(bool),
-            typeof(StswTextEditor)
-        );
 
     /// <summary>
     /// Gets or sets the selected text color in the editor.
@@ -779,6 +774,21 @@ public class StswTextEditor : RichTextBox
             stsw.FontColorHighlight_Executed();
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control shows tool bar and how many options.
+    /// </summary>
+    public StswToolbarMode ToolBarMode
+    {
+        get => (StswToolbarMode)GetValue(ToolBarModeProperty);
+        set => SetValue(ToolBarModeProperty, value);
+    }
+    public static readonly DependencyProperty ToolBarModeProperty
+        = DependencyProperty.Register(
+            nameof(ToolBarMode),
+            typeof(StswToolbarMode),
+            typeof(StswTextEditor)
+        );
     #endregion
 
     #region Style properties

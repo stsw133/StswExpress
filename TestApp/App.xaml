@@ -9,7 +9,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Home -->
+            <DataTemplate DataType="{x:Type local:HomeContext}">
+                <local:HomeView/>
+            </DataTemplate>
             
+
+
             <!-- Buttons -->
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
@@ -211,15 +218,10 @@
             <DataTemplate DataType="{x:Type local:StswWindowContext}">
                 <local:StswWindowView/>
             </DataTemplate>
-
-
-
-            <!-- Home -->
-            <DataTemplate DataType="{x:Type local:HomeContext}">
-                <local:HomeView/>
-            </DataTemplate>
             
-            <!-- Templates -->
+            
+            
+            <!-- Examples -->
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
@@ -232,8 +234,13 @@
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
             </DataTemplate>
-
-            <!-- Settings & Wiki -->
+            
+            
+            
+            <!-- Special -->
+            <DataTemplate DataType="{x:Type local:ChangelogContext}">
+                <local:ChangelogView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>
             </DataTemplate>
