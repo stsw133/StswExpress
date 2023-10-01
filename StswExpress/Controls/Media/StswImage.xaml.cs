@@ -10,7 +10,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control to display image with additional features such as context menu options.
 /// </summary>
-public class StswImage : UserControl
+public class StswImage : Control
 {
     static StswImage()
     {
@@ -23,6 +23,8 @@ public class StswImage : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// MainBorder: context menu opening
         if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
             mainBorder.ContextMenuOpening += PART_MainBorder_ContextMenuOpening;
@@ -46,7 +48,6 @@ public class StswImage : UserControl
         if (GetTemplateChild("PART_Save") is MenuItem mniSave)
             mniSave.Click += MniSave_Click;
 
-        base.OnApplyTemplate();
         //UpdateLayout();
     }
 

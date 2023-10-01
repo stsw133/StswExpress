@@ -60,47 +60,45 @@ public static class StswExtensions
 
     #region Collection extensions
     /// <summary>
-    /// Clones an <see cref="IList"/> into another <see cref="IList"/> while preserving the items in the new list.
+    /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
     /// </summary>
-    public static IList Clone(this IList source)
+    public static IEnumerable Clone(this IEnumerable source)
     {
-        if (Activator.CreateInstance(source.GetType()) is IList clonedList)
+        if (Activator.CreateInstance(source.GetType()) is IEnumerable clonedList)
         {
             foreach (var item in source)
             {
                 if (item is ICloneable cloneableItem)
-                    clonedList.Add(cloneableItem.Clone());
+                    yield return cloneableItem.Clone();
                 else
-                    clonedList.Add(item);
+                    yield return item;
             }
-            return clonedList;
         }
         else throw new ArgumentNullException("The source is not a proper IList.");
     }
 
     /// <summary>
-    /// Converts <see cref="DataTable"/> to <see cref="List{T}"/>.
+    /// Converts <see cref="DataTable"/> to <see cref="IEnumerable{T}"/>.
     /// </summary>
-    public static List<T> ToObjectList<T>(this DataTable value) where T : class, new()
+    public static IEnumerable<T> ToObjectList<T>(this DataTable dt) where T : class, new()
     {
-        var result = new List<T>();
+        var objProps = typeof(T).GetProperties().ToList();
+        var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).Where(x => x >= 0).ToArray();
 
-        foreach (var row in value.AsEnumerable())
+        foreach (var row in dt.AsEnumerable())
         {
             var obj = new T();
 
-            foreach (var prop in obj.GetType().GetProperties().Where(p => p.Name.ToLower().In(value.Columns.Cast<DataColumn>().Select(x => x.ColumnName.ToLower()))))
+            for (int i = 0; i < mappings.Length; i++)
             {
                 try
                 {
-                    var propertyInfo = obj.GetType().GetProperty(prop.Name);
+                    var propertyInfo = objProps[mappings[i]];
 
-                    if (propertyInfo?.PropertyType == typeof(ImageSource))
-                        propertyInfo.SetValue(obj, ((byte[])row[prop.Name]).ToBitmapImage(), null);
-                    else if (propertyInfo?.PropertyType != typeof(object))
-                        propertyInfo?.SetValue(obj, row[prop.Name].ConvertTo(propertyInfo.PropertyType), null);
+                    if (propertyInfo?.PropertyType != typeof(object))
+                        propertyInfo?.SetValue(obj, row[i].ConvertTo(propertyInfo.PropertyType), null);
                     else
-                        propertyInfo?.SetValue(obj, row[prop.Name], null);
+                        propertyInfo?.SetValue(obj, row[i], null);
                 }
                 catch
                 {
@@ -108,10 +106,8 @@ public static class StswExtensions
                 }
             }
 
-            result.Add(obj);
+            yield return obj;
         }
-
-        return result;
     }
 
     /// <summary>
@@ -386,6 +382,24 @@ public static class StswExtensions
     #endregion
 
     #region Universal extensions
+    /// <summary>
+    /// Converts <see cref="T"/> to different type.
+    /// </summary>
+    /// <param name="o">Object to convert.</param>
+    /// <returns>Object of different type.</returns>
+    public static T? ConvertTo<T>(this object o)
+    {
+        if (o == null || o == DBNull.Value)
+            return Nullable.GetUnderlyingType(typeof(T?)) == null ? default : (T?)(object?)null;
+        else
+        {
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            return underlyingType == null
+                ? (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture)
+                : (T)Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+        }
+    }
+
     /// <summary>
     /// Converts <see cref="object"/> to different type.
     /// </summary>

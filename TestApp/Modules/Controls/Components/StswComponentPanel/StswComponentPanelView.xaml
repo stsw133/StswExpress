@@ -10,61 +10,79 @@
         <local:StswComponentPanelContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a panel control that functions as a component and displays an icon.
+                        It can expand to show additional components when the mouse is over an icon.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a panel control that functions as a component and displays an icon.
-                                It can expand to show additional components when the mouse is over an icon.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- ExpandDirection -->
-                    <Label Content="ExpandDirection:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ExpandDirection:"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ExpandDirection}" SelectedValuePath="Value"/>
                     <!-- IconScale -->
-                    <Label Content="IconScale:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale:"/>
                     <se:StswNumericBox Format="N2" Increment="0.1" Margin="0 0 0 3" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswComponentPanel DockPanel.Dock="Top"
-                                       ExpandDirection="{Binding ExpandDirection}"
-                                       IconScale="{Binding IconScale}"
-                                       IsEnabled="{Binding IsEnabled}"
-                                       Margin="5">
-                    <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                            IconData="{x:Static se:StswIcons.Magnify}"
-                                            IconScale="{Binding IconScale}"/>
-                    <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                            IconData="{x:Static se:StswIcons.Filter}"
-                                            IconScale="{Binding IconScale}"/>
-                    <se:StswComponentButton Command="{Binding OnClickCommand}"
-                                            IconData="{x:Static se:StswIcons.Close}"
-                                            IconScale="{Binding IconScale}"/>
-                </se:StswComponentPanel>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="You clicked "/>
-                    <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
-                    <Run Text=" time(s)"/>
-                </TextBlock>
-            </DockPanel>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswComponentPanel ExpandDirection="{Binding ExpandDirection}"
+                                   IconScale="{Binding IconScale}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   Margin="5"
+                                   HorizontalAlignment="{Binding HorizontalAlignment}"
+                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                   VerticalAlignment="{Binding VerticalAlignment}"
+                                   VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                        IconData="{x:Static se:StswIcons.Magnify}"
+                                        IconScale="{Binding IconScale}"/>
+                <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                        IconData="{x:Static se:StswIcons.Filter}"
+                                        IconScale="{Binding IconScale}"/>
+                <se:StswComponentButton Command="{Binding OnClickCommand}"
+                                        IconData="{x:Static se:StswIcons.Close}"
+                                        IconScale="{Binding IconScale}"/>
+            </se:StswComponentPanel>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="You clicked "/>
+                <Run Text="{Binding ClickCounter}" FontWeight="Bold"/>
+                <Run Text=" time(s)"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

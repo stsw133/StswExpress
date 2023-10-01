@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,7 +16,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
-public class StswFilter : UserControl
+public class StswFilter : Control
 {
     public ICommand SelectModeCommand { get; set; }
 
@@ -31,7 +30,7 @@ public class StswFilter : UserControl
     }
 
     #region Events & methods
-    private ButtonBase? partFilterMode;
+    private ButtonBase? filterMode;
     private StswDataGrid? stswDataGrid;
 
     /// <summary>
@@ -39,15 +38,17 @@ public class StswFilter : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
-        if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid dataGrid)
+        base.OnApplyTemplate();
+
+        if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid stswDataGrid)
         {
-            stswDataGrid = dataGrid;
+            this.stswDataGrid = stswDataGrid;
             IsInDataGrid = true;
         }
 
         /// ToggleButton: filter mode
-        if (GetTemplateChild("PART_FilterMode") is ButtonBase btnMode)
-            partFilterMode = btnMode;
+        if (GetTemplateChild("PART_FilterMode") is ButtonBase filterMode)
+            this.filterMode = filterMode;
 
         /*
         /// shortcuts for FilterMode items
@@ -78,8 +79,6 @@ public class StswFilter : UserControl
         DefaultValue2 = Value2;
 
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// Command: select mode
@@ -200,8 +199,8 @@ public class StswFilter : UserControl
         if (obj is StswFilter stsw)
         {
             if (stsw.FilterMode != null
-             && stsw.partFilterMode?.Content is StswOutlinedText symbolBlock and not null
-             && stsw.partFilterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.ToList()?[(int)stsw.FilterMode]?.Icon is StswOutlinedText newSymbolBlock and not null)
+             && stsw.filterMode?.Content is StswOutlinedText symbolBlock and not null
+             && stsw.filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.ToList()?[(int)stsw.FilterMode]?.Icon is StswOutlinedText newSymbolBlock and not null)
             {
                 symbolBlock.Fill = newSymbolBlock.Fill;
                 symbolBlock.Text = newSymbolBlock.Text;
@@ -485,17 +484,17 @@ public class StswFilter : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswFilter)
         );
     #endregion

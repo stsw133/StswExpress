@@ -5,8 +5,7 @@
     <Style TargetType="{x:Type se:StswScrollBar}">
         <Setter Property="Background" Value="{DynamicResource StswScroll.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswScroll.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        
+
         <Setter Property="BorderThickness" Value="1 0"/>
 
         <Setter Property="CollapsedWidth" Value="6"/>

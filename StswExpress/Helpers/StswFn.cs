@@ -25,7 +25,7 @@ public static class StswFn
     /// <summary>
     /// Returns the version number of the currently executing application.
     /// </summary>
-    public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd(".0").TrimEnd(".0").TrimEnd(".0");
+    public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd('0', '.');
 
     /// <summary>
     /// Returns the name and version number of the currently executing application.
@@ -268,9 +268,9 @@ public static class StswFn
     /// <summary>
     /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
     /// </summary>
-    public static ThemeColor GetWindowsTheme()
+    public static StswTheme GetWindowsTheme()
     {
-        var theme = ThemeColor.Light;
+        var theme = StswTheme.Light;
 
         try
         {
@@ -285,7 +285,7 @@ public static class StswFn
                 //if (SystemParameters.HighContrast)
                 //    theme = 2;
 
-                theme = (ThemeColor)(registryValue > 0 ? 0 : 1);
+                theme = (StswTheme)(registryValue > 0 ? 0 : 1);
             }
 
             return theme;

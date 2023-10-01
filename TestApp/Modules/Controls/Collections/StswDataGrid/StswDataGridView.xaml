@@ -10,94 +10,110 @@
         <local:StswDataGridContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
-                <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
                                 Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    </Run>
+                </se:StswText>
+                <StackPanel Margin="5">
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- IsReadOnly -->
-                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}" Margin="0 3">
-                        <Label Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsReadOnly" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsReadOnly}" Margin="0 3"/>
                     <!-- SpecialColumnVisibility -->
-                    <Label Content="SpecialColumnVisibility:" FontSize="15" FontWeight="Medium" Margin="0 3 0 0"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SpecialColumnVisibility:"/>
                     <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpecialColumnVisibility}}"
                                      DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}" SelectedValuePath="Value"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswDataGrid DockPanel.Dock="Top"
-                                 BackgroundHeader="#1777"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsReadOnly="{Binding IsReadOnly}"
-                                 ItemsSource="{Binding Items, Mode=TwoWay}"
-                                 Margin="5"
-                                 SpecialColumnVisibility="{Binding SpecialColumnVisibility}">
-                    
-                    <se:StswDataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding ID}" Width="100">
-                            <DataGridTextColumn.Header>
-                                <se:StswFilter Header="ID" FilterType="Number" FilterMode="Equal"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Name}" Width="*">
-                            <DataGridTextColumn.Header>
-                                <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains"/>
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
-                    </se:StswDataGrid.Columns>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswDataGrid BackgroundHeader="#1777"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsReadOnly="{Binding IsReadOnly}"
+                             ItemsSource="{Binding Items, Mode=TwoWay}"
+                             Margin="5"
+                             SpecialColumnVisibility="{Binding SpecialColumnVisibility}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
 
-                    <DataGrid.RowDetailsTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="There are some row details..." Margin="5"/>
-                        </DataTemplate>
-                    </DataGrid.RowDetailsTemplate>
+                <se:StswDataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding ID}" Width="100">
+                        <DataGridTextColumn.Header>
+                            <se:StswFilter Header="ID" FilterType="Number" FilterMode="Equal"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Name}" Width="*">
+                        <DataGridTextColumn.Header>
+                            <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                </se:StswDataGrid.Columns>
 
-                    <se:StswDataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                                    <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ShowDetails}" Value="False">
-                                    <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ShowDetails}" Value="True">
-                                    <Setter Property="DetailsVisibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </se:StswDataGrid.RowStyle>
-                </se:StswDataGrid>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
-                    <Run Text=" total rows, "/>
-                    <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
-                    <Run Text=" added rows, "/>
-                    <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
-                    <Run Text=" modified rows, "/>
-                    <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
-                    <Run Text=" deleted rows"/>
-                </TextBlock>
-            </DockPanel>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="There are some row details..." Margin="5"/>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+
+                <se:StswDataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
+                                <Setter Property="DetailsVisibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowDetails}" Value="False">
+                                <Setter Property="DetailsVisibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowDetails}" Value="True">
+                                <Setter Property="DetailsVisibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </se:StswDataGrid.RowStyle>
+            </se:StswDataGrid>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" total rows, "/>
+                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
+                <Run Text=" added rows, "/>
+                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
+                <Run Text=" modified rows, "/>
+                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
+                <Run Text=" deleted rows"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

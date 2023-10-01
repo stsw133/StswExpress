@@ -20,11 +20,11 @@ public class StswTabItem : TabItem
     /// </summary>
     public override void OnApplyTemplate()
     {
-        /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton btn)
-            btn.Click += PART_FunctionButton_Click;
-
         base.OnApplyTemplate();
+
+        /// FunctionButton
+        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+            functionButton.Click += PART_FunctionButton_Click;
     }
 
     /// <summary>

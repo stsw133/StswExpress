@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that provides a user interface element with a collapsible content area.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswDropButton : UserControl
+public class StswDropButton : ContentControl
 {
     public StswDropButton()
     {
@@ -162,6 +162,21 @@ public class StswDropButton : UserControl
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
+            typeof(StswDropButton)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswDropButton)
         );
     #endregion

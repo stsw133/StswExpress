@@ -103,36 +103,33 @@ public class StswTextEditor : RichTextBox
 
     #region Events & methods
     private string _originalContent = string.Empty;
-    private StswComboBox? partFontFamily;
-    private StswNumericBox? partFontSize;
+    private StswComboBox? fontFamily;
+    private StswNumericBox? fontSize;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
-        if (FilePath != null)
-            LoadDocument();
-        else
-            Document.Blocks.Clear();
+        base.OnApplyTemplate();
+
+        OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
 
         //((Paragraph)Document.Blocks.FirstBlock).LineHeight = 0.0034;
 
         /// Box: font families
-        if (GetTemplateChild("PART_FontFamily") is StswComboBox cmbFontFamily)
+        if (GetTemplateChild("PART_FontFamily") is StswComboBox fontFamily)
         {
-            cmbFontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
-            cmbFontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
-            partFontFamily = cmbFontFamily;
+            fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
+            fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
+            this.fontFamily = fontFamily;
         }
         /// Box: font size
-        if (GetTemplateChild("PART_FontSize") is StswNumericBox nmbFontSize)
+        if (GetTemplateChild("PART_FontSize") is StswNumericBox fontSize)
         {
-            nmbFontSize.ValueChanged += PART_FontSize_ValueChanged;
-            partFontSize = nmbFontSize;
+            fontSize.ValueChanged += PART_FontSize_ValueChanged;
+            this.fontSize = fontSize;
         }
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -155,16 +152,16 @@ public class StswTextEditor : RichTextBox
             partFontUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
         */
         var temp = Selection.GetPropertyValue(Inline.FontFamilyProperty);
-        if (partFontFamily != null)
-            partFontFamily.SelectedItem = temp;
+        if (fontFamily != null)
+            fontFamily.SelectedItem = temp;
 
         temp = Selection.GetPropertyValue(Inline.FontSizeProperty);
-        if (partFontSize != null)
+        if (fontSize != null)
         {
             if (temp != DependencyProperty.UnsetValue)
-                partFontSize.Value = Convert.ToDouble(temp);
+                fontSize.Value = Convert.ToDouble(temp);
             else
-                partFontSize.Value = null;
+                fontSize.Value = null;
         }
     }
     #endregion
@@ -217,7 +214,7 @@ public class StswTextEditor : RichTextBox
             return;
 
         FilePath = null;
-        ClearDocument();
+        //ClearDocument();
     }
     private bool FileNew_CanExecute() => true;
 
@@ -237,7 +234,7 @@ public class StswTextEditor : RichTextBox
                 return;
 
             FilePath = dialog.FileName;
-            LoadDocument();
+            //LoadDocument();
         }
     }
     private bool FileOpen_CanExecute() => true;
@@ -441,8 +438,8 @@ public class StswTextEditor : RichTextBox
     /// </summary>
     private void PART_FontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!Selection.IsEmpty && partFontFamily?.SelectedItem != null)
-            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, partFontFamily.SelectedItem);
+        if (!Selection.IsEmpty && fontFamily?.SelectedItem != null)
+            Selection.ApplyPropertyValue(Inline.FontFamilyProperty, fontFamily.SelectedItem);
         Focus();
     }
 
@@ -452,8 +449,8 @@ public class StswTextEditor : RichTextBox
     /// </summary>
     private void PART_FontSize_ValueChanged(object? sender, EventArgs e)
     {
-        if (!Selection.IsEmpty && partFontSize?.Value != null)
-            Selection.ApplyPropertyValue(Inline.FontSizeProperty, partFontSize.Value);
+        if (!Selection.IsEmpty && fontSize?.Value != null)
+            Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSize.Value);
         Focus();
     }
 
@@ -712,23 +709,21 @@ public class StswTextEditor : RichTextBox
         = DependencyProperty.Register(
             nameof(FilePath),
             typeof(string),
-            typeof(StswTextEditor)
+            typeof(StswTextEditor),
+            new FrameworkPropertyMetadata(default(string?),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnFilePathChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the control is in extended mode (shows more options in component panel).
-    /// </summary>
-    public bool IsExtended
+    public static void OnFilePathChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        get => (bool)GetValue(IsExtendedProperty);
-        set => SetValue(IsExtendedProperty, value);
+        if (obj is StswTextEditor stsw)
+        {
+            if (stsw.FilePath != null)
+                stsw.LoadDocument();
+            else
+                stsw.ClearDocument();
+        }
     }
-    public static readonly DependencyProperty IsExtendedProperty
-        = DependencyProperty.Register(
-            nameof(IsExtended),
-            typeof(bool),
-            typeof(StswTextEditor)
-        );
 
     /// <summary>
     /// Gets or sets the selected text color in the editor.
@@ -779,6 +774,21 @@ public class StswTextEditor : RichTextBox
             stsw.FontColorHighlight_Executed();
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control shows tool bar and how many options.
+    /// </summary>
+    public StswToolbarMode ToolBarMode
+    {
+        get => (StswToolbarMode)GetValue(ToolBarModeProperty);
+        set => SetValue(ToolBarModeProperty, value);
+    }
+    public static readonly DependencyProperty ToolBarModeProperty
+        = DependencyProperty.Register(
+            nameof(ToolBarMode),
+            typeof(StswToolbarMode),
+            typeof(StswTextEditor)
+        );
     #endregion
 
     #region Style properties
@@ -813,17 +823,17 @@ public class StswTextEditor : RichTextBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and components.
+    /// Gets or sets the thickness of the separator between box and components.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswTextEditor)
         );
 

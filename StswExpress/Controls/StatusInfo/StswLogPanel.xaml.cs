@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : UserControl
+public class StswLogPanel : Control
 {
     public ICommand RemoveLogCommand { get; set; }
 
@@ -34,13 +34,13 @@ public class StswLogPanel : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Content
         if (GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
             stswScrollViewer = scrollViewer;
-        if (Items == null)
-            Items = new();
 
-        base.OnApplyTemplate();
+        Items ??= new();
     }
 
     /// Command: remove log
@@ -55,6 +55,21 @@ public class StswLogPanel : UserControl
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the log is closable and has a close button.
+    /// </summary>
+    public bool IsClosable
+    {
+        get => (bool)GetValue(IsClosableProperty);
+        set => SetValue(IsClosableProperty, value);
+    }
+    public static readonly DependencyProperty IsClosableProperty
+        = DependencyProperty.Register(
+            nameof(IsClosable),
+            typeof(bool),
+            typeof(StswLogPanel)
+        );
+
     /// <summary>
     /// 
     /// </summary>

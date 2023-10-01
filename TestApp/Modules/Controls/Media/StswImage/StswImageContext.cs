@@ -1,4 +1,6 @@
-﻿namespace TestApp;
+﻿using System.Windows.Media;
+
+namespace TestApp;
 
 public class StswImageContext : ControlsContext
 {
@@ -9,6 +11,14 @@ public class StswImageContext : ControlsContext
     {
         get => menuMode;
         set => SetProperty(ref menuMode, value);
+    }
+
+    /// Stretch
+    private Stretch stretch = Stretch.Uniform;
+    public Stretch Stretch
+    {
+        get => stretch;
+        set => SetProperty(ref stretch, value);
     }
     #endregion
 }

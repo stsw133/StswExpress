@@ -5,14 +5,19 @@ namespace TestApp;
 
 public class StswNumericBoxContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
     public ICommand RandomizeCommand { get; set; }
 
     public StswNumericBoxContext()
     {
+        ClearCommand = new StswCommand(Clear);
         RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events and methods
+    /// Command: clear
+    private void Clear() => SelectedValue = default;
+
     /// Command: randomize
     private void Randomize() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue);
     #endregion

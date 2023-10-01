@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a navigation control that allows managing multiple contexts and navigation elements.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigation : UserControl
+public class StswNavigation : ContentControl
 {
     public StswNavigation()
     {
@@ -33,10 +33,10 @@ public class StswNavigation : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         if (IsExtended == default)
             OnIsExtendedChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -210,17 +210,17 @@ public class StswNavigation : UserControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between content and items list.
+    /// Gets or sets the thickness of the separator between items and content.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswNavigation)
         );
     #endregion

@@ -5,7 +5,6 @@
     <Style TargetType="{x:Type se:StswTabControl}">
         <Setter Property="Background" Value="{DynamicResource StswTabControl.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Padding" Value="3"/>
@@ -13,6 +12,8 @@
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
         <Setter Property="NewTabButtonVisibility" Value="Visible"/>
         
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -33,14 +34,14 @@
                                            Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                            <se:StswScrollViewer IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:StswShifter x:Name="PART_Shifter" CornerRadius="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <TabPanel x:Name="HeaderPanel"
                                           Background="Transparent"
                                           IsItemsHost="True"
                                           KeyboardNavigation.TabIndex="1"
                                           Margin="2 2 0 0"
                                           Panel.ZIndex="1"/>
-                            </se:StswScrollViewer>
+                            </se:StswShifter>
                         </DockPanel>
                         <Border x:Name="PART_ContentPanel" DockPanel.Dock="Bottom"
                                 Background="{TemplateBinding Background}"
@@ -63,15 +64,18 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FunctionButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
+                            <Setter Property="BorderThickness" Value="1 1 1 0" TargetName="PART_Shifter"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="PART_Shifter"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="1" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Margin" Value="2 0 0 2" TargetName="HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="BorderThickness" Value="1 1 0 1" TargetName="PART_Shifter"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
@@ -80,6 +84,7 @@
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="BorderThickness" Value="0 1 1 1" TargetName="PART_Shifter"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Column" Value="1" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>

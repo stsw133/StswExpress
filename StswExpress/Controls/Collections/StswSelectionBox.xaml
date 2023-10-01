@@ -8,10 +8,15 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        
+
+        <Setter Property="MaxDropDownHeight" Value="120"/>
+
         <Setter Property="ComponentsAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -79,26 +84,29 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:StswClippingBorder x:Name="DropDownBorder"
-                                                       Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
-                                    <se:StswListBox x:Name="PART_ListBox"
-                                                    Background="{DynamicResource StswPopup.Static.Background}"
-                                                    BorderThickness="0" CornerRadius="0"
-                                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                                    Focusable="False"
-                                                    ItemsSource="{TemplateBinding ItemsSource}"
-                                                    KeyboardNavigation.DirectionalNavigation="Contained"
-                                                    ScrollViewer.CanContentScroll="True"
-                                                    SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                    SelectionMode="Multiple"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                </se:StswClippingBorder>
+                                <se:StswListBox x:Name="PART_ListBox"
+                                                Background="{DynamicResource StswPopup.Static.Background}"
+                                                BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
+                                                BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                CornerRadius="{TemplateBinding CornerRadius}"
+                                                DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                Focusable="False"
+                                                ItemsSource="{TemplateBinding ItemsSource}"
+                                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                                ScrollViewer.CanContentScroll="True"
+                                                SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                SelectionMode="Multiple"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Popup>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"
+                                              Visibility="Hidden"/>
                             <!-- content -->
                             <Grid>
                                 <TextBlock x:Name="PART_Placeholder"
@@ -130,7 +138,7 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding HasItems, ElementName=PART_ListBox}" Value="False">
-                            <Setter Property="Height" Value="95" TargetName="DropDownBorder"/>
+                            <Setter Property="Height" Value="95" TargetName="PART_ListBox"/>
                         </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton"/>
@@ -141,6 +149,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_ListBox"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

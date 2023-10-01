@@ -5,14 +5,19 @@ namespace TestApp;
 
 public class StswDatePickerContext : ControlsContext
 {
+    public ICommand ClearCommand { get; set; }
     public ICommand RandomizeCommand { get; set; }
 
     public StswDatePickerContext()
     {
+        ClearCommand = new StswCommand(Clear);
         RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events and methods
+    /// Command: clear
+    private void Clear() => SelectedDate = default;
+
     /// Command: randomize
     private void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue-DateTime.MinValue).Days));
     #endregion

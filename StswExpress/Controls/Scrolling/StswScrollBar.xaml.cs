@@ -27,6 +27,8 @@ public class StswScrollBar : ScrollBar
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Border
         if (GetTemplateChild("PART_Border") is Border border)
             this.border = border;
@@ -49,8 +51,6 @@ public class StswScrollBar : ScrollBar
 
         /// IsDynamic
         OnIsDynamicChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

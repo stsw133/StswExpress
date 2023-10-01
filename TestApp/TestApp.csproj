@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>TestApp</AssemblyName>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
     <Copyright></Copyright>
     <Authors>Karol Staszewski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\changelog_en.rtf" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\manual_en.pdf" />
@@ -30,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\changelog_en.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\manual_en.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -45,7 +49,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Special\Changelog\ChangelogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml.cs">
@@ -69,10 +79,25 @@
     <Compile Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Input\StswRatingControl\StswRatingControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Layout\StswSidePanel\StswSidePanelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Layout\StswZoomControl\StswZoomControlView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
@@ -111,19 +136,22 @@
     <Compile Update="Modules\Controls\StswComboViewStswListSelectorStswComboView\StswComboViewViewStswListSelectorStswComboView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\StatusInfo\StswContentDialog\StswContentDialogView.xaml.cs">
+    <Compile Update="Modules\Controls\Dialogs\StswContentDialog\StswContentDialogView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswPopup\StswPopupView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Wiki\WikiView.xaml.cs">
+    <Compile Update="Modules\Special\Wiki\WikiView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Home\HomeView.xaml.cs">
+    <Compile Update="Modules\Special\Home\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswCalendar\StswCalendarView.xaml.cs">
@@ -192,7 +220,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Special\Changelog\ChangelogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Buttons\StswSplitButton\StswSplitButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Collections\StswListView\StswListViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Color\StswColorSelector\StswColorSelectorView.xaml">
@@ -219,10 +253,25 @@
     <Page Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Input\StswRatingControl\StswRatingControlView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Layout\StswSidePanel\StswSidePanelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Layout\StswZoomControl\StswZoomControlView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">
@@ -268,20 +317,23 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\StatusInfo\StswContentDialog\StswContentDialogView.xaml">
+    <Page Update="Modules\Controls\Dialogs\StswContentDialog\StswContentDialogView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswNotifyIcon\StswNotifyIconView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Windowing\StswPopup\StswPopupView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Wiki\WikiView.xaml">
+    <Page Update="Modules\Special\Wiki\WikiView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Home\HomeView.xaml">
+    <Page Update="Modules\Special\Home\HomeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

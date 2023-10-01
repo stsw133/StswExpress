@@ -7,12 +7,14 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -160,14 +162,14 @@
                                         </ContextMenu>
                                     </se:StswToggleButton.ContextMenu>
                                 </se:StswToggleButton>
-                                <!-- subborder -->
-                                <Border x:Name="PART_SubBorder"
-                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                        BorderThickness="{TemplateBinding SubBorderThickness}"
-                                        SnapsToDevicePixels="True"
-                                        Visibility="{TemplateBinding FilterModeVisibility}"/>
+                                <!-- separator -->
+                                <se:StswSeparator x:Name="PART_Separator"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
+                                                  Orientation="Vertical"
+                                                  Visibility="{TemplateBinding FilterModeVisibility}"/>
                                 <!-- controls -->
-                                <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource TextBox.Static.Background}">
+                                <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
                                     <ContentControl x:Name="PART_FirstControl">
                                         <ContentControl.Style>
@@ -182,7 +184,17 @@
                                                                                      BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
                                                                                      IconIndeterminate="{x:Static se:StswIcons.DotsHorizontal}"
                                                                                      IsChecked="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                     IsThreeState="True"/>
+                                                                                     IsThreeState="True">
+                                                                        <se:StswCheckBox.Style>
+                                                                            <Style TargetType="{x:Type se:StswCheckBox}">
+                                                                                <Style.Triggers>
+                                                                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                                                                        <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
+                                                                                    </Trigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </se:StswCheckBox.Style>
+                                                                    </se:StswCheckBox>
                                                                 </DataTemplate>
                                                             </Setter.Value>
                                                         </Setter>
@@ -298,7 +310,7 @@
                             </DockPanel>
                         </se:StswClippingBorder>
                         <!-- header -->
-                        <ContentPresenter Content="{TemplateBinding Header}"/>
+                        <ContentPresenter Content="{TemplateBinding Header}" Focusable="False"/>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="FilterType" Value="Check">
@@ -351,6 +363,9 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainBorder"/>
                         </MultiDataTrigger>
+                        <Trigger Property="Header" Value="{x:Null}">
+                            <Setter Property="Margin" Value="0" TargetName="PART_MainBorder"/>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder"/>

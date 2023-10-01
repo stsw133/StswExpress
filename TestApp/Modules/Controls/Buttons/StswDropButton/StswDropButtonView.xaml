@@ -10,66 +10,102 @@
         <local:StswDropButtonContext/>
     </d:UserControl.DataContext>
 
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <!-- name and description -->
-            <se:StswScrollViewer IsDynamic="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <!-- name and description -->
+        <se:StswScrollViewer IsDynamic="True">
+            <StackPanel Margin="5">
+                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run>
+                        Represents a control that provides a user interface element with a collapsible content area.
+                    </Run>
+                </se:StswText>
                 <StackPanel Margin="5">
-                    <Label>
-                        <StackPanel>
-                            <TextBlock Text="{Binding ThisControlName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Margin="0 5 0 0" TextAlignment="Justify" TextWrapping="Wrap">
-                                Represents a control that provides a user interface element with a collapsible content area.
-                            </TextBlock>
-                        </StackPanel>
-                    </Label>
+                    <se:StswText FontWeight="Medium" Text="Properties:"/>
+                    <!-- Alignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                    <UniformGrid>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                    </UniformGrid>
                     <!-- IsEnabled -->
-                    <se:StswCheckBox IsChecked="{Binding IsEnabled}" Margin="0 3">
-                        <Label Content="IsEnabled" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- IsReadOnly -->
-                    <se:StswCheckBox IsChecked="{Binding IsReadOnly}" Margin="0 3">
-                        <Label Content="IsReadOnly" FontSize="15" FontWeight="Medium"/>
-                    </se:StswCheckBox>
+                    <se:StswCheckBox Content="IsReadOnly" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsReadOnly}" Margin="0 3"/>
                 </StackPanel>
-            </se:StswScrollViewer>
-            <GridSplitter Margin="-5" Width="5"/>
-            <!-- control -->
-            <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Top">
-                <se:StswDropButton DockPanel.Dock="Top"
-                                   IsDropDownOpen="{Binding IsDropDownOpen}"
-                                   IsEnabled="{Binding IsEnabled}"
-                                   IsReadOnly="{Binding IsReadOnly}"
-                                   Margin="5">
-                    <se:StswDropButton.Header>
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice6}" Content="Here is a text for the header"/>
-                    </se:StswDropButton.Header>
+            </StackPanel>
+        </se:StswScrollViewer>
+        <GridSplitter Width="5"/>
+        <!-- control -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <se:StswDropButton IsDropDownOpen="{Binding IsDropDownOpen}"
+                               IsEnabled="{Binding IsEnabled}"
+                               IsReadOnly="{Binding IsReadOnly}"
+                               Margin="5"
+                               HorizontalAlignment="{Binding HorizontalAlignment}"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               VerticalAlignment="{Binding VerticalAlignment}"
+                               VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                <se:StswDropButton.Header>
+                    <se:StswHeader Content="Here is a text for the header" IconData="{x:Static se:StswIcons.Dice6}"/>
+                </se:StswDropButton.Header>
 
-                    <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="1">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice1}" Content="Option 1"/>
-                    </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="2">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice2}" Content="Option 2"/>
-                    </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="3">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice3}" Content="Option 3"/>
-                    </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="4">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice4}" Content="Option 4"/>
-                    </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding OnClickCommand}" CommandParameter="5">
-                        <se:StswHeader IconData="{x:Static se:StswIcons.Dice5}" Content="Option 5"/>
-                    </se:StswButton>
-                </se:StswDropButton>
-                <TextBlock DockPanel.Dock="Top" Margin="10">
-                    <Run Text="You clicked option "/>
-                    <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
-                </TextBlock>
-            </DockPanel>
+                <se:StswButton BorderThickness="0"
+                               CornerRadius="0"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               Command="{Binding OnClickCommand}"
+                               CommandParameter="1">
+                    <se:StswHeader Content="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0"
+                               CornerRadius="0"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               Command="{Binding OnClickCommand}"
+                               CommandParameter="2">
+                    <se:StswHeader Content="Option 2" IconData="{x:Static se:StswIcons.Dice2}"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0"
+                               CornerRadius="0"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               Command="{Binding OnClickCommand}"
+                               CommandParameter="3">
+                    <se:StswHeader Content="Option 3" IconData="{x:Static se:StswIcons.Dice3}"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0"
+                               CornerRadius="0"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               Command="{Binding OnClickCommand}"
+                               CommandParameter="4">
+                    <se:StswHeader Content="Option 4" IconData="{x:Static se:StswIcons.Dice4}"/>
+                </se:StswButton>
+                <se:StswButton BorderThickness="0"
+                               CornerRadius="0"
+                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                               Command="{Binding OnClickCommand}"
+                               CommandParameter="5">
+                    <se:StswHeader Content="Option 5" IconData="{x:Static se:StswIcons.Dice5}"/>
+                </se:StswButton>
+            </se:StswDropButton>
+            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                <Run Text="You clicked option "/>
+                <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+            </se:StswText>
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

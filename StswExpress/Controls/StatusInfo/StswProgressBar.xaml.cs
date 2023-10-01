@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StswExpress;
 
@@ -29,20 +30,16 @@ public class StswProgressBar : ProgressBar
     /// </summary>
     private void OnTextChanged(object? sender, EventArgs e)
     {
-        if (Maximum != Minimum)
+        if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
         {
-            if (TextMode == StswProgressTextMode.Percentage)
+            Text = TextMode switch
             {
-                Text = $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %";
-                return;
-            }
-            else if (TextMode == StswProgressTextMode.Value)
-            {
-                Text = $"{Value - Minimum} / {Maximum - Minimum}";
-                return;
-            }
+                StswProgressTextMode.None => string.Empty,
+                StswProgressTextMode.Value => $"{Value - Minimum} / {Maximum - Minimum}",
+                StswProgressTextMode.Percentage => $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %",
+                _ => null
+            };
         }
-        Text = string.Empty;
     }
     #endregion
 
@@ -68,7 +65,7 @@ public class StswProgressBar : ProgressBar
     public string? Text
     {
         get => (string?)GetValue(TextProperty);
-        private set => SetValue(TextProperty, value);
+        set => SetValue(TextProperty, value);
     }
     public static readonly DependencyProperty TextProperty
         = DependencyProperty.Register(
@@ -89,8 +86,19 @@ public class StswProgressBar : ProgressBar
         = DependencyProperty.Register(
             nameof(TextMode),
             typeof(StswProgressTextMode),
-            typeof(StswProgressBar)
+            typeof(StswProgressBar),
+            new FrameworkPropertyMetadata(default(StswProgressTextMode),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnTextModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    public static void OnTextModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswProgressBar stsw)
+        {
+            if (stsw.TextMode == StswProgressTextMode.Custom)
+                stsw.Text = string.Empty;
+        }
+    }
     #endregion
 
     #region Style properties

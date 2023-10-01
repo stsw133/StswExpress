@@ -1,19 +1,22 @@
 ﻿<se:StswApp x:Class="TestApp.App"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
             xmlns:local="clr-namespace:TestApp"
-            mc:Ignorable="d"
             StartupUri="Modules/MainWindow.xaml" DispatcherUnhandledException="Application_DispatcherUnhandledException">
     <se:StswApp.Resources>
         <ResourceDictionary>
-            <d:ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/StswExpress;component/Themes/Theme.xaml"/>
-                <ResourceDictionary Source="/StswExpress;component/Themes/Generic.xaml"/>
-            </d:ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Home -->
+            <DataTemplate DataType="{x:Type local:HomeContext}">
+                <local:HomeView/>
+            </DataTemplate>
             
+
+
             <!-- Buttons -->
             <DataTemplate DataType="{x:Type local:StswButtonContext}">
                 <local:StswButtonView/>
@@ -41,8 +44,8 @@
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:RgsToggleSwitchContext}">
-                <local:RgsToggleSwitchView/>
+            <DataTemplate DataType="{x:Type local:StswToggleSwitchContext}">
+                <local:StswToggleSwitchView/>
             </DataTemplate>
             
             <!-- Collections -->
@@ -54,6 +57,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswListViewContext}">
+                <local:StswListViewView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
@@ -90,6 +96,14 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
                 <local:StswDatePickerView/>
+            </DataTemplate>
+            
+            <!-- Dialogs -->
+            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
+                <local:StswContentDialogView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswMessageDialogContext}">
+                <local:StswMessageDialogView/>
             </DataTemplate>
 
             <!-- Filtering -->
@@ -130,6 +144,15 @@
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSidePanelContext}">
+                <local:StswSidePanelView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswZoomControlContext}">
+                <local:StswZoomControlView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:RgsClippingBorderContext}">
+                <local:RgsClippingBorderView/>
+            </DataTemplate>
             
             <!-- Media -->
             <DataTemplate DataType="{x:Type local:StswImageContext}">
@@ -145,14 +168,17 @@
             </DataTemplate>
             
             <!-- Scrolling -->
+            <DataTemplate DataType="{x:Type local:StswPagerContext}">
+                <local:StswPagerView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
                 <local:StswScrollViewerView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswShifterContext}">
+                <local:StswShifterView/>
+            </DataTemplate>
 
             <!-- StatusInfo -->
-            <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
-                <local:StswContentDialogView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLogPanelContext}">
                 <local:StswLogPanelView/>
             </DataTemplate>
@@ -186,18 +212,16 @@
             <DataTemplate DataType="{x:Type local:StswNotifyIconContext}">
                 <local:StswNotifyIconView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswPopupContext}">
+                <local:StswPopupView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswWindowContext}">
                 <local:StswWindowView/>
             </DataTemplate>
-
-
-
-            <!-- Home -->
-            <DataTemplate DataType="{x:Type local:HomeContext}">
-                <local:HomeView/>
-            </DataTemplate>
             
-            <!-- Templates -->
+            
+            
+            <!-- Examples -->
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>
             </DataTemplate>
@@ -210,8 +234,13 @@
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
             </DataTemplate>
-
-            <!-- Settings & Wiki -->
+            
+            
+            
+            <!-- Special -->
+            <DataTemplate DataType="{x:Type local:ChangelogContext}">
+                <local:ChangelogView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:WikiContext}">
                 <local:WikiView/>
             </DataTemplate>

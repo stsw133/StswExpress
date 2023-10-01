@@ -30,6 +30,14 @@ public class StswLogPanelContext : ControlsContext
     #endregion
 
     #region Properties
+    /// IsClosable
+    private bool isClosable;
+    public bool IsClosable
+    {
+        get => isClosable;
+        set => SetProperty(ref isClosable, value);
+    }
+
     /// Items
     private ObservableCollection<StswLogItem> items = new();
     public ObservableCollection<StswLogItem> Items

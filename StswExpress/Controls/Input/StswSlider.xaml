@@ -16,6 +16,10 @@
         <Setter Property="CornerRadius" Value="2"/>
         
         <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -47,7 +51,7 @@
                                             <Setter Property="Fill" Value="{DynamicResource StswSlider.Range.Background}"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswItem.CheckedAndDisabled.Background}"/>
+                                                    <Setter Property="Fill" Value="{DynamicResource StswSlider.CheckedAndDisabled.Background}"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>

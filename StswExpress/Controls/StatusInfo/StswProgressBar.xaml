@@ -14,7 +14,7 @@
         <Setter Property="TextMode" Value="Percentage"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -99,9 +99,19 @@
                             <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Indicator"/>
                             <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Animation"/>
                         </Trigger>
-                        <Trigger Property="IsIndeterminate" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Indicator"/>
+                        <Trigger Property="State" Value="Finished">
+                            <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Opacity" Value="1" TargetName="PART_Track"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="TextMode" Value="Custom">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Text"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>

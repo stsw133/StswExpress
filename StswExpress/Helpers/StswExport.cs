@@ -16,12 +16,15 @@ public static class StswExport
     /// <summary>
     /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
     /// </summary>
-    public static void ExportToExcel(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile)
+    public static void ExportToExcel(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile, StswExportParameters? additionalParameters = null)
     {
         if (filePath == null)
         {
             var dialog = new SaveFileDialog()
             {
+                AddExtension = true,
+                DefaultExt = "xlsx",
+                FileName = additionalParameters?.RecommendedFileName ?? string.Empty,
                 Filter = "Excel file (*.xlsx)|*.xlsx"
             };
             if (dialog.ShowDialog() == true)
@@ -47,7 +50,7 @@ public static class StswExport
                             Attribute = p.GetCustomAttribute<StswExportAttribute>(),
                             Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
                         })
-                        .Where(p => p.Attribute?.IsColumnIgnored == false)
+                        .Where(p => p.Attribute?.IsColumnIgnored == false || (additionalParameters?.ExcludeNonAttributed == true && p.Attribute?.IsColumnIgnored != true))
                         .OrderBy(p => p.Order)
                         .Select(p => p.Property)
                         .ToList();
@@ -101,13 +104,13 @@ public static class StswExport
     /// <summary>
     /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
     /// </summary>
-    public static void ExportToExcel((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile)
+    public static void ExportToExcel((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile, StswExportParameters? parameters = null)
     {
         var dict = new Dictionary<string, IEnumerable>
         {
             { sheetWithData.name, sheetWithData.data }
         };
-        ExportToExcel(dict, filePath, openFile);
+        ExportToExcel(dict, filePath, openFile, parameters);
     }
 
     /// <summary>
@@ -159,4 +162,13 @@ public class StswExportAttribute : Attribute
     /// Gets or sets the order in which the column should appear in the exported Excel file.
     /// </summary>
     public int Order { get; set; }
+}
+
+/// <summary>
+/// A class for additional export parameters such as default name of file.
+/// </summary>
+public class StswExportParameters
+{
+    public bool ExcludeNonAttributed { get; set; } = false;
+    public string RecommendedFileName { get; set; } = string.Empty;
 }

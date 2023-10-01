@@ -7,7 +7,7 @@
         
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
-
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -49,8 +49,8 @@
                                                                     <Style TargetType="{x:Type se:StswIcon}">
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
+                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
                                                                             </DataTrigger>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
@@ -78,8 +78,8 @@
                                                                     <Style TargetType="{x:Type se:StswImage}">
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
+                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
                                                                             </DataTrigger>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
@@ -102,8 +102,8 @@
                                                                     <Style TargetType="{x:Type se:StswLoadingCircle}">
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
+                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
+                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
                                                                             </DataTrigger>
                                                                             <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                                                                                 <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
@@ -120,8 +120,8 @@
                                     </Style>
                                 </ContentControl.Style>
                             </ContentControl>
-                            <!-- text -->
-                            <ContentPresenter x:Name="PART_Text"
+                            <!-- content -->
+                            <ContentPresenter x:Name="PART_Content"
                                               Focusable="False"
                                               RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -132,13 +132,13 @@
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Text"/>
+                            <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
-                            <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Text"/>
+                            <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled}"/>

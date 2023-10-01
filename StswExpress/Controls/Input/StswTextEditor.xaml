@@ -8,7 +8,7 @@
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="ComponentBorderThickness" Value="1"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="SubCornerRadius" Value="6"/>
         <Setter Property="Padding" Value="3"/>
@@ -17,11 +17,19 @@
         <Setter Property="AcceptsTab" Value="True"/>
         <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="SelectedColorHighlight" Value="Transparent"/>
-        <Setter Property="IsExtended" Value="True"/>
+        <Setter Property="ToolBarMode" Value="Full"/>
         
         <Setter Property="ComponentsAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -56,16 +64,19 @@
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarDropButtonStyle" TargetType="{x:Type se:StswDropButton}">
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarNumericBoxStyle" TargetType="{x:Type se:StswNumericBox}">
                                         <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="CornerRadius" Value="{Binding SubCornerRadius, RelativeSource={RelativeSource TemplatedParent}}"/>
                                         <Setter Property="Margin" Value="{Binding SubPadding, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <Setter Property="SeparatorThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Style>
                                     <Style x:Key="StswTextEditorToolBarTextBlockStyle" TargetType="{x:Type TextBlock}">
                                         <Setter Property="FontSize" Value="10"/>
@@ -74,14 +85,13 @@
                                         <Setter Property="Opacity" Value="0.6"/>
                                     </Style>
                                 </Grid.Resources>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <se:StswExpander x:Name="PART_ToolBarExpander" Grid.Column="0"
-                                                 BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" CornerRadius="0" Padding="0"
-                                                 ExpandDirection="Right" IsExpanded="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <se:StswScrollViewer Grid.Column="1" IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswShifter HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <se:StswShifter.ButtonStyle>
+                                        <Style TargetType="{x:Type ButtonBase}">
+                                            <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextEditor}}}"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </se:StswShifter.ButtonStyle>
                                     <DockPanel>
                                         <!-- file -->
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
@@ -302,14 +312,14 @@
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
                                     </DockPanel>
-                                </se:StswScrollViewer>
+                                </se:StswShifter>
                             </Grid>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Horizontal"/>
                             <!-- content -->
                             <se:StswScrollViewer x:Name="PART_ContentHost" 
                                                  Focusable="False" 
@@ -319,7 +329,11 @@
                         </DockPanel>
                     </se:StswClippingBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsExtended" Value="False">
+                        <Trigger Property="ToolBarMode" Value="Collapsed">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ToolBar"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                        </Trigger>
+                        <Trigger Property="ToolBarMode" Value="Compact">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileReload"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileInfo"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilePrint"/>
@@ -384,6 +398,7 @@
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignCenter"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignRight"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_SectionAlignJustify"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>

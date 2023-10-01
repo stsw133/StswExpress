@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace TestApp;
@@ -6,15 +7,20 @@ namespace TestApp;
 public class StswComboBoxContext : ControlsContext
 {
     public ICommand ClearCommand { get; set; }
+    public ICommand RandomizeCommand { get; set; }
 
     public StswComboBoxContext()
     {
         ClearCommand = new StswCommand(Clear);
+        RandomizeCommand = new StswCommand(Randomize);
     }
 
     #region Events and methods
     /// Command: clear
     private void Clear() => SelectedItem = null;
+
+    /// Command: randomize
+    private void Randomize() => SelectedItem = Items[new Random().Next(0, Items.Count)];
     #endregion
 
     #region Properties
@@ -43,7 +49,19 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// Items
-    private List<string?> items = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
+    private List<string?> items = new()
+    {
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Option 5",
+        "Option 6",
+        "Option 7",
+        "Option 8",
+        "Option 9",
+        "Option 10"
+    };
     public List<string?> Items
     {
         get => items;

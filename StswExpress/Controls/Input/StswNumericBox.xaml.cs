@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,6 +34,8 @@ public class StswNumericBox : TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
             btnUp.Click += PART_ButtonUp_Click;
@@ -43,8 +44,6 @@ public class StswNumericBox : TextBox
             btnDown.Click += PART_ButtonDown_Click;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -75,7 +74,7 @@ public class StswNumericBox : TextBox
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            UpdateMainProperty();
+            UpdateMainProperty(true);
     }
 
     /// <summary>
@@ -83,7 +82,7 @@ public class StswNumericBox : TextBox
     /// </summary>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
-        UpdateMainProperty();
+        UpdateMainProperty(false);
         base.OnLostFocus(e);
     }
 
@@ -136,19 +135,26 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateMainProperty()
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
+        var result = Value;
+
         if (string.IsNullOrEmpty(Text))
-            Value = null;
-        else if (StswFn.TryCalculateString(Text, out var result))
-            Value = result;
-        else if (double.TryParse(Text, out result))
+            result = null;
+        else if (StswFn.TryCalculateString(Text, out var res))
+            result = res;
+        else if (double.TryParse(Text, out res))
+            result = res;
+
+        if (result != Value || alwaysUpdate)
+        {
             Value = result;
 
-        Text = Value?.ToString(Format);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+            Text = result?.ToString(Format);
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
     }
     #endregion
 
@@ -344,17 +350,17 @@ public class StswNumericBox : TextBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswNumericBox)
         );
     #endregion

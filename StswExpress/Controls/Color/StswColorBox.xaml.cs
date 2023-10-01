@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +39,7 @@ public class StswColorBox : TextBox
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            UpdateMainProperty();
+            UpdateMainProperty(true);
     }
 
     /// <summary>
@@ -49,33 +48,40 @@ public class StswColorBox : TextBox
     /// </summary>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
-        UpdateMainProperty();
+        UpdateMainProperty(false);
         base.OnLostFocus(e);
     }
 
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateMainProperty()
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
+        var result = SelectedColor;
+
         if (string.IsNullOrEmpty(Text))
-            SelectedColor = default;
+            result = default;
         else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] argb && argb.Length == 4
               && byte.TryParse(argb[0], out var a) && byte.TryParse(argb[1], out var r) && byte.TryParse(argb[2], out var g) && byte.TryParse(argb[3], out var b))
-            SelectedColor = Color.FromArgb(a, r, g, b);
+            result = Color.FromArgb(a, r, g, b);
         else if (Text.Split(CultureInfo.CurrentCulture.TextInfo.ListSeparator) is string[] rgb && rgb.Length == 3
               && byte.TryParse(rgb[0], out r) && byte.TryParse(rgb[1], out g) && byte.TryParse(rgb[2], out b))
-            SelectedColor = Color.FromRgb(r, g, b);
+            result = Color.FromRgb(r, g, b);
         else if (new ColorConverter().IsValid(Text))
-            SelectedColor = (Color)ColorConverter.ConvertFromString(Text);
+            result = (Color)ColorConverter.ConvertFromString(Text);
 
         if (!IsAlphaEnabled)
             SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
 
-        Text = SelectedColor.ToString();
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+        if (result != SelectedColor || alwaysUpdate)
+        {
+            SelectedColor = result;
+
+            Text = SelectedColor.ToString();
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
     }
     #endregion
 
@@ -211,17 +217,17 @@ public class StswColorBox : TextBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswColorBox)
         );
     #endregion

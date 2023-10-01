@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="TestApp.StswContentDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswContentDialogContext/>
+    </d:UserControl.DataContext>
+
+    <se:StswContentDialog Identifier="TEST" IsOpen="{Binding IsOpen}">
+        <Grid IsEnabled="{Binding IsOpen, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- name and description -->
+            <se:StswScrollViewer IsDynamic="True">
+                <StackPanel Margin="5">
+                    <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
+                        <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                        <LineBreak/>
+                        <Run>
+                            Represents a control behaving like content dialog with various properties for customization.
+                        </Run>
+                    </se:StswText>
+                    <StackPanel Margin="5">
+                        <se:StswText FontWeight="Medium" Text="Properties:"/>
+                        <!-- Alignment -->
+                        <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
+                        <UniformGrid>
+                            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
+                            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
+                                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
+                            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
+                            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
+                                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
+                        </UniformGrid>
+                        <!-- IsEnabled -->
+                        <!-- <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/> -->
+                    </StackPanel>
+                </StackPanel>
+            </se:StswScrollViewer>
+            <GridSplitter Width="5"/>
+            <!-- control -->
+            <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+                <se:StswButton Command="{Binding OpenContentDialogCommand}"
+                               Content="Open content dialog"
+                               Margin="5"/>
+                <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                <se:StswText Grid.Row="1" Margin="5" Padding="5">
+                    <Run Text="Dialog ended with "/>
+                    <Run Text="{Binding ContentDialogResult}" FontWeight="Bold"/>
+                    <Run Text=" result"/>
+                </se:StswText>
+            </Grid>
+        </Grid>
+        <!-- control -->
+        <se:StswContentDialog.DialogContent>
+            <se:StswGroupBox Header="TEST">
+                <DockPanel>
+                    <se:StswToggleButton DockPanel.Dock="Bottom" Content="Close" IsChecked="{Binding IsOpen}"/>
+                    <Label Content="There is some test text..."/>
+                </DockPanel>
+            </se:StswGroupBox>
+        </se:StswContentDialog.DialogContent>
+    </se:StswContentDialog>
+</UserControl>

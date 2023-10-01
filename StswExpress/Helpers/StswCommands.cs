@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -8,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// A command implementation (without parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
 /// </summary>
-public sealed class StswCommand : ICommand
+public sealed class StswCommand : ICommand, INotifyPropertyChanged
 {
     private readonly Action _execute;
     private readonly Func<bool>? _canExecute;
@@ -33,14 +34,36 @@ public sealed class StswCommand : ICommand
     /// <summary>
     /// 
     /// </summary>
-    public void Execute(object? parameter) => _execute();
+    public void Execute(object? parameter)
+    {
+        IsWorking = true;
+        _execute();
+        IsWorking = false;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsWorking
+    {
+        get => isWorking;
+        private set
+        {
+            isWorking = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWorking)));
+        }
+    }
+    private bool isWorking;
+
+    /// Notify the view that the IsWorking property has changed
+    public event PropertyChangedEventHandler? PropertyChanged;
 }
 
 /// <summary>
 /// A command implementation (with parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
 /// </summary>
 /// <typeparam name="T">Parameter's type.</typeparam>
-public sealed class StswCommand<T> : ICommand
+public sealed class StswCommand<T> : ICommand, INotifyPropertyChanged
 {
     private readonly Action<T?> _execute;
     private readonly Func<bool>? _canExecute;
@@ -65,24 +88,11 @@ public sealed class StswCommand<T> : ICommand
     /// <summary>
     /// 
     /// </summary>
-    public void Execute(object? parameter) => _execute((T?)parameter);
-}
-
-/// <summary>
-/// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
-/// </summary>
-public class StswAsyncCommand : ICommand, INotifyPropertyChanged
-{
-    private Func<Task> _execute { get; }
-    private readonly Func<bool>? _canExecute;
-
-    public event EventHandler? CanExecuteChanged;
-    public void UpdateCanExecute() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-    public StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null)
+    public void Execute(object? parameter)
     {
-        _execute = execute;
-        _canExecute = canExecute;
+        IsWorking = true;
+        _execute((T?)parameter);
+        IsWorking = false;
     }
 
     /// <summary>
@@ -94,10 +104,31 @@ public class StswAsyncCommand : ICommand, INotifyPropertyChanged
         private set
         {
             isWorking = value;
-            OnPropertyChanged(nameof(IsWorking));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWorking)));
         }
     }
     private bool isWorking;
+
+    /// Notify the view that the IsWorking property has changed
+    public event PropertyChangedEventHandler? PropertyChanged;
+}
+
+/// <summary>
+/// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
+/// </summary>
+public class StswAsyncCommand : ICommand, INotifyPropertyChanged
+{
+    private Func<Task> _execute { get; }
+    private readonly Func<bool>? _canExecute;
+
+    public event EventHandler? CanExecuteChanged;
+    public void UpdateCanExecute() => Application.Current.Dispatcher.Invoke(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
+
+    public StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null)
+    {
+        _execute = execute;
+        _canExecute = canExecute;
+    }
 
     /// <summary>
     /// 
@@ -121,9 +152,22 @@ public class StswAsyncCommand : ICommand, INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsWorking
+    {
+        get => isWorking;
+        private set
+        {
+            isWorking = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWorking)));
+        }
+    }
+    private bool isWorking;
+
     /// Notify the view that the IsWorking property has changed
     public event PropertyChangedEventHandler? PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
 
 /// <summary>
@@ -142,20 +186,6 @@ public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
         _execute = execute;
         _canExecute = canExecute;
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public bool IsWorking
-    {
-        get => isWorking;
-        private set
-        {
-            isWorking = value;
-            OnPropertyChanged(nameof(IsWorking));
-        }
-    }
-    private bool isWorking;
 
     /// <summary>
     /// 
@@ -180,9 +210,22 @@ public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsWorking
+    {
+        get => isWorking;
+        private set
+        {
+            isWorking = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWorking)));
+        }
+    }
+    private bool isWorking;
+
     /// Notify the view that the IsWorking property has changed
     public event PropertyChangedEventHandler? PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
 
 /// GlobalCommands:

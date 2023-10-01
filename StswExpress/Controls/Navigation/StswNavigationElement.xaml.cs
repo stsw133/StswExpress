@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigationElement : UserControl
+public class StswNavigationElement : ContentControl
 {
     public StswNavigationElement()
     {
@@ -31,14 +31,14 @@ public class StswNavigationElement : UserControl
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         /// StswNavigation
         if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
             stswNavi = stswNavigation;
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
 
         CheckSubItemPadding();
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>
@@ -307,15 +307,15 @@ public class StswNavigationElement : UserControl
     /// <summary>
     /// Gets or sets the thickness of the sub-item border.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswNavigationElement)
         );
 

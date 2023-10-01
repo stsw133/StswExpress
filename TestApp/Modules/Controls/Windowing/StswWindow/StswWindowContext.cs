@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Data;
+using System.Windows.Input;
 
 namespace TestApp;
 
@@ -15,12 +16,18 @@ public class StswWindowContext : ControlsContext
     /// Command: open new window
     private void OpenNewWindow()
     {
-        new StswWindow()
+        var window = new StswWindow()
         {
             Title = "New window",
             Height = 450,
             Width = 750
-        }.Show();
+        };
+        window.SetBinding(StswWindow.IsEnabledProperty, new Binding()
+        {
+            Path = new System.Windows.PropertyPath(nameof(IsEnabled)),
+            Source = this
+        });
+        window.Show();
     }
     #endregion
 }

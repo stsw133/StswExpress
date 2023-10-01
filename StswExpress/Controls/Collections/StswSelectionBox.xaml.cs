@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : UserControl
+public class StswSelectionBox : ContentControl
 {
     public StswSelectionBox()
     {
@@ -333,6 +333,21 @@ public class StswSelectionBox : UserControl
         = DependencyProperty.Register(
             nameof(PopupBorderThickness),
             typeof(Thickness),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswSelectionBox)
         );
     #endregion

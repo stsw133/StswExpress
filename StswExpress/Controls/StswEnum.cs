@@ -94,6 +94,15 @@ public enum StswFilterType
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswSidePanel"/>'s hiding variant.
+/// </summary>
+public enum StswHidingVariant
+{
+    Hidden = 1,
+    Collapsed = 2
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswLogItem"/>'s type.
 /// </summary>
 public enum StswLogType
@@ -124,7 +133,8 @@ public enum StswProgressState
     Ready,
     Running,
     Paused,
-    Error
+    Error,
+    Finished
 }
 
 /// <summary>
@@ -132,6 +142,7 @@ public enum StswProgressState
 /// </summary>
 public enum StswProgressTextMode
 {
+    Custom = -1,
     None,
     Value,
     Percentage
@@ -145,4 +156,14 @@ public enum StswSpecialColumnVisibility
     Collapsed,
     All,
     OnlyRows
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswTextEditor"/>'s toolbar mode.
+/// </summary>
+public enum StswToolbarMode
+{
+    Collapsed,
+    Compact,
+    Full
 }

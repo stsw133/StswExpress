@@ -10,6 +10,8 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -64,5 +66,45 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    
+    
+    <!-- template for StswToggleButton in StswDropButton & StswSplitButton -->
+    <ControlTemplate x:Key="StswDropToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
+        <se:StswClippingBorder x:Name="PART_MainBorder"
+                               Background="{TemplateBinding Background}"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                               BorderThickness="{TemplateBinding BorderThickness}"
+                               CornerRadius="{TemplateBinding CornerRadius}"
+                               SnapsToDevicePixels="True">
+            <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
+                <ContentPresenter Focusable="False"
+                                  Margin="{TemplateBinding Padding}"
+                                  RecognizesAccessKey="True"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+        </se:StswClippingBorder>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainBorder"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainBorder"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainBorder"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
 </ResourceDictionary>

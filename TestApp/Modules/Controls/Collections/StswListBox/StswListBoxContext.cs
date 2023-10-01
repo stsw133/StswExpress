@@ -13,7 +13,12 @@ public class StswListBoxContext : ControlsContext
         new() { Display = "Option 2", IsSelected = false },
         new() { Display = "Option 3", IsSelected = false },
         new() { Display = "Option 4", IsSelected = true },
-        new() { Display = "Option 5", IsSelected = false }
+        new() { Display = "Option 5", IsSelected = false },
+        new() { Display = "Option 6", IsSelected = true },
+        new() { Display = "Option 7", IsSelected = false },
+        new() { Display = "Option 8", IsSelected = false },
+        new() { Display = "Option 9", IsSelected = true },
+        new() { Display = "Option 10", IsSelected = false }
     };
     public ObservableCollection<StswSelectionItem> Items
     {

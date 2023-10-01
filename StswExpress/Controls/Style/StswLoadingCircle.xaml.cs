@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control displaying loading circle.
 /// </summary>
-public class StswLoadingCircle : UserControl
+public class StswLoadingCircle : Control
 {
     static StswLoadingCircle()
     {

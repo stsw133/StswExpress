@@ -8,12 +8,16 @@
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="PopupBorderThickness" Value="2"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="MaxDropDownHeight" Value="120"/>
+
         <Setter Property="ComponentsAlignment" Value="Right"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
@@ -54,25 +58,8 @@
                                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                              HorizontalContentAlignment="Stretch"
-                                                             VerticalContentAlignment="Stretch">
-                                            <ToggleButton.Template>
-                                                <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
-                                                    <se:StswClippingBorder Background="{TemplateBinding Background}"
-                                                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                                                           SnapsToDevicePixels="True">
-                                                        <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
-                                                            <ContentPresenter Focusable="False"
-                                                                              Margin="{TemplateBinding Padding}"
-                                                                              RecognizesAccessKey="True"
-                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                                        </Grid>
-                                                    </se:StswClippingBorder>
-                                                </ControlTemplate>
-                                            </ToggleButton.Template>
+                                                             VerticalContentAlignment="Stretch"
+                                                             Template="{DynamicResource StswDropToggleButtonTemplate}">
                                             <DockPanel>
                                                 <!-- arrow -->
                                                 <ContentControl DockPanel.Dock="Right"
@@ -113,33 +100,21 @@
                                             </DockPanel>
                                         </se:StswToggleButton>
                                         <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource StswDropButton.MouseOver.Background}" TargetName="PART_MainButton"/>
-                                                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.MouseOver.Border}" TargetName="PART_MainButton"/>
-                                            </Trigger>
-                                            <Trigger Property="IsDropDownOpen" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource StswDropButton.Checked.Background}" TargetName="PART_MainButton"/>
-                                                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainButton"/>
-                                            </Trigger>
                                             <Trigger Property="IsReadOnly" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                                                 <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Background" Value="{DynamicResource StswDropButton.Disabled.Background}" TargetName="PART_MainButton"/>
-                                                <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Disabled.Border}" TargetName="PART_MainButton"/>
-                                                <Setter Property="Foreground" Value="{DynamicResource StswDropButton.Disabled.Foreground}" TargetName="PART_MainButton"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </se:StswDropButton.Template>
                                 <ItemsControl ItemsSource="{TemplateBinding Items}"/>
                             </se:StswDropButton>
-                            <!-- subborder -->
-                            <Border x:Name="PART_SubBorder"
-                                    DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                    BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    SnapsToDevicePixels="True"/>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"/>
                             <!-- components -->
                             <!--
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
@@ -176,6 +151,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Checked.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainBorder"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_HeaderButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

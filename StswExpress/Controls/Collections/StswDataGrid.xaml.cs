@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -35,6 +34,8 @@ public class StswDataGrid : DataGrid
     /// </summary>
     public override void OnApplyTemplate()
     {
+        base.OnApplyTemplate();
+
         ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
         FiltersData = new()
         {
@@ -43,8 +44,6 @@ public class StswDataGrid : DataGrid
             SqlFilter = null,
             SqlParameters = null
         };
-
-        base.OnApplyTemplate();
     }
 
     /// <summary>

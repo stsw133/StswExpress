@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 
 namespace TestApp;
@@ -131,7 +132,7 @@ internal static class SQL
     internal static bool SetContractors(StswCollection<ContractorModel> list)
     {
         var result = false;
-        
+
         try
         {
             using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
@@ -150,7 +151,7 @@ internal static class SQL
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.ToBytes() ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.IconSource?.ToBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);
@@ -173,7 +174,7 @@ internal static class SQL
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
-                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.Icon?.ToBytes() ?? DBNull.Value;
+                        sqlCmd.Parameters.Add("@Icon", SqlDbType.VarBinary).Value = (object?)item.IconSource?.ToBytes() ?? DBNull.Value;
                         sqlCmd.Parameters.AddWithValue("@Name", (object?)item.Name ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@Country", (object?)item.Country ?? DBNull.Value);
                         sqlCmd.Parameters.AddWithValue("@PostCode", (object?)item.PostCode ?? DBNull.Value);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace TestApp;
 
@@ -59,6 +60,14 @@ public class StswTabControlContext : ControlsContext
     {
         get => newTabButtonVisibility;
         set => SetProperty(ref newTabButtonVisibility, value);
+    }
+
+    /// TabStripPlacement
+    private Dock tabStripPlacement = Dock.Top;
+    public Dock TabStripPlacement
+    {
+        get => tabStripPlacement;
+        set => SetProperty(ref tabStripPlacement, value);
     }
     #endregion
 }

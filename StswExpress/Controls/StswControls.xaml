@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+
+        <ResourceDictionary Source="Buttons/StswButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswRadioButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswRepeatButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
+
+        <ResourceDictionary Source="Checks/StswCheckBox.xaml"/>
+        <ResourceDictionary Source="Checks/StswRadioBox.xaml"/>
+        <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
+
+        <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
+        <ResourceDictionary Source="Collections/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="Collections/StswListBox.xaml"/>
+        <ResourceDictionary Source="Collections/StswListView.xaml"/>
+        <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
+
+        <ResourceDictionary Source="Color/StswColorBox.xaml"/>
+        <ResourceDictionary Source="Color/StswColorPicker.xaml"/>
+        <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
+
+        <ResourceDictionary Source="Components/StswComponentButton.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentCheck.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentPanel.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentRebutton.xaml"/>
+
+        <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
+        <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
+
+        <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
+        <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
+        
+        <ResourceDictionary Source="Filtering/StswFilter.xaml"/>
+
+        <ResourceDictionary Source="Input/StswNumericBox.xaml"/>
+        <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
+        <ResourceDictionary Source="Input/StswRatingControl.xaml"/>
+        <ResourceDictionary Source="Input/StswSlider.xaml"/>
+        <ResourceDictionary Source="Input/StswTextBox.xaml"/>
+        <ResourceDictionary Source="Input/StswTextEditor.xaml"/>
+
+        <ResourceDictionary Source="Layout/RgsClippingBorder.xaml"/>
+        <ResourceDictionary Source="Layout/StswClippingBorder.xaml"/>
+        <ResourceDictionary Source="Layout/StswExpander.xaml"/>
+        <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
+        <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
+        <ResourceDictionary Source="Layout/StswSidePanel.xaml"/>
+        <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
+
+        <ResourceDictionary Source="Media/StswImage.xaml"/>
+
+        <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
+        <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
+        <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
+        <ResourceDictionary Source="Navigation/StswTabItem.xaml"/>
+
+        <ResourceDictionary Source="Scrolling/StswPager.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswScrollBar.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswScrollViewer.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswShifter.xaml"/>
+
+        <ResourceDictionary Source="StatusInfo/StswLogPanel.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
+
+        <ResourceDictionary Source="Style/StswHeader.xaml"/>
+        <ResourceDictionary Source="Style/StswIcon.xaml"/>
+        <ResourceDictionary Source="Style/StswLoadingCircle.xaml"/>
+
+        <ResourceDictionary Source="Text/StswText.xaml"/>
+        <ResourceDictionary Source="Text/StswTruncateLabel.xaml"/>
+
+        <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
+        <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -22,11 +22,11 @@ public class StswTabControl : TabControl
     /// </summary>
     public override void OnApplyTemplate()
     {
-        /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton btn)
-            btn.Click += PART_FunctionButton_Click;
-
         base.OnApplyTemplate();
+
+        /// FunctionButton
+        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+            functionButton.Click += PART_FunctionButton_Click;
     }
 
     /// <summary>

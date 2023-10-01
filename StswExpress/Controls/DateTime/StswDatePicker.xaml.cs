@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,9 +35,9 @@ public class StswDatePicker : TextBox
     /// </summary>
     public override void OnApplyTemplate()
     {
-        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
-
         base.OnApplyTemplate();
+
+        OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -49,7 +48,7 @@ public class StswDatePicker : TextBox
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            UpdateMainProperty();
+            UpdateMainProperty(true);
     }
 
     /// <summary>
@@ -59,7 +58,7 @@ public class StswDatePicker : TextBox
     /// </summary>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
-        UpdateMainProperty();
+        UpdateMainProperty(false);
         base.OnLostFocus(e);
     }
 
@@ -125,19 +124,26 @@ public class StswDatePicker : TextBox
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateMainProperty()
+    private void UpdateMainProperty(bool alwaysUpdate)
     {
+        var result = SelectedDate;
+
         if (string.IsNullOrEmpty(Text))
-            SelectedDate = null;
-        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var result))
-            SelectedDate = result;
-        else if (DateTime.TryParse(Text, out result))
+            result = null;
+        else if (Format != null && DateTime.TryParseExact(Text, Format, CultureInfo.CurrentCulture, DateTimeStyles.None, out var res))
+            result = res;
+        else if (DateTime.TryParse(Text, out res))
+            result = res;
+
+        if (result != SelectedDate || alwaysUpdate)
+        {
             SelectedDate = result;
 
-        Text = SelectedDate?.ToString(Format);
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
-            bindingExpression.UpdateSource();
+            Text = SelectedDate?.ToString(Format);
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+                bindingExpression.UpdateSource();
+        }
     }
     #endregion
 
@@ -349,17 +355,17 @@ public class StswDatePicker : TextBox
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border used as separator between box and drop-down button.
+    /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
-    public Thickness SubBorderThickness
+    public double SeparatorThickness
     {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
     }
-    public static readonly DependencyProperty SubBorderThicknessProperty
+    public static readonly DependencyProperty SeparatorThicknessProperty
         = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswDatePicker)
         );
     #endregion
