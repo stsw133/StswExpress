@@ -20,6 +20,40 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <PackageReleaseNotes>New functionality:
+• New controls: StswToggleSwitch, StswListView, StswContentDialog (is listed here because was completely remade), StswMessageDialog, StswSidePanel, StswZoomControl, StswPager, StswShifter, StswPopup.
+• New class StswDynamicResource that allows to use dynamic resource in XAML with converter.
+• New extension ConvertTo that converts and returns object to generic type.
+• New global command that can be invoked on F1 if method named "OpenHelp" have defined value.
+• New theme: Pink.
+Changed functionality:
+• Two main dictionaries (Generic and Theme) are merged into one named StswResources.
+• Extension named ToObjectList has been improved.
+• StswWindow no longer have sub title functionality and have default height and default width as dependency properties.
+• StswDataGrid has default header brushes now.
+• StswProgressBar can use custom Text now and have new state named "Finished".
+• StswLogPanel now can have closable items if one of its property is set to true.
+• StswRatingControl can have minimum value of 1 on click if new property "CanReset" is set to false.
+• Method named ExportToExcel can receive additional properties as parameter such as including properties without export attribute.
+• Numeric Stsw converters can receive "CornerRadius" and "Thickness" as value now.
+• All Stsw controls that were using sub-borders use StswSeparator instead of Border. They also use different property to set its thickness: "SeparatorThickness" that is a double instead of "SubBorderThickness" that was Thickness. It is important to notice that new property requires half of previous value.
+• StswTabControl and StswTextEditor both use StswShifter instead of StswScrollViewer (former on tab panel and latter on toolbar).
+• StswTextEditor have new property for changing toolbar content from full to compact (with less options) and even collapsing it.
+• All Stsw controls in read only state have different background and foreground brushes.
+• All Stsw controls have defined horizontal and vertical alignments in style.
+• Stsw check controls no longer have different FocusVisualStyle when they have content.
+• Base classes for Stsw controls have changed from UserControl into either Control or ContentControl.
+• StswTruncateLabel uses StswPopup in its template.
+• Fullscreen binding has been moved from StswApp to StswWindow.
+• StswSettings renamed into Settings (is internal anyway).
+• Some brush properties in Stsw controls have different dynamic resources as default value.
+Bugfixes:
+• Stsw input controls no longer update their main property on lost focus if property didn't changed (main property is for example "SelectedColor" for StswColorBox).
+• StswTextEditor's "FilePath" property loads or clears document if its value is changed.
+• StswWindow's title bar has fixed height of 30, simplier button style and chrome updating and no longer have border under.
+• StswRatingControl's placeholder calculation works properly on stretched alignment now.
+• StswDropButton, StswSplitButton, StswComboBox and StswSelectionBox have default "MaxDropDownHeight".
+• StswFilter will no longer have top margin if it does not have header.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
