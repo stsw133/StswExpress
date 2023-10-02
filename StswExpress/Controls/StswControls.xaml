@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
 
+        <ResourceDictionary Source="_internal/StswSettings.xaml"/>
+        
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRadioButton.xaml"/>

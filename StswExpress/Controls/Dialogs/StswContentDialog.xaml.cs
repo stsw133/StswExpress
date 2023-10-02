@@ -141,7 +141,7 @@ public class StswContentDialog : ContentControl
     /// <param name="dialogIdentifier"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static StswContentDialog GetInstance(object? dialogIdentifier)
+    internal static StswContentDialog GetInstance(object? dialogIdentifier)
     {
         if (LoadedInstances.Count == 0)
             throw new InvalidOperationException("No loaded StswContentDialog instances.");

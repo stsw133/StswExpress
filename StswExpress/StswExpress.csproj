@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.2.1</Version>
+    <Version>0.3.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -20,16 +20,12 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes>Changed functionality:
-⦁ Changed named of extension from ToObjectList to MapTo.
-Bugfixes:
-⦁ Extension named MapTo properly maps DataTable's columns to generic type properties.
-⦁ StswDataGrid is no longer overriding "FrozenColumnCount" property.
-⦁ StswDropButton properly binds its separator's brush.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Helpers\StswIcons.cs~RFa51e7cef.TMP" />
+    <None Remove="Translator\Resources\Translations.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,10 +44,6 @@ Bugfixes:
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Translator\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\TestApp\Resources\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -64,6 +56,11 @@ Bugfixes:
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.100.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Translator\Resources\Translations.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -256,6 +253,9 @@ Bugfixes:
     <Page Update="Controls\Windowing\StswWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\_internal\StswSettings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Themes\Brushes\Light.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

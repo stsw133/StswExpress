@@ -54,16 +54,16 @@ public class StswWindow : Window
         if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
             btnClose.Click += CloseClick;
 
-        /// Fullscreen Button: minimize
+        /// Fullscreen button: minimize
         if (GetTemplateChild("PART_FsButtonMinimize") is Button btnFsMinimize)
             btnFsMinimize.Click += MinimizeClick;
-        /// Fullscreen Button: restore
+        /// Fullscreen button: restore
         if (GetTemplateChild("PART_FsButtonRestore") is Button btnFsRestore)
             btnFsRestore.Click += FullscreenClick;
-        /// Fullscreen Button: close
+        /// Fullscreen button: close
         if (GetTemplateChild("PART_FsButtonClose") is Button btnFsClose)
             btnFsClose.Click += CloseClick;
-
+        /*
         /// Menu: scaling
         if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
             mniScaling.Click += (s, e) => Settings.Default.iSize = 1;
@@ -73,9 +73,10 @@ public class StswWindow : Window
         if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
             foreach (MenuItem mni in mniTheme.Items)
                 mni.Click += (s, e) => ThemeClick(mniTheme.Items.IndexOf(mni) - 1);
-        /// Menu: fullscreen
-        if (GetTemplateChild("PART_MenuFullscreen") is MenuItem mniFullscreen)
-            mniFullscreen.Click += FullscreenClick;
+        */
+        /// Menu: settings
+        if (GetTemplateChild("PART_iSettings") is MenuItem mniSettings)
+            mniSettings.Click += (s, e) => StswSettings.Show(this);
         /// Menu: center
         if (GetTemplateChild("PART_MenuCenter") is MenuItem mniCenter)
             mniCenter.Click += CenterClick;
@@ -88,6 +89,9 @@ public class StswWindow : Window
         /// Menu: restore
         if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore)
             mniRestore.Click += RestoreClick;
+        /// Menu: fullscreen
+        if (GetTemplateChild("PART_MenuFullscreen") is MenuItem mniFullscreen)
+            mniFullscreen.Click += FullscreenClick;
         /// Menu: close
         if (GetTemplateChild("PART_MenuClose") is MenuItem mniClose)
             mniClose.Click += CloseClick;
@@ -128,16 +132,6 @@ public class StswWindow : Window
 
             WindowChrome.SetWindowChrome(this, chrome);
         }
-    }
-
-    /// <summary>
-    /// Event handler for changing the theme based on the clicked menu item.
-    /// </summary>
-    protected void ThemeClick(int themeID)
-    {
-        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources theme)
-            theme.Theme = themeID < 0 ? StswFn.GetWindowsTheme() : (StswTheme)themeID;
-        Settings.Default.Theme = themeID;
     }
 
     /// <summary>

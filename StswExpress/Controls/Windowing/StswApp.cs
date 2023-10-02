@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -29,6 +30,18 @@ public class StswApp : Application
         dict ??= Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources);
         Current.Resources.MergedDictionaries.Remove(dict);
         Current.Resources.MergedDictionaries.Add(new StswResources(Settings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : (StswTheme)Settings.Default.Theme));
+
+        /// language
+        TM.Instance.CurrentLanguage = Settings.Default.Language;
+
+        var trFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "translations.json");
+
+        using (var stream = GetResourceStream(new Uri($"pack://application:,,,/{nameof(StswExpress)};component//Translator/Resources/Translations.json", UriKind.RelativeOrAbsolute)).Stream)
+        using (var reader = new StreamReader(stream))
+            File.WriteAllText(trFileName, reader.ReadToEnd());
+
+        if (File.Exists(trFileName))
+            TMLanguagesLoader.Instance.AddFile(trFileName);
 
         /// global commands
         var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });

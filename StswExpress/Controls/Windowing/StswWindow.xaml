@@ -82,55 +82,11 @@
                                 <!-- context menu -->
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
-                                        <!-- gui -->
-                                        <MenuItem Header="Interfejs graficzny">
-                                            <!-- scaling -->
-                                            <MenuItem x:Name="PART_MenuScaling" Header="Rozmiar">
-                                                <MenuItem.Icon>
-                                                    <TextBlock Text="🗚" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
-                                                <DockPanel>
-                                                    <Slider x:Name="PART_MenuScalingSlider"
-                                                            Minimum="0.5" Maximum="3" TickFrequency="0.1" IsSnapToTickEnabled="True" Width="220"
-                                                            Value="{Binding iSize, Source={x:Static se:Settings.Default}, UpdateSourceTrigger=PropertyChanged}"/>
-                                                    <TextBlock Margin="5 0 0 0" Width="40" VerticalAlignment="Center">
-                                                        <Run Text="{Binding iSize, Source={x:Static se:Settings.Default}, StringFormat={}{0:N0}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=100}"/>
-                                                        <Run Text="%"/>
-                                                    </TextBlock>
-                                                </DockPanel>
-                                            </MenuItem>
-                                            <!-- theme -->
-                                            <MenuItem x:Name="PART_MenuTheme" Header="Motyw">
-                                                <MenuItem.Icon>
-                                                    <TextBlock Text="🎨" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
-                                                <MenuItem Header="Automatyczny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=-1}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock Text=" " FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <MenuItem Header="Jasny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=0}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock Text="☼" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <MenuItem Header="Ciemny" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=1}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock Text="☽" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <MenuItem Header="Różowy" IsChecked="{Binding Theme, Source={x:Static se:Settings.Default}, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=2}">
-                                                    <MenuItem.Icon>
-                                                        <TextBlock Text="✿" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                            </MenuItem>
-                                            <!-- fullscreen -->
-                                            <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
-                                                <MenuItem.Icon>
-                                                    <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                        <!-- settings -->
+                                        <MenuItem x:Name="PART_iSettings" Header="Ustawienia">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="⚙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
                                         <!-- center -->
@@ -155,6 +111,12 @@
                                         <MenuItem x:Name="PART_MenuRestore" Header="Maksymalizuj">
                                             <MenuItem.Icon>
                                                 <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <!-- fullscreen -->
+                                        <MenuItem x:Name="PART_MenuFullscreen" Header="Pełny ekran" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
