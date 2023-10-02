@@ -1,46 +1,61 @@
-{\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil\fcharset0 Cascadia Mono;}{\f2\fnil\fcharset2 Symbol;}}
+{\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil Cascadia Mono;}{\f2\fnil\fcharset0 Cascadia Mono;}{\f3\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue0;}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.2.0\line\b0\fs16 2023-10-01\par
-
-\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
-
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 New controls: \b StswToggleSwitch\b0 , \b StswListView\b0 , \b StswContentDialog \b0 (is listed here because was completely remade), \b StswMessageDialog\b0 , \b StswSidePanel\b0 , \b StswZoomControl\b0 , \b StswPager\b0 , \b StswShifter\b0 , \b StswPopup\b0 .\par
-{\pntext\f2\'B7\tab}New class \b StswDynamicResource \b0 that allows to use dynamic resource in XAML with converter.\par
-{\pntext\f2\'B7\tab}New extension \b ConvertTo \b0 that converts and returns object to generic type.\par
-{\pntext\f2\'B7\tab}New global command that can be invoked on F1 if method named "OpenHelp" have defined value.\par
-{\pntext\f2\'B7\tab}New theme: \b Pink\b0 .\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.2.1\line\b0\fs16 2023-10-02\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Two main dictionaries (Generic and Theme) are merged into one named \b StswResources\b0 .\par
-{\pntext\f2\'B7\tab}Extension named \b ToObjectList \b0 has been improved.\par
-{\pntext\f2\'B7\tab}\b StswWindow \b0 no longer have sub title functionality and have default height and default width as dependency properties.\par
-{\pntext\f2\'B7\tab}\b StswDataGrid \b0 has default header brushes now.\par
-{\pntext\f2\'B7\tab}\b StswProgressBar \b0 can use custom Text now and have new state named "Finished".\par
-{\pntext\f2\'B7\tab}\b StswLogPanel \b0 now can have closable items if one of its property is set to true.\par
-{\pntext\f2\'B7\tab}\b StswRatingControl \b0 can have minimum value of 1 on click if new property "CanReset" is set to false.\par
-{\pntext\f2\'B7\tab}Method named \b ExportToExcel \b0 can receive additional properties as parameter such as including properties without export attribute.\par
-{\pntext\f2\'B7\tab}Numeric Stsw converters can receive "CornerRadius" and "Thickness" as value now.\par
-{\pntext\f2\'B7\tab}All Stsw controls that were using sub-borders use \b StswSeparator \b0 instead of \b Border\b0 . They also use different property to set its thickness: "SeparatorThickness" that is a double instead of "SubBorderThickness" that was Thickness. It is important to notice that new property requires half of previous value.\par
-{\pntext\f2\'B7\tab}\b StswTabControl \b0 and \b StswTextEditor \b0 both use \b StswShifter \b0 instead of \b StswScrollViewer \b0 (former on tab panel and latter on toolbar).\par
-{\pntext\f2\'B7\tab}\b StswTextEditor \b0 have new property for changing toolbar content from full to compact (with less options) and even collapsing it.\par
-{\pntext\f2\'B7\tab}All Stsw controls in read only state have different background and foreground brushes.\par
-{\pntext\f2\'B7\tab}All Stsw controls have defined horizontal and vertical alignments in style.\par
-{\pntext\f2\'B7\tab}Stsw check controls no longer have different FocusVisualStyle when they have content.\par
-{\pntext\f2\'B7\tab}Base classes for Stsw controls have changed from \b UserControl \b0 into either \b Control \b0 or \b ContentControl\b0 .\par
-{\pntext\f2\'B7\tab}\b StswTruncateLabel \b0 uses \b StswPopup \b0 in its template.\par
-{\pntext\f2\'B7\tab}Fullscreen binding has been moved from \b StswApp \b0 to \b StswWindow\b0 .\par
-{\pntext\f2\'B7\tab}\b StswSettings \b0 renamed into \b Settings \b0 (is internal anyway).\par
-{\pntext\f2\'B7\tab}Some brush properties in Stsw controls have different dynamic resources as default value.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Changed named of extension from \b ToObjectList \b0 to \b MapTo\b0 .\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Stsw input controls no longer update their main property on lost focus if property didn't changed (main property is for example "SelectedColor" for StswColorBox).\par
-{\pntext\f2\'B7\tab}\b StswTextEditor\b0 's "FilePath" property loads or clears document if its value is changed.\par
-{\pntext\f2\'B7\tab}\b StswWindow\b0 's title bar has fixed height of 30, simplier button style and chrome updating and no longer have border under.\par
-{\pntext\f2\'B7\tab}\b StswRatingControl\b0 's placeholder calculation works properly on stretched alignment now.\par
-{\pntext\f2\'B7\tab}\b StswDropButton\b0 , \b StswSplitButton\b0 , \b StswComboBox \b0 and \b StswSelectionBox \b0 have default "MaxDropDownHeight".\par
-{\pntext\f2\'B7\tab}\b StswFilter \b0 will no longer have top margin if it does not have header.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Extension named \b MapTo \b0 properly maps DataTable's columns to generic type properties.\par
+{\pntext\f3\'B7\tab}\b StswDataGrid \b0 is no longer overriding "\cf1\f1\fs19 FrozenColumnCount\f0 " property.\cf0\fs20\par
+{\pntext\f3\'B7\tab}\b StswDropButton \b0 properly binds its separator's brush.\par
+
+\pard\sa200\sl276\slmult1\qj\par
+
+\pard\sa200\sl276\slmult1\qc\b\fs32 0.2.0\line\b0\fs16 2023-10-01\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 New controls: \b StswToggleSwitch\b0 , \b StswListView\b0 , \b StswContentDialog \b0 (is listed here because was completely remade), \b StswMessageDialog\b0 , \b StswSidePanel\b0 , \b StswZoomControl\b0 , \b StswPager\b0 , \b StswShifter\b0 , \b StswPopup\b0 .\par
+{\pntext\f3\'B7\tab}New class \b StswDynamicResource \b0 that allows to use dynamic resource in XAML with converter.\par
+{\pntext\f3\'B7\tab}New extension \b ConvertTo \b0 that converts and returns object to generic type.\par
+{\pntext\f3\'B7\tab}New global command that can be invoked on F1 if method named "OpenHelp" have defined value.\par
+{\pntext\f3\'B7\tab}New theme: \b Pink\b0 .\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Two main dictionaries (Generic and Theme) are merged into one named \b StswResources\b0 .\par
+{\pntext\f3\'B7\tab}Extension named \b ToObjectList \b0 has been improved.\par
+{\pntext\f3\'B7\tab}\b StswWindow \b0 no longer have sub title functionality and have default height and default width as dependency properties.\par
+{\pntext\f3\'B7\tab}\b StswDataGrid \b0 has default header brushes now.\par
+{\pntext\f3\'B7\tab}\b StswProgressBar \b0 can use custom Text now and have new state named "Finished".\par
+{\pntext\f3\'B7\tab}\b StswLogPanel \b0 now can have closable items if one of its property is set to true.\par
+{\pntext\f3\'B7\tab}\b StswRatingControl \b0 can have minimum value of 1 on click if new property "CanReset" is set to false.\par
+{\pntext\f3\'B7\tab}Method named \b ExportToExcel \b0 can receive additional properties as parameter such as including properties without export attribute.\par
+{\pntext\f3\'B7\tab}Numeric Stsw converters can receive "CornerRadius" and "Thickness" as value now.\par
+{\pntext\f3\'B7\tab}All Stsw controls that were using sub-borders use \b StswSeparator \b0 instead of \b Border\b0 . They also use different property to set its thickness: "SeparatorThickness" that is a double instead of "SubBorderThickness" that was Thickness. It is important to notice that new property requires half of previous value.\par
+{\pntext\f3\'B7\tab}\b StswTabControl \b0 and \b StswTextEditor \b0 both use \b StswShifter \b0 instead of \b StswScrollViewer \b0 (former on tab panel and latter on toolbar).\par
+{\pntext\f3\'B7\tab}\b StswTextEditor \b0 have new property for changing toolbar content from full to compact (with less options) and even collapsing it.\par
+{\pntext\f3\'B7\tab}All Stsw controls in read only state have different background and foreground brushes.\par
+{\pntext\f3\'B7\tab}All Stsw controls have defined horizontal and vertical alignments in style.\par
+{\pntext\f3\'B7\tab}Stsw check controls no longer have different FocusVisualStyle when they have content.\par
+{\pntext\f3\'B7\tab}Base classes for Stsw controls have changed from \b UserControl \b0 into either \b Control \b0 or \b ContentControl\b0 .\par
+{\pntext\f3\'B7\tab}\b StswTruncateLabel \b0 uses \b StswPopup \b0 in its template.\par
+{\pntext\f3\'B7\tab}Fullscreen binding has been moved from \b StswApp \b0 to \b StswWindow\b0 .\par
+{\pntext\f3\'B7\tab}\b StswSettings \b0 renamed into \b Settings \b0 (is internal anyway).\par
+{\pntext\f3\'B7\tab}Some brush properties in Stsw controls have different dynamic resources as default value.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Stsw input controls no longer update their main property on lost focus if property didn't changed (main property is for example "SelectedColor" for StswColorBox).\par
+{\pntext\f3\'B7\tab}\b StswTextEditor\b0 's "FilePath" property loads or clears document if its value is changed.\par
+{\pntext\f3\'B7\tab}\b StswWindow\b0 's title bar has fixed height of 30, simplier button style and chrome updating and no longer have border under.\par
+{\pntext\f3\'B7\tab}\b StswRatingControl\b0 's placeholder calculation works properly on stretched alignment now.\par
+{\pntext\f3\'B7\tab}\b StswDropButton\b0 , \b StswSplitButton\b0 , \b StswComboBox \b0 and \b StswSelectionBox \b0 have default "MaxDropDownHeight".\par
+{\pntext\f3\'B7\tab}\b StswFilter \b0 will no longer have top margin if it does not have header.\par
 
 \pard\sa200\sl276\slmult1\qj\par
 
@@ -48,75 +63,75 @@
 
 \pard\sa200\sl276\slmult1\qj\b0\fs24 New functionality:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswSelectionBox \b0 uses new property "SetTextCommand" to set custom method for generating text in box after selection changing.\par
-{\pntext\f2\'B7\tab}\b StswFilter \b0 can now hide mode changing button with new property.\par
-{\pntext\f2\'B7\tab}\b StswApp \b0 have new method called "StswWindow". This method will return current app's main window as StswWindow.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswSelectionBox \b0 uses new property "SetTextCommand" to set custom method for generating text in box after selection changing.\par
+{\pntext\f3\'B7\tab}\b StswFilter \b0 can now hide mode changing button with new property.\par
+{\pntext\f3\'B7\tab}\b StswApp \b0 have new method called "StswWindow". This method will return current app's main window as StswWindow.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Content dialog is declared properly now for \b StswWindow\b0 . This eliminates XAML binding failure caused by previous version.\par
-{\pntext\f2\'B7\tab}\b StswSelectionBox \b0 uses scroll viewer from its list box instead of separated scroll viewer - thanks to that scroll viewer works properly and can for example be scrolled with mouse wheel.\par
-{\pntext\f2\'B7\tab}\b StswCheckBox \b0 and \b StswRadioBox \b0 have the same default value for padding as other controls by cost of default icon scale (this "cost" is required so they have the same height as other controls like - for example - box controls).\par
-{\pntext\f2\'B7\tab}\b StswNotifyIcon\b0 's "IconFromPath" method gets resource stream from relative or absolute Uri now instead of absolute.\par
-{\pntext\f2\'B7\tab}\b StswIcon \b0 uses "Data" property as content property and \b StswText \b0 uses "Inlines" property as content property.\par
-{\pntext\f2\'B7\tab}\b StswDataGrid\b0 's special column no longer can be reordered and resized.\par
-{\pntext\f2\'B7\tab}\b StswContentDialog\b0 's "IsOpen" property binds two way by default now.\par
-{\pntext\f2\'B7\tab}\b StswColorBox\b0 , \b StswDatePicker \b0 and \b StswNumericBox \b0 have bindable Text property again.\par
-{\pntext\f2\'B7\tab}\b StswDropButton\b0 , \b StswSplitButton \b0 and \b StswComboBox \b0 can now be properly aligned.\par
-{\pntext\f2\'B7\tab}Arrow icon in Stsw controls with drop-down list are now aligned to right when control is in stretched alignment mode.\par
-{\pntext\f2\'B7\tab}Stsw component controls release space for icon if icon is null.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Content dialog is declared properly now for \b StswWindow\b0 . This eliminates XAML binding failure caused by previous version.\par
+{\pntext\f3\'B7\tab}\b StswSelectionBox \b0 uses scroll viewer from its list box instead of separated scroll viewer - thanks to that scroll viewer works properly and can for example be scrolled with mouse wheel.\par
+{\pntext\f3\'B7\tab}\b StswCheckBox \b0 and \b StswRadioBox \b0 have the same default value for padding as other controls by cost of default icon scale (this "cost" is required so they have the same height as other controls like - for example - box controls).\par
+{\pntext\f3\'B7\tab}\b StswNotifyIcon\b0 's "IconFromPath" method gets resource stream from relative or absolute Uri now instead of absolute.\par
+{\pntext\f3\'B7\tab}\b StswIcon \b0 uses "Data" property as content property and \b StswText \b0 uses "Inlines" property as content property.\par
+{\pntext\f3\'B7\tab}\b StswDataGrid\b0 's special column no longer can be reordered and resized.\par
+{\pntext\f3\'B7\tab}\b StswContentDialog\b0 's "IsOpen" property binds two way by default now.\par
+{\pntext\f3\'B7\tab}\b StswColorBox\b0 , \b StswDatePicker \b0 and \b StswNumericBox \b0 have bindable Text property again.\par
+{\pntext\f3\'B7\tab}\b StswDropButton\b0 , \b StswSplitButton \b0 and \b StswComboBox \b0 can now be properly aligned.\par
+{\pntext\f3\'B7\tab}Arrow icon in Stsw controls with drop-down list are now aligned to right when control is in stretched alignment mode.\par
+{\pntext\f3\'B7\tab}Stsw component controls release space for icon if icon is null.\par
 
 \pard\sa200\sl276\slmult1\qc\b\fs32 0.1.0\line\b0\fs16 2023-08-19\b\par
 
 \pard\sa200\sl276\slmult1\qj\b0\fs20 Info not prepared yet...\par
-\f1\lang21\par
+\f2\lang21\par
 
 \pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 One year edition\line\b0\fs16 2023-03-01\b\par
 
 \pard\sa200\sl276\slmult1\qj\b0\fs20 Info not prepared yet...\par
-\f1\lang21\par
+\f2\lang21\par
 
 \pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 Re-edition\line\b0\fs16 2022-03-01\b\par
 
 \pard\sa200\sl276\slmult1\qj\b0\fs24 New controls:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 ColorSetter \b0 - in short a control made from 4 sliders and labels. Each slider represent RGBA color channels.\par
-{\pntext\f2\'B7\tab}\b ColumnFilter \b0 - in short a control that allows user to specify a value used for "where" clause in SQL commands. This control shows different box based on filter type and generates different text based on filter mode.\par
-{\pntext\f2\'B7\tab}\b DataGridImageColumn \b0 - a DataGrid's template column used for showing an image.\par
-{\pntext\f2\'B7\tab}\b ExtCheckBox \b0 - same as CheckBox but have different style for dark mode (poor version) and can display different icon depending on "IsError" property.\par
-{\pntext\f2\'B7\tab}\b ExtComboBox \b0 - same as ComboBox but have different style for dark mode (poor version).\par
-{\pntext\f2\'B7\tab}\b ExtDataGrid \b0 - same as DataGrid but have different style for dark mode (poor version) and have additional properties for header brushes.\par
-{\pntext\f2\'B7\tab}\b ExtImage \b0 - same as Image but have additional context menu that allows user to cut, copy, paste, delete, load and save an image.\par
-{\pntext\f2\'B7\tab}\b ExtMenuItem \b0 - same as MenuItem but have image source property and creates Image as Icon at start.\par
-{\pntext\f2\'B7\tab}\b ExtProgressBar \b0 - same as ProgressBar but have different style for dark mode (poor version) and can display text on progress bar.\par
-{\pntext\f2\'B7\tab}\b ExtSeparator \b0 - same as Separator but have different style for dark mode (poor version) and can be displayed either horizontally or vertically.\par
-{\pntext\f2\'B7\tab}\b ExtTextBox \b0 - same as TextBox. The only reason it exists is vertical content alignment centered by default.\par
-{\pntext\f2\'B7\tab}\b ExtToggleButton \b0 - same as ToggleButton but have different style for dark mode (poor version) and is specially customized for MultiBox.\par
-{\pntext\f2\'B7\tab}\b Header \b0 - in short a control made from 2 images (one bigger and one smaller) and 2 text blocks.\par
-{\pntext\f2\'B7\tab}\b IconButton \b0 - in short a button made from image and text block.\par
-{\pntext\f2\'B7\tab}\b LoadingCircle \b0 - a control that displays rotating circle made from multiple Ellipses.\par
-{\pntext\f2\'B7\tab}\b MultiBox \b0 - in short a control that allows to select multiple items.\par
-{\pntext\f2\'B7\tab}\b NumericUpDown \b0 - in short a control made from text box and two repeat buttons allowing user to increase or decrese numeric value binded to box.\par
-{\pntext\f2\'B7\tab}\b OutlinedTextBlock \b0 - same as TextBlock but contains some properties allowing it to have a stroke.\par
-{\pntext\f2\'B7\tab}\b StswWindow \b0 - extended window with options to scale interface (poor version) and switch themes between light and dark.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 ColorSetter \b0 - in short a control made from 4 sliders and labels. Each slider represent RGBA color channels.\par
+{\pntext\f3\'B7\tab}\b ColumnFilter \b0 - in short a control that allows user to specify a value used for "where" clause in SQL commands. This control shows different box based on filter type and generates different text based on filter mode.\par
+{\pntext\f3\'B7\tab}\b DataGridImageColumn \b0 - a DataGrid's template column used for showing an image.\par
+{\pntext\f3\'B7\tab}\b ExtCheckBox \b0 - same as CheckBox but have different style for dark mode (poor version) and can display different icon depending on "IsError" property.\par
+{\pntext\f3\'B7\tab}\b ExtComboBox \b0 - same as ComboBox but have different style for dark mode (poor version).\par
+{\pntext\f3\'B7\tab}\b ExtDataGrid \b0 - same as DataGrid but have different style for dark mode (poor version) and have additional properties for header brushes.\par
+{\pntext\f3\'B7\tab}\b ExtImage \b0 - same as Image but have additional context menu that allows user to cut, copy, paste, delete, load and save an image.\par
+{\pntext\f3\'B7\tab}\b ExtMenuItem \b0 - same as MenuItem but have image source property and creates Image as Icon at start.\par
+{\pntext\f3\'B7\tab}\b ExtProgressBar \b0 - same as ProgressBar but have different style for dark mode (poor version) and can display text on progress bar.\par
+{\pntext\f3\'B7\tab}\b ExtSeparator \b0 - same as Separator but have different style for dark mode (poor version) and can be displayed either horizontally or vertically.\par
+{\pntext\f3\'B7\tab}\b ExtTextBox \b0 - same as TextBox. The only reason it exists is vertical content alignment centered by default.\par
+{\pntext\f3\'B7\tab}\b ExtToggleButton \b0 - same as ToggleButton but have different style for dark mode (poor version) and is specially customized for MultiBox.\par
+{\pntext\f3\'B7\tab}\b Header \b0 - in short a control made from 2 images (one bigger and one smaller) and 2 text blocks.\par
+{\pntext\f3\'B7\tab}\b IconButton \b0 - in short a button made from image and text block.\par
+{\pntext\f3\'B7\tab}\b LoadingCircle \b0 - a control that displays rotating circle made from multiple Ellipses.\par
+{\pntext\f3\'B7\tab}\b MultiBox \b0 - in short a control that allows to select multiple items.\par
+{\pntext\f3\'B7\tab}\b NumericUpDown \b0 - in short a control made from text box and two repeat buttons allowing user to increase or decrese numeric value binded to box.\par
+{\pntext\f3\'B7\tab}\b OutlinedTextBlock \b0 - same as TextBlock but contains some properties allowing it to have a stroke.\par
+{\pntext\f3\'B7\tab}\b StswWindow \b0 - extended window with options to scale interface (poor version) and switch themes between light and dark.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 New helpers:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 BindingProxy \b0 - helper class that allows creating a proxy object for data binding purposes.\par
-{\pntext\f2\'B7\tab}\b Commands \b0 - helper class that contains some routed UI commands including their input gestures.\par
-{\pntext\f2\'B7\tab}\b Converters \b0 - a collection of some converters such as: conv_Bool, conv_Color, conv_Compare, conv_Contains, conv_MultiCultureNumber, conv_NotNull, conv_Size, conv_StringToString.\par
-{\pntext\f2\'B7\tab}\b DB \b0 - helper class that is model for database connection and contains methods for import and export encrypted connection data to file.\par
-{\pntext\f2\'B7\tab}\b Extensions \b0 - a collection of some methods used like extensions such as: Between, Capitalize, ConvertTo, In, ToList, GetVisualChild, FindVisualChildren.\par
-{\pntext\f2\'B7\tab}\b Fn \b0 - a collection of some methods such as: AppName, AppVersion, AppNameAndVersion, AppCopyright, AppDatabase, AddCharBeforeUpperLetters, LoadImage, OpenContextMenu, OpenFile, GetWindowsThemeColor, GetColumnFilters, ClearColumnFilters, SetTheme.\par
-{\pntext\f2\'B7\tab}\b Log \b0 - helper class that allows to create log text entry in specified log file. After reaching a size limit, file is renamed and logs are saved to a new one.\par
-{\pntext\f2\'B7\tab}\b Mail \b0 - helpers class that is model for mailbox connection and contains method for sending mails.\par
-{\pntext\f2\'B7\tab}\b SQL \b0 - helper class to generate connection strings based on data from DB model class.\par
-{\pntext\f2\'B7\tab}\b Security \b0 - helper class that provides methods for encrypting and decrypting text and for generating salt and hash.\par
-{\pntext\f2\'B7\tab}\b VM \b0 - helper class implementing INotifyPropertyChanged interface that provides a method for invoking PropertyChanged.\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 BindingProxy \b0 - helper class that allows creating a proxy object for data binding purposes.\par
+{\pntext\f3\'B7\tab}\b Commands \b0 - helper class that contains some routed UI commands including their input gestures.\par
+{\pntext\f3\'B7\tab}\b Converters \b0 - a collection of some converters such as: conv_Bool, conv_Color, conv_Compare, conv_Contains, conv_MultiCultureNumber, conv_NotNull, conv_Size, conv_StringToString.\par
+{\pntext\f3\'B7\tab}\b DB \b0 - helper class that is model for database connection and contains methods for import and export encrypted connection data to file.\par
+{\pntext\f3\'B7\tab}\b Extensions \b0 - a collection of some methods used like extensions such as: Between, Capitalize, ConvertTo, In, ToList, GetVisualChild, FindVisualChildren.\par
+{\pntext\f3\'B7\tab}\b Fn \b0 - a collection of some methods such as: AppName, AppVersion, AppNameAndVersion, AppCopyright, AppDatabase, AddCharBeforeUpperLetters, LoadImage, OpenContextMenu, OpenFile, GetWindowsThemeColor, GetColumnFilters, ClearColumnFilters, SetTheme.\par
+{\pntext\f3\'B7\tab}\b Log \b0 - helper class that allows to create log text entry in specified log file. After reaching a size limit, file is renamed and logs are saved to a new one.\par
+{\pntext\f3\'B7\tab}\b Mail \b0 - helpers class that is model for mailbox connection and contains method for sending mails.\par
+{\pntext\f3\'B7\tab}\b SQL \b0 - helper class to generate connection strings based on data from DB model class.\par
+{\pntext\f3\'B7\tab}\b Security \b0 - helper class that provides methods for encrypting and decrypting text and for generating salt and hash.\par
+{\pntext\f3\'B7\tab}\b VM \b0 - helper class implementing INotifyPropertyChanged interface that provides a method for invoking PropertyChanged.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Other:\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 Resources \b0 - a collection of filter icons.\par
-{\pntext\f2\'B7\tab}\b Themes \b0 - a collection of styles for some controls to provide them with light and dark theme look (poor version).\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 Resources \b0 - a collection of filter icons.\par
+{\pntext\f3\'B7\tab}\b Themes \b0 - a collection of styles for some controls to provide them with light and dark theme look (poor version).\par
 }
  

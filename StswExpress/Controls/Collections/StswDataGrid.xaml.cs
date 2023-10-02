@@ -172,7 +172,8 @@ public class StswDataGrid : DataGrid
                 {
                     /// create special column
                     stsw.Columns.Insert(0, new DataGridTemplateColumn() { CellTemplate = specialColumnCellTemplate, HeaderTemplate = specialColumnHeaderTemplate });
-                    stsw.FrozenColumnCount++;
+                    if (stsw.IsLoaded)
+                        stsw.FrozenColumnCount++;
 
                     specialColumn = stsw.Columns[0];
                 }
@@ -186,7 +187,8 @@ public class StswDataGrid : DataGrid
             else if (specialColumn != null)
             {
                 /// remove special column
-                stsw.FrozenColumnCount--;
+                if (stsw.IsLoaded && stsw.FrozenColumnCount > 0)
+                    stsw.FrozenColumnCount--;
                 stsw.Columns.Remove(specialColumn);
             }
         }

@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using System.Threading;
 using System.Windows;
 
 namespace TestApp;
@@ -125,7 +124,7 @@ internal static class SQL
             MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
-        return result.ToObjectList<ContractorModel>().ToStswCollection();
+        return result.MapTo<ContractorModel>().ToStswCollection();
     }
 
     /// SetContractors

@@ -64,26 +64,22 @@ public static class StswExtensions
     /// </summary>
     public static IEnumerable Clone(this IEnumerable source)
     {
-        if (Activator.CreateInstance(source.GetType()) is IEnumerable clonedList)
+        foreach (var item in source)
         {
-            foreach (var item in source)
-            {
-                if (item is ICloneable cloneableItem)
-                    yield return cloneableItem.Clone();
-                else
-                    yield return item;
-            }
+            if (item is ICloneable cloneableItem)
+                yield return cloneableItem.Clone();
+            else
+                yield return item;
         }
-        else throw new ArgumentNullException("The source is not a proper IList.");
     }
 
     /// <summary>
     /// Converts <see cref="DataTable"/> to <see cref="IEnumerable{T}"/>.
     /// </summary>
-    public static IEnumerable<T> ToObjectList<T>(this DataTable dt) where T : class, new()
+    public static IEnumerable<T> MapTo<T>(this DataTable dt) where T : class, new()
     {
         var objProps = typeof(T).GetProperties().ToList();
-        var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).Where(x => x >= 0).ToArray();
+        var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).ToArray();
 
         foreach (var row in dt.AsEnumerable())
         {
@@ -91,6 +87,9 @@ public static class StswExtensions
 
             for (int i = 0; i < mappings.Length; i++)
             {
+                if (mappings[i] < 0)
+                    continue;
+
                 try
                 {
                     var propertyInfo = objProps[mappings[i]];

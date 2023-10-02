@@ -58,6 +58,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <se:StswDataGrid BackgroundHeader="#1777"
+                             FrozenColumnCount="1"
                              IsEnabled="{Binding IsEnabled}"
                              IsReadOnly="{Binding IsReadOnly}"
                              ItemsSource="{Binding Items, Mode=TwoWay}"
