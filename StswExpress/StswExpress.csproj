@@ -20,7 +20,12 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>Changed functionality:
+⦁ Changed named of extension from ToObjectList to MapTo.
+Bugfixes:
+⦁ Extension named MapTo properly maps DataTable's columns to generic type properties.
+⦁ StswDataGrid is no longer overriding "FrozenColumnCount" property.
+⦁ StswDropButton properly binds its separator's brush.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
