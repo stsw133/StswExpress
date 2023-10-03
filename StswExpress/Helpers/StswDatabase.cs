@@ -76,16 +76,71 @@ public static class StswDatabase
 /// <summary>
 /// Represents a model for database connection.
 /// </summary>
-public class StswDatabaseModel
+public class StswDatabaseModel : StswObservableObject
 {
-    public string Name { get; set; } = string.Empty;
-    public StswDatabaseType Type { get; set; } = default;
-    public string Server { get; set; } = string.Empty;
-    public int Port { get; set; } = 0;
-    public string Database { get; set; } = string.Empty;
-    public string Login { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Version { get; set; } = string.Empty;
+    /// Name
+    public string Name
+    {
+        get => name;
+        set => SetProperty(ref name, value);
+    }
+    private string name = string.Empty;
+
+    /// Type
+    public StswDatabaseType Type
+    {
+        get => type;
+        set => SetProperty(ref type, value);
+    }
+    private StswDatabaseType type = default;
+
+    /// Server
+    public string Server
+    {
+        get => server;
+        set => SetProperty(ref server, value);
+    }
+    private string server = string.Empty;
+
+    /// Port
+    public int Port
+    {
+        get => port;
+        set => SetProperty(ref port, value);
+    }
+    private int port = 0;
+
+    /// Database
+    public string Database
+    {
+        get => database;
+        set => SetProperty(ref database, value);
+    }
+    private string database = string.Empty;
+
+    /// Login
+    public string Login
+    {
+        get => login;
+        set => SetProperty(ref login, value);
+    }
+    private string login = string.Empty;
+
+    /// Password
+    public string Password
+    {
+        get => password;
+        set => SetProperty(ref password, value);
+    }
+    private string password = string.Empty;
+
+    /// Version
+    public string Version
+    {
+        get => version;
+        set => SetProperty(ref version, value);
+    }
+    private string version = string.Empty;
 
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.
