@@ -1,22 +1,21 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control behaving like content dialog with various properties for customization.
+/// Represents a config box behaving like content dialog.
 /// </summary>
-internal class StswSettings : Control
+internal class StswConfig : Control
 {
-    internal StswSettings()
+    internal StswConfig()
     {
         CloseCommand = new StswCommand<bool?>(Close);
     }
-    static StswSettings()
+    static StswConfig()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSettings), new FrameworkPropertyMetadata(typeof(StswSettings)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswConfig), new FrameworkPropertyMetadata(typeof(StswConfig)));
     }
 
     #region Events & methods
@@ -31,12 +30,17 @@ internal class StswSettings : Control
     /// <param name="result"></param>
     private void Close(bool? result)
     {
-        if (result == true)
-            Settings.Default.Save();
-        else
-            Settings.Default.Reload();
-
         StswContentDialog.Close(Window.GetWindow(this));
+
+        if (result == true)
+            StswSettings.Default.Save();
+        else
+        {
+            StswSettings.Default.Reload();
+            StswSettings.Default.iSize = StswSettings.Default.iSize;
+            StswSettings.Default.Language = StswSettings.Default.Language;
+            StswSettings.Default.Theme = StswSettings.Default.Theme;
+        }
     }
 
     /// <summary>
@@ -46,7 +50,7 @@ internal class StswSettings : Control
     /// <returns></returns>
     public static async void Show(object identifier)
     {
-        StswSettings dialog = new()
+        StswConfig dialog = new()
         {
             Identifier = identifier
         };
@@ -59,9 +63,11 @@ internal class StswSettings : Control
     /// </summary>
     protected void ThemeClick(int themeID)
     {
-        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources theme)
-            theme.Theme = themeID < 0 ? StswFn.GetWindowsTheme() : (StswTheme)themeID;
-        Settings.Default.Theme = themeID;
+        var res = StswResources.GetInstance();
+        if (res != null)
+            res.Theme = (StswTheme)themeID;
+
+        StswSettings.Default.Theme = themeID;
     }
     #endregion
 
@@ -78,7 +84,7 @@ internal class StswSettings : Control
         = DependencyProperty.Register(
             nameof(Identifier),
             typeof(object),
-            typeof(StswMessageDialog)
+            typeof(StswConfig)
         );
     #endregion
 
@@ -95,7 +101,7 @@ internal class StswSettings : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSettings)
+            typeof(StswConfig)
         );
     #endregion
 }

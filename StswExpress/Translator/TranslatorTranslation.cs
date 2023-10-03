@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class TMTranslation
+public class TranslatorTranslation
 {
     public string? Source { get; set; }
     public string? TextID { get; set; }

@@ -6,14 +6,14 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class TMLanguageChangedEventArgs : EventArgs
+public class TranslatorLanguageChangedEventArgs : EventArgs
 {
     /// <summary>
     /// Constructor.
     /// </summary>
     /// <param name="oldLanguageId">Language ID before the change.</param>
     /// <param name="newLanguageId">Language ID after the change.</param>
-    public TMLanguageChangedEventArgs(string oldLanguageId, string newLanguageId)
+    public TranslatorLanguageChangedEventArgs(string oldLanguageId, string newLanguageId)
     {
         OldLanguageId = oldLanguageId;
         NewLanguageId = newLanguageId;
@@ -33,14 +33,14 @@ public class TMLanguageChangedEventArgs : EventArgs
 /// <summary>
 /// 
 /// </summary>
-public class TMLanguageChangingEventArgs : CancelEventArgs
+public class TranslatorLanguageChangingEventArgs : CancelEventArgs
 {
     /// <summary>
     /// Constructor.
     /// </summary>
     /// <param name="oldLanguageId">Language ID before the change.</param>
     /// <param name="newLanguageId">Language ID after the change.</param>
-    public TMLanguageChangingEventArgs(string oldLanguageId, string newLanguageId)
+    public TranslatorLanguageChangingEventArgs(string oldLanguageId, string newLanguageId)
     {
         OldLanguageId = oldLanguageId;
         NewLanguageId = newLanguageId;

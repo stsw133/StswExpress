@@ -97,68 +97,68 @@
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_FileNew" ToolTip="Nowy" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileNew" ToolTip="{se:Tr StswTextEditor.File.New}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.File}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FileOpen" ToolTip="Otwórz" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileOpenCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileOpen" ToolTip="{se:Tr StswTextEditor.File.Load}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileOpenCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Scale="1.5" Fill="{DynamicResource StswColor.Structure}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FileSave" ToolTip="Zapisz" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileSave" ToolTip="{se:Tr StswTextEditor.File.Save}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentSave}" Scale="1.5" Fill="{DynamicResource StswColor.Modify}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FileSaveAs" ToolTip="Zapisz jako" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveAsCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileSaveAs" ToolTip="{se:Tr StswTextEditor.File.SaveAs}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileSaveAsCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentSaveAll}" Scale="1.5" Fill="{DynamicResource StswColor.Modify}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_FileReload" ToolTip="Załaduj ponownie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileReload" ToolTip="{se:Tr StswTextEditor.File.Reload}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Reload}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FileInfo" ToolTip="Pokaż w eksploratorze" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileInfoCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileInfo" ToolTip="{se:Tr StswTextEditor.File.ShowInExplorer}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileInfoCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FolderInformation}" Scale="1.5" Fill="{DynamicResource StswColor.Structure}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FilePrint" ToolTip="Drukuj" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FilePrintCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FilePrint" ToolTip="{se:Tr StswTextEditor.File.Print}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FilePrintCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Printer}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_FileEmail" ToolTip="Wyślij e-mail" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileMailCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_FileEmail" ToolTip="{se:Tr StswTextEditor.File.SendMail}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FileMailCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Email}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
-                                                <TextBlock x:Name="PART_FileText" Text="Plik" ToolTip="{TemplateBinding FilePath}" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
+                                                <TextBlock x:Name="PART_FileText" Text="{se:Tr StswTextEditor.File}" ToolTip="{TemplateBinding FilePath}" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
                                             </DockPanel>
                                         </Border>
                                         <!-- edit -->
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_EditUndo" ToolTip="Cofnij (Ctrl + Z)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditUndoCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditUndo" ToolTip="{se:Tr StswTextEditor.Edit.Undo, Suffix=' (Ctrl + Z)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditUndoCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Undo}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditRedo" ToolTip="Przywróć (Ctrl + Y)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditRedoCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditRedo" ToolTip="{se:Tr StswTextEditor.Edit.Redo, Suffix=' (Ctrl + Y)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditRedoCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Redo}" Scale="1.5" Fill="{DynamicResource StswColor.Neutral}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditFindReplace" ToolTip="Znajdź i zamień" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Visibility="Hidden">
+                                                    <se:StswButton x:Name="PART_EditFindReplace" ToolTip="{se:Tr StswTextEditor.Edit.FindAndReplace}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Visibility="Hidden">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FindReplace}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditClear" ToolTip="Usuń zaznaczenie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditClearCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditClear" ToolTip="{se:Tr StswTextEditor.Edit.ClearSelection}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditClearCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.Backspace}" Scale="1.5" Fill="{DynamicResource StswColor.Negative}"/>
                                                     </se:StswButton>
                                                 </StackPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_EditSelectAll" ToolTip="Zaznacz wszystko (Ctrl + A)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditSelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditSelectAll" ToolTip="{se:Tr StswTextEditor.Edit.SelectAll, Suffix=' (Ctrl + A)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditSelectAllCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.SelectAll}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditCut" ToolTip="Wytnij (Ctrl + X)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditCutCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditCut" ToolTip="{se:Tr StswTextEditor.Edit.Cut, Suffix=' (Ctrl + X)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditCutCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditCopy" ToolTip="Kopiuj (Ctrl + C)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditCopyCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditCopy" ToolTip="{se:Tr StswTextEditor.Edit.Copy, Suffix=' (Ctrl + C)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditCopyCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_EditPaste" ToolTip="Wklej (Ctrl + V)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditPasteCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_EditPaste" ToolTip="{se:Tr StswTextEditor.Edit.Paste, Suffix=' (Ctrl + V)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding EditPasteCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}" Scale="1.5"/>
                                                     </se:StswButton>
                                                 </StackPanel>
-                                                <TextBlock x:Name="PART_EditText" Text="Edycja" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
+                                                <TextBlock x:Name="PART_EditText" Text="{se:Tr StswTextEditor.Edit}" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
                                             </DockPanel>
                                         </Border>
                                         <!-- font -->
@@ -181,31 +181,31 @@
                                                 </Grid.ColumnDefinitions>
                                                 <se:StswComboBox x:Name="PART_FontFamily" Grid.Column="0" Grid.ColumnSpan="6" IsEditable="True" Height="{Binding ActualHeight, ElementName=PART_FileNew}" Style="{StaticResource StswTextEditorToolBarComboBoxStyle}"/>
                                                 <se:StswNumericBox x:Name="PART_FontSize" Grid.Column="6" Grid.ColumnSpan="2" Format="N1" Minimum="1" Maximum="1638" Height="{Binding ActualHeight, ElementName=PART_FileNew}" Style="{StaticResource StswTextEditorToolBarNumericBoxStyle}"/>
-                                                <se:StswButton x:Name="PART_FontIncrease" Grid.Column="8" ToolTip="Zwiększ cziokę" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="EditingCommands.IncreaseFontSize" Visibility="Collapsed">
+                                                <se:StswButton x:Name="PART_FontIncrease" Grid.Column="8" ToolTip="{se:Tr StswTextEditor.Font.FontIncrease}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="EditingCommands.IncreaseFontSize" Visibility="Collapsed">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeIncrease}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontDecrease" Grid.Column="9" ToolTip="Zmniejsz czcionkę" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="EditingCommands.DecreaseFontSize" Visibility="Collapsed">
+                                                <se:StswButton x:Name="PART_FontDecrease" Grid.Column="9" ToolTip="{se:Tr StswTextEditor.Font.FontDecrease}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="EditingCommands.DecreaseFontSize" Visibility="Collapsed">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatFontSizeDecrease}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontBold" Grid.Row="1" Grid.Column="0" ToolTip="Pogrubienie (Ctrl + B)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontBoldCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontBold" Grid.Row="1" Grid.Column="0" ToolTip="{se:Tr StswTextEditor.Font.Bold, Suffix=' (Ctrl + B)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontBoldCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatBold}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontItalic" Grid.Row="1" Grid.Column="1" ToolTip="Kursywa (Ctrl + I)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontItalicCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontItalic" Grid.Row="1" Grid.Column="1" ToolTip="{se:Tr StswTextEditor.Font.Italic, Suffix=' (Ctrl + I)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontItalicCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatItalic}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontUnderline" Grid.Row="1" Grid.Column="2" ToolTip="Podkreślenie (Ctrl + U)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontUnderlineCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontUnderline" Grid.Row="1" Grid.Column="2" ToolTip="{se:Tr StswTextEditor.Font.Underline, Suffix=' (Ctrl + U)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontUnderlineCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatUnderline}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontStrikethrough" Grid.Row="1" Grid.Column="3" ToolTip="Przekreślenie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontStrikethroughCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontStrikethrough" Grid.Row="1" Grid.Column="3" ToolTip="{se:Tr StswTextEditor.Font.Strikethrough}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontStrikethroughCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatStrikethrough}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontSubscript" Grid.Row="1" Grid.Column="4" ToolTip="Indeks dolny (Ctrl + OemPlus)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontSubscriptCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontSubscript" Grid.Row="1" Grid.Column="4" ToolTip="{se:Tr StswTextEditor.Font.Subscript, Suffix=' (Ctrl + OemPlus)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontSubscriptCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSubscript}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswButton x:Name="PART_FontSuperscript" Grid.Row="1" Grid.Column="5" ToolTip="Indeks dolny (Ctrl + Shift + OemPlus)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontSuperscriptCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <se:StswButton x:Name="PART_FontSuperscript" Grid.Row="1" Grid.Column="5" ToolTip="{se:Tr StswTextEditor.Font.Superscript, Suffix=' (Ctrl + Shift + OemPlus)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding FontSuperscriptCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatSuperscript}" Scale="1.5"/>
                                                 </se:StswButton>
-                                                <se:StswClippingBorder x:Name="PART_FontColorText" Grid.Row="1" Grid.Column="6" ToolTip="Kolor tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
+                                                <se:StswClippingBorder x:Name="PART_FontColorText" Grid.Row="1" Grid.Column="6" ToolTip="{se:Tr StswTextEditor.Font.TextColor}" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
                                                     <DockPanel>
                                                         <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -218,17 +218,17 @@
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
                                                             </se:StswDropButton.Header>
                                                             <TabControl>
-                                                                <TabItem Header="Standardowe">
+                                                                <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
                                                                     <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                                 </TabItem>
-                                                                <TabItem Header="Szczegółowe">
+                                                                <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
                                                                     <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                                 </TabItem>
                                                             </TabControl>
                                                         </se:StswDropButton>
                                                     </DockPanel>
                                                 </se:StswClippingBorder>
-                                                <se:StswClippingBorder x:Name="PART_FontColorHighlight" Grid.Row="1" Grid.Column="7" ToolTip="Kolor wyróżnienia tekstu" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
+                                                <se:StswClippingBorder x:Name="PART_FontColorHighlight" Grid.Row="1" Grid.Column="7" ToolTip="{se:Tr StswTextEditor.Font.Highlight}" Style="{StaticResource StswTextEditorToolBarClippingBorderStyle}">
                                                     <DockPanel>
                                                         <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FontColorHighlightCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                             <StackPanel>
@@ -241,41 +241,41 @@
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
                                                             </se:StswDropButton.Header>
                                                             <TabControl>
-                                                                <TabItem Header="Standardowe">
+                                                                <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
                                                                     <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
                                                                 </TabItem>
-                                                                <TabItem Header="Szczegółowe">
+                                                                <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
                                                                     <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                                 </TabItem>
                                                             </TabControl>
                                                         </se:StswDropButton>
                                                     </DockPanel>
                                                 </se:StswClippingBorder>
-                                                <TextBlock x:Name="PART_FontText" Text="Czcionka" Grid.Row="2" Grid.ColumnSpan="8" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
+                                                <TextBlock x:Name="PART_FontText" Text="{se:Tr StswTextEditor.Font}" Grid.Row="2" Grid.ColumnSpan="8" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
                                             </Grid>
                                         </Border>
-                                        <!-- section -->
+                                        <!-- paragraph -->
                                         <Border BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 0" Padding="{TemplateBinding SubPadding}">
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_SectionIncrease" ToolTip="Zwiększ wcięcie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionIncreaseCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionIncrease" ToolTip="{se:Tr StswTextEditor.Paragraph.IndentIncrease}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionIncreaseCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentIncrease}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_SectionDecrease" ToolTip="Zmniejsz wcięcie" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionDecreaseCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionDecrease" ToolTip="{se:Tr StswTextEditor.Paragraph.IndentDecrease}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionDecreaseCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswDropButton x:Name="PART_SectionList" ToolTip="Rozpocznij listę" ArrowVisibility="Collapsed" Style="{StaticResource StswTextEditorToolBarDropButtonStyle}">
+                                                    <se:StswDropButton x:Name="PART_SectionList" ToolTip="{se:Tr StswTextEditor.Paragraph.StartList}" ArrowVisibility="Collapsed" Style="{StaticResource StswTextEditorToolBarDropButtonStyle}">
                                                         <se:StswDropButton.Header>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatListText}" Scale="1.5"/>
                                                         </se:StswDropButton.Header>
                                                         <se:StswButton BorderThickness="1" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding SectionListBulletedCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                            <se:StswHeader IconData="{x:Static se:StswIcons.FormatListBulleted}" IconScale="1.5" Content="Punktory"/>
+                                                            <se:StswHeader IconData="{x:Static se:StswIcons.FormatListBulleted}" IconScale="1.5" Content="{se:Tr StswTextEditor.Paragraph.BulletedList}"/>
                                                         </se:StswButton>
                                                         <se:StswButton BorderThickness="1" CornerRadius="0" HorizontalContentAlignment="Left" Command="{Binding SectionListNumberedCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                                            <se:StswHeader IconData="{x:Static se:StswIcons.FormatListNumbered}" IconScale="1.5" Content="Numerowanie"/>
+                                                            <se:StswHeader IconData="{x:Static se:StswIcons.FormatListNumbered}" IconScale="1.5" Content="{se:Tr StswTextEditor.Paragraph.NumberedList}"/>
                                                         </se:StswButton>
                                                     </se:StswDropButton>
-                                                    <se:StswDropButton x:Name="PART_SectionInterline" ToolTip="Interlinia" ArrowVisibility="Collapsed" Style="{StaticResource StswTextEditorToolBarDropButtonStyle}">
+                                                    <se:StswDropButton x:Name="PART_SectionInterline" ToolTip="{se:Tr StswTextEditor.Paragraph.Interline}" ArrowVisibility="Collapsed" Style="{StaticResource StswTextEditorToolBarDropButtonStyle}">
                                                         <se:StswDropButton.Header>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.ArrowExpandVertical}" Scale="1.5"/>
                                                         </se:StswDropButton.Header>
@@ -287,20 +287,20 @@
                                                     </se:StswDropButton>
                                                 </StackPanel>
                                                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                                                    <se:StswButton x:Name="PART_SectionAlignLeft" ToolTip="Wyrównaj tekst do lewej (Ctrl + L)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignLeftCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionAlignLeft" ToolTip="{se:Tr StswTextEditor.Paragraph.AlignLeft, Suffix=' (Ctrl + L)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignLeftCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignLeft}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_SectionAlignCenter" ToolTip="Wyśrodkuj (Ctrl + E)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignCenterCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionAlignCenter" ToolTip="{se:Tr StswTextEditor.Paragraph.AlignCenter, Suffix=' (Ctrl + E)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignCenterCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignCenter}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_SectionAlignRight" ToolTip="Wyrównaj tekst do prawej (Ctrl + R)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignRightCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionAlignRight" ToolTip="{se:Tr StswTextEditor.Paragraph.AlignRight, Suffix=' (Ctrl + R)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignRightCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignRight}" Scale="1.5"/>
                                                     </se:StswButton>
-                                                    <se:StswButton x:Name="PART_SectionAlignJustify" ToolTip="Wyjustuj (Ctrl + J)" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignJustifyCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <se:StswButton x:Name="PART_SectionAlignJustify" ToolTip="{se:Tr StswTextEditor.Paragraph.AlignJustify, Suffix=' (Ctrl + J)'}" Style="{StaticResource StswTextEditorToolBarButtonStyle}" Command="{Binding SectionAlignJustifyCommand, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatAlignJustify}" Scale="1.5"/>
                                                     </se:StswButton>
                                                 </StackPanel>
-                                                <TextBlock x:Name="PART_SectionText" Text="Akapit" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
+                                                <TextBlock x:Name="PART_SectionText" Text="{se:Tr StswTextEditor.Paragraph}" Style="{StaticResource StswTextEditorToolBarTextBlockStyle}"/>
                                             </DockPanel>
                                         </Border>
                                         <!-- components -->

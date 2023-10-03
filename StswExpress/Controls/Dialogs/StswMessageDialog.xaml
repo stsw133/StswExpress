@@ -45,7 +45,7 @@
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}">
                                 <se:StswButton x:Name="PART_ButtonYes"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               Content="Tak"
+                                               Content="{se:Tr StswMessageDialog.Yes}"
                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
                                                Padding="15 5"
                                                Visibility="Collapsed">
@@ -55,7 +55,7 @@
                                 </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonNo"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               Content="Nie"
+                                               Content="{se:Tr StswMessageDialog.No}"
                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
                                                Padding="15 5"
                                                Visibility="Collapsed">
@@ -66,7 +66,7 @@
                                 <se:StswButton x:Name="PART_ButtonCancel"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="{x:Null}"
-                                               Content="Anuluj"
+                                               Content="{se:Tr StswMessageDialog.Cancel}"
                                                Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}"
                                                Padding="15 5"
                                                Visibility="Collapsed"/>
@@ -82,11 +82,11 @@
                     </se:StswGroupBox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Buttons" Value="OK">
-                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="OKCancel">
-                            <Setter Property="Content" Value="OK" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>

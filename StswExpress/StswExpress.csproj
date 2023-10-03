@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <None Remove="Helpers\StswIcons.cs~RFa51e7cef.TMP" />
-    <None Remove="Translator\Resources\Translations.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,12 +32,8 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Update="StswSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>StswSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -60,15 +55,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Translator\Resources\Translations.json" />
+    <Resource Include="Translator\Translations.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Update="StswSettings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -254,7 +244,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\_internal\StswSettings.xaml">
+    <Page Update="Controls\_internal\StswConfig.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Themes\Brushes\Light.xaml">

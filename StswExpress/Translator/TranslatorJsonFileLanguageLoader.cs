@@ -8,10 +8,10 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class TMJsonFileLanguageLoader : ITMFileLanguageLoader
+public class TranslatorJsonFileLanguageLoader : ITranslatorFileLanguageLoader
 {
-    public bool CanLoadFile(string fileName) => fileName.ToLower().EndsWith(".tm.json");
-    public void LoadFile(string fileName, TMLanguagesLoader mainLoader)
+    public bool CanLoadFile(string fileName) => fileName.ToLower().EndsWith(".json");
+    public void LoadFile(string fileName, TranslatorLanguagesLoader mainLoader)
     {
         string json = File.ReadAllText(fileName);
 

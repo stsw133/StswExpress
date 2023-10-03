@@ -74,9 +74,9 @@ public class StswWindow : Window
             foreach (MenuItem mni in mniTheme.Items)
                 mni.Click += (s, e) => ThemeClick(mniTheme.Items.IndexOf(mni) - 1);
         */
-        /// Menu: settings
-        if (GetTemplateChild("PART_iSettings") is MenuItem mniSettings)
-            mniSettings.Click += (s, e) => StswSettings.Show(this);
+        /// Menu: config
+        if (GetTemplateChild("PART_iConfig") is MenuItem mniConfig)
+            mniConfig.Click += (s, e) => StswConfig.Show(this);
         /// Menu: center
         if (GetTemplateChild("PART_MenuCenter") is MenuItem mniCenter)
             mniCenter.Click += CenterClick;
@@ -112,7 +112,7 @@ public class StswWindow : Window
     private void UpdateChrome()
     {
         var chrome = WindowChrome.GetWindowChrome(this);
-        var iSize = Settings.Default.iSize;
+        var iSize = StswSettings.Default.iSize;
 
         if (Fullscreen)
         {

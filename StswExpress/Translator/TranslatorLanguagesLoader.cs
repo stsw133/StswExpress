@@ -7,14 +7,14 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class TMLanguagesLoader
+public class TranslatorLanguagesLoader
 {
-    private static TMLanguagesLoader? instance = null;
-    public static TMLanguagesLoader Instance => instance ??= new TMLanguagesLoader(TM.Instance);
+    private static TranslatorLanguagesLoader? instance = null;
+    public static TranslatorLanguagesLoader Instance => instance ??= new TranslatorLanguagesLoader(Translator.Instance);
 
-    readonly TM? tmInstance = null;
+    readonly Translator? tmInstance = null;
 
-    public TMLanguagesLoader(TM tmInstance)
+    public TranslatorLanguagesLoader(Translator tmInstance)
     {
         this.tmInstance = tmInstance;
     }
@@ -22,7 +22,7 @@ public class TMLanguagesLoader
     /// <summary>
     /// 
     /// </summary>
-    public List<ITMFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<ITMFileLanguageLoader>() { new TMJsonFileLanguageLoader() };
+    internal List<ITranslatorFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<ITranslatorFileLanguageLoader>() { new TranslatorJsonFileLanguageLoader() };
 
     /// <summary>
     /// Add a new translation in the language dictionaries.
@@ -34,14 +34,13 @@ public class TMLanguagesLoader
     {
         if (tmInstance != null)
         {
-
-            if (!tmInstance.TranslationsDictionary.ContainsKey(textID))
-                tmInstance.TranslationsDictionary[textID] = new SortedDictionary<string, TMTranslation>();
+            if (!Translator.TranslationsDictionary.ContainsKey(textID))
+                Translator.TranslationsDictionary[textID] = new SortedDictionary<string, TranslatorTranslation>();
 
             if (!tmInstance.AvailableLanguages.Contains(languageID))
                 tmInstance.AvailableLanguages.Add(languageID);
 
-            tmInstance.TranslationsDictionary[textID][languageID] = new TMTranslation()
+            Translator.TranslationsDictionary[textID][languageID] = new TranslatorTranslation()
             {
                 TextID = textID,
                 LanguageID = languageID,
@@ -71,16 +70,16 @@ public class TMLanguagesLoader
     {
         if (tmInstance != null)
         {
-            tmInstance.TranslationsDictionary.Keys.ToList().ForEach(textId =>
+            Translator.TranslationsDictionary.Keys.ToList().ForEach(textId =>
             {
-                tmInstance.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
+                Translator.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
                 {
                     if (translation?.Source?.Equals(source) == true)
-                        tmInstance.TranslationsDictionary[textId].Remove(translation?.LanguageID ?? string.Empty);
+                        Translator.TranslationsDictionary[textId].Remove(translation?.LanguageID ?? string.Empty);
                 });
 
-                if (tmInstance.TranslationsDictionary[textId].Count == 0)
-                    tmInstance.TranslationsDictionary.Remove(textId);
+                if (Translator.TranslationsDictionary[textId].Count == 0)
+                    Translator.TranslationsDictionary.Remove(textId);
             });
         }
     }
@@ -90,8 +89,8 @@ public class TMLanguagesLoader
     /// </summary>
     public void ClearAllTranslations()
     {
-        TM.Instance.TranslationsDictionary.Clear();
-        TM.Instance.AvailableLanguages.Clear();
-        TM.Instance.MissingTranslations.Clear();
+        Translator.TranslationsDictionary.Clear();
+        Translator.Instance.AvailableLanguages.Clear();
+        Translator.Instance.MissingTranslations.Clear();
     }
 }

@@ -17,7 +17,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
-        <Setter Property="ColorAuto" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="ColorAuto" Value="{DynamicResource StswWindow.Static.Foreground}"/>
         <Setter Property="ColorPaletteTheme">
             <Setter.Value>
                 <x:Array Type="{x:Type SolidColorBrush}">
@@ -123,14 +123,14 @@
                                                Stroke="{DynamicResource StswButton.Static.Border}"
                                                StrokeThickness="{TemplateBinding SubBorderThickness}"
                                                Height="16" Width="16"/>
-                                    <Label Content="Automatyczny" Padding="6 3"/>
+                                    <Label Content="{se:Tr StswColorSelector.Auto}" Padding="6 3"/>
                                 </DockPanel>
                             </se:StswButton>
                             <!-- theme colors -->
                             <se:StswGroupBox x:Name="PART_ThemeColors"
                                              DockPanel.Dock="Top"
                                              CornerRadius="0"
-                                             Header="Kolory motywów"
+                                             Header="{se:Tr StswColorSelector.ThemeColors}"
                                              Margin="{TemplateBinding SubPadding}">
                                 <ItemsControl ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
                                     <ItemsControl.ItemsPanel>
@@ -162,7 +162,7 @@
                             <se:StswGroupBox x:Name="PART_StandardColors"
                                              DockPanel.Dock="Top"
                                              CornerRadius="0"
-                                             Header="Kolory standardowe"
+                                             Header="{se:Tr StswColorSelector.StandardColors}"
                                              Margin="{TemplateBinding SubPadding}">
                                 <ItemsControl ItemsSource="{TemplateBinding ColorPaletteStandard}" AlternationCount="20">
                                     <ItemsControl.ItemsPanel>

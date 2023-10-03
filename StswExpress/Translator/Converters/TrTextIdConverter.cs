@@ -17,7 +17,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 {
     public TrTextIdConverter()
     {
-        WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var textID = value?.ToString();
-        return $"{Prefix}{(string.IsNullOrEmpty(textID) ? "" : TM.Tr(string.Format(TextIdStringFormat, textID), DefaultText?.Replace("[apos]", "'"), LanguageID))}{Suffix}";
+        return $"{Prefix}{(string.IsNullOrEmpty(textID) ? "" : Translator.Tr(string.Format(TextIdStringFormat, textID), DefaultText?.Replace("[apos]", "'"), LanguageID))}{Suffix}";
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
@@ -70,7 +70,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
         return this;
     }
 
-    private void CurrentLanguageChanged(object? sender, TMLanguageChangedEventArgs e)
+    private void CurrentLanguageChanged(object? sender, TranslatorLanguageChangedEventArgs e)
     {
         if (xamlTargetObject != null && xamlDependencyProperty != null)
             xamlTargetObject.GetBindingExpression(xamlDependencyProperty)?.UpdateTarget();
@@ -78,6 +78,6 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 
     ~TrTextIdConverter()
     {
-        WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

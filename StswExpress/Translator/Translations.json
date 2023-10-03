@@ -1,0 +1,366 @@
+{
+  "StswColorSelector.Auto": {
+    "en": "Automatic",
+    "pl": "Automatyczny"
+  },
+  "StswColorSelector.StandardColors": {
+    "en": "Standard colors",
+    "pl": "Kolory standardowe"
+  },
+  "StswColorSelector.ThemeColors": {
+    "en": "Theme colors",
+    "pl": "Kolory motywów"
+  },
+  "StswConfig": {
+    "en": "Config",
+    "pl": "Konfiguracja"
+  },
+  "StswConfig.Cancel": {
+    "en": "Cancel",
+    "pl": "Anuluj"
+  },
+  "StswConfig.Confirm": {
+    "en": "Confirm",
+    "pl": "Potwierdź"
+  },
+  "StswConfig.Language": {
+    "en": "Language",
+    "pl": "Język"
+  },
+  "StswConfig.Scaling": {
+    "en": "Scaling",
+    "pl": "Skalowanie"
+  },
+  "StswConfig.Theme": {
+    "en": "Theme",
+    "pl": "Motyw"
+  },
+  "StswConfig.Theme.Auto": {
+    "en": "Automatic",
+    "pl": "Automatyczny"
+  },
+  "StswConfig.Theme.Dark": {
+    "en": "Dark",
+    "pl": "Ciemny"
+  },
+  "StswConfig.Theme.Light": {
+    "en": "Light",
+    "pl": "Jasny"
+  },
+  "StswConfig.Theme.Pink": {
+    "en": "Pink",
+    "pl": "Różowy"
+  },
+  "StswFilter.Between": {
+    "en": "Is between",
+    "pl": "Pomiędzy"
+  },
+  "StswFilter.Contains": {
+    "en": "Contains",
+    "pl": "Zawiera"
+  },
+  "StswFilter.EndsWith": {
+    "en": "Ends with",
+    "pl": "Kończy się na"
+  },
+  "StswFilter.Equal": {
+    "en": "Is equal",
+    "pl": "Jest równe"
+  },
+  "StswFilter.Greater": {
+    "en": "Is greater than",
+    "pl": "Jest większe niż"
+  },
+  "StswFilter.GreaterEqual": {
+    "en": "Is greater or equal",
+    "pl": "Jest większe lub równe"
+  },
+  "StswFilter.In": {
+    "en": "Is in",
+    "pl": "Zawiera się w"
+  },
+  "StswFilter.Less": {
+    "en": "Is less than",
+    "pl": "Jest mniejsze niż"
+  },
+  "StswFilter.LessEqual": {
+    "en": "Is less or equal",
+    "pl": "Jest mniejsze lub równe"
+  },
+  "StswFilter.Like": {
+    "en": "Is like",
+    "pl": "Podobne do"
+  },
+  "StswFilter.NotContains": {
+    "en": "Not contains",
+    "pl": "Nie zawiera"
+  },
+  "StswFilter.NotEqual": {
+    "en": "Is not equal",
+    "pl": "Nie jest równe"
+  },
+  "StswFilter.NotIn": {
+    "en": "Is not in",
+    "pl": "Nie zawiera się w"
+  },
+  "StswFilter.NotLike": {
+    "en": "Is not like",
+    "pl": "Niepodobne do"
+  },
+  "StswFilter.NotNull": {
+    "en": "Is not null",
+    "pl": "Niepuste"
+  },
+  "StswFilter.Null": {
+    "en": "Is null",
+    "pl": "Puste"
+  },
+  "StswFilter.StartsWith": {
+    "en": "Starts with",
+    "pl": "Rozpoczyna się od"
+  },
+  "StswImage.Copy": {
+    "en": "Copy",
+    "pl": "Kopiuj"
+  },
+  "StswImage.Cut": {
+    "en": "Cut",
+    "pl": "Wytnij"
+  },
+  "StswImage.Load": {
+    "en": "Load",
+    "pl": "Wczytaj"
+  },
+  "StswImage.Paste": {
+    "en": "Paste",
+    "pl": "Wklej"
+  },
+  "StswImage.Remove": {
+    "en": "Remove",
+    "pl": "Usuń"
+  },
+  "StswImage.Save": {
+    "en": "Save",
+    "pl": "Zapisz"
+  },
+  "StswMessageDialog.Cancel": {
+    "en": "Cancel",
+    "pl": "Anuluj"
+  },
+  "StswMessageDialog.OK": {
+    "en": "OK",
+    "pl": "OK"
+  },
+  "StswMessageDialog.No": {
+    "en": "No",
+    "pl": "Nie"
+  },
+  "StswMessageDialog.Yes": {
+    "en": "Yes",
+    "pl": "Tak"
+  },
+  "StswTextEditor.Edit": {
+    "en": "Edit",
+    "pl": "Edycja"
+  },
+  "StswTextEditor.Edit.ClearSelection": {
+    "en": "Clear selection",
+    "pl": "Usuń zaznaczenie"
+  },
+  "StswTextEditor.Edit.Copy": {
+    "en": "Copy",
+    "pl": "Kopiuj"
+  },
+  "StswTextEditor.Edit.Cut": {
+    "en": "Cut",
+    "pl": "Wytnij"
+  },
+  "StswTextEditor.Edit.FindAndReplace": {
+    "en": "Find and replace",
+    "pl": "Znajdź i zamień"
+  },
+  "StswTextEditor.Edit.Paste": {
+    "en": "Paste",
+    "pl": "Wklej"
+  },
+  "StswTextEditor.Edit.Redo": {
+    "en": "Redo",
+    "pl": "Przywróć"
+  },
+  "StswTextEditor.Edit.SelectAll": {
+    "en": "Select all",
+    "pl": "Zaznacz wszystko"
+  },
+  "StswTextEditor.Edit.Undo": {
+    "en": "Undo",
+    "pl": "Cofnij"
+  },
+  "StswTextEditor.File": {
+    "en": "File",
+    "pl": "Plik"
+  },
+  "StswTextEditor.File.New": {
+    "en": "New",
+    "pl": "Nowy"
+  },
+  "StswTextEditor.File.Open": {
+    "en": "Open",
+    "pl": "Otwórz"
+  },
+  "StswTextEditor.File.Print": {
+    "en": "Print",
+    "pl": "Drukuj"
+  },
+  "StswTextEditor.File.Reload": {
+    "en": "Reload",
+    "pl": "Załaduj ponownie"
+  },
+  "StswTextEditor.File.Save": {
+    "en": "Save",
+    "pl": "Zapisz"
+  },
+  "StswTextEditor.File.SaveAs": {
+    "en": "Save as",
+    "pl": "Zapisz jako"
+  },
+  "StswTextEditor.File.SendMail": {
+    "en": "Send e-mail",
+    "pl": "Wyślij e-mail"
+  },
+  "StswTextEditor.File.ShowInExplorer": {
+    "en": "Show in explorer",
+    "pl": "Pokaż w eksploratorze"
+  },
+  "StswTextEditor.Font": {
+    "en": "Font",
+    "pl": "Czcionka"
+  },
+  "StswTextEditor.Font.Bold": {
+    "en": "Bold",
+    "pl": "Pogrubienie"
+  },
+  "StswTextEditor.Font.ColorDetailed": {
+    "en": "Detailed",
+    "pl": "Szczegółowe"
+  },
+  "StswTextEditor.Font.ColorStandard": {
+    "en": "Standard",
+    "pl": "Standardowe"
+  },
+  "StswTextEditor.Font.FontDecrease": {
+    "en": "Font decrease",
+    "pl": "Zmniejsz czcionkę"
+  },
+  "StswTextEditor.Font.FontIncrease": {
+    "en": "Font increase",
+    "pl": "Zwiększ czcionkę"
+  },
+  "StswTextEditor.Font.HighlightColor": {
+    "en": "Color of highlight",
+    "pl": "Kolor wyróżnienia tekstu"
+  },
+  "StswTextEditor.Font.Italic": {
+    "en": "Italic",
+    "pl": "Kursywa"
+  },
+  "StswTextEditor.Font.Strikethrough": {
+    "en": "Strikethrough",
+    "pl": "Przekreślenie"
+  },
+  "StswTextEditor.Font.Subscript": {
+    "en": "Subscript",
+    "pl": "Indeks dolny"
+  },
+  "StswTextEditor.Font.Superscript": {
+    "en": "Superscript",
+    "pl": "Indeks górny"
+  },
+  "StswTextEditor.Font.TextColor": {
+    "en": "Color of text",
+    "pl": "Kolor tekstu"
+  },
+  "StswTextEditor.Font.Underline": {
+    "en": "Underline",
+    "pl": "Podkreślenie"
+  },
+  "StswTextEditor.Paragraph": {
+    "en": "Paragraph",
+    "pl": "Akapit"
+  },
+  "StswTextEditor.Paragraph.AlignCenter": {
+    "en": "Align text to center",
+    "pl": "Wyśrodkuj"
+  },
+  "StswTextEditor.Paragraph.AlignJustify": {
+    "en": "Justify text",
+    "pl": "Wyjustuj"
+  },
+  "StswTextEditor.Paragraph.AlignLeft": {
+    "en": "Align text to left",
+    "pl": "Wyrównaj tekst do lewej"
+  },
+  "StswTextEditor.Paragraph.AlignRight": {
+    "en": "Align text to right",
+    "pl": "Wyrównaj tekst do prawej"
+  },
+  "StswTextEditor.Paragraph.BulletedList": {
+    "en": "Bulleted list",
+    "pl": "Punktory"
+  },
+  "StswTextEditor.Paragraph.IndentDecrease": {
+    "en": "Indent decrease",
+    "pl": "Zmniejsz wcięcie"
+  },
+  "StswTextEditor.Paragraph.IndentIncrease": {
+    "en": "Indent increase",
+    "pl": "Zwiększ wcięcie"
+  },
+  "StswTextEditor.Paragraph.Interline": {
+    "en": "Interline",
+    "pl": "Interlinia"
+  },
+  "StswTextEditor.Paragraph.NumberedList": {
+    "en": "Numbered list",
+    "pl": "Numerowanie"
+  },
+  "StswTextEditor.Paragraph.StartList": {
+    "en": "Start list",
+    "pl": "Rozpocznij listę"
+  },
+  "StswWindow.CenterScreen": {
+    "en": "Center on screen",
+    "pl": "Wyśrodkuj na ekranie"
+  },
+  "StswWindow.Close": {
+    "en": "Close",
+    "pl": "Zamknij"
+  },
+  "StswWindow.Config": {
+    "en": "Config",
+    "pl": "Konfiguracja"
+  },
+  "StswWindow.DefaultSize": {
+    "en": "Default size",
+    "pl": "Domyślny rozmiar"
+  },
+  "StswWindow.DisableFullscreen": {
+    "en": "Disable fullscreen mode",
+    "pl": "Wyłącz tryb pełnego ekranu"
+  },
+  "StswWindow.Fullscreen": {
+    "en": "Fullscreen",
+    "pl": "Pełny ekran"
+  },
+  "StswWindow.Maximize": {
+    "en": "Maximize",
+    "pl": "Maksymalizuj"
+  },
+  "StswWindow.Minimize": {
+    "en": "Minimize",
+    "pl": "Minimalizuj"
+  },
+  "StswWindow.Restore": {
+    "en": "Restore",
+    "pl": "Przywróć w dół"
+  }
+}

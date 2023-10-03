@@ -9,15 +9,15 @@ using System.Reflection;
 namespace StswExpress;
 
 /// <summary>
-/// TranslateMe most important class.
-/// For Translate something just type TM.Tr(...) method and wow... ... magic happen ;)
+/// Translator's most important class.
+/// For Translate something just type Translator.Tr(...).
 /// </summary>
-public class TM : StswObservableObject
+public class Translator : StswObservableObject
 {
-    private static TM? instance = null;
-    public static TM Instance => instance ??= new TM();
+    private static Translator? instance = null;
+    public static Translator Instance => instance ??= new Translator();
 
-    public TM()
+    public Translator()
     {
 
     }
@@ -29,7 +29,7 @@ public class TM : StswObservableObject
     private ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
 
     /// <summary>
-    /// Current language used for displaying texts with TranslateMe.
+    /// Current language used for displaying texts with Translator.
     /// By default is equal to "en" (English) if not set manually.
     /// </summary>
     public string CurrentLanguage
@@ -42,8 +42,8 @@ public class TM : StswObservableObject
 
             if (!currentLanguage.Equals(value))
             {
-                var changingArgs = new TMLanguageChangingEventArgs(currentLanguage, value);
-                var changedArgs = new TMLanguageChangedEventArgs(currentLanguage, value);
+                var changingArgs = new TranslatorLanguageChangingEventArgs(currentLanguage, value);
+                var changedArgs = new TranslatorLanguageChangedEventArgs(currentLanguage, value);
 
                 CurrentLanguageChanging?.Invoke(this, changingArgs);
 
@@ -58,16 +58,16 @@ public class TM : StswObservableObject
     }
     private string currentLanguage = "en";
 
-    public event EventHandler<TMLanguageChangingEventArgs>? CurrentLanguageChanging;
-    public event EventHandler<TMLanguageChangedEventArgs>? CurrentLanguageChanged;
+    public event EventHandler<TranslatorLanguageChangingEventArgs>? CurrentLanguageChanging;
+    public event EventHandler<TranslatorLanguageChangedEventArgs>? CurrentLanguageChanged;
 
     /// <summary>
     /// 
     /// </summary>
-    public SortedDictionary<string, SortedDictionary<string, TMTranslation>> TranslationsDictionary => new SortedDictionary<string, SortedDictionary<string, TMTranslation>>();
+    public static SortedDictionary<string, SortedDictionary<string, TranslatorTranslation>> TranslationsDictionary { get; private set; } = new SortedDictionary<string, SortedDictionary<string, TranslatorTranslation>>();
 
     /// <summary>
-    /// Translate the given textId in current language.
+    /// Translate the given textID in current language.
     /// This method is a shortcut to Instance.Translate
     /// </summary>
     /// <param name="textID">Text to translate identifier.</param>
@@ -86,7 +86,7 @@ public class TM : StswObservableObject
     public string Translate(string? textID, string? defaultText = null, string? languageID = null)
     {
         if (string.IsNullOrEmpty(textID))
-            throw new InvalidOperationException("The textID argument cannot be null or empty");
+            throw new InvalidOperationException($"The {nameof(textID)} argument cannot be null or empty");
 
         if (string.IsNullOrEmpty(defaultText))
             defaultText = textID;
@@ -99,7 +99,7 @@ public class TM : StswObservableObject
         string result = defaultText;
 
         if (TranslationsDictionary.ContainsKey(textID) && TranslationsDictionary[textID].ContainsKey(languageID))
-            result = TranslationsDictionary[textID][languageID].TranslatedText;
+            result = TranslationsDictionary[textID][languageID].TranslatedText!;
 
         return result;
     }
@@ -136,7 +136,7 @@ public class TM : StswObservableObject
                 }
             });
 
-            var missingTranslationsFileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "TMMissingTranslations.json");
+            var missingTranslationsFileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "TranslatorMissingTranslations.json");
             File.WriteAllText(missingTranslationsFileName, JsonConvert.SerializeObject(MissingTranslations, Formatting.Indented));
         }
     }

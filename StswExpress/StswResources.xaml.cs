@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 
 namespace StswExpress;
@@ -26,18 +27,32 @@ public partial class StswResources
         get => theme;
         set
         {
-            if (theme == value)
+            var newTheme = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : value;
+
+            if (theme == newTheme)
                 return;
-            theme = value;
-            SetTheme(theme);
+
+            theme = newTheme;
+            SetTheme(newTheme);
+            ThemeChanged?.Invoke(this, newTheme);
         }
     }
-    private StswTheme theme = StswTheme.Default;
+    private StswTheme theme = StswTheme.Auto;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static StswResources? GetInstance() => Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) as StswResources;
 
     /// <summary>
     /// Method for selecting Theme.
     /// </summary>
     private void SetTheme(StswTheme theme) => MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
+
+    /// <summary>
+    /// Occurs when the Theme changes.
+    /// </summary>
+    public event EventHandler<StswTheme>? ThemeChanged;
 }
 
 /// <summary>
@@ -45,7 +60,7 @@ public partial class StswResources
 /// </summary>
 public enum StswTheme
 {
-    Default = -1,
+    Auto = -1,
     Light,
     Dark,
     Pink

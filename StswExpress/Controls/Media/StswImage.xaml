@@ -29,25 +29,25 @@
                         <Border.ContextMenu>
                             <ContextMenu x:Name="PART_Menu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                                 <!-- cut -->
-                                <MenuItem x:Name="PART_Cut" Header="Wytnij">
+                                <MenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- copy -->
-                                <MenuItem x:Name="PART_Copy" Header="Kopiuj">
+                                <MenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- paste -->
-                                <MenuItem x:Name="PART_Paste" Header="Wklej">
+                                <MenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- delete -->
-                                <MenuItem x:Name="PART_Delete" Header="Usuń">
+                                <MenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Fill="{DynamicResource StswColor.Negative}"/>
                                     </MenuItem.Icon>
@@ -55,13 +55,13 @@
                                 <!-- ... -->
                                 <Separator/>
                                 <!-- load -->
-                                <MenuItem x:Name="PART_Load" Header="Wczytaj">
+                                <MenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{DynamicResource StswColor.Structure}"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <!-- save-->
-                                <MenuItem x:Name="PART_Save" Header="Zapisz">
+                                <MenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}">
                                     <MenuItem.Icon>
                                         <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Fill="{DynamicResource StswColor.Positive}"/>
                                     </MenuItem.Icon>

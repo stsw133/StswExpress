@@ -15,12 +15,12 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 {
     public TrStringFormatConverter()
     {
-        WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
     public TrStringFormatConverter(string textId)
     {
         TextID = textId;
-        WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
     [ConstructorArgument("textID")]
     public string? TextID { get; set; } = null;
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : TM.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), value)}{Suffix}";
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : Translator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), value)}{Suffix}";
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
     FrameworkElement? xamlTargetObject;
@@ -94,7 +94,7 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void CurrentLanguageChanged(object? sender, TMLanguageChangedEventArgs e)
+    private void CurrentLanguageChanged(object? sender, TranslatorLanguageChangedEventArgs e)
     {
         if (xamlTargetObject != null && xamlDependencyProperty != null)
             xamlTargetObject.GetBindingExpression(xamlDependencyProperty)?.UpdateTarget();
@@ -102,6 +102,6 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 
     ~TrStringFormatConverter()
     {
-        WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }
