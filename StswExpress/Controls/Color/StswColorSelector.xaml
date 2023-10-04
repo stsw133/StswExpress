@@ -11,6 +11,8 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SubPadding" Value="3"/>
+        
+        <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
@@ -132,7 +134,7 @@
                                              CornerRadius="0"
                                              Header="{se:Tr StswColorSelector.ThemeColors}"
                                              Margin="{TemplateBinding SubPadding}">
-                                <ItemsControl ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
+                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Vertical" Margin="0 3" MaxHeight="120"/>
@@ -164,7 +166,7 @@
                                              CornerRadius="0"
                                              Header="{se:Tr StswColorSelector.StandardColors}"
                                              Margin="{TemplateBinding SubPadding}">
-                                <ItemsControl ItemsSource="{TemplateBinding ColorPaletteStandard}" AlternationCount="20">
+                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}" AlternationCount="20">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Horizontal" MaxWidth="240"/>

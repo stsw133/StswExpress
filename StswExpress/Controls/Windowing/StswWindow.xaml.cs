@@ -77,9 +77,6 @@ public class StswWindow : Window
         /// Menu: config
         if (GetTemplateChild("PART_iConfig") is MenuItem mniConfig)
             mniConfig.Click += (s, e) => StswConfig.Show(this);
-        /// Menu: center
-        if (GetTemplateChild("PART_MenuCenter") is MenuItem mniCenter)
-            mniCenter.Click += CenterClick;
         /// Menu: default
         if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault)
             mniDefault.Click += DefaultClick;
@@ -140,13 +137,17 @@ public class StswWindow : Window
     protected void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
     /// <summary>
-    /// Event handler for the center button click to center the window on the screen.
+    /// Event handler for the default button click to reset the window size to its default.
     /// </summary>
-    protected void CenterClick(object? sender, RoutedEventArgs e)
+    protected void DefaultClick(object? sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
             WindowState = WindowState.Normal;
 
+        Height = DefaultHeight;
+        Width = DefaultWidth;
+
+        /// center the window on the screen
         if (_hwndSource != null)
         {
             int MONITOR_DEFAULTTONEAREST = 0x00000002;
@@ -160,16 +161,6 @@ public class StswWindow : Window
                 Top = (rcWorkArea.Height - Height) / 2 + rcWorkArea.top;
             }
         }
-    }
-
-    /// <summary>
-    /// Event handler for the default button click to reset the window size to its default.
-    /// </summary>
-    protected void DefaultClick(object? sender, RoutedEventArgs e)
-    {
-        Height = DefaultHeight;
-        Width = DefaultWidth;
-        //CenterClick(sender, e);
     }
 
     /// <summary>

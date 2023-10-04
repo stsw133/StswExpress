@@ -68,9 +68,9 @@
                          Margin="3"
                          RefreshCommand="{Binding RefreshCommand}"
                          SelectedItem="{Binding SelectedContractor}">
-            <DataGrid.Resources>
+            <se:StswDataGrid.Resources>
                 <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
-            </DataGrid.Resources>
+            </se:StswDataGrid.Resources>
 
             <DataGrid.Columns>
                 <!-- ID -->

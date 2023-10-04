@@ -12,6 +12,8 @@
         <Setter Property="SubMargin" Value="3"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="SubPadding" Value="5"/>
+        
+        <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -26,7 +28,9 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Disabled" IsDynamic="True">
-                            <ItemsControl ItemsSource="{TemplateBinding Items}"
+                            <ItemsControl Focusable="False"
+                                          IsTabStop="False"
+                                          ItemsSource="{TemplateBinding Items}"
                                           Margin="{TemplateBinding Padding}"
                                           SnapsToDevicePixels="True">
                                 <ItemsControl.ItemTemplate>

@@ -39,7 +39,7 @@ public class ContractorsListContext : StswObservableObject
         AddPdfCommand = new StswAsyncCommand(AddPdf, AddPdfCondition);
     }
 
-    #region Commands
+    #region Commands & methods
     /// Clear
     private async Task Clear()
     {
@@ -270,7 +270,6 @@ public class ContractorsListContext : StswObservableObject
     private async Task AddPdf()
     {
         LoadingActions++;
-
 
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {

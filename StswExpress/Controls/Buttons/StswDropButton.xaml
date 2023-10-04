@@ -7,11 +7,12 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="PopupThickness" Value="2"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="MaxDropDownHeight" Value="120"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -50,26 +51,6 @@
                                             Visibility="{TemplateBinding ArrowVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
                             </ContentControl>
-                            <!-- popup -->
-                            <Popup AllowsTransparency="True"
-                                   DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
-                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_MainButton}"
-                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                   StaysOpen="False">
-                                <se:StswClippingBorder Background="{DynamicResource StswWindow.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
-                                                       BorderThickness="{TemplateBinding PopupBorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                                       SnapsToDevicePixels="True">
-                                    <se:StswScrollViewer Focusable="False" IsDynamic="True">
-                                        <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{TemplateBinding Items}"/>
-                                    </se:StswScrollViewer>
-                                </se:StswClippingBorder>
-                            </Popup>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"
                                               DockPanel.Dock="Right"
@@ -77,6 +58,22 @@
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
+                            <!-- popup -->
+                            <se:StswPopup AllowsTransparency="True"
+                                          BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                          BorderThickness="{TemplateBinding PopupThickness}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
+                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                          MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                          Padding="0"
+                                          Placement="Bottom"
+                                          PlacementTarget="{Binding ElementName=PART_MainButton}"
+                                          PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                          SnapsToDevicePixels="True"
+                                          StaysOpen="False">
+                                <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
+                            </se:StswPopup>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
                                               Focusable="False"

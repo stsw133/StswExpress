@@ -40,7 +40,7 @@
                                 <se:StswHeader x:Name="PART_Header"
                                                Grid.ColumnSpan="2"
                                                Content="{TemplateBinding Title}"
-                                               IconScale="2"
+                                               IconScale="auto"
                                                IconSource="{TemplateBinding Icon}"/>
                                 <!-- buttons panel -->
                                 <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
@@ -82,50 +82,50 @@
                                 <!-- context menu -->
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
+                                        <ContextMenu.Resources>
+                                            <Style TargetType="{x:Type se:StswText}">
+                                                <Setter Property="FontWeight" Value="Heavy"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </ContextMenu.Resources>
                                         <!-- config -->
                                         <MenuItem x:Name="PART_iConfig" Header="{se:Tr StswWindow.Config}">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="⚙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <se:StswText Text="⚙"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
-                                        <!-- center -->
-                                        <MenuItem x:Name="PART_MenuCenter" Header="{se:Tr StswWindow.CenterScreen}">
-                                            <MenuItem.Icon>
-                                                <TextBlock Text="⊡" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
                                         <!-- default -->
                                         <MenuItem x:Name="PART_MenuDefault" Header="{se:Tr StswWindow.DefaultSize}">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="↕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <se:StswText Text="↕"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <!-- minimize -->
                                         <MenuItem x:Name="PART_MenuMinimize" Header="{se:Tr StswWindow.Minimize}">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="🗕" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <se:StswText Text="🗕"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <!-- restore -->
                                         <MenuItem x:Name="PART_MenuRestore" Header="{se:Tr StswWindow.Maximize}">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <se:StswText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <!-- fullscreen -->
-                                        <MenuItem x:Name="PART_MenuFullscreen" Header="{se:Tr StswWindow.Fullscreen}" IsCheckable="True" IsChecked="{TemplateBinding Fullscreen}" InputGestureText="F11">
+                                        <MenuItem x:Name="PART_MenuFullscreen" Header="{se:Tr StswWindow.Fullscreen}" InputGestureText="F11">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="⛶" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <se:StswText Text="⛶"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator/>
                                         <!-- close -->
-                                        <MenuItem x:Name="PART_MenuClose" Header="{se:Tr StswWindow.Close}">
+                                        <MenuItem x:Name="PART_MenuClose" Header="{se:Tr StswWindow.Close}" InputGestureText="Alt + F4">
                                             <MenuItem.Icon>
-                                                <TextBlock Text="🗙" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource StswColor.Negative}"/>
+                                                <se:StswText Text="🗙" Foreground="{DynamicResource StswColor.Negative}"/>
                                             </MenuItem.Icon>
-                                            <MenuItem.InputGestureText>Alt + F4</MenuItem.InputGestureText>
                                         </MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
@@ -133,7 +133,7 @@
                             <!-- content grid -->
                             <Grid x:Name="PART_Content" Grid.Row="1">
                                 <AdornerDecorator>
-                                    <se:StswContentDialog Identifier="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}">
+                                    <se:StswContentDialog IsTabStop="False" Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                                         <ContentPresenter/>
                                     </se:StswContentDialog>
                                 </AdornerDecorator>

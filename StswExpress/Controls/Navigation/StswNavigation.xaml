@@ -12,6 +12,7 @@
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="IsExtended" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsAlignment" Value="Left"/>
         <Setter Property="ItemsWidth" Value="NaN"/>
 
@@ -41,7 +42,7 @@
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
                                     </se:StswToggleButton>
                                     <!-- navigation pinned items -->
-                                    <ItemsControl x:Name="PART_ItemsPinned" ItemsSource="{TemplateBinding ItemsPinned}">
+                                    <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel>
@@ -74,7 +75,7 @@
                                                 <Setter Property="ExpandedWidth" Value="12"/>
                                             </Style>
                                         </se:StswScrollViewer.Resources>
-                                        <ItemsControl ItemsSource="{TemplateBinding Items}">
+                                        <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel>

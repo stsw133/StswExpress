@@ -36,15 +36,15 @@
                             </ItemsControl>
                             <!-- content -->
                             <Grid>
-                                <TextBlock x:Name="PART_Placeholder"
-                                           Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                           IsHitTestVisible="False"
-                                           Margin="{TemplateBinding Padding}"
-                                           Padding="2 0 0 0"
-                                           Text="{TemplateBinding Placeholder}"
-                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           Visibility="Collapsed"/>
+                                <se:StswText x:Name="PART_Placeholder"
+                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
+                                             IsHitTestVisible="False"
+                                             Margin="{TemplateBinding Padding}"
+                                             Padding="2 0 0 0"
+                                             Text="{TemplateBinding Placeholder}"
+                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             Visibility="Collapsed"/>
                                 <se:StswScrollViewer x:Name="PART_ContentHost"
                                                      Focusable="False"
                                                      IsDynamic="True"

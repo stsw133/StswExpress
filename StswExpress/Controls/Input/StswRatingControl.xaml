@@ -10,6 +10,7 @@
         <Setter Property="StrokeThickness" Value="1"/>
 
         <Setter Property="CanReset" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsNumber" Value="5"/>
         <Setter Property="Orientation" Value="Horizontal"/>
 
@@ -23,7 +24,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswRatingControl}">
                     <Border x:Name="PART_MainBorder" Background="Transparent" SnapsToDevicePixels="True">
                         <!-- content -->
-                        <ItemsControl ItemsSource="{TemplateBinding Items}">
+                        <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid>

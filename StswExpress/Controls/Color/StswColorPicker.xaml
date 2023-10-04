@@ -11,6 +11,8 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SubPadding" Value="3"/>
+        
+        <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>

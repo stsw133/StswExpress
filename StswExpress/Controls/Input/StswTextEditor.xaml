@@ -213,7 +213,7 @@
                                                                 <Rectangle Fill="{Binding SelectedColorText, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
                                                             </StackPanel>
                                                         </se:StswButton>
-                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupThickness="0" CornerRadius="0" Focusable="False" Padding="0">
                                                             <se:StswDropButton.Header>
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
                                                             </se:StswDropButton.Header>
@@ -236,7 +236,7 @@
                                                                 <Rectangle Fill="{Binding SelectedColorHighlight, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}" Height="2"/>
                                                             </StackPanel>
                                                         </se:StswButton>
-                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupBorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                                        <se:StswDropButton ArrowVisibility="Collapsed" BorderThickness="0" PopupThickness="0" CornerRadius="0" Focusable="False" Padding="0">
                                                             <se:StswDropButton.Header>
                                                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1"/>
                                                             </se:StswDropButton.Header>

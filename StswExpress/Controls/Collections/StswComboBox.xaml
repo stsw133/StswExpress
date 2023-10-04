@@ -7,11 +7,12 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="PopupBorderThickness" Value="2"/>
+        <Setter Property="PopupThickness" Value="2"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="MaxDropDownHeight" Value="120"/>
 
         <Setter Property="ComponentsAlignment" Value="Right"/>
@@ -35,7 +36,8 @@
                             <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
                         </Grid.ColumnDefinitions>
                         <!-- button -->
-                        <se:StswToggleButton x:Name="PART_MainButton" Grid.ColumnSpan="2"
+                        <se:StswToggleButton x:Name="PART_MainButton"
+                                             Grid.ColumnSpan="2"
                                              Background="{TemplateBinding Background}"
                                              BorderBrush="{TemplateBinding BorderBrush}"
                                              BorderThickness="{TemplateBinding BorderThickness}"
@@ -46,25 +48,8 @@
                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                              HorizontalContentAlignment="Stretch"
-                                             VerticalContentAlignment="Stretch">
-                            <se:StswToggleButton.Template>
-                                <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
-                                    <se:StswClippingBorder Background="{TemplateBinding Background}"
-                                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                                           SnapsToDevicePixels="True">
-                                        <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
-                                            <ContentPresenter Focusable="False"
-                                                              Margin="{TemplateBinding Padding}"
-                                                              RecognizesAccessKey="True"
-                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        </Grid>
-                                    </se:StswClippingBorder>
-                                </ControlTemplate>
-                            </se:StswToggleButton.Template>
+                                             VerticalContentAlignment="Stretch"
+                                             Template="{DynamicResource StswDropToggleButtonTemplate}">
                             <DockPanel>
                                 <!-- arrow -->
                                 <ContentControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
@@ -100,7 +85,7 @@
                                     <se:StswClippingBorder x:Name="DropDownBorder"
                                                            Background="{DynamicResource StswPopup.Static.Background}"
                                                            BorderBrush="{DynamicResource StswDropButton.Checked.Border}"
-                                                           BorderThickness="{TemplateBinding PopupBorderThickness}"
+                                                           BorderThickness="{TemplateBinding PopupThickness}"
                                                            CornerRadius="{TemplateBinding CornerRadius}"
                                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                            MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
@@ -119,14 +104,14 @@
                                 </Popup>
                                 <!-- content -->
                                 <Grid>
-                                    <TextBlock x:Name="PART_Placeholder"
-                                               Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                               IsHitTestVisible="False"
-                                               Margin="{TemplateBinding Padding}"
-                                               Text="{TemplateBinding Placeholder}"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               Visibility="Collapsed"/>
+                                    <se:StswText x:Name="PART_Placeholder"
+                                                 Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
+                                                 IsHitTestVisible="False"
+                                                 Margin="{TemplateBinding Padding}"
+                                                 Text="{TemplateBinding Placeholder}"
+                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                 Visibility="Collapsed"/>
                                     <ContentPresenter x:Name="PART_ContentPresenter"
                                                       Content="{TemplateBinding SelectionBoxItem}"
                                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"

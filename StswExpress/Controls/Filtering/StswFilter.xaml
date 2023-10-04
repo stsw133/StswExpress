@@ -11,6 +11,8 @@
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
         
+        <Setter Property="IsTabStop" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -171,7 +173,7 @@
                                 <!-- controls -->
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
-                                    <ContentControl x:Name="PART_FirstControl">
+                                    <ContentControl Focusable="False" IsTabStop="False">
                                         <ContentControl.Style>
                                             <Style TargetType="{x:Type ContentControl}">
                                                 <Style.Triggers>
@@ -259,7 +261,7 @@
                                         </ContentControl.Style>
                                     </ContentControl>
                                     <!-- second control -->
-                                    <ContentControl x:Name="PART_SecondControl" Visibility="Collapsed">
+                                    <ContentControl x:Name="PART_SecondControl" Focusable="False" IsTabStop="False" Visibility="Collapsed">
                                         <ContentControl.Style>
                                             <Style TargetType="{x:Type ContentControl}">
                                                 <Style.Triggers>

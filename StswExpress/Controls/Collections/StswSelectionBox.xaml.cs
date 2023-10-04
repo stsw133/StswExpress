@@ -324,14 +324,14 @@ public class StswSelectionBox : ContentControl
     /// <summary>
     /// Gets or sets the border thickness of the drop-down popup.
     /// </summary>
-    public Thickness PopupBorderThickness
+    public Thickness PopupThickness
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (Thickness)GetValue(PopupThicknessProperty);
+        set => SetValue(PopupThicknessProperty, value);
     }
-    public static readonly DependencyProperty PopupBorderThicknessProperty
+    public static readonly DependencyProperty PopupThicknessProperty
         = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
+            nameof(PopupThickness),
             typeof(Thickness),
             typeof(StswSelectionBox)
         );

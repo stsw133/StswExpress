@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -11,12 +10,10 @@ namespace StswExpress;
 /// Represents a control that provides a user interface element with a collapsible content area.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswDropButton : ContentControl
+public class StswDropButton : ItemsControl
 {
     public StswDropButton()
     {
-        SetValue(ItemsProperty, new ObservableCollection<UIElement>());
-
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
     }
     static StswDropButton()
@@ -102,21 +99,6 @@ public class StswDropButton : ContentControl
             typeof(bool),
             typeof(StswDropButton)
         );
-
-    /// <summary>
-    /// Gets or sets the collection of items displayed in the drop-down portion of the button.
-    /// </summary>
-    public ObservableCollection<UIElement> Items
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-    public static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswDropButton)
-        );
     #endregion
 
     #region Style properties
@@ -153,14 +135,14 @@ public class StswDropButton : ContentControl
     /// <summary>
     /// Gets or sets the border thickness of the drop-down popup.
     /// </summary>
-    public Thickness PopupBorderThickness
+    public Thickness PopupThickness
     {
-        get => (Thickness)GetValue(PopupBorderThicknessProperty);
-        set => SetValue(PopupBorderThicknessProperty, value);
+        get => (Thickness)GetValue(PopupThicknessProperty);
+        set => SetValue(PopupThicknessProperty, value);
     }
-    public static readonly DependencyProperty PopupBorderThicknessProperty
+    public static readonly DependencyProperty PopupThicknessProperty
         = DependencyProperty.Register(
-            nameof(PopupBorderThickness),
+            nameof(PopupThickness),
             typeof(Thickness),
             typeof(StswDropButton)
         );

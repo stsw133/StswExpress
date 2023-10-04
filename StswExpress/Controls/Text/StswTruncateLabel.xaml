@@ -7,6 +7,8 @@
 
         <Setter Property="IsTruncationAllowed" Value="True"/>
         
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
 
@@ -20,20 +22,25 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
                         <DockPanel>
+                            <!-- button -->
                             <se:StswToggleButton x:Name="PART_TruncationButton"
                                                  DockPanel.Dock="Right"
                                                  BorderThickness="0"
                                                  ClickMode="Hover"
                                                  Content="..."
                                                  CornerRadius="0"
+                                                 Focusable="False"
+                                                 IsTabStop="False"
                                                  Margin="2 0"
                                                  Padding="0"
                                                  Visibility="Collapsed"/>
+                            <!-- content -->
                             <ContentPresenter x:Name="PART_StandardContent"
                                               Margin="{TemplateBinding Padding}"
                                               RecognizesAccessKey="True"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!-- popup -->
                             <se:StswPopup Background="{TemplateBinding Background}"
                                           BorderThickness="0"
                                           CornerRadius="0"

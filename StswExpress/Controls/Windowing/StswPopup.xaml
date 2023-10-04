@@ -25,6 +25,7 @@
                                SnapsToDevicePixels="True">
             <se:StswScrollViewer Focusable="False" IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   RecognizesAccessKey="True"

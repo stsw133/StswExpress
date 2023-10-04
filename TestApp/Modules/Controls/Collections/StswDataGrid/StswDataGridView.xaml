@@ -17,15 +17,15 @@
         </Grid.ColumnDefinitions>
         <!-- name and description -->
         <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
+            <StackPanel Margin="3">
                 <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                     <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
                     <LineBreak/>
                     <Run>
-                                Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
+                        Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
                     </Run>
                 </se:StswText>
-                <StackPanel Margin="5">
+                <StackPanel Margin="3">
                     <se:StswText FontWeight="Medium" Text="Properties:"/>
                     <!-- Alignment -->
                     <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
@@ -57,12 +57,11 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <se:StswDataGrid BackgroundHeader="#1777"
-                             FrozenColumnCount="1"
+            <se:StswDataGrid FrozenColumnCount="1"
                              IsEnabled="{Binding IsEnabled}"
                              IsReadOnly="{Binding IsReadOnly}"
-                             ItemsSource="{Binding Items, Mode=TwoWay}"
-                             Margin="5"
+                             ItemsSource="{Binding Items}"
+                             Margin="3"
                              SpecialColumnVisibility="{Binding SpecialColumnVisibility}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
@@ -84,7 +83,7 @@
 
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <TextBlock Text="There are some row details..." Margin="5"/>
+                        <TextBlock Text="There are some row details..." Margin="3"/>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
 
@@ -105,7 +104,7 @@
                 </se:StswDataGrid.RowStyle>
             </se:StswDataGrid>
             <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+            <se:StswText Grid.Row="1" Margin="3" Padding="5">
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
                 <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
