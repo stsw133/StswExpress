@@ -102,6 +102,9 @@
     <Page Update="Controls\Dialogs\StswMessageDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\Input\StswAdaptiveBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Input\StswRatingControl.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

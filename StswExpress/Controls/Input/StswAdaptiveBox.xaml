@@ -1,0 +1,144 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswAdaptiveBox}">
+        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="3"/>
+        
+        <Setter Property="IsTabStop" Value="False"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswAdaptiveBox}">
+                    <DockPanel>
+                        <ContentControl Focusable="False" IsTabStop="False">
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Style.Triggers>
+                                        <!-- StswCheckBox -->
+                                        <DataTrigger Binding="{Binding TypeOfControl, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Type se:StswCheckBox}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswCheckBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         IsChecked="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         IsThreeState="True"
+                                                                         Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <!-- StswDatePicker -->
+                                        <DataTrigger Binding="{Binding TypeOfControl, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Type se:StswDatePicker}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswDatePicker BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           SelectedDate="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <!-- StswSelectionBox -->
+                                        <DataTrigger Binding="{Binding TypeOfControl, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Type se:StswSelectionBox}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswSelectionBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <!-- StswNumericBox -->
+                                        <DataTrigger Binding="{Binding TypeOfControl, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Type se:StswNumericBox}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswNumericBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Value="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <!-- StswTextBox -->
+                                        <DataTrigger Binding="{Binding TypeOfControl, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Type se:StswTextBox}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <se:StswTextBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

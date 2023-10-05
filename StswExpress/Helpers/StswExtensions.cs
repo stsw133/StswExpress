@@ -35,6 +35,25 @@ public static class StswExtensions
     /// Returns <c>true</c> if a value is contained in a collection, <c>false</c> otherwise.
     /// </summary>
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
+
+    /// <summary>
+    /// Returns <c>true</c> if a <see cref="Type"/> is numeric, <c>false</c> otherwise.
+    /// </summary>
+    public static bool IsNumericType(this Type type)
+    {
+        return type.In(typeof(sbyte), typeof(sbyte?),
+                       typeof(byte), typeof(byte?),
+                       typeof(short), typeof(short?),
+                       typeof(ushort), typeof(ushort?),
+                       typeof(int), typeof(int?),
+                       typeof(uint), typeof(uint?),
+                       typeof(long), typeof(long?),
+                       typeof(float), typeof(float?),
+                       typeof(double), typeof(double?),
+                       typeof(decimal), typeof(decimal?),
+                       typeof(nint), typeof(nint?),
+                       typeof(nuint), typeof(nuint?));
+    }
     #endregion
 
     #region Byte[] extensions

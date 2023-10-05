@@ -56,6 +56,7 @@
                 <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
+                <se:StswNavigationElement Text="StswAdaptiveBox" ContextNamespace="TestApp.StswAdaptiveBoxContext"/>
                 <se:StswNavigationElement Text="StswNumericBox" ContextNamespace="TestApp.StswNumericBoxContext"/>
                 <se:StswNavigationElement Text="StswPasswordBox" ContextNamespace="TestApp.StswPasswordBoxContext"/>
                 <se:StswNavigationElement Text="StswRatingControl" ContextNamespace="TestApp.StswRatingControlContext"/>

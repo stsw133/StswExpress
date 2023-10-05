@@ -1,6 +1,19 @@
 ﻿namespace StswExpress;
 
 /// <summary>
+/// Enumeration for <see cref="StswAdaptiveBox"/>'s type.
+/// </summary>
+public enum StswAdaptiveType
+{
+    Auto,
+    Check,
+    Date,
+    List,
+    Number,
+    Text
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswCalendar"/>'s mode.
 /// </summary>
 public enum StswCalendarMode

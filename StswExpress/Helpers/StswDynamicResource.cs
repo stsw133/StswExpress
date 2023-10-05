@@ -12,6 +12,9 @@ namespace StswExpress;
 /// </summary>
 public class StswDynamicResourceExtension : MarkupExtension
 {
+    private StswBindingProxy? bindingProxy;
+    private StswBindingTrigger? bindingTrigger;
+
     public StswDynamicResourceExtension()
     {
     }
@@ -19,9 +22,6 @@ public class StswDynamicResourceExtension : MarkupExtension
     {
         ResourceKey = resourceKey ?? throw new ArgumentNullException(nameof(resourceKey));
     }
-
-    private StswBindingProxy? bindingProxy;
-    private StswBindingTrigger? bindingTrigger;
 
     /// <summary>
     /// 
@@ -134,7 +134,7 @@ public class StswDynamicResourceExtension : MarkupExtension
                 findTargetBinding,
                 bindingTrigger.Binding
             },
-            Converter = new InlineMultiConverter(WrapperConvert)
+            Converter = new StswInlineMultiConverter(WrapperConvert)
         };
 
         /// Just like above, we return the result of the wrapperBinding's ProvideValue
@@ -146,7 +146,6 @@ public class StswDynamicResourceExtension : MarkupExtension
     /// markup extension has been applied to, whether applied directly, or via a style
     private object WrapperConvert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-
         var dynamicResourceBindingResult = values[0]; /// This is the result of the DynamicResourceBinding**
         var bindingTargetObject = values[1]; /// This is the ultimate target of the binding
 
@@ -172,14 +171,13 @@ public class StswDynamicResourceExtension : MarkupExtension
         /// Note: You can't simply put those properties on the MultiBinding as it handles things
         /// differently than a regular Binding (e.g. StringFormat is always applied, even when null.)
         else if (targetType == typeof(string) && StringFormat != null)
-            dynamicResourceBindingResult = String.Format(StringFormat, dynamicResourceBindingResult);
+            dynamicResourceBindingResult = string.Format(StringFormat, dynamicResourceBindingResult);
 
         /// If the binding target object is a FrameworkElement, ensure the binding proxy is added
         /// to its Resources collection so it will be part of the lookup relative to that element
         if (bindingTargetObject is FrameworkElement targetFrameworkElement
         && !targetFrameworkElement.Resources.Contains(bindingProxy))
         {
-
             /// Add the resource to the target object's Resources collection
             targetFrameworkElement.Resources[bindingProxy] = bindingProxy;
 
@@ -197,51 +195,10 @@ public class StswDynamicResourceExtension : MarkupExtension
             /// returned out of order and the UI wouldn't update properly, overwriting the actual values.
 
             /// Refresh the binding, but not now, in the future
-            SynchronizationContext.Current?.Post((state) => {
-                bindingTrigger?.Refresh();
-            }, null);
+            SynchronizationContext.Current?.Post((state) => bindingTrigger?.Refresh(), null);
         }
 
         /// Return the now-properly-resolved result of the child binding
         return dynamicResourceBindingResult!;
     }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class InlineMultiConverter : IMultiValueConverter
-{
-    public delegate object ConvertDelegate(object[] values, Type targetType, object parameter, CultureInfo culture);
-    public delegate object[] ConvertBackDelegate(object value, Type[] targetTypes, object parameter, CultureInfo culture);
-
-    public InlineMultiConverter(ConvertDelegate convert, ConvertBackDelegate? convertBack = null)
-    {
-        _convert = convert ?? throw new ArgumentNullException(nameof(convert));
-        _convertBack = convertBack;
-    }
-
-    private ConvertDelegate _convert { get; }
-    private ConvertBackDelegate? _convertBack { get; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="values"></param>
-    /// <param name="targetType"></param>
-    /// <param name="parameter"></param>
-    /// <param name="culture"></param>
-    /// <returns></returns>
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) => _convert(values, targetType, parameter, culture);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="targetTypes"></param>
-    /// <param name="parameter"></param>
-    /// <param name="culture"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => (_convertBack != null) ? _convertBack(value, targetTypes, parameter, culture) : throw new NotImplementedException();
 }

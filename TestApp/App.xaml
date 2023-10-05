@@ -112,6 +112,9 @@
             </DataTemplate>
 
             <!-- Input -->
+            <DataTemplate DataType="{x:Type local:StswAdaptiveBoxContext}">
+                <local:StswAdaptiveBoxView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswNumericBoxContext}">
                 <local:StswNumericBoxView/>
             </DataTemplate>
