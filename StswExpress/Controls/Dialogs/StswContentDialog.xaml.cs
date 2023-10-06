@@ -464,22 +464,6 @@ public class StswContentDialog : ContentControl
             typeof(Brush),
             typeof(StswContentDialog)
         );
-
-    /// <summary>
-    /// Represents the overlay brush that is used to dim the background behind the dialog
-    /// </summary>
-    public Brush? OverlayBackground
-    {
-        get => (Brush?)GetValue(OverlayBackgroundProperty);
-        set => SetValue(OverlayBackgroundProperty, value);
-    }
-    public static readonly DependencyProperty OverlayBackgroundProperty
-        = DependencyProperty.Register(
-            nameof(OverlayBackground),
-            typeof(Brush),
-            typeof(StswContentDialog),
-            new PropertyMetadata(Brushes.Black)
-        );
     #endregion
 }
 

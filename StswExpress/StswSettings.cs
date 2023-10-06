@@ -26,13 +26,13 @@ public sealed partial class StswSettings
         {
             case nameof(Default.Language):
                 {
-                    Translator.Instance.CurrentLanguage = string.IsNullOrEmpty((string?)e.NewValue) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : (string)e.NewValue;
+                    StswTranslator.Instance.CurrentLanguage = string.IsNullOrEmpty((string?)e.NewValue) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : (string)e.NewValue;
                     break;
                 }
             case nameof(Default.Theme):
                 {
-                    if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources theme)
-                        theme.Theme = (int)e.NewValue < 0 ? StswFn.GetWindowsTheme() : (StswTheme)e.NewValue;
+                    if (StswResources.GetInstance() is StswResources theme and not null)
+                        theme.Theme = (StswTheme)e.NewValue;
                     break;
                 }
         }

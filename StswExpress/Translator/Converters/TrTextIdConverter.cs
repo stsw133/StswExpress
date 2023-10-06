@@ -17,7 +17,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 {
     public TrTextIdConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var textID = value?.ToString();
-        return $"{Prefix}{(string.IsNullOrEmpty(textID) ? "" : Translator.Tr(string.Format(TextIdStringFormat, textID), DefaultText?.Replace("[apos]", "'"), LanguageID))}{Suffix}";
+        return $"{Prefix}{(string.IsNullOrEmpty(textID) ? "" : StswTranslator.Tr(string.Format(TextIdStringFormat, textID), DefaultText?.Replace("[apos]", "'"), LanguageID))}{Suffix}";
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
@@ -78,6 +78,6 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 
     ~TrTextIdConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

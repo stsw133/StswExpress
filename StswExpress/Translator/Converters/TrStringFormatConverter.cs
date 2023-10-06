@@ -15,12 +15,12 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 {
     public TrStringFormatConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
     public TrStringFormatConverter(string textId)
     {
         TextID = textId;
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
     [ConstructorArgument("textID")]
     public string? TextID { get; set; } = null;
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : Translator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), value)}{Suffix}";
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : StswTranslator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), value)}{Suffix}";
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
     FrameworkElement? xamlTargetObject;
@@ -102,6 +102,6 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 
     ~TrStringFormatConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

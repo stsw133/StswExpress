@@ -7,14 +7,14 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class TranslatorLanguagesLoader
+public class StswTranslatorLanguagesLoader
 {
-    private static TranslatorLanguagesLoader? instance = null;
-    public static TranslatorLanguagesLoader Instance => instance ??= new TranslatorLanguagesLoader(Translator.Instance);
+    private static StswTranslatorLanguagesLoader? instance = null;
+    public static StswTranslatorLanguagesLoader Instance => instance ??= new StswTranslatorLanguagesLoader(StswTranslator.Instance);
 
-    readonly Translator? tmInstance = null;
+    readonly StswTranslator? tmInstance = null;
 
-    public TranslatorLanguagesLoader(Translator tmInstance)
+    public StswTranslatorLanguagesLoader(StswTranslator tmInstance)
     {
         this.tmInstance = tmInstance;
     }
@@ -22,7 +22,7 @@ public class TranslatorLanguagesLoader
     /// <summary>
     /// 
     /// </summary>
-    internal List<ITranslatorFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<ITranslatorFileLanguageLoader>() { new TranslatorJsonFileLanguageLoader() };
+    internal List<IStswTranslatorFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<IStswTranslatorFileLanguageLoader>() { new StswTranslatorJsonFileLanguageLoader() };
 
     /// <summary>
     /// Add a new translation in the language dictionaries.
@@ -32,22 +32,19 @@ public class TranslatorLanguagesLoader
     /// <param name="value">Value of the translated text.</param>
     public void AddTranslation(string textID, string languageID, string value, string source = "")
     {
-        if (tmInstance != null)
+        if (!StswTranslator.TranslationsDictionary.ContainsKey(textID))
+            StswTranslator.TranslationsDictionary[textID] = new SortedDictionary<string, StswTranslatorTranslation>();
+
+        if (!StswTranslator.AvailableLanguages.Contains(languageID))
+            StswTranslator.AvailableLanguages.Add(languageID);
+
+        StswTranslator.TranslationsDictionary[textID][languageID] = new StswTranslatorTranslation()
         {
-            if (!Translator.TranslationsDictionary.ContainsKey(textID))
-                Translator.TranslationsDictionary[textID] = new SortedDictionary<string, TranslatorTranslation>();
-
-            if (!tmInstance.AvailableLanguages.Contains(languageID))
-                tmInstance.AvailableLanguages.Add(languageID);
-
-            Translator.TranslationsDictionary[textID][languageID] = new TranslatorTranslation()
-            {
-                TextID = textID,
-                LanguageID = languageID,
-                TranslatedText = value,
-                Source = source
-            };
-        }
+            TextID = textID,
+            LanguageID = languageID,
+            TranslatedText = value,
+            Source = source
+        };
     }
 
     /// <summary>
@@ -70,16 +67,16 @@ public class TranslatorLanguagesLoader
     {
         if (tmInstance != null)
         {
-            Translator.TranslationsDictionary.Keys.ToList().ForEach(textId =>
+            StswTranslator.TranslationsDictionary.Keys.ToList().ForEach(textId =>
             {
-                Translator.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
+                StswTranslator.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
                 {
                     if (translation?.Source?.Equals(source) == true)
-                        Translator.TranslationsDictionary[textId].Remove(translation?.LanguageID ?? string.Empty);
+                        StswTranslator.TranslationsDictionary[textId].Remove(translation?.LanguageID ?? string.Empty);
                 });
 
-                if (Translator.TranslationsDictionary[textId].Count == 0)
-                    Translator.TranslationsDictionary.Remove(textId);
+                if (StswTranslator.TranslationsDictionary[textId].Count == 0)
+                    StswTranslator.TranslationsDictionary.Remove(textId);
             });
         }
     }
@@ -89,8 +86,8 @@ public class TranslatorLanguagesLoader
     /// </summary>
     public void ClearAllTranslations()
     {
-        Translator.TranslationsDictionary.Clear();
-        Translator.Instance.AvailableLanguages.Clear();
-        Translator.Instance.MissingTranslations.Clear();
+        StswTranslator.TranslationsDictionary.Clear();
+        StswTranslator.AvailableLanguages.Clear();
+        StswTranslator.MissingTranslations.Clear();
     }
 }

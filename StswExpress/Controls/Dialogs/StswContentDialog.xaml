@@ -3,11 +3,10 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswContentDialog}">
+        <Setter Property="Background" Value="Black"/>
         <!--
-        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         -->
-        <Setter Property="OverlayBackground" Value="Black"/>
         
         <!--
         <Setter Property="BorderThickness" Value="2"/>
@@ -34,7 +33,7 @@
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentCoverBorder" Storyboard.TargetProperty="Opacity">
                                                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.56">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8">
                                                     <EasingDoubleKeyFrame.EasingFunction>
                                                         <SineEase EasingMode="EaseInOut"/>
                                                     </EasingDoubleKeyFrame.EasingFunction>
@@ -56,7 +55,7 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentCoverBorder" Storyboard.TargetProperty="Opacity">
-                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.56"/>
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                                                     <EasingDoubleKeyFrame.EasingFunction>
                                                         <SineEase EasingMode="EaseInOut"/>
@@ -84,7 +83,7 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="ContentCoverBorder"
                                                          Storyboard.TargetProperty="Opacity"
-                                                         To=".56"
+                                                         To="0.8"
                                                          Duration="0"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_PopupContentElement"
                                                          Storyboard.TargetProperty="Opacity"
@@ -123,7 +122,7 @@
                                 <VisualBrush Visual="{Binding ElementName=ContentCoverBorder}"/>
                             </Grid.OpacityMask>
                             <Border x:Name="ContentCoverBorder"
-                                    Background="{Binding OverlayBackground, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
                                     IsHitTestVisible="False"
                                     Opacity="0">
                                 <Border.Style>

@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
     
     <!-- StswColors -->
@@ -235,6 +236,8 @@
 
     <SolidColorBrush x:Key="StswText.Disabled" Color="#999"/>
 
+    <FontFamily x:Key="StswWindow.Font.Family">Segoe UI</FontFamily>
+    <sys:Double x:Key="StswWindow.Font.Size">12</sys:Double>
     <SolidColorBrush x:Key="StswWindow.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswWindow.Static.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}}"/>
     <SolidColorBrush x:Key="StswWindow.Static.Foreground" Color="#000"/>

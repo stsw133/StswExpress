@@ -9,6 +9,8 @@ namespace StswExpress;
 /// </summary>
 internal class StswConfig : Control
 {
+    public ICommand CloseCommand { get; internal set; }
+
     internal StswConfig()
     {
         CloseCommand = new StswCommand<bool?>(Close);
@@ -20,9 +22,16 @@ internal class StswConfig : Control
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Occurs when the template is applied to the control.
     /// </summary>
-    public ICommand CloseCommand { get; set; }
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        /// iSize
+        if (GetTemplateChild("PART_iSize") is StswSlider iSize)
+            iSize.MouseLeave += (s, e) => StswSettings.Default.iSize = iSize.Value;
+    }
 
     /// <summary>
     /// 

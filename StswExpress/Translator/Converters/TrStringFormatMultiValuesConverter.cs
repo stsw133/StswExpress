@@ -15,12 +15,12 @@ public class TrStringFormatMultiValuesConverter : MarkupExtension, IMultiValueCo
 {
     public TrStringFormatMultiValuesConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
     public TrStringFormatMultiValuesConverter(string textId)
     {
         TextID = textId;
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class TrStringFormatMultiValuesConverter : MarkupExtension, IMultiValueCo
     /// </summary>
     public string Suffix { get; set; } = string.Empty;
 
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : Translator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), values)}{Suffix}";
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{string.Format(string.IsNullOrEmpty(TextID) ? "" : StswTranslator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), LanguageID), values)}{Suffix}";
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
     FrameworkElement? xamlTargetObject;
@@ -97,6 +97,6 @@ public class TrStringFormatMultiValuesConverter : MarkupExtension, IMultiValueCo
 
     ~TrStringFormatMultiValuesConverter()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(Translator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

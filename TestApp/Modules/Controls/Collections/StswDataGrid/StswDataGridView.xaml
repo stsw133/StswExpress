@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <!-- name and description -->
         <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="3">
+            <StackPanel Margin="5">
                 <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                     <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
                     <LineBreak/>

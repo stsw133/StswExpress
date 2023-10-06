@@ -36,7 +36,7 @@ public class TrLanguageIdConverter : MarkupExtension, IValueConverter
     /// </summary>
     public string Suffix { get; set; } = string.Empty;
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{Translator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), value as string)}{Suffix}";
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => $"{Prefix}{StswTranslator.Tr(TextID, DefaultText?.Replace("[apos]", "'"), value as string)}{Suffix}";
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
     FrameworkElement? xamlTargetObject;

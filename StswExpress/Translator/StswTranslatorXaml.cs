@@ -164,7 +164,7 @@ public class Tr : MarkupExtension
         }
         else
         {
-            object result = Prefix + Translator.Tr(TextID, DefaultText, LanguageID) + Suffix;
+            object result = Prefix + StswTranslator.Tr(TextID, DefaultText, LanguageID) + Suffix;
 
             if (Converter != null)
                 result = Converter.Convert(result, targetProperty.PropertyType, ConverterParameter, ConverterCulture);
@@ -255,7 +255,7 @@ public class TrData : StswObservableObject
 {
     public TrData()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.AddHandler(Translator.Instance, nameof(CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -299,10 +299,10 @@ public class TrData : StswObservableObject
     /// <summary>
     /// 
     /// </summary>
-    public string TranslatedText => $"{Prefix}{Translator.Tr(TextID, DefaultText, LanguageID)}{Suffix}";
+    public string TranslatedText => $"{Prefix}{StswTranslator.Tr(TextID, DefaultText, LanguageID)}{Suffix}";
 
     ~TrData()
     {
-        WeakEventManager<Translator, TranslatorLanguageChangedEventArgs>.RemoveHandler(Translator.Instance, nameof(CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

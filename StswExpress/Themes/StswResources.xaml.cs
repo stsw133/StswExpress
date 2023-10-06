@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -20,6 +22,24 @@ public partial class StswResources
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public static StswResources GetInstance()
+    {
+        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is not StswResources dict)
+        {
+            dict = new StswResources((StswTheme)StswSettings.Default.Theme);
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+        }
+        return dict;
+    }
+
+    /// <summary>
+    /// List of themes available in <see cref="StswConfig"/> control.
+    /// </summary>
+    public static ObservableCollection<StswTheme> AvailableThemes = Enum.GetValues(typeof(StswTheme)).Cast<StswTheme>().ToObservableCollection();
+
+    /// <summary>
     /// Selected theme for application.
     /// </summary>
     public StswTheme Theme
@@ -27,7 +47,7 @@ public partial class StswResources
         get => theme;
         set
         {
-            var newTheme = StswSettings.Default.Theme < 0 ? StswFn.GetWindowsTheme() : value;
+            var newTheme = value < 0 ? StswFn.GetWindowsTheme() : value;
 
             if (theme == newTheme)
                 return;
@@ -40,11 +60,6 @@ public partial class StswResources
     private StswTheme theme = StswTheme.Auto;
 
     /// <summary>
-    /// 
-    /// </summary>
-    public static StswResources? GetInstance() => Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) as StswResources;
-
-    /// <summary>
     /// Method for selecting Theme.
     /// </summary>
     private void SetTheme(StswTheme theme) => MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
@@ -53,15 +68,4 @@ public partial class StswResources
     /// Occurs when the Theme changes.
     /// </summary>
     public event EventHandler<StswTheme>? ThemeChanged;
-}
-
-/// <summary>
-/// Enumeration for <see cref="StswResources"/>'s type.
-/// </summary>
-public enum StswTheme
-{
-    Auto = -1,
-    Light,
-    Dark,
-    Pink
 }

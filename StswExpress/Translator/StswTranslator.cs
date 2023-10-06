@@ -12,12 +12,12 @@ namespace StswExpress;
 /// Translator's most important class.
 /// For Translate something just type Translator.Tr(...).
 /// </summary>
-public class Translator : StswObservableObject
+public class StswTranslator : StswObservableObject
 {
-    private static Translator? instance = null;
-    public static Translator Instance => instance ??= new Translator();
+    private static StswTranslator? instance = null;
+    public static StswTranslator Instance => instance ??= new StswTranslator();
 
-    public Translator()
+    public StswTranslator()
     {
 
     }
@@ -25,8 +25,8 @@ public class Translator : StswObservableObject
     /// <summary>
     /// List of all availables languages where at least one translation is present.
     /// </summary>
-    public ObservableCollection<string> AvailableLanguages => availableLanguages ??= new ObservableCollection<string>();
-    private ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
+    public static ObservableCollection<string> AvailableLanguages => availableLanguages ??= new ObservableCollection<string>();
+    private static ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
 
     /// <summary>
     /// Current language used for displaying texts with Translator.
@@ -64,7 +64,7 @@ public class Translator : StswObservableObject
     /// <summary>
     /// 
     /// </summary>
-    public static SortedDictionary<string, SortedDictionary<string, TranslatorTranslation>> TranslationsDictionary { get; private set; } = new SortedDictionary<string, SortedDictionary<string, TranslatorTranslation>>();
+    public static SortedDictionary<string, SortedDictionary<string, StswTranslatorTranslation>> TranslationsDictionary { get; private set; } = new SortedDictionary<string, SortedDictionary<string, StswTranslatorTranslation>>();
 
     /// <summary>
     /// Translate the given textID in current language.
@@ -113,7 +113,7 @@ public class Translator : StswObservableObject
     /// <summary>
     /// 
     /// </summary>
-    public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+    public static SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
     /// <summary>
     /// 

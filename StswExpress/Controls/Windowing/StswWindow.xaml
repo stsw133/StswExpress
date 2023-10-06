@@ -8,7 +8,8 @@
         <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="{DynamicResource StswWindow.Font.Family}"/>
+        <Setter Property="FontSize" Value="{DynamicResource StswWindow.Font.Size}"/>
         <Setter Property="WindowStyle" Value="None"/>
 
         <Setter Property="Template">

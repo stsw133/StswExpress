@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class TranslatorTranslation
+public class StswTranslatorTranslation
 {
     public string? Source { get; set; }
     public string? TextID { get; set; }

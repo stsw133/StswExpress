@@ -7,7 +7,7 @@
     <se:StswApp.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
+                <ResourceDictionary Source="/StswExpress;component/Themes/StswResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Home -->

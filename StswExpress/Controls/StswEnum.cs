@@ -172,6 +172,17 @@ public enum StswSpecialColumnVisibility
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswResources"/>'s theme color.
+/// </summary>
+public enum StswTheme
+{
+    Auto = -1,
+    Light,
+    Dark,
+    Pink
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswTextEditor"/>'s toolbar mode.
 /// </summary>
 public enum StswToolbarMode

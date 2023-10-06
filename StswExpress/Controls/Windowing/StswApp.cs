@@ -33,7 +33,7 @@ public class StswApp : Application
         Current.Resources.MergedDictionaries.Add(new StswResources((StswTheme)StswSettings.Default.Theme));
 
         /// language
-        Translator.Instance.CurrentLanguage = string.IsNullOrEmpty(StswSettings.Default.Language) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : StswSettings.Default.Language;
+        StswTranslator.Instance.CurrentLanguage = string.IsNullOrEmpty(StswSettings.Default.Language) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : StswSettings.Default.Language;
 
         var trFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "translations.stsw.json");
 
@@ -42,7 +42,7 @@ public class StswApp : Application
             File.WriteAllText(trFileName, reader.ReadToEnd());
 
         if (File.Exists(trFileName))
-            TranslatorLanguagesLoader.Instance.AddFile(trFileName);
+            StswTranslatorLanguagesLoader.Instance.AddFile(trFileName);
 
         /// global commands
         var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
