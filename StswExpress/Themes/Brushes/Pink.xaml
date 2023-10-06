@@ -128,8 +128,6 @@
     <SolidColorBrush x:Key="StswExpander.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswExpander.Disabled.Foreground" Color="#666"/>
 
-    <SolidColorBrush x:Key="StswIcon.Disabled.Fill" Color="#7777"/>
-
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#CFC5CA"/>
