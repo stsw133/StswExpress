@@ -24,7 +24,7 @@ public partial class App : StswApp
         OpenHelp = () => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
 
         /// example for removing language from config:
-        //Translator.AvailableLanguages.Remove("pl");
+        //StswTranslator.AvailableLanguages.Remove("pl");
         //StswSettings.Default.Language = "en";
         /// example for removing theme from config:
         //StswResources.AvailableThemes.Remove(StswTheme.Pink);
