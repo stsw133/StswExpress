@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,7 +14,7 @@ public class StswMessageDialog : Control
 {
     public StswMessageDialog()
     {
-        CloseCommand = new StswCommand<bool?>(Close);
+        CloseCommand = new StswCommand<string?>(Close);
     }
     static StswMessageDialog()
     {
@@ -30,7 +31,7 @@ public class StswMessageDialog : Control
     /// 
     /// </summary>
     /// <param name="result"></param>
-    private void Close(bool? result) => StswContentDialog.Close(Identifier, result);
+    private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
 
     /// <summary>
     /// 
@@ -41,7 +42,7 @@ public class StswMessageDialog : Control
     /// <param name="image"></param>
     /// <param name="identifier"></param>
     /// <returns></returns>
-    public static async Task<object?> Show(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
+    public static async Task<bool?> Show(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
     {
         StswMessageDialog dialog = new()
         {

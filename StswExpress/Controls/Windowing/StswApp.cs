@@ -39,7 +39,12 @@ public class StswApp : Application
 
         using (var stream = GetResourceStream(new Uri($"pack://application:,,,/{nameof(StswExpress)};component//Translator/Translations.json", UriKind.RelativeOrAbsolute)).Stream)
         using (var reader = new StreamReader(stream))
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(trFileName)))
+                Directory.CreateDirectory(Path.GetDirectoryName(trFileName)!);
+
             File.WriteAllText(trFileName, reader.ReadToEnd());
+        }
 
         if (File.Exists(trFileName))
             StswTranslatorLanguagesLoader.Instance.AddFile(trFileName);

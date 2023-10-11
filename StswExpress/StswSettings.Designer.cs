@@ -12,7 +12,7 @@ namespace StswExpress {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     public sealed partial class StswSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static StswSettings defaultInstance = ((StswSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new StswSettings())));

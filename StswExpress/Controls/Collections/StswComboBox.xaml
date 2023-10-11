@@ -67,7 +67,7 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
-                                <!-- subborder -->
+                                <!-- separator -->
                                 <se:StswSeparator x:Name="PART_Separator"
                                                   DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"

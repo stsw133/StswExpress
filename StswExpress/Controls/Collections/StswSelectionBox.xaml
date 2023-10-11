@@ -101,8 +101,7 @@
                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                              Visibility="Collapsed"/>
-                                <se:StswText x:Name="PART_ContentPresenter"
-                                             IsHitTestVisible="False"
+                                <se:StswText IsHitTestVisible="False"
                                              Margin="{TemplateBinding Padding}"
                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                              Text="{TemplateBinding Text}"

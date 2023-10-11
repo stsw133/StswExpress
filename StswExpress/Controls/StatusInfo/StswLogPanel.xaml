@@ -98,34 +98,34 @@
                                                 <Style TargetType="{x:Type se:StswHeader}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Type}" Value="None">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.None.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Circle}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.None.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Foreground}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Type}" Value="Debug">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.Debug.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CodeBracesCircle}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.Debug.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Debug.Foreground}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Type}" Value="Error">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.Error.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.Error.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Foreground}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Type}" Value="Information">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.Information.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.Information.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Foreground}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Type}" Value="Success">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.Success.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.Success.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Success.Foreground}"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Type}" Value="Warning">
-                                                            <Setter Property="Background" Value="{DynamicResource StswLog.Warning.Background}"/>
+                                                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}"/>
                                                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}"/>
-                                                            <Setter Property="IconFill" Value="{DynamicResource StswLog.Warning.Foreground}"/>
+                                                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Foreground}"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
