@@ -5,17 +5,17 @@
     <Style TargetType="{x:Type se:StswPopup}">
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        
+
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="AllowsTransparency" Value="True"/>
     </Style>
-
     
     
-    <!-- StswPopup child's ControlTemplate-->
+    
+    <!-- StswPopup child's ControlTemplate -->
     <DataTemplate x:Key="StswPopupChildTemplate">
         <se:StswClippingBorder x:Name="PART_MainBorder"
                                Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"

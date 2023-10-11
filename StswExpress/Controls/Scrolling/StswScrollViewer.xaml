@@ -36,7 +36,6 @@
                                           Cursor="Arrow"
                                           IsDynamic="{TemplateBinding IsDynamic}"
                                           Maximum="{TemplateBinding ScrollableHeight}"
-                                          Minimum="0"
                                           Value="{TemplateBinding VerticalOffset}"
                                           ViewportSize="{TemplateBinding ViewportHeight}"
                                           Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
@@ -45,7 +44,6 @@
                                           Cursor="Arrow"
                                           IsDynamic="{TemplateBinding IsDynamic}"
                                           Maximum="{TemplateBinding ScrollableWidth}"
-                                          Minimum="0"
                                           Orientation="Horizontal"
                                           Value="{TemplateBinding HorizontalOffset}"
                                           ViewportSize="{TemplateBinding ViewportWidth}"
