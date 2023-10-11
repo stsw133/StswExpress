@@ -21,12 +21,10 @@ public class StswDataGrid : DataGrid
     {
         ClearFiltersCommand = new StswCommand(ActionClear);
     }
-    /* /// this will cause control to be not visible
     static StswDataGrid()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataGrid), new FrameworkPropertyMetadata(typeof(StswDataGrid)));
     }
-    */
 
     #region Events & methods
     /// <summary>
@@ -223,8 +221,22 @@ public class StswDataGrid : DataGrid
         = DependencyProperty.Register(
             nameof(BorderBrushHeader),
             typeof(SolidColorBrush),
-            typeof(StswDataGrid),
-            new PropertyMetadata(default(SolidColorBrush))
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswDataGrid)
         );
     #endregion
 }
