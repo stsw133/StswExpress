@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -11,14 +10,13 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : Control
+[StyleTypedProperty(Property = nameof(ItemContainerStyle), StyleTargetType = typeof(StswLogPanelItem))]
+public class StswLogPanel : ItemsControl
 {
     public ICommand RemoveLogCommand { get; set; }
 
     public StswLogPanel()
     {
-        SetValue(ItemsProperty, new ObservableCollection<StswLogItem>());
-
         RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog_Executed);
     }
     static StswLogPanel()
@@ -39,8 +37,31 @@ public class StswLogPanel : Control
         /// Content
         if (GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
             stswScrollViewer = scrollViewer;
+    }
 
-        Items ??= new();
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    protected override DependencyObject GetContainerForItemOverride() => new StswLogPanelItem();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswLogPanelItem;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnItemsChanged(e);
+
+        if (e.NewItems?.Count > 0)
+            stswScrollViewer?.ScrollToEnd();
     }
 
     /// Command: remove log
@@ -49,8 +70,10 @@ public class StswLogPanel : Control
     /// </summary>
     public void RemoveLog_Executed(StswLogItem? item)
     {
-        if (item != null)
-            Items.Remove(item);
+        if (ItemsSource is IList list and not null)
+            list.Remove(item);
+        else
+            Items?.Remove(item);
     }
     #endregion
 
@@ -69,36 +92,6 @@ public class StswLogPanel : Control
             typeof(bool),
             typeof(StswLogPanel)
         );
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public ObservableCollection<StswLogItem> Items
-    {
-        get => (ObservableCollection<StswLogItem>)GetValue(ItemsProperty);
-        set =>  SetValue(ItemsProperty, value);
-    }
-    public static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<StswLogItem>),
-            typeof(StswLogPanel),
-            new FrameworkPropertyMetadata(default(ObservableCollection<StswLogItem>),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnItemsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswLogPanel stsw)
-        {
-            if (stsw.Items != null)
-                stsw.Items.CollectionChanged += (s, e) =>
-                {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                        stsw.stswScrollViewer?.ScrollToEnd();
-                };
-        }
-    }
     #endregion
 
     #region Style properties
@@ -118,16 +111,31 @@ public class StswLogPanel : Control
         );
 
     /// <summary>
+    /// Gets or sets the border thickness of the items.
+    /// </summary>
+    public Thickness ItemBorderThickness
+    {
+        get => (Thickness)GetValue(ItemBorderThicknessProperty);
+        set => SetValue(ItemBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ItemBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(ItemBorderThickness),
+            typeof(Thickness),
+            typeof(StswLogPanel)
+        );
+
+    /// <summary>
     /// Gets or sets the degree to which the corners of the items are rounded.
     /// </summary>
-    public CornerRadius SubCornerRadius
+    public CornerRadius ItemCornerRadius
     {
-        get => (CornerRadius)GetValue(SubCornerRadiusProperty);
-        set => SetValue(SubCornerRadiusProperty, value);
+        get => (CornerRadius)GetValue(ItemCornerRadiusProperty);
+        set => SetValue(ItemCornerRadiusProperty, value);
     }
-    public static readonly DependencyProperty SubCornerRadiusProperty
+    public static readonly DependencyProperty ItemCornerRadiusProperty
         = DependencyProperty.Register(
-            nameof(SubCornerRadius),
+            nameof(ItemCornerRadius),
             typeof(CornerRadius),
             typeof(StswLogPanel)
         );
@@ -135,14 +143,14 @@ public class StswLogPanel : Control
     /// <summary>
     /// Gets or sets the margin of the items.
     /// </summary>
-    public Thickness SubMargin
+    public Thickness ItemMargin
     {
-        get => (Thickness)GetValue(SubMarginProperty);
-        set => SetValue(SubMarginProperty, value);
+        get => (Thickness)GetValue(ItemMarginProperty);
+        set => SetValue(ItemMarginProperty, value);
     }
-    public static readonly DependencyProperty SubMarginProperty
+    public static readonly DependencyProperty ItemMarginProperty
         = DependencyProperty.Register(
-            nameof(SubMargin),
+            nameof(ItemMargin),
             typeof(Thickness),
             typeof(StswLogPanel)
         );
@@ -150,18 +158,26 @@ public class StswLogPanel : Control
     /// <summary>
     /// Gets or sets the padding of the items.
     /// </summary>
-    public Thickness SubPadding
+    public Thickness ItemPadding
     {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
+        get => (Thickness)GetValue(ItemPaddingProperty);
+        set => SetValue(ItemPaddingProperty, value);
     }
-    public static readonly DependencyProperty SubPaddingProperty
+    public static readonly DependencyProperty ItemPaddingProperty
         = DependencyProperty.Register(
-            nameof(SubPadding),
+            nameof(ItemPadding),
             typeof(Thickness),
             typeof(StswLogPanel)
         );
     #endregion
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class StswLogPanelItem : ContentControl
+{
+    
 }
 
 /// <summary>
