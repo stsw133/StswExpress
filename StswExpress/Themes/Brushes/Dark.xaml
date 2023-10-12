@@ -89,6 +89,13 @@
     <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#777"/>
     <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#444"/>
 
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#292929"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#303030"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Background" Color="#383838"/>
+    <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Border" Color="#575757"/>
+    
     <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#575757"/>
     <SolidColorBrush x:Key="StswDataGrid.Header.Background" Color="#292929"/>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom application class with additional functionality and customization options.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswApp : Application
 {
     /// <summary>
