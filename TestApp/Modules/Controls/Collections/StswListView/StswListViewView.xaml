@@ -68,7 +68,7 @@
                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
                 <se:StswListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="4"/>
+                        <UniformGrid Columns="4" VerticalAlignment="Top"/>
                     </ItemsPanelTemplate>
                 </se:StswListView.ItemsPanel>
             </se:StswListView>

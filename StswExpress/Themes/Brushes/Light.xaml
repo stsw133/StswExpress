@@ -174,7 +174,7 @@
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#666"/>
     <SolidColorBrush x:Key="StswNavigationElement.CheckedAndDisabled.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=75%}"/>
 
-    <SolidColorBrush x:Key="StswPanel.Static.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswPanel.Static.Background" Color="#f5f5f5"/>
     <SolidColorBrush x:Key="StswPanel.Static.Border" Color="#BBB"/>
 
     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#FFF"/>

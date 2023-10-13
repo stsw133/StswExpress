@@ -4,8 +4,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswMessageDialog}">
-        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>

@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswContentDialog}">
         <Setter Property="Background" Value="Black"/>
         <!--
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         -->
         
         <!--

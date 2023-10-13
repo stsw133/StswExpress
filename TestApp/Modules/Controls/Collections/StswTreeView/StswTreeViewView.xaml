@@ -60,17 +60,16 @@
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
                 <se:StswTreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:StswTreeItem}" ItemsSource="{Binding SubItems}">
-                        <se:StswCheckBox Content="{Binding Display}" IsChecked="{Binding IsSelected}"/>
+                    <HierarchicalDataTemplate DataType="{x:Type se:StswSelectionItem}" ItemsSource="{Binding Value}">
+                        <se:StswText Text="{Binding Display}" VerticalAlignment="Center"/>
+                        <!-- <se:StswCheckBox Content="{Binding Display}" IsChecked="{Binding IsSelected}" Margin="3"/> -->
                     </HierarchicalDataTemplate>
                 </se:StswTreeView.Resources>
-                <!--
                 <se:StswTreeView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="2"/>
+                        <StackPanel/>
                     </ItemsPanelTemplate>
                 </se:StswTreeView.ItemsPanel>
-                -->
             </se:StswTreeView>
             <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
         </Grid>

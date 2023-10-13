@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
@@ -169,6 +168,8 @@
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
+                    <se:StswText Text="TEST"/>
+                    <!--
                     <wv2:WebView2 Source="{Binding Pdf}">
                         <wv2:WebView2.Style>
                             <Style TargetType="{x:Type wv2:WebView2}">
@@ -181,6 +182,7 @@
                             </Style>
                         </wv2:WebView2.Style>
                     </wv2:WebView2>
+                    -->
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
 

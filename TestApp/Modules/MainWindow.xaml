@@ -123,7 +123,6 @@
         <se:StswNavigation.ItemsPinned>
             <se:StswNavigationElement/>
             <se:StswNavigationElement Text="Changelog" IconData="{x:Static se:StswIcons.FileDocumentOutline}" ContextNamespace="TestApp.ChangelogContext"/>
-            <se:StswNavigationElement Text="Wiki" IconData="{x:Static se:StswIcons.BookOpenPageVariantOutline}" ContextNamespace="TestApp.WikiContext"/>
             <se:StswNavigationElement Text="Config" IconData="{x:Static se:StswIcons.Cog}" IsEnabled="False"/>
         </se:StswNavigation.ItemsPinned>
     </se:StswNavigation>

@@ -26,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1587.40" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -152,9 +151,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Modules\Special\Wiki\WikiView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Special\Home\HomeView.xaml.cs">
@@ -340,10 +336,6 @@
     </Page>
     <Page Update="Modules\Controls\Windowing\StswWindow\StswWindowView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Special\Wiki\WikiView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
     </Page>
     <Page Update="Modules\Special\Home\HomeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

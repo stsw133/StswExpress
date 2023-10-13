@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswListView}">
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="0"/>
@@ -42,10 +42,12 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
+                        <!--
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -54,14 +56,20 @@
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
+
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="Padding" Value="4 2"/>
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                 <Border x:Name="PART_Border"
-                                        Background="{DynamicResource StswItem.Static.Background}"
-                                        BorderBrush="{DynamicResource StswItem.Static.Border}"
-                                        BorderThickness="0.5"
-                                        Padding="4 2">
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
                                     <ContentPresenter/>
                                 </Border>
                                 <ControlTemplate.Triggers>

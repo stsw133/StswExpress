@@ -247,9 +247,6 @@
             <DataTemplate DataType="{x:Type local:ChangelogContext}">
                 <local:ChangelogView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:WikiContext}">
-                <local:WikiView/>
-            </DataTemplate>
         </ResourceDictionary>
     </se:StswApp.Resources>
 </se:StswApp>
