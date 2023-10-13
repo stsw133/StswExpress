@@ -49,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -223,6 +226,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

@@ -6,14 +6,14 @@ using System.Windows.Controls;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that displays a collection of items in a vertical list.
+/// Represents a control that displays a collection of items in a hierarchical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswListBox : ListBox
+public class StswTreeView : TreeView
 {
-    static StswListBox()
+    static StswTreeView()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListBox), new FrameworkPropertyMetadata(typeof(StswListBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTreeView), new FrameworkPropertyMetadata(typeof(StswTreeView)));
     }
 
     #region Events & methods
@@ -40,7 +40,7 @@ public class StswListBox : ListBox
         = DependencyProperty.Register(
             nameof(UsesSelectionItems),
             typeof(bool),
-            typeof(StswListBox)
+            typeof(StswTreeView)
         );
     #endregion
 
@@ -57,7 +57,7 @@ public class StswListBox : ListBox
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswListBox)
+            typeof(StswTreeView)
         );
     #endregion
 }

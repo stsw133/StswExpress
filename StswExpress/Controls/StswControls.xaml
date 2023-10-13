@@ -19,6 +19,7 @@
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
+        <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="Color/StswColorBox.xaml"/>
         <ResourceDictionary Source="Color/StswColorPicker.xaml"/>

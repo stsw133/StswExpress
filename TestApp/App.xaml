@@ -64,6 +64,9 @@
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTreeViewContext}">
+                <local:StswTreeViewView/>
+            </DataTemplate>
             
             <!-- Color -->
             <DataTemplate DataType="{x:Type local:StswColorBoxContext}">

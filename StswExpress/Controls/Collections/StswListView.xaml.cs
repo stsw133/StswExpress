@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.Collections;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,11 +11,6 @@ namespace StswExpress;
 /// </summary>
 public class StswListView : ListView
 {
-    public StswListView()
-    {
-        OnItemsSourceChanged(this, EventArgs.Empty);
-        DependencyPropertyDescriptor.FromProperty(ItemsSourceProperty, typeof(StswListView)).AddValueChanged(this, OnItemsSourceChanged);
-    }
     static StswListView()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswListView), new FrameworkPropertyMetadata(typeof(StswListView)));
@@ -26,7 +20,11 @@ public class StswListView : ListView
     /// <summary>
     /// 
     /// </summary>
-    private void OnItemsSourceChanged(object? sender, EventArgs e) => UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>() != null;
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>() != null;
+    }
     #endregion
 
     #region Main properties
