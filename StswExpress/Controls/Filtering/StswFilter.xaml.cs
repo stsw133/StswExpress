@@ -13,7 +13,7 @@ namespace StswExpress;
 
 /// <summary>
 /// A control used for filtering data in a <see cref="StswDataGrid"/>.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
 public class StswFilter : Control
@@ -115,7 +115,7 @@ public class StswFilter : Control
 
         /// calculate SQL string
         var listValues = new List<object?>();
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+        var selectedItems = ItemsSource?.OfType<IStswSelection>()?.ToList();
         if (selectedItems != null)
         {
             foreach (var selectedItem in selectedItems.Where(x => x.IsSelected))
@@ -439,7 +439,7 @@ public class StswFilter : Control
         {
             if (stsw.Value1 == null
             || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-            || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
+            || stsw.ItemsSource?.OfType<IStswSelection>()?.Where(x => x.IsSelected)?.Count() == 0)
                 stsw.SqlString = null;
             else
                 stsw.GenerateSqlString();

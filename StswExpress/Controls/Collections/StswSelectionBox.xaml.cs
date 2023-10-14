@@ -12,7 +12,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
 /// </summary>
 public class StswSelectionBox : ContentControl
 {
@@ -48,7 +48,7 @@ public class StswSelectionBox : ContentControl
     /// </summary>
     internal void SetText()
     {
-        var itemsSource = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+        var itemsSource = ItemsSource?.OfType<IStswSelection>()?.ToList();
         if (itemsSource == null)
             return;
 
@@ -351,31 +351,4 @@ public class StswSelectionBox : ContentControl
             typeof(StswSelectionBox)
         );
     #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public interface IStswSelectionItem
-{
-    /// <summary>
-    /// Gets or sets the selection associated with the selecion box item.
-    /// </summary>
-    public bool IsSelected { get; set; }
-}
-
-/// <summary>
-/// Provides a way to store and display pairs of display and value objects for use in selection boxes.
-/// </summary>
-public class StswSelectionItem : StswComboItem, IStswSelectionItem
-{
-    /// <summary>
-    /// Gets or sets the selection associated with the selecion box item.
-    /// </summary>
-    public bool IsSelected
-    {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
-    }
-    private bool isSelected;
 }

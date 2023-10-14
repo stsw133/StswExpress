@@ -127,29 +127,3 @@ public class StswComboBox : ComboBox
         );
     #endregion
 }
-
-/// <summary>
-/// Provides a way to store and display pairs of display and value objects for use in combo boxes.
-/// </summary>
-public class StswComboItem : StswObservableObject
-{
-    /// <summary>
-    /// Gets or sets the display text for the combo box item.
-    /// </summary>
-    public object? Display
-    {
-        get => display;
-        set => SetProperty(ref display, value);
-    }
-    private object? display;
-
-    /// <summary>
-    /// Gets or sets the value associated with the combo box item.
-    /// </summary>
-    public object? Value
-    {
-        get => value;
-        set => SetProperty(ref this.value, value);
-    }
-    private object? value;
-}

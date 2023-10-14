@@ -85,8 +85,8 @@
     <SolidColorBrush x:Key="StswColorPicker.Static.Border" Color="#575757"/>
 
     <SolidColorBrush x:Key="StswComponent.Static.Foreground" Color="#EEE"/>
-    <SolidColorBrush x:Key="StswComponent.MouseOver.Foreground" Color="#AAA"/>
-    <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#777"/>
+    <SolidColorBrush x:Key="StswComponent.MouseOver.Foreground" Color="#888"/>
+    <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#666"/>
     <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#444"/>
 
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#292929"/>
