@@ -159,7 +159,7 @@ public class StswTextEditor : RichTextBox
         if (fontSize != null)
         {
             if (temp != DependencyProperty.UnsetValue)
-                fontSize.Value = Convert.ToDouble(temp);
+                fontSize.Value = Convert.ToDecimal(temp);
             else
                 fontSize.Value = null;
         }

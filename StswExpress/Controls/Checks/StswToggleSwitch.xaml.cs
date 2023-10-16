@@ -111,13 +111,18 @@ public class StswToggleSwitch : ToggleButton
     {
         AdjustSize();
 
-        if (switchBorder != null)
-            switchBorder.Background = IsChecked switch
-            {
-                false => (SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background"),
-                true => (SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background"),
-                _ => (SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")
-            };
+        if (IsChecked == true && checkedPath != null)
+            checkedPath.Opacity = 1;
+        else if (IsChecked == false && uncheckedPath != null)
+            uncheckedPath.Opacity = 1;
+
+        //if (switchBorder != null)
+        //    switchBorder.Background = IsChecked switch
+        //    {
+        //        false => (SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background"),
+        //        true => (SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background"),
+        //        _ => (SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")
+        //    };
     }
     #endregion
 
@@ -288,7 +293,7 @@ public class StswToggleSwitch : ToggleButton
     void CheckedAnimation()
     {
         var sb = new Storyboard();
-
+        /*
         var switchColor = new ColorAnimation(
             toValue: ((SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
@@ -296,7 +301,7 @@ public class StswToggleSwitch : ToggleButton
         sb.Children.Add(switchColor);
         Storyboard.SetTarget(switchColor, switchBorder);
         Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-
+        */
         var switchPlacement = new ThicknessAnimation(
             toValue: checkedMargin,
             duration: TimeSpan.FromMilliseconds(300));
@@ -350,7 +355,7 @@ public class StswToggleSwitch : ToggleButton
     void UncheckedAnimation()
     {
         var sb = new Storyboard();
-
+        /*
         var switchColor = new ColorAnimation(
             toValue: ((SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
@@ -358,7 +363,7 @@ public class StswToggleSwitch : ToggleButton
         sb.Children.Add(switchColor);
         Storyboard.SetTarget(switchColor, switchBorder);
         Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-
+        */
         var switchPlacement = new ThicknessAnimation(
             toValue: uncheckedMargin,
             duration: TimeSpan.FromMilliseconds(300));
@@ -412,7 +417,7 @@ public class StswToggleSwitch : ToggleButton
     void IndeterminateAnimation()
     {
         var sb = new Storyboard();
-
+        /*
         var switchColor = new ColorAnimation(
             toValue: ((SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")).Color,
             duration: TimeSpan.FromMilliseconds(300));
@@ -420,7 +425,7 @@ public class StswToggleSwitch : ToggleButton
         sb.Children.Add(switchColor);
         Storyboard.SetTarget(switchColor, switchBorder);
         Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-
+        */
         var switchPlacement = new ThicknessAnimation(
             toValue: indeterminateMargin,
             duration: TimeSpan.FromMilliseconds(300));

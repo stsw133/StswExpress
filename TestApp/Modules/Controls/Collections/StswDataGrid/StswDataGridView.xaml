@@ -25,7 +25,7 @@
                         Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
                     </Run>
                 </se:StswText>
-                <StackPanel Margin="3">
+                <StackPanel Margin="5">
                     <se:StswText FontWeight="Medium" Text="Properties:"/>
                     <!-- Alignment -->
                     <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>

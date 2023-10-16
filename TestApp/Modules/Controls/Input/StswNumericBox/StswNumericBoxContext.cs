@@ -5,13 +5,13 @@ namespace TestApp;
 
 public class StswNumericBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand { get; set; }
+    public StswCommand RandomizeCommand { get; set; }
 
     public StswNumericBoxContext()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        ClearCommand = new(Clear);
+        RandomizeCommand = new(Randomize);
     }
 
     #region Events and methods
@@ -40,8 +40,8 @@ public class StswNumericBoxContext : ControlsContext
     }
 
     /// Increment
-    private double increment = 1;
-    public double Increment
+    private decimal increment = 1;
+    public decimal Increment
     {
         get => increment;
         set => SetProperty(ref increment, value);
@@ -56,23 +56,23 @@ public class StswNumericBoxContext : ControlsContext
     }
 
     /// Maximum
-    private double? maximum;
-    public double? Maximum
+    private decimal? maximum;
+    public decimal? Maximum
     {
         get => maximum;
         set => SetProperty(ref maximum, value);
     }
     /// Minimum
-    private double? minimum;
-    public double? Minimum
+    private decimal? minimum;
+    public decimal? Minimum
     {
         get => minimum;
         set => SetProperty(ref minimum, value);
     }
 
     /// SelectedValue
-    private double? selectedValue = 0;
-    public double? SelectedValue
+    private decimal? selectedValue = 0;
+    public decimal? SelectedValue
     {
         get => selectedValue;
         set => SetProperty(ref selectedValue, value);

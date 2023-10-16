@@ -1,11 +1,10 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox"/>'s type.
+/// Enumeration for <see cref="StswAdaptiveBox"/>'s type and for <see cref="StswFilter"/>'s type.
 /// </summary>
 public enum StswAdaptiveType
 {
-    Auto,
     Check,
     Date,
     List,
@@ -92,18 +91,6 @@ public enum StswFilterMode
     NotIn,
     Null,
     NotNull
-}
-
-/// <summary>
-/// Enumeration for <see cref="StswFilter"/>'s type.
-/// </summary>
-public enum StswFilterType
-{
-    Check,
-    Date,
-    List,
-    Number,
-    Text
 }
 
 /// <summary>

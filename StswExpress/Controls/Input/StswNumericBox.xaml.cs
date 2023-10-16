@@ -51,7 +51,7 @@ public class StswNumericBox : TextBox
     /// </summary>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
-        if (double.TryParse(Text, out var result))
+        if (decimal.TryParse(Text, out var result))
             Value = result;
         Value = Value == null ? 0 : Value + Increment;
     }
@@ -61,7 +61,7 @@ public class StswNumericBox : TextBox
     /// </summary>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
-        if (double.TryParse(Text, out var result))
+        if (decimal.TryParse(Text, out var result))
             Value = result;
         Value = Value == null ? 0 : Value - Increment;
     }
@@ -95,22 +95,22 @@ public class StswNumericBox : TextBox
 
         if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && Value.HasValue)
         {
-            if (double.TryParse(Text, out var result))
+            if (decimal.TryParse(Text, out var result))
                 Value = result;
 
             if (e.Delta > 0)
             {
-                if (double.MaxValue - Increment >= Value)
+                if (decimal.MaxValue - Increment >= Value)
                     Value += Increment;
                 else
-                    Value = double.MaxValue;
+                    Value = decimal.MaxValue;
             }
             else if (e.Delta < 0)
             {
-                if (double.MinValue + Increment <= Value)
+                if (decimal.MinValue + Increment <= Value)
                     Value -= Increment;
                 else
-                    Value = double.MinValue;
+                    Value = decimal.MinValue;
             }
 
             e.Handled = true;
@@ -120,7 +120,7 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// 
     /// </summary>
-    private double? MinMaxValidate(double? newValue)
+    private decimal? MinMaxValidate(decimal? newValue)
     {
         if (newValue.HasValue)
         {
@@ -141,10 +141,10 @@ public class StswNumericBox : TextBox
 
         if (string.IsNullOrEmpty(Text))
             result = null;
-        else if (StswFn.TryCalculateString(Text, out var res))
-            result = res;
-        else if (double.TryParse(Text, out res))
-            result = res;
+        else if (StswFn.TryCalculateString(Text, out var res1))
+            result = Convert.ToDecimal(res1);
+        else if (decimal.TryParse(Text, out var res2))
+            result = res2;
 
         if (result != Value || alwaysUpdate)
         {
@@ -228,32 +228,32 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// Gets or sets the increment value used when clicking the "Up" or "Down" button.
     /// </summary>
-    public double Increment
+    public decimal Increment
     {
-        get => (double)GetValue(IncrementProperty);
+        get => (decimal)GetValue(IncrementProperty);
         set => SetValue(IncrementProperty, value);
     }
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(
             nameof(Increment),
-            typeof(double),
+            typeof(decimal),
             typeof(StswNumericBox)
         );
 
     /// <summary>
     /// Gets or sets the maximum allowable value in the control.
     /// </summary>
-    public double? Maximum
+    public decimal? Maximum
     {
-        get => (double?)GetValue(MaximumProperty);
+        get => (decimal?)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
-            typeof(double?),
+            typeof(decimal?),
             typeof(StswNumericBox),
-            new PropertyMetadata(default(double?), OnMinMaxChanged)
+            new PropertyMetadata(default(decimal?), OnMinMaxChanged)
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
@@ -266,17 +266,17 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// Gets or sets the minimum allowable value in the control.
     /// </summary>
-    public double? Minimum
+    public decimal? Minimum
     {
-        get => (double?)GetValue(MinimumProperty);
+        get => (decimal?)GetValue(MinimumProperty);
         set => SetValue(MinimumProperty, value);
     }
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
-            typeof(double?),
+            typeof(decimal?),
             typeof(StswNumericBox),
-            new PropertyMetadata(default(double?), OnMinMaxChanged)
+            new PropertyMetadata(default(decimal?), OnMinMaxChanged)
         );
 
     /// <summary>
@@ -310,17 +310,17 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// Gets or sets the numeric value of the control.
     /// </summary>
-    public double? Value
+    public decimal? Value
     {
-        get => (double?)GetValue(ValueProperty);
+        get => (decimal?)GetValue(ValueProperty);
         set => SetValue(ValueProperty, MinMaxValidate(value));
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
             nameof(Value),
-            typeof(double?),
+            typeof(decimal?),
             typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(double?),
+            new FrameworkPropertyMetadata(default(decimal?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );

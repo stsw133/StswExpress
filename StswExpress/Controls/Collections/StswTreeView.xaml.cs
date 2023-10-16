@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a control that displays a collection of items in a hierarchical list.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
 /// </summary>
 public class StswTreeView : TreeView
 {
@@ -15,34 +12,6 @@ public class StswTreeView : TreeView
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTreeView), new FrameworkPropertyMetadata(typeof(StswTreeView)));
     }
-
-    #region Events & methods
-    /// <summary>
-    /// 
-    /// </summary>
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
-    {
-        base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>() != null;
-    }
-    #endregion
-
-    #region Main properties
-    /// <summary>
-    /// 
-    /// </summary>
-    internal bool UsesSelectionItems
-    {
-        get => (bool)GetValue(UsesSelectionItemsProperty);
-        set => SetValue(UsesSelectionItemsProperty, value);
-    }
-    public static readonly DependencyProperty UsesSelectionItemsProperty
-        = DependencyProperty.Register(
-            nameof(UsesSelectionItems),
-            typeof(bool),
-            typeof(StswTreeView)
-        );
-    #endregion
 
     #region Style properties
     /// <summary>

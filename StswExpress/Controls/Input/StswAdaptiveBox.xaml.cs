@@ -27,7 +27,7 @@ public class StswAdaptiveBox : Control
     {
         base.OnApplyTemplate();
 
-        OnValueChanged(this, new DependencyPropertyChangedEventArgs());
+        OnTypeChanged(this, new DependencyPropertyChangedEventArgs());
     }
     #endregion
 
@@ -111,17 +111,17 @@ public class StswAdaptiveBox : Control
     /// <summary>
     /// Gets or sets the type of box to be applied.
     /// </summary>
-    public StswAdaptiveType Type
+    public StswAdaptiveType? Type
     {
-        get => (StswAdaptiveType)GetValue(TypeProperty);
+        get => (StswAdaptiveType?)GetValue(TypeProperty);
         set => SetValue(TypeProperty, value);
     }
     public static readonly DependencyProperty TypeProperty
         = DependencyProperty.Register(
             nameof(Type),
-            typeof(StswAdaptiveType),
+            typeof(StswAdaptiveType?),
             typeof(StswAdaptiveBox),
-            new FrameworkPropertyMetadata(default(StswAdaptiveType),
+            new FrameworkPropertyMetadata(default(StswAdaptiveType?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -129,69 +129,45 @@ public class StswAdaptiveBox : Control
     {
         if (obj is StswAdaptiveBox stsw)
         {
-            switch (stsw.Type)
+            if (stsw.Type == null)
             {
-                case StswAdaptiveType.Auto:
-                    if (stsw.Value is bool?)
-                        stsw.TypeOfControl = typeof(StswCheckBox);
-                    else if (stsw.Value is DateTime?)
-                        stsw.TypeOfControl = typeof(StswDatePicker);
-                    else if (stsw.Value is decimal? || stsw.Value is double? || stsw.Value is int?)
-                        stsw.TypeOfControl = typeof(StswNumericBox);
-                    else if (stsw.Value is string)
-                        stsw.TypeOfControl = typeof(StswTextBox);
-                    else if (stsw.Value is IEnumerable)
-                        stsw.TypeOfControl = typeof(StswSelectionBox);
-                    else if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b and not null)
+                /// find type based on binded property type
+                if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b and not null)
+                {
+                    if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t and not null)
                     {
-                        if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t and not null)
-                        {
-                            if (t.In(typeof(bool), typeof(bool?)))
-                                stsw.TypeOfControl = typeof(StswCheckBox);
-                            else if (t.In(typeof(DateTime), typeof(DateTime?)))
-                                stsw.TypeOfControl = typeof(StswDatePicker);
-                            else if (t.IsNumericType())
-                                stsw.TypeOfControl = typeof(StswNumericBox);
-                            else if (t.In(typeof(string)))
-                                stsw.TypeOfControl = typeof(StswTextBox);
-                            else if (t.IsAssignableFrom(typeof(IEnumerable)))
-                                stsw.TypeOfControl = typeof(StswSelectionBox);
-                        }
+                        if (t.In(typeof(bool), typeof(bool?)))
+                            stsw.Type = StswAdaptiveType.Check;
+                        else if (t.In(typeof(DateTime), typeof(DateTime?)))
+                            stsw.Type = StswAdaptiveType.Date;
+                        else if (t.IsAssignableFrom(typeof(IEnumerable)))
+                            stsw.Type = StswAdaptiveType.List;
+                        else if (t.IsNumericType())
+                            stsw.Type = StswAdaptiveType.Number;
+                        else if (t.In(typeof(string)))
+                            stsw.Type = StswAdaptiveType.Text;
                     }
-                    break;
-                case StswAdaptiveType.Check:
-                    stsw.TypeOfControl = typeof(StswCheckBox);
-                    break;
-                case StswAdaptiveType.Date:
-                    stsw.TypeOfControl = typeof(StswDatePicker);
-                    break;
-                case StswAdaptiveType.List:
-                    stsw.TypeOfControl = typeof(StswSelectionBox);
-                    break;
-                case StswAdaptiveType.Number:
-                    stsw.TypeOfControl = typeof(StswNumericBox);
-                    break;
-                case StswAdaptiveType.Text:
-                    stsw.TypeOfControl = typeof(StswTextBox);
-                    break;
+                }
+
+                /// if type is still not found then try to determine type based on value
+                if (stsw.Type == null)
+                {
+                    if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Check;
+                    else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Date;
+                    else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
+                          || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
+                          || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
+                        stsw.Type = StswAdaptiveType.Number;
+                    else if (stsw.Value is string)
+                        stsw.Type = StswAdaptiveType.Text;
+                    else if (stsw.Value is IEnumerable)
+                        stsw.Type = StswAdaptiveType.List;
+                }
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the <see cref="Type"/> of box to be applied.
-    /// </summary>
-    public Type? TypeOfControl
-    {
-        get => (Type?)GetValue(TypeOfControlProperty);
-        internal set => SetValue(TypeOfControlProperty, value);
-    }
-    public static readonly DependencyProperty TypeOfControlProperty
-        = DependencyProperty.Register(
-            nameof(TypeOfControl),
-            typeof(Type),
-            typeof(StswAdaptiveBox)
-        );
 
     /// <summary>
     /// Gets or sets the first value used in filtering.
@@ -208,16 +184,8 @@ public class StswAdaptiveBox : Control
             typeof(StswAdaptiveBox),
             new FrameworkPropertyMetadata(default(object?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswAdaptiveBox stsw)
-        {
-            if (stsw.Type == StswAdaptiveType.Auto)
-                OnTypeChanged(stsw, new DependencyPropertyChangedEventArgs());
-        }
-    }
     #endregion
 
     #region Style properties

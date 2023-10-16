@@ -63,11 +63,11 @@ public class StswFilter : Control
         {
             FilterMode = FilterType switch
             {
-                StswFilterType.Check => StswFilterMode.Equal,
-                StswFilterType.Date => StswFilterMode.Equal,
-                StswFilterType.List => StswFilterMode.In,
-                StswFilterType.Number => StswFilterMode.Equal,
-                StswFilterType.Text => StswFilterMode.Contains,
+                StswAdaptiveType.Check => StswFilterMode.Equal,
+                StswAdaptiveType.Date => StswFilterMode.Equal,
+                StswAdaptiveType.List => StswFilterMode.In,
+                StswAdaptiveType.Number => StswFilterMode.Equal,
+                StswAdaptiveType.Text => StswFilterMode.Contains,
                 _ => null
             };
         }
@@ -93,10 +93,10 @@ public class StswFilter : Control
     public void GenerateSqlString()
     {
         /// separator
-        var s = FilterType.In(StswFilterType.Date, StswFilterType.List, StswFilterType.Text) ? "'" : string.Empty;
+        var s = FilterType.In(StswAdaptiveType.Date, StswAdaptiveType.List, StswAdaptiveType.Text) ? "'" : string.Empty;
         /// case sensitive
-        var cs1 = FilterType.In(StswFilterType.List, StswFilterType.Text) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
-        var cs2 = FilterType.In(StswFilterType.List, StswFilterType.Text) && !IsFilterCaseSensitive ? ")" : string.Empty;
+        var cs1 = FilterType.In(StswAdaptiveType.List, StswAdaptiveType.Text) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
+        var cs2 = FilterType.In(StswAdaptiveType.List, StswAdaptiveType.Text) && !IsFilterCaseSensitive ? ")" : string.Empty;
         /// null sensitive
         var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
         var ns2 = string.Empty;
@@ -104,11 +104,11 @@ public class StswFilter : Control
         {
             ns2 = FilterType switch
             {
-                StswFilterType.Check => ", 0)",
-                StswFilterType.Date => ", '1900-01-01')",
-                StswFilterType.List => ", '')",
-                StswFilterType.Number => ", 0)",
-                StswFilterType.Text => ", '')",
+                StswAdaptiveType.Check => ", 0)",
+                StswAdaptiveType.Date => ", '1900-01-01')",
+                StswAdaptiveType.List => ", '')",
+                StswAdaptiveType.Number => ", 0)",
+                StswAdaptiveType.Text => ", '')",
                 _ => string.Empty
             };
         }
@@ -253,15 +253,15 @@ public class StswFilter : Control
     /// <summary>
     /// Gets or sets the type of filter to be applied.
     /// </summary>
-    public StswFilterType FilterType
+    public StswAdaptiveType FilterType
     {
-        get => (StswFilterType)GetValue(FilterTypeProperty);
+        get => (StswAdaptiveType)GetValue(FilterTypeProperty);
         set => SetValue(FilterTypeProperty, value);
     }
     public static readonly DependencyProperty FilterTypeProperty
         = DependencyProperty.Register(
             nameof(FilterType),
-            typeof(StswFilterType),
+            typeof(StswAdaptiveType),
             typeof(StswFilter)
         );
 

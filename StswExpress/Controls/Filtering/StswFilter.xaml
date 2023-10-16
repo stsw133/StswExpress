@@ -173,141 +173,53 @@
                                 <!-- controls -->
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
-                                    <ContentControl Focusable="False" IsTabStop="False">
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}">
+                                    <se:StswAdaptiveBox Type="{TemplateBinding FilterType}"
+                                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                        BorderThickness="0"
+                                                        CornerRadius="0"
+                                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                        ItemsSource="{TemplateBinding ItemsSource}"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        Placeholder=" . . . "
+                                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                        Value="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <se:StswAdaptiveBox.Resources>
+                                            <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
+                                            <Style TargetType="{x:Type se:StswCheckBox}">
+                                                <Setter Property="IsThreeState" Value="True"/>
                                                 <Style.Triggers>
-                                                    <!-- StswCheckBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Check">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswCheckBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                     BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                     IconIndeterminate="{x:Static se:StswIcons.DotsHorizontal}"
-                                                                                     IsChecked="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                     IsThreeState="True">
-                                                                        <se:StswCheckBox.Style>
-                                                                            <Style TargetType="{x:Type se:StswCheckBox}">
-                                                                                <Style.Triggers>
-                                                                                    <Trigger Property="IsChecked" Value="{x:Null}">
-                                                                                        <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
-                                                                                    </Trigger>
-                                                                                </Style.Triggers>
-                                                                            </Style>
-                                                                        </se:StswCheckBox.Style>
-                                                                    </se:StswCheckBox>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswDatePicker -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Date">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswDatePicker BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                       Placeholder=" . . . "
-                                                                                       SelectedDate="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswSelectionBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="List">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswSelectionBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                         BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                         Placeholder=" . . . "
-                                                                                         ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                         DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                         SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                         Text="{Binding Value1, Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswNumericBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Number">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswNumericBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                       Placeholder=" . . . "
-                                                                                       Value="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswTextBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Text">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswTextBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                    Placeholder=" . . . "
-                                                                                    Text="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                                        <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
+                                                    </Trigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
+                                        </se:StswAdaptiveBox.Resources>
+                                    </se:StswAdaptiveBox>
                                     <!-- second control -->
-                                    <ContentControl x:Name="PART_SecondControl" Focusable="False" IsTabStop="False" Visibility="Collapsed">
-                                        <ContentControl.Style>
-                                            <Style TargetType="{x:Type ContentControl}">
+                                    <se:StswAdaptiveBox x:Name="PART_SecondControl"
+                                                        Type="{TemplateBinding FilterType}"
+                                                        BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                        BorderThickness="0"
+                                                        CornerRadius="0"
+                                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                        ItemsSource="{TemplateBinding ItemsSource}"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        Placeholder=" . . . "
+                                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                        Value="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        Visibility="Collapsed">
+                                        <se:StswAdaptiveBox.Resources>
+                                            <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
+                                            <Style TargetType="{x:Type se:StswCheckBox}">
+                                                <Setter Property="IsThreeState" Value="True"/>
                                                 <Style.Triggers>
-                                                    <!-- StswDatePicker -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Date">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswDatePicker BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                       Placeholder=" . . . "
-                                                                                       SelectedDate="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswNumericBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Number">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswNumericBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                       BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                       Placeholder=" . . . "
-                                                                                       Value="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                    <!-- StswTextBox -->
-                                                    <DataTrigger Binding="{Binding FilterType, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}" Value="Text">
-                                                        <Setter Property="ContentTemplate">
-                                                            <Setter.Value>
-                                                                <DataTemplate>
-                                                                    <se:StswTextBox BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                                                    BorderThickness="0" CornerRadius="0" Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"
-                                                                                    Placeholder=" . . . "
-                                                                                    Text="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type se:StswFilter}}}"/>
-                                                                </DataTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
+                                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                                        <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
+                                                    </Trigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </ContentControl.Style>
-                                    </ContentControl>
+                                        </se:StswAdaptiveBox.Resources>
+                                    </se:StswAdaptiveBox>
                                 </UniformGrid>
                             </DockPanel>
                         </se:StswClippingBorder>
