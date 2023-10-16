@@ -6,8 +6,8 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
 
-        <Setter Property="Padding" Value="3 1"/>
         <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="Padding" Value="0"/>
         
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -17,88 +17,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswComponentButton}">
-                    <Border x:Name="PART_MainBorder" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <StackPanel Margin="1" Orientation="{TemplateBinding Orientation}">
-                            <!-- icon -->
-                            <ContentControl x:Name="PART_Icon"
-                                            Focusable="False"
-                                            Margin="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.1}"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <ContentControl.Style>
-                                    <Style TargetType="{x:Type ContentControl}">
-                                        <Style.Triggers>
-                                            <!-- StswIcon -->
-                                            <DataTrigger Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}}"
-                                                                         Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}">
-                                                                <se:StswIcon.Style>
-                                                                    <Style TargetType="{x:Type se:StswIcon}">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                                                                                <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}}"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </se:StswIcon.Style>
-                                                            </se:StswIcon>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <!-- StswLoadingCircle -->
-                                            <DataTrigger Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswLoadingCircle Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}">
-                                                                <se:StswLoadingCircle.Style>
-                                                                    <Style TargetType="{x:Type se:StswLoadingCircle}">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Text}"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                                                                                <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswComponentButton}}}"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </se:StswLoadingCircle.Style>
-                                                            </se:StswLoadingCircle>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>
-                            <!-- text -->
-                            <ContentPresenter x:Name="PART_Text"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Visibility="{TemplateBinding ContentVisibility}"/>
-                        </StackPanel>
-                    </Border>
+                    <se:StswHeader x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   ContentVisibility="{TemplateBinding ContentVisibility}"
+                                   CornerRadius="0"
+                                   IconData="{TemplateBinding IconData}"
+                                   IconScale="{TemplateBinding IconScale}"
+                                   IsBusy="{TemplateBinding IsBusy}"
+                                   Orientation="{TemplateBinding Orientation}"
+                                   Padding="{TemplateBinding Padding}"
+                                   SnapsToDevicePixels="True"
+                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <ContentPresenter/>
+                    </se:StswHeader>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Text"/>
-                        </Trigger>
-                        <Trigger Property="IconData" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}"/>
                         </Trigger>
@@ -106,7 +41,7 @@
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="Transparent" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
                             <!-- <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}"/> -->
                         </Trigger>
                     </ControlTemplate.Triggers>

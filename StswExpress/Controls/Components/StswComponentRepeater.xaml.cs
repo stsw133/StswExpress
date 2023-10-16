@@ -9,11 +9,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
-public class StswComponentRebutton : RepeatButton, IStswComponent
+public class StswComponentRepeater : RepeatButton, IStswComponent
 {
-    static StswComponentRebutton()
+    static StswComponentRepeater()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComponentRebutton), new FrameworkPropertyMetadata(typeof(StswComponentRebutton)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComponentRepeater), new FrameworkPropertyMetadata(typeof(StswComponentRepeater)));
     }
 
     #region Main properties
@@ -29,7 +29,7 @@ public class StswComponentRebutton : RepeatButton, IStswComponent
         = DependencyProperty.Register(
             nameof(ContentVisibility),
             typeof(Visibility),
-            typeof(StswComponentRebutton)
+            typeof(StswComponentRepeater)
         );
 
     /// <summary>
@@ -44,7 +44,7 @@ public class StswComponentRebutton : RepeatButton, IStswComponent
         = DependencyProperty.Register(
             nameof(IconData),
             typeof(Geometry),
-            typeof(StswComponentRebutton)
+            typeof(StswComponentRepeater)
         );
 
     /// <summary>
@@ -59,7 +59,7 @@ public class StswComponentRebutton : RepeatButton, IStswComponent
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength?),
-            typeof(StswComponentRebutton)
+            typeof(StswComponentRepeater)
         );
 
     /// <summary>
@@ -74,7 +74,7 @@ public class StswComponentRebutton : RepeatButton, IStswComponent
         = DependencyProperty.Register(
             nameof(IsBusy),
             typeof(bool),
-            typeof(StswComponentRebutton)
+            typeof(StswComponentRepeater)
         );
 
     /// <summary>
@@ -89,7 +89,7 @@ public class StswComponentRebutton : RepeatButton, IStswComponent
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswComponentRebutton)
+            typeof(StswComponentRepeater)
         );
     #endregion
 

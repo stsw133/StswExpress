@@ -43,7 +43,7 @@
                 <se:StswNavigationElement Text="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
                 <se:StswNavigationElement Text="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
                 <se:StswNavigationElement Text="StswComponentPanel" ContextNamespace="TestApp.StswComponentPanelContext"/>
-                <se:StswNavigationElement Text="StswComponentRebutton" ContextNamespace="TestApp.StswComponentRebuttonContext"/>
+                <se:StswNavigationElement Text="StswComponentRepeater" ContextNamespace="TestApp.StswComponentRepeaterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Date &amp; time" IconData="{x:Static se:StswIcons.Calendar}">
                 <se:StswNavigationElement Text="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>

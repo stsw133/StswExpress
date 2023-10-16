@@ -8,6 +8,7 @@
 
         <Setter Property="ExpandDirection" Value="Right"/>
         <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="Padding" Value="0"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -21,6 +22,7 @@
                         <DockPanel>
                             <!-- header -->
                             <se:StswComponentCheck x:Name="PART_Header"
+                                                   ContentVisibility="Collapsed"
                                                    IconScale="{TemplateBinding IconScale}"
                                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                    IsHitTestVisible="False"

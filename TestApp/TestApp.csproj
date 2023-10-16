@@ -72,7 +72,7 @@
     <Compile Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentRebutton\StswComponentRebuttonView.xaml.cs">
+    <Compile Update="Modules\Controls\Components\StswComponentRepeater\StswComponentRepeaterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml.cs">
@@ -249,7 +249,7 @@
     <Page Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentRebutton\StswComponentRebuttonView.xaml">
+    <Page Update="Modules\Controls\Components\StswComponentRepeater\StswComponentRepeaterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml">

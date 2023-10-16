@@ -3,11 +3,11 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class StswComponentRebuttonContext : ControlsContext
+public class StswComponentRepeaterContext : ControlsContext
 {
     public ICommand OnClickCommand { get; set; }
 
-    public StswComponentRebuttonContext()
+    public StswComponentRepeaterContext()
     {
         OnClickCommand = new StswCommand(OnClick);
     }

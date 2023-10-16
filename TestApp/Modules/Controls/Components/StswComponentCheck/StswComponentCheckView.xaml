@@ -63,7 +63,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
-                <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                <se:StswComponentCheck Content="Visibility"
+                                       ContentVisibility="{Binding ContentVisibility}"
+                                       FontSize="11"
                                        IconUnchecked="{x:Static se:StswIcons.EyeOff}"
                                        IconChecked="{x:Static se:StswIcons.Eye}"
                                        IconIndeterminate="{x:Static se:StswIcons.EyeOffOutline}"
@@ -75,10 +77,10 @@
                                        HorizontalAlignment="{Binding HorizontalAlignment}"
                                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                        VerticalAlignment="{Binding VerticalAlignment}"
-                                       VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                    <Label Content="Visibility" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                </se:StswComponentCheck>
-                <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                                       VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                <se:StswComponentCheck Content="Sound"
+                                       ContentVisibility="{Binding ContentVisibility}"
+                                       FontSize="11"
                                        IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
                                        IconChecked="{x:Static se:StswIcons.MusicNote}"
                                        IconIndeterminate="{x:Static se:StswIcons.MusicNoteOffOutline}"
@@ -90,10 +92,10 @@
                                        HorizontalAlignment="{Binding HorizontalAlignment}"
                                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                        VerticalAlignment="{Binding VerticalAlignment}"
-                                       VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                    <Label Content="Sound" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                </se:StswComponentCheck>
-                <se:StswComponentCheck ContentVisibility="{Binding ContentVisibility}"
+                                       VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                <se:StswComponentCheck Content="Wifi"
+                                       ContentVisibility="{Binding ContentVisibility}"
+                                       FontSize="11"
                                        IconUnchecked="{x:Static se:StswIcons.WifiOff}"
                                        IconChecked="{x:Static se:StswIcons.Wifi}"
                                        IconIndeterminate="{x:Static se:StswIcons.WifiStrengthOffOutline}"
@@ -105,9 +107,7 @@
                                        HorizontalAlignment="{Binding HorizontalAlignment}"
                                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                        VerticalAlignment="{Binding VerticalAlignment}"
-                                       VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                    <Label Content="Wifi" Padding="2 0 0 0" FontSize="11" VerticalContentAlignment="Center"/>
-                </se:StswComponentCheck>
+                                       VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             </UniformGrid>
             <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
         </Grid>

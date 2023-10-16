@@ -89,8 +89,8 @@
             <DataTemplate DataType="{x:Type local:StswComponentPanelContext}">
                 <local:StswComponentPanelView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentRebuttonContext}">
-                <local:StswComponentRebuttonView/>
+            <DataTemplate DataType="{x:Type local:StswComponentRepeaterContext}">
+                <local:StswComponentRepeaterView/>
             </DataTemplate>
             
             <!-- DateTime -->
