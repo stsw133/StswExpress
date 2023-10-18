@@ -51,26 +51,14 @@ public class StswApp : Application
         if (File.Exists(trFileName))
             StswTranslatorLanguagesLoader.Instance.AddFile(trFileName);
 
-        /// global commands
-        var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp?.Invoke()));
-
         /// global culture (does not work with converters)
         //Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
         //Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentCulture;
         //FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-
-        /// on exit
-        //Exit += (sender, e) => StswSettings.Default.Save();
     }
 
     /// <summary>
     /// Current application's main StswWindow.
     /// </summary>
     public static StswWindow StswWindow => (StswWindow)Current.MainWindow;
-
-    /// <summary>
-    /// Open current application's help.
-    /// </summary>
-    public static Action? OpenHelp;
 }

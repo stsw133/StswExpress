@@ -95,6 +95,12 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>
+                        <Trigger Property="Image" Value="Debug">
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.CodeBracesCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
+                        </Trigger>
                         <Trigger Property="Image" Value="Error">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>

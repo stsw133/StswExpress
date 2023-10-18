@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace TestApp;
@@ -21,7 +22,8 @@ public partial class App : StswApp
         StswDatabase.ImportDatabases();
         StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
-        OpenHelp = () => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
+        var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp()));
 
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages.Remove("pl");
@@ -31,8 +33,7 @@ public partial class App : StswApp
         //StswSettings.Default.Theme = (int)StswTheme.Dark;
     }
 
-    private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    {
-        StswLog.Write(StswLogType.Error, e.Exception.ToString());
-    }
+    private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => StswLog.Write(StswLogType.Error, e.Exception.ToString());
+
+    private void OpenHelp() => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
 }

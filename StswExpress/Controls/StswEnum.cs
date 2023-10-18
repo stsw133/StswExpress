@@ -46,7 +46,7 @@ public enum StswDateIncrementType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswContentDialog"/>'s buttons.
+/// Enumeration for <see cref="StswMessageDialog"/>'s buttons.
 /// </summary>
 public enum StswDialogButtons
 {
@@ -57,11 +57,12 @@ public enum StswDialogButtons
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswContentDialog"/>'s image.
+/// Enumeration for <see cref="StswMessageDialog"/>'s image.
 /// </summary>
 public enum StswDialogImage
 {
     None,
+    Debug,
     Error,
     Information,
     Question,
@@ -94,15 +95,6 @@ public enum StswFilterMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswSidePanel"/>'s hiding variant.
-/// </summary>
-public enum StswHidingVariant
-{
-    Hidden = 1,
-    Collapsed = 2
-}
-
-/// <summary>
 /// Enumeration for <see cref="StswLogItem"/>'s type.
 /// </summary>
 public enum StswLogType
@@ -121,8 +113,8 @@ public enum StswLogType
 public enum StswMenuMode
 {
     Disabled,
-    ReadOnly,
-    Full
+    Full,
+    ReadOnly
 }
 
 /// <summary>
@@ -144,8 +136,8 @@ public enum StswProgressTextMode
 {
     Custom = -1,
     None,
-    Value,
-    Percentage
+    Percentage,
+    Value
 }
 
 /// <summary>

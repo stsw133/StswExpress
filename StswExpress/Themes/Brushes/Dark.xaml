@@ -18,6 +18,7 @@
     <!-- StswControls -->
     <Thickness x:Key="StswAll.BorderThickness">2</Thickness>
     <CornerRadius x:Key="StswAll.CornerRadius">10</CornerRadius>
+    <sys:Double x:Key="StswAll.IconScale">1.5</sys:Double>
     <Thickness x:Key="StswAll.ItemThickness">1</Thickness>
     <Thickness x:Key="StswAll.Padding">3</Thickness>
     <sys:Double x:Key="StswAll.SeparatorThickness">2</sys:Double>

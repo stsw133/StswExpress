@@ -35,8 +35,8 @@ public class StswProgressBar : ProgressBar
             Text = TextMode switch
             {
                 StswProgressTextMode.None => string.Empty,
-                StswProgressTextMode.Value => $"{Value - Minimum} / {Maximum - Minimum}",
                 StswProgressTextMode.Percentage => $"{(int)((Value - Minimum) / (Maximum - Minimum) * 100)} %",
+                StswProgressTextMode.Value => $"{Value - Minimum} / {Maximum - Minimum}",
                 _ => null
             };
         }
