@@ -1,4 +1,8 @@
 {
+  "StswCalendar.Today": {
+    "en": "Today",
+    "pl": "Dzisiaj"
+  },
   "StswColorSelector.Auto": {
     "en": "Automatic",
     "pl": "Automatyczny"

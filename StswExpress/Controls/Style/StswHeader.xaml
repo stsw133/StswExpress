@@ -12,7 +12,7 @@
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
@@ -22,9 +22,12 @@
                                            Background="{TemplateBinding Background}"
                                            BorderBrush="{TemplateBinding BorderBrush}"
                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           DoClipping="False"
                                            SnapsToDevicePixels="True">
-                        <StackPanel Margin="{TemplateBinding Padding}" Orientation="{TemplateBinding Orientation}">
+                        <StackPanel Margin="{TemplateBinding Padding}"
+                                    Orientation="{TemplateBinding Orientation}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
