@@ -16,6 +16,12 @@
     <SolidColorBrush x:Key="StswColor.Designer" Color="#04a0c8"/>
 
     <!-- StswControls -->
+    <Thickness x:Key="StswAll.BorderThickness">2</Thickness>
+    <CornerRadius x:Key="StswAll.CornerRadius">10</CornerRadius>
+    <Thickness x:Key="StswAll.ItemThickness">1</Thickness>
+    <Thickness x:Key="StswAll.Padding">3</Thickness>
+    <sys:Double x:Key="StswAll.SeparatorThickness">2</sys:Double>
+    
     <SolidColorBrush x:Key="StswBorder.Static" Color="#D9B"/>
     <SolidColorBrush x:Key="StswBorder.Disabled" Color="#ECD"/>
 

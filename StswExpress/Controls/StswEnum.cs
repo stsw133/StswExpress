@@ -17,8 +17,8 @@ public enum StswAdaptiveType
 /// </summary>
 public enum StswCalendarMode
 {
-    ByYear,
-    ByMonth
+    ByMonth,
+    ByYear
 }
 
 /// <summary>

@@ -11,8 +11,8 @@
 
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -22,7 +22,6 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    ContentVisibility="{TemplateBinding ContentVisibility}"
-                                   CornerRadius="0"
                                    IconScale="{TemplateBinding IconScale}"
                                    IsBusy="{TemplateBinding IsBusy}"
                                    Orientation="{TemplateBinding Orientation}"

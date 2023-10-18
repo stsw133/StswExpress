@@ -28,7 +28,8 @@ public class StswClippingBorder : Border
     /// </summary>
     protected override void OnRender(DrawingContext dc)
     {
-        OnApplyChildClip();
+        if (DoClipping)
+            OnApplyChildClip();
         base.OnRender(dc);
     }
 
@@ -68,5 +69,22 @@ public class StswClippingBorder : Border
             child.Clip = _clipRect;
         }
     }
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool DoClipping
+    {
+        get => (bool)GetValue(DoClippingProperty);
+        set => SetValue(DoClippingProperty, value);
+    }
+    public static readonly DependencyProperty DoClippingProperty
+        = DependencyProperty.Register(
+            nameof(DoClipping),
+            typeof(bool),
+            typeof(StswClippingBorder)
+        );
     #endregion
 }
