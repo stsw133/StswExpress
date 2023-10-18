@@ -7,9 +7,9 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigation.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="SeparatorThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="SeparatorThickness" Value="1"/>
 
         <Setter Property="IsExtended" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

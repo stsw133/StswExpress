@@ -22,7 +22,7 @@ public class StswFilter : Control
 
     public StswFilter()
     {
-        SelectModeCommand = new StswCommand<StswFilterMode>(SelectMode_Executed);
+        SelectModeCommand = new StswCommand<StswFilterMode>(SelectMode);
     }
     static StswFilter()
     {
@@ -85,7 +85,7 @@ public class StswFilter : Control
     /// <summary>
     /// Event handler for executing when the filter mode is selected.
     /// </summary>
-    protected void SelectMode_Executed(StswFilterMode parameter) => FilterMode = parameter;
+    protected void SelectMode(StswFilterMode parameter) => FilterMode = parameter;
 
     /// <summary>
     /// Generates the SQL string based on the current filter settings.

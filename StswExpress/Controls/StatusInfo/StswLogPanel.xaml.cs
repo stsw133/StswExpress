@@ -17,7 +17,7 @@ public class StswLogPanel : ItemsControl
 
     public StswLogPanel()
     {
-        RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog_Executed);
+        RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog);
     }
     static StswLogPanel()
     {
@@ -68,7 +68,7 @@ public class StswLogPanel : ItemsControl
     /// <summary>
     /// 
     /// </summary>
-    public void RemoveLog_Executed(StswLogItem? item)
+    public void RemoveLog(StswLogItem? item)
     {
         if (ItemsSource is IList list and not null)
             list.Remove(item);

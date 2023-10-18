@@ -7,10 +7,10 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="PopupThickness" Value="2"/>
-        <Setter Property="SeparatorThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
+        <Setter Property="PopupThickness" Value="2"/>
+        <Setter Property="SeparatorThickness" Value="0"/>
         <Setter Property="SubItemIndentation" Value="20"/>
 
         <Setter Property="IconScale" Value="1.5"/>

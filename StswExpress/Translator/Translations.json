@@ -159,6 +159,10 @@
     "en": "Yes",
     "pl": "Tak"
   },
+  "StswTextEditor": {
+    "en": "Text editor",
+    "pl": "Edytor tekstu"
+  },
   "StswTextEditor.Edit": {
     "en": "Edit",
     "pl": "Edycja"
@@ -203,9 +207,17 @@
     "en": "New",
     "pl": "Nowy"
   },
+  "StswTextEditor.File.New.StswMessageDialog": {
+    "en": "Are you sure to discard all changes and create new file?",
+    "pl": "Czy na pewno chcesz porzucić zmiany i utworzyć nowy plik?"
+  },
   "StswTextEditor.File.Open": {
     "en": "Open",
     "pl": "Otwórz"
+  },
+  "StswTextEditor.File.Open.StswMessageDialog": {
+    "en": "Are you sure to discard all changes and open selected file?",
+    "pl": "Czy na pewno chcesz porzucić zmiany i otworzyć wskazany plik?"
   },
   "StswTextEditor.File.Print": {
     "en": "Print",
@@ -214,6 +226,10 @@
   "StswTextEditor.File.Reload": {
     "en": "Reload",
     "pl": "Załaduj ponownie"
+  },
+  "StswTextEditor.File.Reload.StswMessageDialog": {
+    "en": "Are you sure to discard all changes and reload file?",
+    "pl": "Czy na pewno chcesz porzucić zmiany i załadować ponownie plik?"
   },
   "StswTextEditor.File.Save": {
     "en": "Save",
@@ -243,9 +259,17 @@
     "en": "Detailed",
     "pl": "Szczegółowe"
   },
+  "StswTextEditor.Font.ColorHighlight": {
+    "en": "Color of highlight",
+    "pl": "Kolor wyróżnienia tekstu"
+  },
   "StswTextEditor.Font.ColorStandard": {
     "en": "Standard",
     "pl": "Standardowe"
+  },
+  "StswTextEditor.Font.ColorText": {
+    "en": "Color of text",
+    "pl": "Kolor tekstu"
   },
   "StswTextEditor.Font.FontDecrease": {
     "en": "Font decrease",
@@ -254,10 +278,6 @@
   "StswTextEditor.Font.FontIncrease": {
     "en": "Font increase",
     "pl": "Zwiększ czcionkę"
-  },
-  "StswTextEditor.Font.HighlightColor": {
-    "en": "Color of highlight",
-    "pl": "Kolor wyróżnienia tekstu"
   },
   "StswTextEditor.Font.Italic": {
     "en": "Italic",
@@ -274,10 +294,6 @@
   "StswTextEditor.Font.Superscript": {
     "en": "Superscript",
     "pl": "Indeks górny"
-  },
-  "StswTextEditor.Font.TextColor": {
-    "en": "Color of text",
-    "pl": "Kolor tekstu"
   },
   "StswTextEditor.Font.Underline": {
     "en": "Underline",

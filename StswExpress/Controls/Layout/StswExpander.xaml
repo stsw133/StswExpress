@@ -7,9 +7,9 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>

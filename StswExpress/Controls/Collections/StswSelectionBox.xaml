@@ -7,10 +7,10 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswDropButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="PopupThickness" Value="2"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        <Setter Property="PopupThickness" Value="2"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="MaxDropDownHeight" Value="120"/>

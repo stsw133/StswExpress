@@ -8,9 +8,9 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Format" Value="d"/>
         <Setter Property="IncrementType" Value="Day"/>

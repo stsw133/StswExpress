@@ -131,39 +131,40 @@ public class StswAdaptiveBox : Control
         {
             if (stsw.Type == null)
             {
-                /// find type based on binded property type
-                if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b and not null)
+                if (stsw.ItemsSource != default)
+                    stsw.Type = StswAdaptiveType.List;
+                else
                 {
-                    if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t and not null)
+                    /// find type based on binded property type
+                    if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b and not null)
                     {
-                        if (t.In(typeof(bool), typeof(bool?)))
+                        if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t and not null)
+                        {
+                            if (t.In(typeof(bool), typeof(bool?)))
+                                stsw.Type = StswAdaptiveType.Check;
+                            else if (t.In(typeof(DateTime), typeof(DateTime?)))
+                                stsw.Type = StswAdaptiveType.Date;
+                            else if (t.IsNumericType())
+                                stsw.Type = StswAdaptiveType.Number;
+                            else if (t.In(typeof(string)))
+                                stsw.Type = StswAdaptiveType.Text;
+                        }
+                    }
+
+                    /// if type is still not found then try to determine type based on value
+                    if (stsw.Type == null)
+                    {
+                        if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
                             stsw.Type = StswAdaptiveType.Check;
-                        else if (t.In(typeof(DateTime), typeof(DateTime?)))
+                        else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
                             stsw.Type = StswAdaptiveType.Date;
-                        else if (t.IsAssignableFrom(typeof(IEnumerable)))
-                            stsw.Type = StswAdaptiveType.List;
-                        else if (t.IsNumericType())
+                        else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
+                              || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
+                              || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
                             stsw.Type = StswAdaptiveType.Number;
-                        else if (t.In(typeof(string)))
+                        else if (stsw.Value is string)
                             stsw.Type = StswAdaptiveType.Text;
                     }
-                }
-
-                /// if type is still not found then try to determine type based on value
-                if (stsw.Type == null)
-                {
-                    if (stsw.Value is bool? || bool.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Check;
-                    else if (stsw.Value is DateTime? || DateTime.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Date;
-                    else if (stsw.Value is decimal? || decimal.TryParse(stsw.Value?.ToString(), out var _)
-                          || stsw.Value is double? || double.TryParse(stsw.Value?.ToString(), out var _)
-                          || stsw.Value is int? || int.TryParse(stsw.Value?.ToString(), out var _))
-                        stsw.Type = StswAdaptiveType.Number;
-                    else if (stsw.Value is string)
-                        stsw.Type = StswAdaptiveType.Text;
-                    else if (stsw.Value is IEnumerable)
-                        stsw.Type = StswAdaptiveType.List;
                 }
             }
         }
