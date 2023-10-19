@@ -113,6 +113,11 @@
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
                         <DockPanel Margin="{TemplateBinding Padding}">
+                            <DockPanel.Resources>
+                                <Style TargetType="{x:Type se:StswClippingBorder}">
+                                    <Setter Property="DoClipping" Value="False"/>
+                                </Style>
+                            </DockPanel.Resources>
 
                             <!-- automatic color -->
                             <se:StswButton DockPanel.Dock="Top"

@@ -14,7 +14,7 @@
         <Setter Property="ItemBorderThickness" Value="1"/>
         <Setter Property="ItemCornerRadius" Value="10"/>
         <Setter Property="ItemPadding" Value="3"/>
-        
+
         <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>

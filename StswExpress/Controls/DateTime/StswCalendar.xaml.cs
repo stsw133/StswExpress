@@ -63,7 +63,8 @@ public class StswCalendar : Control
         if (GetTemplateChild("PART_ButtonNextYear") is StswComponentRepeater btnNextYear)
             btnNextYear.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 120 : 12);
 
-        SelectedMonth = SelectedDate ?? DateTime.Now;
+        SelectedMonth = SelectedDate ?? DateTime.Now.Date;
+        OnSelectedDateChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -142,9 +143,6 @@ public class StswCalendar : Control
     private void SelectDate(DateTime? date)
     {
         SelectedDate = date;
-
-        if (SelectedDate.HasValue)
-            SelectedMonth = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, 1);
 
         /// for DatePicker
         var popupRootFinder = VisualTreeHelper.GetParent(this);
@@ -245,9 +243,12 @@ public class StswCalendar : Control
     {
         if (obj is StswCalendar stsw)
         {
+            if (stsw.SelectedDate.HasValue)
+                stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
+
             if (stsw.ListDays.FirstOrDefault(x => x.Date == (DateTime?)e.OldValue) is StswCalendarDay oldDay and not null)
                 oldDay.IsSelected = false;
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == (DateTime?)e.NewValue) is StswCalendarDay newDay and not null)
+            if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay and not null)
                 newDay.IsSelected = true;
 
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);

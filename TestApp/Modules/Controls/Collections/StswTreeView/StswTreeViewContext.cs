@@ -10,7 +10,7 @@ public class StswTreeViewContext : ControlsContext
     {
         new() { Display = "Option 1", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 1a" } } },
         new() { Display = "Option 2", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 2a" } } },
-        new() { Display = "Option 3", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 3a" } } },
+        new() { Display = "Option 3", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 3a", IsSelected = true } } },
         new() { Display = "Option 4", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 4a" } } },
         new() { Display = "Option 5", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 5a" } } },
         new() { Display = "Option 6", Value = new ObservableCollection<StswSelectionItem>() { new() { Display = "Option 6a" } } },
