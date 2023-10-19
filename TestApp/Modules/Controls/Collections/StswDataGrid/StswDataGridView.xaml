@@ -86,22 +86,6 @@
                         <TextBlock Text="There are some row details..." Margin="3"/>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
-
-                <se:StswDataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                                <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ShowDetails}" Value="False">
-                                <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ShowDetails}" Value="True">
-                                <Setter Property="DetailsVisibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </se:StswDataGrid.RowStyle>
             </se:StswDataGrid>
             <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
             <se:StswText Grid.Row="1" Margin="3" Padding="5">

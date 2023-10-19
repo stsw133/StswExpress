@@ -98,7 +98,7 @@
                         <Trigger Property="Image" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.CodeBracesCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Header"/>
                             <Setter Property="IconFill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Error">

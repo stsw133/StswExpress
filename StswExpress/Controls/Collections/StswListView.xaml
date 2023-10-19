@@ -30,7 +30,7 @@
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
                                            SnapsToDevicePixels="True">
-                        <se:StswScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" IsDynamic="True">
+                        <se:StswScrollViewer Focusable="False" IsDynamic="True" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollViewer>
                     </se:StswClippingBorder>

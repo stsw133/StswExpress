@@ -5839,9 +5839,6 @@ public static class StswIcons
     private static Geometry? codeBracesBox;
     public static Geometry CodeBracesBox => codeBracesBox ??= Geometry.Parse("M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M11 8H9V10C9 11.1 8.1 12 7 12C8.1 12 9 12.9 9 14V16H11V18H9C7.9 18 7 17.1 7 16V15C7 13.9 6.1 13 5 13V11C6.1 11 7 10.1 7 9V8C7 6.9 7.9 6 9 6H11V8M19 13C17.9 13 17 13.9 17 15V16C17 17.1 16.1 18 15 18H13V16H15V14C15 12.9 15.9 12 17 12C15.9 12 15 11.1 15 10V8H13V6H15C16.1 6 17 6.9 17 8V9C17 10.1 17.9 11 19 11V13Z");
     
-    private static Geometry? codeBracesCircle;
-    public static Geometry CodeBracesCircle => codeBracesCircle ??= Geometry.Parse("m 12,3 c -4.9705577,0 -9,4.0294423 -9,9 0,4.970558 4.0294423,9 9,9 4.970558,0 9,-4.029442 9,-9 C 21,7.0294423 16.970558,3 12,3 Z M 9,6 h 2 V 8 H 9 v 2 c 0,1.099999 -0.9000031,2 -2,2 1.0999969,0 2,0.900003 2,2 v 2 h 2 v 2 H 9 C 7.9000023,18 7,17.099999 7,16 V 15 C 7,13.900003 6.0999979,13 5,13 V 11 C 6.0999979,11 7,10.099999 7,9 V 8 C 7,6.9000023 7.9000023,6 9,6 Z m 4,0 h 2 c 1.099999,0 2,0.9000023 2,2 v 1 c 0,1.099999 0.900003,2 2,2 v 2 c -1.099997,0 -2,0.900003 -2,2 v 1 c 0,1.099999 -0.900001,2 -2,2 h -2 v -2 h 2 v -2 c 0,-1.099997 0.900003,-2 2,-2 -1.099997,0 -2,-0.900001 -2,-2 V 8 h -2 z");
-
     private static Geometry? codeBrackets;
     public static Geometry CodeBrackets => codeBrackets ??= Geometry.Parse("M15,4V6H18V18H15V20H20V4M4,4V20H9V18H6V6H9V4H4Z");
 

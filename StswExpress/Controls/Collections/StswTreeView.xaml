@@ -98,9 +98,7 @@
                                             SnapsToDevicePixels="True"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <ContentPresenter x:Name="PART_Header"
-                                                          ContentSource="Header"
-                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        <ContentPresenter ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                     </Border>
                                     <ItemsPresenter x:Name="PART_Items" Grid.Column="1" Grid.Row="1"/>
                                 </Grid>

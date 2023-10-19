@@ -34,8 +34,12 @@ public class StswDataGrid : DataGrid
     {
         base.OnApplyTemplate();
 
-        ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
+        ColumnHeaderStyle = ColumnHeaderStyle;
+        RowHeaderStyle = RowHeaderStyle;
+        //ColumnHeaderStyle = (Style)FindResource("StswDataGridColumnHeaderStyle");
+        //RowHeaderStyle = (Style)FindResource("StswDataGridRowHeaderStyle");
 
+        /// filters
         FiltersData = new()
         {
             Clear = ActionClear,
@@ -182,6 +186,13 @@ public class StswDataGrid : DataGrid
                 /// set visibility for header
                 //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid and not null)
                 //    grid.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
+
+                /// triggers
+                var newSetter = new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Collapsed);
+                var newTrigger = new DataTrigger() { Binding = new Binding(nameof(IStswCollectionItem.ShowDetails)), Value = true };
+                newTrigger.Setters.Add(new Setter(DataGridRow.DetailsVisibilityProperty, Visibility.Visible));
+
+                stsw.RowStyle = stsw.MergeStyles(stsw.RowStyle, newSetter, newTrigger);
             }
             else if (specialColumn != null)
             {
@@ -191,6 +202,20 @@ public class StswDataGrid : DataGrid
                 stsw.Columns.Remove(specialColumn);
             }
         }
+    }
+    private bool HasSetter(Style style, DependencyProperty property) => style.Setters.OfType<Setter>().Any(setter => setter.Property == property);
+    private bool HasTrigger(Style style, string bindingPath) => style.Triggers.OfType<DataTrigger>().Any(trigger => trigger.Binding is Binding binding && binding.Path?.Path == bindingPath);
+    private Style MergeStyles(Style existingStyle, Setter newSetter, DataTrigger newTrigger)
+    {
+        var mergedStyle = existingStyle ?? new Style(typeof(DataGridRow));
+
+        if (!HasSetter(mergedStyle, DataGridRow.DetailsVisibilityProperty))
+            mergedStyle.Setters.Add(newSetter);
+
+        if (!HasTrigger(mergedStyle, nameof(IStswCollectionItem.ShowDetails)))
+            mergedStyle.Triggers.Add(newTrigger);
+
+        return mergedStyle;
     }
     #endregion
 

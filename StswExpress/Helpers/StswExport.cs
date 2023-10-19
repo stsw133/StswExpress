@@ -50,7 +50,7 @@ public static class StswExport
                             Attribute = p.GetCustomAttribute<StswExportAttribute>(),
                             Order = p.GetCustomAttribute<StswExportAttribute>()?.Order ?? 0
                         })
-                        .Where(p => p.Attribute?.IsColumnIgnored == false || (additionalParameters?.ExcludeNonAttributed == true && p.Attribute?.IsColumnIgnored != true))
+                        .Where(p => p.Attribute?.IsColumnIgnored == false || (additionalParameters?.IncludeNonAttributed == true && p.Attribute?.IsColumnIgnored != true))
                         .OrderBy(p => p.Order)
                         .Select(p => p.Property)
                         .ToList();
@@ -169,6 +169,6 @@ public class StswExportAttribute : Attribute
 /// </summary>
 public class StswExportParameters
 {
-    public bool ExcludeNonAttributed { get; set; } = false;
+    public bool IncludeNonAttributed { get; set; } = false;
     public string RecommendedFileName { get; set; } = string.Empty;
 }

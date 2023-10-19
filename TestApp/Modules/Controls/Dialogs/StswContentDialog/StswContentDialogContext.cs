@@ -21,7 +21,7 @@ public class StswContentDialogContext : ControlsContext
 
         //StswContentDialog.Show(new ContractorsContext(), StswApp.StswWindow);
 
-        IsOpen = true;
+        await Task.Run(() => IsOpen = true);
 
         //StswContentDialog.Close("TEST", true);
     }

@@ -13,7 +13,7 @@
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="MaxDropDownHeight" Value="120"/>
+        <Setter Property="MaxDropDownHeight" Value="140"/>
 
         <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>

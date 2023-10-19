@@ -185,22 +185,6 @@
                     -->
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
-
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                            <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ShowDetails}" Value="False">
-                            <Setter Property="DetailsVisibility" Value="Collapsed"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ShowDetails}" Value="True">
-                            <Setter Property="DetailsVisibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
         </se:StswDataGrid>
     </DockPanel>
 </UserControl>

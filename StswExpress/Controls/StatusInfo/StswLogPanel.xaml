@@ -81,7 +81,7 @@
                         <DataTrigger Binding="{Binding Type}" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.CodeBracesCircle}" TargetName="PART_Icon"/>
+                            <Setter Property="Data" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Icon"/>
                             <Setter Property="Fill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Icon"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Type}" Value="Error">
