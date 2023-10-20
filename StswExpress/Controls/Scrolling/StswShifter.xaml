@@ -51,7 +51,7 @@
                                                  VerticalAlignment="Stretch"
                                                  Style="{TemplateBinding ButtonStyle}"
                                                  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}"/>
                             </se:StswRepeatButton>
                             <se:StswRepeatButton x:Name="PART_ButtonDown" Grid.Column="1" Grid.Row="2"
                                                  CornerRadius="0"
@@ -61,7 +61,7 @@
                                                  VerticalAlignment="Stretch"
                                                  Style="{TemplateBinding ButtonStyle}"
                                                  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
                             </se:StswRepeatButton>
                             <se:StswRepeatButton x:Name="PART_ButtonLeft" Grid.Column="0" Grid.Row="1"
                                                  CornerRadius="0"
@@ -71,7 +71,7 @@
                                                  VerticalAlignment="Stretch"
                                                  Style="{TemplateBinding ButtonStyle}"
                                                  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuLeft}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuLeft}"/>
                             </se:StswRepeatButton>
                             <se:StswRepeatButton x:Name="PART_ButtonRight" Grid.Column="2" Grid.Row="1"
                                                  CornerRadius="0"
@@ -81,7 +81,7 @@
                                                  VerticalAlignment="Stretch"
                                                  Style="{TemplateBinding ButtonStyle}"
                                                  Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuRight}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuRight}"/>
                             </se:StswRepeatButton>
                         </Grid>
                     </se:StswClippingBorder>

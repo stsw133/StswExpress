@@ -126,7 +126,7 @@
                         <DockPanel>
                             <!-- arrow -->
                             <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
                             </ContentControl>
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
@@ -255,7 +255,6 @@
                                             <se:StswIcon x:Name="PART_Arrow" Grid.Column="1"
                                                          Data="{x:Static se:StswIcons.MenuDown}"
                                                          Margin="{TemplateBinding Padding}"
-                                                         Scale="1.5"
                                                          SnapsToDevicePixels="False"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center"

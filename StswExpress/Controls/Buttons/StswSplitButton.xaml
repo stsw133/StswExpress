@@ -59,7 +59,7 @@
                                                     HorizontalAlignment="Right"
                                                     Width="24"
                                                     Visibility="Visible">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
                                     </ContentControl>
                                 </DockPanel>
                             </se:StswToggleButton>

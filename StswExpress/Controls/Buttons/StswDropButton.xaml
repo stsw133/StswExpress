@@ -49,7 +49,7 @@
                                             HorizontalAlignment="Right"
                                             Width="24"
                                             Visibility="{TemplateBinding ArrowVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
                             </ContentControl>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"

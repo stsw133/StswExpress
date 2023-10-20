@@ -1,7 +1,7 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox"/>'s type and for <see cref="StswFilter"/>'s type.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and for <see cref="StswFilter.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -13,7 +13,7 @@ public enum StswAdaptiveType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswCalendar"/>'s mode.
+/// Enumeration for <see cref="StswCalendar.SelectionMode"/>.
 /// </summary>
 public enum StswCalendarMode
 {
@@ -22,7 +22,7 @@ public enum StswCalendarMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswDatabase"/>'s type.
+/// Enumeration for <see cref="StswDatabaseModel.Type"/>.
 /// </summary>
 public enum StswDatabaseType
 {
@@ -32,7 +32,7 @@ public enum StswDatabaseType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswDatePicker"/>'s increment type.
+/// Enumeration for <see cref="StswDatePicker.IncrementType"/>.
 /// </summary>
 public enum StswDateIncrementType
 {
@@ -46,7 +46,7 @@ public enum StswDateIncrementType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswMessageDialog"/>'s buttons.
+/// Enumeration for <see cref="StswMessageDialog.Buttons"/>.
 /// </summary>
 public enum StswDialogButtons
 {
@@ -57,7 +57,7 @@ public enum StswDialogButtons
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswMessageDialog"/>'s image.
+/// Enumeration for <see cref="StswMessageDialog.Image"/>.
 /// </summary>
 public enum StswDialogImage
 {
@@ -71,7 +71,7 @@ public enum StswDialogImage
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilter"/>'s mode.
+/// Enumeration for <see cref="StswFilter.FilterMode"/>.
 /// </summary>
 public enum StswFilterMode
 {
@@ -95,7 +95,7 @@ public enum StswFilterMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswLogItem"/>'s type.
+/// Enumeration for <see cref="StswLogItem.Type"/>.
 /// </summary>
 public enum StswLogType
 {
@@ -108,7 +108,7 @@ public enum StswLogType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswImage"/>'s menu mode.
+/// Enumeration for <see cref="StswImage.MenuMode"/>.
 /// </summary>
 public enum StswMenuMode
 {
@@ -118,7 +118,7 @@ public enum StswMenuMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar"/>'s states.
+/// Enumeration for <see cref="StswProgressBar.State"/>.
 /// </summary>
 public enum StswProgressState
 {
@@ -130,7 +130,7 @@ public enum StswProgressState
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar"/>'s text mode.
+/// Enumeration for <see cref="StswProgressBar.TextMode"/>.
 /// </summary>
 public enum StswProgressTextMode
 {
@@ -141,7 +141,7 @@ public enum StswProgressTextMode
 }
 
 /// <summary>
-/// Enumerator for <see cref="StswDataGrid"/>'s special column visibility.
+/// Enumerator for <see cref="StswDataGrid.SpecialColumnVisibility"/>.
 /// </summary>
 public enum StswSpecialColumnVisibility
 {
@@ -151,7 +151,7 @@ public enum StswSpecialColumnVisibility
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswResources"/>'s theme color.
+/// Enumeration for <see cref="StswResources.Theme"/>.
 /// </summary>
 public enum StswTheme
 {
@@ -162,7 +162,7 @@ public enum StswTheme
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswTextEditor"/>'s toolbar mode.
+/// Enumeration for <see cref="StswTextEditor.ToolbarMode"/>.
 /// </summary>
 public enum StswToolbarMode
 {

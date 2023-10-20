@@ -39,7 +39,7 @@
                                                          BorderThickness="0" CornerRadius="0" Focusable="False"
                                                          IsChecked="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"
                                                          Padding="5">
-                                        <se:StswHeader IconData="{x:Static se:StswIcons.Menu}" IconScale="1.5"/>
+                                        <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
                                     <!-- navigation pinned items -->
                                     <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">

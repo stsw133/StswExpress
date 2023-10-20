@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace TestApp;
@@ -59,12 +60,12 @@ public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem
         set => SetProperty(ref name, value);
     }
 
-    /// ErrorMessage
-    private string? errorMessage;
-    public string? ErrorMessage
+    /// ItemMessage
+    private string? itemMessage;
+    public string? ItemMessage
     {
-        get => errorMessage;
-        set => SetProperty(ref errorMessage, value);
+        get => itemMessage;
+        set => SetProperty(ref itemMessage, value);
     }
 
     /// ItemState

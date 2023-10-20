@@ -13,23 +13,26 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
 {
     public StswCollection() : base()
     {
-
     }
     public StswCollection(IEnumerable<T> items) : base(items)
     {
         foreach (var item in items)
-        {
-            _itemStates[item] = item.ItemState = DataRowState.Unchanged;
-            item.PropertyChanged += Item_PropertyChanged;
-        }
+            InitializeItem(item);
     }
     public StswCollection(IList<T> items) : base(items)
     {
         foreach (var item in items)
-        {
-            _itemStates[item] = item.ItemState = DataRowState.Unchanged;
-            item.PropertyChanged += Item_PropertyChanged;
-        }
+            InitializeItem(item);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void InitializeItem(T item)
+    {
+        _itemStates[item] = item.ItemState = DataRowState.Unchanged;
+        item.PropertyChanged += Item_PropertyChanged;
     }
 
     /// <summary>
@@ -52,11 +55,7 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         }
 
         base.ClearItems();
-
-        OnPropertyChanged(nameof(Added));
-        OnPropertyChanged(nameof(Modified));
-        OnPropertyChanged(nameof(Deleted));
-        OnPropertyChanged(nameof(Count));
+        NotifyStateChanges();
     }
 
     /// <summary>
@@ -68,11 +67,7 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
 
         _itemStates[item] = item.ItemState = DataRowState.Added;
         item.PropertyChanged += Item_PropertyChanged;
-
-        OnPropertyChanged(nameof(Added));
-        OnPropertyChanged(nameof(Modified));
-        OnPropertyChanged(nameof(Deleted));
-        OnPropertyChanged(nameof(Count));
+        NotifyStateChanges();
     }
 
     /// <summary>
@@ -94,11 +89,7 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         }
 
         base.RemoveItem(index);
-
-        OnPropertyChanged(nameof(Added));
-        OnPropertyChanged(nameof(Modified));
-        OnPropertyChanged(nameof(Deleted));
-        OnPropertyChanged(nameof(Count));
+        NotifyStateChanges();
     }
 
     /// <summary>
@@ -116,30 +107,22 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
         _itemStates[item] = item.ItemState = DataRowState.Modified;
         item.PropertyChanged += Item_PropertyChanged;
 
-        OnPropertyChanged(nameof(Added));
-        OnPropertyChanged(nameof(Modified));
-        OnPropertyChanged(nameof(Deleted));
-        OnPropertyChanged(nameof(Count));
+        NotifyStateChanges();
     }
 
     /// <summary>
-    /// Handles the PropertyChanged event of the collection item and updates its state when a property other than "ItemState" or "ShowDetails" changes.
+    /// Handles the PropertyChanged event of the collection item and updates its state when a property changes
+    /// (other than those from <see cref="IStswCollectionItem"/>).
     /// </summary>
     private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var item = (T?)sender;
-
-        if (e.PropertyName.In(nameof(item.ItemState), nameof(item.ShowDetails)))
+        if (sender is not T item || e.PropertyName.In(nameof(item.ItemMessage), nameof(item.ItemState), nameof(item.ShowDetails)))
             return;
 
         if (item?.ItemState == DataRowState.Unchanged)
         {
             _itemStates[item] = item.ItemState = DataRowState.Modified;
-
-            OnPropertyChanged(nameof(Added));
-            OnPropertyChanged(nameof(Modified));
-            OnPropertyChanged(nameof(Deleted));
-            OnPropertyChanged(nameof(Count));
+            NotifyStateChanges();
         }
     }
 
@@ -158,35 +141,22 @@ public class StswCollection<T> : ObservableCollection<T>, INotifyPropertyChanged
     /// <summary>
     /// Gets a list of collection items that match the specified DataRowState.
     /// </summary>
-    public List<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key).ToList();
-    public int Added => GetItemsByState(DataRowState.Added).Count;
-    public int Modified => GetItemsByState(DataRowState.Modified).Count;
-    public int Deleted => GetItemsByState(DataRowState.Deleted).Count;
+    public IEnumerable<T> GetItemsByState(DataRowState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key);
+    public int Added => GetItemsByState(DataRowState.Added).Count();
+    public int Modified => GetItemsByState(DataRowState.Modified).Count();
+    public int Deleted => GetItemsByState(DataRowState.Deleted).Count();
 
 
 
     /// Notify the view that the ItemStates property has changed
     public new event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-}
 
-/// <summary>
-/// Provides properties for tracking the state and error message of collection items.
-/// </summary>
-public interface IStswCollectionItem : INotifyPropertyChanged
-{
-    /// <summary>
-    /// Gets or sets the error message associated with the collection item.
-    /// </summary>
-    public string? ErrorMessage { get; set; }
-
-    /// <summary>
-    /// Gets or sets the state of the collection item.
-    /// </summary>
-    public DataRowState ItemState { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to show details for the collection item.
-    /// </summary>
-    public bool? ShowDetails { get; set; }
+    private void NotifyStateChanges()
+    {
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Modified));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Count));
+    }
 }

@@ -480,7 +480,7 @@
     <!-- StswDataGridSpecialColumn -->
     <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
-        <Grid>
+        <Grid Background="Transparent" ToolTip="{Binding ItemMessage}">
             <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">
                 <se:StswToggleButton.Resources>
                     <Style TargetType="{x:Type se:StswToggleButton}">
@@ -500,11 +500,14 @@
                 <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
             </se:StswToggleButton>
             <se:StswIcon x:Name="PART_Icon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.25"/>
+            <se:StswIcon x:Name="PART_MessageIcon" Data="{x:Static se:StswIcons.InformationSlabSymbol}" IsHitTestVisible="False" Scale="1.25"/>
         </Grid>
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding ErrorMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Error.Fill}" TargetName="PART_Icon"/>
-                <Setter Property="ToolTip" Value="{Binding ErrorMessage}"/>
+            <DataTrigger Binding="{Binding ItemMessage}" Value="{x:Null}">
+                <Setter Property="Fill" Value="Transparent" TargetName="PART_MessageIcon"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Message.Fill}" TargetName="PART_Icon"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding ItemState}" Value="Added">
                 <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Added.Fill}" TargetName="PART_Icon"/>

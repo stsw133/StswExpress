@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,9 +20,6 @@ public class ContractorsListContext : StswObservableObject
     public ICommand EditCommand { get; set; }
     public ICommand DeleteCommand { get; set; }
 
-    /// Item commands
-    public ICommand AddPdfCommand { get; set; }
-
     public ContractorsListContext()
     {
         SQL.InitializeContractorsTables();
@@ -36,7 +31,6 @@ public class ContractorsListContext : StswObservableObject
         CloneCommand = new StswAsyncCommand(Clone, CloneCondition);
         EditCommand = new StswAsyncCommand(Edit, EditCondition);
         DeleteCommand = new StswAsyncCommand(Delete, DeleteCondition);
-        AddPdfCommand = new StswAsyncCommand(AddPdf, AddPdfCondition);
     }
 
     #region Commands & methods
@@ -266,24 +260,6 @@ public class ContractorsListContext : StswObservableObject
     }
     private bool DeleteCondition() => SelectedContractor is ContractorModel m and not null;
 
-    /// AddPdf
-    private async Task AddPdf()
-    {
-        LoadingActions++;
-
-        if (SelectedContractor is ContractorModel m && m.ID > 0)
-        {
-            var dialog = new OpenFileDialog()
-            {
-                Filter = "PDF files|*.pdf"
-            };
-            if (dialog.ShowDialog() == true)
-                await Task.Run(() => SQL.AddPdf(m.ID, File.ReadAllBytes(dialog.FileName)));
-        }
-
-        LoadingActions--;
-    }
-    private bool AddPdfCondition() => SelectedContractor is ContractorModel m && m.ID > 0;
     #endregion
 
     #region Properties

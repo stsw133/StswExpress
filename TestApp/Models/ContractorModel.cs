@@ -109,13 +109,13 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private DateTime createDT = DateTime.Now;
 
     /// > IStswCollectionItem ...
-    /// ErrorMessage
-    public string? ErrorMessage
+    /// ItemMessage
+    public string? ItemMessage
     {
-        get => errorMessage;
-        set => SetProperty(ref errorMessage, value);
+        get => itemMessage;
+        set => SetProperty(ref itemMessage, value);
     }
-    private string? errorMessage;
+    private string? itemMessage;
 
     /// ItemState
     public DataRowState ItemState

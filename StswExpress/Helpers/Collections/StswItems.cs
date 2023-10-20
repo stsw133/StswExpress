@@ -1,4 +1,7 @@
-﻿namespace StswExpress;
+﻿using System.ComponentModel;
+using System.Data;
+
+namespace StswExpress;
 
 /// <summary>
 /// Provides a way to store and display pairs of display and value objects for use in combo boxes.
@@ -51,4 +54,25 @@ public class StswSelectionItem : StswComboItem, IStswSelection
         set => SetProperty(ref isSelected, value);
     }
     private bool isSelected;
+}
+
+/// <summary>
+/// Provides properties for tracking the state and error message of collection items.
+/// </summary>
+public interface IStswCollectionItem : INotifyPropertyChanged
+{
+    /// <summary>
+    /// Gets or sets the error message associated with the collection item.
+    /// </summary>
+    public string? ItemMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the state of the collection item.
+    /// </summary>
+    public DataRowState ItemState { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show details for the collection item.
+    /// </summary>
+    public bool? ShowDetails { get; set; }
 }

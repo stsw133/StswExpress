@@ -50,7 +50,7 @@
                                             HorizontalAlignment="Right"
                                             Width="24"
                                             Visibility="{TemplateBinding ArrowVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Scale="1.5"/>
+                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
                             </ContentControl>
                             <!-- components -->
                             <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
