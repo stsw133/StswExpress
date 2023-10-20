@@ -89,18 +89,26 @@
     <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#A89"/>
     <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#BBB"/>
 
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#201"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="#C7A7B7"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#D7B7C7"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Background" Color="#EFE5EA"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#666"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#CAB"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#F6D6E6"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Border" Color="#CAB"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Background" Color="#ECD"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Border" Color="#CAB"/>
-    
-    <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#FFF5FA"/>
-    <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#D9B"/>
-    <SolidColorBrush x:Key="StswDataGrid.Header.Background" Color="#EFE5EA"/>
-    <SolidColorBrush x:Key="StswDataGrid.Header.Border" Color="#D9B"/>
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Message.Fill" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Background" Color="#FDE"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Border" Color="#CAB"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Background" Color="#F6D6E6"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Border" Color="#CAB"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Background" Color="#ECD"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Border" Color="#CAB"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Background" Color="#FFF5FA"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Border" Color="#CAB"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#209fdf"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#df8f20"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#df2020"/>
@@ -248,7 +256,7 @@
     <SolidColorBrush x:Key="StswText.Disabled" Color="#999"/>
 
     <FontFamily x:Key="StswWindow.Font.Family">Book Antiqua</FontFamily>
-    <sys:Double x:Key="StswWindow.Font.Size">12.5</sys:Double>
+    <sys:Double x:Key="StswWindow.Font.Size">12.7</sys:Double>
     <SolidColorBrush x:Key="StswWindow.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswWindow.Static.Border" Color="#D9B"/>
     <SolidColorBrush x:Key="StswWindow.Static.Foreground" Color="#402"/>
@@ -258,27 +266,27 @@
 
 
     <!-- . . . -->
-    <Color x:Key="Color50">#ff101010</Color>
-    <Color x:Key="Color100">#ff1d1d1d</Color>
-    <Color x:Key="Color200">#ff323232</Color>
-    <Color x:Key="Color300">#ff555555</Color>
-    <Color x:Key="Color400">#ff6d6d6d</Color>
-    <Color x:Key="Color500">#ff9d9d9d</Color>
-    <Color x:Key="Color600">#ffc2c2c2</Color>
-    <Color x:Key="Color700">#ffeaeaea</Color>
-    <Color x:Key="Color800">#fff3f3f3</Color>
-    <Color x:Key="Color850">#fff8f8f8</Color>
-    <Color x:Key="Color900">#fffcfcfc</Color>
+    <Color x:Key="Color50">#ff030303</Color>
+    <Color x:Key="Color100">#ff080808</Color>
+    <Color x:Key="Color200">#ff0d0d0d</Color>
+    <Color x:Key="Color300">#ff141414</Color>
+    <Color x:Key="Color400">#ff3d3d3d</Color>
+    <Color x:Key="Color500">#ff616161</Color>
+    <Color x:Key="Color600">#ff919191</Color>
+    <Color x:Key="Color700">#ffababab</Color>
+    <Color x:Key="Color800">#ffcccccc</Color>
+    <Color x:Key="Color850">#ffe3e3e3</Color>
+    <Color x:Key="Color900">#fff0f0f0</Color>
 
-    <Color x:Key="SelectionColor1">#ff2a4652</Color>
-    <Color x:Key="SelectionColor2">#ff24a2e4</Color>
+    <Color x:Key="SelectionColor1">#ffaecad5</Color>
+    <Color x:Key="SelectionColor2">#ff1b97da</Color>
 
-    <Color x:Key="ForegroundColor">#000</Color>
-    <Color x:Key="ForegroundSecondaryColor">#111</Color>
-    <Color x:Key="ForegroundDisabledColor">#666</Color>
+    <Color x:Key="ForegroundColor">#e5000000</Color>
+    <Color x:Key="ForegroundSecondaryColor">#b3000000</Color>
+    <Color x:Key="ForegroundDisabledColor">#50000000</Color>
 
     <Color x:Key="GreenColor">#ff9a336d</Color>
 
-    <Color x:Key="ButtonColor">#ff4d4c4d</Color>
+    <Color x:Key="ButtonColor">#ffb3b2b3</Color>
 
 </ResourceDictionary>

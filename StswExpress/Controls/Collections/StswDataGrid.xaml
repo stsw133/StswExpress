@@ -4,8 +4,8 @@
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
     <Style TargetType="{x:Type se:StswDataGrid}">
-        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#5777"/>
         <Setter Property="VerticalGridLinesBrush" Value="#5777"/>
 
@@ -31,9 +31,10 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
+        <Setter Property="CellStyle" Value="{DynamicResource StswDataGridCellStyle}"/>
         <Setter Property="ColumnHeaderStyle" Value="{DynamicResource StswDataGridColumnHeaderStyle}"/>
         <Setter Property="RowHeaderStyle" Value="{DynamicResource StswDataGridRowHeaderStyle}"/>
-
+        <Setter Property="RowStyle" Value="{DynamicResource StswDataGridRowStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDataGrid}">
@@ -108,38 +109,6 @@
         </Style.Triggers>
     </Style>
 
-    <!-- data grid's button -->
-    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type se:StswDataGrid}, ResourceId=StswDataGridSelectAllButtonStyle}" TargetType="{x:Type se:StswButton}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswButton}">
-                    <Grid>
-                        <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
-                        <Polygon x:Name="Arrow"
-                                 Fill="Black"
-                                 Margin="8 8 3 3"
-                                 Opacity="0.15"
-                                 Points="0,10 10,10 10,0"
-                                 Stretch="Uniform"
-                                 HorizontalAlignment="Right"
-                                 VerticalAlignment="Bottom"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Arrow" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- data grid's column headers presenter -->
     <!--
     <Style x:Key="{x:Type DataGridColumnHeadersPresenter}" TargetType="{x:Type DataGridColumnHeadersPresenter}">
@@ -199,15 +168,17 @@
     </Style>
     -->
 
-    <!-- data grid's row -->
-    <Style x:Key="{x:Type DataGridRow}" TargetType="{x:Type DataGridRow}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+    <!-- StswDataGridRowStyle -->
+    <Style x:Key="StswDataGridRowStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{DynamicResource StswDataGrid.Row.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Row.Static.Border}"/>
+        
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="ValidationErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Foreground="Red" Text="!"/>
+                    <se:StswText Foreground="Red" Margin="2 0 0 0" Text="!" VerticalAlignment="Center"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -229,18 +200,15 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-
                             <DataGridCellsPresenter Grid.Column="1"
                                                     ItemsPanel="{TemplateBinding ItemsPanel}"
                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-
                             <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1"
-                                                      SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Path=AreRowDetailsFrozen, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}}"
+                                                      SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}}"
                                                       Visibility="{TemplateBinding DetailsVisibility}"/>
-
                             <DataGridRowHeader Grid.RowSpan="2"
                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                                               Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
+                                               Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
                         </SelectiveScrollingGrid>
                     </Border>
                 </ControlTemplate>
@@ -266,10 +234,12 @@
     </Style>
     -->
 
-    <!-- data grid's cell -->
-    <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+    <!-- StswDataGridCellStyle -->
+    <Style x:Key="StswDataGridCellStyle" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
+        
         <Setter Property="BorderThickness" Value="1"/>
         
         <Setter Property="Template">
@@ -287,29 +257,22 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                <Setter Property="Background" Value="{DynamicResource StswDataGrid.Cell.Checked.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Cell.Checked.Border}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Cell.Focused.Border}"/>
             </Trigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsSelected" Value="True"/>
-                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
-                </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-            </MultiTrigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                <Setter Property="Background" Value="{DynamicResource StswDataGrid.Cell.Disabled.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.Cell.Disabled.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource StswDataGrid.Cell.Disabled.Foreground}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- data grid's combobox column -->
+    <!--
     <Style x:Key="{x:Static DataGridComboBoxColumn.TextBlockComboBoxStyleKey}" TargetType="{x:Type ComboBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -319,7 +282,7 @@
                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                       IsHitTestVisible="False"
-                                      Margin="1 1 1 1"
+                                      Margin="1"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -327,6 +290,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    -->
 
     <!-- StswColumnHeaderGripperStyle -->
     <Style x:Key="StswColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
@@ -409,8 +373,8 @@
 
     <!-- StswDataGridRowHeaderStyle -->
     <Style x:Key="StswDataGridRowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
-        <Setter Property="Background" Value="{DynamicResource DataGrid.RowHeader.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource DataGrid.RowHeader.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswDataGrid.RowHeader.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.RowHeader.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="1 0 1 1"/>
         <Setter Property="Padding" Value="2"/>
@@ -446,14 +410,46 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DataGrid.RowHeader.MouseOver.Background}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource DataGrid.RowHeader.MouseOver.Border}"/>
+                <Setter Property="Background" Value="{DynamicResource StswDataGrid.RowHeader.MouseOver.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.RowHeader.MouseOver.Border}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DataGrid.RowHeader.Pressed.Background}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource DataGrid.RowHeader.Pressed.Border}"/>
+                <Setter Property="Background" Value="{DynamicResource StswDataGrid.RowHeader.Pressed.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.RowHeader.Pressed.Border}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <!-- StswDataGridSelectAllButtonStyle -->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type se:StswDataGrid}, ResourceId=StswDataGridSelectAllButtonStyle}" TargetType="{x:Type se:StswButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswButton}">
+                    <Grid>
+                        <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                        <Polygon x:Name="Arrow"
+                             Fill="Black"
+                             Margin="8 8 3 3"
+                             Opacity="0.15"
+                             Points="0,10 10,10 10,0"
+                             Stretch="Uniform"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Stroke" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Arrow" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- StswDataGridSpecialColumn -->
@@ -481,42 +477,38 @@
     <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
         <Grid Background="Transparent" ToolTip="{Binding ItemMessage}">
-            <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}">
-                <se:StswToggleButton.Resources>
-                    <Style TargetType="{x:Type se:StswToggleButton}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="Collapsed">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </se:StswToggleButton.Resources>
-                <se:StswIcon Data="{x:Static se:StswIcons.DotsVertical}" Scale="1.25"/>
-            </se:StswToggleButton>
-            <se:StswIcon x:Name="PART_Icon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.25"/>
-            <se:StswIcon x:Name="PART_MessageIcon" Data="{x:Static se:StswIcons.InformationSlabSymbol}" IsHitTestVisible="False" Scale="1.25"/>
+            <se:StswToggleButton x:Name="PART_ShowDetails" BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
+            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <se:StswIcon x:Name="PART_SymbolIcon" Data="{x:Static se:StswIcons.DotsVertical}" IsHitTestVisible="False" Scale="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding ItemMessage}" Value="{x:Null}">
-                <Setter Property="Fill" Value="Transparent" TargetName="PART_MessageIcon"/>
-            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding ItemMessage}" Value="{x:Null}"/>
+                    <Condition Binding="{Binding ShowDetails}" Value="{x:Null}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Hidden" TargetName="PART_SymbolIcon"/>
+            </MultiDataTrigger>
             <DataTrigger Binding="{Binding ItemMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Message.Fill}" TargetName="PART_Icon"/>
+                <Setter Property="Data" Value="{x:Static se:StswIcons.InformationVariant}" TargetName="PART_SymbolIcon"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding ItemState}" Value="Added">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Added.Fill}" TargetName="PART_Icon"/>
+                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}" TargetName="PART_StateIcon"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding ItemState}" Value="Modified">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}" TargetName="PART_Icon"/>
+                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}" TargetName="PART_StateIcon"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding ItemState}" Value="Deleted">
-                <Setter Property="Fill" Value="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}" TargetName="PART_Icon"/>
+                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}" TargetName="PART_StateIcon"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowDetailsTemplate, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RowDetailsVisibilityMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="Collapsed">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ShowDetails"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

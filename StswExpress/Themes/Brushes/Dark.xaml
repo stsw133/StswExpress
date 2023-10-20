@@ -89,18 +89,26 @@
     <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#666"/>
     <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#444"/>
 
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0%}"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-15%}"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Background" Color="#292929"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#292929"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#575757"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#303030"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Border" Color="#575757"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Background" Color="#383838"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Pressed.Border" Color="#575757"/>
-    
-    <SolidColorBrush x:Key="StswDataGrid.Static.Background" Color="#1a1a1a"/>
-    <SolidColorBrush x:Key="StswDataGrid.Static.Border" Color="#575757"/>
-    <SolidColorBrush x:Key="StswDataGrid.Header.Background" Color="#292929"/>
-    <SolidColorBrush x:Key="StswDataGrid.Header.Border" Color="#575757"/>
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Message.Fill" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Background" Color="#292929"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Static.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Background" Color="#303030"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.MouseOver.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Background" Color="#383838"/>
+    <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Background" Color="#1a1a1a"/>
+    <SolidColorBrush x:Key="StswDataGrid.Row.Static.Border" Color="#575757"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#47a3d1"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#d19847"/>
     <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#d14747"/>

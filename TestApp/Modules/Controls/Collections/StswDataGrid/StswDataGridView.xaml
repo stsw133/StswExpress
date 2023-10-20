@@ -91,11 +91,11 @@
             <se:StswText Grid.Row="1" Margin="3" Padding="5">
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
-                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Added.Fill}"/>
+                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=" added rows, "/>
-                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Modified.Fill}"/>
+                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                 <Run Text=" modified rows, "/>
-                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGridSpecialColumn.Deleted.Fill}"/>
+                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                 <Run Text=" deleted rows"/>
             </se:StswText>
         </Grid>
