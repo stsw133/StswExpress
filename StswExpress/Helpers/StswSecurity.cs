@@ -25,8 +25,8 @@ public static class StswSecurity
     /// <returns>Hashed text.</returns>
     public static byte[] GetHash(string text)
     {
-        using HashAlgorithm algorithm = SHA256.Create();
-        return algorithm.ComputeHash(Encoding.UTF8.GetBytes(text));
+        using var sha256 = SHA256.Create();
+        return sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
     }
 
     /// <summary>
@@ -36,10 +36,9 @@ public static class StswSecurity
     /// <returns>Hashed text.</returns>
     public static string GetHashString(string text)
     {
-        var sb = new StringBuilder();
-        foreach (byte b in GetHash(text))
-            sb.Append(b.ToString("X2"));
-        return sb.ToString();
+        using var sha256 = SHA256.Create();
+        byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+        return BitConverter.ToString(bytes).Replace("-", string.Empty);
     }
 
     /// <summary>
@@ -53,27 +52,18 @@ public static class StswSecurity
         if (key == null)
             throw new ArgumentNullException(nameof(Key));
 
-        if (string.IsNullOrEmpty(text))
-            return text;
+        using var aesAlg = Aes.Create();
+        aesAlg.Key = Encoding.UTF8.GetBytes(key);
+        aesAlg.IV = new byte[16];
+        var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
-        var iv = new byte[16];
-        byte[] array;
-
-        using (var aes = Aes.Create())
+        using var msEncrypt = new MemoryStream();
+        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
         {
-            aes.Key = Encoding.UTF8.GetBytes(key);
-            aes.IV = iv;
-
-            var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-            using var memoryStream = new MemoryStream();
-            using var scryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
-            using (var streamWriter = new StreamWriter(scryptoStream))
-                streamWriter.Write(text);
-
-            array = memoryStream.ToArray();
+            using var swEncrypt = new StreamWriter(csEncrypt);
+            swEncrypt.Write(text);
         }
-
-        return Convert.ToBase64String(array);
+        return Convert.ToBase64String(msEncrypt.ToArray());
     }
 
     /// <summary>
@@ -87,20 +77,14 @@ public static class StswSecurity
         if (key == null)
             throw new ArgumentNullException(nameof(Key));
 
-        if (string.IsNullOrEmpty(text))
-            return text;
+        using var aesAlg = Aes.Create();
+        aesAlg.Key = Encoding.UTF8.GetBytes(key);
+        aesAlg.IV = new byte[16]; // Initialization Vector
+        var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-        var iv = new byte[16];
-        var buffer = Convert.FromBase64String(text);
-
-        using var aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes(key);
-        aes.IV = iv;
-
-        var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        using var memoryStream = new MemoryStream(buffer);
-        using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-        using var streamReader = new StreamReader(cryptoStream);
-        return streamReader.ReadToEnd();
+        using var msDecrypt = new MemoryStream(Convert.FromBase64String(text));
+        using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+        using var srDecrypt = new StreamReader(csDecrypt);
+        return srDecrypt.ReadToEnd();
     }
 }

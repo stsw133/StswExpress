@@ -1,6 +1,48 @@
 {\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil Cascadia Mono;}{\f2\fnil\fcharset0 Cascadia Mono;}{\f3\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue0;}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.2.1\line\b0\fs16 2023-10-02\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.3.0\line\b0\fs16 2023-10-??\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 New translator mechanism with two builded languages: \b en\b0  and \b pl\b0 , with possibility to auto select one of them based on system language.\par
+{\pntext\f3\'B7\tab}New controls: \b StswAdaptiveBox\b0 , \b StswConfig\b0  (internal), \b StswTreeView\b0 .\par
+{\pntext\f3\'B7\tab}New extension method: \b IsNumericType\b0 .\par
+{\pntext\f3\'B7\tab}New methods: \cf1\b\f1\fs19 IsInternetAvailable\b0\f0 , \b\f1 PassEnumerableAsSqlParameter\b0\f0 , \b\f1 MoveToRecycleBin\b0\f0 , \b\f1 SerializeToJson\b0\f0 , \b\f1 DeserializeFromJson\b0\f0 , \b\f1 IsValidEmail\b0\f0 , \b\f1 IsValidPhoneNumber\b0\f0 , \b\f1 IsValidUrl\cf0\b0\f0\fs20 .\par
+{\pntext\f3\'B7\tab}\b StswResources \b0 have new event named "ThemeChanged" so it is now possible to make or change resources based on theme.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswCalendar \b0 had mini-rework that should simplify its code with template and overall make it works better. \b StswCalendar \b0 also has new button to select today's date.\par
+{\pntext\f3\'B7\tab}\b StswDropButton\b0 , \b StswSplitButton\b0 , \b StswComboBox\b0 , \b StswSelectionBox\b0  and all component buttons\b  \b0 have simplified template. \b StswDataGrid \b0 is finally using its own template. \b StswDropButton \b0 and \b StswSplitButton \b0 are derived from ItemsControl class.\par
+{\pntext\f3\'B7\tab}"IsTabStop" property is set to false in propably all places in Stsw controls where it is needed.\par
+{\pntext\f3\'B7\tab}\b StswClippingBorder \b0 has new property "DoClipping" that tells if should clip child's radius and rect.\par
+{\pntext\f3\'B7\tab}\b StswNumericBox \b0 uses a decimal typed "Value" property instead of double typed "Value" property - it should fix the problem with odd numbers and precision.\par
+{\pntext\f3\'B7\tab}\b StswTextEditor \b0 has a little improved template and code behind.\par
+{\pntext\f3\'B7\tab}\b StswContentDialog \b0 uses "Background" property instead of "OverlayBackground" and its background have more opacity.\par
+{\pntext\f3\'B7\tab}\b StswMessageDialog \b0 now have colored border and header's background based on its image. \b StswMessageDialog \b0 also has new Image type: \b Debug\b0 .\par
+{\pntext\f3\'B7\tab}\b StswLogPanel \b0 has been improved.\par
+{\pntext\f3\'B7\tab}\b StswWindow \b0 no longer has option in menu to center window on screen. This option is now merged with option to set window size to default.\par
+{\pntext\f3\'B7\tab}\b Pink \b0 theme changes font family and font size and \b Dark \b0 theme is a little lighter now (inverted color from \b Light \b0 theme and added 10% missing brightness excluding colored brushes). Every theme has changes for colored brushes (\b StswMessageDialog\b0 , \b StswLogPanel\b0 , \b StswProgessBar\b0 ).\par
+{\pntext\f3\'B7\tab}\b StswApp \b0 is hidden from EditorBrowsable and no longer have "OpenHelp" method.\par
+{\pntext\f3\'B7\tab}Input controls and \b StswProgressBar \b0 are now stretched by default instead of topped.\par
+{\pntext\f3\'B7\tab}All placeholders in Stsw controls are \b StswText \b0 control now instead of TextBlock. \b StswFilter \b0 uses \b StswAdaptiveBox \b0 in its template now.\par
+{\pntext\f3\'B7\tab}\b StswComponentRebutton \b0 has been renamed into \b StswComponentRepeater\b0 . \b IStswSelectionItem \b0 has been renamed to \b IStswSelection\b0 . \b IStswCollectionItem \b0 has property renamed from "ErrorMessage" to "ItemMessage". "PopupBorderThickness" property has been renamed to "PopupThickness" in all Stsw controls that use it.\par
+{\pntext\f3\'B7\tab}"MaxDropDownHeight" property's default value increased from 120 to 140 in all Stsw controls that use it.\par
+{\pntext\f3\'B7\tab}Debug messages (\b StswMessageDialog\b0 , \b StswLogPanel\b0 ) has different icon with original one removed completely. \b StswDataGrid\b0 's items with filled "ItemMessage" property will show information icon in its special column.\par
+{\pntext\f3\'B7\tab}Changes in \b StswSecurity\b0 .\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswPopup \b0 properly binds DataContext now.\par
+{\pntext\f3\'B7\tab}\b StswToggleSwitch \b0 is properly colored now.\par
+{\pntext\f3\'B7\tab}\b StswHeader \b0 uses \b StswClippingBorder \b0 without clipping now so it should fix some problems like cut off month names in \b StswCalendar\b0 .\par
+{\pntext\f3\'B7\tab}Bugfix for binding to \b StswDatabaseModel\b0 's properties.\par
+{\pntext\f3\'B7\tab}\b StswExportParameters\b0 's "ExcludeNonAttributes" property renamed to "IncludeNonAttributed".\par
+
+\pard\sa200\sl276\slmult1\qj\par
+
+\pard\sa200\sl276\slmult1\qc\b\fs32 0.2.1\line\b0\fs16 2023-10-02\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
 
@@ -80,15 +122,56 @@
 {\pntext\f3\'B7\tab}Arrow icon in Stsw controls with drop-down list are now aligned to right when control is in stretched alignment mode.\par
 {\pntext\f3\'B7\tab}Stsw component controls release space for icon if icon is null.\par
 
+\pard\sa200\sl276\slmult1\qj\par
+
 \pard\sa200\sl276\slmult1\qc\b\fs32 0.1.0\line\b0\fs16 2023-08-19\b\par
 
 \pard\sa200\sl276\slmult1\qj\b0\fs20 Info not prepared yet...\par
 \f2\lang21\par
 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 One year edition\line\b0\fs16 2023-03-01\b\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 One year edition\line\b0\fs16 2023-03-01\fs20\par
 
-\pard\sa200\sl276\slmult1\qj\b0\fs20 Info not prepared yet...\par
-\f2\lang21\par
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 .NET version increased from 5 to 6.\par
+{\pntext\f3\'B7\tab}All controls and helping classes in library has been renamed and use "Stsw" prefix. Some of them have also completely changed names like \b ExtDatePicker \b0 -> \b StswCalendarPicker\b0 .\par
+{\pntext\f3\'B7\tab}Many controls have been completely reworked, those with most changes are: \b StswColumnFilter\b0  (original name: ColumnFilter), \b StswHeader\b0  (original name: Header), \b LoadingCircle\b0 , \b StswProgressBar\b0  (original name: ExtProgressBar), \b StswWindow\b0 .\par
+{\pntext\f3\'B7\tab}Completely new controls: \b ClippingBorder \b0 (to properly render content when CornerRadius is used), \b StswNavigation\b0 , \b StswNavigationButton\b0 , \b StswPasswordBox\b0 .\par
+{\pntext\f3\'B7\tab}New extension methods: \b AsBytes\b0 , \b ToNullable\b0 , \b ToStswDictionary\b0 , \b TrimEnd\b0  (with string as parameter), \b TrimStart\b0  (with string as parameter), \b TryMultipleTimes\b0  (that tries to execute an action or function multiple times with a specified interval between each try until it succeeds or reaches a maximum number of tries).\par
+{\pntext\f3\'B7\tab}New classes: \b StswCollection \b0 (extended version of ObservableCollection - it notifies even if single item's property has changed and can contain info about states of items), \b StswDictionary\b0  (have INotifyProperty implemented and can be binded in a way that creates new key if it did not existed yet), \b StswExport\b0  (for exporting data to Excel file using "ClosedXML" library),\b  StswMC \b0 (meant to store mail configurations and sending mails), \b StswRelayCommand\b0  (have ICommand implemented and is meant to be binded to control command properties), \b StswSimpleModel \b0 (meant to be model for item sources in combo boxes).\par
+{\pntext\f3\'B7\tab}New converters: \b conv_Add \b0 (that adds number from parameter to target number), \b conv_Calculate \b0 (that uses DataTable's compute method), \b conv_ColorBrightness\b0 , \b conv_IfElse\b0  (that displays one of two texts based on bool result of comparing), \b conv_NullToUnset\b0 , \b conv_Sum \b0 (that allows to sum field in list of class elements).\par
+{\pntext\f3\'B7\tab}Collection (7000+) of vector icons in new \b StswIcons \b0 static class.\par
+{\pntext\f3\'B7\tab}\b StswDataGrid \b0 has new special column for showing and clearing filters and showing row details.\par
+{\pntext\f3\'B7\tab}\b StswWindow \b0 has now fullscreen mode.\par
+{\pntext\f3\'B7\tab}TextBox based controls have placeholder functionality.\par
+{\pntext\f3\'B7\tab}New \b AppStart \b0 method meant to be put on application startup. This method sets all starting configuration needed for application to work properly if it is using Stsw controls and some of helpers.\par
+{\pntext\f3\'B7\tab}New project for library testing called \b TestApp\b0 . This version of test app has 3 simple modules: Database, Contractors, LibraryTests.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Themes are now based on external library called "DynamicAero2". There are two themes: \b Light \b0 and \b Dark\b0 , with possibility to auto select one of them based on system theme.\par
+{\pntext\f3\'B7\tab}Many controls and functions have been adjusted to use them comfortably in MVVM.\par
+{\pntext\f3\'B7\tab}Controls are now built on templates in styles in resource dictionaries.\par
+{\pntext\f3\'B7\tab}Most of controls have "CornerRadius" property now.\par
+{\pntext\f3\'B7\tab}\b VM \b0 renamed into \b StswObservableObject\b0 . \b StswObservableObject \b0 have method called "SetProperty" that can be used in simple way in property setters.\par
+{\pntext\f3\'B7\tab}\b StswDB\b0  has been improved. Also the way \b StswDB \b0 and \b StswMC \b0 saves info into files is changed to keep every instance in one line.\par
+{\pntext\f3\'B7\tab}\b StswLog \b0 now works differently - before it was splitting every 5 MB into new file, now it groups logs per day of creation and makes a new file for each day.\par
+{\pntext\f3\'B7\tab}\b MultiBox\b0 's functionality\b  \b0 is merged into \b StswComboBox\b0  (when "SelectionMode" property is set to "Multiple").\par
+{\pntext\f3\'B7\tab}Converter \b conv_Contains \b0 no longer works only for IEnumerable. Converter \b conv_Compare \b0 has simplified functionality.\par
+{\pntext\f3\'B7\tab}Controls like \b DataGridImage\b0 , \b ExtMenuItem\b0  and \b IconButton \b0 have been removed. Methods like \b AddCharBeforeUpperLetters\b0  have been removed.\par
+{\pntext\f3\'B7\tab}Converter \b conv_Size\b0  has been renamed to \b conv_Multiply\b0 . Extension method named \b ToList \b0 has been renamed to \b AsList\b0 . Method extension \b GetVisualChild \b0 renamed to \b FindVisualChild\b0 .\par
+{\pntext\f3\'B7\tab}Method \b ConvertTo \b0 made into extension method. Method \b LoadImage \b0 made into extension method named \b AsImage\b0 .\par
+{\pntext\f3\'B7\tab}\b BindingProxy\b0 's "Data" property renamed into "Proxy".\par
+{\pntext\f3\'B7\tab}\b ColorSetter \b0 renamed to \b ColorPicker\b0 .\par
+{\pntext\f3\'B7\tab}\b StswNumericBox \b0 accepts changes after pressing Enter key.\par
+{\pntext\f3\'B7\tab}\b StswWindow \b0 now uses WindowChrome (that also eliminated some bugs and weird behavior).\par
+{\pntext\f3\'B7\tab}\b StswSecurity \b0 class uses different algorithm for encrypting, decrypting and generating salt.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Not listed since most of controls and helper classes have been reworked and reworks include many bugfixes.\par
+
+\pard\sa200\sl276\slmult1\qj\f2\lang21\par
 
 \pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 Re-edition\line\b0\fs16 2022-03-01\b\par
 
@@ -118,10 +201,10 @@
 
 \pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 BindingProxy \b0 - helper class that allows creating a proxy object for data binding purposes.\par
 {\pntext\f3\'B7\tab}\b Commands \b0 - helper class that contains some routed UI commands including their input gestures.\par
-{\pntext\f3\'B7\tab}\b Converters \b0 - a collection of some converters such as: conv_Bool, conv_Color, conv_Compare, conv_Contains, conv_MultiCultureNumber, conv_NotNull, conv_Size, conv_StringToString.\par
+{\pntext\f3\'B7\tab}\b Converters \b0 - a collection of some converters such as: \b conv_Bool\b0 , \b conv_Color\b0 , \b conv_Compare\b0 , \b conv_Contains\b0 , \b conv_MultiCultureNumber\b0 , \b conv_NotNull\b0 , \b conv_Size\b0 , \b conv_StringToString\b0 .\par
 {\pntext\f3\'B7\tab}\b DB \b0 - helper class that is model for database connection and contains methods for import and export encrypted connection data to file.\par
-{\pntext\f3\'B7\tab}\b Extensions \b0 - a collection of some methods used like extensions such as: Between, Capitalize, ConvertTo, In, ToList, GetVisualChild, FindVisualChildren.\par
-{\pntext\f3\'B7\tab}\b Fn \b0 - a collection of some methods such as: AppName, AppVersion, AppNameAndVersion, AppCopyright, AppDatabase, AddCharBeforeUpperLetters, LoadImage, OpenContextMenu, OpenFile, GetWindowsThemeColor, GetColumnFilters, ClearColumnFilters, SetTheme.\par
+{\pntext\f3\'B7\tab}\b Extensions \b0 - a collection of some methods used like extensions such as: \b Between\b0 , \b Capitalize\b0 , \b ConvertTo\b0 , \b In\b0 , \b ToList\b0 , \b GetVisualChild\b0 , \b FindVisualChildren\b0 .\par
+{\pntext\f3\'B7\tab}\b Fn \b0 - a collection of some methods such as: \b AppName\b0 , \b AppVersion\b0 , \b AppNameAndVersion\b0 , \b AppCopyright\b0 , \b AppDatabase\b0 , \b AddCharBeforeUpperLetters\b0 , \b LoadImage\b0 , \b OpenContextMenu\b0 , \b OpenFile\b0 , \b GetWindowsThemeColor\b0 , \b GetColumnFilters\b0 , \b ClearColumnFilters\b0 , \b SetTheme\b0 .\par
 {\pntext\f3\'B7\tab}\b Log \b0 - helper class that allows to create log text entry in specified log file. After reaching a size limit, file is renamed and logs are saved to a new one.\par
 {\pntext\f3\'B7\tab}\b Mail \b0 - helpers class that is model for mailbox connection and contains method for sending mails.\par
 {\pntext\f3\'B7\tab}\b SQL \b0 - helper class to generate connection strings based on data from DB model class.\par

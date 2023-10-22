@@ -1,10 +1,18 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualBasic.FileIO;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -53,6 +61,42 @@ public static class StswFn
         }
         return false;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static bool IsInternetAvailable()
+    {
+        try
+        {
+            using var ping = new Ping();
+            var reply = ping.Send("www.google.com");
+            return reply.Status == IPStatus.Success;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+    #endregion
+
+    #region Database functions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="values"></param>
+    public static void PassEnumerableAsSqlParameter(SqlCommand cmd, string parameterName, IEnumerable<string> values)
+    {
+        var dataTable = new DataTable();
+        dataTable.Columns.Add("Value", typeof(string));
+
+        foreach (string value in values)
+            dataTable.Rows.Add(value);
+
+        var parameter = cmd.Parameters.AddWithValue(parameterName, dataTable);
+        parameter.SqlDbType = SqlDbType.Structured;
+        parameter.TypeName = parameterName.TrimStart('@');
+    }
     #endregion
 
     #region Enum functions
@@ -69,6 +113,11 @@ public static class StswFn
     #endregion
 
     #region File functions
+    /// <summary>
+    /// Moves a file to recycle bin.
+    /// </summary>
+    public static void MoveToRecycleBin(string filePath) => FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+
     /// <summary>
     /// Opens a file in its associated application.
     /// </summary>
@@ -264,6 +313,32 @@ public static class StswFn
     }
     #endregion
 
+    #region Serialization functions
+    /// <summary>
+    /// 
+    /// </summary>
+    public static string? SerializeToJson<T>(T obj)
+    {
+        if (obj == null)
+            return null;
+
+        var serializer = new DataContractJsonSerializer(obj.GetType());
+        using var stream = new MemoryStream();
+        serializer.WriteObject(stream, obj);
+        return Encoding.UTF8.GetString(stream.ToArray());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static T? DeserializeFromJson<T>(string json)
+    {
+        var serializer = new DataContractJsonSerializer(typeof(T));
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+        return (T?)serializer.ReadObject(stream);
+    }
+    #endregion
+
     #region Special functions
     /// <summary>
     /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
@@ -324,5 +399,28 @@ public static class StswFn
             f.ContextMenu.IsOpen = true;
         }
     }
+    #endregion
+
+    #region Validation functions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    public static bool IsValidEmail(string email) => new EmailAddressAttribute().IsValid(email);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static bool IsValidPhoneNumber(string number) => new string(number.ToCharArray().Where(c => char.IsDigit(c)).ToArray()).Length.Between(9, 11);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static bool IsValidUrl(string url) => Uri.TryCreate(url, UriKind.Absolute, out var result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
     #endregion
 }
