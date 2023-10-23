@@ -1,7 +1,7 @@
-﻿**0.3.0**
+# ﻿**0.3.0**
 2023-10-23
 
-New functionality:
+### New functionality:
 
 * New translator mechanism with two builded languages: **en** and **pl**, with possibility to auto select one of them based on system language.
 * New controls: **StswAdaptiveBox**, **StswConfig** (internal), **StswTreeView**.
@@ -9,7 +9,7 @@ New functionality:
 * New methods: **IsValidEmail**, **IsValidPhoneNumber**, **IsValidUrl**, **MoveToRecycleBin**, **SerializeToJson**, **DeserializeFromJson**.
 * **StswResources** have new event named "ThemeChanged" so it is now possible to make or change resources based on theme.
 
-Changed functionality:
+### Changed functionality:
 
 * **StswCalendar** had mini-rework that should simplify its code with template and overall make it works better. **StswCalendar** also has new button to select today's date.
 * **StswDropButton**, **StswSplitButton**, **StswComboBox**, **StswSelectionBox** and all component buttons** have simplified template. **StswDataGrid** is finally using its own template. **StswDropButton** and **StswSplitButton** are derived from ItemsControl class.
@@ -30,7 +30,7 @@ Changed functionality:
 * Debug messages (**StswMessageDialog**, **StswLogPanel**) has different icon with original one removed completely. **StswDataGrid**'s items with filled "ItemMessage" property will show information icon in its special column.
 * Changes in **StswSecurity**.
 
-Bugfixes:
+### Bugfixes:
 
 * **StswPopup** properly binds DataContext now.
 * **StswToggleSwitch** is properly colored now.
@@ -38,14 +38,14 @@ Bugfixes:
 * Bugfix for binding to **StswDatabaseModel**'s properties.
 * **StswExportParameters**'s "ExcludeNonAttributes" property renamed to "IncludeNonAttributed".
 
-**0.2.1**
+# **0.2.1**
 2023-10-02
 
-Changed functionality:
+### Changed functionality:
 
 * Changed named of extension from **ToObjectList** to **MapTo**.
 
-Bugfixes:
+### Bugfixes:
 
 * Extension named **MapTo** properly maps DataTable's columns to generic type properties.
 * **StswDataGrid** is no longer overriding "FrozenColumnCount" property.
@@ -54,7 +54,7 @@ Bugfixes:
 **0.2.0**
 2023-10-01
 
-New functionality:
+### New functionality:
 
 * New controls: **StswToggleSwitch**, **StswListView**, **StswContentDialog** (is listed here because was completely remade), **StswMessageDialog**, **StswSidePanel**, **StswZoomControl**, **StswPager**, **StswShifter**, **StswPopup**.
 * New class **StswDynamicResource** that allows to use dynamic resource in XAML with converter.
@@ -62,7 +62,7 @@ New functionality:
 * New global command that can be invoked on F1 if method named "OpenHelp" have defined value.
 * New theme: **Pink**.
 
-Changed functionality:
+### Changed functionality:
 
 * Two main dictionaries (Generic and Theme) are merged into one named **StswResources**.
 * Extension named **ToObjectList** has been improved.
@@ -85,7 +85,7 @@ Changed functionality:
 * **StswSettings** renamed into **Settings** (is internal anyway).
 * Some brush properties in Stsw controls have different dynamic resources as default value.
 
-Bugfixes:
+### Bugfixes:
 
 * Stsw input controls no longer update their main property on lost focus if property didn't changed (main property is for example "SelectedColor" for StswColorBox).
 * **StswTextEditor**'s "FilePath" property loads or clears document if its value is changed.
@@ -94,16 +94,16 @@ Bugfixes:
 * **StswDropButton**, **StswSplitButton**, **StswComboBox** and **StswSelectionBox** have default "MaxDropDownHeight".
 * **StswFilter** will no longer have top margin if it does not have header.
 
-**0.1.1**
+# **0.1.1**
 2023-09-18
 
-New functionality:
+### New functionality:
 
 * **StswSelectionBox** uses new property "SetTextCommand" to set custom method for generating text in box after selection changing.
 * **StswFilter** can now hide mode changing button with new property.
 * **StswApp** have new method called "StswWindow". This method will return current app's main window as StswWindow.
 
-Bugfixes:
+### Bugfixes:
 
 * Content dialog is declared properly now for **StswWindow**. This eliminates XAML binding failure caused by previous version.
 * **StswSelectionBox** uses scroll viewer from its list box instead of separated scroll viewer - thanks to that scroll viewer works properly and can for example be scrolled with mouse wheel.
@@ -117,15 +117,15 @@ Bugfixes:
 * Arrow icon in Stsw controls with drop-down list are now aligned to right when control is in stretched alignment mode.
 * Stsw component controls release space for icon if icon is null.
 
-**0.1.0**
+# **0.1.0**
 2023-08-19
 
 Info not prepared yet...
 
-**One year edition**
+# **One year edition**
 2023-03-01
 
-New functionality:
+### New functionality:
 
 * .NET version increased from 5 to 6.
 * All controls and helping classes in library has been renamed and use "Stsw" prefix. Some of them have also completely changed names like **ExtDatePicker** -> **StswCalendarPicker**.
@@ -141,7 +141,7 @@ New functionality:
 * New **AppStart** method meant to be put on application startup. This method sets all starting configuration needed for application to work properly if it is using Stsw controls and some of helpers.
 * New project for library testing called **TestApp**. This version of test app has 3 simple modules: Database, Contractors, LibraryTests.
 
-Changed functionality:
+### Changed functionality:
 
 * Themes are now based on external library called "DynamicAero2". There are two themes: **Light** and **Dark**, with possibility to auto select one of them based on system theme.
 * Many controls and functions have been adjusted to use them comfortably in MVVM.
@@ -161,14 +161,14 @@ Changed functionality:
 * **StswWindow** now uses WindowChrome (that also eliminated some bugs and weird behavior).
 * **StswSecurity** class uses different algorithm for encrypting, decrypting and generating salt.
 
-Bugfixes:
+### Bugfixes:
 
 * Not listed since most of controls and helper classes have been reworked and reworks include many bugfixes.
 
-**Re-edition**
+# **Re-edition**
 2022-03-01
 
-New controls:
+### New controls:
 
 * **ColorSetter** - in short a control made from 4 sliders and labels. Each slider represent RGBA color channels.
 * **ColumnFilter** - in short a control that allows user to specify a value used for "where" clause in SQL commands. This control shows different box based on filter type and generates different text based on filter mode.
@@ -190,7 +190,7 @@ New controls:
 * **OutlinedTextBlock** - same as TextBlock but contains some properties allowing it to have a stroke.
 * **StswWindow** - extended window with options to scale interface (poor version) and switch themes between light and dark.
 
-New helpers:
+### New helpers:
 
 * **BindingProxy** - helper class that allows creating a proxy object for data binding purposes.
 * **Commands** - helper class that contains some routed UI commands including their input gestures.
