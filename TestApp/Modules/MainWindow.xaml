@@ -10,7 +10,7 @@
 
     <se:StswNavigation BorderThickness="0 1 0 0" ItemsWidth="210">
         <se:StswNavigationElement/>
-        <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext" IsChecked="True"/>
+        <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext"/>
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}">
             <se:StswNavigationElement Text="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">

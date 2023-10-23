@@ -66,18 +66,6 @@ internal class StswConfig : Control
         if (!StswContentDialog.GetInstance(identifier).IsOpen)
             await StswContentDialog.Show(dialog, dialog.Identifier);
     }
-
-    /// <summary>
-    /// Event handler for changing the theme based on the clicked menu item.
-    /// </summary>
-    protected void ThemeClick(int themeID)
-    {
-        var res = StswResources.GetInstance();
-        if (res != null)
-            res.Theme = (StswTheme)themeID;
-
-        StswSettings.Default.Theme = themeID;
-    }
     #endregion
 
     #region Main properties
