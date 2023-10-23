@@ -61,42 +61,6 @@ public static class StswFn
         }
         return false;
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static bool IsInternetAvailable()
-    {
-        try
-        {
-            using var ping = new Ping();
-            var reply = ping.Send("www.google.com");
-            return reply.Status == IPStatus.Success;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-    #endregion
-
-    #region Database functions
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="values"></param>
-    public static void PassEnumerableAsSqlParameter(SqlCommand cmd, string parameterName, IEnumerable<string> values)
-    {
-        var dataTable = new DataTable();
-        dataTable.Columns.Add("Value", typeof(string));
-
-        foreach (string value in values)
-            dataTable.Rows.Add(value);
-
-        var parameter = cmd.Parameters.AddWithValue(parameterName, dataTable);
-        parameter.SqlDbType = SqlDbType.Structured;
-        parameter.TypeName = parameterName.TrimStart('@');
-    }
     #endregion
 
     #region Enum functions

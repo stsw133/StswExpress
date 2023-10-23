@@ -313,7 +313,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswDataGrid.ColumnHeader.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="0 0 1 1"/>
-        <Setter Property="Padding" Value="0"/> <!-- 5 4 5 3 -->
+        <Setter Property="Padding" Value="3"/> <!-- 5 4 5 3 -->
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

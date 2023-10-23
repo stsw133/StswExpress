@@ -9,6 +9,6 @@
     <d:UserControl.DataContext>
         <local:ChangelogContext/>
     </d:UserControl.DataContext>
-    
-    <se:StswTextEditor BorderThickness="0" CornerRadius="0" FilePath="{Binding FilePath}" IsReadOnly="True" Padding="10" ToolbarMode="Collapsed"/>
+
+    <se:StswTextEditor BorderThickness="0" CornerRadius="0" FilePath="{Binding FilePath}" IsReadOnly="True" Padding="10 0 15 0" ToolbarMode="Collapsed"/>
 </UserControl>
