@@ -21,6 +21,10 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                   Content="{TemplateBinding Content}"
+                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                    ContentVisibility="{TemplateBinding ContentVisibility}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IsBusy="{TemplateBinding IsBusy}"
@@ -28,9 +32,7 @@
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <ContentPresenter/>
-                    </se:StswHeader>
+                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter Property="IconData" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>

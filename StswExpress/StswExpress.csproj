@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.3.1</Version>
+    <Version>0.4.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -15,25 +15,6 @@
     <PackageIcon>logo.png</PackageIcon>
     <Description>This is package containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-
-    Buttons: StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
-    Checks: StswCheckBox, StswRadioBox, StswToggleSwitch
-    Collections: StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
-    Color: StswColorBox, StswColorPicker, StswSelector
-    Components: StswComponentButton, StswComponentCheck, StswComponentPanel, StswComponentRepeater
-    DateTime: StswCalendar, StswDatePicker
-    Dialogs: StswContentDialog, StswMessageDialog
-    Filtering: StswFilter
-    Input: StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-    Layout: StswClippingBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
-    Media: StswImage
-    Navigation: StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-    Scrolling: StswPager, StswScrollBar, StswScrollViewer, StswShifter
-    StatusInfo: StswLogPanel, StswProgressBar
-    Style: StswHeader, StswIcon, StswLoadingCircle
-    Text: StswOutlinedText, StswText, StswTruncateLabel
-    Windowing: StswApp, StswNotifyIcon, StswPopup, StswWindow
-
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
