@@ -1,3 +1,9 @@
+# **0.3.1**
+2023-10-24
+
+### Bugfixes:
+* **StswDataGrid**'s special column has proper margins again.
+
 # ﻿**0.3.0**
 2023-10-23
 

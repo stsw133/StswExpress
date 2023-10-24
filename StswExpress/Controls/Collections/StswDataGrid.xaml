@@ -455,18 +455,20 @@
     <!-- StswDataGridSpecialColumn -->
     <!-- StswDataGridSpecialColumnHeaderTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnHeaderTemplate">
-        <UniformGrid x:Name="PART_Buttons" Columns="1" Visibility="Collapsed">
+        <UniformGrid x:Name="PART_Buttons" Columns="1" Margin="-3" Visibility="Collapsed">
             <se:StswToggleButton BorderThickness="0" CornerRadius="0" Padding="0"
                                  IsChecked="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
                 <se:StswIcon Data="{x:Static se:StswIcons.Filter}" Scale="1.25"/>
             </se:StswToggleButton>
-            <se:StswButton BorderThickness="0" CornerRadius="0" Padding="0"
-                           Visibility="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static se:StswBoolConverter.Instance}}"
+            <se:StswButton x:Name="PART_ButtonClear" BorderThickness="0" CornerRadius="0" Padding="0"
                            Command="{Binding ClearFiltersCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}">
                 <se:StswIcon Data="{x:Static se:StswIcons.CloseCircle}" Scale="1.25"/>
             </se:StswButton>
         </UniformGrid>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding AreFiltersVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonClear"/>
+            </DataTrigger>
             <DataTrigger Binding="{Binding SpecialColumnVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}" Value="All">
                 <Setter Property="Visibility" Value="Visible" TargetName="PART_Buttons"/>
             </DataTrigger>
@@ -476,7 +478,7 @@
     <!-- StswDataGridSpecialColumn -->
     <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
-        <Grid Background="Transparent" ToolTip="{Binding ItemMessage}">
+        <Grid Background="Transparent" Margin="-1" ToolTip="{Binding ItemMessage}">
             <se:StswToggleButton x:Name="PART_ShowDetails" BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
             <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <se:StswIcon x:Name="PART_SymbolIcon" Data="{x:Static se:StswIcons.DotsVertical}" IsHitTestVisible="False" Scale="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>

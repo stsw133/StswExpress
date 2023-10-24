@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -178,9 +180,15 @@ public class StswDataGrid : DataGrid
                         stsw.FrozenColumnCount++;
 
                     specialColumn = stsw.Columns[0];
+
+                    /// make style for cell
+                    var newCellStyle = new Style(typeof(DataGridCell));
+                    newCellStyle.Setters.Add(new Setter(IsTabStopProperty, false));
+                    specialColumn.CellStyle = newCellStyle;
                 }
                 specialColumn.CanUserReorder = false;
                 specialColumn.CanUserResize = false;
+                specialColumn.IsReadOnly = true;
 
                 /// set visibility for header
                 //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid and not null)

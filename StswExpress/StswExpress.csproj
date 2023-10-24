@@ -7,50 +7,40 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/stsw133/StswExpress</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <Description>This is package containing:
-- new controls (many of them was based on WinUI 3) or WPF controls with new style and/or new functionalities
+- new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
+
+    Buttons: StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
+    Checks: StswCheckBox, StswRadioBox, StswToggleSwitch
+    Collections: StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
+    Color: StswColorBox, StswColorPicker, StswSelector
+    Components: StswComponentButton, StswComponentCheck, StswComponentPanel, StswComponentRepeater
+    DateTime: StswCalendar, StswDatePicker
+    Dialogs: StswContentDialog, StswMessageDialog
+    Filtering: StswFilter
+    Input: StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
+    Layout: StswClippingBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
+    Media: StswImage
+    Navigation: StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
+    Scrolling: StswPager, StswScrollBar, StswScrollViewer, StswShifter
+    StatusInfo: StswLogPanel, StswProgressBar
+    Style: StswHeader, StswIcon, StswLoadingCircle
+    Text: StswOutlinedText, StswText, StswTruncateLabel
+    Windowing: StswApp, StswNotifyIcon, StswPopup, StswWindow
+
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes>New functionality:
-⦁ New translator mechanism with two builded languages: en and pl, with possibility to auto select one of them based on system language.
-⦁ New controls: StswAdaptiveBox, StswConfig (internal), StswTreeView.
-⦁ New extension method: IsNumericType.
-⦁ New methods: IsValidEmail, IsValidPhoneNumber, IsValidUrl, MoveToRecycleBin, SerializeToJson, DeserializeFromJson.
-⦁ StswResources have new event named "ThemeChanged" so it is now possible to make or change resources based on theme.
-Changed functionality:
-⦁ StswCalendar had mini-rework that should simplify its code with template and overall make it works better. StswCalendar also has new button to select today's date.
-⦁ StswDropButton, StswSplitButton, StswComboBox, StswSelectionBox and all component buttons have simplified template. StswDataGrid is finally using its own template. StswDropButton and StswSplitButton are derived from ItemsControl class.
-⦁ "IsTabStop" property is set to false in propably all places in Stsw controls where it is needed.
-⦁ StswClippingBorder has new property "DoClipping" that tells if should clip child's radius and rect.
-⦁ StswNumericBox uses a decimal typed "Value" property instead of double typed "Value" property - it should fix the problem with odd numbers and precision.
-⦁ StswTextEditor has a little improved template and code behind.
-⦁ StswContentDialog uses "Background" property instead of "OverlayBackground" and its background have more opacity.
-⦁ StswMessageDialog now have colored border and header's background based on its image. StswMessageDialog also has new Image type: Debug.
-⦁ StswLogPanel has been improved.
-⦁ StswWindow no longer has option in menu to center window on screen. This option is now merged with option to set window size to default.
-⦁ Pink theme changes font family and font size and Dark theme is a little lighter now (inverted color from Light theme and added 10% missing brightness excluding colored brushes). Every theme has changes for colored brushes (StswMessageDialog, StswLogPanel, StswProgessBar).
-⦁ StswApp is hidden from EditorBrowsable and no longer have "OpenHelp" method.
-⦁ Input controls and StswProgressBar are now stretched by default instead of topped.
-⦁ All placeholders in Stsw controls are StswText control now instead of TextBlock. StswFilter uses StswAdaptiveBox in its template now.
-⦁ StswComponentRebutton has been renamed into StswComponentRepeater. IStswSelectionItem has been renamed to IStswSelection. IStswCollectionItem has property renamed from "ErrorMessage" to "ItemMessage". "PopupBorderThickness" property has been renamed to "PopupThickness" in all Stsw controls that use it.
-⦁ "MaxDropDownHeight" property's default value increased from 120 to 140 in all Stsw controls that use it.
-⦁ Debug messages (StswMessageDialog, StswLogPanel) has different icon with original one removed completely. StswDataGrid's items with filled "ItemMessage" property will show information icon in its special column.
-⦁ Changes in StswSecurity.
-Bugfixes:
-⦁ StswPopup properly binds DataContext now.
-⦁ StswToggleSwitch is properly colored now.
-⦁ StswHeader uses StswClippingBorder without clipping now so it should fix some problems like cut off month names in StswCalendar.
-⦁ Bugfix for binding to StswDatabaseModel's properties.
-⦁ StswExportParameters's "ExcludeNonAttributes" property renamed to "IncludeNonAttributed".</PackageReleaseNotes>
+    <PackageReleaseNotes>Bugfixes:
+⦁ StswDataGrid's special column has proper margins again.</PackageReleaseNotes>
     <PackageTags>Collection of controls; Collection of helpers</PackageTags>
   </PropertyGroup>
 
@@ -70,6 +60,10 @@ Bugfixes:
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\TestApp\Resources\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
