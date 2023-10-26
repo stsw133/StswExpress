@@ -1,6 +1,22 @@
 {\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil Cascadia Mono;}{\f2\fnil\fcharset0 Cascadia Mono;}{\f3\fnil\fcharset2 Symbol;}}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.3.1\line\b0\fs16 2023-10-24\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.3.2\line\b0\fs16 2023-10-26\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswCollection \b0 remade into \b StswBindingList \b0 - it derives from BindingList now and is behaving better when any property inside list has been modified.\par
+{\pntext\f3\'B7\tab}\b IStswCollectionItem\b0 's "ItemState" property is now of type "StswItemState" (new enum) instead of "DataRowState".\par
+{\pntext\f3\'B7\tab}\b StswEnumToListConverter \b0 returns list of \b StswSelectionItem \b0 type instead of \b StswComboItem \b0 - it should fix \b StswFilter \b0 if it has result of this converter as ItemsSource.\par
+{\pntext\f3\'B7\tab}\b ToStswCollection \b0 extension method renamed into \b ToStswBindingList\b0 .\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 ConvertTo \b0 extension method can properly convert to enum type.\par
+{\pntext\f3\'B7\tab}\b StswFilter \b0 properly calculates SQL string when its ItemsSource contains enum values.\par
+
+\pard\sa200\sl276\slmult1\qj\par
+
+\pard\sa200\sl276\slmult1\qc\b\fs32 0.3.1\line\b0\fs16 2023-10-24\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
 

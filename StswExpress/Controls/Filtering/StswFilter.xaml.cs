@@ -120,10 +120,19 @@ public class StswFilter : Control
         {
             foreach (var selectedItem in selectedItems.Where(x => x.IsSelected))
             {
+                object? value;
+
+                /// get from selecteditem or selectedvalue
                 if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
-                    listValues.Add(propertyInfo.GetValue(selectedItem));
+                    value = propertyInfo.GetValue(selectedItem);
                 else
-                    listValues.Add(selectedItem);
+                    value = selectedItem;
+
+                /// convert to int if enum
+                if (value?.GetType()?.IsEnum == true)
+                    value = value.ConvertTo<int>();
+
+                listValues.Add(value);
             }
         }
 

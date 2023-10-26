@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
@@ -24,11 +23,11 @@ internal static class SQL
                 sqlConn.Open();
 
                 var query = @"
-                    if not exists (select * from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
+                    if not exists (select 1 from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
 				        create table StswExpressTEST_Contractors
 				        (
 				    	    ID int identity(1,1) not null primary key,
-                            Type varchar(30),
+                            Type int,
                             Icon varbinary(max),
                             Name varchar(255),
                             Country varchar(2),
@@ -49,44 +48,8 @@ internal static class SQL
         }
     }
 
-    /// ListOfTypes
-    internal static ObservableCollection<StswSelectionItem> ListOfContractorTypes()
-    {
-        return new ObservableCollection<StswSelectionItem>() {
-            new() { Display = "Test1" },
-            new() { Display = "Test2" },
-            new() { Display = "Test3" }
-        };
-        /*
-        var result = new DataTable();
-
-        try
-        {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
-            {
-                sqlConn.Open();
-
-                var query = $@"
-                    select distinct [Type]
-                    from dbo.Users with(nolock)
-                    order by 1";
-                using (var sqlDA = new SqlDataAdapter(query, sqlConn))
-                {
-                    sqlDA.Fill(result);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        
-        return result.AsEnumerable().Select(x => x.Field<string?>(0)).ToList();
-        */
-    }
-
     /// GetContractors
-    internal static StswCollection<ContractorModel> GetContractors(string filter, List<(string name, object val)> parameters)
+    internal static StswBindingList<ContractorModel> GetContractors(string filter, List<(string name, object val)> parameters)
     {
         var result = new DataTable();
         
@@ -109,12 +72,13 @@ internal static class SQL
                         a.IsArchival,
                         a.CreateDT
                     from dbo.StswExpressTEST_Contractors a with(nolock)
-                    where {filter}
+                    where {filter ?? "1=1"}
                     order by a.Name";
                 using (var sqlDA = new SqlDataAdapter(query, sqlConn))
                 {
-                    foreach (var (name, val) in parameters)
-                        sqlDA.SelectCommand.Parameters.AddWithValue(name, val);
+                    if (parameters != null)
+                        foreach (var (name, val) in parameters)
+                            sqlDA.SelectCommand.Parameters.AddWithValue(name, val);
                     sqlDA.Fill(result);
                 }
             }
@@ -128,7 +92,7 @@ internal static class SQL
     }
 
     /// SetContractors
-    internal static bool SetContractors(StswCollection<ContractorModel> list)
+    internal static bool SetContractors(StswBindingList<ContractorModel> list)
     {
         var result = false;
 
@@ -138,7 +102,7 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                foreach (var item in list.GetItemsByState(DataRowState.Added))
+                foreach (var item in list.GetItemsByState(StswItemState.Added))
                 {
                     var query = $@"
                         insert into dbo.StswExpressTEST_Contractors
@@ -161,7 +125,7 @@ internal static class SQL
                         sqlCmd.ExecuteNonQuery();
                     }
                 }
-                foreach (var item in list.GetItemsByState(DataRowState.Modified))
+                foreach (var item in list.GetItemsByState(StswItemState.Modified))
                 {
                     var query = $@"
                         update dbo.StswExpressTEST_Contractors
@@ -184,7 +148,7 @@ internal static class SQL
                         sqlCmd.ExecuteNonQuery();
                     }
                 }
-                foreach (var item in list.GetItemsByState(DataRowState.Deleted))
+                foreach (var item in list.GetItemsByState(StswItemState.Deleted))
                 {
                     var query = $@"
                         delete from dbo.StswExpressTEST_Contractors

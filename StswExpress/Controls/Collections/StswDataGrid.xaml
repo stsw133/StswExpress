@@ -478,9 +478,9 @@
     <!-- StswDataGridSpecialColumn -->
     <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
-        <Grid Background="Transparent" Margin="-1" ToolTip="{Binding ItemMessage}">
+        <Grid Background="Transparent" Margin="-1" SnapsToDevicePixels="False" ToolTip="{Binding ItemMessage}">
             <se:StswToggleButton x:Name="PART_ShowDetails" BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
-            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" Scale="1.33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <se:StswIcon x:Name="PART_SymbolIcon" Data="{x:Static se:StswIcons.DotsVertical}" IsHitTestVisible="False" Scale="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <DataTemplate.Triggers>
