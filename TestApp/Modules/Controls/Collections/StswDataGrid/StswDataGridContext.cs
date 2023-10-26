@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace TestApp;
 
@@ -16,7 +14,7 @@ public class StswDataGridContext : ControlsContext
     }
 
     /// Items
-    private StswCollection<StswDataGridTestModel> items = new(
+    private StswBindingList<StswDataGridTestModel> items = new(
             new List<StswDataGridTestModel>()
             {
                 new() { ID = 1, Name = "First row", ShowDetails = false },
@@ -26,7 +24,7 @@ public class StswDataGridContext : ControlsContext
                 new() { ID = 5, Name = "Fifth row" }
             }
         );
-    public StswCollection<StswDataGridTestModel> Items
+    public StswBindingList<StswDataGridTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
@@ -69,8 +67,8 @@ public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem
     }
 
     /// ItemState
-    private DataRowState itemState;
-    public DataRowState ItemState
+    private StswItemState itemState;
+    public StswItemState ItemState
     {
         get => itemState;
         set => SetProperty(ref itemState, value);

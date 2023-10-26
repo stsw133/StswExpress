@@ -11,7 +11,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
-/// To work properly it has to be used with <see cref="StswCollection{T}"/> as its ItemsSource.
+/// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
 public class StswDataGrid : DataGrid
 {

@@ -80,10 +80,12 @@
                 </DataGridTextColumn>
 
                 <!-- Type -->
-                <DataGridComboBoxColumn TextBinding="{Binding Type}" ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display">
+                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource proxy}, Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}"
+                                        TextBinding="{Binding Type}" DisplayMemberPath="Display" SelectedValuePath="Value">
                     <DataGridComboBoxColumn.Header>
                         <se:StswFilter Header="Type" FilterType="List" FilterMode="In" FilterSqlColumn="a.Type"
-                                       ItemsSource="{Binding Proxy.ComboSourceContractorTypes, Source={StaticResource proxy}}" DisplayMemberPath="Display" SelectedValuePath="Display"/>
+                                       ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}"
+                                       DisplayMemberPath="Display" SelectedValuePath="Value"/>
                     </DataGridComboBoxColumn.Header>
                 </DataGridComboBoxColumn>
 
@@ -94,7 +96,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswImage MaxHeight="64" MaxWidth="64" MenuMode="Full" Source="{Binding IconSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <se:StswImage MaxHeight="32" MaxWidth="32" MenuMode="Full" Source="{Binding IconSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

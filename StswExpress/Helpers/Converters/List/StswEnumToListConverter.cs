@@ -25,7 +25,7 @@ public class StswEnumToListConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var list = new List<StswComboItem>();
+        var list = new List<StswSelectionItem>();
 
         if (parameter is Type type)
             foreach (var elem in Enum.GetNames(type))

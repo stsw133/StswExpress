@@ -17,12 +17,12 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
 
     /// Type
     [StswExport(nameof(Type))]
-    public string? Type
+    public ContractorType Type
     {
         get => type;
         set => SetProperty(ref type, value);
     }
-    private string? type;
+    private ContractorType type;
 
     /// Icon
     public byte[]? Icon
@@ -108,7 +108,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     }
     private DateTime createDT = DateTime.Now;
 
-    /// > IStswCollectionItem ...
     /// ItemMessage
     public string? ItemMessage
     {
@@ -118,12 +117,12 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private string? itemMessage;
 
     /// ItemState
-    public DataRowState ItemState
+    public StswItemState ItemState
     {
         get => itemState;
         set => SetProperty(ref itemState, value);
     }
-    private DataRowState itemState;
+    private StswItemState itemState;
 
     /// ShowDetails
     public bool? ShowDetails

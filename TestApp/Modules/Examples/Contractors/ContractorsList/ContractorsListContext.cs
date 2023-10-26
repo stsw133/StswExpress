@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -263,12 +262,9 @@ public class ContractorsListContext : StswObservableObject
     #endregion
 
     #region Properties
-    /// Combo sources
-    public static ObservableCollection<StswSelectionItem> ComboSourceContractorTypes => SQL.ListOfContractorTypes();
-
     /// Data collections
-    private StswCollection<ContractorModel> listContractors = new();
-    public StswCollection<ContractorModel> ListContractors
+    private StswBindingList<ContractorModel> listContractors = new();
+    public StswBindingList<ContractorModel> ListContractors
     {
         get => listContractors;
         set => SetProperty(ref listContractors, value);

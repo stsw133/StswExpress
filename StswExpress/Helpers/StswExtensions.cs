@@ -77,7 +77,7 @@ public static class StswExtensions
     public static byte[] ToBytes(this SecureString value) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, value).Password);
     #endregion
 
-    #region Collection extensions
+    #region Converting extensions
     /// <summary>
     /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
     /// </summary>
@@ -89,6 +89,53 @@ public static class StswExtensions
                 yield return cloneableItem.Clone();
             else
                 yield return item;
+        }
+    }
+
+    /// <summary>
+    /// Converts <see cref="T"/> to different type.
+    /// </summary>
+    /// <param name="o">Object to convert.</param>
+    /// <returns>Object of different type.</returns>
+    public static T? ConvertTo<T>(this object o)
+    {
+        if (o == null || o == DBNull.Value)
+            return Nullable.GetUnderlyingType(typeof(T?)) == null ? default : (T?)(object?)null;
+        else if (typeof(T).IsEnum)
+        {
+            if (Enum.GetUnderlyingType(typeof(T)) == o.GetType())
+                return (T)Enum.ToObject(typeof(T), o);
+            if (Enum.TryParse(typeof(T), o.ToString(), out object? result))
+                return (T?)result;
+            return default;
+        }
+        else
+        {
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            return underlyingType == null
+                ? (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture)
+                : (T)Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <summary>
+    /// Converts <see cref="object"/> to different type.
+    /// </summary>
+    /// <param name="o">Object to convert.</param>
+    /// <param name="t">Type to convert to.</param>
+    /// <returns>Object of different type.</returns>
+    public static object? ConvertTo(this object o, Type t)
+    {
+        if (o == null || o == DBNull.Value)
+            return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
+        else if (t.IsEnum)
+            return Enum.TryParse(t, o.ToString(), out var result) ? result : null;
+        else
+        {
+            var underlyingType = Nullable.GetUnderlyingType(t);
+            return underlyingType == null
+                ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
+                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
         }
     }
 
@@ -134,9 +181,14 @@ public static class StswExtensions
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 
     /// <summary>
-    /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswCollection{T}"/>.
+    /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswBindingList{T}"/>.
     /// </summary>
-    public static StswCollection<T> ToStswCollection<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswCollection<T>(value);
+    public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
+
+    /// <summary>
+    /// Converts <see cref="IList{T}"/> to <see cref="StswBindingList{T}"/>.
+    /// </summary>
+    public static StswBindingList<T> ToStswBindingList<T>(this IList<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
 
     /// <summary>
     /// Converts <see cref="IDictionary{TKey, TValue}"/> to <see cref="StswDictionary{TKey, TValue}"/>.
@@ -397,44 +449,5 @@ public static class StswExtensions
     /// Trims a string of a specified substring at the start.
     /// </summary>
     public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source[value.Length..];
-    #endregion
-
-    #region Universal extensions
-    /// <summary>
-    /// Converts <see cref="T"/> to different type.
-    /// </summary>
-    /// <param name="o">Object to convert.</param>
-    /// <returns>Object of different type.</returns>
-    public static T? ConvertTo<T>(this object o)
-    {
-        if (o == null || o == DBNull.Value)
-            return Nullable.GetUnderlyingType(typeof(T?)) == null ? default : (T?)(object?)null;
-        else
-        {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
-            return underlyingType == null
-                ? (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture)
-                : (T)Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
-        }
-    }
-
-    /// <summary>
-    /// Converts <see cref="object"/> to different type.
-    /// </summary>
-    /// <param name="o">Object to convert.</param>
-    /// <param name="t">Type to convert to.</param>
-    /// <returns>Object of different type.</returns>
-    public static object? ConvertTo(this object o, Type t)
-    {
-        if (o == null || o == DBNull.Value)
-            return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
-        else
-        {
-            var underlyingType = Nullable.GetUnderlyingType(t);
-            return underlyingType == null
-                ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
-                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
-        }
-    }
     #endregion
 }

@@ -1,3 +1,18 @@
+# **0.3.2**
+2023-10-26
+
+### Changed functionality:
+
+* **StswCollection** remade into **StswBindingList** - it derives from BindingList now and is behaving better when any property inside list has been modified.
+* **IStswCollectionItem**'s "ItemState" property is now of type "StswItemState" (new enum) instead of "DataRowState".
+* **StswEnumToListConverter** returns list of **StswSelectionItem** type instead of **StswComboItem** - it should fix **StswFilter** if it has result of this converter as ItemsSource.
+* **ToStswCollection** extension method renamed into **ToStswBindingList**.
+
+### Bugfixes:
+
+* **ConvertTo** extension method can properly convert to enum type.
+* **StswFilter** properly calculates SQL string when its ItemsSource contains enum values.
+
 # **0.3.1**
 2023-10-24
 

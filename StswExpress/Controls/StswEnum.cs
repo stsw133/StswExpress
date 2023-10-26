@@ -95,6 +95,17 @@ public enum StswFilterMode
 }
 
 /// <summary>
+/// Enumeration for <see cref="IStswCollectionItem.ItemState"/>.
+/// </summary>
+public enum StswItemState
+{
+    Unchanged,
+    Added,
+    Deleted,
+    Modified
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswLogItem.Type"/>.
 /// </summary>
 public enum StswLogType
