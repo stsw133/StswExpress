@@ -23,7 +23,7 @@ public class StswListView : ListView
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>() != null;
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>()?.Count() > 0;
     }
     #endregion
 

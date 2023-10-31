@@ -27,24 +27,66 @@
                 </se:StswText>
                 <StackPanel Margin="5">
                     <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
+                    <!-- HorizontalAlignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" HorizontalAlignment="Center" Padding="3" Text="Horizontal alignment"/>
+                    <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding HorizontalAlignmentSelector}" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value">
+                        <se:StswListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </se:StswListBox.ItemsPanel>
+                        <se:StswListBox.ItemTemplate>
+                            <DataTemplate>
+                                <se:StswIcon Data="{Binding Display}"/>
+                            </DataTemplate>
+                        </se:StswListBox.ItemTemplate>
+                    </se:StswListBox>
+                    <se:StswSeparator BorderThickness="1"/>
+                    <se:StswListBox BorderThickness="2 0 2 2" ItemsSource="{Binding HorizontalContentAlignmentSelector}" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value">
+                        <se:StswListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </se:StswListBox.ItemsPanel>
+                        <se:StswListBox.ItemTemplate>
+                            <DataTemplate>
+                                <se:StswIcon Data="{Binding Display}"/>
+                            </DataTemplate>
+                        </se:StswListBox.ItemTemplate>
+                    </se:StswListBox>
+                    <!-- VerticalAlignment -->
+                    <se:StswText FontSize="15" FontWeight="Medium" HorizontalAlignment="Center" Padding="3" Text="Vertical alignment"/>
+                    <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding VerticalAlignmentSelector}" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value">
+                        <se:StswListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </se:StswListBox.ItemsPanel>
+                        <se:StswListBox.ItemTemplate>
+                            <DataTemplate>
+                                <se:StswIcon Data="{Binding Display}"/>
+                            </DataTemplate>
+                        </se:StswListBox.ItemTemplate>
+                    </se:StswListBox>
+                    <se:StswSeparator BorderThickness="1"/>
+                    <se:StswListBox BorderThickness="2 0 2 2" ItemsSource="{Binding VerticalContentAlignmentSelector}" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value">
+                        <se:StswListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </se:StswListBox.ItemsPanel>
+                        <se:StswListBox.ItemTemplate>
+                            <DataTemplate>
+                                <se:StswIcon Data="{Binding Display}"/>
+                            </DataTemplate>
+                        </se:StswListBox.ItemTemplate>
+                    </se:StswListBox>
                     <!-- IsDefault -->
                     <se:StswCheckBox Content="IsDefault" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsDefault}" Margin="0 3"/>
                     <!-- IsEnabled -->
                     <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
                     <!-- Type -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Type:"/>
+                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Type"/>
                     <se:StswComboBox Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Standard" Tag="0"/>
                         <ComboBoxItem Content="Positive" Tag="1"/>

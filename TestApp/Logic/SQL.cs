@@ -88,7 +88,7 @@ internal static class SQL
             MessageBox.Show($"Error ({MethodBase.GetCurrentMethod()?.Name}):{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         
-        return result.MapTo<ContractorModel>().ToStswCollection();
+        return result.MapTo<ContractorModel>().ToStswBindingList();
     }
 
     /// SetContractors

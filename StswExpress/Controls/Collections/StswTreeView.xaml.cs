@@ -23,7 +23,7 @@ public class StswTreeView : TreeView
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>() != null;
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>()?.Count() > 0;
 
         //var selectedItem = FindAllTreeItems(this).FirstOrDefault(x => x.IsSelected);
         //if (selectedItem != null)
