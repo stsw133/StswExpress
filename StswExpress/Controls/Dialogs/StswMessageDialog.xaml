@@ -27,8 +27,8 @@
                                      Focusable="False"
                                      MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                      MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
-                                     MinHeight="120"
-                                     MinWidth="200"
+                                     MinHeight="150"
+                                     MinWidth="250"
                                      Padding="0"
                                      SnapsToDevicePixels="True"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -73,7 +73,8 @@
                                             Padding="{TemplateBinding Padding}"
                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                                             Text="{TemplateBinding Content}"
-                                            TextWrapping="Wrap"/>
+                                            TextWrapping="Wrap"
+                                            VerticalContentAlignment="Top"/>
                         </DockPanel>
                     </se:StswGroupBox>
                     <ControlTemplate.Triggers>
