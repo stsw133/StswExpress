@@ -109,9 +109,10 @@
     <SolidColorBrush x:Key="StswDataGrid.RowHeader.Pressed.Border" Color="#575757"/>
     <SolidColorBrush x:Key="StswDataGrid.Row.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswDataGrid.Row.Static.Border" Color="#575757"/>
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Added.Fill" Color="#47a3d1"/>
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Modified.Fill" Color="#d19847"/>
-    <SolidColorBrush x:Key="StswDataGridSpecialColumn.Deleted.Fill" Color="#d14747"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Fill" Color="#47a3d1"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Fill" Color="#d14747"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#d19847"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Fill" Color="Transparent"/>
 
     <SolidColorBrush x:Key="StswDialog.None.Background" Color="#292929"/>
     <SolidColorBrush x:Key="StswDialog.None.Border" Color="#575757"/>

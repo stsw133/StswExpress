@@ -10,57 +10,23 @@
         <local:StswOutlinedTextContext/>
     </d:UserControl.DataContext>
 
-    <Grid DockPanel.Dock="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        Represents a custom outlined text control with various text formatting options.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid Columns="1">
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <!-- <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>-->
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <!-- <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/> -->
-                    </UniformGrid>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <se:StswOutlinedText Fill="Red"
-                                 FontSize="20"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 Margin="5"
-                                 Stroke="DarkRed"
-                                 StrokeThickness="2"
-                                 Text="Some random text with dark red stroke and red fill"
-                                 HorizontalAlignment="{Binding HorizontalAlignment}"
-                                 VerticalAlignment="{Binding VerticalAlignment}"/>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        </Grid>
-    </Grid>
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            Represents a custom outlined text control with various text formatting options.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+
+        <!-- content -->
+        <se:StswOutlinedText Fill="Red"
+                             FontSize="20"
+                             IsEnabled="{Binding IsEnabled}"
+                             Margin="5"
+                             Stroke="DarkRed"
+                             StrokeThickness="2"
+                             Text="Some random text with dark red stroke and red fill"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
 </UserControl>

@@ -81,7 +81,7 @@
     <Compile Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml.cs">
+    <Compile Update="Modules\Controls\Components\StswComponentSelector\StswComponentSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml.cs">
@@ -258,7 +258,7 @@
     <Page Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentPanel\StswComponentPanelView.xaml">
+    <Page Update="Modules\Controls\Components\StswComponentSelector\StswComponentSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml">

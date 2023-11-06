@@ -10,79 +10,47 @@
         <local:StswProgressBarContext/>
     </d:UserControl.DataContext>
 
-    <Grid DockPanel.Dock="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        Represents a control being a progress bar with additional features such as displaying progress as text and different states.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                    <!-- IsIndeterminate -->
-                    <se:StswCheckBox Content="IsIndeterminate" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsIndeterminate}" Margin="0 3"/>
-                    <!-- Minimum -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum:"/>
-                    <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
-                    <!-- Maximum -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum:"/>
-                    <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
-                    <!-- State -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="State:"/>
-                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}"
-                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding State}" SelectedValuePath="Value"/>
-                    <!-- TextMode -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="TextMode:"/>
-                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}"
-                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TextMode}" SelectedValuePath="Value"/>
-                    <!-- Value -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value:"/>
-                    <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <se:StswProgressBar IsEnabled="{Binding IsEnabled}"
-                                IsIndeterminate="{Binding IsIndeterminate}"
-                                Margin="5"
-                                Maximum="{Binding Maximum}"
-                                Minimum="{Binding Minimum}"
-                                State="{Binding State}"
-                                TextMode="{Binding TextMode}"
-                                Value="{Binding SelectedValue}"
-                                HorizontalAlignment="{Binding HorizontalAlignment}"
-                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                VerticalAlignment="{Binding VerticalAlignment}"
-                                VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        </Grid>
-    </Grid>
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsIndeterminate -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsIndeterminate"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsIndeterminate}"/>
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum"/>
+            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
+            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <!-- State -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="State"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding State}" SelectedValuePath="Value"/>
+            <!-- TextMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="TextMode"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TextMode}" SelectedValuePath="Value"/>
+            <!-- Value -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
+            <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswProgressBar IsEnabled="{Binding IsEnabled}"
+                            IsIndeterminate="{Binding IsIndeterminate}"
+                            Margin="5"
+                            Maximum="{Binding Maximum}"
+                            Minimum="{Binding Minimum}"
+                            State="{Binding State}"
+                            TextMode="{Binding TextMode}"
+                            Value="{Binding SelectedValue}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+
+    </local:ControlsBase>
 </UserControl>

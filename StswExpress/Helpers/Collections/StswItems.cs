@@ -32,7 +32,7 @@ public class StswComboItem : StswObservableObject
 /// <summary>
 /// Defines an interface for items that can be selected.
 /// </summary>
-public interface IStswSelection
+public interface IStswSelectionItem
 {
     /// <summary>
     /// Gets or sets the selection associated with the item.
@@ -43,7 +43,7 @@ public interface IStswSelection
 /// <summary>
 /// Provides a way to store and display pairs of display and value objects for use in selection boxes.
 /// </summary>
-public class StswSelectionItem : StswComboItem, IStswSelection
+public class StswSelectionItem : StswComboItem, IStswSelectionItem
 {
     /// <summary>
     /// Gets or sets the selection associated with the item.

@@ -95,10 +95,11 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             Padding="{TemplateBinding Padding}"
-                                            SnapsToDevicePixels="True"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <ContentPresenter ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter ContentSource="Header"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Border>
                                     <ItemsPresenter x:Name="PART_Items" Grid.Column="1" Grid.Row="1"/>
                                 </Grid>

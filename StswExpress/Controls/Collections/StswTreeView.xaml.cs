@@ -7,7 +7,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that displays a collection of items in a hierarchical list.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 public class StswTreeView : TreeView
 {
@@ -23,7 +23,7 @@ public class StswTreeView : TreeView
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>()?.Count() > 0;
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
 
         //var selectedItem = FindAllTreeItems(this).FirstOrDefault(x => x.IsSelected);
         //if (selectedItem != null)

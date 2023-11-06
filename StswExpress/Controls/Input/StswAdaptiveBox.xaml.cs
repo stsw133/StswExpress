@@ -9,7 +9,7 @@ namespace StswExpress;
 
 /// <summary>
 /// A control used for automatically select input box based on its value type.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 [ContentProperty(nameof(Value))]
 public class StswAdaptiveBox : Control

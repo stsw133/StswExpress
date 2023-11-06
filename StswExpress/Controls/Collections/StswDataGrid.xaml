@@ -480,7 +480,7 @@
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
         <Grid Background="Transparent" Margin="-1" SnapsToDevicePixels="False" ToolTip="{Binding ItemMessage}">
             <se:StswToggleButton x:Name="PART_ShowDetails" BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
-            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" Fill="Transparent" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" Scale="1.33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <se:StswIcon x:Name="PART_SymbolIcon" Data="{x:Static se:StswIcons.DotsVertical}" IsHitTestVisible="False" Scale="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <DataTemplate.Triggers>
@@ -493,6 +493,12 @@
             </MultiDataTrigger>
             <DataTrigger Binding="{Binding ItemMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
                 <Setter Property="Data" Value="{x:Static se:StswIcons.InformationVariant}" TargetName="PART_SymbolIcon"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemState}" Value="{x:Null}">
+                <Setter Property="Fill" Value="Transparent" TargetName="PART_StateIcon"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ItemState}" Value="Unchanged">
+                <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Unchanged.Fill}" TargetName="PART_StateIcon"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding ItemState}" Value="Added">
                 <Setter Property="Fill" Value="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}" TargetName="PART_StateIcon"/>

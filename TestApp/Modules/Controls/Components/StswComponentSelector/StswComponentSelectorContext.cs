@@ -1,13 +1,13 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace TestApp;
 
-public class StswComponentPanelContext : ControlsContext
+public class StswComponentSelectorContext : ControlsContext
 {
     public ICommand OnClickCommand { get; set; }
 
-    public StswComponentPanelContext()
+    public StswComponentSelectorContext()
     {
         OnClickCommand = new StswCommand(OnClick);
     }
@@ -26,12 +26,12 @@ public class StswComponentPanelContext : ControlsContext
         set => SetProperty(ref clickCounter, value);
     }
 
-    /// ExpandDirection
-    private ExpandDirection expandDirection = ExpandDirection.Down;
-    public ExpandDirection ExpandDirection
+    /// HeaderVisibility
+    private Visibility headerVisibility = Visibility.Collapsed;
+    public Visibility HeaderVisibility
     {
-        get => expandDirection;
-        set => SetProperty(ref expandDirection, value);
+        get => headerVisibility;
+        set => SetProperty(ref headerVisibility, value);
     }
 
     /// IconScale
@@ -40,6 +40,14 @@ public class StswComponentPanelContext : ControlsContext
     {
         get => iconScale;
         set => SetProperty(ref iconScale, value);
+    }
+
+    /// IsBusy
+    private bool isBusy = false;
+    public bool IsBusy
+    {
+        get => isBusy;
+        set => SetProperty(ref isBusy, value);
     }
     #endregion
 }

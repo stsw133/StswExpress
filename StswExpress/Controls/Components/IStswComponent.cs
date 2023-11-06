@@ -8,8 +8,8 @@ namespace StswExpress;
 /// </summary>
 public interface IStswComponent
 {
-    public Visibility? ContentVisibility { get; set; }
-    public static readonly DependencyProperty? ContentVisibilityProperty;
+    //public Visibility? ContentVisibility { get; set; }
+    //public static readonly DependencyProperty? ContentVisibilityProperty;
 
     public GridLength? IconScale { get; set; }
     public static readonly DependencyProperty? IconScaleProperty;

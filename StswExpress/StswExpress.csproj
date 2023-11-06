@@ -99,7 +99,7 @@ Bugfixes:
     <Page Update="Controls\Components\StswComponentCheck.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Components\StswComponentPanel.xaml">
+    <Page Update="Controls\Components\StswComponentSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DateTime\StswCalendar.xaml">

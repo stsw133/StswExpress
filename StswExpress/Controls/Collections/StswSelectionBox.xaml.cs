@@ -12,7 +12,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
 public class StswSelectionBox : ContentControl
 {
@@ -48,7 +48,7 @@ public class StswSelectionBox : ContentControl
     /// </summary>
     internal void SetText()
     {
-        var itemsSource = ItemsSource?.OfType<IStswSelection>()?.ToList();
+        var itemsSource = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
         if (itemsSource == null)
             return;
 

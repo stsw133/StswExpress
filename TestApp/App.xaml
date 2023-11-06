@@ -86,8 +86,8 @@
             <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
                 <local:StswComponentCheckView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentPanelContext}">
-                <local:StswComponentPanelView/>
+            <DataTemplate DataType="{x:Type local:StswComponentSelectorContext}">
+                <local:StswComponentSelectorView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComponentRepeaterContext}">
                 <local:StswComponentRepeaterView/>
