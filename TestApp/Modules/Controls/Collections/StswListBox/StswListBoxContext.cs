@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace TestApp;
@@ -12,7 +13,7 @@ public class StswListBoxContext : ControlsContext
 
     #region Properties
     /// Items
-    private StswBindingList<StswListBoxTestModel> items = new()
+    private BindingList<StswListBoxTestModel> items = new()
     {
         new() { Name = "Option 1", IsSelected = true },
         new() { Name = "Option 2", IsSelected = false },
@@ -25,7 +26,7 @@ public class StswListBoxContext : ControlsContext
         new() { Name = "Option 9", IsSelected = true },
         new() { Name = "Option 10", IsSelected = false }
     };
-    public StswBindingList<StswListBoxTestModel> Items
+    public BindingList<StswListBoxTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
@@ -44,7 +45,7 @@ public class StswListBoxContext : ControlsContext
     #endregion
 }
 
-public class StswListBoxTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem
+public class StswListBoxTestModel : StswObservableObject, IStswSelectionItem
 {
     /// ID
     private int id;
@@ -60,30 +61,6 @@ public class StswListBoxTestModel : StswObservableObject, IStswCollectionItem, I
     {
         get => name;
         set => SetProperty(ref name, value);
-    }
-
-    /// ItemMessage
-    private string? itemMessage;
-    public string? ItemMessage
-    {
-        get => itemMessage;
-        set => SetProperty(ref itemMessage, value);
-    }
-
-    /// ItemState
-    private StswItemState itemState;
-    public StswItemState ItemState
-    {
-        get => itemState;
-        set => SetProperty(ref itemState, value);
-    }
-
-    /// ShowDetails
-    private bool? showDetails;
-    public bool? ShowDetails
-    {
-        get => showDetails;
-        set => SetProperty(ref showDetails, value);
     }
 
     /// IsSelected

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace TestApp;
@@ -12,7 +13,7 @@ public class StswListViewContext : ControlsContext
 
     #region Properties
     /// Items
-    private StswBindingList<StswListBoxTestModel> items = new()
+    private BindingList<StswListBoxTestModel> items = new()
     {
         new() { Name = "Option 1", IsSelected = true },
         new() { Name = "Option 2", IsSelected = false },
@@ -25,7 +26,7 @@ public class StswListViewContext : ControlsContext
         new() { Name = "Option 9", IsSelected = true },
         new() { Name = "Option 10", IsSelected = false }
     };
-    public StswBindingList<StswListBoxTestModel> Items
+    public BindingList<StswListBoxTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);

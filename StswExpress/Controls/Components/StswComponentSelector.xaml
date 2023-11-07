@@ -25,6 +25,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                   ContentVisibility="{TemplateBinding HeaderVisibility}"
                                    IconData="{TemplateBinding IconData}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IsBusy="{TemplateBinding IsBusy}"
