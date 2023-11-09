@@ -73,7 +73,7 @@
                                             <Setter Property="StrokeThickness" Value="2"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
-                                                    <Setter Property="Fill" Value="#B777"/>
+                                                    <Setter Property="Fill" Value="{DynamicResource StswWindow.Inactive.Foreground}"/>
                                                     <Setter Property="Stroke" Value="Transparent"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -164,7 +164,7 @@
                                             <Setter Property="StrokeThickness" Value="2"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
-                                                    <Setter Property="Fill" Value="#B777"/>
+                                                    <Setter Property="Fill" Value="{DynamicResource StswWindow.Inactive.Foreground}"/>
                                                     <Setter Property="Stroke" Value="Transparent"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
