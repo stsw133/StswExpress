@@ -7,17 +7,17 @@ namespace StswExpress;
 /// <summary>
 /// Provides functionality for managing database connections and methods to import and export them.
 /// </summary>
-public static class StswDatabase
+public static class StswDatabases
 {
     /// <summary>
     /// The dictionary that contains all declared database connections for application.
     /// </summary>
-    public static ObservableCollection<StswDatabaseModel> AllDatabases { get; set; } = new();
+    public static ObservableCollection<StswDatabaseModel> List { get; set; } = new();
 
     /// <summary>
     /// Default instance of database connection (that is currently in use by application). 
     /// </summary>
-    public static StswDatabaseModel? CurrentDatabase { get; set; }
+    public static StswDatabaseModel? Current { get; set; }
 
     /// <summary>
     /// Specifies the location of the file where database connections are stored.
@@ -25,11 +25,11 @@ public static class StswDatabase
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
 
     /// <summary>
-    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="AllDatabases"/>.
+    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="List"/>.
     /// </summary>
-    public static void ImportDatabases()
+    public static void ImportList()
     {
-        AllDatabases.Clear();
+        List.Clear();
 
         if (!File.Exists(FilePath))
         {
@@ -44,10 +44,11 @@ public static class StswDatabase
             if (line != null)
             {
                 var data = line.Split('|');
-                AllDatabases.Add(new()
+                List.Add(new()
                 {
+                    Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
-                    Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
+                    Port = StswSecurity.Decrypt(data[2]) is string s && !string.IsNullOrEmpty(s) ? Convert.ToInt32(s) : null,
                     Database = StswSecurity.Decrypt(data[3]),
                     Login = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5])
@@ -59,13 +60,13 @@ public static class StswDatabase
     /// <summary>
     /// Writes database connections to a file specified by <see cref="FilePath"/>.
     /// </summary>
-    public static void ExportDatabases()
+    public static void ExportList()
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var db in AllDatabases)
+        foreach (var db in List)
             stream.WriteLine(StswSecurity.Encrypt(db.Name)
                     + "|" + StswSecurity.Encrypt(db.Server)
-                    + "|" + StswSecurity.Encrypt(db.Port.ToString())
+                    + "|" + StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty)
                     + "|" + StswSecurity.Encrypt(db.Database)
                     + "|" + StswSecurity.Encrypt(db.Login)
                     + "|" + StswSecurity.Encrypt(db.Password)
@@ -103,12 +104,12 @@ public class StswDatabaseModel : StswObservableObject
     private string server = string.Empty;
 
     /// Port
-    public int Port
+    public int? Port
     {
         get => port;
         set => SetProperty(ref port, value);
     }
-    private int port = 0;
+    private int? port;
 
     /// Database
     public string Database
@@ -141,18 +142,15 @@ public class StswDatabaseModel : StswObservableObject
         set => SetProperty(ref version, value);
     }
     private string version = string.Empty;
-
+    
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.
     /// </summary>
-    public string? GetConnString()
+    public string? GetConnString() => Type switch
     {
-        return Type switch
-        {
-            StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            StswDatabaseType.MySQL => $"Server={Server};{(Port > 0 ? $"Port={Port}" : string.Empty)};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
-            StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-            _ => null
-        };
-    }
+        StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+        StswDatabaseType.MySQL => $"Server={Server};{(Port > 0 ? $"Port={Port}" : string.Empty)};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
+        StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
+        _ => null
+    };
 }

@@ -73,6 +73,7 @@
         <ResourceDictionary Source="Style/StswIcon.xaml"/>
         <ResourceDictionary Source="Style/StswLoadingCircle.xaml"/>
 
+        <ResourceDictionary Source="Text/StswOutlinedText.xaml"/>
         <ResourceDictionary Source="Text/StswText.xaml"/>
         <ResourceDictionary Source="Text/StswTruncateLabel.xaml"/>
 

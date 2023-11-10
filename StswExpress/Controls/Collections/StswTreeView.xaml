@@ -68,7 +68,7 @@
                     <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
                     <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
-                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
                     
                     <Setter Property="Template">

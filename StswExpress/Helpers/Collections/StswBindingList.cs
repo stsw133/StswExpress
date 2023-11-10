@@ -28,7 +28,7 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     {
         base.OnListChanged(e);
 
-        if (e == null || e.ListChangedType == ListChangedType.ItemDeleted)
+        if (e == null || e.ListChangedType.In(ListChangedType.ItemDeleted, ListChangedType.Reset))
             return;
 
         if (Items[e.NewIndex] is T item && item.ItemState == StswItemState.Unchanged)

@@ -20,6 +20,140 @@ public class StswOutlinedText : FrameworkElement
         TextDecorations = new TextDecorationCollection();
     }
 
+    #region Events & methods
+    private FormattedText? _FormattedText;
+    private Geometry? _TextGeometry;
+    private Pen? _Pen;
+
+    /// <summary>
+    /// Updates the pen used for text outline.
+    /// </summary>
+    private void UpdatePen()
+    {
+        _Pen = new Pen(Stroke, StrokeThickness)
+        {
+            DashCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round,
+            LineJoin = PenLineJoin.Round,
+            StartLineCap = PenLineCap.Round
+        };
+
+        InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Renders the outlined text.
+    /// </summary>
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        EnsureGeometry();
+        drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
+        drawingContext.DrawGeometry(Fill, null, _TextGeometry);
+    }
+
+    /// <summary>
+    /// Measures the size of the outlined text.
+    /// </summary>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        EnsureFormattedText();
+        if (_FormattedText != null)
+        {
+            _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
+            _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
+            return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
+        }
+        return new Size();
+    }
+
+    /// <summary>
+    /// Arranges the outlined text.
+    /// </summary>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        EnsureFormattedText();
+        if (_FormattedText != null)
+        {
+            _FormattedText.MaxTextWidth = finalSize.Width;
+            _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
+        }
+        _TextGeometry = null;
+
+        return finalSize;
+    }
+
+    /// <summary>
+    /// Event handler for the invalidation of the formatted text.
+    /// </summary>
+    private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
+        outlinedTextBlock._FormattedText = null;
+        outlinedTextBlock._TextGeometry = null;
+
+        outlinedTextBlock.InvalidateMeasure();
+        outlinedTextBlock.InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Event handler for the updated formatted text.
+    /// </summary>
+    private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
+        outlinedTextBlock.UpdateFormattedText();
+        outlinedTextBlock._TextGeometry = null;
+
+        outlinedTextBlock.InvalidateMeasure();
+        outlinedTextBlock.InvalidateVisual();
+    }
+
+    /// <summary>
+    /// Ensures the availability of the formatted text.
+    /// </summary>
+    private void EnsureFormattedText()
+    {
+        if (_FormattedText != null)
+            return;
+
+        _FormattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+        UpdateFormattedText();
+    }
+
+    /// <summary>
+    /// Updates the properties of the formatted text.
+    /// </summary>
+    private void UpdateFormattedText()
+    {
+        if (_FormattedText == null)
+            return;
+
+        _FormattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
+        _FormattedText.TextAlignment = TextAlignment;
+        _FormattedText.Trimming = TextTrimming;
+
+        _FormattedText.SetFontSize(FontSize);
+        _FormattedText.SetFontStyle(FontStyle);
+        _FormattedText.SetFontWeight(FontWeight);
+        _FormattedText.SetFontFamily(FontFamily);
+        _FormattedText.SetFontStretch(FontStretch);
+        _FormattedText.SetTextDecorations(TextDecorations);
+    }
+
+    /// <summary>
+    /// Ensures the availability of the text geometry.
+    /// </summary>
+    private void EnsureGeometry()
+    {
+        if (_TextGeometry != null)
+            return;
+
+        EnsureFormattedText();
+        _TextGeometry = _FormattedText?.BuildGeometry(new Point(0, 0));
+    }
+    #endregion
+
     #region Properties
     /// <summary>
     /// Gets or sets the fill color of the text.
@@ -221,136 +355,4 @@ public class StswOutlinedText : FrameworkElement
             new FrameworkPropertyMetadata(TextWrapping.NoWrap, OnFormattedTextUpdated)
         );
     #endregion
-
-    private FormattedText? _FormattedText;
-    private Geometry? _TextGeometry;
-    private Pen? _Pen;
-
-    /// <summary>
-    /// Updates the pen used for text outline.
-    /// </summary>
-    private void UpdatePen()
-    {
-        _Pen = new Pen(Stroke, StrokeThickness)
-        {
-            DashCap = PenLineCap.Round,
-            EndLineCap = PenLineCap.Round,
-            LineJoin = PenLineJoin.Round,
-            StartLineCap = PenLineCap.Round
-        };
-
-        InvalidateVisual();
-    }
-
-    /// <summary>
-    /// Renders the outlined text.
-    /// </summary>
-    protected override void OnRender(DrawingContext drawingContext)
-    {
-        EnsureGeometry();
-        drawingContext.DrawGeometry(null, _Pen, _TextGeometry);
-        drawingContext.DrawGeometry(Fill, null, _TextGeometry);
-    }
-
-    /// <summary>
-    /// Measures the size of the outlined text.
-    /// </summary>
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        EnsureFormattedText();
-        if (_FormattedText != null)
-        {
-            _FormattedText.MaxTextWidth = Math.Min(3579139, availableSize.Width);
-            _FormattedText.MaxTextHeight = Math.Max(0.0001d, availableSize.Height);
-            return new Size(Math.Ceiling(_FormattedText.Width), Math.Ceiling(_FormattedText.Height));
-        }
-        return new Size();
-    }
-
-    /// <summary>
-    /// Arranges the outlined text.
-    /// </summary>
-    protected override Size ArrangeOverride(Size finalSize)
-    {
-        EnsureFormattedText();
-        if (_FormattedText != null)
-        {
-            _FormattedText.MaxTextWidth = finalSize.Width;
-            _FormattedText.MaxTextHeight = Math.Max(0.0001d, finalSize.Height);
-        }
-        _TextGeometry = null;
-
-        return finalSize;
-    }
-
-    /// <summary>
-    /// Event handler for the invalidation of the formatted text.
-    /// </summary>
-    private static void OnFormattedTextInvalidated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-    {
-        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
-        outlinedTextBlock._FormattedText = null;
-        outlinedTextBlock._TextGeometry = null;
-
-        outlinedTextBlock.InvalidateMeasure();
-        outlinedTextBlock.InvalidateVisual();
-    }
-
-    /// <summary>
-    /// Event handler for the updated formatted text.
-    /// </summary>
-    private static void OnFormattedTextUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-    {
-        var outlinedTextBlock = (StswOutlinedText)dependencyObject;
-        outlinedTextBlock.UpdateFormattedText();
-        outlinedTextBlock._TextGeometry = null;
-
-        outlinedTextBlock.InvalidateMeasure();
-        outlinedTextBlock.InvalidateVisual();
-    }
-
-    /// <summary>
-    /// Ensures the availability of the formatted text.
-    /// </summary>
-    private void EnsureFormattedText()
-    {
-        if (_FormattedText != null)
-            return;
-
-        _FormattedText = new FormattedText(Text ?? string.Empty, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-
-        UpdateFormattedText();
-    }
-
-    /// <summary>
-    /// Updates the properties of the formatted text.
-    /// </summary>
-    private void UpdateFormattedText()
-    {
-        if (_FormattedText == null)
-            return;
-
-        _FormattedText.MaxLineCount = TextWrapping == TextWrapping.NoWrap ? 1 : int.MaxValue;
-        _FormattedText.TextAlignment = TextAlignment;
-        _FormattedText.Trimming = TextTrimming;
-
-        _FormattedText.SetFontSize(FontSize);
-        _FormattedText.SetFontStyle(FontStyle);
-        _FormattedText.SetFontWeight(FontWeight);
-        _FormattedText.SetFontFamily(FontFamily);
-        _FormattedText.SetFontStretch(FontStretch);
-        _FormattedText.SetTextDecorations(TextDecorations);
-    }
-
-    /// <summary>
-    /// Ensures the availability of the text geometry.
-    /// </summary>
-    private void EnsureGeometry()
-    {
-        if (_TextGeometry != null)
-            return;
-
-        EnsureFormattedText();
-        _TextGeometry = _FormattedText?.BuildGeometry(new Point(0, 0));
-    }
 }

@@ -4,7 +4,8 @@
 
     <Style TargetType="{x:Type se:StswComponentButton}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswComponent.Static.Foreground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
 
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="Padding" Value="0"/>
@@ -36,14 +37,13 @@
                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.MouseOver.Foreground}"/>
+                            <Setter Property="Opacity" Value="0.6"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Pressed.Foreground}"/>
+                            <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
-                            <!-- <Setter Property="TextElement.Foreground" Value="{DynamicResource StswComponent.Disabled.Foreground}"/> -->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

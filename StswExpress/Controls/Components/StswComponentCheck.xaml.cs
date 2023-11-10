@@ -121,18 +121,4 @@ public class StswComponentCheck : CheckBox, IStswComponent
             typeof(StswComponentCheck)
         );
     #endregion
-
-    #region Style properties
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
-    #endregion
 }

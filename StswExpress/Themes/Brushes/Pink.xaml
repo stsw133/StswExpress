@@ -84,11 +84,6 @@
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="StswColorPicker.Static.Border" Color="#D9B"/>
 
-    <SolidColorBrush x:Key="StswComponent.Static.Foreground" Color="#201"/>
-    <SolidColorBrush x:Key="StswComponent.MouseOver.Foreground" Color="#867"/>
-    <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#A89"/>
-    <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#BBB"/>
-
     <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#201"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="#C7A7B7"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#D7B7C7"/>
@@ -162,6 +157,7 @@
 
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
+    <Thickness x:Key="StswItem.Thickness.Border">0.5</Thickness>
     <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#CFC5CA"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Checked.Background" Color="#C7A7B7"/>

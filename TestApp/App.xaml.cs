@@ -19,8 +19,8 @@ public partial class App : StswApp
 
         StswSecurity.Key = "myOwnStswHashKey";
 
-        StswDatabase.ImportDatabases();
-        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
+        StswDatabases.ImportList();
+        StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();
 
         var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp()));

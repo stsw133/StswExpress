@@ -81,11 +81,6 @@
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="StswColorPicker.Static.Border" Color="#BBB"/>
 
-    <SolidColorBrush x:Key="StswComponent.Static.Foreground" Color="#111"/>
-    <SolidColorBrush x:Key="StswComponent.MouseOver.Foreground" Color="#777"/>
-    <SolidColorBrush x:Key="StswComponent.Pressed.Foreground" Color="#999"/>
-    <SolidColorBrush x:Key="StswComponent.Disabled.Foreground" Color="#BBB"/>
-
     <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#111"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}"/>
@@ -159,6 +154,7 @@
 
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
+    <Thickness x:Key="StswItem.Thickness.Border">0.5</Thickness>
     <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#CCC"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
