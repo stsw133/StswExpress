@@ -55,6 +55,9 @@
             <DataTemplate DataType="{x:Type local:StswDataGridContext}">
                 <local:StswDataGridView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswGalleryContext}">
+                <local:StswGalleryView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
@@ -164,6 +167,9 @@
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswMediaPlayerContext}">
+                <local:StswMediaPlayerView/>
+            </DataTemplate>
             
             <!-- Navigation -->
             <DataTemplate DataType="{x:Type local:StswNavigationContext}">
@@ -174,9 +180,6 @@
             </DataTemplate>
             
             <!-- Scrolling -->
-            <DataTemplate DataType="{x:Type local:StswPagerContext}">
-                <local:StswPagerView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
                 <local:StswScrollViewerView/>
             </DataTemplate>

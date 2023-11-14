@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswPagerView.xaml
+/// Interaction logic for StswGalleryView.xaml
 /// </summary>
-public partial class StswPagerView : UserControl
+public partial class StswGalleryView : UserControl
 {
-    public StswPagerView()
+    public StswGalleryView()
     {
         InitializeComponent();
     }

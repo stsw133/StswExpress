@@ -6,11 +6,11 @@ using System.Windows.Input;
 
 namespace TestApp;
 
-public class StswPagerContext : ControlsContext
+public class StswGalleryContext : ControlsContext
 {
     public ICommand SelectItemsSourceCommand { get; set; }
 
-    public StswPagerContext()
+    public StswGalleryContext()
     {
         SelectItemsSourceCommand = new StswCommand(SelectItemsSource);
     }

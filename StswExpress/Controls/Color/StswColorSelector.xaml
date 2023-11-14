@@ -139,7 +139,7 @@
                                              CornerRadius="0"
                                              Header="{se:Tr StswColorSelector.ThemeColors}"
                                              Margin="{TemplateBinding SubPadding}">
-                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
+                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="6">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Vertical" Margin="0 3" MaxHeight="120"/>
@@ -156,7 +156,7 @@
                                                     <Style TargetType="{x:Type se:StswComponentButton}">
                                                         <Setter Property="Margin" Value="3 0"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswModuloConverter.Instance}, ConverterParameter=6}" Value="0">
+                                                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}}" Value="0">
                                                                 <Setter Property="Margin" Value="3 0 3 6"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>

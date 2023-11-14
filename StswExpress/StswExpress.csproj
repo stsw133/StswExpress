@@ -58,8 +58,12 @@ Bugfixes:
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.102.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ClosedXML" Version="0.102.1">
+      <PrivateAssets></PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3">
+      <PrivateAssets></PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -122,7 +126,10 @@ Bugfixes:
     <Page Update="Controls\Layout\StswSidePanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Scrolling\StswPager.xaml">
+    <Page Update="Controls\Collections\StswGallery.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Media\StswMediaPlayer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Scrolling\StswShifter.xaml">

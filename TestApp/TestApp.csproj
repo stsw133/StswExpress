@@ -54,6 +54,9 @@
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Special\Changelog\ChangelogView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,7 +102,7 @@
     <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml.cs">
@@ -228,6 +231,9 @@
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Special\Changelog\ChangelogView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -276,7 +282,7 @@
     <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswPager\StswPagerView.xaml">
+    <Page Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml">

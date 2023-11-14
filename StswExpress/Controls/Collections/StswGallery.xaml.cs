@@ -7,25 +7,21 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
+/// Represents a control that ...
 /// </summary>
-public class StswPager : ContentControl
+public class StswGallery : Control
 {
-    public ICommand UpCommand { get; set; }
-    public ICommand DownCommand { get; set; }
-    public ICommand LeftCommand { get; set; }
-    public ICommand RightCommand { get; set; }
+    public ICommand PreviousCommand { get; set; }
+    public ICommand NextCommand { get; set; }
 
-    public StswPager()
+    public StswGallery()
     {
-        UpCommand = new StswCommand(Up, UpCondition);
-        DownCommand = new StswCommand(Down, DownCondition);
-        LeftCommand = new StswCommand(Left, LeftCondition);
-        RightCommand = new StswCommand(Right, RightCondition);
+        PreviousCommand = new StswCommand(Previous, PreviousCondition);
+        NextCommand = new StswCommand(Next, NextCondition);
     }
-    static StswPager()
+    static StswGallery()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPager), new FrameworkPropertyMetadata(typeof(StswPager)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGallery), new FrameworkPropertyMetadata(typeof(StswGallery)));
     }
 
     #region Events & methods
@@ -41,40 +37,17 @@ public class StswPager : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="oldContent"></param>
-    /// <param name="newContent"></param>
-    protected override void OnContentChanged(object oldContent, object newContent)
-    {
-        base.OnContentChanged(oldContent, newContent);
-
-        /// setting DataContext of Content element
-        if (Content is FrameworkElement elem)
-        {
-            elem.SetBinding(DataContextProperty, new Binding()
-            {
-                Mode = BindingMode.OneWay,
-                Path = new PropertyPath(nameof(SelectedItem)),
-                Source = this
-            });
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="e"></param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
 
-        if (e.Key == Key.Down)
-            Down();
-        else if (e.Key == Key.Left)
-            Left();
+        if (e.Key == Key.Left)
+            Previous();
         else if (e.Key == Key.Right)
-            Right();
-        else if (e.Key == Key.Up)
-            Up();
+            Next();
+
+        e.Handled = true;
     }
 
     /// <summary>
@@ -116,42 +89,22 @@ public class StswPager : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    private void Down()
+    private void Previous()
     {
-        if (DownCondition())
-            SelectedIndex++;
-    }
-    private bool DownCondition() => SelectedIndex < (ItemsSource?.Count - 1);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private void Left()
-    {
-        if (LeftCondition())
+        if (PreviousCondition())
             SelectedIndex--;
     }
-    private bool LeftCondition() => SelectedIndex > 0;
+    private bool PreviousCondition() => SelectedIndex > 0;
 
     /// <summary>
     /// 
     /// </summary>
-    private void Right()
+    private void Next()
     {
-        if (RightCondition())
+        if (NextCondition())
             SelectedIndex++;
     }
-    private bool RightCondition() => SelectedIndex < (ItemsSource?.Count - 1);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private void Up()
-    {
-        if (UpCondition())
-            SelectedIndex--;
-    }
-    private bool UpCondition() => SelectedIndex > 0;
+    private bool NextCondition() => SelectedIndex < (ItemsSource?.Count - 1);
     #endregion
 
     #region Main properties
@@ -167,14 +120,14 @@ public class StswPager : ContentControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswPager),
+            typeof(StswGallery),
             new FrameworkPropertyMetadata(default(IList),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     private static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPager stsw)
+        if (obj is StswGallery stsw)
         {
             if (stsw.ItemsSource?.Count > 0)
             {
@@ -201,7 +154,7 @@ public class StswPager : ContentControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
-            typeof(StswPager)
+            typeof(StswGallery)
         );
 
     /// <summary>
@@ -216,14 +169,14 @@ public class StswPager : ContentControl
         = DependencyProperty.Register(
             nameof(SelectedIndex),
             typeof(int),
-            typeof(StswPager),
+            typeof(StswGallery),
             new FrameworkPropertyMetadata(-1,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedIndexChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     private static void OnSelectedIndexChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPager stsw)
+        if (obj is StswGallery stsw)
         {
             if (stsw.SelectedIndex >= 0)
                 stsw.SelectedItem = stsw.ItemsSource[stsw.SelectedIndex];
@@ -244,14 +197,14 @@ public class StswPager : ContentControl
         = DependencyProperty.Register(
             nameof(SelectedItem),
             typeof(object),
-            typeof(StswPager),
+            typeof(StswGallery),
             new FrameworkPropertyMetadata(default(object?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnSelectedItemChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     private static void OnSelectedItemChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswPager stsw)
+        if (obj is StswGallery stsw)
         {
             if (stsw.SelectedItem != null)
                 stsw.SelectedIndex = stsw.ItemsSource.IndexOf(stsw.SelectedItem);
@@ -274,7 +227,7 @@ public class StswPager : ContentControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswPager)
+            typeof(StswGallery)
         );
     #endregion
 }

@@ -3,9 +3,9 @@ WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
-  - **Collections:** StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
+  - **Collections:** StswComboBox, StswDataGrid, StswGallery, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
-  - **Components:** StswComponentButton, StswComponentCheck, StswComponentSelector, StswComponentRepeater
+  - **Components:** StswComponentButton, StswComponentCheck, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **Filtering:** StswFilter
@@ -13,7 +13,7 @@ WPF .NET 6.0 library containing:
   - **Layout:** StswClippingBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswImage
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Scrolling:** StswPager, StswScrollBar, StswScrollViewer, StswShifter
+  - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
   - **StatusInfo:** StswLogPanel, StswProgressBar
   - **Style:** StswHeader, StswIcon, StswLoadingCircle
   - **Text:** StswOutlinedText, StswText, StswTruncateLabel
