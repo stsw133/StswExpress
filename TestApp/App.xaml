@@ -89,11 +89,14 @@
             <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
                 <local:StswComponentCheckView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentSelectorContext}">
-                <local:StswComponentSelectorView/>
+            <DataTemplate DataType="{x:Type local:StswComponentHeaderContext}">
+                <local:StswComponentHeaderView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComponentRepeaterContext}">
                 <local:StswComponentRepeaterView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComponentSelectorContext}">
+                <local:StswComponentSelectorView/>
             </DataTemplate>
             
             <!-- DateTime -->
@@ -113,8 +116,8 @@
             </DataTemplate>
 
             <!-- Filtering -->
-            <DataTemplate DataType="{x:Type local:StswFilterContext}">
-                <local:StswFilterView/>
+            <DataTemplate DataType="{x:Type local:StswSqlFilterContext}">
+                <local:StswSqlFilterView/>
             </DataTemplate>
 
             <!-- Input -->

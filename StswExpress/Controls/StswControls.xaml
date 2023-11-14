@@ -28,6 +28,7 @@
 
         <ResourceDictionary Source="Components/StswComponentButton.xaml"/>
         <ResourceDictionary Source="Components/StswComponentCheck.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentHeader.xaml"/>
         <ResourceDictionary Source="Components/StswComponentRepeater.xaml"/>
         <ResourceDictionary Source="Components/StswComponentSelector.xaml"/>
 
@@ -37,7 +38,7 @@
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
         
-        <ResourceDictionary Source="Filtering/StswFilter.xaml"/>
+        <ResourceDictionary Source="Filtering/StswSqlFilter.xaml"/>
 
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumericBox.xaml"/>

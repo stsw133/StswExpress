@@ -1,7 +1,7 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and for <see cref="StswFilter.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and for <see cref="StswSqlFilter.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -71,9 +71,9 @@ public enum StswDialogImage
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilter.FilterMode"/>.
+/// Enumeration for <see cref="StswSqlFilter.FilterMode"/>.
 /// </summary>
-public enum StswFilterMode
+public enum StswSqlFilterMode
 {
     Equal,
     NotEqual,

@@ -38,12 +38,12 @@
             <se:StswDataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ID}" Width="100">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter Header="ID" FilterType="Number" FilterMode="Equal"/>
+                        <se:StswSqlFilter Header="ID" FilterType="Number" FilterMode="Equal"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Name}" Width="*">
                     <DataGridTextColumn.Header>
-                        <se:StswFilter Header="Name" FilterType="Text" FilterMode="Contains"/>
+                        <se:StswSqlFilter Header="Name" FilterType="Text" FilterMode="Contains"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </se:StswDataGrid.Columns>

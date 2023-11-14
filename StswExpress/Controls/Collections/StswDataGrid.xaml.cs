@@ -53,15 +53,15 @@ public class StswDataGrid : DataGrid
     /// </summary>
     private void ActionClear()
     {
-        var stswFilters = StswFn.FindVisualChildren<StswFilter>(this).ToList();
-        foreach (var stswFilter in stswFilters)
+        var StswSqlFilters = StswFn.FindVisualChildren<StswSqlFilter>(this).ToList();
+        foreach (var StswSqlFilter in StswSqlFilters)
         {
-            stswFilter.FilterMode = stswFilter.DefaultFilterMode;
-            var itemsSource = stswFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            var defaultItemsSource = stswFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            StswSqlFilter.FilterMode = StswSqlFilter.DefaultFilterMode;
+            var itemsSource = StswSqlFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            var defaultItemsSource = StswSqlFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
             itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
-            stswFilter.Value1 = stswFilter.DefaultValue1;
-            stswFilter.Value2 = stswFilter.DefaultValue2;
+            StswSqlFilter.Value1 = StswSqlFilter.DefaultValue1;
+            StswSqlFilter.Value2 = StswSqlFilter.DefaultValue2;
         }
     }
 
@@ -73,17 +73,17 @@ public class StswDataGrid : DataGrid
         FiltersData.SqlFilter = string.Empty;
         FiltersData.SqlParameters = new List<(string, object)>();
 
-        var stswFilters = StswFn.FindVisualChildren<StswFilter>(this).ToList();
-        foreach (var stswFilter in stswFilters)
+        var StswSqlFilters = StswFn.FindVisualChildren<StswSqlFilter>(this).ToList();
+        foreach (var StswSqlFilter in StswSqlFilters)
         {
             /// Header is StswColumnFilterData
-            if (stswFilter?.SqlString != null)
+            if (StswSqlFilter?.SqlString != null)
             {
-                FiltersData.SqlFilter += " and " + stswFilter.SqlString;
-                if (stswFilter.Value1 != null && stswFilter.SqlParam != null)
-                    FiltersData.SqlParameters.Add((stswFilter.SqlParam[..(stswFilter.SqlParam.Length > 120 ? 120 : stswFilter.SqlParam.Length)] + "1", stswFilter.Value1 ?? DBNull.Value));
-                if (stswFilter.Value2 != null && stswFilter.SqlParam != null)
-                    FiltersData.SqlParameters.Add((stswFilter.SqlParam[..(stswFilter.SqlParam.Length > 120 ? 120 : stswFilter.SqlParam.Length)] + "2", stswFilter.Value2 ?? DBNull.Value));
+                FiltersData.SqlFilter += " and " + StswSqlFilter.SqlString;
+                if (StswSqlFilter.Value1 != null && StswSqlFilter.SqlParam != null)
+                    FiltersData.SqlParameters.Add((StswSqlFilter.SqlParam[..(StswSqlFilter.SqlParam.Length > 120 ? 120 : StswSqlFilter.SqlParam.Length)] + "1", StswSqlFilter.Value1 ?? DBNull.Value));
+                if (StswSqlFilter.Value2 != null && StswSqlFilter.SqlParam != null)
+                    FiltersData.SqlParameters.Add((StswSqlFilter.SqlParam[..(StswSqlFilter.SqlParam.Length > 120 ? 120 : StswSqlFilter.SqlParam.Length)] + "2", StswSqlFilter.Value2 ?? DBNull.Value));
             }
         }
 

@@ -43,6 +43,7 @@
             <se:StswNavigationElement Text="Components" IconData="{x:Static se:StswIcons.ButtonPointer}">
                 <se:StswNavigationElement Text="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
                 <se:StswNavigationElement Text="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
+                <se:StswNavigationElement Text="StswComponentHeader" ContextNamespace="TestApp.StswComponentHeaderContext"/>
                 <se:StswNavigationElement Text="StswComponentRepeater" ContextNamespace="TestApp.StswComponentRepeaterContext"/>
                 <se:StswNavigationElement Text="StswComponentSelector" ContextNamespace="TestApp.StswComponentSelectorContext"/>
             </se:StswNavigationElement>
@@ -55,7 +56,7 @@
                 <se:StswNavigationElement Text="StswMessageDialog" ContextNamespace="TestApp.StswMessageDialogContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Filtering" IconData="{x:Static se:StswIcons.Filter}">
-                <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
+                <se:StswNavigationElement Text="StswSqlFilter" ContextNamespace="TestApp.StswSqlFilterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswAdaptiveBox" ContextNamespace="TestApp.StswAdaptiveBoxContext"/>

@@ -7,8 +7,8 @@
 // TODO - StswDataGrid should have its own auto generated columns
 
 /// Changes difficult to implement so have lower priority for now:
-// TODO - null filter in StswFilter should completely hide filter field
-// TODO - new option in StswFilters to download or not data from database
+// TODO - null filter in StswSqlFilter should completely hide filter field
+// TODO - new option in StswSqlFilters to download or not data from database
 // TODO - editable SelectionBox, auto filtering after writing text
 // TODO - StswNavigation - ItemsSource
 

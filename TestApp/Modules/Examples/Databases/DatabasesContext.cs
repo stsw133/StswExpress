@@ -65,12 +65,7 @@ public class DatabasesContext : StswObservableObject
     /// Export
     private async Task Export()
     {
-        await Task.Run(() =>
-        {
-            if (StswDatabases.Current != null && !StswDatabases.List.Contains(StswDatabases.Current))
-                StswDatabases.List.Add(StswDatabases.Current);
-            StswDatabases.ExportList();
-        });
+        await Task.Run(() => StswDatabases.ExportList());
     }
     #endregion
 

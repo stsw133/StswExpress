@@ -5,10 +5,10 @@ WPF .NET 6.0 library containing:
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswGallery, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
-  - **Components:** StswComponentButton, StswComponentCheck, StswComponentRepeater, StswComponentSelector
+  - **Components:** StswComponentButton, StswComponentCheck, StswComponentHeader, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
-  - **Filtering:** StswFilter
+  - **Filtering:** StswSqlFilter
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
   - **Layout:** StswClippingBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswImage

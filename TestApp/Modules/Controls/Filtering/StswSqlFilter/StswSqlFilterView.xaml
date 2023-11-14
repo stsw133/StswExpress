@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswFilterView"
+﻿<UserControl x:Class="TestApp.StswSqlFilterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswFilterContext/>
+        <local:StswSqlFilterContext/>
     </d:UserControl.DataContext>
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
@@ -25,7 +25,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswFilter FilterMode="Contains"
+        <se:StswSqlFilter FilterMode="Contains"
                        FilterType="{Binding FilterType}"
                        IsEnabled="{Binding IsEnabled}"
                        IsFilterNullSensitive="{Binding IsFilterNullSensitive}"
