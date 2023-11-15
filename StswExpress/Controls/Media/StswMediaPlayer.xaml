@@ -16,7 +16,52 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswMediaPlayer}">
-                    <MediaElement Source="{TemplateBinding Source}"/>
+                    <Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <MediaElement x:Name="PART_MediaElement" Grid.Row="0"
+                                          LoadedBehavior="Manual"
+                                          Source="{TemplateBinding Source}"/>
+                            <DockPanel Grid.Row="1" Width="200">
+                                <UniformGrid Rows="1" HorizontalAlignment="Center" Margin="1">
+                                    <se:StswComponentButton x:Name="PART_BtnRepeat"
+                                                            IconData="{x:Static se:StswIcons.Replay}"
+                                                            Margin="1"
+                                                            ToolTip="Play"/>
+                                    <se:StswComponentButton x:Name="PART_BtnStop"
+                                                            IconData="{x:Static se:StswIcons.Stop}"
+                                                            Margin="1"
+                                                            ToolTip="Stop"/>
+                                    <se:StswComponentButton x:Name="PART_BtnPrevious"
+                                                            IconData="{x:Static se:StswIcons.SkipPrevious}"
+                                                            Margin="1"
+                                                            ToolTip="Previous"/>
+                                    <se:StswComponentCheck x:Name="PART_BtnPlay"
+                                                           IconChecked="{x:Static se:StswIcons.Pause}"
+                                                           IconUnchecked="{x:Static se:StswIcons.Play}"
+                                                           Margin="1"
+                                                           ToolTip="Pause/play"/>
+                                    <se:StswComponentButton x:Name="PART_BtnNext"
+                                                            IconData="{x:Static se:StswIcons.SkipNext}"
+                                                            Margin="1"
+                                                            ToolTip="Next"/>
+                                    <se:StswComponentCheck x:Name="PART_BtnMute"
+                                                           IconChecked="{x:Static se:StswIcons.VolumeHigh}"
+                                                           IconUnchecked="{x:Static se:StswIcons.VolumeVariantOff}"
+                                                           IsChecked="True"
+                                                           Margin="1"
+                                                           ToolTip="Mute/unmute"/>
+                                </UniformGrid>
+                                <se:StswSlider Margin="1"
+                                               Maximum="1"
+                                               ToolTip="Volume"
+                                               Value="{Binding Volume, ElementName=PART_MediaElement}"/>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         
                     </ControlTemplate.Triggers>

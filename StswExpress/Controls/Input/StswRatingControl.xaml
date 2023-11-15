@@ -49,24 +49,10 @@
                                     <se:StswIcon x:Name="PART_Icon"
                                                  Data="{Binding Data, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                                  Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                                 Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
+                                                 Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                                  Scale="{Binding Scale, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                                  Stroke="{Binding Stroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                                 StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}">
-                                        <se:StswIcon.Template>
-                                            <ControlTemplate TargetType="{x:Type se:StswIcon}">
-                                                <Viewbox>
-                                                    <Canvas Height="{TemplateBinding CanvasSize}" Width="{TemplateBinding CanvasSize}">
-                                                        <Path x:Name="PART_Path"
-                                                              Data="{TemplateBinding Data}"
-                                                              Fill="{TemplateBinding Fill}"
-                                                              Stroke="{TemplateBinding Stroke}"
-                                                              StrokeThickness="{TemplateBinding StrokeThickness}"/>
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </ControlTemplate>
-                                        </se:StswIcon.Template>
-                                    </se:StswIcon>
+                                                 StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsChecked}" Value="True">
                                             <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Background}" TargetName="PART_Icon"/>

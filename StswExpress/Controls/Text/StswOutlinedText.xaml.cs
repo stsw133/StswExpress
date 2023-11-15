@@ -19,6 +19,10 @@ public class StswOutlinedText : FrameworkElement
         UpdatePen();
         TextDecorations = new TextDecorationCollection();
     }
+    static StswOutlinedText()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswOutlinedText), new FrameworkPropertyMetadata(typeof(StswOutlinedText)));
+    }
 
     #region Events & methods
     private FormattedText? _FormattedText;
