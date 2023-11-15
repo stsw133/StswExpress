@@ -13,7 +13,7 @@ namespace StswExpress;
 
 /// <summary>
 /// A control used for filtering data in a <see cref="StswDataGrid"/>.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
 public class StswSqlFilter : Control

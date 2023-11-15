@@ -7,7 +7,7 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that displays a collection of items in a vertical list.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 public class StswListBox : ListBox
 {

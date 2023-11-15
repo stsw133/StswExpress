@@ -14,6 +14,9 @@ public interface IStswComponent
     public GridLength? IconScale { get; set; }
     public static readonly DependencyProperty? IconScaleProperty;
 
+    public bool IsBusy { get; set; }
+    public static readonly DependencyProperty? IsBusyProperty;
+
     public Orientation Orientation { get; set; }
     public static readonly DependencyProperty? OrientationProperty;
 }

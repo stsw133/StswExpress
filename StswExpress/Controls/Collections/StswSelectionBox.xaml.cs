@@ -1,4 +1,343 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace StswExpress;
+
+/// <summary>
+/// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
+/// </summary>
+public class StswSelectionBox : ListBox
+{
+    public StswSelectionBox()
+    {
+        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
+
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+    }
+    static StswSelectionBox()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSelectionBox), new FrameworkPropertyMetadata(typeof(StswSelectionBox)));
+    }
+
+    #region Events & methods
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        SetTextCommand ??= new StswCommand(SetText);
+    }
+
+    protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+    {
+        if (!IsMouseOver)
+        {
+            SetCurrentValue(IsDropDownOpenProperty, false);
+            ReleaseMouseCapture();
+        }
+
+        base.OnPreviewMouseDown(e);
+    }
+
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        if (!IsDropDownOpen)
+        {
+            base.OnLostFocus(e);
+            return;
+        }
+
+        var focusedElement = FocusManager.GetFocusedElement(this);
+        if (focusedElement != null && !IsAncestorOf(focusedElement as DependencyObject))
+        {
+            SetCurrentValue(IsDropDownOpenProperty, false);
+        }
+
+        base.OnLostFocus(e);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
+        SetTextCommand?.Execute(null);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+        base.OnSelectionChanged(e);
+        SetTextCommand?.Execute(null);
+    }
+
+    /// <summary>
+    /// Sets the text for the control based on the selected items.
+    /// </summary>
+    internal void SetText()
+    {
+        var displayMembers = new List<string?>();
+
+        var itemsSource = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+        var selectedItems = itemsSource?.Where(x => x.IsSelected)?.ToList();
+
+        foreach (var selectedItem in selectedItems ?? SelectedItems)
+        {
+            if (DisplayMemberPath != null && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
+                displayMembers.Add(propertyInfo.GetValue(selectedItem)?.ToString());
+            else
+                displayMembers.Add(selectedItem?.ToString());
+        }
+        Text = string.Join(System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ", displayMembers);
+    }
+    #endregion
+
+    #region Main properties
+    /// <summary>
+    /// Gets or sets the visibility of the arrow icon in the drop button.
+    /// </summary>
+    public Visibility ArrowVisibility
+    {
+        get => (Visibility)GetValue(ArrowVisibilityProperty);
+        set => SetValue(ArrowVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty ArrowVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ArrowVisibility),
+            typeof(Visibility),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswComponent> Components
+    {
+        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<IStswComponent>),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
+    {
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(ComponentsAlignment),
+            typeof(Dock),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswSelectionBox stsw)
+        {
+            if (stsw.IsDropDownOpen)
+                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
+            else
+                _ = Mouse.Capture(null);
+        }
+    }
+    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
+    {
+        SetCurrentValue(IsDropDownOpenProperty, false);
+    }
+    
+    protected override void OnLostMouseCapture(MouseEventArgs e)
+    {
+        base.OnLostMouseCapture(e);
+
+        //if (IsDropDownOpen)
+        //    _ = Mouse.Capture(this, CaptureMode.SubTree);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the placeholder text displayed in the control when no item is selected.
+    /// </summary>
+    public string? Placeholder
+    {
+        get => (string?)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+    public static readonly DependencyProperty PlaceholderProperty
+        = DependencyProperty.Register(
+            nameof(Placeholder),
+            typeof(string),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    public ICommand SetTextCommand
+    {
+        get => (ICommand)GetValue(SetTextCommandProperty);
+        set => SetValue(SetTextCommandProperty, value);
+    }
+    public static readonly DependencyProperty SetTextCommandProperty
+        = DependencyProperty.Register(
+            nameof(SetTextCommand),
+            typeof(ICommand),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+    public static readonly DependencyProperty TextProperty
+        = DependencyProperty.Register(
+            nameof(Text),
+            typeof(string),
+            typeof(StswSelectionBox),
+            new FrameworkPropertyMetadata(default(string),
+                FrameworkPropertyMetadataOptions.None,
+                null, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal bool UsesSelectionItems
+    {
+        get => (bool)GetValue(UsesSelectionItemsProperty);
+        set => SetValue(UsesSelectionItemsProperty, value);
+    }
+    public static readonly DependencyProperty UsesSelectionItemsProperty
+        = DependencyProperty.Register(
+            nameof(UsesSelectionItems),
+            typeof(bool),
+            typeof(StswSelectionBox)
+        );
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the maximum height of the drop-down portion of the button.
+    /// </summary>
+    public double? MaxDropDownHeight
+    {
+        get => (double?)GetValue(MaxDropDownHeightProperty);
+        set => SetValue(MaxDropDownHeightProperty, value);
+    }
+    public static readonly DependencyProperty MaxDropDownHeightProperty
+        = DependencyProperty.Register(
+            nameof(MaxDropDownHeight),
+            typeof(double?),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the border thickness of the drop-down popup.
+    /// </summary>
+    public Thickness PopupThickness
+    {
+        get => (Thickness)GetValue(PopupThicknessProperty);
+        set => SetValue(PopupThicknessProperty, value);
+    }
+    public static readonly DependencyProperty PopupThicknessProperty
+        = DependencyProperty.Register(
+            nameof(PopupThickness),
+            typeof(Thickness),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between arrow icon and main button.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
+            typeof(StswSelectionBox)
+        );
+    #endregion
+}
+
+/*
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -352,3 +691,5 @@ public class StswSelectionBox : ContentControl
         );
     #endregion
 }
+
+*/

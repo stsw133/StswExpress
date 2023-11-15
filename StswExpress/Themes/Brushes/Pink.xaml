@@ -29,7 +29,7 @@
     <SolidColorBrush x:Key="StswBox.ReadOnly.Foreground" Color="#423"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswBox.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswBox.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswBox.Placeholder.Foreground" Color="#756"/>
 
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#ECD"/>
@@ -43,7 +43,7 @@
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#C7A7B7"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswButton.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswButton.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswButton.CheckedAndDisabled.Background" Color="#DFBFCF"/>
 
     <SolidColorBrush x:Key="StswCalendar.Static.Background" Color="#FFF5FA"/>
@@ -78,7 +78,7 @@
     <SolidColorBrush x:Key="StswCheck.Indeterminate.Toggle.Background" Color="#CAB"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswCheck.CheckedAndDisabled.Background" Color="#DFBFCF"/>
 
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent"/>
@@ -89,7 +89,7 @@
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#D7B7C7"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.Static.Border" Color="#CAB"/>
     <SolidColorBrush x:Key="StswDataGrid.ColumnHeader.MouseOver.Background" Color="#F6D6E6"/>
@@ -137,10 +137,10 @@
     <SolidColorBrush x:Key="StswDropButton.MouseOver.Border" Color="#C8A"/>
     <SolidColorBrush x:Key="StswDropButton.Checked.Background" Color="#CAB"/>
     <SolidColorBrush x:Key="StswDropButton.Checked.Border" Color="#B79"/>
-    <SolidColorBrush x:Key="StswDropButton.ReadOnly.Foreground" Color="#333"/>
+    <SolidColorBrush x:Key="StswDropButton.ReadOnly.Foreground" Color="#423"/>
     <SolidColorBrush x:Key="StswDropButton.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswDropButton.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswDropButton.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswDropButton.Disabled.Foreground" Color="#999"/>
 
     <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswExpander.Static.Border" Color="#D9B"/>
@@ -153,7 +153,7 @@
     <SolidColorBrush x:Key="StswExpander.Checked.Border" Color="#D7B7C7"/>
     <SolidColorBrush x:Key="StswExpander.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswExpander.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswExpander.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswExpander.Disabled.Foreground" Color="#999"/>
 
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
@@ -164,7 +164,7 @@
     <SolidColorBrush x:Key="StswItem.Checked.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswItem.CheckedAndDisabled.Background" Color="#DFBFCF"/>
 
     <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="#FFF5FA"/>
@@ -179,7 +179,7 @@
     <SolidColorBrush x:Key="StswNavigationElement.Checked.Border" Color="#D7B7C7"/>
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswNavigationElement.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswNavigationElement.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswNavigationElement.CheckedAndDisabled.Background" Color="#DFBFCF"/>
 
     <SolidColorBrush x:Key="StswPanel.Static.Background" Color="#f9f1f5"/>
@@ -240,7 +240,7 @@
 
     <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#D9B"/>
-    <SolidColorBrush x:Key="StswTabControl.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswTabControl.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswTabItem.Static.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswTabItem.Static.Border" Color="#D9B"/>
     <SolidColorBrush x:Key="StswTabItem.MouseOver.Background" Color="#DFD5DA"/>

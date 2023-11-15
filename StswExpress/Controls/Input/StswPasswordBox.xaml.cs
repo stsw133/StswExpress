@@ -22,7 +22,7 @@ public class StswPasswordBox : Control
 
     #region Events & methods
     private bool _isPasswordChanging;
-    private PasswordBox? partPasswordBox;
+    private PasswordBox? passwordBox;
 
     /// <summary>
     /// Occurs when the password in the StswPasswordBox changes.
@@ -37,11 +37,11 @@ public class StswPasswordBox : Control
         base.OnApplyTemplate();
 
         /// PasswordBox: password changed
-        if (GetTemplateChild("PART_PasswordBox") is PasswordBox pwdBox)
+        if (GetTemplateChild("PART_PasswordBox") is PasswordBox passwordBox)
         {
-            pwdBox.Password = Password;
-            pwdBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
-            partPasswordBox = pwdBox;
+            passwordBox.Password = Password;
+            passwordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
+            this.passwordBox = passwordBox;
         }
     }
 
@@ -51,8 +51,8 @@ public class StswPasswordBox : Control
     public void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
         _isPasswordChanging = true;
-        if (sender is PasswordBox pwdBox)
-            Password = pwdBox.Password;
+        if (sender is PasswordBox passwordBox)
+            Password = passwordBox.Password;
         _isPasswordChanging = false;
     }
     #endregion
@@ -109,8 +109,8 @@ public class StswPasswordBox : Control
     {
         if (obj is StswPasswordBox stsw)
         {
-            if (stsw.partPasswordBox != null && !stsw._isPasswordChanging)
-                stsw.partPasswordBox.Password = stsw.Password;
+            if (stsw.passwordBox != null && !stsw._isPasswordChanging)
+                stsw.passwordBox.Password = stsw.Password;
 
             stsw.PasswordChanged?.Invoke(stsw, EventArgs.Empty);
         }

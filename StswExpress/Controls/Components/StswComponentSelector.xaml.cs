@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -53,21 +52,6 @@ public class StswComponentSelector : ItemsControl, IStswComponent
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the visibility of the header within the control.
-    /// </summary>
-    public Visibility? HeaderVisibility
-    {
-        get => (Visibility)GetValue(HeaderVisibilityProperty);
-        set => SetValue(HeaderVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty HeaderVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(HeaderVisibility),
-            typeof(Visibility),
-            typeof(StswComponentSelector)
-        );
-
-    /// <summary>
     /// 
     /// </summary>
     public object? Header
@@ -79,6 +63,21 @@ public class StswComponentSelector : ItemsControl, IStswComponent
         = DependencyProperty.Register(
             nameof(Header),
             typeof(object),
+            typeof(StswComponentSelector)
+        );
+    
+    /// <summary>
+    /// Gets or sets the visibility of the header within the control.
+    /// </summary>
+    public Visibility? HeaderVisibility
+    {
+        get => (Visibility)GetValue(HeaderVisibilityProperty);
+        set => SetValue(HeaderVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty HeaderVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(HeaderVisibility),
+            typeof(Visibility),
             typeof(StswComponentSelector)
         );
 
