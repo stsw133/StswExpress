@@ -181,7 +181,7 @@ public static class StswFn
     /// Attempts to calculate a result from the provided mathematical expression using the order of operations and returns a bool indicating success or failure.
     /// The result of the calculation is stored in the result out parameter if successful.
     /// </summary>
-    public static bool TryCalculateString(string expression, out double result, CultureInfo? culture = null)
+    public static bool TryCalculateString(string expression, out decimal result, CultureInfo? culture = null)
     {
         try
         {
@@ -215,7 +215,7 @@ public static class StswFn
                 return iSign;
             }
             /// replace
-            double value;
+            decimal value;
             void expressionReplace()
             {
                 var addPlusSign = i1 > 0 && char.IsDigit(expression[i1 - 1]);
@@ -240,17 +240,17 @@ public static class StswFn
             while (expression[1..].Any(x => x.In('^')))
             {
                 var iSign = findFirstAndLastIndex(new char[] { '^' });
-                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
-                value = Math.Pow(number1, number2);
+                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
+                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
+                value = Convert.ToDecimal(Math.Pow(Convert.ToDouble(number1), Convert.ToDouble(number2)));
                 expressionReplace();
             }
             /// next * /
             while (expression[1..].Any(x => x.In('*', '/')))
             {
                 var iSign = findFirstAndLastIndex(new char[] { '*', '/' });
-                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
+                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
+                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
                 value = expression[iSign] == '*' ? number1 * number2 : number1 / number2;
                 expressionReplace();
             }
@@ -258,13 +258,13 @@ public static class StswFn
             while (expression[1..].Any(x => x.In('+', '-')))
             {
                 var iSign = findFirstAndLastIndex(new char[] { '+', '-' });
-                var number1 = Convert.ToDouble(expression[i1..iSign], culture);
-                var number2 = Convert.ToDouble(expression[(iSign + 1)..i2], culture);
+                var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
+                var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
                 value = expression[iSign] == '+' ? number1 + number2 : number1 - number2;
                 expressionReplace();
             }
 
-            result = Convert.ToDouble(expression, CultureInfo.InvariantCulture);
+            result = Convert.ToDecimal(expression, CultureInfo.InvariantCulture);
             return true;
         }
         catch

@@ -67,23 +67,6 @@ public class StswSplitButton : ItemsControl, ICommandSource
             typeof(StswSplitButton)
         );
 
-    /*
-    /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponent> Components
-    {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswSplitButton)
-        );
-    */
-
     /// <summary>
     /// Gets or sets the alignment of the components within the control.
     /// </summary>

@@ -29,9 +29,9 @@ public class StswCalculateConverter : MarkupExtension, IMultiValueConverter
         StswFn.TryCalculateString(a, out var result, culture);
 
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
-            return new CornerRadius(result);
+            return new CornerRadius(System.Convert.ToDouble(result));
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
-            return new Thickness(result);
+            return new Thickness(System.Convert.ToDouble(result));
         else if (targetType == typeof(string))
             return result.ToString();
         else

@@ -34,20 +34,20 @@
                             <se:StswDropButton x:Name="PART_FunctionButton"
                                                DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
                                                ArrowVisibility="Collapsed" Focusable="False"
-                                               BorderThickness="0" PopupThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <se:StswDropButton.Resources>
-                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
-                                </se:StswDropButton.Resources>
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswTabControl>
+                                <se:StswTabControl BorderThickness="0">
                                     <se:StswTabItem Header="Standardowe">
-                                        <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorSelector BorderThickness="0"
+                                                              SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                     <se:StswTabItem Header="Szczegółowe">
-                                        <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
+                                        <se:StswColorPicker BorderThickness="0"
+                                                            IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
+                                                            SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                 </se:StswTabControl>
                             </se:StswDropButton>

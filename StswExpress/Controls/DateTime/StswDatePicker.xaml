@@ -36,15 +36,12 @@
                             <se:StswDropButton x:Name="PART_FunctionButton"
                                                DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
                                                ArrowVisibility="Collapsed" Focusable="False"
-                                               BorderThickness="0" PopupThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <se:StswDropButton.Resources>
-                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
-                                </se:StswDropButton.Resources>
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswCalendar CornerRadius="{TemplateBinding CornerRadius}"
+                                <se:StswCalendar BorderThickness="0" CornerRadius="0"
                                                  Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </se:StswDropButton>

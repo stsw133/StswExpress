@@ -53,7 +53,7 @@ public class StswNumericBox : TextBox
     {
         if (decimal.TryParse(Text, out var result))
             Value = result;
-        Value = Value == null ? 0 : Value + Increment;
+        Value = Value + Increment ?? 0;
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class StswNumericBox : TextBox
     {
         if (decimal.TryParse(Text, out var result))
             Value = result;
-        Value = Value == null ? 0 : Value - Increment;
+        Value = Value - Increment ?? 0;
     }
 
     /// <summary>
@@ -93,25 +93,23 @@ public class StswNumericBox : TextBox
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && Value.HasValue)
+        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && decimal.TryParse(Text, out var result))
         {
-            if (decimal.TryParse(Text, out var result))
-                Value = result;
-
             if (e.Delta > 0)
             {
-                if (decimal.MaxValue - Increment >= Value)
-                    Value += Increment;
+                if (decimal.MaxValue - Increment >= result)
+                    result += Increment;
                 else
-                    Value = decimal.MaxValue;
+                    result = decimal.MaxValue;
             }
             else if (e.Delta < 0)
             {
-                if (decimal.MinValue + Increment <= Value)
-                    Value -= Increment;
+                if (decimal.MinValue + Increment <= result)
+                    result -= Increment;
                 else
-                    Value = decimal.MinValue;
+                    result = decimal.MinValue;
             }
+            Value = result;
 
             e.Handled = true;
         }
@@ -141,16 +139,15 @@ public class StswNumericBox : TextBox
 
         if (string.IsNullOrEmpty(Text))
             result = null;
-        else if (StswFn.TryCalculateString(Text, out var res1))
-            result = Convert.ToDecimal(res1);
-        else if (decimal.TryParse(Text, out var res2))
-            result = res2;
+        else if (StswFn.TryCalculateString(Text, out var res))
+            result = res;
+        else if (decimal.TryParse(Text, out res))
+            result = res;
 
         if (result != Value || alwaysUpdate)
         {
-            Value = result;
-
             Text = result?.ToString(Format);
+
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
                 bindingExpression.UpdateSource();
@@ -211,15 +208,8 @@ public class StswNumericBox : TextBox
         {
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
             {
-                var newBinding = new Binding()
-                {
-                    ConverterCulture = binding.ConverterCulture,
-                    Mode = binding.Mode,
-                    Path = binding.Path,
-                    RelativeSource = binding.RelativeSource,
-                    StringFormat = stsw.Format,
-                    UpdateSourceTrigger = binding.UpdateSourceTrigger
-                };
+                var newBinding = binding.Clone();
+                newBinding.StringFormat = stsw.Format;
                 stsw.SetBinding(TextProperty, newBinding);
             }
         }

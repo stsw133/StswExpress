@@ -71,13 +71,12 @@ public class StswColorBox : TextBox
             result = (Color)ColorConverter.ConvertFromString(Text);
 
         if (!IsAlphaEnabled)
-            SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
+            result = Color.FromRgb(result.R, result.G, result.B);
 
         if (result != SelectedColor || alwaysUpdate)
         {
-            SelectedColor = result;
+            Text = result.ToString();
 
-            Text = SelectedColor.ToString();
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
                 bindingExpression.UpdateSource();
