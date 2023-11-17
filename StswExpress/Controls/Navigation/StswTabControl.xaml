@@ -29,7 +29,7 @@
                                            DockPanel.Dock="Right"
                                            BorderThickness="0 1 1 0"
                                            CornerRadius="0 10 0 0"
-                                           Margin="0 2 0 0"
+                                           Margin="-3 2 0 0"
                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                            Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
@@ -39,7 +39,7 @@
                                           Background="Transparent"
                                           IsItemsHost="True"
                                           KeyboardNavigation.TabIndex="1"
-                                          Margin="2 2 0 0"
+                                          Margin="2 2 2 0"
                                           Panel.ZIndex="1"/>
                             </se:StswShifter>
                         </DockPanel>
@@ -93,6 +93,8 @@
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswTabControl.Disabled.Background}" TargetName="PART_ContentPanel"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswTabControl.Disabled.Border}" TargetName="PART_ContentPanel"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

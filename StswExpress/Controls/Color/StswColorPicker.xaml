@@ -16,8 +16,6 @@
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -35,7 +33,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- picker -->
                             <Border Grid.Column="0" Grid.Row="0"

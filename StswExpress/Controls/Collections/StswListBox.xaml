@@ -43,8 +43,8 @@
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -181,6 +181,8 @@
 
     <SolidColorBrush x:Key="StswPanel.Static.Background" Color="#f5f5f5"/>
     <SolidColorBrush x:Key="StswPanel.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswPanel.Disabled.Background" Color="#EEE"/>
+    <SolidColorBrush x:Key="StswPanel.Disabled.Border" Color="#DDD"/>
 
     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswPopup.Static.Border" Color="#BBB"/>
@@ -237,6 +239,8 @@
 
     <SolidColorBrush x:Key="StswTabControl.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswTabControl.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswTabControl.Disabled.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswTabControl.Disabled.Border" Color="#DDD"/>
     <SolidColorBrush x:Key="StswTabControl.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswTabItem.Static.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswTabItem.Static.Border" Color="#BBB"/>
