@@ -56,7 +56,9 @@ public class StswLoadingCircle : Control
             typeof(Brush),
             typeof(StswLoadingCircle)
         );
+    #endregion
 
+    #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
 
     [Browsable(false)]
@@ -82,5 +84,47 @@ public class StswLoadingCircle : Control
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Foreground { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontFamily? FontFamily { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new double FontSize { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontStretch FontStretch { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontWeight FontWeight { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Thickness Padding { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }

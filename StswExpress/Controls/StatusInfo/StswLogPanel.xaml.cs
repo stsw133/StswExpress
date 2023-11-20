@@ -10,7 +10,6 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-[StyleTypedProperty(Property = nameof(ItemContainerStyle), StyleTargetType = typeof(StswLogPanelItem))]
 public class StswLogPanel : ItemsControl
 {
     public ICommand RemoveLogCommand { get; set; }
@@ -25,33 +24,6 @@ public class StswLogPanel : ItemsControl
     }
 
     #region Events & methods
-    private StswScrollViewer? stswScrollViewer;
-    
-    /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        /// Content
-        if (GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
-            stswScrollViewer = scrollViewer;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    protected override DependencyObject GetContainerForItemOverride() => new StswLogPanelItem();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    protected override bool IsItemItsOwnContainerOverride(object item) => item is StswLogPanelItem;
-
     /// <summary>
     /// 
     /// </summary>
@@ -60,8 +32,8 @@ public class StswLogPanel : ItemsControl
     {
         base.OnItemsChanged(e);
 
-        if (e.NewItems?.Count > 0)
-            stswScrollViewer?.ScrollToEnd();
+        if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
+            scrollViewer?.ScrollToEnd();
     }
 
     /// Command: remove log
@@ -170,14 +142,6 @@ public class StswLogPanel : ItemsControl
             typeof(StswLogPanel)
         );
     #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class StswLogPanelItem : ContentControl
-{
-    
 }
 
 /// <summary>

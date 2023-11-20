@@ -42,6 +42,7 @@ public class StswColorPicker : Control
         {
             colorGrid.MouseDown += PART_ColorGrid_MouseDown;
             colorGrid.MouseMove += PART_ColorGrid_MouseMove;
+            colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
             this.colorGrid = colorGrid;
         }
         /// PART_ColorEllipse
@@ -99,6 +100,25 @@ public class StswColorPicker : Control
         }
 
         e.Handled = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void PART_ColorGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        var grid = (Grid)sender;
+        
+        SelectedColor.ToHsv(out var h, out var s, out var v);
+
+        var x = grid.ActualWidth * h / 360;
+        var y = grid.ActualHeight - (grid.ActualHeight * s);
+
+        if (colorEllipse != null && x >= 0 && y >= 0)
+        {
+            Canvas.SetLeft(colorEllipse, x - colorEllipse.Width / 2);
+            Canvas.SetTop(colorEllipse, y - colorEllipse.Height / 2);
+        }
     }
     #endregion
 

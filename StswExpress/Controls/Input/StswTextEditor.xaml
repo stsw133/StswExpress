@@ -44,13 +44,8 @@
                         <DockPanel>
                             <!-- toolbar -->
                             <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False">
-                                <se:StswShifter Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <se:StswShifter.ButtonStyle>
-                                        <Style TargetType="{x:Type ButtonBase}">
-                                            <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextEditor}}}"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </se:StswShifter.ButtonStyle>
+                                <se:StswShifter ButtonDownBorderThickness="0 1 0 0" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 0 0 1"
+                                                Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                     <DockPanel>
                                         <!-- file -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">

@@ -15,7 +15,7 @@ public class StswShifter : ScrollViewer
     }
 
     #region Events & methods
-    private StswRepeatButton? btnUp, btnDown, btnLeft, btnRight;
+    private StswRepeatButton? btnDown, btnLeft, btnRight, btnUp;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -24,62 +24,34 @@ public class StswShifter : ScrollViewer
     {
         base.OnApplyTemplate();
 
-        /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
-        {
-            btnUp.Click += BtnUp_Click;
-            this.btnUp = btnUp;
-        }
         /// Button: down
         if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
         {
-            btnDown.Click += BtnDown_Click;
+            btnDown.Click += (s, e) => ScrollInfo.MouseWheelDown();
             this.btnDown = btnDown;
         }
         /// Button: left
         if (GetTemplateChild("PART_ButtonLeft") is StswRepeatButton btnLeft)
         {
-            btnLeft.Click += BtnLeft_Click;
+            btnLeft.Click += (s, e) => ScrollInfo.MouseWheelLeft();
             this.btnLeft = btnLeft;
         }
         /// Button: right
         if (GetTemplateChild("PART_ButtonRight") is StswRepeatButton btnRight)
         {
-            btnRight.Click += BtnRight_Click;
+            btnRight.Click += (s, e) => ScrollInfo.MouseWheelRight();
             this.btnRight = btnRight;
+        }
+        /// Button: up
+        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
+        {
+            btnUp.Click += (s, e) => ScrollInfo.MouseWheelUp();
+            this.btnUp = btnUp;
         }
 
         OnHorizontalOffsetChanged();
         OnVerticalOffsetChanged();
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void BtnDown_Click(object sender, RoutedEventArgs e) => ScrollInfo.MouseWheelDown();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void BtnLeft_Click(object sender, RoutedEventArgs e) => ScrollInfo.MouseWheelLeft();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void BtnRight_Click(object sender, RoutedEventArgs e) => ScrollInfo.MouseWheelRight();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void BtnUp_Click(object sender, RoutedEventArgs e) => ScrollInfo.MouseWheelUp();
 
     /// <summary>
     /// Overrides the MouseWheel event to handle scrolling behavior.
@@ -184,17 +156,62 @@ public class StswShifter : ScrollViewer
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the style of buttons inside the control.
+    /// Gets or sets the thickness of the down button.
     /// </summary>
-    public Style ButtonStyle
+    public Thickness ButtonDownBorderThickness
     {
-        get => (Style)GetValue(ButtonStyleProperty);
-        set => SetValue(ButtonStyleProperty, value);
+        get => (Thickness)GetValue(ButtonDownBorderThicknessProperty);
+        set => SetValue(ButtonDownBorderThicknessProperty, value);
     }
-    public static readonly DependencyProperty ButtonStyleProperty
+    public static readonly DependencyProperty ButtonDownBorderThicknessProperty
         = DependencyProperty.Register(
-            nameof(ButtonStyle),
-            typeof(Style),
+            nameof(ButtonDownBorderThickness),
+            typeof(Thickness),
+            typeof(StswShifter)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the left button.
+    /// </summary>
+    public Thickness ButtonLeftBorderThickness
+    {
+        get => (Thickness)GetValue(ButtonLeftBorderThicknessProperty);
+        set => SetValue(ButtonLeftBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ButtonLeftBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(ButtonLeftBorderThickness),
+            typeof(Thickness),
+            typeof(StswShifter)
+        );
+    
+    /// <summary>
+    /// Gets or sets the thickness of the right button.
+    /// </summary>
+    public Thickness ButtonRightBorderThickness
+    {
+        get => (Thickness)GetValue(ButtonRightBorderThicknessProperty);
+        set => SetValue(ButtonRightBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ButtonRightBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(ButtonRightBorderThickness),
+            typeof(Thickness),
+            typeof(StswShifter)
+        );
+    
+    /// <summary>
+    /// Gets or sets the thickness of the up button.
+    /// </summary>
+    public Thickness ButtonUpBorderThickness
+    {
+        get => (Thickness)GetValue(ButtonUpBorderThicknessProperty);
+        set => SetValue(ButtonUpBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty ButtonUpBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(ButtonUpBorderThickness),
+            typeof(Thickness),
             typeof(StswShifter)
         );
 

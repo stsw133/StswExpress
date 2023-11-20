@@ -10,7 +10,7 @@
         <local:StswColorPickerContext/>
     </d:UserControl.DataContext>
 
-    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
             Represents a control that allows users to select colors from a color spectrum or hue/saturation palette.
         </local:ControlsBase.Description>

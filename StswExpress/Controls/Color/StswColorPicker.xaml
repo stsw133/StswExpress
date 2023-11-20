@@ -7,15 +7,18 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="SubPadding" Value="3"/>
         
         <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -40,8 +43,14 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding SubBorderThickness}"
                                     Margin="{TemplateBinding SubPadding}">
-                                <Canvas Height="180" Width="180" SnapsToDevicePixels="False">
-                                    <Grid x:Name="PART_ColorGrid" Background="White" Height="180" Width="180" SnapsToDevicePixels="False">
+                                <Grid>
+                                    <Grid x:Name="PART_ColorGrid"
+                                          Background="White"
+                                          MinHeight="180"
+                                          MinWidth="180"
+                                          SnapsToDevicePixels="False"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                         <Rectangle SnapsToDevicePixels="False">
                                             <Rectangle.Fill>
                                                 <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
@@ -62,8 +71,14 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                     </Grid>
-                                    <Ellipse x:Name="PART_ColorEllipse" SnapsToDevicePixels="False" Stroke="Black" Height="5" Width="5"/>
-                                </Canvas>
+                                    <Canvas Height="{Binding ActualHeight, ElementName=PART_ColorGrid}"
+                                            Width="{Binding ActualWidth, ElementName=PART_ColorGrid}"
+                                            SnapsToDevicePixels="False"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <Ellipse x:Name="PART_ColorEllipse" SnapsToDevicePixels="False" Stroke="Black" Height="5" Width="5"/>
+                                    </Canvas>
+                                </Grid>
                             </Border>
                             <!-- selected color -->
                             <Border Grid.Column="1" Grid.Row="0"

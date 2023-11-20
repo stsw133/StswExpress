@@ -65,8 +65,8 @@ public class StswSeparator : Separator
         {
             if (stsw.GetTemplateChild("PART_MainBorder") is Border mainBorder)
                 mainBorder.BorderThickness = stsw.Orientation == Orientation.Horizontal
-                    ? new Thickness(0, stsw.BorderThickness, 0, 0)
-                    : new Thickness(stsw.BorderThickness, 0, 0, 0);
+                    ? new Thickness(stsw.BorderThickness, stsw.BorderThickness, stsw.BorderThickness, 0)
+                    : new Thickness(stsw.BorderThickness, stsw.BorderThickness, 0, stsw.BorderThickness);
         }
     }
 

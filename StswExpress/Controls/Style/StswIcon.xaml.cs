@@ -5,7 +5,6 @@ using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
-
 /// <summary>
 /// Represents a control displaying vector icon.
 /// </summary>
@@ -30,7 +29,8 @@ public class StswIcon : Control
         = DependencyProperty.Register(
             nameof(CanvasSize),
             typeof(double),
-            typeof(StswIcon)
+            typeof(StswIcon),
+            new FrameworkPropertyMetadata(24d)
         );
 
     /// <summary>
@@ -118,7 +118,9 @@ public class StswIcon : Control
             typeof(double),
             typeof(StswIcon)
         );
+    #endregion
 
+    #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
 
     [Browsable(false)]
@@ -144,5 +146,47 @@ public class StswIcon : Control
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Foreground { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontFamily? FontFamily { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new double FontSize { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontStretch FontStretch { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new FontWeight FontWeight { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new Thickness Padding { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new HorizontalAlignment HorizontalContentAlignment { get; private set; }
+
+    [Browsable(false)]
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
 }

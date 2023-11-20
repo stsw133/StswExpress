@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -24,10 +23,10 @@ public static class StswLog
     /// <param name="text">Text to log.</param>
     public static ObservableCollection<StswLogItem> Import(DateTime dateF, DateTime dateT)
     {
-        var result = new List<StswLogItem>();
+        var result = new ObservableCollection<StswLogItem>();
 
         if (!Directory.Exists(DirectoryPath))
-            return result.ToObservableCollection();
+            return result;
 
         void ParseLog(StringBuilder logBuilder, int endOfDate)
         {
@@ -46,28 +45,25 @@ public static class StswLog
             if (!File.Exists(Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log")))
                 continue;
 
-            using (var sr = new StreamReader(Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log")))
+            using var sr = new StreamReader(Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log"));
+            var singleLogString = new StringBuilder(sr.ReadLine());
+            while (!sr.EndOfStream)
             {
-                var logBuilder = new StringBuilder(sr.ReadLine());
-                while (!sr.EndOfStream)
+                var line = sr.ReadLine();
+                if (line != null && DateTime.TryParse(line[..19], out var _))
                 {
-                    var line = sr.ReadLine();
+                    var endOfDate = line[19] == '.' ? 22 : 18;
 
-                    if (line != null && DateTime.TryParse(line[..19], out var _))
-                    {
-                        var endOfDate = line[19] == '.' ? 22 : 18;
-
-                        if (line[endOfDate + 2] == '|')
-                            ParseLog(logBuilder, endOfDate);
-                    }
-
-                    logBuilder.AppendLine(line);
+                    if (line[endOfDate + 2] == '|')
+                        ParseLog(singleLogString, endOfDate);
                 }
-                ParseLog(logBuilder, logBuilder.ToString()[19] == '.' ? 22 : 18);
+
+                singleLogString.AppendLine(line);
             }
+            ParseLog(singleLogString, singleLogString.ToString()[19] == '.' ? 22 : 18);
         }
 
-        return result.ToObservableCollection();
+        return result;
     }
 
     /// <summary>
@@ -80,8 +76,8 @@ public static class StswLog
         if (!Directory.Exists(DirectoryPath))
             Directory.CreateDirectory(DirectoryPath);
 
-        using (var sw = new StreamWriter(Path.Combine(DirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true))
-            sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type.ToString().First()} | {text}");
+        using var sw = new StreamWriter(Path.Combine(DirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
+        sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {type.ToString().First()} | {text}");
     }
 
     /// <summary>
@@ -94,7 +90,7 @@ public static class StswLog
         if (!Directory.Exists(DirectoryPath))
             Directory.CreateDirectory(DirectoryPath);
 
-        using (var sw = new StreamWriter(Path.Combine(DirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true))
-            sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {text}");
+        using var sw = new StreamWriter(Path.Combine(DirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
+        sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {text}");
     }
 }

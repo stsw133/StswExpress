@@ -4,11 +4,9 @@
 
     <Style TargetType="{x:Type se:StswIcon}">
         <Setter Property="Fill" Value="{DynamicResource StswWindow.Static.Foreground}"/>
-
-        <Setter Property="CanvasSize" Value="24"/>
-        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Scale" Value="1.5"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
 

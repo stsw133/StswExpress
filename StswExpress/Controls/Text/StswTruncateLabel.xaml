@@ -64,7 +64,7 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_TruncationButton"/>
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

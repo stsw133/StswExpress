@@ -16,7 +16,6 @@
         <Setter Property="ItemPadding" Value="3"/>
 
         <Setter Property="IsTabStop" Value="False"/>
-
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

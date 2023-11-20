@@ -15,13 +15,13 @@
         <Setter Property="ItemMargin" Value="3"/>
         <Setter Property="ItemPadding" Value="5"/>
 
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="IsTabStop" Value="False"/>
-
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
+        
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
 
         <Setter Property="Template">
             <Setter.Value>

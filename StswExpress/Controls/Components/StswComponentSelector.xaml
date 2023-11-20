@@ -49,13 +49,8 @@
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
                                                        SnapsToDevicePixels="True">
-                                    <se:StswShifter Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                        <se:StswShifter.ButtonStyle>
-                                            <Style TargetType="{x:Type se:StswRepeatButton}">
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                                <Setter Property="Padding" Value="0"/>
-                                            </Style>
-                                        </se:StswShifter.ButtonStyle>
+                                    <se:StswShifter ButtonDownBorderThickness="0" ButtonLeftBorderThickness="0" ButtonRightBorderThickness="0" ButtonUpBorderThickness="0"
+                                                    Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                         <ItemsPresenter Margin="3"/>
                                     </se:StswShifter>
                                 </se:StswClippingBorder>
