@@ -82,6 +82,9 @@ Bugfixes:
     <Page Update="Controls\Buttons\StswSplitButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\Charts\StswChartPie.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Collections\StswTreeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -132,16 +135,22 @@ Bugfixes:
     <Page Update="Controls\Media\StswMediaPlayer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\Navigation\StswContextMenu.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Scrolling\StswShifter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\StatusInfo\StswLogPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Text\StswText.xaml">
+    <Page Update="Controls\StatusInfo\StswProgressRing.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Text\StswTruncateLabel.xaml">
+    <Page Update="Controls\TextStyle\StswText.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\TextStyle\StswTruncateLabel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Filtering\StswSqlFilter.xaml">
@@ -176,7 +185,7 @@ Bugfixes:
     <Page Update="Controls\Navigation\StswNavigation.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Style\StswLoadingCircle.xaml">
+    <Page Update="Controls\TextStyle\StswLoadingCircle.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -223,11 +232,11 @@ Bugfixes:
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Style\StswHeader.xaml">
+    <Page Update="Controls\TextStyle\StswHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Style\StswIcon.xaml">
+    <Page Update="Controls\TextStyle\StswIcon.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

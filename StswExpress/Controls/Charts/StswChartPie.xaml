@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswChartPie}">
+        <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <!-- <Setter Property="CornerRadius" Value="1"/> -->
+        <Setter Property="Padding" Value="1"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswChartPie}">
+                    <Viewbox>
+                        <Grid x:Name="PART_Grid">
+                            <Ellipse RenderTransformOrigin="0.5 0.5"
+                                     SnapsToDevicePixels="False"
+                                     Stroke="Red"
+                                     StrokeDashArray="1.256636 5"
+                                     StrokeThickness="500"
+                                     ToolTip="Option 1"
+                                     ToolTipService.InitialShowDelay="0"
+                                     Height="1000" Width="1000">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform Angle="-90"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            <Ellipse RenderTransformOrigin="0.5 0.5"
+                                     SnapsToDevicePixels="False"
+                                     Stroke="Blue"
+                                     StrokeDashArray="0.942477 5"
+                                     StrokeThickness="500"
+                                     ToolTip="Option 2"
+                                     ToolTipService.InitialShowDelay="0"
+                                     Height="1000" Width="1000">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform Angle="54"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            <Ellipse RenderTransformOrigin="0.5 0.5"
+                                     SnapsToDevicePixels="False"
+                                     Stroke="Green"
+                                     StrokeDashArray="0.628318 5"
+                                     StrokeThickness="500"
+                                     ToolTip="Option 3"
+                                     ToolTipService.InitialShowDelay="0"
+                                     Height="1000" Width="1000">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform Angle="162"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            <Ellipse RenderTransformOrigin="0.5 0.5"
+                                     SnapsToDevicePixels="False"
+                                     Stroke="Yellow"
+                                     StrokeDashArray="0.314159 5"
+                                     StrokeThickness="500"
+                                     ToolTip="Option 4"
+                                     ToolTipService.InitialShowDelay="0"
+                                     Height="1000" Width="1000">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform Angle="234"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_Grid"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

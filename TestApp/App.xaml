@@ -37,6 +37,11 @@
                 <local:StswToggleButtonView/>
             </DataTemplate>
             
+            <!-- Charts -->
+            <DataTemplate DataType="{x:Type local:StswChartPieContext}">
+                <local:StswChartPieView/>
+            </DataTemplate>
+            
             <!-- Checks -->
             <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
                 <local:StswCheckBoxView/>
@@ -88,6 +93,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
                 <local:StswComponentCheckView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComponentDropContext}">
+                <local:StswComponentDropView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComponentHeaderContext}">
                 <local:StswComponentHeaderView/>
@@ -197,8 +205,11 @@
             <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
                 <local:StswProgressBarView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswProgressRingContext}">
+                <local:StswProgressRingView/>
+            </DataTemplate>
             
-            <!-- Style -->
+            <!-- TextStyle -->
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>
             </DataTemplate>
@@ -208,8 +219,6 @@
             <DataTemplate DataType="{x:Type local:StswLoadingCircleContext}">
                 <local:StswLoadingCircleView/>
             </DataTemplate>
-            
-            <!-- Text -->
             <DataTemplate DataType="{x:Type local:StswTruncateLabelContext}">
                 <local:StswTruncateLabelView/>
             </DataTemplate>

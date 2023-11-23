@@ -9,6 +9,8 @@
         <ResourceDictionary Source="Buttons/StswRepeatButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
+        
+        <ResourceDictionary Source="Charts/StswChartPie.xaml"/>
 
         <ResourceDictionary Source="Checks/StswCheckBox.xaml"/>
         <ResourceDictionary Source="Checks/StswRadioBox.xaml"/>
@@ -28,6 +30,7 @@
 
         <ResourceDictionary Source="Components/StswComponentButton.xaml"/>
         <ResourceDictionary Source="Components/StswComponentCheck.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentDrop.xaml"/>
         <ResourceDictionary Source="Components/StswComponentHeader.xaml"/>
         <ResourceDictionary Source="Components/StswComponentRepeater.xaml"/>
         <ResourceDictionary Source="Components/StswComponentSelector.xaml"/>
@@ -59,6 +62,7 @@
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
+        <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
@@ -70,14 +74,14 @@
 
         <ResourceDictionary Source="StatusInfo/StswLogPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
 
-        <ResourceDictionary Source="Style/StswHeader.xaml"/>
-        <ResourceDictionary Source="Style/StswIcon.xaml"/>
-        <ResourceDictionary Source="Style/StswLoadingCircle.xaml"/>
-
-        <ResourceDictionary Source="Text/StswOutlinedText.xaml"/>
-        <ResourceDictionary Source="Text/StswText.xaml"/>
-        <ResourceDictionary Source="Text/StswTruncateLabel.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswLoadingCircle.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswText.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswTruncateLabel.xaml"/>
 
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
