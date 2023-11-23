@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace StswExpress;
 
@@ -28,39 +28,38 @@ public static class StswLog
         if (!Directory.Exists(DirectoryPath))
             return result;
 
-        void ParseLog(StringBuilder logBuilder, int endOfDate)
-        {
-            var log = logBuilder.ToString().TrimEnd(Environment.NewLine);
-            var dateTime = Convert.ToDateTime(log[..19]);
-            StswLogType? type = null;
-            if (log[endOfDate + 6] == '|')
-                type = (StswLogType)Enum.Parse(typeof(StswLogType), Enum.GetNames(typeof(StswLogType)).First(x => x.StartsWith(log[endOfDate + 4])));
-            var text = type == null ? log[(endOfDate + 4)..] : log[(endOfDate + 8)..];
+        /// load all lines from log files
+        List<string> allLogs = new();
 
-            result.Add(new(type ?? StswLogType.None, text) { DateTime = dateTime });
-            logBuilder.Clear();
-        }
         for (DateTime i = dateF; i <= dateT; i = i.AddDays(1))
         {
-            if (!File.Exists(Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log")))
+            var logFile = Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log");
+            if (!File.Exists(logFile))
                 continue;
 
-            using var sr = new StreamReader(Path.Combine(DirectoryPath, $"log_{i:yyyy-MM-dd}.log"));
-            var singleLogString = new StringBuilder(sr.ReadLine());
+            var log = string.Empty;
+
+            using var sr = new StreamReader(logFile);
             while (!sr.EndOfStream)
-            {
-                var line = sr.ReadLine();
-                if (line != null && DateTime.TryParse(line[..19], out var _))
+                if (sr.ReadLine() is string l and not null)
                 {
-                    var endOfDate = line[19] == '.' ? 22 : 18;
-
-                    if (line[endOfDate + 2] == '|')
-                        ParseLog(singleLogString, endOfDate);
+                    if (DateTime.TryParse(l[..19], out var _))
+                    {
+                        allLogs.Add(log.TrimEnd(Environment.NewLine));
+                        log = string.Empty;
+                    }
+                    log += l + Environment.NewLine;
                 }
+            allLogs.Add(log.TrimEnd(Environment.NewLine));
+        }
 
-                singleLogString.AppendLine(line);
-            }
-            ParseLog(singleLogString, singleLogString.ToString()[19] == '.' ? 22 : 18);
+        /// check every line so log can be added to list
+        foreach (var log in allLogs.Where(x => x.Length > 0))
+        {
+            var descBeginsAt = log.Length >= 24 && log[20] == '|' && log[24] == '|' ? 26 : 22;
+            var type = (StswLogType)Enum.Parse(typeof(StswLogType), Enum.GetNames(typeof(StswLogType)).First(x => x.StartsWith(descBeginsAt == 26 ? log[22..23] : "N")));
+            DateTime.TryParse(log[..19], out var date);
+            result.Add(new StswLogItem(type, log[descBeginsAt..]) { DateTime = date });
         }
 
         return result;
@@ -93,4 +92,31 @@ public static class StswLog
         using var sw = new StreamWriter(Path.Combine(DirectoryPath, $"log_{DateTime.Now:yyyy-MM-dd}.log"), true);
         sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {text}");
     }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class StswLogItem
+{
+    public StswLogItem(StswLogType type, string description)
+    {
+        Type = type;
+        Description = description;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public StswLogType Type { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public DateTime DateTime { get; set; } = DateTime.Now;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Description { get; set; }
 }

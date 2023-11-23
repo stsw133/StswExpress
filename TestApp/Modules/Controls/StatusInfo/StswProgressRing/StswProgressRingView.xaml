@@ -43,6 +43,8 @@
                              Margin="5"
                              Maximum="{Binding Maximum}"
                              Minimum="{Binding Minimum}"
+                             State="{Binding State}"
+                             TextMode="{Binding TextMode}"
                              Value="{Binding SelectedValue}"
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"

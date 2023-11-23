@@ -7,12 +7,11 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <!-- <Setter Property="CornerRadius" Value="1"/> -->
         <Setter Property="Padding" Value="1"/>
-<!--
+
         <Setter Property="State" Value="Running"/>
-        <Setter Property="TextMode" Value="Percentage"/>
-        -->
+        <Setter Property="TextMode" Value="None"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -21,42 +20,96 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswProgressRing}">
-                    <Viewbox>
-                        <Grid>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Yellow"
-                                     StrokeDashArray="0.628318 5"
-                                     StrokeThickness="500" ToolTip="Hubert" ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="-90"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Blue"
-                                     StrokeDashArray="1.884954 5"
-                                     StrokeThickness="500" ToolTip="Grzegorz" ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="-18"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Red"
-                                     StrokeDashArray="0.628318 5"
-                                     StrokeThickness="500" ToolTip="Łukasz" ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="198"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                        </Grid>
-                    </Viewbox>
+                    <Grid x:Name="PART_MainGrid">
+                        <Viewbox>
+                            <Grid>
+                                <!-- track -->
+                                <Ellipse x:Name="PART_Track"
+                                         Fill="{TemplateBinding Background}"
+                                         Opacity="0.2"
+                                         RenderTransformOrigin="0.5 0.5"
+                                         Stroke="{TemplateBinding BorderBrush}"
+                                         Height="12" Width="12"/>
+                                <Ellipse x:Name="Indicator"
+                                         RenderTransformOrigin="0.5 0.5"
+                                         Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeDashArray="{TemplateBinding StrokeDashArray}"
+                                         Height="12" Width="12">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="-90"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse x:Name="Animation"
+                                         RenderTransformOrigin="0.5 0.5"
+                                         Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeDashArray="24"
+                                         Height="12" Width="12">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform x:Name="PART_Rotation" Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                    <Ellipse.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimation Storyboard.TargetName="PART_Rotation" Storyboard.TargetProperty="Angle" From="0" To="360"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Ellipse.Triggers>
+                                </Ellipse>
+                            </Grid>
+                        </Viewbox>
+                        <!-- text -->
+                        <se:StswText x:Name="PART_Text"
+                                     FontWeight="Medium"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     Padding="{TemplateBinding Padding}"
+                                     Text="{TemplateBinding Text}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        
+                        <Trigger Property="State" Value="Ready">
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Ready.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="State" Value="Running">
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="Indicator"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="Animation"/>
+                        </Trigger>
+                        <Trigger Property="State" Value="Paused">
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="Indicator"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Paused.Background}" TargetName="Animation"/>
+                        </Trigger>
+                        <Trigger Property="State" Value="Error">
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Indicator"/>
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Error.Background}" TargetName="Animation"/>
+                        </Trigger>
+                        <Trigger Property="State" Value="Finished">
+                            <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Running.Background}" TargetName="PART_Track"/>
+                            <Setter Property="Opacity" Value="1" TargetName="PART_Track"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="False">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Animation"/>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Indicator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="TextMode" Value="Custom">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Text"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainGrid"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

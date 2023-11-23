@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="1"/>
+        <Setter Property="CornerRadius" Value="2"/>
         <Setter Property="Padding" Value="1"/>
 
         <Setter Property="State" Value="Running"/>

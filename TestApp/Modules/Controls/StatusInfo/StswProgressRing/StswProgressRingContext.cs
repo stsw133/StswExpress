@@ -43,7 +43,7 @@ public class StswProgressRingContext : ControlsContext
     }
 
     /// TextMode
-    private StswProgressTextMode textMode = StswProgressTextMode.Percentage;
+    private StswProgressTextMode textMode = StswProgressTextMode.None;
     public StswProgressTextMode TextMode
     {
         get => textMode;

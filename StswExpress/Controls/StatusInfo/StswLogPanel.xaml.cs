@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -142,31 +141,4 @@ public class StswLogPanel : ItemsControl
             typeof(StswLogPanel)
         );
     #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class StswLogItem
-{
-    public StswLogItem(StswLogType type, string description)
-    {
-        Type = type;
-        Description = description;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public StswLogType Type { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public DateTime DateTime { get; set; } = DateTime.Now;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Description { get; set; }
 }
