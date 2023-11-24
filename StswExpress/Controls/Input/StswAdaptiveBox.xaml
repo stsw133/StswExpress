@@ -10,9 +10,9 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
-        
+
+        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="IsTabStop" Value="False"/>
-        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -35,7 +35,7 @@
                                                                          BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          IsChecked="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                         IsThreeState="True"
+                                                                         IsThreeState="{Binding IsThreeState, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -52,6 +52,8 @@
                                                     <DataTemplate>
                                                         <se:StswDatePicker BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Components="{Binding Components, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           ComponentsAlignment="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -73,6 +75,8 @@
                                                     <DataTemplate>
                                                         <se:StswSelectionBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             Components="{Binding Components, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                             ComponentsAlignment="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -97,6 +101,8 @@
                                                     <DataTemplate>
                                                         <se:StswNumericBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           Components="{Binding Components, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                           ComponentsAlignment="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -118,6 +124,8 @@
                                                     <DataTemplate>
                                                         <se:StswTextBox BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        Components="{Binding Components, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                        ComponentsAlignment="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"

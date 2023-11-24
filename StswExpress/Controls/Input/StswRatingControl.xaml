@@ -10,10 +10,10 @@
         <Setter Property="StrokeThickness" Value="1"/>
 
         <Setter Property="CanReset" Value="True"/>
-        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsNumber" Value="5"/>
-        <Setter Property="Orientation" Value="Horizontal"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

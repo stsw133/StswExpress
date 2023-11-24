@@ -9,7 +9,6 @@
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="PopupThickness" Value="2"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="IsTabStop" Value="False"/>
@@ -60,8 +59,6 @@
                             <!-- popup -->
                             <se:StswPopup AllowsTransparency="True"
                                           BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                          BorderThickness="{TemplateBinding PopupThickness}"
-                                          CornerRadius="{TemplateBinding CornerRadius}"
                                           IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                           MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"

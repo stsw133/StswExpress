@@ -60,7 +60,8 @@
                 <se:StswNavigationElement Text="StswMessageDialog" ContextNamespace="TestApp.StswMessageDialogContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Filtering" IconData="{x:Static se:StswIcons.FilterOutline}">
-                <se:StswNavigationElement Text="StswSqlFilter" ContextNamespace="TestApp.StswSqlFilterContext"/>
+                <se:StswNavigationElement Text="StswFilterBox" ContextNamespace="TestApp.StswFilterBoxContext"/>
+                <se:StswNavigationElement Text="StswFilterSql" ContextNamespace="TestApp.StswFilterSqlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswAdaptiveBox" ContextNamespace="TestApp.StswAdaptiveBoxContext"/>

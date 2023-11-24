@@ -1,6 +1,6 @@
 ﻿namespace TestApp;
 
-public class StswSqlFilterContext : ControlsContext
+public class StswFilterBoxContext : ControlsContext
 {
     #region Properties
     /// FilterType

@@ -41,7 +41,8 @@
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
         
-        <ResourceDictionary Source="Filtering/StswSqlFilter.xaml"/>
+        <ResourceDictionary Source="Filtering/StswFilterBox.xaml"/>
+        <ResourceDictionary Source="Filtering/StswFilterSql.xaml"/>
 
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumericBox.xaml"/>

@@ -12,9 +12,8 @@
         
         <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="SubPadding" Value="3"/>
-        
-        <Setter Property="IsTabStop" Value="False"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

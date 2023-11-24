@@ -1,7 +1,7 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/> and for <see cref="StswSqlFilter.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> <see cref="StswFilterSql.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -71,9 +71,9 @@ public enum StswDialogImage
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswSqlFilter.FilterMode"/>.
+/// Enumeration for <see cref="StswFilterBox.FilterMode"/> and <see cref="StswFilterSql.FilterMode"/>.
 /// </summary>
-public enum StswSqlFilterMode
+public enum StswFilterMode
 {
     Equal,
     NotEqual,
@@ -129,7 +129,7 @@ public enum StswMenuMode
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar.State"/>.
+/// Enumeration for <see cref="StswProgressBar.State"/> and <see cref="StswProgressRing.State"/>.
 /// </summary>
 public enum StswProgressState
 {
@@ -141,7 +141,7 @@ public enum StswProgressState
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswProgressBar.TextMode"/>.
+/// Enumeration for <see cref="StswProgressBar.TextMode"/> and <see cref="StswProgressRing.TextMode"/>.
 /// </summary>
 public enum StswProgressTextMode
 {

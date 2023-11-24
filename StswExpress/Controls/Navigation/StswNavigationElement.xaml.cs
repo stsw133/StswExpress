@@ -290,21 +290,6 @@ public class StswNavigationElement : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the border for the popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
     /// Gets or sets the thickness of the sub-item border.
     /// </summary>
     public double SeparatorThickness

@@ -3,14 +3,13 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswPopup}">
+        <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource StswPopup.Thickness.Border}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource StswPopup.CornerRadius.Border}"/>
         <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="AllowsTransparency" Value="True"/>
     </Style>
     
     

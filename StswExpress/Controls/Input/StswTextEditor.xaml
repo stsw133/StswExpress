@@ -321,9 +321,12 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    PopupThickness="0"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorText}">
+                                                    <se:StswSplitButton.Resources>
+                                                        <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                                        <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                                    </se:StswSplitButton.Resources>
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorText}" Scale="1.25"/>
@@ -347,9 +350,12 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    PopupThickness="0"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorHighlight}">
+                                                    <se:StswSplitButton.Resources>
+                                                        <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                                        <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                                    </se:StswSplitButton.Resources>
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorHighlight}" Scale="1.25"/>

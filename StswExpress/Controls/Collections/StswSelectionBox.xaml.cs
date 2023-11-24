@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿/*
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -305,21 +306,6 @@ public class StswSelectionBox : ListBox
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the drop-down popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
-            typeof(StswSelectionBox)
-        );
-
-    /// <summary>
     /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
     public double SeparatorThickness
@@ -335,8 +321,8 @@ public class StswSelectionBox : ListBox
         );
     #endregion
 }
+*/
 
-/*
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -661,21 +647,6 @@ public class StswSelectionBox : ContentControl
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the drop-down popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
-            typeof(StswSelectionBox)
-        );
-
-    /// <summary>
     /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
     public double SeparatorThickness
@@ -691,5 +662,3 @@ public class StswSelectionBox : ContentControl
         );
     #endregion
 }
-
-*/

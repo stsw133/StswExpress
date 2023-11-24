@@ -157,20 +157,5 @@ public class StswComponentSelector : ItemsControl, IStswComponent
             typeof(double?),
             typeof(StswComponentSelector)
         );
-
-    /// <summary>
-    /// Gets or sets the border thickness of the drop-down popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
-            typeof(StswComponentSelector)
-        );
     #endregion
 }

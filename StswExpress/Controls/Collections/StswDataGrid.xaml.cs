@@ -53,7 +53,7 @@ public class StswDataGrid : DataGrid
     /// </summary>
     private void ActionClear()
     {
-        var StswSqlFilters = StswFn.FindVisualChildren<StswSqlFilter>(this).ToList();
+        var StswSqlFilters = StswFn.FindVisualChildren<StswFilterSql>(this).ToList();
         foreach (var StswSqlFilter in StswSqlFilters)
         {
             StswSqlFilter.FilterMode = StswSqlFilter.DefaultFilterMode;
@@ -73,7 +73,7 @@ public class StswDataGrid : DataGrid
         FiltersData.SqlFilter = string.Empty;
         FiltersData.SqlParameters = new List<(string, object)>();
 
-        var StswSqlFilters = StswFn.FindVisualChildren<StswSqlFilter>(this).ToList();
+        var StswSqlFilters = StswFn.FindVisualChildren<StswFilterSql>(this).ToList();
         foreach (var StswSqlFilter in StswSqlFilters)
         {
             /// Header is StswColumnFilterData

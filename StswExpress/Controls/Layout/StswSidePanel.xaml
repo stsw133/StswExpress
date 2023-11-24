@@ -7,7 +7,6 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
 
         <Setter Property="IsTabStop" Value="False"/>
-        
         <Setter Property="MinHeight" Value="5"/>
         <Setter Property="MinWidth" Value="5"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
