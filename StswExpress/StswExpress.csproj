@@ -120,6 +120,9 @@ Bugfixes:
     <Page Update="Controls\Dialogs\StswMessageDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\Filtering\StswFilterBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\Input\StswAdaptiveBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -156,7 +159,7 @@ Bugfixes:
     <Page Update="Controls\TextStyle\StswTruncateLabel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Filtering\StswSqlFilter.xaml">
+    <Page Update="Controls\Filtering\StswFilterSql.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Navigation\StswTabItem.xaml">

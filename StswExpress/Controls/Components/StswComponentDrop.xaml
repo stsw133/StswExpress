@@ -37,8 +37,6 @@
                             <!-- popup -->
                             <se:StswPopup AllowsTransparency="True"
                                           BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                          BorderThickness="2"
-                                          CornerRadius="{TemplateBinding CornerRadius}"
                                           IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                           MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"

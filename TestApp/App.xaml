@@ -124,8 +124,11 @@
             </DataTemplate>
 
             <!-- Filtering -->
-            <DataTemplate DataType="{x:Type local:StswSqlFilterContext}">
-                <local:StswSqlFilterView/>
+            <DataTemplate DataType="{x:Type local:StswFilterBoxContext}">
+                <local:StswFilterBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswFilterSqlContext}">
+                <local:StswFilterSqlView/>
             </DataTemplate>
 
             <!-- Input -->

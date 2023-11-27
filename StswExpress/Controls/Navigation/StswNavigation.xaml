@@ -12,10 +12,10 @@
         <Setter Property="SeparatorThickness" Value="1"/>
 
         <Setter Property="IsExtended" Value="True"/>
-        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsAlignment" Value="Left"/>
         <Setter Property="ItemsWidth" Value="NaN"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

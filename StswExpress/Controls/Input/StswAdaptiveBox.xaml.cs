@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +15,10 @@ namespace StswExpress;
 [ContentProperty(nameof(Value))]
 public class StswAdaptiveBox : Control
 {
+    public StswAdaptiveBox()
+    {
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+    }
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
@@ -32,6 +37,36 @@ public class StswAdaptiveBox : Control
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswComponent> Components
+    {
+        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<IStswComponent>),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the alignment of the components within the control.
+    /// </summary>
+    public Dock ComponentsAlignment
+    {
+        get => (Dock)GetValue(ComponentsAlignmentProperty);
+        set => SetValue(ComponentsAlignmentProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsAlignmentProperty
+        = DependencyProperty.Register(
+            nameof(ComponentsAlignment),
+            typeof(Dock),
+            typeof(StswAdaptiveBox)
+        );
+
     /// <summary>
     /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
     /// </summary>
@@ -61,6 +96,21 @@ public class StswAdaptiveBox : Control
             typeof(bool),
             typeof(StswAdaptiveBox)
         );
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsThreeState
+    {
+        get => (bool)GetValue(IsThreeStateProperty);
+        set => SetValue(IsThreeStateProperty, value);
+    }
+    public static readonly DependencyProperty IsThreeStateProperty
+        = DependencyProperty.Register(
+            nameof(IsThreeState),
+            typeof(bool),
+            typeof(StswAdaptiveBox)
+        );
 
     /// <summary>
     /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
@@ -76,7 +126,6 @@ public class StswAdaptiveBox : Control
             typeof(IList),
             typeof(StswAdaptiveBox)
         );
-    internal IList? DefaultItemsSource { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the placeholder text to display in the box when no value is provided.

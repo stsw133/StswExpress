@@ -9,11 +9,10 @@
 
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="PopupThickness" Value="1"/>
 
-        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="MaxDropDownHeight" Value="140"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -44,8 +43,8 @@
                                    StaysOpen="False">
                                 <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
                                                        BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="{TemplateBinding PopupThickness}"
-                                                       CornerRadius="0"
+                                                       BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
+                                                       CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                        MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
                                                        SnapsToDevicePixels="True">
