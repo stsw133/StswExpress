@@ -332,10 +332,10 @@
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                                            <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <se:StswColorSelector SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                         </TabItem>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
-                                                            <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                            <se:StswColorPicker SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
                                                 </se:StswSplitButton>
@@ -358,10 +358,10 @@
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                                            <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
+                                                            <se:StswColorSelector SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
                                                         </TabItem>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
-                                                            <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                            <se:StswColorPicker SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
                                                 </se:StswSplitButton>

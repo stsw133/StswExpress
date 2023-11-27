@@ -127,35 +127,5 @@ public class StswColorSelector : Control
             typeof(CornerRadius),
             typeof(StswColorSelector)
         );
-
-    /// <summary>
-    /// Gets or sets the thickness of the buttons in the control.
-    /// </summary>
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorSelector)
-        );
-
-    /// <summary>
-    /// Gets or sets the margin of the color groups in the control.
-    /// </summary>
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
-    public static readonly DependencyProperty SubPaddingProperty
-        = DependencyProperty.Register(
-            nameof(SubPadding),
-            typeof(Thickness),
-            typeof(StswColorSelector)
-        );
     #endregion
 }

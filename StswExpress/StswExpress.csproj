@@ -150,6 +150,9 @@ Bugfixes:
     <Page Update="Controls\TextStyle\StswText.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Controls\TextStyle\StswLabel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\TextStyle\StswTruncateLabel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

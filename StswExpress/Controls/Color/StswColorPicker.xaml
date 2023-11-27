@@ -6,15 +6,11 @@
         <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="3"/>
-        
-        <Setter Property="SubBorderThickness" Value="1"/>
-        <Setter Property="SubPadding" Value="3"/>
-        
-        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="1"/>
+        <Setter Property="Padding" Value="2"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -23,180 +19,180 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorPicker}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
+                    <Grid x:Name="PART_MainGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto" MinWidth="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- picker -->
+                        <Border Grid.Column="0" Grid.Row="0"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Margin="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid x:Name="PART_ColorGrid"
+                                      Background="White"
+                                      MinHeight="180"
+                                      MinWidth="180"
+                                      SnapsToDevicePixels="False"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <Rectangle SnapsToDevicePixels="False">
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+                                                <GradientStop Color="#F00" Offset="0"/>
+                                                <GradientStop Color="#FF0" Offset="0.1666666666"/>
+                                                <GradientStop Color="#0F0" Offset="0.3333333333"/>
+                                                <GradientStop Color="#0FF" Offset="0.5"/>
+                                                <GradientStop Color="#00F" Offset="0.6666666666"/>
+                                                <GradientStop Color="#F0F" Offset="0.8333333333"/>
+                                                <GradientStop Color="#F00" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                                <GradientStop Color="#FFFF" Offset="0"/>
+                                                <GradientStop Color="#0FFF" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Grid>
+                                <Canvas Height="{Binding ActualHeight, ElementName=PART_ColorGrid}"
+                                        Width="{Binding ActualWidth, ElementName=PART_ColorGrid}"
+                                        SnapsToDevicePixels="False"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <Ellipse x:Name="PART_ColorEllipse" SnapsToDevicePixels="False" Stroke="Black" Height="5" Width="5"/>
+                                </Canvas>
+                            </Grid>
+                        </Border>
+                        <!-- selected color -->
+                        <Border Grid.Column="1" Grid.Row="0"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Margin="{TemplateBinding Padding}">
+                            <Border.Background>
+                                <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
+                                    <VisualBrush.Visual>
+                                        <UniformGrid Height="24" Width="24">
+                                            <Rectangle Fill="#3777"/>
+                                            <Rectangle Fill="#7777"/>
+                                            <Rectangle Fill="#7777"/>
+                                            <Rectangle Fill="#3777"/>
+                                        </UniformGrid>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.Background>
+                            <Rectangle Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"/>
+                        </Border>
+
+                        <!-- color sliders -->
+                        <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                            <!-- V -->
+                            <se:StswSlider DockPanel.Dock="Top"
+                                           Background="{DynamicResource StswColorPickerSliderBackground}"
                                            BorderBrush="{TemplateBinding BorderBrush}"
                                            BorderThickness="{TemplateBinding BorderThickness}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
-                        <Grid Margin="{TemplateBinding Padding}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto" MinWidth="24"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <!-- picker -->
-                            <Border Grid.Column="0" Grid.Row="0"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    Margin="{TemplateBinding SubPadding}">
-                                <Grid>
-                                    <Grid x:Name="PART_ColorGrid"
-                                          Background="White"
-                                          MinHeight="180"
-                                          MinWidth="180"
-                                          SnapsToDevicePixels="False"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <Rectangle SnapsToDevicePixels="False">
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                                                    <GradientStop Color="#F00" Offset="0"/>
-                                                    <GradientStop Color="#FF0" Offset="0.1666666666"/>
-                                                    <GradientStop Color="#0F0" Offset="0.3333333333"/>
-                                                    <GradientStop Color="#0FF" Offset="0.5"/>
-                                                    <GradientStop Color="#00F" Offset="0.6666666666"/>
-                                                    <GradientStop Color="#F0F" Offset="0.8333333333"/>
-                                                    <GradientStop Color="#F00" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                            <Rectangle.OpacityMask>
-                                                <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
-                                                    <GradientStop Color="#FFFF" Offset="0"/>
-                                                    <GradientStop Color="#0FFF" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </Grid>
-                                    <Canvas Height="{Binding ActualHeight, ElementName=PART_ColorGrid}"
-                                            Width="{Binding ActualWidth, ElementName=PART_ColorGrid}"
-                                            SnapsToDevicePixels="False"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <Ellipse x:Name="PART_ColorEllipse" SnapsToDevicePixels="False" Stroke="Black" Height="5" Width="5"/>
-                                    </Canvas>
-                                </Grid>
-                            </Border>
-                            <!-- selected color -->
-                            <Border Grid.Column="1" Grid.Row="0"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding SubBorderThickness}"
-                                    Margin="{TemplateBinding SubPadding}">
-                                <Border.Background>
-                                    <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
-                                        <VisualBrush.Visual>
-                                            <UniformGrid Height="24" Width="24">
-                                                <Rectangle Fill="#3777"/>
-                                                <Rectangle Fill="#7777"/>
-                                                <Rectangle Fill="#7777"/>
-                                                <Rectangle Fill="#3777"/>
-                                            </UniformGrid>
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Border.Background>
-                                <Rectangle Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"/>
-                            </Border>
-
-                            <!-- color sliders -->
-                            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Top">
-                                <!-- V -->
-                                <se:StswSlider DockPanel.Dock="Top"
-                                               Background="{DynamicResource StswColorPickerSliderBackground}"
-                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                               BorderThickness="{TemplateBinding SubBorderThickness}"
-                                               CornerRadius="0" Margin="0 10 0 5"
-                                               ThumbBorderThickness="2" ThumbSize="15" TrackSize="10"
-                                               IsSnapToTickEnabled="True" TickFrequency="0.01" LargeChange="0.1"
-                                               Maximum="1" Value="{Binding SelectedColorV, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <se:StswSlider.Resources>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="White"/>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.Static.Border" Color="Gray"/>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Background" Color="White"/>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Border" Color="Gray"/>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Background" Color="White"/>
-                                        <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Border" Color="Gray"/>
-                                        <LinearGradientBrush x:Key="StswColorPickerSliderBackground" StartPoint="0 0" EndPoint="1 0">
-                                            <GradientStop Offset="0" Color="Black"/>
-                                            <GradientStop Offset="1" Color="{Binding PickedColor, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                        </LinearGradientBrush>
-                                    </se:StswSlider.Resources>
-                                </se:StswSlider>
-                                <!-- A -->
-                                <DockPanel x:Name="PART_Alpha" DockPanel.Dock="Top">
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Margin="{TemplateBinding SubPadding}"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-                                        <Border.Background>
-                                            <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
-                                                <VisualBrush.Visual>
-                                                    <UniformGrid Height="24" Width="24">
-                                                        <Rectangle Fill="#3777"/>
-                                                        <Rectangle Fill="#7777"/>
-                                                        <Rectangle Fill="#7777"/>
-                                                        <Rectangle Fill="#3777"/>
-                                                    </UniformGrid>
-                                                </VisualBrush.Visual>
-                                            </VisualBrush>
-                                        </Border.Background>
-                                    </Border>
-                                    <Label Content="A"/>
-                                    <Label DockPanel.Dock="Right" Content="{TemplateBinding SelectedColorA}" HorizontalContentAlignment="Right" Width="30"/>
-                                    <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                   Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   MinWidth="120" VerticalAlignment="Center"/>
-                                </DockPanel>
-                                <!-- R -->
-                                <DockPanel DockPanel.Dock="Top">
-                                    <Border Background="#F00"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Margin="{TemplateBinding SubPadding}"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                    <Label Content="R"/>
-                                    <Label DockPanel.Dock="Right" Content="{TemplateBinding SelectedColorR}" HorizontalContentAlignment="Right" Width="30"/>
-                                    <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                   Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   MinWidth="120" VerticalAlignment="Center"/>
-                                </DockPanel>
-                                <!-- G -->
-                                <DockPanel DockPanel.Dock="Top">
-                                    <Border Background="#0F0"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Margin="{TemplateBinding SubPadding}"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                    <Label Content="G"/>
-                                    <Label DockPanel.Dock="Right" Content="{TemplateBinding SelectedColorG}" HorizontalContentAlignment="Right" Width="30"/>
-                                    <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                   Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   MinWidth="120" VerticalAlignment="Center"/>
-                                </DockPanel>
-                                <!-- B -->
-                                <DockPanel DockPanel.Dock="Top">
-                                    <Border Background="#00F"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding SubBorderThickness}"
-                                            Margin="{TemplateBinding SubPadding}"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                                    <Label Content="B"/>
-                                    <Label DockPanel.Dock="Right" Content="{TemplateBinding SelectedColorB}" HorizontalContentAlignment="Right" Width="30"/>
-                                    <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
-                                                   Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   MinWidth="120" VerticalAlignment="Center"/>
-                                </DockPanel>
+                                           Margin="-4 5"
+                                           ThumbBorderThickness="2" ThumbSize="15" TrackSize="10"
+                                           IsSnapToTickEnabled="True" TickFrequency="0.01" LargeChange="0.1"
+                                           Maximum="1" Value="{Binding SelectedColorV, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <se:StswSlider.Resources>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Static.Border" Color="Gray"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.MouseOver.Border" Color="Gray"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Background" Color="White"/>
+                                    <SolidColorBrush x:Key="StswSlider.Thumb.Dragging.Border" Color="Gray"/>
+                                    <LinearGradientBrush x:Key="StswColorPickerSliderBackground" StartPoint="0 0" EndPoint="1 0">
+                                        <GradientStop Offset="0" Color="Black"/>
+                                        <GradientStop Offset="1" Color="{Binding PickedColor, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </LinearGradientBrush>
+                                </se:StswSlider.Resources>
+                            </se:StswSlider>
+                            <!-- A -->
+                            <DockPanel x:Name="PART_Alpha" DockPanel.Dock="Top">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                    <Border.Background>
+                                        <VisualBrush TileMode="Tile" Viewport="0 0 8 8" ViewportUnits="Absolute">
+                                            <VisualBrush.Visual>
+                                                <UniformGrid Height="24" Width="24">
+                                                    <Rectangle Fill="#3777"/>
+                                                    <Rectangle Fill="#7777"/>
+                                                    <Rectangle Fill="#7777"/>
+                                                    <Rectangle Fill="#3777"/>
+                                                </UniformGrid>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Border.Background>
+                                </Border>
+                                <se:StswLabel Content="A"/>
+                                <se:StswLabel Content="{TemplateBinding SelectedColorA}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
                             </DockPanel>
-                        </Grid>
-                    </se:StswClippingBorder>
+                            <!-- R -->
+                            <DockPanel DockPanel.Dock="Top">
+                                <Border Background="#F00"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <se:StswLabel Content="R"/>
+                                <se:StswLabel Content="{TemplateBinding SelectedColorR}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <!-- G -->
+                            <DockPanel DockPanel.Dock="Top">
+                                <Border Background="#0F0"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <se:StswLabel Content="G"/>
+                                <se:StswLabel Content="{TemplateBinding SelectedColorG}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <!-- B -->
+                            <DockPanel DockPanel.Dock="Top">
+                                <Border Background="#00F"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                <se:StswLabel Content="B"/>
+                                <se:StswLabel Content="{TemplateBinding SelectedColorB}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                                <se:StswSlider IsSnapToTickEnabled="True" TickFrequency="1"
+                                               Maximum="255" Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               MinWidth="120" VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </DockPanel>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsAlphaEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Alpha"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainGrid"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

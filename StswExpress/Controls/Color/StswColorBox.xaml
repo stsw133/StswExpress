@@ -41,13 +41,10 @@
                                 </se:StswDropButton.Header>
                                 <se:StswTabControl BorderThickness="0">
                                     <se:StswTabItem Header="Standardowe">
-                                        <se:StswColorSelector BorderThickness="0"
-                                                              SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                     <se:StswTabItem Header="Szczegółowe">
-                                        <se:StswColorPicker BorderThickness="0"
-                                                            IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
-                                                            SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
                                     </se:StswTabItem>
                                 </se:StswTabControl>
                             </se:StswDropButton>

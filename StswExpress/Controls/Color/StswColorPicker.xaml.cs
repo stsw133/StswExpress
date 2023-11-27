@@ -73,8 +73,8 @@ public class StswColorPicker : Control
         {
             var position = e.GetPosition(grid);
 
-            int x = (int)Math.Floor(position.X);
-            int y = (int)Math.Floor(position.Y);
+            var x = Math.Floor(position.X);
+            var y = Math.Floor(position.Y);
 
             /// cannot do this since getting mouse outisde the grid is not performing this event
             //if (x <= 0)
@@ -87,7 +87,7 @@ public class StswColorPicker : Control
             //else if (y >= (int)grid.ActualHeight)
             //    y = (int)grid.ActualHeight - 1;
 
-            if (x <= 0 || x >= (int)grid.ActualWidth || y <= 0 || y >= (int)grid.ActualHeight)
+            if (x <= 0 || x >= grid.ActualWidth || y <= 0 || y >= grid.ActualHeight)
                 return;
 
             SelectedColor = StswExtensions.FromAhsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
@@ -109,7 +109,7 @@ public class StswColorPicker : Control
     {
         var grid = (Grid)sender;
         
-        SelectedColor.ToHsv(out var h, out var s, out var v);
+        SelectedColor.ToHsv(out var h, out var s, out var _);
 
         var x = grid.ActualWidth * h / 360;
         var y = grid.ActualHeight - (grid.ActualHeight * s);
@@ -327,36 +327,6 @@ public class StswColorPicker : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswColorPicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the picker and channel rectangles inside the control.
-    /// </summary>
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorPicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the margin of the picker and channel rectangles inside the control.
-    /// </summary>
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
-    public static readonly DependencyProperty SubPaddingProperty
-        = DependencyProperty.Register(
-            nameof(SubPadding),
-            typeof(Thickness),
             typeof(StswColorPicker)
         );
     #endregion
