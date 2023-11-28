@@ -125,7 +125,6 @@
                             <!-- content -->
                             <ContentPresenter x:Name="PART_Content"
                                               Focusable="False"
-                                              RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

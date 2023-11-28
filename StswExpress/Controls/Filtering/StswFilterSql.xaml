@@ -21,15 +21,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswFilterSql}">
                     <DockPanel>
-
                         <!-- filter -->
-                        <se:StswClippingBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
-                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                               CornerRadius="{TemplateBinding CornerRadius}"
-                                               Margin="0 3 0 0"
-                                               SnapsToDevicePixels="True"
-                                               Visibility="{TemplateBinding FilterVisibility}">
+                        <se:StswBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       Margin="0 3 0 0"
+                                       SnapsToDevicePixels="True"
+                                       Visibility="{TemplateBinding FilterVisibility}">
                             <DockPanel>
                                 <!-- filter mode -->
                                 <se:StswToggleButton x:Name="PART_FilterMode"
@@ -221,9 +220,11 @@
                                     </se:StswAdaptiveBox>
                                 </UniformGrid>
                             </DockPanel>
-                        </se:StswClippingBorder>
+                        </se:StswBorder>
                         <!-- header -->
-                        <ContentPresenter Content="{TemplateBinding Header}" Focusable="False" Margin="2 0"/>
+                        <ContentPresenter ContentSource="Header"
+                                          Focusable="False"
+                                          Margin="2 0"/>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="FilterType" Value="Check">

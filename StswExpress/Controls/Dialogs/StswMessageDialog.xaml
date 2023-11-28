@@ -37,7 +37,7 @@
                         </se:StswGroupBox.Header>
                         <DockPanel>
                             <!-- buttons -->
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswMessageDialog}}}">
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">
                                 <se:StswButton x:Name="PART_ButtonYes"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="True"

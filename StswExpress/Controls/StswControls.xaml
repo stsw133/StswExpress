@@ -52,8 +52,7 @@
         <ResourceDictionary Source="Input/StswTextBox.xaml"/>
         <ResourceDictionary Source="Input/StswTextEditor.xaml"/>
 
-        <ResourceDictionary Source="Layout/RgsClippingBorder.xaml"/>
-        <ResourceDictionary Source="Layout/StswClippingBorder.xaml"/>
+        <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>

@@ -77,7 +77,8 @@ public class StswBorder : Border
         = DependencyProperty.Register(
             nameof(DoClipping),
             typeof(bool),
-            typeof(StswBorder)
+            typeof(StswBorder),
+            new PropertyMetadata(true)
         );
     #endregion
 }

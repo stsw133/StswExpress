@@ -16,16 +16,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswWindow}">
                     <!-- window border -->
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
-                        <se:StswClippingBorder.LayoutTransform>
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
+                        <se:StswBorder.LayoutTransform>
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
-                        </se:StswClippingBorder.LayoutTransform>
+                        </se:StswBorder.LayoutTransform>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -173,7 +173,7 @@
                                 </se:StswSidePanel>
                             </Grid>
                         </Grid>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>

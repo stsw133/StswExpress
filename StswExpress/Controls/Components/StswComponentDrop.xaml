@@ -49,10 +49,9 @@
                                 <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Content}"
+                            <ContentPresenter ContentSource="Content"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

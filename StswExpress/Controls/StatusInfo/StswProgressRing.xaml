@@ -10,7 +10,7 @@
         <Setter Property="Padding" Value="1"/>
 
         <Setter Property="State" Value="Running"/>
-        <Setter Property="TextMode" Value="None"/>
+        <Setter Property="TextMode" Value="Value"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>

@@ -35,8 +35,6 @@
                                          CornerRadius="{TemplateBinding CornerRadius}"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                          Padding="0"
-                                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                          HorizontalContentAlignment="Stretch"
                                          VerticalContentAlignment="Stretch"
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
@@ -71,10 +69,9 @@
                                 <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Header}"
+                            <ContentPresenter ContentSource="Header"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

@@ -30,16 +30,14 @@ public class StswZoomControl : Border
         if (child != null)
         {
             var group = new TransformGroup();
-            var st = new ScaleTransform();
-            group.Children.Add(st);
-            var tt = new TranslateTransform();
-            group.Children.Add(tt);
+            group.Children.Add(new ScaleTransform());
+            group.Children.Add(new TranslateTransform());
             child.RenderTransform = group;
             child.RenderTransformOrigin = new Point(0.0, 0.0);
-            MouseWheel += child_MouseWheel;
             MouseLeftButtonDown += child_MouseLeftButtonDown;
             MouseLeftButtonUp += child_MouseLeftButtonUp;
             MouseMove += child_MouseMove;
+            MouseWheel += child_MouseWheel;
             PreviewMouseRightButtonDown += new MouseButtonEventHandler(child_PreviewMouseRightButtonDown);
         }
     }
@@ -49,14 +47,14 @@ public class StswZoomControl : Border
     /// </summary>
     /// <param name="element"></param>
     /// <returns></returns>
-    private ScaleTransform GetScaleTransform(UIElement element) => (ScaleTransform)((TransformGroup)element.RenderTransform).Children.First(tr => tr is ScaleTransform);
+    private ScaleTransform GetScaleTransform(UIElement element) => (ScaleTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is ScaleTransform);
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="element"></param>
     /// <returns></returns>
-    private TranslateTransform GetTranslateTransform(UIElement element) => (TranslateTransform)((TransformGroup)element.RenderTransform).Children.First(tr => tr is TranslateTransform);
+    private TranslateTransform GetTranslateTransform(UIElement element) => (TranslateTransform)((TransformGroup)element.RenderTransform).Children.First(x => x is TranslateTransform);
 
     /// <summary>
     /// 
@@ -89,14 +87,14 @@ public class StswZoomControl : Border
             var st = GetScaleTransform(child);
             var tt = GetTranslateTransform(child);
 
-            if (e.Delta <= 0 && (st.ScaleX < .4 || st.ScaleY < .4))
+            if (e.Delta <= 0 && (st.ScaleX < 0.4 || st.ScaleY < 0.4))
                 return;
 
             var relative = e.GetPosition(child);
             var absoluteX = relative.X * st.ScaleX + tt.X;
             var absoluteY = relative.Y * st.ScaleY + tt.Y;
 
-            var zoom = e.Delta > 0 ? .2 : -.2;
+            var zoom = e.Delta > 0 ? 0.2 : -0.2;
             st.ScaleX += zoom;
             st.ScaleY += zoom;
 

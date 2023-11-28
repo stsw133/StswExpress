@@ -41,24 +41,23 @@
                                    Placement="Center"
                                    PlacementTarget="{Binding ElementName=PART_MainBorder}"
                                    StaysOpen="False">
-                                <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
-                                                       CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       SnapsToDevicePixels="True">
+                                <se:StswBorder Background="{DynamicResource StswPopup.Static.Background}"
+                                               BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                               BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
+                                               CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
+                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                               SnapsToDevicePixels="True">
                                     <se:StswShifter ButtonDownBorderThickness="0" ButtonLeftBorderThickness="0" ButtonRightBorderThickness="0" ButtonUpBorderThickness="0"
                                                     Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                         <ItemsPresenter Margin="3"/>
                                     </se:StswShifter>
-                                </se:StswClippingBorder>
+                                </se:StswBorder>
                                 
                             </Popup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Content}"
+                            <ContentPresenter ContentSource="Content"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

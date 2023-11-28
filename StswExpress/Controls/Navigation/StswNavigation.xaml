@@ -26,11 +26,11 @@
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
                     <DockPanel>
                         <!-- navigation list part -->
-                        <se:StswClippingBorder x:Name="PART_MainBorder"
-                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                               CornerRadius="{TemplateBinding CornerRadius}"
-                                               SnapsToDevicePixels="True">
+                        <se:StswBorder x:Name="PART_MainBorder"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
                             <DockPanel>
                                 <DockPanel x:Name="PART_ItemsPanel" DockPanel.Dock="{TemplateBinding ItemsAlignment}" Background="{TemplateBinding Background}">
                                     <!-- function button -->
@@ -115,12 +115,11 @@
                                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                                   Focusable="False"
                                                   Margin="{TemplateBinding Padding}"
-                                                  RecognizesAccessKey="True"
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </DockPanel>
-                        </se:StswClippingBorder>
+                        </se:StswBorder>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExtended" Value="True">

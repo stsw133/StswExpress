@@ -59,9 +59,6 @@
                                 <SolidColorBrush x:Key="StswButton.Static.Border" Color="Transparent"/>
                                 <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
                                 <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="Transparent"/>
-                                <Style TargetType="{x:Type se:StswClippingBorder}">
-                                    <Setter Property="DoClipping" Value="False"/>
-                                </Style>
                             </Grid.Resources>
                             <!-- selection mode: by year -->
                             <ItemsControl x:Name="PART_ListMonths" IsTabStop="False" ItemsSource="{TemplateBinding ListMonths}" Margin="{TemplateBinding Padding}" Visibility="Hidden">
@@ -76,7 +73,10 @@
                                                        CommandParameter="{Binding Month}"
                                                        Content="{Binding Name}"
                                                        CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
-                                            <se:StswButton.Style>
+                                            <se:StswButton.Resources>
+                                                <Style TargetType="{x:Type se:StswBorder}">
+                                                    <Setter Property="DoClipping" Value="False"/>
+                                                </Style>
                                                 <Style TargetType="{x:Type se:StswButton}">
                                                     <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
                                                     <Style.Triggers>
@@ -85,7 +85,7 @@
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </se:StswButton.Style>
+                                            </se:StswButton.Resources>
                                         </se:StswButton>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -120,6 +120,9 @@
                                                            Content="{Binding Name}"
                                                            CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
                                                 <se:StswButton.Resources>
+                                                    <Style TargetType="{x:Type se:StswBorder}">
+                                                        <Setter Property="DoClipping" Value="False"/>
+                                                    </Style>
                                                     <Style TargetType="{x:Type se:StswButton}">
                                                         <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
                                                         <Style.Triggers>

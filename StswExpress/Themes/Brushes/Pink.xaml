@@ -246,6 +246,7 @@
     <SolidColorBrush x:Key="StswTabItem.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswTabItem.Disabled.Border" Color="#ECD"/>
 
+    <SolidColorBrush x:Key="StswText.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswText.Disabled.Foreground" Color="#999"/>
 
     <FontFamily x:Key="StswWindow.Font.Family">Book Antiqua</FontFamily>

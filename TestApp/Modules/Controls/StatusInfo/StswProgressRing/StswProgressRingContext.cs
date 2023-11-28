@@ -35,7 +35,7 @@ public class StswProgressRingContext : ControlsContext
     }
 
     /// State
-    private StswProgressState state = StswProgressState.Ready;
+    private StswProgressState state = StswProgressState.Running;
     public StswProgressState State
     {
         get => state;
@@ -43,7 +43,7 @@ public class StswProgressRingContext : ControlsContext
     }
 
     /// TextMode
-    private StswProgressTextMode textMode = StswProgressTextMode.None;
+    private StswProgressTextMode textMode = StswProgressTextMode.Value;
     public StswProgressTextMode TextMode
     {
         get => textMode;

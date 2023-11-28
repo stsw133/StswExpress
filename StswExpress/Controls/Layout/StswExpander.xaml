@@ -19,12 +19,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswExpander}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
                             <ToggleButton x:Name="PART_Header"
@@ -42,7 +42,6 @@
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{TemplateBinding Foreground}"
                                           IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Margin="0" MinHeight="0" MinWidth="0"
                                           Padding="{TemplateBinding Padding}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -59,7 +58,6 @@
                                             </Grid.RowDefinitions>
                                             <ContentPresenter x:Name="PART_Content"
                                                               Margin="{TemplateBinding Padding}"
-                                                              RecognizesAccessKey="True"
                                                               SnapsToDevicePixels="True"
                                                               HorizontalAlignment="Left"
                                                               VerticalAlignment="Center"/>
@@ -125,7 +123,7 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Visibility="Collapsed"/>
                         </DockPanel>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Up">
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
@@ -143,18 +141,18 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
                         </Trigger>
-                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=PART_Header}" Value="True">
+                        <Trigger Property="IsMouseOver" Value="True" SourceName="PART_Header">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.MouseOver.Border}" TargetName="PART_MainBorder"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsPressed, ElementName=PART_Header}" Value="True">
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True" SourceName="PART_Header">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Pressed.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Pressed.Border}" TargetName="PART_MainBorder"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=PART_Header}" Value="True">
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True" SourceName="PART_Header">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Checked.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Checked.Border}" TargetName="PART_MainBorder"/>
-                        </DataTrigger>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswExpander.Disabled.Border}" TargetName="PART_MainBorder"/>

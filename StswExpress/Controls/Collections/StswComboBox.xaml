@@ -81,13 +81,13 @@
                                        PlacementTarget="{Binding ElementName=PART_MainButton}"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
-                                    <se:StswClippingBorder x:Name="DropDownBorder"
-                                                           Background="{DynamicResource StswPopup.Static.Background}"
-                                                           BorderBrush="{DynamicResource StswButton.Pressed.Border}"
-                                                           BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
-                                                           CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
-                                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                           MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
+                                    <se:StswBorder x:Name="DropDownBorder"
+                                                   Background="{DynamicResource StswPopup.Static.Background}"
+                                                   BorderBrush="{DynamicResource StswButton.Pressed.Border}"
+                                                   BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
+                                                   CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
+                                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                   MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
                                         <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -99,7 +99,7 @@
                                                 <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Grid>
                                         </se:StswScrollViewer>
-                                    </se:StswClippingBorder>
+                                    </se:StswBorder>
                                 </Popup>
                                 <!-- content -->
                                 <Grid>

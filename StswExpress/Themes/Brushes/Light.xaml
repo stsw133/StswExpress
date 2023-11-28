@@ -243,6 +243,7 @@
     <SolidColorBrush x:Key="StswTabItem.Disabled.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswTabItem.Disabled.Border" Color="#DDD"/>
 
+    <SolidColorBrush x:Key="StswText.Disabled.Border" Color="#DDD"/>
     <SolidColorBrush x:Key="StswText.Disabled.Foreground" Color="#999"/>
 
     <FontFamily x:Key="StswWindow.Font.Family">Segoe UI</FontFamily>

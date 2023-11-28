@@ -28,23 +28,22 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <!-- box -->
-                        <se:StswClippingBorder x:Name="PART_MainBorder"
-                                               Background="{TemplateBinding Background}"
-                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                               BorderThickness="{TemplateBinding BorderThickness}"
-                                               CornerRadius="{TemplateBinding CornerRadius}"
-                                               SnapsToDevicePixels="True">
+                        <se:StswBorder x:Name="PART_MainBorder"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
                             <se:StswIcon x:Name="PART_Icon"
                                          Fill="{TemplateBinding GlyphBrush}"
                                          Margin="{TemplateBinding Padding}"
                                          Scale="{TemplateBinding IconScale}"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"/>
-                        </se:StswClippingBorder>
+                        </se:StswBorder>
                         <!-- content -->
                         <ContentPresenter x:Name="PART_Content" Grid.Column="1"
                                           Focusable="False"
-                                          RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

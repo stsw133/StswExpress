@@ -19,7 +19,6 @@
                             SnapsToDevicePixels="True">
                         <ContentPresenter Focusable="False"
                                           Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>

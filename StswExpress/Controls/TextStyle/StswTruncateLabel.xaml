@@ -16,8 +16,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTruncateLabel}">
-                    <Border x:Name="PART_MainBorder"
-                            Background="{TemplateBinding Background}"
+                    <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
@@ -39,7 +38,6 @@
                             <!-- content -->
                             <ContentPresenter x:Name="PART_StandardContent"
                                               Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- popup -->

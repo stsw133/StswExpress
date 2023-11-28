@@ -117,7 +117,7 @@
     <Compile Update="Modules\Controls\Layout\StswZoomControl\StswZoomControlView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml.cs">
+    <Compile Update="Modules\Controls\Layout\StswBorder\StswBorderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml.cs">
@@ -315,7 +315,7 @@
     <Page Update="Modules\Controls\Layout\StswZoomControl\StswZoomControlView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Layout\StswClippingBorder\StswClippingBorderView.xaml">
+    <Page Update="Modules\Controls\Layout\StswBorder\StswBorderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml">

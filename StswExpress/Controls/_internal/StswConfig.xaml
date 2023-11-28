@@ -52,9 +52,9 @@
                                     <se:StswHeader Content="{se:Tr StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
                                 </se:StswButton>
                             </UniformGrid>
-                            <!-- isize -->
                             <se:StswScrollViewer IsDynamic="True">
                                 <DockPanel>
+                                    <!-- isize -->
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
                                         <se:StswHeader Content="{se:Tr StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}"/>
                                         <DockPanel>
