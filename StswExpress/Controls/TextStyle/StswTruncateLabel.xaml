@@ -4,24 +4,23 @@
 
     <Style TargetType="{x:Type se:StswTruncateLabel}">
         <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
 
         <Setter Property="IsTruncationAllowed" Value="True"/>
 
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTruncateLabel}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <Border x:Name="PART_MainBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- button -->
                             <se:StswToggleButton x:Name="PART_TruncationButton"
@@ -34,6 +33,8 @@
                                                  IsTabStop="False"
                                                  Margin="2 0"
                                                  Padding="0"
+                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                             <!-- content -->
                             <ContentPresenter x:Name="PART_StandardContent"
@@ -48,14 +49,17 @@
                                           IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
                                           Padding="{TemplateBinding Padding}"
                                           Placement="Relative"
-                                          PlacementTarget="{Binding ElementName=PART_MainBorder}"
+                                          PlacementTarget="{Binding ElementName=PART_StandardContent}"
                                           StaysOpen="False">
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </se:StswPopup>
                         </DockPanel>
-                    </se:StswClippingBorder>
+                    </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True" SourceName="PART_TruncationButton">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_StandardContent"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsContentTruncated" Value="True"/>

@@ -24,6 +24,21 @@ public class StswComponentDrop : ItemsControl, IStswComponent
 
     #region Main properties
     /// <summary>
+    /// Gets or sets the header content of the control.
+    /// </summary>
+    public object? Content
+    {
+        get => (object?)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+    public static readonly DependencyProperty ContentProperty
+        = DependencyProperty.Register(
+            nameof(Content),
+            typeof(object),
+            typeof(StswComponentDrop)
+        );
+
+    /// <summary>
     /// Gets or sets the visibility of the content within the control.
     /// </summary>
     public Visibility? ContentVisibility
@@ -35,21 +50,6 @@ public class StswComponentDrop : ItemsControl, IStswComponent
         = DependencyProperty.Register(
             nameof(ContentVisibility),
             typeof(Visibility),
-            typeof(StswComponentDrop)
-        );
-
-    /// <summary>
-    /// Gets or sets the header content of the control.
-    /// </summary>
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
-    public static readonly DependencyProperty HeaderProperty
-        = DependencyProperty.Register(
-            nameof(Header),
-            typeof(object),
             typeof(StswComponentDrop)
         );
 

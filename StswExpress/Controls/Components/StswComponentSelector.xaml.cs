@@ -54,14 +54,14 @@ public class StswComponentSelector : ItemsControl, IStswComponent
     /// <summary>
     /// 
     /// </summary>
-    public object? Header
+    public object? Content
     {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
+        get => (object?)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
     }
-    public static readonly DependencyProperty HeaderProperty
+    public static readonly DependencyProperty ContentProperty
         = DependencyProperty.Register(
-            nameof(Header),
+            nameof(Content),
             typeof(object),
             typeof(StswComponentSelector)
         );
@@ -69,14 +69,14 @@ public class StswComponentSelector : ItemsControl, IStswComponent
     /// <summary>
     /// Gets or sets the visibility of the header within the control.
     /// </summary>
-    public Visibility? HeaderVisibility
+    public Visibility? ContentVisibility
     {
-        get => (Visibility)GetValue(HeaderVisibilityProperty);
-        set => SetValue(HeaderVisibilityProperty, value);
+        get => (Visibility)GetValue(ContentVisibilityProperty);
+        set => SetValue(ContentVisibilityProperty, value);
     }
-    public static readonly DependencyProperty HeaderVisibilityProperty
+    public static readonly DependencyProperty ContentVisibilityProperty
         = DependencyProperty.Register(
-            nameof(HeaderVisibility),
+            nameof(ContentVisibility),
             typeof(Visibility),
             typeof(StswComponentSelector)
         );

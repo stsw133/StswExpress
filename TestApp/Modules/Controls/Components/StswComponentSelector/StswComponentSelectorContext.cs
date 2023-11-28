@@ -26,12 +26,12 @@ public class StswComponentSelectorContext : ControlsContext
         set => SetProperty(ref clickCounter, value);
     }
 
-    /// HeaderVisibility
-    private Visibility headerVisibility = Visibility.Collapsed;
-    public Visibility HeaderVisibility
+    /// ContentVisibility
+    private Visibility contentVisibility = Visibility.Collapsed;
+    public Visibility ContentVisibility
     {
-        get => headerVisibility;
-        set => SetProperty(ref headerVisibility, value);
+        get => contentVisibility;
+        set => SetProperty(ref contentVisibility, value);
     }
 
     /// IconScale

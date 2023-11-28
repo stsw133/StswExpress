@@ -16,8 +16,8 @@
     <SolidColorBrush x:Key="StswColor.Designer" Color="#37d4fb"/>
 
     <!-- StswControls -->
-    <SolidColorBrush x:Key="StswBorder.Static" Color="#575757"/>
-    <SolidColorBrush x:Key="StswBorder.Disabled" Color="#383838"/>
+    <SolidColorBrush x:Key="StswBorder.Static.Border" Color="#575757"/>
+    <SolidColorBrush x:Key="StswBorder.Disabled.Border" Color="#383838"/>
 
     <SolidColorBrush x:Key="StswBox.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswBox.Static.Border" Color="#575757"/>

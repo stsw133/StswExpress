@@ -117,21 +117,4 @@ public class StswTruncateLabel : Label
             typeof(StswTruncateLabel)
         );
     #endregion
-
-    #region Style properties
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswTruncateLabel)
-        );
-    #endregion
 }

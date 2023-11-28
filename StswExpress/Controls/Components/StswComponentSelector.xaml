@@ -25,7 +25,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   ContentVisibility="{TemplateBinding HeaderVisibility}"
+                                   ContentVisibility="{TemplateBinding ContentVisibility}"
                                    IconData="{TemplateBinding IconData}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IsBusy="{TemplateBinding IsBusy}"
@@ -46,7 +46,6 @@
                                                        BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
                                                        CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
                                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainBorder}"
                                                        SnapsToDevicePixels="True">
                                     <se:StswShifter ButtonDownBorderThickness="0" ButtonLeftBorderThickness="0" ButtonRightBorderThickness="0" ButtonUpBorderThickness="0"
                                                     Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -56,7 +55,14 @@
                                 
                             </Popup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Header}" Visibility="{TemplateBinding HeaderVisibility}"/>
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Visibility="{TemplateBinding ContentVisibility}"/>
                         </Grid>
                     </se:StswHeader>
                     <ControlTemplate.Triggers>

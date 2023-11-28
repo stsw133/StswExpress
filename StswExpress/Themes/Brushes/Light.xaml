@@ -13,8 +13,8 @@
     <SolidColorBrush x:Key="StswColor.Designer" Color="#04a0c8"/> <!-- #04a0c8 -->
 
     <!-- StswControls -->
-    <SolidColorBrush x:Key="StswBorder.Static" Color="#BBB"/>
-    <SolidColorBrush x:Key="StswBorder.Disabled" Color="#DDD"/>
+    <SolidColorBrush x:Key="StswBorder.Static.Border" Color="#BBB"/>
+    <SolidColorBrush x:Key="StswBorder.Disabled.Border" Color="#DDD"/>
 
     <SolidColorBrush x:Key="StswBox.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswBox.Static.Border" Color="#BBB"/>

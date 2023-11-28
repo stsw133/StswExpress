@@ -33,7 +33,7 @@
                                            SnapsToDevicePixels="True"
                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <DockPanel>
+                        <Grid>
                             <!-- popup -->
                             <se:StswPopup AllowsTransparency="True"
                                           BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
@@ -49,7 +49,7 @@
                                 <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
-                            <ContentPresenter Content="{TemplateBinding Header}"
+                            <ContentPresenter Content="{TemplateBinding Content}"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               RecognizesAccessKey="True"
@@ -57,7 +57,7 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Visibility="{TemplateBinding ContentVisibility}"/>
-                        </DockPanel>
+                        </Grid>
                     </se:StswComponentCheck>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="True">

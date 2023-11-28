@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswOutlinedText}">
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Stroke" Value="{DynamicResource StswBorder.Disabled}"/>
+                <Setter Property="Stroke" Value="{DynamicResource StswBorder.Disabled.Border}"/>
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
             </Trigger>
         </Style.Triggers>

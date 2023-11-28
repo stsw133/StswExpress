@@ -9,14 +9,14 @@ namespace StswExpress;
 /// Represents a custom border control that applies clipping to its child element with rounded corners.
 /// </summary>
 /// <remarks>
-/// As a side effect <see cref="StswClippingBorder"/> will surpress any databinding or animation of 
-/// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswClippingBorder"/>.
+/// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
+/// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
-public class StswClippingBorder : Border
+public class StswBorder : Border
 {
-    static StswClippingBorder()
+    static StswBorder()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswClippingBorder), new FrameworkPropertyMetadata(typeof(StswClippingBorder)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswBorder), new FrameworkPropertyMetadata(typeof(StswBorder)));
     }
 
     #region Events & methods
@@ -43,14 +43,8 @@ public class StswClippingBorder : Border
         {
             if (Child != value)
             {
-                if (Child != null)
-                    Child.SetValue(ClipProperty, _oldClip);
-
-                if (value != null)
-                    _oldClip = value.ReadLocalValue(ClipProperty);
-                else
-                    _oldClip = null;
-
+                Child?.SetValue(ClipProperty, _oldClip);
+                _oldClip = value?.ReadLocalValue(ClipProperty);
                 base.Child = value;
             }
         }
@@ -61,8 +55,7 @@ public class StswClippingBorder : Border
     /// </summary>
     protected virtual void OnApplyChildClip()
     {
-        var child = Child;
-        if (child != null)
+        if (Child is UIElement child and not null)
         {
             _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
             _clipRect.Rect = new Rect(Child.RenderSize);
@@ -84,7 +77,7 @@ public class StswClippingBorder : Border
         = DependencyProperty.Register(
             nameof(DoClipping),
             typeof(bool),
-            typeof(StswClippingBorder)
+            typeof(StswBorder)
         );
     #endregion
 }
