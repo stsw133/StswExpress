@@ -132,7 +132,7 @@ Bugfixes:
     <Page Update="Controls\Layout\StswSidePanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Collections\StswGallery.xaml">
+    <Page Update="Controls\Media\StswGallery.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Media\StswMediaPlayer.xaml">

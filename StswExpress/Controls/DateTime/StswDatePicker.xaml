@@ -41,8 +41,12 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswCalendar BorderThickness="0" CornerRadius="0"
-                                                 Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
+                                <se:StswDropButton.Resources>
+                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
+                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                    <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                </se:StswDropButton.Resources>
+                                <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </se:StswDropButton>
                             <!-- separator -->

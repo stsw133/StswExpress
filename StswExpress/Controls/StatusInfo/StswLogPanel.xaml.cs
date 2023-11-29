@@ -34,7 +34,7 @@ public class StswLogPanel : ItemsControl
         if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
             scrollViewer?.ScrollToEnd();
     }
-
+    
     /// Command: remove log
     /// <summary>
     /// 
@@ -82,62 +82,17 @@ public class StswLogPanel : ItemsControl
         );
 
     /// <summary>
-    /// Gets or sets the border thickness of the items.
+    /// 
     /// </summary>
-    public Thickness ItemBorderThickness
+    public bool IsScrollDynamic
     {
-        get => (Thickness)GetValue(ItemBorderThicknessProperty);
-        set => SetValue(ItemBorderThicknessProperty, value);
+        get => (bool)GetValue(IsScrollDynamicProperty);
+        set => SetValue(IsScrollDynamicProperty, value);
     }
-    public static readonly DependencyProperty ItemBorderThicknessProperty
+    public static readonly DependencyProperty IsScrollDynamicProperty
         = DependencyProperty.Register(
-            nameof(ItemBorderThickness),
-            typeof(Thickness),
-            typeof(StswLogPanel)
-        );
-
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the items are rounded.
-    /// </summary>
-    public CornerRadius ItemCornerRadius
-    {
-        get => (CornerRadius)GetValue(ItemCornerRadiusProperty);
-        set => SetValue(ItemCornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty ItemCornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(ItemCornerRadius),
-            typeof(CornerRadius),
-            typeof(StswLogPanel)
-        );
-
-    /// <summary>
-    /// Gets or sets the margin of the items.
-    /// </summary>
-    public Thickness ItemMargin
-    {
-        get => (Thickness)GetValue(ItemMarginProperty);
-        set => SetValue(ItemMarginProperty, value);
-    }
-    public static readonly DependencyProperty ItemMarginProperty
-        = DependencyProperty.Register(
-            nameof(ItemMargin),
-            typeof(Thickness),
-            typeof(StswLogPanel)
-        );
-
-    /// <summary>
-    /// Gets or sets the padding of the items.
-    /// </summary>
-    public Thickness ItemPadding
-    {
-        get => (Thickness)GetValue(ItemPaddingProperty);
-        set => SetValue(ItemPaddingProperty, value);
-    }
-    public static readonly DependencyProperty ItemPaddingProperty
-        = DependencyProperty.Register(
-            nameof(ItemPadding),
-            typeof(Thickness),
+            nameof(IsScrollDynamic),
+            typeof(bool),
             typeof(StswLogPanel)
         );
     #endregion

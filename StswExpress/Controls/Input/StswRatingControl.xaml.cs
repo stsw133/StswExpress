@@ -303,12 +303,6 @@ public class StswRatingControl : Control
     [Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Background { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? BorderBrush { get; private set; }
 
     [Browsable(false)]

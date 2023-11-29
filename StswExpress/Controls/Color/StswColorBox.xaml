@@ -39,7 +39,12 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswTabControl BorderThickness="0">
+                                <se:StswDropButton.Resources>
+                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
+                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                    <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                </se:StswDropButton.Resources>
+                                <se:StswTabControl>
                                     <se:StswTabItem Header="Standardowe">
                                         <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>

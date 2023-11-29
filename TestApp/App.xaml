@@ -60,9 +60,6 @@
             <DataTemplate DataType="{x:Type local:StswDataGridContext}">
                 <local:StswDataGridView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswGalleryContext}">
-                <local:StswGalleryView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
@@ -175,6 +172,9 @@
             </DataTemplate>
 
             <!-- Media -->
+            <DataTemplate DataType="{x:Type local:StswGalleryContext}">
+                <local:StswGalleryView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
             </DataTemplate>

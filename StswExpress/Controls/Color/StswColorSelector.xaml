@@ -8,7 +8,7 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="1"/>
-        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Padding" Value="1"/>
 
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -19,47 +19,44 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorSelector}">
-                    <DockPanel>
-                        <DockPanel.Resources>
-                            <Style TargetType="{x:Type Rectangle}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Opacity" Value="0.4"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                            <Style TargetType="{x:Type se:StswComponentButton}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Opacity" Value="0.4"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DockPanel.Resources>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
 
                         <!-- automatic color -->
-                        <se:StswButton DockPanel.Dock="Top"
+                        <se:StswButton Grid.Row="0"
                                        Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                        CommandParameter="{TemplateBinding ColorAuto}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       Margin="{TemplateBinding Padding}">
+                                       CornerRadius="{TemplateBinding CornerRadius}">
                             <DockPanel>
                                 <Rectangle Fill="{TemplateBinding ColorAuto}"
                                            Stroke="{DynamicResource StswButton.Static.Border}"
                                            StrokeThickness="{TemplateBinding BorderThickness}"
-                                           Height="15" Width="15"/>
-                                <se:StswText Padding="6 3" Text="{se:Tr StswColorSelector.Auto}"/>
+                                           Height="15" Width="15">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.4"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"/>
                             </DockPanel>
                         </se:StswButton>
                         <!-- theme colors -->
-                        <se:StswGroupBox x:Name="PART_ThemeColors" DockPanel.Dock="Top"
+                        <se:StswGroupBox x:Name="PART_ThemeColors" Grid.Row="1"
                                          CornerRadius="{TemplateBinding CornerRadius}"
-                                         Margin="{TemplateBinding Padding}"
-                                         Padding="0"
+                                         Margin="0 3 0 0" Padding="0"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswText Padding="{TemplateBinding Padding}" Text="{se:Tr StswColorSelector.ThemeColors}"/>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
                             </se:StswGroupBox.Header>
                             <se:StswShifter ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
                                             Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -76,7 +73,7 @@
                                                                     Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     CommandParameter="{Binding}"
                                                                     Height="18" Width="18">
-                                                <se:StswComponentButton.Resources>
+                                                <se:StswComponentButton.Style>
                                                     <Style TargetType="{x:Type se:StswComponentButton}">
                                                         <Setter Property="Margin" Value="3 0"/>
                                                         <Style.Triggers>
@@ -88,7 +85,7 @@
                                                             </Trigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </se:StswComponentButton.Resources>
+                                                </se:StswComponentButton.Style>
                                             </se:StswComponentButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -96,14 +93,13 @@
                             </se:StswShifter>
                         </se:StswGroupBox>
                         <!-- standard colors -->
-                        <se:StswGroupBox x:Name="PART_StandardColors" DockPanel.Dock="Top"
+                        <se:StswGroupBox x:Name="PART_StandardColors" Grid.Row="2"
                                          CornerRadius="{TemplateBinding CornerRadius}"
-                                         Margin="{TemplateBinding Padding}"
-                                         Padding="0"
+                                         Margin="0 3 0 0" Padding="0"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <se:StswGroupBox.Header>
-                                <se:StswText Padding="{TemplateBinding Padding}" Text="{se:Tr StswColorSelector.StandardColors}"/>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
                             </se:StswGroupBox.Header>
                             <se:StswShifter ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
                                             Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -119,14 +115,24 @@
                                                                     BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     CommandParameter="{Binding}"
-                                                                    Margin="3"
-                                                                    Height="18" Width="18"/>
+                                                                    Height="18" Width="18">
+                                                <se:StswComponentButton.Style>
+                                                    <Style TargetType="{x:Type se:StswComponentButton}">
+                                                        <Setter Property="Margin" Value="3"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.4"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </se:StswComponentButton.Style>
+                                            </se:StswComponentButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </se:StswShifter>
                         </se:StswGroupBox>
-                    </DockPanel>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource Self}}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ThemeColors"/>

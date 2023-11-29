@@ -179,8 +179,6 @@
 
     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswPopup.Static.Border" Color="#575757"/>
-    <CornerRadius x:Key="StswPopup.CornerRadius.Border">10</CornerRadius>
-    <Thickness x:Key="StswPopup.Thickness.Border">2</Thickness>
 
     <SolidColorBrush x:Key="StswProgressBar.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswProgressBar.Static.Border" Color="#575757"/>

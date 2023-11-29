@@ -68,6 +68,10 @@
                                     <RotateTransform Angle="234"/>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
+                            <Ellipse SnapsToDevicePixels="False"
+                                     Stroke="Gray"
+                                     StrokeThickness="5"
+                                     Height="1000" Width="1000"/>
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>

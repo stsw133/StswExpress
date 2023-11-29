@@ -32,7 +32,6 @@
             <se:StswNavigationElement Text="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Text="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
                 <se:StswNavigationElement Text="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
-                <se:StswNavigationElement Text="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Text="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Text="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
                 <se:StswNavigationElement Text="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
@@ -81,6 +80,7 @@
                 <se:StswNavigationElement Text="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
+                <se:StswNavigationElement Text="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Text="StswImage" ContextNamespace="TestApp.StswImageContext"/>
                 <se:StswNavigationElement Text="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
             </se:StswNavigationElement>

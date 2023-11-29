@@ -29,7 +29,6 @@
                                      MinHeight="150"
                                      MinWidth="250"
                                      Padding="0"
-                                     SnapsToDevicePixels="True"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswGroupBox.Header>
@@ -64,7 +63,8 @@
                             <se:StswSeparator x:Name="PART_Separator"
                                               DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                              BorderThickness="1"/>
+                                              BorderThickness="1"
+                                              Orientation="Horizontal"/>
                             <!-- text -->
                             <se:StswTextBox BorderThickness="0"
                                             CornerRadius="0"

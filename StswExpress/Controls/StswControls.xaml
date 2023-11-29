@@ -18,7 +18,6 @@
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
         <ResourceDictionary Source="Collections/StswDataGrid.xaml"/>
-        <ResourceDictionary Source="Collections/StswGallery.xaml"/>
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
@@ -59,6 +58,7 @@
         <ResourceDictionary Source="Layout/StswSidePanel.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>
 
+        <ResourceDictionary Source="Media/StswGallery.xaml"/>
         <ResourceDictionary Source="Media/StswImage.xaml"/>
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 

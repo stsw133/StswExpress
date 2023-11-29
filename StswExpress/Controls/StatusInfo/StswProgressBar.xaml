@@ -25,8 +25,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Determinate"/>
