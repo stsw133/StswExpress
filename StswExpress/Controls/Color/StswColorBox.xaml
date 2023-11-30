@@ -35,7 +35,7 @@
                             <!-- function button -->
                             <se:StswDropButton x:Name="PART_FunctionButton"
                                                DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                               ArrowVisibility="Collapsed" Focusable="False"
+                                               Focusable="False"
                                                BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDropButton.Header>
@@ -45,6 +45,9 @@
                                     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
                                     <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
                                     <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                    <Style TargetType="{x:Type se:StswExpandArrow}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
                                 </se:StswDropButton.Resources>
                                 <se:StswTabControl>
                                     <se:StswTabItem Header="Standardowe">

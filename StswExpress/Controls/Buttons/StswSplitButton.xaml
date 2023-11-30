@@ -52,15 +52,10 @@
                                                  VerticalContentAlignment="Stretch"
                                                  Width="24"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <DockPanel>
-                                    <ContentControl DockPanel.Dock="Right"
-                                                    Focusable="False"
+                                <se:StswExpandArrow Focusable="False"
                                                     HorizontalAlignment="Right"
-                                                    Width="24"
-                                                    Visibility="Visible">
-                                        <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
-                                    </ContentControl>
-                                </DockPanel>
+                                                    IsExpanded="{TemplateBinding IsDropDownOpen}"
+                                                    Width="24"/>
                             </se:StswToggleButton>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"

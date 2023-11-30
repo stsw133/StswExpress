@@ -9,7 +9,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswExpandArrow}">
 
                     <se:StswIcon x:Name="PART_Arrow"
-                                 Data="{x:Static se:StswIcons.ChevronUp}"
+                                 Data="{x:Static se:StswIcons.ChevronDown}"
                                  RenderTransformOrigin=".5 .5">
                         <se:StswIcon.RenderTransform>
                             <RotateTransform x:Name="PART_Rotate"  Angle="0" />

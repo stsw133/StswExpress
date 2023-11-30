@@ -20,21 +20,6 @@ public class StswComboBox : ComboBox, IStswCorner
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the visibility of the arrow icon in the drop button.
-    /// </summary>
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ArrowVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ArrowVisibility),
-            typeof(Visibility),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
     public ObservableCollection<IStswComponent> Components

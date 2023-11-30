@@ -401,9 +401,8 @@
                                                                ToolTip="{se:Tr StswTextEditor.Paragraph.IndentDecrease}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}"/>
                                                 </se:StswButton>
-                                                
+
                                                 <se:StswDropButton x:Name="PART_SectionList"
-                                                                   ArrowVisibility="Collapsed"
                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -413,6 +412,11 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatListText}"/>
                                                     </se:StswDropButton.Header>
+                                                    <se:StswDropButton.Resources>
+                                                        <Style TargetType="{x:Type se:StswExpandArrow}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Style>
+                                                    </se:StswDropButton.Resources>
 
                                                     <se:StswButton BorderThickness="0" Command="EditingCommands.ToggleBullets" CornerRadius="0" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
@@ -423,7 +427,6 @@
                                                 </se:StswDropButton>
                                                 
                                                 <se:StswDropButton x:Name="PART_SectionInterline"
-                                                                   ArrowVisibility="Collapsed"
                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -433,6 +436,11 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ArrowExpandVertical}"/>
                                                     </se:StswDropButton.Header>
+                                                    <se:StswDropButton.Resources>
+                                                        <Style TargetType="{x:Type se:StswExpandArrow}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Style>
+                                                    </se:StswDropButton.Resources>
                                                     
                                                     <se:StswButton Content="auto" BorderThickness="0" CornerRadius="0" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <se:StswButton Content="1" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
