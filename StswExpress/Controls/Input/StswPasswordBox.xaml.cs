@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to enter a secured password.
 /// </summary>
-public class StswPasswordBox : Control
+public class StswPasswordBox : Control, IStswCorner
 {
     public StswPasswordBox()
     {
@@ -148,6 +148,21 @@ public class StswPasswordBox : Control
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPasswordBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

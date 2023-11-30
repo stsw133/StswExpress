@@ -9,7 +9,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswListView : ListView
+public class StswListView : ListView, IStswCorner
 {
     static StswListView()
     {
@@ -45,6 +45,21 @@ public class StswListView : ListView
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswListView)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

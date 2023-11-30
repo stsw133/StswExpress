@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a container for a group of controls with an optional header.
 /// </summary>
-public class StswGroupBox : GroupBox
+public class StswGroupBox : GroupBox, IStswCorner
 {
     static StswGroupBox()
     {
@@ -14,6 +14,21 @@ public class StswGroupBox : GroupBox
     }
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswGroupBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

@@ -16,7 +16,7 @@ namespace StswExpress;
 /// <summary>
 /// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>
-public class StswTextEditor : RichTextBox
+public class StswTextEditor : RichTextBox, IStswCorner
 {
     public ICommand FileNewCommand { get; set; }
     public ICommand FileOpenCommand { get; set; }
@@ -486,6 +486,21 @@ public class StswTextEditor : RichTextBox
             typeof(StswTextEditor)
         );
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTextEditor)
+        );
+    
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

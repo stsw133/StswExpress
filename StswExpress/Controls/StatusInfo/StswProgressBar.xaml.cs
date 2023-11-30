@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
 /// </summary>
-public class StswProgressBar : ProgressBar
+public class StswProgressBar : ProgressBar, IStswCorner
 {
     public StswProgressBar()
     {
@@ -103,6 +103,21 @@ public class StswProgressBar : ProgressBar
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswProgressBar)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

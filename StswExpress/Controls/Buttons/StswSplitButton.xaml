@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
@@ -32,6 +33,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
                         <DockPanel>
@@ -42,6 +44,7 @@
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  BorderThickness="0"
                                                  ClickMode="Press"
+                                                 CornerClipping="False"
                                                  CornerRadius="0"
                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Padding="0"
@@ -76,9 +79,7 @@
                             </ItemsControl>
                             -->
                             <!-- popup -->
-                            <se:StswPopup AllowsTransparency="True"
-                                          BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                           MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                           Padding="0"
@@ -96,6 +97,7 @@
                                            CommandParameter="{TemplateBinding CommandParameter}"
                                            CommandTarget="{TemplateBinding CommandTarget}"
                                            Content="{TemplateBinding Header}"
+                                           CornerClipping="False"
                                            CornerRadius="0"
                                            Padding="{TemplateBinding Padding}"
                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"

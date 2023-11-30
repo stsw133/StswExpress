@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSplitButton : ItemsControl, ICommandSource
+public class StswSplitButton : ItemsControl, ICommandSource, IStswCorner
 {
     public StswSplitButton()
     {
@@ -147,6 +147,21 @@ public class StswSplitButton : ItemsControl, ICommandSource
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswSplitButton)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded (including popup).
     /// </summary>

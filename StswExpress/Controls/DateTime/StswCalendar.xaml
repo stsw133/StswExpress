@@ -8,6 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
@@ -28,6 +29,7 @@
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerClipping="{TemplateBinding CornerClipping}"
                                      CornerRadius="{TemplateBinding CornerRadius}"
                                      Padding="0"
                                      SnapsToDevicePixels="True">
@@ -72,11 +74,9 @@
                                         <se:StswButton Command="{Binding SelectMonthCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
                                                        CommandParameter="{Binding Month}"
                                                        Content="{Binding Name}"
+                                                       CornerClipping="False"
                                                        CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
                                             <se:StswButton.Resources>
-                                                <Style TargetType="{x:Type se:StswBorder}">
-                                                    <Setter Property="DoClipping" Value="False"/>
-                                                </Style>
                                                 <Style TargetType="{x:Type se:StswButton}">
                                                     <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
                                                     <Style.Triggers>
@@ -118,11 +118,9 @@
                                             <se:StswButton Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
                                                            CommandParameter="{Binding Date}"
                                                            Content="{Binding Name}"
+                                                           CornerClipping="False"
                                                            CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
                                                 <se:StswButton.Resources>
-                                                    <Style TargetType="{x:Type se:StswBorder}">
-                                                        <Setter Property="DoClipping" Value="False"/>
-                                                    </Style>
                                                     <Style TargetType="{x:Type se:StswButton}">
                                                         <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
                                                         <Style.Triggers>

@@ -16,7 +16,7 @@ namespace StswExpress;
 /// A control with date selection functionality.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswCalendar : Control
+public class StswCalendar : Control, IStswCorner
 {
     public ICommand SelectDateCommand { get; set; }
     public ICommand SelectMonthCommand { get; set; }
@@ -246,7 +246,7 @@ public class StswCalendar : Control
             if (stsw.SelectedDate.HasValue)
                 stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
 
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == (DateTime?)e.OldValue) is StswCalendarDay oldDay and not null)
+            if (stsw.ListDays.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarDay oldDay and not null)
                 oldDay.IsSelected = false;
             if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay and not null)
                 newDay.IsSelected = true;
@@ -362,6 +362,21 @@ public class StswCalendar : Control
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswCalendar)
+        );
+    
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

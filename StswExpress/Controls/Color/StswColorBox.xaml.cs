@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorBox : TextBox
+public class StswColorBox : TextBox, IStswCorner
 {
     public StswColorBox()
     {
@@ -200,6 +200,21 @@ public class StswColorBox : TextBox
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+    
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

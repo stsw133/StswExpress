@@ -12,7 +12,7 @@ namespace StswExpress;
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
-public class StswBorder : Border
+public class StswBorder : Border, IStswCorner
 {
     static StswBorder()
     {
@@ -28,7 +28,7 @@ public class StswBorder : Border
     /// </summary>
     protected override void OnRender(DrawingContext dc)
     {
-        if (DoClipping)
+        if (CornerClipping)
             OnApplyChildClip();
         base.OnRender(dc);
     }
@@ -68,17 +68,16 @@ public class StswBorder : Border
     /// <summary>
     /// 
     /// </summary>
-    public bool DoClipping
+    public bool CornerClipping
     {
-        get => (bool)GetValue(DoClippingProperty);
-        set => SetValue(DoClippingProperty, value);
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
     }
-    public static readonly DependencyProperty DoClippingProperty
+    public static readonly DependencyProperty CornerClippingProperty
         = DependencyProperty.Register(
-            nameof(DoClipping),
+            nameof(CornerClipping),
             typeof(bool),
-            typeof(StswBorder),
-            new PropertyMetadata(true)
+            typeof(StswBorder)
         );
     #endregion
 }

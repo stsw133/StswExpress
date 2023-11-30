@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="1"/>
         <Setter Property="Padding" Value="1"/>
 
@@ -25,6 +26,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

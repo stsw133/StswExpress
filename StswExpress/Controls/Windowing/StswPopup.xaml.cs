@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
-public class StswPopup : Popup
+public class StswPopup : Popup, IStswCorner
 {
     public StswPopup()
     {
@@ -88,6 +88,21 @@ public class StswPopup : Popup
         );
 
     /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPopup)
+        );
+
+    /// <summary>
     /// Gets or sets the corner radius of the custom window.
     /// </summary>
     public CornerRadius CornerRadius
@@ -102,6 +117,20 @@ public class StswPopup : Popup
             typeof(StswPopup)
         );
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsScrollDynamic
+    {
+        get => (bool)GetValue(IsScrollDynamicProperty);
+        set => SetValue(IsScrollDynamicProperty, value);
+    }
+    public static readonly DependencyProperty IsScrollDynamicProperty
+        = DependencyProperty.Register(
+            nameof(IsScrollDynamic),
+            typeof(bool),
+            typeof(StswPopup)
+        );
 
     /// <summary>
     /// 

@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigationElement : ContentControl
+public class StswNavigationElement : ContentControl, IStswCorner
 {
     public StswNavigationElement()
     {
@@ -274,6 +274,21 @@ public class StswNavigationElement : ContentControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswNavigationElement)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

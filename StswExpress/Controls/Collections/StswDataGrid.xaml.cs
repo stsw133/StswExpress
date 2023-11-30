@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
-public class StswDataGrid : DataGrid
+public class StswDataGrid : DataGrid, IStswCorner
 {
     public ICommand ClearFiltersCommand { get; set; }
 
@@ -259,6 +259,21 @@ public class StswDataGrid : DataGrid
         = DependencyProperty.Register(
             nameof(BorderBrushHeader),
             typeof(SolidColorBrush),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
             typeof(StswDataGrid)
         );
 

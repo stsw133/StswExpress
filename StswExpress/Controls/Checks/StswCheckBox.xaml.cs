@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
 /// </summary>
-public class StswCheckBox : CheckBox
+public class StswCheckBox : CheckBox, IStswCorner
 {
     static StswCheckBox()
     {
@@ -32,6 +32,21 @@ public class StswCheckBox : CheckBox
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswCheckBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

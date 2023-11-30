@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a user interface element used to repeatedly trigger actions when pressed and held.
 /// </summary>
-public class StswRepeatButton : RepeatButton
+public class StswRepeatButton : RepeatButton, IStswCorner
 {
     static StswRepeatButton()
     {
@@ -14,6 +14,21 @@ public class StswRepeatButton : RepeatButton
     }
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswRepeatButton)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

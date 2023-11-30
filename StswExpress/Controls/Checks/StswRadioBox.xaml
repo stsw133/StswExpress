@@ -9,6 +9,7 @@
         <Setter Property="IconIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Icon}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -32,6 +33,7 @@
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerClipping="{TemplateBinding CornerClipping}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        SnapsToDevicePixels="True">
                             <se:StswIcon x:Name="PART_Icon"

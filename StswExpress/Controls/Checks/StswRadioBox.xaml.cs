@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to select a single option from a group of mutually exclusive options.
 /// </summary>
-public class StswRadioBox : RadioButton
+public class StswRadioBox : RadioButton, IStswCorner
 {
     static StswRadioBox()
     {
@@ -32,6 +32,21 @@ public class StswRadioBox : RadioButton
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswRadioBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

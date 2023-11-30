@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
-public class StswWindow : Window
+public class StswWindow : Window, IStswCorner
 {
     public StswWindow()
     {
@@ -249,6 +249,21 @@ public class StswWindow : Window
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswWindow)
+        );
+
     /// <summary>
     /// Gets or sets the corner radius of the custom window.
     /// </summary>

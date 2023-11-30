@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control that provides a user interface element with a collapsible content area.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswDropButton : ItemsControl
+public class StswDropButton : ItemsControl, IStswCorner
 {
     public StswDropButton()
     {
@@ -102,6 +102,21 @@ public class StswDropButton : ItemsControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDropButton)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded (including popup).
     /// </summary>

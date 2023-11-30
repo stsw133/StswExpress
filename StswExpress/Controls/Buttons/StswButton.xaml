@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -21,6 +22,7 @@
                     <se:StswBorder x:Name="PART_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">

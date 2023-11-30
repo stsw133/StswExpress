@@ -17,24 +17,27 @@
         <!-- properties -->
 
         <!-- content -->
-        <se:StswPopup IsEnabled="{Binding IsEnabled}"
-                      IsOpen="{Binding IsOpen}"
-                      MaxHeight="120"
-                      Placement="MousePoint"
-                      StaysOpen="False"
-                      HorizontalAlignment="{Binding HorizontalAlignment}"
-                      VerticalAlignment="{Binding VerticalAlignment}">
-            <StackPanel>
-                <se:StswText Text="Some text..."/>
-                <se:StswText Text="Some text... some..."/>
-                <se:StswText Text="Some text... some... text..."/>
-                <se:StswText Text="Some text... some... text... some..."/>
-                <se:StswText Text="Some text... some... text... some... some..."/>
-                <se:StswText Text="Some text... some... text... some... some... text..."/>
-                <se:StswText Text="Some text... some... text... some... some... text... some text..."/>
-                <se:StswText Text="Some text... some... text... some... some... text... some text... text..."/>
-            </StackPanel>
-        </se:StswPopup>
+        <DockPanel>
+            <se:StswPopup IsEnabled="{Binding IsEnabled}"
+                          IsOpen="{Binding IsOpen}"
+                          MaxHeight="120"
+                          Placement="MousePoint"
+                          StaysOpen="False"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}">
+                <StackPanel>
+                    <se:StswText Text="Some text..."/>
+                    <se:StswText Text="Some text... some..."/>
+                    <se:StswText Text="Some text... some... text..."/>
+                    <se:StswText Text="Some text... some... text... some..."/>
+                    <se:StswText Text="Some text... some... text... some... some..."/>
+                    <se:StswText Text="Some text... some... text... some... some... text..."/>
+                    <se:StswText Text="Some text... some... text... some... some... text... some text..."/>
+                    <se:StswText Text="Some text... some... text... some... some... text... some text... text..."/>
+                </StackPanel>
+            </se:StswPopup>
+            <se:StswToggleButton IsChecked="{Binding IsOpen}" Content="Open popup" Margin="5"/>
+        </DockPanel>
         <!-- status panel -->
         
     </local:ControlsBase>

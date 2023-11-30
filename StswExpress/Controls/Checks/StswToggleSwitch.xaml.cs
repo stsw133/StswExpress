@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 
-public class StswToggleSwitch : ToggleButton
+public class StswToggleSwitch : ToggleButton, IStswCorner
 {
     static StswToggleSwitch()
     {
@@ -29,7 +29,10 @@ public class StswToggleSwitch : ToggleButton
         if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
             this.switchBorder = switchBorder;
         if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
+        {
+            mainBorder.SizeChanged += (s, e) => AdjustSize();
             this.mainBorder = mainBorder;
+        }
         if (GetTemplateChild("PART_SwitchGrid") is Grid switchGrid)
             this.switchGrid = switchGrid;
         if (GetTemplateChild("PART_CheckedPath") is StswIcon checkedPath)
@@ -38,7 +41,6 @@ public class StswToggleSwitch : ToggleButton
             this.uncheckedPath = uncheckedPath;
 
         Loaded += (s, e) => AdjustAll();
-        SizeChanged += (s, e) => AdjustSize();
     }
 
     /// <summary>
@@ -79,6 +81,9 @@ public class StswToggleSwitch : ToggleButton
     /// </summary>
     private void AdjustSize()
     {
+        if (!IsLoaded)
+            return;
+
         if (switchBorder != null)
             switchBorder.CornerRadius = new CornerRadius(
                     CornerRadius.TopLeft - BorderThickness.Top - Padding.Top,
@@ -139,6 +144,21 @@ public class StswToggleSwitch : ToggleButton
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswToggleSwitch)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

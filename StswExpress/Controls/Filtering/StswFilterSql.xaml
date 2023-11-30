@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
@@ -25,6 +26,7 @@
                         <se:StswBorder x:Name="PART_MainBorder" DockPanel.Dock="Bottom"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerClipping="{TemplateBinding CornerClipping}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        Margin="0 3 0 0"
                                        SnapsToDevicePixels="True"
@@ -174,6 +176,7 @@
                                     <se:StswAdaptiveBox Type="{TemplateBinding FilterType}"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                         BorderThickness="0"
+                                                        CornerClipping="False"
                                                         CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
@@ -198,6 +201,7 @@
                                                         Type="{TemplateBinding FilterType}"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                         BorderThickness="0"
+                                                        CornerClipping="False"
                                                         CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         ItemsSource="{TemplateBinding ItemsSource}"

@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswNumericBox : TextBox
+public class StswNumericBox : TextBox, IStswCorner
 {
     public StswNumericBox()
     {
@@ -324,6 +324,21 @@ public class StswNumericBox : TextBox
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswNumericBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

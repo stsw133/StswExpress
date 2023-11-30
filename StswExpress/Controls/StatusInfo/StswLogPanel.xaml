@@ -6,6 +6,7 @@
 
     <Style TargetType="{x:Type se:StswLogPanel}">
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="5"/>
         
@@ -33,8 +34,8 @@
                 <DataTemplate>
                     <se:StswBorder x:Name="PART_MainBorder"
                                    BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                   CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                   DoClipping="False"
                                    Margin="{DynamicResource StswLogPanel.Thickness.Margin}"
                                    SnapsToDevicePixels="True"
                                    HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"

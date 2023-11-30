@@ -9,7 +9,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a hierarchical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswTreeView : TreeView
+public class StswTreeView : TreeView, IStswCorner
 {
     static StswTreeView()
     {
@@ -53,6 +53,21 @@ public class StswTreeView : TreeView
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTreeView)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

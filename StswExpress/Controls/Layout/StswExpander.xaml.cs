@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a header and allows the user to collapse or expand content.
 /// </summary>
-public class StswExpander : Expander
+public class StswExpander : Expander, IStswCorner
 {
     static StswExpander()
     {
@@ -31,6 +31,21 @@ public class StswExpander : Expander
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswExpander)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

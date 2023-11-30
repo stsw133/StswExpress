@@ -13,7 +13,7 @@ namespace StswExpress;
 /// A control that allows users to select and display date.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswDatePicker : TextBox
+public class StswDatePicker : TextBox, IStswCorner
 {
     public StswDatePicker()
     {
@@ -329,6 +329,21 @@ public class StswDatePicker : TextBox
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDatePicker)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

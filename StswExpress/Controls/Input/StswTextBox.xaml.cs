@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that can be used to display or edit unformatted text.
 /// </summary>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox
+public class StswTextBox : TextBox, IStswCorner
 {
     public StswTextBox()
     {
@@ -93,6 +93,21 @@ public class StswTextBox : TextBox
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTextBox)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

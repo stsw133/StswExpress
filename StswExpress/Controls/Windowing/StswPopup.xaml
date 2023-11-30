@@ -12,8 +12,11 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="{DynamicResource StswPopup.Thickness.Border}"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="{DynamicResource StswPopup.CornerRadius.Border}"/>
         <Setter Property="Padding" Value="{DynamicResource StswPopup.Thickness.Padding}"/>
+        
+        <Setter Property="IsScrollDynamic" Value="True"/>
     </Style>
     
     
@@ -24,10 +27,11 @@
                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        SnapsToDevicePixels="True">
             <se:StswScrollViewer Focusable="False"
-                                 IsDynamic="True"
+                                 IsDynamic="{Binding IsScrollDynamic, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                  HorizontalScrollBarVisibility="Auto"
                                  VerticalScrollBarVisibility="Auto">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"

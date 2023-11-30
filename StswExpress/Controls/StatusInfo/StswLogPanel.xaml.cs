@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : ItemsControl
+public class StswLogPanel : ItemsControl, IStswCorner
 {
     public ICommand RemoveLogCommand { get; set; }
 
@@ -66,6 +66,21 @@ public class StswLogPanel : ItemsControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswLogPanel)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
