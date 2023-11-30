@@ -76,6 +76,7 @@
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
 
+        <ResourceDictionary Source="TextStyle/StswExpandArrow.xaml"/>
         <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
         <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>
