@@ -63,20 +63,11 @@
                                                               SnapsToDevicePixels="True"
                                                               HorizontalAlignment="Left"
                                                               VerticalAlignment="Center"/>
-                                            <se:StswExpandArrow x:Name="PART_Arrow"
-                                                                Focusable="False"
-                                                                HorizontalAlignment="Right"
-                                                                IsExpanded="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"
-                                                                Width="24"/>
-                                            <!--
-                                            <se:StswIcon x:Name="PART_Arrow"
-                                                         Data="{x:Static se:StswIcons.MenuDown}"
-                                                         Margin="{TemplateBinding Padding}"
-                                                         SnapsToDevicePixels="False"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center"
-                                                         Visibility="{Binding ArrowVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"/>
-                                            -->
+                                            <se:StswDropArrow x:Name="PART_Arrow"
+                                                              Focusable="False"
+                                                              HorizontalAlignment="Right"
+                                                              IsDropDownOpen="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"
+                                                              Width="24"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Down">
@@ -115,8 +106,7 @@
                                 </ToggleButton.Template>
                             </ToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Top"
+                            <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"

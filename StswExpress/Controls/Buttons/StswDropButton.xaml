@@ -42,14 +42,9 @@
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <se:StswExpandArrow DockPanel.Dock="Right"
-                                                Focusable="False"
-                                                HorizontalAlignment="Right"
-                                                IsExpanded="{TemplateBinding IsDropDownOpen}"
-                                                Width="24"/>
+                            <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Right"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"

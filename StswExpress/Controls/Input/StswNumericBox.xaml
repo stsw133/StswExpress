@@ -16,7 +16,6 @@
         <Setter Property="Increment" Value="1"/>
         <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
         
-        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -34,18 +33,17 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- function button -->
-                            <UniformGrid x:Name="PART_FunctionButton" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Columns="1" Width="24">
+                            <UniformGrid x:Name="PART_FunctionButton" DockPanel.Dock="Right" Columns="1" Width="24">
                                 <se:StswRepeatButton x:Name="PART_ButtonUp" Content="▲" BorderThickness="0" CornerRadius="0" Focusable="False" FontSize="7" Padding="0"/>
                                 <se:StswRepeatButton x:Name="PART_ButtonDown" Content="▼" BorderThickness="0" CornerRadius="0" Focusable="False" FontSize="7" Padding="0"/>
                             </UniformGrid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- components -->
-                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>

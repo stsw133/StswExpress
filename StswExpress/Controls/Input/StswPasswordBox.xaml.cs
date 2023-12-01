@@ -74,21 +74,6 @@ public class StswPasswordBox : Control, IStswCorner
         );
 
     /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswPasswordBox)
-        );
-
-    /// <summary>
     /// Gets or sets the password value in the control.
     /// </summary>
     public string? Password

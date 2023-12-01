@@ -12,7 +12,6 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
-        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -38,8 +37,7 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- drop button -->
-                            <se:StswToggleButton x:Name="PART_MainButton"
-                                                 DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                            <se:StswToggleButton x:Name="PART_MainButton" DockPanel.Dock="Right"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  BorderThickness="0"
@@ -52,27 +50,13 @@
                                                  VerticalContentAlignment="Stretch"
                                                  Width="24"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <se:StswExpandArrow Focusable="False"
-                                                    HorizontalAlignment="Right"
-                                                    IsExpanded="{TemplateBinding IsDropDownOpen}"
-                                                    Width="24"/>
+                                <se:StswDropArrow Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             </se:StswToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
-                            <!-- components -->
-                            <!--
-                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                            -->
                             <!-- popup -->
                             <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"

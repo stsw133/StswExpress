@@ -2,7 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
-        <ResourceDictionary Source="_internal/StswExpandArrow.xaml"/>
+        <ResourceDictionary Source="_internal/StswDropArrow.xaml"/>
         
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>

@@ -2,23 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswExpandArrow}">
-
+    <Style TargetType="{x:Type se:StswDropArrow}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswExpandArrow}">
-
-                    <se:StswIcon x:Name="PART_Arrow"
-                                 Data="{x:Static se:StswIcons.ChevronDown}"
-                                 RenderTransformOrigin=".5 .5">
+                <ControlTemplate TargetType="{x:Type se:StswDropArrow}">
+                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDown}" RenderTransformOrigin=".5 .5">
                         <se:StswIcon.RenderTransform>
-                            <RotateTransform x:Name="PART_Rotate"  Angle="0" />
+                            <RotateTransform x:Name="PART_Rotate" Angle="0"/>
                         </se:StswIcon.RenderTransform>
                     </se:StswIcon>
-
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource Self}}" Value="True">
-                            <DataTrigger.EnterActions>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="PART_Rotate"
@@ -27,13 +22,13 @@
                                                          FillBehavior="HoldEnd"
                                                          To="180">
                                             <DoubleAnimation.EasingFunction>
-                                                <ElasticEase Springiness="9" />
+                                                <ElasticEase Springiness="9"/>
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="PART_Rotate"
@@ -42,19 +37,17 @@
                                                          FillBehavior="HoldEnd"
                                                          To="0">
                                             <DoubleAnimation.EasingFunction>
-                                                <ElasticEase Springiness="9" />
+                                                <ElasticEase Springiness="9"/>
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
+                            </Trigger.ExitActions>
+                        </Trigger>
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 
 </ResourceDictionary>

@@ -347,21 +347,6 @@ public class StswTextEditor : RichTextBox, IStswCorner
         );
 
     /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswTextEditor)
-        );
-
-    /// <summary>
     /// Gets or sets the file path associated with the content of the editor.
     /// </summary>
     public string? FilePath

@@ -15,7 +15,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswLoadingCircle}">
                     <Viewbox>
                         <Ellipse x:Name="PART_Ellipse"
-                                 RenderTransformOrigin="0.5 0.5"
+                                 RenderTransformOrigin=".5 .5"
                                  Stroke="{TemplateBinding Fill}"
                                  StrokeDashArray="24"
                                  Height="12" Width="12">
@@ -26,7 +26,9 @@
                                 <EventTrigger RoutedEvent="Loaded">
                                     <BeginStoryboard>
                                         <Storyboard RepeatBehavior="Forever">
-                                            <DoubleAnimation Storyboard.TargetName="PART_Rotation" Storyboard.TargetProperty="Angle" From="0" To="360"/>
+                                            <DoubleAnimation Storyboard.TargetName="PART_Rotation"
+                                                             Storyboard.TargetProperty="Angle"
+                                                             To="360"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>

@@ -125,12 +125,11 @@
                         </ToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
-                            <se:StswExpandArrow DockPanel.Dock="Right"
-                                                Focusable="False"
-                                                HorizontalAlignment="Right"
-                                                IsExpanded="{TemplateBinding IsDropDownOpen}"
-                                                Width="24"
-                                                Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
+                            <se:StswDropArrow DockPanel.Dock="Right"
+                                              Focusable="False"
+                                              IsDropDownOpen="{TemplateBinding IsDropDownOpen}"
+                                              Width="24"
+                                              Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
                                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
@@ -258,28 +257,17 @@
                                                            SnapsToDevicePixels="True"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"/>
-                                            <se:StswExpandArrow x:Name="PART_Arrow" Grid.Column="1"
-                                                                Focusable="False"
-                                                                HorizontalAlignment="Right"
-                                                                IsExpanded="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                                                Width="24"
-                                                                Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
-                                            <!--
-                                            <se:StswIcon x:Name="PART_Arrow" Grid.Column="1"
-                                                         Data="{x:Static se:StswIcons.MenuDown}"
-                                                         Margin="{TemplateBinding Padding}"
-                                                         SnapsToDevicePixels="False"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center"
-                                                         Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
-                                            -->
+                                            <se:StswDropArrow x:Name="PART_Arrow" Grid.Column="1"
+                                                              Focusable="False"
+                                                              IsDropDownOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                              Width="24"
+                                                              Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
                                         </Grid>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Top"
+                            <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"

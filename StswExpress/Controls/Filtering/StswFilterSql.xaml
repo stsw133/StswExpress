@@ -165,8 +165,7 @@
                                     </se:StswToggleButton.ContextMenu>
                                 </se:StswToggleButton>
                                 <!-- separator -->
-                                <se:StswSeparator x:Name="PART_Separator"
-                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Vertical"
                                                   Visibility="{TemplateBinding FilterModeVisibility}"/>

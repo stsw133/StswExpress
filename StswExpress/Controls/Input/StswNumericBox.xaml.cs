@@ -172,21 +172,6 @@ public class StswNumericBox : TextBox, IStswCorner
         );
 
     /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
     /// Gets or sets the custom number format string used to display the value in the control.
     /// When set, the value is formatted according to the provided format string.
     /// </summary>

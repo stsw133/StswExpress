@@ -60,8 +60,7 @@
                                                Visibility="Collapsed"/>
                             </UniformGrid>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Bottom"
+                            <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="1"
                                               Orientation="Horizontal"/>

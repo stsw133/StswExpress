@@ -14,7 +14,6 @@
         
         <Setter Property="MaxDropDownHeight" Value="140"/>
 
-        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -53,13 +52,9 @@
                                              Template="{DynamicResource StswDropToggleButtonTemplate}">
                             <DockPanel>
                                 <!-- arrow -->
-                                <se:StswExpandArrow DockPanel.Dock="Right"
-                                                    Focusable="False"
-                                                    HorizontalAlignment="Right"
-                                                    IsExpanded="{TemplateBinding IsDropDownOpen}"
-                                                    Width="24"/>
+                                <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                                 <!-- components -->
-                                <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"/>
@@ -67,8 +62,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- separator -->
-                                <se:StswSeparator x:Name="PART_Separator"
-                                                  DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Right"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
                                                   Orientation="Vertical"/>

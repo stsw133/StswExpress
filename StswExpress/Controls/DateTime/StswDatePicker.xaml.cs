@@ -161,21 +161,6 @@ public class StswDatePicker : TextBox, IStswCorner
         );
 
     /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswDatePicker)
-        );
-
-    /// <summary>
     /// Gets or sets the custom date and time format string used to display the selected date in the control.
     /// When set, the date is formatted according to the provided format string.
     /// </summary>
