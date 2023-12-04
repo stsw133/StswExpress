@@ -29,8 +29,7 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswLabel x:Name="PART_Header"
-                                          DockPanel.Dock="Top"
+                            <se:StswLabel x:Name="PART_Header" DockPanel.Dock="Top"
                                           Background="{DynamicResource StswExpander.Static.Header}"
                                           BorderThickness="0"
                                           Content="{TemplateBinding Header}"
@@ -39,8 +38,8 @@
                                           FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
                                           FontFamily="{TemplateBinding FontFamily}"
                                           FontSize="{TemplateBinding FontSize}"
-                                          FontStyle="{TemplateBinding FontStyle}"
                                           FontStretch="{TemplateBinding FontStretch}"
+                                          FontStyle="{TemplateBinding FontStyle}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{TemplateBinding Foreground}"
                                           Padding="{TemplateBinding Padding}"

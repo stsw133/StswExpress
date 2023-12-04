@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control that provides a user interface element with a collapsible content area.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswDropButton : ItemsControl, IStswCorner
+public class StswDropButton : ItemsControl, IStswCornerControl
 {
     public StswDropButton()
     {

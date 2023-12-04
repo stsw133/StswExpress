@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigationElement : ContentControl, IStswCorner
+public class StswNavigationElement : ContentControl, IStswCornerControl
 {
     public StswNavigationElement()
     {

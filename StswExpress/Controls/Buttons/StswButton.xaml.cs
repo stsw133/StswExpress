@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a user interface element used to trigger actions upon being clicked.
 /// </summary>
-public class StswButton : Button, IStswCorner
+public class StswButton : Button, IStswCornerControl
 {
     static StswButton()
     {

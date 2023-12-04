@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,7 +14,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
-public class StswFilterBox : Control, IStswCorner
+public class StswFilterBox : Control, IStswCornerControl
 {
     public ICommand SelectModeCommand { get; set; }
 
@@ -86,78 +84,6 @@ public class StswFilterBox : Control, IStswCorner
     /// Event handler for executing when the filter mode is selected.
     /// </summary>
     protected void SelectMode(StswFilterMode parameter) => FilterMode = parameter;
-
-    /// <summary>
-    /// Generates the SQL string based on the current filter settings.
-    /// </summary>
-    public void GenerateSqlString()
-    {
-        /// separator
-        var s = FilterType.In(StswAdaptiveType.Date, StswAdaptiveType.List, StswAdaptiveType.Text) ? "'" : string.Empty;
-        /// case sensitive
-        var cs1 = FilterType.In(StswAdaptiveType.List, StswAdaptiveType.Text) && !IsFilterCaseSensitive ? "lower(" : string.Empty;
-        var cs2 = FilterType.In(StswAdaptiveType.List, StswAdaptiveType.Text) && !IsFilterCaseSensitive ? ")" : string.Empty;
-        /// null sensitive
-        var ns1 = !IsFilterNullSensitive ? "coalesce(" : string.Empty;
-        var ns2 = string.Empty;
-        if (!IsFilterNullSensitive)
-        {
-            ns2 = FilterType switch
-            {
-                StswAdaptiveType.Check => ", 0)",
-                StswAdaptiveType.Date => ", '1900-01-01')",
-                StswAdaptiveType.List => ", '')",
-                StswAdaptiveType.Number => ", 0)",
-                StswAdaptiveType.Text => ", '')",
-                _ => string.Empty
-            };
-        }
-
-        /// calculate SQL string
-        var listValues = new List<object?>();
-        var selectedItems = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-        if (selectedItems != null)
-        {
-            foreach (var selectedItem in selectedItems.Where(x => x.IsSelected))
-            {
-                object? value;
-
-                /// get from selecteditem or selectedvalue
-                if (SelectedValuePath != null && selectedItem.GetType().GetProperty(SelectedValuePath) is PropertyInfo propertyInfo)
-                    value = propertyInfo.GetValue(selectedItem);
-                else
-                    value = selectedItem;
-
-                /// convert to int if enum
-                if (value?.GetType()?.IsEnum == true)
-                    value = value.ConvertTo<int>();
-
-                listValues.Add(value);
-            }
-        }
-
-        SqlString = FilterMode switch
-        {
-            StswFilterMode.Equal => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} = {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <> {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Greater => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} > {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.GreaterEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} >= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Less => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} < {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.LessEqual => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} <= {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.Between => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} between {cs1}{SqlParam}1{cs2} and {cs1}{SqlParam}2{cs2}",
-            StswFilterMode.Contains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.NotContains => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}concat('%', {SqlParam}1, '%'){cs2}",
-            StswFilterMode.Like => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.NotLike => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not like {cs1}{SqlParam}1{cs2}",
-            StswFilterMode.StartsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat({SqlParam}1, '%'){cs2}",
-            StswFilterMode.EndsWith => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} like {cs1}concat('%', {SqlParam}1){cs2}",
-            StswFilterMode.In => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
-            StswFilterMode.NotIn => $"{cs1}{ns1}{FilterSqlColumn}{ns2}{cs2} not in ({cs1}{s}{string.Join($"{s}{cs2},{cs1}{s}", listValues)}{s}{cs2})",
-            StswFilterMode.Null => $"{FilterSqlColumn} is null)",
-            StswFilterMode.NotNull => $"{FilterSqlColumn} is not null)",
-            _ => null
-        };
-    }
 
     /// <summary>
     /// Event handler for handling the KeyDown event.
@@ -234,30 +160,6 @@ public class StswFilterBox : Control, IStswCorner
             typeof(Visibility),
             typeof(StswFilterBox)
         );
-
-    /// <summary>
-    /// Gets or sets the SQL column used for filtering.
-    /// </summary>
-    public string FilterSqlColumn
-    {
-        get => (string)GetValue(FilterSqlColumnProperty);
-        set => SetValue(FilterSqlColumnProperty, value);
-    }
-    public static readonly DependencyProperty FilterSqlColumnProperty
-        = DependencyProperty.Register(
-            nameof(FilterSqlColumn),
-            typeof(string),
-            typeof(StswFilterBox),
-            new PropertyMetadata(default(string), OnFilterSqlColumnChanged)
-        );
-    public static void OnFilterSqlColumnChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswFilterBox stsw)
-        {
-            stsw.SqlParam = "@" + new string(((string)e.NewValue).Where(char.IsLetterOrDigit).ToArray());
-            OnValueChanged(stsw, new DependencyPropertyChangedEventArgs());
-        }
-    }
 
     /// <summary>
     /// Gets or sets the type of filter to be applied.
@@ -396,36 +298,6 @@ public class StswFilterBox : Control, IStswCorner
         );
 
     /// <summary>
-    /// Gets the SQL parameter used in the SQL string generation.
-    /// </summary>
-    public string SqlParam
-    {
-        get => (string)GetValue(SqlParamProperty);
-        private set => SetValue(SqlParamProperty, value);
-    }
-    public static readonly DependencyProperty SqlParamProperty
-        = DependencyProperty.Register(
-            nameof(SqlParam),
-            typeof(string),
-            typeof(StswFilterBox)
-        );
-
-    /// <summary>
-    /// Gets the generated SQL string used for filtering data.
-    /// </summary>
-    public string? SqlString
-    {
-        get => (string?)GetValue(SqlStringProperty);
-        private set => SetValue(SqlStringProperty, value);
-    }
-    public static readonly DependencyProperty SqlStringProperty
-        = DependencyProperty.Register(
-            nameof(SqlString),
-            typeof(string),
-            typeof(StswFilterBox)
-        );
-
-    /// <summary>
     /// Gets or sets the first value used in filtering.
     /// </summary>
     public object? Value1
@@ -446,12 +318,7 @@ public class StswFilterBox : Control, IStswCorner
     {
         if (obj is StswFilterBox stsw)
         {
-            if (stsw.Value1 == null
-            || (stsw.Value2 == null && stsw.FilterMode == StswFilterMode.Between)
-            || stsw.ItemsSource?.OfType<IStswSelectionItem>()?.Where(x => x.IsSelected)?.Count() == 0)
-                stsw.SqlString = null;
-            else
-                stsw.GenerateSqlString();
+            
         }
     }
     internal object? DefaultValue1 { get; set; } = null;

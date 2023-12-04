@@ -9,11 +9,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to enter a secured password.
 /// </summary>
-public class StswPasswordBox : Control, IStswCorner
+public class StswPasswordBox : Control, IStswCornerControl
 {
     public StswPasswordBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswPasswordBox()
     {
@@ -61,15 +61,15 @@ public class StswPasswordBox : Control, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswPasswordBox)
         );
 

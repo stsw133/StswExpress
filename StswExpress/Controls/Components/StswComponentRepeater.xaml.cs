@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
-public class StswComponentRepeater : RepeatButton, IStswComponent
+public class StswComponentRepeater : RepeatButton, IStswComponentControl
 {
     static StswComponentRepeater()
     {

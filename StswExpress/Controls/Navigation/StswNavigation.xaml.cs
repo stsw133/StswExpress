@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a navigation control that allows managing multiple contexts and navigation elements.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigation : ContentControl, IStswCorner
+public class StswNavigation : ContentControl, IStswCornerControl
 {
     public StswNavigation()
     {

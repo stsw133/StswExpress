@@ -13,11 +13,11 @@ namespace StswExpress;
 /// A control that allows users to select and display date.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswDatePicker : TextBox, IStswCorner
+public class StswDatePicker : TextBox, IStswCornerControl
 {
     public StswDatePicker()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswDatePicker()
     {
@@ -148,15 +148,15 @@ public class StswDatePicker : TextBox, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswDatePicker)
         );
 

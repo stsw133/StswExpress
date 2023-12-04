@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for component controls.
 /// </summary>
-public interface IStswComponent
+public interface IStswComponentControl
 {
     public object? Content { get; set; }
     public static readonly DependencyProperty? ContentProperty;

@@ -11,11 +11,11 @@ namespace StswExpress;
 /// Represents a control that can be used to display or edit unformatted text.
 /// </summary>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox, IStswCorner
+public class StswTextBox : TextBox, IStswCornerControl
 {
     public StswTextBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswTextBox()
     {
@@ -49,15 +49,15 @@ public class StswTextBox : TextBox, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswTextBox)
         );
 

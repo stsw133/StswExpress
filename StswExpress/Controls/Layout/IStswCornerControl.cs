@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// Defines a contract for controls with border.
 /// </summary>
-public interface IStswCorner
+public interface IStswCornerControl
 {
     public bool CornerClipping { get; set; }
     public static readonly DependencyProperty? CornerClippingProperty;

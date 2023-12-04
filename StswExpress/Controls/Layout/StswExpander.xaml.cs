@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a header and allows the user to collapse or expand content.
 /// </summary>
-public class StswExpander : Expander, IStswCorner
+public class StswExpander : Expander, IStswCornerControl
 {
     static StswExpander()
     {

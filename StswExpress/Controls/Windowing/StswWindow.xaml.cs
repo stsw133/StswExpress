@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
-public class StswWindow : Window, IStswCorner
+public class StswWindow : Window, IStswCornerControl
 {
     public StswWindow()
     {

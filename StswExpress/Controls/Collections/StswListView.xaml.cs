@@ -9,7 +9,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswListView : ListView, IStswCorner
+public class StswListView : ListView, IStswCornerControl
 {
     static StswListView()
     {

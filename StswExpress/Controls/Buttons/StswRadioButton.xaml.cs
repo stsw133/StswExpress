@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to select a single option from a group of mutually exclusive options.
 /// </summary>
-public class StswRadioButton : RadioButton, IStswCorner
+public class StswRadioButton : RadioButton, IStswCornerControl
 {
     static StswRadioButton()
     {

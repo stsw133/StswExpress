@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows the user to toggle between three states: checked, unchecked and indeterminate.
 /// </summary>
-public class StswCheckBox : CheckBox, IStswCorner
+public class StswCheckBox : CheckBox, IStswCornerControl
 {
     static StswCheckBox()
     {

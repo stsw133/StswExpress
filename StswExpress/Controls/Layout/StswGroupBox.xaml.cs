@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a container for a group of controls with an optional header.
 /// </summary>
-public class StswGroupBox : GroupBox, IStswCorner
+public class StswGroupBox : GroupBox, IStswCornerControl
 {
     static StswGroupBox()
     {

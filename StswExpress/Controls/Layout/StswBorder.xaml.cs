@@ -12,7 +12,7 @@ namespace StswExpress;
 /// As a side effect <see cref="StswBorder"/> will surpress any databinding or animation of 
 /// its childs <see cref="UIElement.Clip"/> property until the child is removed from <see cref="StswBorder"/>.
 /// </remarks>
-public class StswBorder : Border, IStswCorner
+public class StswBorder : Border, IStswCornerControl
 {
     static StswBorder()
     {

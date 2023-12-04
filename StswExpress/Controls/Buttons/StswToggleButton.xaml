@@ -26,13 +26,11 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
-                        <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
-                            <ContentPresenter Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
+                        <ContentPresenter Focusable="False"
+                                          Margin="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -78,13 +76,11 @@
                        BorderThickness="{TemplateBinding BorderThickness}"
                        CornerRadius="{TemplateBinding CornerRadius}"
                        SnapsToDevicePixels="True">
-            <Grid> <!-- Grid is just a bugfix for ClippingBorder -->
-                <ContentPresenter Focusable="False"
-                                  Margin="{TemplateBinding Padding}"
-                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </Grid>
+            <ContentPresenter Focusable="False"
+                              Margin="{TemplateBinding Padding}"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </se:StswBorder>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">

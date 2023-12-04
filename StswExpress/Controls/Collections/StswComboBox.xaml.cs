@@ -7,11 +7,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswCorner
+public class StswComboBox : ComboBox, IStswCornerControl
 {
     public StswComboBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswComboBox()
     {
@@ -22,15 +22,15 @@ public class StswComboBox : ComboBox, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswComboBox)
         );
 

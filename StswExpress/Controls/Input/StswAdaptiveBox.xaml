@@ -38,8 +38,6 @@
                                                                          IsChecked="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          IsThreeState="{Binding IsThreeState, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                         HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                         VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
                                                     </DataTemplate>
@@ -61,8 +59,6 @@
                                                                            Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            SelectedDate="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
                                                     </DataTemplate>
@@ -87,8 +83,6 @@
                                                                              SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              Text="{Binding Value, Mode=OneWayToSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                             HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                             VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
                                                     </DataTemplate>
@@ -110,8 +104,6 @@
                                                                            Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Value="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
                                                     </DataTemplate>
@@ -132,8 +124,6 @@
                                                                         Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         Text="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                        HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                        VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"/>
                                                     </DataTemplate>

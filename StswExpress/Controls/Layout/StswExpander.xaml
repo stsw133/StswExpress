@@ -29,87 +29,35 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
-                            <ToggleButton x:Name="PART_Header"
-                                          DockPanel.Dock="Top"
-                                          Background="{DynamicResource StswExpander.Static.Header}"
-                                          BorderThickness="0"
-                                          Content="{TemplateBinding Header}"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                          FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
-                                          FontFamily="{TemplateBinding FontFamily}"
-                                          FontSize="{TemplateBinding FontSize}"
-                                          FontStyle="{TemplateBinding FontStyle}"
-                                          FontStretch="{TemplateBinding FontStretch}"
-                                          FontWeight="{TemplateBinding FontWeight}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Padding="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                        <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="False">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
-                                            <ContentPresenter x:Name="PART_Content"
-                                                              Margin="{TemplateBinding Padding}"
-                                                              SnapsToDevicePixels="True"
-                                                              HorizontalAlignment="Left"
-                                                              VerticalAlignment="Center"/>
-                                            <se:StswDropArrow x:Name="PART_Arrow"
-                                                              Focusable="False"
-                                                              HorizontalAlignment="Right"
-                                                              IsDropDownOpen="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}"
-                                                              Width="24"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Down">
-                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Up">
-                                                <Setter Property="Grid.Column" Value="1" TargetName="PART_Arrow"/>
-                                                <Setter Property="LayoutTransform" TargetName="PART_Arrow">
-                                                    <Setter.Value>
-                                                        <RotateTransform Angle="180"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Left">
-                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
-                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content"/>
-                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow"/>
-                                                <Setter Property="LayoutTransform" TargetName="PART_Arrow">
-                                                    <Setter.Value>
-                                                        <RotateTransform Angle="90"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ExpandDirection, RelativeSource={RelativeSource AncestorType={x:Type se:StswExpander}}}" Value="Right">
-                                                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
-                                                <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_Content"/>
-                                                <Setter Property="Grid.Row" Value="1" TargetName="PART_Arrow"/>
-                                                <Setter Property="LayoutTransform" TargetName="PART_Arrow">
-                                                    <Setter.Value>
-                                                        <RotateTransform Angle="-90"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
+                            <se:StswToggleButton x:Name="PART_Header"
+                                                 Background="{DynamicResource StswExpander.Static.Header}"
+                                                 BorderThickness="0"
+                                                 CornerClipping="False"
+                                                 CornerRadius="0"
+                                                 FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
+                                                 FontFamily="{TemplateBinding FontFamily}"
+                                                 FontSize="{TemplateBinding FontSize}"
+                                                 FontStretch="{TemplateBinding FontStretch}"
+                                                 FontStyle="{TemplateBinding FontStyle}"
+                                                 FontWeight="{TemplateBinding FontWeight}"
+                                                 Foreground="{TemplateBinding Foreground}"
+                                                 IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Padding="{TemplateBinding Padding}"
+                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <DockPanel>
+                                    <se:StswDropArrow x:Name="PART_Arrow" Focusable="False" IsDropDownOpen="{TemplateBinding IsExpanded}" Width="24"/>
+                                    <ContentPresenter x:Name="PART_Content"
+                                                      Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                                      SnapsToDevicePixels="True"/>
+                                </DockPanel>
+                            </se:StswToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Top"
+                            <se:StswSeparator x:Name="PART_Separator"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
-                                              Orientation="Horizontal"
                                               Visibility="Collapsed"/>
                             <!-- content -->
                             <ContentPresenter x:Name="PART_ExpandSite"
@@ -121,17 +69,44 @@
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ExpandDirection" Value="Up">
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Separator"/>
+                        <Trigger Property="ExpandDirection" Value="Down">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                                <Setter.Value>
+                                    <RotateTransform Angle="90"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
+                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Separator"/>
+                            <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
+                            <Setter Property="LayoutTransform" TargetName="PART_Arrow">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>

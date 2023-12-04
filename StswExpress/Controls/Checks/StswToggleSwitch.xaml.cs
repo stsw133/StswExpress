@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 
-public class StswToggleSwitch : ToggleButton, IStswCorner
+public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     static StswToggleSwitch()
     {

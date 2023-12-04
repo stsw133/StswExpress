@@ -16,7 +16,7 @@ namespace StswExpress;
 /// A control with date selection functionality.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswCalendar : Control, IStswCorner
+public class StswCalendar : Control, IStswCornerControl
 {
     public ICommand SelectDateCommand { get; set; }
     public ICommand SelectMonthCommand { get; set; }

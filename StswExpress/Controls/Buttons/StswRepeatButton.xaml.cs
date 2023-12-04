@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that provides a user interface element used to repeatedly trigger actions when pressed and held.
 /// </summary>
-public class StswRepeatButton : RepeatButton, IStswCorner
+public class StswRepeatButton : RepeatButton, IStswCornerControl
 {
     static StswRepeatButton()
     {

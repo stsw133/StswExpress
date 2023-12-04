@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control being a progress bar with additional features such as displaying progress as text and different states.
 /// </summary>
-public class StswProgressBar : ProgressBar, IStswCorner
+public class StswProgressBar : ProgressBar, IStswCornerControl
 {
     public StswProgressBar()
     {

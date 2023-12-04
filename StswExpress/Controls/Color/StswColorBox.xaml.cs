@@ -14,11 +14,11 @@ namespace StswExpress;
 /// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorBox : TextBox, IStswCorner
+public class StswColorBox : TextBox, IStswCornerControl
 {
     public StswColorBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswColorBox()
     {
@@ -88,15 +88,15 @@ public class StswColorBox : TextBox, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswColorBox)
         );
 
@@ -199,7 +199,7 @@ public class StswColorBox : TextBox, IStswCorner
             typeof(bool),
             typeof(StswColorBox)
         );
-    
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

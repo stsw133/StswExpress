@@ -9,7 +9,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a hierarchical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswTreeView : TreeView, IStswCorner
+public class StswTreeView : TreeView, IStswCornerControl
 {
     static StswTreeView()
     {

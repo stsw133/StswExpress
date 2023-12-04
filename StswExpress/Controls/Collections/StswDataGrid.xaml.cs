@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
-public class StswDataGrid : DataGrid, IStswCorner
+public class StswDataGrid : DataGrid, IStswCornerControl
 {
     public ICommand ClearFiltersCommand { get; set; }
 

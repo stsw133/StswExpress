@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to switch between two states: on and off.
 /// </summary>
-public class StswToggleButton : ToggleButton, IStswCorner
+public class StswToggleButton : ToggleButton, IStswCornerControl
 {
     static StswToggleButton()
     {

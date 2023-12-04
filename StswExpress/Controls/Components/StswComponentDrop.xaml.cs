@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswComponentDrop : ItemsControl, IStswComponent
+public class StswComponentDrop : ItemsControl, IStswComponentControl
 {
     public StswComponentDrop()
     {

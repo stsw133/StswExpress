@@ -13,11 +13,11 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswAdaptiveBox : Control, IStswCorner
+public class StswAdaptiveBox : Control, IStswCornerControl
 {
     public StswAdaptiveBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswAdaptiveBox()
     {
@@ -40,15 +40,15 @@ public class StswAdaptiveBox : Control, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswAdaptiveBox)
         );
 
@@ -238,7 +238,7 @@ public class StswAdaptiveBox : Control, IStswCorner
             typeof(bool),
             typeof(StswAdaptiveBox)
         );
-    
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>

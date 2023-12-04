@@ -14,13 +14,13 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : ContentControl, IStswCorner
+public class StswSelectionBox : ContentControl, IStswCornerControl
 {
     public StswSelectionBox()
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
         
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswSelectionBox()
     {
@@ -81,15 +81,15 @@ public class StswSelectionBox : ContentControl, IStswCorner
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswSelectionBox)
         );
 
@@ -275,7 +275,7 @@ public class StswSelectionBox : ContentControl, IStswCorner
             typeof(bool),
             typeof(StswSelectionBox)
         );
-    
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
