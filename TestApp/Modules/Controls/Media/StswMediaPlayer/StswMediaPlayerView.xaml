@@ -23,12 +23,14 @@
             </se:StswButton>
         </local:ControlsBase.Properties>
         <!-- content -->
+        <!--
         <se:StswMediaPlayer IsEnabled="{Binding IsEnabled}"
                             Source="{Binding Source}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}"
                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        -->
         <!-- status panel -->
 
     </local:ControlsBase>

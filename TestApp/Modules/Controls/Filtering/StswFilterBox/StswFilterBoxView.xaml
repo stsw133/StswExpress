@@ -25,6 +25,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
+        <!--
         <se:StswFilterBox FilterMode="Contains"
                           FilterType="{Binding FilterType}"
                           IsEnabled="{Binding IsEnabled}"
@@ -34,6 +35,7 @@
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"
                           VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        -->
         <!-- status panel -->
 
     </local:ControlsBase>

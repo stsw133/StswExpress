@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswContextMenu : ContextMenu
+internal class StswContextMenu : ContextMenu
 {
     static StswContextMenu()
     {

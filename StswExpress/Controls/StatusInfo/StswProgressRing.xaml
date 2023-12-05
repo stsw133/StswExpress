@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type se:StswProgressRing}">
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
+        <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Running.Background}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="1"/>
@@ -14,8 +15,8 @@
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -32,7 +33,7 @@
                                          Height="12" Width="12"/>
                                 <Ellipse x:Name="Indicator"
                                          RenderTransformOrigin="0.5 0.5"
-                                         Stroke="{TemplateBinding BorderBrush}"
+                                         Stroke="{TemplateBinding Fill}"
                                          StrokeDashArray="{TemplateBinding StrokeDashArray}"
                                          Height="12" Width="12">
                                     <Ellipse.RenderTransform>
@@ -41,7 +42,7 @@
                                 </Ellipse>
                                 <Ellipse x:Name="Animation"
                                          RenderTransformOrigin="0.5 0.5"
-                                         Stroke="{TemplateBinding BorderBrush}"
+                                         Stroke="{TemplateBinding Fill}"
                                          StrokeDashArray="24"
                                          Height="12" Width="12">
                                     <Ellipse.RenderTransform>
@@ -65,8 +66,8 @@
                                      Foreground="{TemplateBinding Foreground}"
                                      Padding="{TemplateBinding Padding}"
                                      Text="{TemplateBinding Text}"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"/>
+                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="State" Value="Ready">

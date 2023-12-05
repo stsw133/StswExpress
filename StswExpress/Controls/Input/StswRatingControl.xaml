@@ -63,10 +63,12 @@
                                     <DataTrigger Binding="{Binding IsMouseOver}" Value="True">
                                         <Setter Property="Stroke" Value="{DynamicResource StswRating.MouseOver.Border}" TargetName="PART_Icon"/>
                                     </DataTrigger>
+                                    <!--
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Fill" Value="{DynamicResource StswRating.Disabled.Background}" TargetName="PART_Icon"/>
                                         <Setter Property="Stroke" Value="{DynamicResource StswRating.Disabled.Border}" TargetName="PART_Icon"/>
                                     </Trigger>
+                                    -->
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
                                             <Condition Binding="{Binding IsChecked}" Value="True"/>
