@@ -133,6 +133,7 @@ public enum StswMenuMode
 /// </summary>
 public enum StswProgressState
 {
+    Custom = -1,
     Ready,
     Running,
     Paused,

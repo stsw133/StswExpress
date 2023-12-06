@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control to display media element with additional features such as management panel.
 /// </summary>
-public class StswMediaPlayer : Control
+internal class StswMediaPlayer : Control
 {
     static StswMediaPlayer()
     {

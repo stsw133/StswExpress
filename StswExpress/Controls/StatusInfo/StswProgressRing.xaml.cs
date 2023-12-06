@@ -128,4 +128,21 @@ public class StswProgressRing : ProgressBar
         }
     }
     #endregion
+
+    #region Style properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public Brush Fill
+    {
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
+    }
+    public static readonly DependencyProperty FillProperty
+        = DependencyProperty.Register(
+            nameof(Fill),
+            typeof(Brush),
+            typeof(StswProgressRing)
+        );
+    #endregion
 }

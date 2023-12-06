@@ -6,7 +6,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswChartPie : ItemsControl
+internal class StswChartPie : ItemsControl
 {
     static StswChartPie()
     {

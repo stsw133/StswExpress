@@ -6,7 +6,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
         <Setter Property="BorderThickness" Value="2"/>
 
-        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerClipping" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
