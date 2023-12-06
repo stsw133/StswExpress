@@ -12,8 +12,6 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         
-        <Setter Property="MaxDropDownHeight" Value="140"/>
-
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>

@@ -1,7 +1,7 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> <see cref="StswFilterSql.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> and <see cref="StswFilterSql.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {

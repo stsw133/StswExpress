@@ -18,7 +18,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="MaxDropDownHeight" Value="140"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -62,7 +61,10 @@
                                 <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                             </se:StswPopup>
                             <!-- content -->
-                            <ContentPresenter ContentSource="Header"
+                            <ContentPresenter Content="{TemplateBinding Header}"
+                                              ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"

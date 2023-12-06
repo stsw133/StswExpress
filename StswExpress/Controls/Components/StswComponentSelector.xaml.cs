@@ -144,7 +144,7 @@ public class StswComponentSelector : ItemsControl, IStswComponentControl
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>
     public double? MaxDropDownHeight
     {
@@ -155,7 +155,8 @@ public class StswComponentSelector : ItemsControl, IStswComponentControl
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
             typeof(double?),
-            typeof(StswComponentSelector)
+            typeof(StswComponentSelector),
+            new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
     #endregion
 }

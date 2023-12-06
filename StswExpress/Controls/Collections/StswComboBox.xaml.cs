@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswCornerControl
+public class StswComboBox : ComboBox, IStswCornerControl, IStswDropControl
 {
     public StswComboBox()
     {
@@ -52,7 +52,9 @@ public class StswComboBox : ComboBox, IStswCornerControl
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {
@@ -67,7 +69,9 @@ public class StswComboBox : ComboBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSplitButton : ItemsControl, ICommandSource, IStswCornerControl
+public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCornerControl, IStswDropControl
 {
     public StswSplitButton()
     {
@@ -68,22 +68,7 @@ public class StswSplitButton : ItemsControl, ICommandSource, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the header content of the control.
-    /// </summary>
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
-    public static readonly DependencyProperty HeaderProperty
-        = DependencyProperty.Register(
-            nameof(Header),
-            typeof(object),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -133,7 +118,9 @@ public class StswSplitButton : ItemsControl, ICommandSource, IStswCornerControl
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {
@@ -148,7 +135,9 @@ public class StswSplitButton : ItemsControl, ICommandSource, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded (including popup).
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -163,18 +152,19 @@ public class StswSplitButton : ItemsControl, ICommandSource, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>
-    public double? MaxDropDownHeight
+    public double MaxDropDownHeight
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
+        get => (double)GetValue(MaxDropDownHeightProperty);
         set => SetValue(MaxDropDownHeightProperty, value);
     }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
-            typeof(double?),
-            typeof(StswSplitButton)
+            typeof(double),
+            typeof(StswSplitButton),
+            new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
 
     /// <summary>

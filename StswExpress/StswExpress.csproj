@@ -32,7 +32,7 @@ Bugfixes:
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Helpers\StswIcons.cs~RFa51e7cef.TMP" />
+    <None Remove="Utils\StswIcons.cs~RFa51e7cef.TMP" />
   </ItemGroup>
 
   <ItemGroup>

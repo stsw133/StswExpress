@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswComponentDrop : ItemsControl, IStswComponentControl
+public class StswComponentDrop : ItemsControl, IStswComponentControl, IStswDropControl
 {
     public StswComponentDrop()
     {
@@ -99,7 +99,7 @@ public class StswComponentDrop : ItemsControl, IStswComponentControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -164,7 +164,9 @@ public class StswComponentDrop : ItemsControl, IStswComponentControl
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded (including popup).
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -179,18 +181,19 @@ public class StswComponentDrop : ItemsControl, IStswComponentControl
         );
 
     /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>
-    public double? MaxDropDownHeight
+    public double MaxDropDownHeight
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
+        get => (double)GetValue(MaxDropDownHeightProperty);
         set => SetValue(MaxDropDownHeightProperty, value);
     }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
-            typeof(double?),
-            typeof(StswComponentDrop)
+            typeof(double),
+            typeof(StswComponentDrop),
+            new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
     #endregion
 }
