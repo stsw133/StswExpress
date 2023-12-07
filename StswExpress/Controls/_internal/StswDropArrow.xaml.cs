@@ -11,7 +11,7 @@ internal class StswDropArrow : Control
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {

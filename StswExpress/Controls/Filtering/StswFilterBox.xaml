@@ -34,9 +34,8 @@
                             <DockPanel>
                                 <!-- filter mode -->
                                 <se:StswToggleButton x:Name="PART_FilterMode"
-                                                     BorderThickness="0" CornerRadius="0" FontSize="15" Padding="0" Width="24"
-                                                     IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Visibility="{TemplateBinding FilterModeVisibility}">
+                                                     BorderThickness="0" CornerRadius="0" FontFamily="Segoe UI" FontSize="15" Padding="0" Width="24"
+                                                     IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswOutlinedText Stroke="Black" StrokeThickness="2"/>
                                     <se:StswToggleButton.ContextMenu>
                                         <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
@@ -165,10 +164,10 @@
                                     </se:StswToggleButton.ContextMenu>
                                 </se:StswToggleButton>
                                 <!-- separator -->
-                                <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                <se:StswSeparator x:Name="PART_Separator"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
-                                                  Orientation="Vertical"
-                                                  Visibility="{TemplateBinding FilterModeVisibility}"/>
+                                                  Orientation="Vertical"/>
                                 <!-- controls -->
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
@@ -177,6 +176,7 @@
                                                         BorderThickness="0"
                                                         CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                        IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
                                                         Padding="{TemplateBinding Padding}"
                                                         Placeholder=" . . . "
@@ -185,7 +185,6 @@
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">
-                                                <Setter Property="IsThreeState" Value="True"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="{x:Null}">
                                                         <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
@@ -201,6 +200,7 @@
                                                         BorderThickness="0"
                                                         CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                        IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
                                                         Padding="{TemplateBinding Padding}"
                                                         Placeholder=" . . . "
@@ -210,7 +210,6 @@
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
                                             <Style TargetType="{x:Type se:StswCheckBox}">
-                                                <Setter Property="IsThreeState" Value="True"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="{x:Null}">
                                                         <Setter Property="GlyphBrush" Value="{DynamicResource StswBox.Placeholder.Foreground}"/>
@@ -223,9 +222,7 @@
                             </DockPanel>
                         </se:StswBorder>
                         <!-- header -->
-                        <ContentPresenter ContentSource="Header"
-                                          Focusable="False"
-                                          Margin="2 0"/>
+                        <ContentPresenter ContentSource="Header" Focusable="False" Margin="2 0"/>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="FilterType" Value="Check">
@@ -267,6 +264,10 @@
                         <Trigger Property="IsFilterNullSensitive" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNull"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotNull"/>
+                        </Trigger>
+                        <Trigger Property="FilterMode" Value="None">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilterMode"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="FilterMode" Value="Between">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SecondControl"/>

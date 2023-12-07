@@ -26,7 +26,7 @@ public class StswPopup : Popup, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets the data used to generate the child elements of this control.
     /// </summary>
     public object? Content
     {
@@ -43,7 +43,7 @@ public class StswPopup : Popup, IStswCornerControl
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the background brush for the control.
     /// </summary>
     public Brush Background
     {
@@ -58,7 +58,7 @@ public class StswPopup : Popup, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the border brush for the control.
     /// </summary>
     public Brush BorderBrush
     {
@@ -73,7 +73,7 @@ public class StswPopup : Popup, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the border thickness for the control.
     /// </summary>
     public Thickness BorderThickness
     {
@@ -122,7 +122,7 @@ public class StswPopup : Popup, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the <see cref="StswScrollViewer"/> inside the control is dynamic.
     /// </summary>
     public bool IsScrollDynamic
     {
@@ -133,11 +133,12 @@ public class StswPopup : Popup, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsScrollDynamic),
             typeof(bool),
-            typeof(StswPopup)
+            typeof(StswPopup),
+            new PropertyMetadata(true)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the padding for the control.
     /// </summary>
     public Thickness Padding
     {

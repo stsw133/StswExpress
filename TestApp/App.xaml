@@ -124,9 +124,6 @@
             <DataTemplate DataType="{x:Type local:StswFilterBoxContext}">
                 <local:StswFilterBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswFilterSqlContext}">
-                <local:StswFilterSqlView/>
-            </DataTemplate>
 
             <!-- Input -->
             <DataTemplate DataType="{x:Type local:StswAdaptiveBoxContext}">
@@ -221,9 +218,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLoadingCircleContext}">
                 <local:StswLoadingCircleView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswTruncateLabelContext}">
-                <local:StswTruncateLabelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>

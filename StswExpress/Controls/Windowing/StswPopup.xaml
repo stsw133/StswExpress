@@ -15,8 +15,6 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="{DynamicResource StswPopup.CornerRadius.Border}"/>
         <Setter Property="Padding" Value="{DynamicResource StswPopup.Thickness.Padding}"/>
-        
-        <Setter Property="IsScrollDynamic" Value="True"/>
     </Style>
     
     

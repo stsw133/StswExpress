@@ -139,7 +139,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the fill brush for the control.
     /// </summary>
     public Brush Fill
     {

@@ -5,11 +5,12 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// A command implementation (without parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
+/// A command implementation (with parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
 /// </summary>
-public sealed class StswCommand : ICommand, INotifyPropertyChanged
+/// <typeparam name="T">Parameter's type.</typeparam>
+public sealed class StswCommand<T> : ICommand, INotifyPropertyChanged
 {
-    private readonly Action _execute;
+    private readonly Action<T?> _execute;
     private readonly Func<bool>? _canExecute;
 
     public event EventHandler? CanExecuteChanged
@@ -18,7 +19,7 @@ public sealed class StswCommand : ICommand, INotifyPropertyChanged
         remove => CommandManager.RequerySuggested -= value;
     }
 
-    public StswCommand(Action execute, Func<bool>? canExecute = null)
+    public StswCommand(Action<T?> execute, Func<bool>? canExecute = null)
     {
         _execute = execute;
         _canExecute = canExecute;
@@ -35,7 +36,7 @@ public sealed class StswCommand : ICommand, INotifyPropertyChanged
     public void Execute(object? parameter)
     {
         IsWorking = true;
-        _execute();
+        _execute((T?)parameter);
         IsWorking = false;
     }
 

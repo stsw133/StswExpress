@@ -7,17 +7,17 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
+/// An async command implementation (with parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
 /// </summary>
-public class StswAsyncCommand : ICommand, INotifyPropertyChanged
+public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
 {
-    private Func<Task> _execute { get; }
+    private Func<object?, Task> _execute { get; }
     private readonly Func<bool>? _canExecute;
 
     public event EventHandler? CanExecuteChanged;
-    public void UpdateCanExecute() => Application.Current.Dispatcher.Invoke(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
+    public void UpdateCanExecute() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-    public StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null)
+    public StswAsyncCommand(Func<object?, Task> execute, Func<bool>? canExecute = null)
     {
         _execute = execute;
         _canExecute = canExecute;
@@ -26,11 +26,12 @@ public class StswAsyncCommand : ICommand, INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public bool CanExecute(object? parameter) => /*!IsWorking &&*/ (_canExecute?.Invoke() ?? true);
+    public bool CanExecute(object? parameter) => !IsWorking && (_canExecute?.Invoke() ?? true);
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="parameter"></param>
     public async void Execute(object? parameter)
     {
         if (!IsWorking)
@@ -38,7 +39,7 @@ public class StswAsyncCommand : ICommand, INotifyPropertyChanged
             IsWorking = true;
             UpdateCanExecute();
 
-            await _execute();
+            await _execute(parameter);
 
             IsWorking = false;
             UpdateCanExecute();

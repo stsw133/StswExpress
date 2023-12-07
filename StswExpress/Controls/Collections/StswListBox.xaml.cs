@@ -18,7 +18,9 @@ public class StswListBox : ListBox, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Handles the event triggered when the ItemsSource property changes in the control.
+    /// Checks if the ItemsSource collection contains items implementing the <see cref="IStswSelectionItem"/> interface
+    /// to enable advanced selection features.
     /// </summary>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
@@ -29,7 +31,8 @@ public class StswListBox : ListBox, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the control uses selection items that implement
+    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
     /// </summary>
     internal bool UsesSelectionItems
     {

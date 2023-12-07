@@ -16,6 +16,7 @@
         
         <Setter Property="AreFiltersVisible" Value="True"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="FiltersType" Value="CollectionView"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>

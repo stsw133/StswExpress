@@ -1,7 +1,7 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> and <see cref="StswFilterSql.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> and <see cref="StswFilterBox.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -29,6 +29,15 @@ public enum StswDatabaseType
     MSSQL,
     MySQL,
     PostgreSQL
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswDataGrid.FiltersType"/>.
+/// </summary>
+public enum StswDataGridFiltersType
+{
+    CollectionView,
+    SQL
 }
 
 /// <summary>
@@ -71,10 +80,11 @@ public enum StswDialogImage
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswFilterBox.FilterMode"/> and <see cref="StswFilterSql.FilterMode"/>.
+/// Enumeration for <see cref="StswFilterBox.FilterMode"/> and <see cref="StswFilterBox.FilterMode"/>.
 /// </summary>
 public enum StswFilterMode
 {
+    None,
     Equal,
     NotEqual,
     Greater,

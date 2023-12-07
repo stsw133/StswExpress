@@ -53,15 +53,15 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     /// </summary>
     private void ActionClear()
     {
-        var StswSqlFilters = StswFn.FindVisualChildren<StswFilterSql>(this).ToList();
-        foreach (var StswSqlFilter in StswSqlFilters)
+        var stswSqlFilters = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
+        foreach (var stswSqlFilter in stswSqlFilters)
         {
-            StswSqlFilter.FilterMode = StswSqlFilter.DefaultFilterMode;
-            var itemsSource = StswSqlFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-            var defaultItemsSource = StswSqlFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            stswSqlFilter.FilterMode = stswSqlFilter.DefaultFilterMode;
+            var itemsSource = stswSqlFilter.ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
+            var defaultItemsSource = stswSqlFilter.DefaultItemsSource?.OfType<IStswSelectionItem>()?.ToList();
             itemsSource?.ForEach(x => x.IsSelected = defaultItemsSource?.FirstOrDefault(y => y.Equals(x))?.IsSelected == true);
-            StswSqlFilter.Value1 = StswSqlFilter.DefaultValue1;
-            StswSqlFilter.Value2 = StswSqlFilter.DefaultValue2;
+            stswSqlFilter.Value1 = stswSqlFilter.DefaultValue1;
+            stswSqlFilter.Value2 = stswSqlFilter.DefaultValue2;
         }
     }
 
@@ -70,27 +70,53 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     /// </summary>
     private void ActionRefresh()
     {
-        FiltersData.SqlFilter = string.Empty;
-        FiltersData.SqlParameters = new List<(string, object)>();
+        var stswSqlFilters = StswFn.FindVisualChildren<StswFilterBox>(this).ToList();
 
-        var StswSqlFilters = StswFn.FindVisualChildren<StswFilterSql>(this).ToList();
-        foreach (var StswSqlFilter in StswSqlFilters)
+        switch (FiltersType)
         {
-            /// Header is StswColumnFilterData
-            if (StswSqlFilter?.SqlString != null)
-            {
-                FiltersData.SqlFilter += " and " + StswSqlFilter.SqlString;
-                if (StswSqlFilter.Value1 != null && StswSqlFilter.SqlParam != null)
-                    FiltersData.SqlParameters.Add((StswSqlFilter.SqlParam[..(StswSqlFilter.SqlParam.Length > 120 ? 120 : StswSqlFilter.SqlParam.Length)] + "1", StswSqlFilter.Value1 ?? DBNull.Value));
-                if (StswSqlFilter.Value2 != null && StswSqlFilter.SqlParam != null)
-                    FiltersData.SqlParameters.Add((StswSqlFilter.SqlParam[..(StswSqlFilter.SqlParam.Length > 120 ? 120 : StswSqlFilter.SqlParam.Length)] + "2", StswSqlFilter.Value2 ?? DBNull.Value));
-            }
-        }
+            /*
+            case StswDataGridFiltersType.CollectionView:
+                {
+                    var view = (ICollectionView)ItemsSource;
 
-        if (FiltersData.SqlFilter.StartsWith(" and "))
-            FiltersData.SqlFilter = FiltersData.SqlFilter[5..];
-        if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
-            FiltersData.SqlFilter = "1=1";
+                    var filterPredicates = stswSqlFilters.Select(x => x.GenerateFilterPredicate()).Where(predicate => predicate != null).Cast<Predicate<object>>();
+
+                    Predicate<object>? combinedPredicate = item =>
+                    {
+                        foreach (var predicate in filterPredicates)
+                            if (!predicate(item))
+                                return false;
+                        return true;
+                    };
+
+                    view.Filter = combinedPredicate;
+                }
+                break;
+            */
+            case StswDataGridFiltersType.SQL:
+            default:
+                {
+                    FiltersData.SqlFilter = string.Empty;
+                    FiltersData.SqlParameters = new();
+
+                    foreach (var stswSqlFilter in stswSqlFilters)
+                        /// Header is StswColumnFilterData
+                        if (stswSqlFilter?.SqlString != null)
+                        {
+                            FiltersData.SqlFilter += " and " + stswSqlFilter.SqlString;
+                            if (stswSqlFilter.Value1 != null && stswSqlFilter.SqlParam != null)
+                                FiltersData.SqlParameters.Add((stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "1", stswSqlFilter.Value1 ?? DBNull.Value));
+                            if (stswSqlFilter.Value2 != null && stswSqlFilter.SqlParam != null)
+                                FiltersData.SqlParameters.Add((stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "2", stswSqlFilter.Value2 ?? DBNull.Value));
+                        }
+
+                    if (FiltersData.SqlFilter.StartsWith(" and "))
+                        FiltersData.SqlFilter = FiltersData.SqlFilter[5..];
+                    if (string.IsNullOrWhiteSpace(FiltersData.SqlFilter))
+                        FiltersData.SqlFilter = "1=1";
+                }
+                break;
+        }
     }
     #endregion
 
@@ -126,7 +152,22 @@ public class StswDataGrid : DataGrid, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the command for refreshing the data.
+    /// Gets or sets the filters type for the control.
+    /// </summary>
+    public StswDataGridFiltersType FiltersType
+    {
+        get => (StswDataGridFiltersType)GetValue(FiltersTypeProperty);
+        set => SetValue(FiltersTypeProperty, value);
+    }
+    public static readonly DependencyProperty FiltersTypeProperty
+        = DependencyProperty.Register(
+            nameof(FiltersType),
+            typeof(StswDataGridFiltersType),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the command for refreshing the data (if Enter key is pressed inside filter box).
     /// </summary>
     public ICommand RefreshCommand
     {
@@ -312,6 +353,11 @@ public class StswDataGridFiltersDataModel
     /// Gets or sets the action for refreshing the filters.
     /// </summary>
     public Action? Refresh { get; internal set; }
+
+    /// <summary>
+    /// Gets or sets the predicate for CollectionView's Filter.
+    /// </summary>
+    public Predicate<object>? CollectionViewFilter { get; internal set; }
 
     /// <summary>
     /// Gets or sets the SQL filter.

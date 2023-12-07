@@ -17,12 +17,52 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                        <ContentPresenter Focusable="False"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <DockPanel>
+                            <!-- button -->
+                            <se:StswToggleButton x:Name="PART_TruncationButton"
+                                                 DockPanel.Dock="Right"
+                                                 BorderThickness="0"
+                                                 ClickMode="Hover"
+                                                 Content="..."
+                                                 CornerRadius="0"
+                                                 Focusable="False"
+                                                 IsTabStop="False"
+                                                 Margin="2 0"
+                                                 Padding="0"
+                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                 Visibility="Collapsed"/>
+                            <!-- content -->
+                            <ContentPresenter x:Name="PART_StandardContent"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!-- popup -->
+                            <se:StswPopup BorderThickness="0"
+                                          CornerRadius="0"
+                                          IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
+                                          Padding="0"
+                                          Placement="Relative"
+                                          PlacementTarget="{Binding ElementName=PART_StandardContent}"
+                                          StaysOpen="False">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </se:StswPopup>
+                        </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsContentTruncated" Value="True"/>
+                                <Condition Property="IsTruncationAllowed" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_TruncationButton"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsChecked" Value="True" SourceName="PART_TruncationButton">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_StandardContent"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_TruncationButton"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
                         </Trigger>

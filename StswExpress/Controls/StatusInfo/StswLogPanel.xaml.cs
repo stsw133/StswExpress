@@ -101,7 +101,7 @@ public class StswLogPanel : ItemsControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the <see cref="StswScrollViewer"/> inside the control is dynamic.
     /// </summary>
     public bool IsScrollDynamic
     {
@@ -112,7 +112,8 @@ public class StswLogPanel : ItemsControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsScrollDynamic),
             typeof(bool),
-            typeof(StswLogPanel)
+            typeof(StswLogPanel),
+            new PropertyMetadata(true)
         );
     #endregion
 }

@@ -53,8 +53,9 @@ public class StswColorBox : TextBox, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the main property associated with the selected color in the control based on user input.
     /// </summary>
+    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     private void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedColor;

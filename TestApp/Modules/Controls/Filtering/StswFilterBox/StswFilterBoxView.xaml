@@ -25,9 +25,9 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <!--
         <se:StswFilterBox FilterMode="Contains"
                           FilterType="{Binding FilterType}"
+                          FilterValuePath="tab.ColumnName"
                           IsEnabled="{Binding IsEnabled}"
                           IsFilterNullSensitive="{Binding IsFilterNullSensitive}"
                           Margin="5"
@@ -35,8 +35,32 @@
                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}"
                           VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-        -->
         <!-- status panel -->
-
+        <local:ControlsBase.StatusPanel>
+            <DockPanel Margin="5" VerticalAlignment="Top">
+                <se:StswComponentButton Command="{Binding RefreshCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:ControlsBase}}}"
+                                        Content="Filter: "
+                                        Padding="5"
+                                        VerticalAlignment="Top"/>
+                <StackPanel>
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value1, Converter={x:Static se:StswNotNullConverter.Instance}}">
+                        <Run Text="{Binding SqlParam1, Mode=OneWay}"/>
+                        <Run Text="="/>
+                        <Run Text="'"/>
+                        <Run Text="{Binding Value1, Mode=OneWay}"/>
+                        <Run Text="'"/>
+                    </se:StswText>
+                    <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value2, Converter={x:Static se:StswNotNullConverter.Instance}}">
+                        <Run Text="{Binding SqlParam2, Mode=OneWay}"/>
+                        <Run Text="="/>
+                        <Run Text="'"/>
+                        <Run Text="{Binding Value2, Mode=OneWay}"/>
+                        <Run Text="'"/>
+                    </se:StswText>
+                    <se:StswText Padding="5" Text="{Binding SqlString}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </DockPanel>
+        </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

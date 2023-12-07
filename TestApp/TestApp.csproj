@@ -60,9 +60,6 @@
     <Compile Update="Modules\Controls\Components\StswComponentHeader\StswComponentHeaderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Filtering\StswFilterBox\StswFilterBoxView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -132,16 +129,13 @@
     <Compile Update="Modules\Controls\TextStyle\StswLoadingCircle\StswLoadingCircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswTruncateLabel\StswTruncateLabelView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswOutlinedText\StswOutlinedTextView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Filtering\StswFilterSql\StswFilterSqlView.xaml.cs">
+    <Compile Update="Modules\Controls\Filtering\StswFilterBox\StswFilterBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Collections\StswDataGrid\StswDataGridView.xaml.cs">
@@ -255,9 +249,6 @@
     <Page Update="Modules\Controls\Components\StswComponentHeader\StswComponentHeaderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Filtering\StswFilterBox\StswFilterBoxView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -330,16 +321,13 @@
     <Page Update="Modules\Controls\TextStyle\StswLoadingCircle\StswLoadingCircleView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\TextStyle\StswTruncateLabel\StswTruncateLabelView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswOutlinedText\StswOutlinedTextView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Filtering\StswFilterSql\StswFilterSqlView.xaml">
+    <Page Update="Modules\Controls\Filtering\StswFilterBox\StswFilterBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -40,9 +40,8 @@
 
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
-        
+
         <ResourceDictionary Source="Filtering/StswFilterBox.xaml"/>
-        <ResourceDictionary Source="Filtering/StswFilterSql.xaml"/>
 
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumericBox.xaml"/>
@@ -83,7 +82,6 @@
         <ResourceDictionary Source="TextStyle/StswLoadingCircle.xaml"/>
         <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>
         <ResourceDictionary Source="TextStyle/StswText.xaml"/>
-        <ResourceDictionary Source="TextStyle/StswTruncateLabel.xaml"/>
 
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
