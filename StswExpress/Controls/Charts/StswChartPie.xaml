@@ -3,83 +3,124 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartPie}">
-        <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswRating.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswRating.MouseOver.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
-        <!-- <Setter Property="CornerRadius" Value="1"/> -->
-        <Setter Property="Padding" Value="1"/>
-        
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="10 3 3 3"/>
+        <Setter Property="StrokeThickness" Value="400"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswChartPie}">
-                    <Viewbox>
-                        <Grid x:Name="PART_Grid">
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Red"
-                                     StrokeDashArray="1.256636 5"
-                                     StrokeThickness="500"
-                                     ToolTip="Option 1"
-                                     ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="-90"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Blue"
-                                     StrokeDashArray="0.942477 5"
-                                     StrokeThickness="500"
-                                     ToolTip="Option 2"
-                                     ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="54"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Green"
-                                     StrokeDashArray="0.628318 5"
-                                     StrokeThickness="500"
-                                     ToolTip="Option 3"
-                                     ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="162"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse RenderTransformOrigin="0.5 0.5"
-                                     SnapsToDevicePixels="False"
-                                     Stroke="Yellow"
-                                     StrokeDashArray="0.314159 5"
-                                     StrokeThickness="500"
-                                     ToolTip="Option 4"
-                                     ToolTipService.InitialShowDelay="0"
-                                     Height="1000" Width="1000">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform Angle="234"/>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                            <Ellipse SnapsToDevicePixels="False"
-                                     Stroke="Gray"
-                                     StrokeThickness="5"
-                                     Height="1000" Width="1000"/>
+                    <DockPanel x:Name="PART_MainPanel">
+                        <!-- header -->
+                        <DockPanel DockPanel.Dock="Right"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentPresenter DockPanel.Dock="Top"
+                                              Content="{TemplateBinding Header}"
+                                              ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"/>
+                            <se:StswScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{TemplateBinding ItemsSource}"
+                                              Padding="{TemplateBinding Padding}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Background="{Binding Brush}"
+                                                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
+                                                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
+                                                        Height="18" Width="18"/>
+                                                <Label Content="{Binding Name}" Foreground="{DynamicResource StswWindow.Static.Foreground}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </se:StswScrollViewer>
+                        </DockPanel>
+                        <!-- chart -->
+                        <Grid DockPanel.Dock="Top"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Viewbox x:Name="PART_Chart">
+                                <ItemsPresenter/>
+                            </Viewbox>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="1000000"
+                                    SnapsToDevicePixels="False"
+                                    Height="{Binding ActualHeight, ElementName=PART_Chart}"
+                                    Width="{Binding ActualWidth, ElementName=PART_Chart}"/>
                         </Grid>
-                    </Viewbox>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_Grid"/>
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainPanel"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock FontSize="15" FontWeight="Medium" Foreground="{DynamicResource StswWindow.Static.Foreground}" Text="{Binding}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Ellipse RenderTransformOrigin="0.5 0.5"
+                             SnapsToDevicePixels="False"
+                             Stroke="{Binding Brush}"
+                             StrokeDashArray="{Binding StrokeDashArray}"
+                             StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
+                             ToolTipService.InitialShowDelay="0"
+                             Height="1000" Width="1000">
+                        <Ellipse.RenderTransform>
+                            <RotateTransform Angle="{Binding Angle}"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.ToolTip>
+                            <StackPanel>
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
+                                                    ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                                </StackPanel.LayoutTransform>
+                                <se:StswText Foreground="{DynamicResource StswWindow.Static.Foreground}">
+                                    <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold"/>
+                                    <LineBreak/>
+                                    <Run Text="{Binding Description, Mode=OneWay}"/>
+                                </se:StswText>
+                            </StackPanel>
+                        </Ellipse.ToolTip>
+                    </Ellipse>
+                    <DataTemplate.Triggers>
+                        
+                    </DataTemplate.Triggers>
+                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>

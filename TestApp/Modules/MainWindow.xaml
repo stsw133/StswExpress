@@ -21,11 +21,9 @@
                 <se:StswNavigationElement Text="StswSplitButton" ContextNamespace="TestApp.StswSplitButtonContext"/>
                 <se:StswNavigationElement Text="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
             </se:StswNavigationElement>
-            <!--
             <se:StswNavigationElement Text="Charts" IconData="{x:Static se:StswIcons.ChartBar}">
                 <se:StswNavigationElement Text="StswChartPie" ContextNamespace="TestApp.StswChartPieContext"/>
             </se:StswNavigationElement>
-            -->
             <se:StswNavigationElement Text="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Text="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Text="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>

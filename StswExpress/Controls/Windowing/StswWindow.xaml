@@ -84,6 +84,10 @@
                                 <!-- context menu -->
                                 <Grid.ContextMenu>
                                     <ContextMenu Placement="MousePoint">
+                                        <ContextMenu.LayoutTransform>
+                                            <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
+                                                            ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                                        </ContextMenu.LayoutTransform>
                                         <ContextMenu.Resources>
                                             <Style TargetType="{x:Type se:StswText}">
                                                 <Setter Property="FontWeight" Value="Heavy"/>

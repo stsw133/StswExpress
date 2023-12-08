@@ -40,6 +40,10 @@
                                     <se:StswToggleButton.ContextMenu>
                                         <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                                      IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                            <ContextMenu.LayoutTransform>
+                                                <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
+                                                                ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                                            </ContextMenu.LayoutTransform>
 
                                             <MenuItem x:Name="PART_ModeEqual" Header="{se:Tr StswSqlFilter.Equal}" Visibility="Collapsed"
                                                       Command="{Binding SelectModeCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="{x:Static se:StswFilterMode.Equal}">
