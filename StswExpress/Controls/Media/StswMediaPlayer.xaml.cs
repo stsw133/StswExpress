@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -28,28 +29,28 @@ internal class StswMediaPlayer : Control
         if (GetTemplateChild("PART_MediaElement") is MediaElement mediaElement)
             this.mediaElement = mediaElement;
         /// Button: repeat
-        if (GetTemplateChild("PART_BtnRepeat") is StswComponentButton btnRepeat)
+        if (GetTemplateChild("PART_BtnRepeat") is ButtonBase btnRepeat)
             btnRepeat.Click += (s, e) => this.mediaElement?.Play();
         /// Button: stop
-        if (GetTemplateChild("PART_BtnStop") is StswComponentButton btnStop)
+        if (GetTemplateChild("PART_BtnStop") is ButtonBase btnStop)
             btnStop.Click += (s, e) => this.mediaElement?.Stop();
         /// Button: pause
-        if (GetTemplateChild("PART_BtnPause") is StswComponentButton btnPause)
+        if (GetTemplateChild("PART_BtnPause") is ButtonBase btnPause)
             btnPause.Click += (s, e) => this.mediaElement?.Pause();
         /// Button: previous
-        if (GetTemplateChild("PART_BtnPrevious") is StswComponentButton btnPrevious)
+        if (GetTemplateChild("PART_BtnPrevious") is ButtonBase btnPrevious)
             btnPrevious.Click += (s, e) => this.mediaElement?.Play();
         /// Button: play
-        if (GetTemplateChild("PART_BtnPlay") is StswComponentCheck btnPlay)
+        if (GetTemplateChild("PART_BtnPlay") is CheckBox btnPlay)
         {
             btnPlay.Checked += BtnPlay_Checked;
             btnPlay.Unchecked += BtnPlay_Unchecked;
         }
         /// Button: next
-        if (GetTemplateChild("PART_BtnNext") is StswComponentButton btnNext)
+        if (GetTemplateChild("PART_BtnNext") is ButtonBase btnNext)
             btnNext.Click += (s, e) => this.mediaElement?.Play();
         /// Button: mute
-        if (GetTemplateChild("PART_BtnMute") is StswComponentCheck btnMute)
+        if (GetTemplateChild("PART_BtnMute") is CheckBox btnMute)
             btnMute.Click += BtnMute_Click;
     }
 

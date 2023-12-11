@@ -8,9 +8,9 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public static class LogicalOrVisualTreeHelper
+internal static class LogicalOrVisualTreeHelper
 {
-    public static string GetContextByName(this DependencyObject dependencyObject)
+    internal static string GetContextByName(this DependencyObject dependencyObject)
     {
         var result = string.Empty;
 
@@ -25,7 +25,7 @@ public static class LogicalOrVisualTreeHelper
         return string.IsNullOrEmpty(result) ? dependencyObject?.FormatForTextId(true) ?? string.Empty : result;
     }
 
-    public static string FormatForTextId(this DependencyObject dependencyObject, bool typeFullName = false)
+    internal static string FormatForTextId(this DependencyObject dependencyObject, bool typeFullName = false)
     {
         return $"{(dependencyObject as FrameworkElement)?.Name ?? string.Empty}[{(typeFullName ? dependencyObject.GetType().FullName : dependencyObject.GetType().Name)}]";
     }

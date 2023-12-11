@@ -8,9 +8,9 @@ public sealed partial class StswSettings
     public StswSettings()
     {
         // PropertyChanged += StswSettings_PropertyChanged;
-        SettingChanging += this.StswSettings_SettingChanging;
-        // SettingsLoaded += this.StswSettings_SettingsLoaded;
-        // SettingsSaving += this.StswSettings_SettingsSaving;
+        SettingChanging += StswSettings_SettingChanging;
+        // SettingsLoaded += StswSettings_SettingsLoaded;
+        // SettingsSaving += StswSettings_SettingsSaving;
     }
 
     //private void StswSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)

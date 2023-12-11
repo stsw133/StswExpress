@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -23,7 +24,7 @@ public class StswTabItem : TabItem
         base.OnApplyTemplate();
 
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+        if (GetTemplateChild("PART_FunctionButton") is ButtonBase functionButton)
             functionButton.Click += PART_FunctionButton_Click;
     }
 

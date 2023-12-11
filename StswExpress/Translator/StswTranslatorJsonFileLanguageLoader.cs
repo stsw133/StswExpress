@@ -16,15 +16,12 @@ public class StswTranslatorJsonFileLanguageLoader : IStswTranslatorFileLanguageL
         string json = File.ReadAllText(fileName);
 
         var fileDictionnary = JsonConvert.DeserializeObject<SortedDictionary<string, SortedDictionary<string, string>>>(json);
-        if (fileDictionnary != null)
-        {
-            fileDictionnary.Keys.ToList().ForEach(delegate (string textId)
+        fileDictionnary?.Keys.ToList().ForEach(delegate (string textId)
             {
                 fileDictionnary[textId].Keys.ToList().ForEach(delegate (string languageId)
                 {
                     mainLoader.AddTranslation(textId, languageId, fileDictionnary[textId][languageId], fileName);
                 });
             });
-        }
     }
 }

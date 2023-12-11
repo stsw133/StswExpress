@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -37,10 +38,10 @@ public class StswNumericBox : TextBox, IStswCornerControl
         base.OnApplyTemplate();
 
         /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
+        if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
             btnUp.Click += PART_ButtonUp_Click;
         /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
+        if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
             btnDown.Click += PART_ButtonDown_Click;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());

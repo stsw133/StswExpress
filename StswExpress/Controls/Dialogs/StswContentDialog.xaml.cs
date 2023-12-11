@@ -231,7 +231,7 @@ public class StswContentDialog : ContentControl
             currentSession.Close(parameter);
             return;
         }
-        throw new InvalidOperationException("DialogHost is not open.");
+        //throw new InvalidOperationException("DialogHost is not open.");
     }
     #endregion
 

@@ -13,7 +13,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to view and set ratings that reflect degrees of satisfaction with content and services.
 /// </summary>
-public class StswRatingControl : Control
+public class StswRatingControl : Control, IStswIconControl
 {
     public StswRatingControl()
     {
@@ -46,10 +46,14 @@ public class StswRatingControl : Control
         int x = (int)Math.Floor(position.X);
         int y = (int)Math.Floor(position.Y);
 
-        if (Orientation == Orientation.Horizontal && ActualWidth != 0)
-            Placeholder = Convert.ToInt32(Math.Round(x / ActualWidth * Items.Count + 0.4));
-        else if (Orientation == Orientation.Vertical && ActualHeight != 0)
+        if (Direction == ExpandDirection.Down && ActualHeight != 0)
             Placeholder = Convert.ToInt32(Math.Round(y / ActualHeight * Items.Count + 0.4));
+        else if (Direction == ExpandDirection.Left && ActualWidth != 0)
+            Placeholder = Convert.ToInt32(Math.Round((ActualWidth - x) / ActualWidth * Items.Count + 0.4));
+        else if (Direction == ExpandDirection.Right && ActualWidth != 0)
+            Placeholder = Convert.ToInt32(Math.Round(x / ActualWidth * Items.Count + 0.4));
+        else if (Direction == ExpandDirection.Up && ActualHeight != 0)
+            Placeholder = Convert.ToInt32(Math.Round(Items.Count - y / ActualHeight * Items.Count + 0.4));
 
         if (!CanReset && Placeholder == 0)
             Placeholder = 1;
@@ -82,16 +86,34 @@ public class StswRatingControl : Control
         );
 
     /// <summary>
+    /// Gets or sets the direction of the control.
+    /// </summary>
+    public ExpandDirection Direction
+    {
+        get => (ExpandDirection)GetValue(DirectionProperty);
+        set => SetValue(DirectionProperty, value);
+    }
+    public static readonly DependencyProperty DirectionProperty
+        = DependencyProperty.Register(
+            nameof(Direction),
+            typeof(ExpandDirection),
+            typeof(StswRatingControl),
+            new FrameworkPropertyMetadata(default(ExpandDirection),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+
+    /// <summary>
     /// Gets or sets the geometry data of the icon.
     /// </summary>
-    public Geometry? Data
+    public Geometry? IconData
     {
-        get => (Geometry?)GetValue(DataProperty);
-        set => SetValue(DataProperty, value);
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
     }
-    public static readonly DependencyProperty DataProperty
+    public static readonly DependencyProperty IconDataProperty
         = DependencyProperty.Register(
-            nameof(Data),
+            nameof(IconData),
             typeof(Geometry),
             typeof(StswRatingControl)
         );
@@ -99,12 +121,27 @@ public class StswRatingControl : Control
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public ObservableCollection<StswRatingItem> Items
+    public GridLength IconScale
+    {
+        get => (GridLength)GetValue(IconScaleProperty);
+        set => SetValue(IconScaleProperty, value);
+    }
+    public static readonly DependencyProperty IconScaleProperty
+        = DependencyProperty.Register(
+            nameof(IconScale),
+            typeof(GridLength),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
+    /// Gets or sets the items for control.
+    /// </summary>
+    internal ObservableCollection<StswRatingItem> Items
     {
         get => (ObservableCollection<StswRatingItem>)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
-    public static readonly DependencyProperty ItemsProperty
+    internal static readonly DependencyProperty ItemsProperty
         = DependencyProperty.Register(
             nameof(Items),
             typeof(ObservableCollection<StswRatingItem>),
@@ -138,13 +175,29 @@ public class StswRatingControl : Control
 
             if (val > stsw.Items.Count)
             {
-                while (stsw.Items.Count < val)
-                    stsw.Items.Add(new());
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                {
+                    while (stsw.Items.Count < val)
+                        stsw.Items.Insert(0, new());
+                }
+                else
+                {
+                    while (stsw.Items.Count < val)
+                        stsw.Items.Add(new());
+                }
             }
             else if (val < stsw.Items.Count)
             {
-                while (stsw.Items.Count > val)
-                    stsw.Items.Remove(stsw.Items.Last());
+                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                {
+                    while (stsw.Items.Count > val)
+                        stsw.Items.RemoveAt(0);
+                }
+                else
+                {
+                    while (stsw.Items.Count > val)
+                        stsw.Items.Remove(stsw.Items.Last());
+                }
             }
             stsw.Value = stsw.Items.Count(x => x.IsChecked);
         }
@@ -179,41 +232,16 @@ public class StswRatingControl : Control
             else if (val > stsw.Items.Count)
                 val = stsw.Items.Count;
 
-            for (int i = 0; i <= val; i++)
-                if (val - i >= 1)
-                    stsw.Items[i].IsMouseOver = true;
+            for (var i = 0; i <= val; i++)
+            {
+                if (val - i < 1)
+                    continue;
+
+                var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? stsw.Items.Count - 1 - i : i;
+                stsw.Items[index].IsMouseOver = true;
+            }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the orientation of the control.
-    /// </summary>
-    public Orientation Orientation
-    {
-        get => (Orientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
-    }
-    public static readonly DependencyProperty OrientationProperty
-        = DependencyProperty.Register(
-            nameof(Orientation),
-            typeof(Orientation),
-            typeof(StswRatingControl)
-        );
-
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
-    public GridLength Scale
-    {
-        get => (GridLength)GetValue(ScaleProperty);
-        set => SetValue(ScaleProperty, value);
-    }
-    public static readonly DependencyProperty ScaleProperty
-        = DependencyProperty.Register(
-            nameof(Scale),
-            typeof(GridLength),
-            typeof(StswRatingControl)
-        );
 
     /// <summary>
     /// Gets or sets the numeric value of the control.
@@ -245,8 +273,13 @@ public class StswRatingControl : Control
                 val = stsw.Items.Count;
 
             for (int i = 0; i <= val; i++)
-                if (val - i >= 1)
-                    stsw.Items[i].IsChecked = true;
+            {
+                if (val - i < 1)
+                    continue;
+
+                var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? stsw.Items.Count - 1 - i : i;
+                stsw.Items[index].IsChecked = true;
+            }
         }
     }
     #endregion
@@ -255,14 +288,14 @@ public class StswRatingControl : Control
     /// <summary>
     /// Gets or sets the fill brush of the icon.
     /// </summary>
-    public Brush Fill
+    public Brush IconFill
     {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
     }
-    public static readonly DependencyProperty FillProperty
+    public static readonly DependencyProperty IconFillProperty
         = DependencyProperty.Register(
-            nameof(Fill),
+            nameof(IconFill),
             typeof(Brush),
             typeof(StswRatingControl)
         );
@@ -270,14 +303,14 @@ public class StswRatingControl : Control
     /// <summary>
     /// Gets or sets the stroke brush of the icon.
     /// </summary>
-    public Brush Stroke
+    public Brush IconStroke
     {
-        get => (Brush)GetValue(StrokeProperty);
-        set => SetValue(StrokeProperty, value);
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
     }
-    public static readonly DependencyProperty StrokeProperty
+    public static readonly DependencyProperty IconStrokeProperty
         = DependencyProperty.Register(
-            nameof(Stroke),
+            nameof(IconStroke),
             typeof(Brush),
             typeof(StswRatingControl)
         );
@@ -285,14 +318,14 @@ public class StswRatingControl : Control
     /// <summary>
     /// Gets or sets the stroke thickness of the icon.
     /// </summary>
-    public double StrokeThickness
+    public double IconStrokeThickness
     {
-        get => (double)GetValue(StrokeThicknessProperty);
-        set => SetValue(StrokeThicknessProperty, value);
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
     }
-    public static readonly DependencyProperty StrokeThicknessProperty
+    public static readonly DependencyProperty IconStrokeThicknessProperty
         = DependencyProperty.Register(
-            nameof(StrokeThickness),
+            nameof(IconStrokeThickness),
             typeof(double),
             typeof(StswRatingControl)
         );
