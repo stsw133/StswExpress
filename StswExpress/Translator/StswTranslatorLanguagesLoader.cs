@@ -88,6 +88,6 @@ public class StswTranslatorLanguagesLoader
     {
         StswTranslator.TranslationsDictionary.Clear();
         StswTranslator.AvailableLanguages.Clear();
-        StswTranslator.MissingTranslations.Clear();
+        //StswTranslator.MissingTranslations.Clear();
     }
 }

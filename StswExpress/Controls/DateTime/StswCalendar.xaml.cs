@@ -48,19 +48,19 @@ public class StswCalendar : Control, IStswCornerControl
         base.OnApplyTemplate();
 
         /// Button: previous year
-        if (GetTemplateChild("PART_ButtonPreviousYear") is StswComponentRepeater btnPreviousYear)
+        if (GetTemplateChild("PART_ButtonPreviousYear") is ButtonBase btnPreviousYear)
             btnPreviousYear.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? -120 : -12);
         /// Button: previous month
-        if (GetTemplateChild("PART_ButtonPreviousMonth") is StswComponentRepeater btnPreviousMonth)
+        if (GetTemplateChild("PART_ButtonPreviousMonth") is ButtonBase btnPreviousMonth)
             btnPreviousMonth.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? -12 : -1);
         /// Button: selection mode
-        if (GetTemplateChild("PART_ButtonSelectionMode") is StswComponentButton btnSelectionMode)
+        if (GetTemplateChild("PART_ButtonSelectionMode") is ButtonBase btnSelectionMode)
             btnSelectionMode.Click += (s, e) => SelectionMode = StswFn.GetNextEnumValue(SelectionMode);
         /// Button: next month
-        if (GetTemplateChild("PART_ButtonNextMonth") is StswComponentRepeater btnNextMonth)
+        if (GetTemplateChild("PART_ButtonNextMonth") is ButtonBase btnNextMonth)
             btnNextMonth.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 12 : 1);
         /// Button: next year
-        if (GetTemplateChild("PART_ButtonNextYear") is StswComponentRepeater btnNextYear)
+        if (GetTemplateChild("PART_ButtonNextYear") is ButtonBase btnNextYear)
             btnNextYear.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 120 : 12);
 
         SelectedMonth = SelectedDate ?? DateTime.Now.Date;

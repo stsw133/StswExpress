@@ -34,8 +34,12 @@
                         <DockPanel>
                             <!-- function button -->
                             <UniformGrid x:Name="PART_FunctionButton" DockPanel.Dock="Right" Columns="1" Width="24">
-                                <se:StswRepeatButton x:Name="PART_ButtonUp" Content="▲" BorderThickness="0" CornerRadius="0" Focusable="False" FontSize="7" Padding="0"/>
-                                <se:StswRepeatButton x:Name="PART_ButtonDown" Content="▼" BorderThickness="0" CornerRadius="0" Focusable="False" FontSize="7" Padding="0"/>
+                                <se:StswRepeatButton x:Name="PART_ButtonUp" BorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                    <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}" Margin="-4"/>
+                                </se:StswRepeatButton>
+                                <se:StswRepeatButton x:Name="PART_ButtonDown" BorderThickness="0" CornerRadius="0" Focusable="False" Padding="0">
+                                    <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Margin="-4"/>
+                                </se:StswRepeatButton>
                             </UniformGrid>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"

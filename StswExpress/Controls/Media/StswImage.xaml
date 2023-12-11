@@ -30,6 +30,11 @@
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <Border.ContextMenu>
                             <ContextMenu x:Name="PART_Menu" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                <ContextMenu.LayoutTransform>
+                                    <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
+                                                    ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
+                                </ContextMenu.LayoutTransform>
+                                
                                 <!-- cut -->
                                 <MenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}">
                                     <MenuItem.Icon>

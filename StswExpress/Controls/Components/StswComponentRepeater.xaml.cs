@@ -49,15 +49,15 @@ public class StswComponentRepeater : RepeatButton, IStswComponentControl
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public GridLength? IconScale
+    public GridLength IconScale
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
+        get => (GridLength)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(GridLength?),
+            typeof(GridLength),
             typeof(StswComponentRepeater)
         );
 

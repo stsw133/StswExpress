@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -15,7 +16,7 @@ public class StswShifter : ScrollViewer
     }
 
     #region Events & methods
-    private StswRepeatButton? btnDown, btnLeft, btnRight, btnUp;
+    private ButtonBase? btnDown, btnLeft, btnRight, btnUp;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -25,25 +26,25 @@ public class StswShifter : ScrollViewer
         base.OnApplyTemplate();
 
         /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
+        if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
             btnDown.Click += (s, e) => ScrollInfo.MouseWheelDown();
             this.btnDown = btnDown;
         }
         /// Button: left
-        if (GetTemplateChild("PART_ButtonLeft") is StswRepeatButton btnLeft)
+        if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
             btnLeft.Click += (s, e) => ScrollInfo.MouseWheelLeft();
             this.btnLeft = btnLeft;
         }
         /// Button: right
-        if (GetTemplateChild("PART_ButtonRight") is StswRepeatButton btnRight)
+        if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
             btnRight.Click += (s, e) => ScrollInfo.MouseWheelRight();
             this.btnRight = btnRight;
         }
         /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
+        if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
             btnUp.Click += (s, e) => ScrollInfo.MouseWheelUp();
             this.btnUp = btnUp;

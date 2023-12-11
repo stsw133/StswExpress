@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control functioning as header for multiple other controls like buttons, expanders and more.
 /// </summary>
-public class StswHeader : Label
+public class StswHeader : Label, IStswIconControl
 {
     static StswHeader()
     {
@@ -48,15 +48,15 @@ public class StswHeader : Label
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public GridLength? IconScale
+    public GridLength IconScale
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
+        get => (GridLength)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(GridLength?),
+            typeof(GridLength),
             typeof(StswHeader)
         );
 

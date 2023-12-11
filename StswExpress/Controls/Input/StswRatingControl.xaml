@@ -5,17 +5,17 @@
     <Style TargetType="{x:Type se:StswRatingControl}">
         <Setter Property="Background" Value="Transparent"/>
         
-        <Setter Property="Data" Value="{x:Static se:StswIcons.Star}"/>
-        <Setter Property="Fill" Value="{DynamicResource StswRating.Static.Background}"/>
-        <Setter Property="Scale" Value="2"/>
-        <Setter Property="Stroke" Value="{DynamicResource StswRating.Static.Border}"/>
-        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="IconData" Value="{x:Static se:StswIcons.Star}"/>
+        <Setter Property="IconFill" Value="{DynamicResource StswRating.Static.Background}"/>
+        <Setter Property="IconScale" Value="2"/>
+        <Setter Property="IconStroke" Value="{DynamicResource StswRating.Static.Border}"/>
+        <Setter Property="IconStrokeThickness" Value="1"/>
 
         <Setter Property="CanReset" Value="True"/>
         <Setter Property="ItemsNumber" Value="5"/>
 
+        <Setter Property="Direction" Value="Right"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -34,10 +34,16 @@
                                     <UniformGrid.Style>
                                         <Style TargetType="{x:Type UniformGrid}">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Horizontal">
+                                                <DataTrigger Binding="{Binding Direction, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Down">
+                                                    <Setter Property="Columns" Value="1"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Direction, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Left">
                                                     <Setter Property="Rows" Value="1"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Vertical">
+                                                <DataTrigger Binding="{Binding Direction, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Right">
+                                                    <Setter Property="Rows" Value="1"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Direction, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="Up">
                                                     <Setter Property="Columns" Value="1"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -49,12 +55,12 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <se:StswIcon x:Name="PART_Icon"
-                                             Data="{Binding Data, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
+                                             Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
+                                             Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                             Scale="{Binding Scale, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                             Stroke="{Binding Stroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
-                                             StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
+                                             Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
+                                             Stroke="{Binding IconStroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
+                                             StrokeThickness="{Binding IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked}" Value="True">
                                         <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Background}" TargetName="PART_Icon"/>

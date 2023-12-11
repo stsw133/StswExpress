@@ -5,20 +5,20 @@ namespace TestApp;
 public class StswRatingControlContext : ControlsContext
 {
     #region Properties
+    /// Direction
+    private ExpandDirection direction = ExpandDirection.Right;
+    public ExpandDirection Direction
+    {
+        get => direction;
+        set => SetProperty(ref direction, value);
+    }
+
     /// ItemsNumber
     private int itemsNumber = 5;
     public int ItemsNumber
     {
         get => itemsNumber;
         set => SetProperty(ref itemsNumber, value);
-    }
-
-    /// Orientation
-    private Orientation orientation;
-    public Orientation Orientation
-    {
-        get => orientation;
-        set => SetProperty(ref orientation, value);
     }
 
     /// SelectedValue

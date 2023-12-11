@@ -32,12 +32,6 @@
                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
-                            <!-- content -->
-                            <ContentPresenter x:Name="PART_StandardContent"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- popup -->
                             <se:StswPopup BorderThickness="0"
                                           CornerRadius="0"
@@ -49,6 +43,12 @@
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </se:StswPopup>
+                            <!-- content -->
+                            <ContentPresenter x:Name="PART_StandardContent"
+                                              Focusable="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
