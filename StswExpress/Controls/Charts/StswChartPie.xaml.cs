@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using System.Windows;
@@ -12,7 +11,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control designed for displaying pie charts.
 /// </summary>
-public class StswChartPie : HeaderedItemsControl
+public class StswChartPie : ItemsControl
 {
     static StswChartPie()
     {
@@ -37,9 +36,11 @@ public class StswChartPie : HeaderedItemsControl
     /// <param name="newValue"></param>
     public void MakeChart(IEnumerable itemsSource)
     {
-        var items = itemsSource?.OfType<StswChartModel>();
+        if (itemsSource == null)
+            return;
 
-        if (items == null || (itemsSource is ICollection { Count: > 0 } && items?.Count() == 0))
+        var items = itemsSource.OfType<StswChartModel>();
+        if (itemsSource.OfType<StswChartModel>() is ICollection { Count: > 0 } && items?.Count() == 0)
             throw new ArgumentException($"ItemsSource value must be of '{nameof(StswChartModel)}' type.");
 
         var totalPercent = 0d;
@@ -83,50 +84,4 @@ public class StswChartPie : HeaderedItemsControl
         }
     }
     #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class StswChartModel : StswObservableObject
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public decimal Value { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public double Percent { get; internal set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Description { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public Brush? Brush { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public DoubleCollection? StrokeDashArray
-    {
-        get => strokeDashArray;
-        internal set => SetProperty(ref strokeDashArray, value);
-    }
-    private DoubleCollection? strokeDashArray;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public double Angle { get; internal set; }
 }
