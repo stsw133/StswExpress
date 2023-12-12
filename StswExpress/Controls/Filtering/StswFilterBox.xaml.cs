@@ -289,7 +289,7 @@ public class StswFilterBox : Control, IStswCornerControl
         if (obj is StswFilterBox stsw)
         {
             /// visual change for mode box
-            if (stsw.FilterMode != null
+            if (!stsw.FilterMode.In(null, StswFilterMode.None)
              && stsw.filterMode?.Content is StswOutlinedText symbolBlock and not null
              && stsw.filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock and not null)
             {

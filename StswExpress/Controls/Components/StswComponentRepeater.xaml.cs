@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
-public class StswComponentRepeater : RepeatButton, IStswComponentControl
+public class StswComponentRepeater : RepeatButton, IStswComponentControl, IStswIconControl
 {
     static StswComponentRepeater()
     {
@@ -88,6 +88,53 @@ public class StswComponentRepeater : RepeatButton, IStswComponentControl
         = DependencyProperty.Register(
             nameof(Orientation),
             typeof(Orientation),
+            typeof(StswComponentRepeater)
+        );
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// </summary>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswComponentRepeater)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswComponentRepeater)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the icon.
+    /// </summary>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
             typeof(StswComponentRepeater)
         );
     #endregion

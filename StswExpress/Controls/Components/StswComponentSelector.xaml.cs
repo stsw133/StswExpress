@@ -12,7 +12,7 @@ namespace StswExpress;
 /// It can expand to show additional components when the mouse is over an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswComponentSelector : ItemsControl, IStswComponentControl
+public class StswComponentSelector : ItemsControl, IStswComponentControl, IStswIconControl
 {
     static StswComponentSelector()
     {
@@ -143,6 +143,51 @@ public class StswComponentSelector : ItemsControl, IStswComponentControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// </summary>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswComponentSelector)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswComponentSelector)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the icon.
+    /// </summary>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswComponentSelector)
+        );
+    
     /// <summary>
     /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>

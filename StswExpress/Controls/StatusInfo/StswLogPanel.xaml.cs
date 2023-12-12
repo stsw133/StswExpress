@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : ItemsControl, IStswCornerControl
+public class StswLogPanel : ListBox, IStswCornerControl
 {
     public ICommand RemoveLogCommand { get; set; }
 

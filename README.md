@@ -2,6 +2,7 @@
 WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
+  - **Charts:** StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
@@ -16,7 +17,7 @@ WPF .NET 6.0 library containing:
   - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
   - **StatusInfo:** StswLogPanel, StswProgressBar, StswProgressRing
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswLoadingCircle, StswOutlinedText, StswText, StswTruncateLabel
-  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswWindow
+  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswToolTip, StswWindow
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)
 

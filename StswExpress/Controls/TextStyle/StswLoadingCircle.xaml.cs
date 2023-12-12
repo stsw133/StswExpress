@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,6 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control displaying loading circle.
 /// </summary>
+[Obsolete]
 public class StswLoadingCircle : Control
 {
     static StswLoadingCircle()

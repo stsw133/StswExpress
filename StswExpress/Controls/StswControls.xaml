@@ -85,6 +85,7 @@
         <ResourceDictionary Source="TextStyle/StswText.xaml"/>
 
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
+        <ResourceDictionary Source="Windowing/StswToolTip.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswComponentDrop : ItemsControl, IStswComponentControl, IStswDropControl
+public class StswComponentDrop : ItemsControl, IStswComponentControl, IStswDropControl, IStswIconControl
 {
     public StswComponentDrop()
     {
@@ -177,6 +177,51 @@ public class StswComponentDrop : ItemsControl, IStswComponentControl, IStswDropC
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswComponentDrop)
+        );
+
+    /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// </summary>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswComponentDrop)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswComponentDrop)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the icon.
+    /// </summary>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
             typeof(StswComponentDrop)
         );
 

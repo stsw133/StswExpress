@@ -22,8 +22,8 @@
                     <se:StswBorder x:Name="PART_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                   CornerClipping="{TemplateBinding CornerClipping}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
                         <ContentPresenter Focusable="False"

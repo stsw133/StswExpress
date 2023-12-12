@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
 
+        <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="Padding" Value="0"/>
 
@@ -27,7 +28,10 @@
                                    ContentTemplate="{TemplateBinding ContentTemplate}"
                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                    ContentVisibility="{TemplateBinding ContentVisibility}"
+                                   IconFill="{TemplateBinding IconFill}"
                                    IconScale="{TemplateBinding IconScale}"
+                                   IconStroke="{TemplateBinding IconStroke}"
+                                   IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
                                    IsBusy="{TemplateBinding IsBusy}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"

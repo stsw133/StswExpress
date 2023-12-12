@@ -61,17 +61,13 @@
                             <RotateTransform Angle="{Binding Angle}"/>
                         </Ellipse.RenderTransform>
                         <Ellipse.ToolTip>
-                            <StackPanel>
-                                <StackPanel.LayoutTransform>
-                                    <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
-                                                    ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
-                                </StackPanel.LayoutTransform>
-                                <se:StswText Foreground="{DynamicResource StswWindow.Static.Foreground}">
+                            <se:StswToolTip>
+                                <se:StswText>
                                     <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold"/>
                                     <LineBreak/>
-                                    <Run Text="{Binding Description, Mode=OneWay}"/>
+                                    <Run Text="{Binding Description, Mode=OneWay}" FontSize="10"/>
                                 </se:StswText>
-                            </StackPanel>
+                            </se:StswToolTip>
                         </Ellipse.ToolTip>
                     </Ellipse>
                     <DataTemplate.Triggers>
