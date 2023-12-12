@@ -16,7 +16,7 @@ namespace StswExpress;
 /// A control with date selection functionality.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswCalendar : Control
+public class StswCalendar : Control, IStswCornerControl
 {
     public ICommand SelectDateCommand { get; set; }
     public ICommand SelectMonthCommand { get; set; }
@@ -48,19 +48,19 @@ public class StswCalendar : Control
         base.OnApplyTemplate();
 
         /// Button: previous year
-        if (GetTemplateChild("PART_ButtonPreviousYear") is StswComponentRepeater btnPreviousYear)
+        if (GetTemplateChild("PART_ButtonPreviousYear") is ButtonBase btnPreviousYear)
             btnPreviousYear.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? -120 : -12);
         /// Button: previous month
-        if (GetTemplateChild("PART_ButtonPreviousMonth") is StswComponentRepeater btnPreviousMonth)
+        if (GetTemplateChild("PART_ButtonPreviousMonth") is ButtonBase btnPreviousMonth)
             btnPreviousMonth.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? -12 : -1);
         /// Button: selection mode
-        if (GetTemplateChild("PART_ButtonSelectionMode") is StswComponentButton btnSelectionMode)
+        if (GetTemplateChild("PART_ButtonSelectionMode") is ButtonBase btnSelectionMode)
             btnSelectionMode.Click += (s, e) => SelectionMode = StswFn.GetNextEnumValue(SelectionMode);
         /// Button: next month
-        if (GetTemplateChild("PART_ButtonNextMonth") is StswComponentRepeater btnNextMonth)
+        if (GetTemplateChild("PART_ButtonNextMonth") is ButtonBase btnNextMonth)
             btnNextMonth.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 12 : 1);
         /// Button: next year
-        if (GetTemplateChild("PART_ButtonNextYear") is StswComponentRepeater btnNextYear)
+        if (GetTemplateChild("PART_ButtonNextYear") is ButtonBase btnNextYear)
             btnNextYear.Click += (s, e) => SelectedMonth = ValidateSelectedMonth(SelectionMode == StswCalendarMode.ByYear ? 120 : 12);
 
         SelectedMonth = SelectedDate ?? DateTime.Now.Date;
@@ -246,7 +246,7 @@ public class StswCalendar : Control
             if (stsw.SelectedDate.HasValue)
                 stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
 
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == (DateTime?)e.OldValue) is StswCalendarDay oldDay and not null)
+            if (stsw.ListDays.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarDay oldDay and not null)
                 oldDay.IsSelected = false;
             if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay and not null)
                 newDay.IsSelected = true;
@@ -363,7 +363,26 @@ public class StswCalendar : Control
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswCalendar)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

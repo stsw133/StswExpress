@@ -10,93 +10,73 @@
         <local:StswRadioBoxContext/>
     </d:UserControl.DataContext>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        Represents a control that allows the user to select a single option from a group of mutually exclusive options.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
-                    <!-- HasContent -->
-                    <se:StswCheckBox Content="HasContent" FontSize="15" FontWeight="Medium" IsChecked="{Binding HasContent}" Margin="0 3"/>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                    <!-- IsThreeState -->
-                    <se:StswCheckBox Content="IsThreeState" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsThreeState}" Margin="0 3"/>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-                <se:StswRadioBox Command="{Binding OnClickCommand}"
-                                 CommandParameter="1"
-                                 Content="{Binding Content1}"
-                                 IsChecked="{Binding SelectedOption[0]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"/>
-                <se:StswRadioBox Command="{Binding OnClickCommand}"
-                                 CommandParameter="2"
-                                 Content="{Binding Content2}"
-                                 IsChecked="{Binding SelectedOption[1]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"/>
-                <se:StswRadioBox Command="{Binding OnClickCommand}"
-                                 CommandParameter="3"
-                                 Content="{Binding Content3}"
-                                 IsChecked="{Binding SelectedOption[2]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"/>
-                <se:StswRadioBox Command="{Binding OnClickCommand}"
-                                 CommandParameter="4"
-                                 Content="{Binding Content4}"
-                                 IsChecked="{Binding SelectedOption[3]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"/>
-                <se:StswRadioBox Command="{Binding OnClickCommand}"
-                                 CommandParameter="5"
-                                 Content="{Binding Content5}"
-                                 IsChecked="{Binding SelectedOption[4]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"/>
-            </UniformGrid>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-            <se:StswText Grid.Row="1" Margin="5" Padding="5">
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that allows the user to select a single option from a group of mutually exclusive options.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- HasContent -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HasContent"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HasContent}"/>
+            <!-- IsThreeState -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsThreeState"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswRadioBox Command="{Binding OnClickCommand}"
+                             CommandParameter="1"
+                             Content="{Binding Content1}"
+                             IsChecked="{Binding SelectedOption[0]}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsThreeState="{Binding IsThreeState}"
+                             Margin="0 0 0 5"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswRadioBox Command="{Binding OnClickCommand}"
+                             CommandParameter="2"
+                             Content="{Binding Content2}"
+                             IsChecked="{Binding SelectedOption[1]}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsThreeState="{Binding IsThreeState}"
+                             Margin="0 0 0 5"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswRadioBox Command="{Binding OnClickCommand}"
+                             CommandParameter="3"
+                             Content="{Binding Content3}"
+                             IsChecked="{Binding SelectedOption[2]}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsThreeState="{Binding IsThreeState}"
+                             Margin="0 0 0 5"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswRadioBox Command="{Binding OnClickCommand}"
+                             CommandParameter="4"
+                             Content="{Binding Content4}"
+                             IsChecked="{Binding SelectedOption[3]}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsThreeState="{Binding IsThreeState}"
+                             Margin="0 0 0 5"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswRadioBox Command="{Binding OnClickCommand}"
+                             CommandParameter="5"
+                             Content="{Binding Content5}"
+                             IsChecked="{Binding SelectedOption[4]}"
+                             IsEnabled="{Binding IsEnabled}"
+                             IsThreeState="{Binding IsThreeState}"
+                             Margin="0 0 0 5"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        </UniformGrid>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
                 <Run Text="You selected option "/>
                 <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
             </se:StswText>
-        </Grid>
-    </Grid>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
 </UserControl>

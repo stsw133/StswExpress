@@ -6,19 +6,147 @@
         <Setter Property="Background" Value="{DynamicResource StswColorPicker.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswColorPicker.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="SubBorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="3"/>
-        <Setter Property="SubPadding" Value="3"/>
-        
-        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="1"/>
+        <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswColorSelector}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- automatic color -->
+                        <se:StswButton Grid.Row="0"
+                                       Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                       CommandParameter="{TemplateBinding ColorAuto}"
+                                       CornerRadius="{TemplateBinding CornerRadius}">
+                            <DockPanel>
+                                <Rectangle Fill="{TemplateBinding ColorAuto}"
+                                           Stroke="{DynamicResource StswButton.Static.Border}"
+                                           StrokeThickness="{TemplateBinding BorderThickness}"
+                                           Height="15" Width="15">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.4"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.Auto}"/>
+                            </DockPanel>
+                        </se:StswButton>
+                        <!-- theme colors -->
+                        <se:StswGroupBox x:Name="PART_ThemeColors" Grid.Row="1"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         Margin="0 3 0 0" Padding="0"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <se:StswGroupBox.Header>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
+                            </se:StswGroupBox.Header>
+                            <se:StswShifter ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
+                                            Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl AlternationCount="6" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Margin="0 3" MaxHeight="120" Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <se:StswComponentButton Background="{Binding}"
+                                                                    BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Height="18" Width="18">
+                                                <se:StswComponentButton.Style>
+                                                    <Style TargetType="{x:Type se:StswComponentButton}">
+                                                        <Setter Property="Margin" Value="3 0"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}}" Value="0">
+                                                                <Setter Property="Margin" Value="3 0 3 6"/>
+                                                            </DataTrigger>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.4"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </se:StswComponentButton.Style>
+                                            </se:StswComponentButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </se:StswShifter>
+                        </se:StswGroupBox>
+                        <!-- standard colors -->
+                        <se:StswGroupBox x:Name="PART_StandardColors" Grid.Row="2"
+                                         CornerRadius="{TemplateBinding CornerRadius}"
+                                         Margin="0 3 0 0" Padding="0"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <se:StswGroupBox.Header>
+                                <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
+                            </se:StswGroupBox.Header>
+                            <se:StswShifter ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
+                                            Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <se:StswComponentButton Background="{Binding}"
+                                                                    BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Height="18" Width="18">
+                                                <se:StswComponentButton.Style>
+                                                    <Style TargetType="{x:Type se:StswComponentButton}">
+                                                        <Setter Property="Margin" Value="3"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Opacity" Value="0.4"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </se:StswComponentButton.Style>
+                                            </se:StswComponentButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </se:StswShifter>
+                        </se:StswGroupBox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ThemeColors"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ColorPaletteStandard.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_StandardColors"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        
+        
         <Setter Property="ColorAuto" Value="{DynamicResource StswWindow.Static.Foreground}"/>
         <Setter Property="ColorPaletteTheme">
             <Setter.Value>
@@ -102,133 +230,6 @@
                 </x:Array>
             </Setter.Value>
         </Setter>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswColorSelector}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
-                        <DockPanel Margin="{TemplateBinding Padding}">
-                            <DockPanel.Resources>
-                                <Style TargetType="{x:Type se:StswClippingBorder}">
-                                    <Setter Property="DoClipping" Value="False"/>
-                                </Style>
-                            </DockPanel.Resources>
-
-                            <!-- automatic color -->
-                            <se:StswButton DockPanel.Dock="Top"
-                                           CornerRadius="0"
-                                           Margin="{TemplateBinding SubPadding}"
-                                           Command="{Binding SelectColorCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                           CommandParameter="{TemplateBinding ColorAuto}">
-                                <DockPanel>
-                                    <Rectangle Fill="{TemplateBinding ColorAuto}"
-                                               Stroke="{DynamicResource StswButton.Static.Border}"
-                                               StrokeThickness="{TemplateBinding SubBorderThickness}"
-                                               Height="16" Width="16"/>
-                                    <Label Content="{se:Tr StswColorSelector.Auto}" Padding="6 3"/>
-                                </DockPanel>
-                            </se:StswButton>
-                            <!-- theme colors -->
-                            <se:StswGroupBox x:Name="PART_ThemeColors"
-                                             DockPanel.Dock="Top"
-                                             CornerRadius="0"
-                                             Header="{se:Tr StswColorSelector.ThemeColors}"
-                                             Margin="{TemplateBinding SubPadding}">
-                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}" AlternationCount="120">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Vertical" Margin="0 3" MaxHeight="120"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Button Background="{Binding}" Height="18" Width="18"
-                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                    CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}">
-                                                <Button.Resources>
-                                                    <Style TargetType="{x:Type Button}">
-                                                        <Setter Property="Margin" Value="3 0"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswModuloConverter.Instance}, ConverterParameter=6}" Value="0">
-                                                                <Setter Property="Margin" Value="3 0 3 6"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Resources>
-                                            </Button>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </se:StswGroupBox>
-                            <!-- standard colors -->
-                            <se:StswGroupBox x:Name="PART_StandardColors"
-                                             DockPanel.Dock="Top"
-                                             CornerRadius="0"
-                                             Header="{se:Tr StswColorSelector.StandardColors}"
-                                             Margin="{TemplateBinding SubPadding}">
-                                <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}" AlternationCount="20">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel Orientation="Horizontal" MaxWidth="240"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Button Background="{Binding}" Margin="3" Height="18" Width="18"
-                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                    CommandParameter="{Binding}" Template="{DynamicResource StswColorSelectorButtonTemplate}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </se:StswGroupBox>
-                            
-                        </DockPanel>
-                    </se:StswClippingBorder>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ColorPaletteTheme.Length, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ThemeColors"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ColorPaletteStandard.Length, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_StandardColors"/>
-                        </DataTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.5" TargetName="PART_MainBorder"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
-
-    <!-- StswColorSelectorButtonTemplate -->
-    <ControlTemplate x:Key="StswColorSelectorButtonTemplate" TargetType="{x:Type Button}">
-        <Border x:Name="PART_MainBorder"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{DynamicResource StswButton.Static.Border}"
-                BorderThickness="{Binding SubBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                SnapsToDevicePixels="True">
-            <ContentPresenter Focusable="False"
-                              Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                              RecognizesAccessKey="True"
-                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"/>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Opacity" Value="0.8" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainBorder"/>
-            </Trigger>
-            <Trigger Property="Button.IsPressed" Value="True">
-                <Setter Property="Opacity" Value="0.6" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
+    
 </ResourceDictionary>

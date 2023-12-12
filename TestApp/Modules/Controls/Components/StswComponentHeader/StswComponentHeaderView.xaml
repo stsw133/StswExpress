@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="TestApp.StswComponentHeaderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswComponentHeaderContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that functions as a component and displays an icon.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- ContentVisibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ContentVisibility"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
+            <!-- IconScale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
+            <se:StswNumericBox Format="N2" Increment="0.1" Margin="0 0 0 3" Maximum="5" Minimum="0.1" Value="{Binding IconScale}"/>
+            <!-- IsBusy -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
+            <se:StswComponentHeader Content="Info"
+                                    ContentVisibility="{Binding ContentVisibility}"
+                                    FontSize="11"
+                                    IconData="{x:Static se:StswIcons.InformationOutline}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsEnabled="{Binding IsEnabled}"
+                                    Margin="0 0 5 0"
+                                    HorizontalAlignment="{Binding HorizontalAlignment}"
+                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                    VerticalAlignment="{Binding VerticalAlignment}"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswComponentHeader Content="Warning"
+                                    ContentVisibility="{Binding ContentVisibility}"
+                                    FontSize="11"
+                                    IconData="{x:Static se:StswIcons.AlertCircleOutline}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsEnabled="{Binding IsEnabled}"
+                                    Margin="0 0 5 0"
+                                    HorizontalAlignment="{Binding HorizontalAlignment}"
+                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                    VerticalAlignment="{Binding VerticalAlignment}"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswComponentHeader Content="Error"
+                                    ContentVisibility="{Binding ContentVisibility}"
+                                    FontSize="11"
+                                    IconData="{x:Static se:StswIcons.CloseCircleOutline}"
+                                    IconScale="{Binding IconScale}"
+                                    IsBusy="{Binding IsBusy}"
+                                    IsEnabled="{Binding IsEnabled}"
+                                    Margin="0 0 5 0"
+                                    HorizontalAlignment="{Binding HorizontalAlignment}"
+                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                    VerticalAlignment="{Binding VerticalAlignment}"
+                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        </UniformGrid>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

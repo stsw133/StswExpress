@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace StswExpress;
 
@@ -26,7 +22,7 @@ public class StswTranslator : StswObservableObject
     /// List of all availables languages where at least one translation is present.
     /// </summary>
     public static ObservableCollection<string> AvailableLanguages => availableLanguages ??= new ObservableCollection<string>();
-    private static ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
+    private static ObservableCollection<string> availableLanguages = new ObservableCollection<string>() { "" };
 
     /// <summary>
     /// Current language used for displaying texts with Translator.
@@ -94,7 +90,7 @@ public class StswTranslator : StswObservableObject
         if (string.IsNullOrEmpty(languageID))
             languageID = Instance.CurrentLanguage;
 
-        LogMissingTranslation(textID, defaultText);
+        //LogMissingTranslation(textID, defaultText);
 
         string result = defaultText;
 
@@ -108,18 +104,19 @@ public class StswTranslator : StswObservableObject
     /// For developpers, for developement and/or debug time.
     /// If set to <c>True</c> Log Out in a file automatically all textId asked to be translate but missing.
     /// </summary>
-    public bool LogOutMissingTranslations { get; set; } = false;
+    //public bool LogOutMissingTranslations { get; set; } = false;
 
     /// <summary>
     /// 
     /// </summary>
-    public static SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+    //public static SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="textID"></param>
     /// <param name="defaultText"></param>
+    /*
     private void LogMissingTranslation(string textID, string defaultText)
     {
         if (LogOutMissingTranslations)
@@ -140,4 +137,5 @@ public class StswTranslator : StswObservableObject
             File.WriteAllText(missingTranslationsFileName, JsonConvert.SerializeObject(MissingTranslations, Formatting.Indented));
         }
     }
+    */
 }

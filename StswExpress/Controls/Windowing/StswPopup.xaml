@@ -2,36 +2,43 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
+    <CornerRadius x:Key="StswPopup.CornerRadius.Border">10</CornerRadius>
+    <Thickness x:Key="StswPopup.Thickness.Border">2</Thickness>
+    <Thickness x:Key="StswPopup.Thickness.Padding">3</Thickness>
+
     <Style TargetType="{x:Type se:StswPopup}">
+        <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource StswPopup.Thickness.Border}"/>
+        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource StswPopup.CornerRadius.Border}"/>
+        <Setter Property="Padding" Value="{DynamicResource StswPopup.Thickness.Padding}"/>
     </Style>
     
     
     
     <!-- StswPopup child's ControlTemplate -->
     <DataTemplate x:Key="StswPopupChildTemplate">
-        <se:StswClippingBorder x:Name="PART_MainBorder"
-                               Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                               BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                               BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                               SnapsToDevicePixels="True">
-            <se:StswScrollViewer Focusable="False" IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <se:StswBorder x:Name="PART_MainBorder"
+                       Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                       SnapsToDevicePixels="True">
+            <se:StswScrollViewer Focusable="False"
+                                 IsDynamic="{Binding IsScrollDynamic, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 HorizontalScrollBarVisibility="Auto"
+                                 VerticalScrollBarVisibility="Auto">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                  RecognizesAccessKey="True"
                                   SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>
             </se:StswScrollViewer>
-        </se:StswClippingBorder>
+        </se:StswBorder>
         <DataTemplate.Triggers>
 
         </DataTemplate.Triggers>

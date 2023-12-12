@@ -13,7 +13,7 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ThumbBorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="CornerRadius" Value="1"/>
         
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>

@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Visibility x:Key="StswDropArrow.Visibility">Visible</Visibility>
+
+    <Style TargetType="{x:Type se:StswDropArrow}">
+        <Setter Property="Visibility" Value="{DynamicResource StswDropArrow.Visibility}"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswDropArrow}">
+                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDown}" RenderTransformOrigin=".5 .5">
+                        <se:StswIcon.RenderTransform>
+                            <RotateTransform x:Name="PART_Rotate" Angle="0"/>
+                        </se:StswIcon.RenderTransform>
+                    </se:StswIcon>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rotate"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         FillBehavior="HoldEnd"
+                                                         To="180">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase Springiness="9"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Rotate"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         Duration="0:0:1"
+                                                         FillBehavior="HoldEnd"
+                                                         To="0">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase Springiness="9"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

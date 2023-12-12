@@ -2,114 +2,110 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
+    <Thickness x:Key="StswLogPanel.Thickness.Margin">3</Thickness>
+
     <Style TargetType="{x:Type se:StswLogPanel}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
-
-        <Setter Property="ItemBorderThickness" Value="1"/>
-        <Setter Property="ItemCornerRadius" Value="10"/>
-        <Setter Property="ItemMargin" Value="3"/>
-        <Setter Property="ItemPadding" Value="5"/>
-
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="5"/>
+        
         <Setter Property="IsTabStop" Value="False"/>
-
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLogPanel}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
-                        <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False" Padding="{TemplateBinding Padding}" IsDynamic="True">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </se:StswScrollViewer>
-                    </se:StswClippingBorder>
-                    <!--
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                    -->
+                    <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False" IsDynamic="{TemplateBinding IsScrollDynamic}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </se:StswScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <Setter Property="ItemTemplate">
+        <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <DataTemplate>
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           BorderThickness="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                           CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                           Margin="{Binding ItemMargin, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                           SnapsToDevicePixels="True"
-                                           HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                           VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
-                        <DockPanel Margin="{Binding ItemPadding, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
-                            <se:StswIcon x:Name="PART_Icon" Focusable="False" VerticalAlignment="Top"/>
-                            <DockPanel Margin="5 0 0 0">
-                                <se:StswComponentButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
-                                                        Command="{Binding RemoveLogCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                                        CommandParameter="{Binding}"
-                                                        IconData="{x:Static se:StswIcons.Close}"
-                                                        VerticalAlignment="Top"
-                                                        Visibility="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                                <se:StswText DockPanel.Dock="Top" Text="{Binding DateTime, StringFormat=yyyy-MM-dd HH:mm:ss}" FontSize="11" FontWeight="Bold"/>
-                                <se:StswText DockPanel.Dock="Top" Text="{Binding Description}" TextWrapping="Wrap"/>
-                            </DockPanel>
-                        </DockPanel>
-                    </se:StswClippingBorder>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Type}" Value="None">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.Circle}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Debug">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Error">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Information">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Success">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Type}" Value="Warning">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Icon"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Icon"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <se:StswBorder x:Name="PART_MainBorder"
+                                               BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                               CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                               Margin="{DynamicResource StswLogPanel.Thickness.Margin}"
+                                               SnapsToDevicePixels="True"
+                                               HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                               VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
+                                    <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
+                                        <se:StswText DockPanel.Dock="Bottom" Padding="2 0" Text="{Binding Description}" TextWrapping="Wrap"/>
+                                        <se:StswComponentButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                                                                Command="{Binding RemoveLogCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                                                CommandParameter="{Binding}"
+                                                                IconData="{x:Static se:StswIcons.Close}"
+                                                                VerticalAlignment="Top"
+                                                                Visibility="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                                        <se:StswHeader x:Name="PART_Header" DockPanel.Dock="Top"
+                                                       Content="{Binding DateTime}"
+                                                       ContentStringFormat="yyyy-MM-dd HH:mm:ss"
+                                                       Focusable="False"
+                                                       FontSize="11"
+                                                       FontWeight="Bold"
+                                                       Padding="0"/>
+                                    </DockPanel>
+                                </se:StswBorder>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Type}" Value="None">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.Circle}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Debug">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Error">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Information">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Success">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="Warning">
+                                        <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
+                                        <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
+                                        <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </Setter.Value>
         </Setter>
     </Style>

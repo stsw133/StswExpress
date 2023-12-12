@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 
@@ -13,6 +13,8 @@ public class StswSelectionBoxContext : ControlsContext
 
     public StswSelectionBoxContext()
     {
+        Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectionCounter));
+
         ClearCommand = new StswCommand(Clear);
         RandomizeCommand = new StswCommand(Randomize);
         SetTextCommand = null; /// this command is only for updating text in box when popup did not load yet
@@ -52,23 +54,26 @@ public class StswSelectionBoxContext : ControlsContext
     }
 
     /// Items
-    private ObservableCollection<StswSelectionItem> items = new()
+    private BindingList<StswListBoxTestModel> items = new()
     {
-        new() { Display = "Option 1", IsSelected = true },
-        new() { Display = "Option 2", IsSelected = false },
-        new() { Display = "Option 3", IsSelected = false },
-        new() { Display = "Option 4", IsSelected = true },
-        new() { Display = "Option 5", IsSelected = false },
-        new() { Display = "Option 6", IsSelected = true },
-        new() { Display = "Option 7", IsSelected = false },
-        new() { Display = "Option 8", IsSelected = false },
-        new() { Display = "Option 9", IsSelected = true },
-        new() { Display = "Option 10", IsSelected = false }
+        new() { Name = "Option 1", IsSelected = true },
+        new() { Name = "Option 2", IsSelected = false },
+        new() { Name = "Option 3", IsSelected = false },
+        new() { Name = "Option 4", IsSelected = true },
+        new() { Name = "Option 5", IsSelected = false },
+        new() { Name = "Option 6", IsSelected = true },
+        new() { Name = "Option 7", IsSelected = false },
+        new() { Name = "Option 8", IsSelected = false },
+        new() { Name = "Option 9", IsSelected = true },
+        new() { Name = "Option 10", IsSelected = false }
     };
-    public ObservableCollection<StswSelectionItem> Items
+    public BindingList<StswListBoxTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
     }
+
+    /// SelectionCounter
+    public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
     #endregion
 }

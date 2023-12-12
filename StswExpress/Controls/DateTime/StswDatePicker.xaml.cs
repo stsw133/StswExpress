@@ -13,11 +13,11 @@ namespace StswExpress;
 /// A control that allows users to select and display date.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswDatePicker : TextBox
+public class StswDatePicker : TextBox, IStswCornerControl
 {
     public StswDatePicker()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswDatePicker()
     {
@@ -70,37 +70,35 @@ public class StswDatePicker : TextBox
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateIncrementType.None && SelectedDate.HasValue)
+        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateIncrementType.None && DateTime.TryParse(Text, out var result))
         {
-            if (DateTime.TryParse(Text, out var result))
-                SelectedDate = result;
-
             if (e.Delta > 0)
             {
-                SelectedDate = IncrementType switch
+                result = IncrementType switch
                 {
-                    StswDateIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= SelectedDate ? SelectedDate.Value.AddYears(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= SelectedDate ? SelectedDate.Value.AddMonths(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= SelectedDate ? SelectedDate.Value.AddDays(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= SelectedDate ? SelectedDate.Value.AddHours(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= SelectedDate ? SelectedDate.Value.AddMinutes(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= SelectedDate ? SelectedDate.Value.AddSeconds(1) : DateTime.MaxValue,
-                    _ => SelectedDate
+                    StswDateIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= result ? result.AddYears(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= result ? result.AddMonths(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= result ? result.AddDays(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= result ? result.AddHours(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= result ? result.AddMinutes(1) : DateTime.MaxValue,
+                    StswDateIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= result ? result.AddSeconds(1) : DateTime.MaxValue,
+                    _ => result
                 };
             }
             else if (e.Delta < 0)
             {
-                SelectedDate = IncrementType switch
+                result = IncrementType switch
                 {
-                    StswDateIncrementType.Year => DateTime.MinValue.AddYears(1) <= SelectedDate ? SelectedDate.Value.AddYears(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Month => DateTime.MinValue.AddMonths(1) <= SelectedDate ? SelectedDate.Value.AddMonths(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Day => DateTime.MinValue.AddDays(1) <= SelectedDate ? SelectedDate.Value.AddDays(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Hour => DateTime.MinValue.AddHours(1) <= SelectedDate ? SelectedDate.Value.AddHours(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= SelectedDate ? SelectedDate.Value.AddMinutes(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= SelectedDate ? SelectedDate.Value.AddSeconds(-1) : DateTime.MinValue,
-                    _ => SelectedDate
+                    StswDateIncrementType.Year => DateTime.MinValue.AddYears(1) <= result ? result.AddYears(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Month => DateTime.MinValue.AddMonths(1) <= result ? result.AddMonths(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Day => DateTime.MinValue.AddDays(1) <= result ? result.AddDays(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Hour => DateTime.MinValue.AddHours(1) <= result ? result.AddHours(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= result ? result.AddMinutes(-1) : DateTime.MinValue,
+                    StswDateIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= result ? result.AddSeconds(-1) : DateTime.MinValue,
+                    _ => result
                 };
             }
+            SelectedDate = result;
 
             e.Handled = true;
         }
@@ -122,8 +120,9 @@ public class StswDatePicker : TextBox
     }
 
     /// <summary>
-    /// 
+    /// Updates the main property associated with the selected date in the control based on user input.
     /// </summary>
+    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     private void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedDate;
@@ -137,9 +136,8 @@ public class StswDatePicker : TextBox
 
         if (result != SelectedDate || alwaysUpdate)
         {
-            SelectedDate = result;
+            Text = result?.ToString(Format);
 
-            Text = SelectedDate?.ToString(Format);
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
                 bindingExpression.UpdateSource();
@@ -151,30 +149,15 @@ public class StswDatePicker : TextBox
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswDatePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswDatePicker)
         );
 
@@ -200,22 +183,15 @@ public class StswDatePicker : TextBox
         {
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
             {
-                var newBinding = new Binding()
-                {
-                    ConverterCulture = binding.ConverterCulture,
-                    Mode = binding.Mode,
-                    Path = binding.Path,
-                    RelativeSource = binding.RelativeSource,
-                    StringFormat = stsw.Format,
-                    UpdateSourceTrigger = binding.UpdateSourceTrigger
-                };
+                var newBinding = binding.Clone();
+                newBinding.StringFormat = stsw.Format;
                 stsw.SetBinding(TextProperty, newBinding);
             }
         }
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -340,7 +316,26 @@ public class StswDatePicker : TextBox
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDatePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

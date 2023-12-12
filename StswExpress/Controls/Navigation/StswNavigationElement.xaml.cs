@@ -12,7 +12,7 @@ namespace StswExpress;
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigationElement : ContentControl
+public class StswNavigationElement : ContentControl, IStswCornerControl
 {
     public StswNavigationElement()
     {
@@ -138,15 +138,15 @@ public class StswNavigationElement : ContentControl
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public GridLength? IconScale
+    public GridLength IconScale
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
+        get => (GridLength)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(GridLength?),
+            typeof(GridLength),
             typeof(StswNavigationElement)
         );
 
@@ -275,7 +275,26 @@ public class StswNavigationElement : ContentControl
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -286,21 +305,6 @@ public class StswNavigationElement : ContentControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the border for the popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
             typeof(StswNavigationElement)
         );
 

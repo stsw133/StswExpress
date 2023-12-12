@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -25,7 +26,7 @@ public class StswTabControl : TabControl
         base.OnApplyTemplate();
 
         /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is StswButton functionButton)
+        if (GetTemplateChild("PART_FunctionButton") is ButtonBase functionButton)
             functionButton.Click += PART_FunctionButton_Click;
     }
 

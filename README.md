@@ -2,22 +2,22 @@
 WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
+  - **Charts:** StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
-  - **Components:** StswComponentButton, StswComponentCheck, StswComponentPanel, StswComponentRepeater
+  - **Components:** StswComponentButton, StswComponentCheck, StswComponentDrop, StswComponentHeader, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
-  - **Filtering:** StswFilter
+  - **Filtering:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-  - **Layout:** StswClippingBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
-  - **Media:** StswImage
+  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
+  - **Media:** StswGallery, StswImage
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Scrolling:** StswPager, StswScrollBar, StswScrollViewer, StswShifter
-  - **StatusInfo:** StswLogPanel, StswProgressBar
-  - **Style:** StswHeader, StswIcon, StswLoadingCircle
-  - **Text:** StswOutlinedText, StswText, StswTruncateLabel
-  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswWindow
+  - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
+  - **StatusInfo:** StswLogPanel, StswProgressBar, StswProgressRing
+  - **TextStyle:** StswHeader, StswIcon, StswLabel, StswLoadingCircle, StswOutlinedText, StswText, StswTruncateLabel
+  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswToolTip, StswWindow
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)
 

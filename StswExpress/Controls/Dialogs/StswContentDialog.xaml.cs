@@ -231,7 +231,7 @@ public class StswContentDialog : ContentControl
             currentSession.Close(parameter);
             return;
         }
-        throw new InvalidOperationException("DialogHost is not open.");
+        //throw new InvalidOperationException("DialogHost is not open.");
     }
     #endregion
 
@@ -436,7 +436,9 @@ public class StswContentDialog : ContentControl
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

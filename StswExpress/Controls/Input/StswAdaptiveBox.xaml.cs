@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,11 +10,15 @@ namespace StswExpress;
 
 /// <summary>
 /// A control used for automatically select input box based on its value type.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswAdaptiveBox : Control
+public class StswAdaptiveBox : Control, IStswCornerControl
 {
+    public StswAdaptiveBox()
+    {
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+    }
     static StswAdaptiveBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswAdaptiveBox), new FrameworkPropertyMetadata(typeof(StswAdaptiveBox)));
@@ -32,6 +37,21 @@ public class StswAdaptiveBox : Control
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets the collection of components to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswComponentControl> Components
+    {
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<IStswComponentControl>),
+            typeof(StswAdaptiveBox)
+        );
+
     /// <summary>
     /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
     /// </summary>
@@ -61,6 +81,21 @@ public class StswAdaptiveBox : Control
             typeof(bool),
             typeof(StswAdaptiveBox)
         );
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsThreeState
+    {
+        get => (bool)GetValue(IsThreeStateProperty);
+        set => SetValue(IsThreeStateProperty, value);
+    }
+    public static readonly DependencyProperty IsThreeStateProperty
+        = DependencyProperty.Register(
+            nameof(IsThreeState),
+            typeof(bool),
+            typeof(StswAdaptiveBox)
+        );
 
     /// <summary>
     /// Gets or sets the collection that is used to generate the content of the StswSelectionBox.
@@ -76,7 +111,6 @@ public class StswAdaptiveBox : Control
             typeof(IList),
             typeof(StswAdaptiveBox)
         );
-    internal IList? DefaultItemsSource { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the placeholder text to display in the box when no value is provided.
@@ -191,7 +225,26 @@ public class StswAdaptiveBox : Control
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

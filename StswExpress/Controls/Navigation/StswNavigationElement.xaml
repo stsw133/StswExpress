@@ -7,15 +7,15 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswNavigationElement.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="PopupThickness" Value="2"/>
         <Setter Property="SeparatorThickness" Value="0"/>
+        
+        <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="SubItemIndentation" Value="20"/>
 
-        <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsTabStop" Value="False"/>
-
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -84,7 +84,7 @@
         <se:StswDropButton Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                           PopupThickness="{Binding PopupThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                           CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                            IsDropDownOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
@@ -107,27 +107,27 @@
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type se:StswToggleButton}">
-                                <se:StswClippingBorder Background="{TemplateBinding Background}"
-                                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       SnapsToDevicePixels="True">
-                                    <Grid>
-                                        <ContentPresenter Focusable="False"
-                                                          Margin="{TemplateBinding Padding}"
-                                                          RecognizesAccessKey="True"
-                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Grid>
-                                </se:StswClippingBorder>
+                                <se:StswBorder Background="{TemplateBinding Background}"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerClipping="{TemplateBinding CornerClipping}"
+                                               CornerRadius="{TemplateBinding CornerRadius}"
+                                               SnapsToDevicePixels="True">
+                                    <ContentPresenter Focusable="False"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </se:StswBorder>
                             </ControlTemplate>
                         </ToggleButton.Template>
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="Right" Focusable="False" Width="24" Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
-                            </ContentControl>
+                            <se:StswDropArrow DockPanel.Dock="Right"
+                                              Focusable="False"
+                                              IsDropDownOpen="{TemplateBinding IsDropDownOpen}"
+                                              Width="24"
+                                              Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
                             <!-- popup -->
                             <Popup AllowsTransparency="True"
                                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
@@ -136,12 +136,13 @@
                                    PlacementTarget="{Binding ElementName=PART_MainButton}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
-                                <se:StswClippingBorder Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswNavigationElement.Checked.Border}"
-                                                       BorderThickness="{TemplateBinding PopupThickness}"
-                                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                                       MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                       MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
+                                <se:StswBorder Background="{DynamicResource StswPopup.Static.Background}"
+                                               BorderBrush="{DynamicResource StswNavigationElement.Checked.Border}"
+                                               BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
+                                               CornerClipping="True"
+                                               CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
+                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                               MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}">
                                     <se:StswScrollViewer Focusable="False">
                                         <ItemsControl x:Name="PART_Items" Focusable="False" ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
                                             <ItemsControl.Resources>
@@ -151,7 +152,7 @@
                                             </ItemsControl.Resources>
                                         </ItemsControl>
                                     </se:StswScrollViewer>
-                                </se:StswClippingBorder>
+                                </se:StswBorder>
                             </Popup>
                             <!-- content -->
                             <se:StswHeader Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
@@ -197,6 +198,7 @@
                          BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          SeparatorThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                         CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
                          ExpandDirection="Down"
                          Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
@@ -206,12 +208,13 @@
                          VerticalContentAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
             <se:StswExpander.Template>
                 <ControlTemplate TargetType="{x:Type se:StswExpander}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
                             <ToggleButton x:Name="PART_Header"
@@ -252,25 +255,17 @@
                                                            SnapsToDevicePixels="True"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"/>
-                                            <se:StswIcon x:Name="PART_Arrow" Grid.Column="1"
-                                                         Data="{x:Static se:StswIcons.MenuDown}"
-                                                         Margin="{TemplateBinding Padding}"
-                                                         SnapsToDevicePixels="False"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center"
-                                                         Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
+                                            <se:StswDropArrow x:Name="PART_Arrow" Grid.Column="1"
+                                                              Focusable="False"
+                                                              IsDropDownOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                                              Width="24"
+                                                              Visibility="{Binding IsCompact, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}"/>
                                         </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="Data" Value="{x:Static se:StswIcons.MenuUp}" TargetName="PART_Arrow"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Top"
+                            <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"
@@ -290,7 +285,7 @@
                                 </ItemsControl.Resources>
                             </ItemsControl>
                         </DockPanel>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
@@ -321,21 +316,19 @@
                             IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}">
             <se:StswRadioButton.Template>
                 <ControlTemplate TargetType="{x:Type se:StswRadioButton}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                           BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                           BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                           CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                           SnapsToDevicePixels="True">
-                        <Grid>
-                            <ContentPresenter Focusable="False"
-                                              Margin="{Binding SubItemPadding, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                              RecognizesAccessKey="True"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
-                                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"/>
-                        </Grid>
-                    </se:StswClippingBorder>
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                   BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                   BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                   CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                   CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                   SnapsToDevicePixels="True">
+                        <ContentPresenter Focusable="False"
+                                          Margin="{Binding SubItemPadding, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"
+                                          VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigationElement}}}"/>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainBorder"/>

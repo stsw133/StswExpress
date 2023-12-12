@@ -6,65 +6,76 @@ namespace TestApp;
 
 public class DatabasesContext : StswObservableObject
 {
+    public ICommand MoveUpCommand { get; set; }
+    public ICommand MoveDownCommand { get; set; }
+    public ICommand AddCommand { get; set; }
+    public ICommand RemoveCommand { get; set; }
     public ICommand ImportCommand { get; set; }
     public ICommand ExportCommand { get; set; }
 
     public DatabasesContext()
     {
+        MoveUpCommand = new StswCommand(MoveUp);
+        MoveDownCommand = new StswCommand(MoveDown);
+        AddCommand = new StswCommand(Add);
+        RemoveCommand = new StswCommand(Remove);
         ImportCommand = new StswAsyncCommand(Import);
         ExportCommand = new StswAsyncCommand(Export);
     }
 
     #region Commands
+    /// MoveUp
+    private void MoveUp()
+    {
+        if (StswDatabases.List.IndexOf(SelectedDatabase!) is int i and > 0)
+            StswDatabases.List.Move(i, i - 1);
+    }
+
+    /// MoveDown
+    private void MoveDown()
+    {
+        if (StswDatabases.List.IndexOf(SelectedDatabase!) is int i and >= 0 && i < StswDatabases.List.Count - 1)
+            StswDatabases.List.Move(i, i + 1);
+    }
+
+    /// Add
+    private void Add()
+    {
+        var newDatabase = new StswDatabaseModel();
+        StswDatabases.List.Add(newDatabase);
+        SelectedDatabase = newDatabase;
+    }
+
+    /// Remove
+    private void Remove()
+    {
+        if (SelectedDatabase != null)
+            StswDatabases.List.Remove(SelectedDatabase);
+        SelectedDatabase = null;
+    }
+
     /// Import
     private async Task Import()
     {
-        LoadingActions++;
-
-        await Task.Run(() =>
-        {
-            StswDatabase.ImportDatabases();
-            StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
-        });
-
-        LoadingActions--;
+        StswDatabases.ImportList();
+        await Task.Run(() => StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new());
+        SelectedDatabase = StswDatabases.Current;
     }
 
     /// Export
     private async Task Export()
     {
-        LoadingActions++;
-
-        await Task.Run(() =>
-        {
-            if (StswDatabase.CurrentDatabase != null && !StswDatabase.AllDatabases.Contains(StswDatabase.CurrentDatabase))
-                StswDatabase.AllDatabases.Add(StswDatabase.CurrentDatabase);
-            StswDatabase.ExportDatabases();
-        });
-
-        LoadingActions--;
+        await Task.Run(() => StswDatabases.ExportList());
     }
     #endregion
 
     #region Properties
-    /// Loading
-    private int loadingActions = 0;
-    public int LoadingActions
+    /// SelectedDatabase
+    public StswDatabaseModel? SelectedDatabase
     {
-        get => loadingActions;
-        set
-        {
-            SetProperty(ref loadingActions, value);
-
-            if (!LoadingState.In(StswProgressState.Paused, StswProgressState.Error))
-                LoadingState = LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
-        }
+        get => selectedDatabase;
+        set => SetProperty(ref selectedDatabase, value);
     }
-    private StswProgressState loadingState;
-    public StswProgressState LoadingState
-    {
-        get => loadingState;
-        set => SetProperty(ref loadingState, value);
-    }
+    private StswDatabaseModel? selectedDatabase = StswDatabases.Current;
     #endregion
 }

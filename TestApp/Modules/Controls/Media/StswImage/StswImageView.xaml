@@ -10,64 +10,31 @@
         <local:StswImageContext/>
     </d:UserControl.DataContext>
 
-    <Grid DockPanel.Dock="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        Represents a control to display image with additional features such as context menu options.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                    <!-- MenuMode -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="MenuMode:"/>
-                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}"
-                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}" SelectedValuePath="Value"/>
-                    <!-- Stretch -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="MenuMode:"/>
-                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Stretch}}"
-                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Stretch}" SelectedValuePath="Value"/>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <se:StswImage IsEnabled="{Binding IsEnabled}"
-                          MenuMode="{Binding MenuMode}"
-                          Source="/Resources/icon.ico"
-                          Stretch="{Binding Stretch}"
-                          HorizontalAlignment="{Binding HorizontalAlignment}"
-                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}"
-                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        </Grid>
-    </Grid>
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control to display image with additional features such as context menu options.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- MenuMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="MenuMode"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}" SelectedValuePath="Value"/>
+            <!-- Stretch -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Stretch"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Stretch}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Stretch}" SelectedValuePath="Value"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswImage IsEnabled="{Binding IsEnabled}"
+                      MenuMode="{Binding MenuMode}"
+                      Source="/Resources/icon.ico"
+                      Stretch="{Binding Stretch}"
+                      HorizontalAlignment="{Binding HorizontalAlignment}"
+                      HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                      VerticalAlignment="{Binding VerticalAlignment}"
+                      VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+
+    </local:ControlsBase>
 </UserControl>

@@ -10,87 +10,56 @@
         <local:StswDatePickerContext/>
     </d:UserControl.DataContext>
 
-    <Grid DockPanel.Dock="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        A control that allows users to select and display date.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
-                    <!-- Components -->
-                    <se:StswCheckBox Content="Components" FontSize="15" FontWeight="Medium" IsChecked="{Binding Components}" Margin="0 3"/>
-                    <!-- Format -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Format:"/>
-                    <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
-                    <!-- IncrementType -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IncrementType:"/>
-                    <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDateIncrementType}}"
-                                     DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}" SelectedValuePath="Value"/>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                    <!-- IsReadOnly -->
-                    <se:StswCheckBox Content="IsReadOnly" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsReadOnly}" Margin="0 3"/>
-                    <!-- Minimum -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum:"/>
-                    <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
-                    <!-- Maximum -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum:"/>
-                    <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <se:StswDatePicker Format="{Binding Format}"
-                               IncrementType="{Binding IncrementType}"
-                               IsEnabled="{Binding IsEnabled}"
-                               IsReadOnly="{Binding IsReadOnly}"
-                               Margin="5"
-                               Maximum="{Binding Maximum}"
-                               Minimum="{Binding Minimum}"
-                               Placeholder="Select date..."
-                               SelectedDate="{Binding SelectedDate}"
-                               HorizontalAlignment="{Binding HorizontalAlignment}"
-                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                               VerticalAlignment="{Binding VerticalAlignment}"
-                               VerticalContentAlignment="{Binding VerticalContentAlignment}">
-                <se:StswDatePicker.Components>
-                    <se:StswComponentButton IconData="{x:Static se:StswIcons.DiceMultiple}"
-                                            Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"
-                                            Command="{Binding RandomizeCommand}"/>
-                    <se:StswComponentButton IconData="{x:Static se:StswIcons.Close}"
-                                            Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"
-                                            Command="{Binding ClearCommand}"/>
-                </se:StswDatePicker.Components>
-            </se:StswDatePicker>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        </Grid>
-    </Grid>
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            A control that allows users to select and display date.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Components -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Components"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Components}"/>
+            <!-- Format -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Format"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
+            <!-- IncrementType -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IncrementType"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDateIncrementType}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}" SelectedValuePath="Value"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum"/>
+            <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
+            <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswDatePicker Format="{Binding Format}"
+                           IncrementType="{Binding IncrementType}"
+                           IsEnabled="{Binding IsEnabled}"
+                           IsReadOnly="{Binding IsReadOnly}"
+                           Margin="5"
+                           Maximum="{Binding Maximum}"
+                           Minimum="{Binding Minimum}"
+                           Placeholder="Select date..."
+                           SelectedDate="{Binding SelectedDate}"
+                           HorizontalAlignment="{Binding HorizontalAlignment}"
+                           HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                           VerticalAlignment="{Binding VerticalAlignment}"
+                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswDatePicker.Components>
+                <se:StswComponentButton Command="{Binding RandomizeCommand}"
+                                        IconData="{x:Static se:StswIcons.DiceMultiple}"
+                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                <se:StswComponentButton Command="{Binding ClearCommand}"
+                                        IconData="{x:Static se:StswIcons.Close}"
+                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswDatePicker.Components>
+        </se:StswDatePicker>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
 </UserControl>
