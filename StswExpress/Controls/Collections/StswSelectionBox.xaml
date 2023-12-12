@@ -62,7 +62,7 @@
                                    StaysOpen="False">
                                 <se:StswListBox x:Name="PART_ListBox"
                                                 Background="{DynamicResource StswPopup.Static.Background}"
-                                                BorderBrush="{DynamicResource StswButton.Pressed.Border}"
+                                                BorderBrush="{DynamicResource StswPopup.Static.Border}"
                                                 BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
                                                 CornerClipping="True"
                                                 CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
