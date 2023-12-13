@@ -63,7 +63,8 @@
                                 <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Right"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
-                                                  Orientation="Vertical"/>
+                                                  Orientation="Vertical"
+                                                  Visibility="{DynamicResource StswDropArrow.Visibility}"/>
                                 <!-- popup -->
                                 <Popup Grid.ColumnSpan="2"
                                        AllowsTransparency="True"
@@ -74,7 +75,7 @@
                                        StaysOpen="False">
                                     <se:StswBorder x:Name="DropDownBorder"
                                                    Background="{DynamicResource StswPopup.Static.Background}"
-                                                   BorderBrush="{DynamicResource StswButton.Pressed.Border}"
+                                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
                                                    BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
                                                    CornerClipping="True"
                                                    CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"

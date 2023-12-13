@@ -2,7 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
+    <Visibility x:Key="StswDropArrow.Visibility">Visible</Visibility>
+
     <Style TargetType="{x:Type se:StswDropArrow}">
+        <Setter Property="Visibility" Value="{DynamicResource StswDropArrow.Visibility}"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropArrow}">
