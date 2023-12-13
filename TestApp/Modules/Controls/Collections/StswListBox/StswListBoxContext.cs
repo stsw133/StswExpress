@@ -1,30 +1,39 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace TestApp;
 
 public class StswListBoxContext : ControlsContext
 {
+    public StswListBoxContext()
+    {
+        Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectionCounter));
+    }
+
     #region Properties
     /// Items
-    private ObservableCollection<StswSelectionItem> items = new()
+    private BindingList<StswListBoxTestModel> items = new()
     {
-        new() { Display = "Option 1", IsSelected = true },
-        new() { Display = "Option 2", IsSelected = false },
-        new() { Display = "Option 3", IsSelected = false },
-        new() { Display = "Option 4", IsSelected = true },
-        new() { Display = "Option 5", IsSelected = false },
-        new() { Display = "Option 6", IsSelected = true },
-        new() { Display = "Option 7", IsSelected = false },
-        new() { Display = "Option 8", IsSelected = false },
-        new() { Display = "Option 9", IsSelected = true },
-        new() { Display = "Option 10", IsSelected = false }
+        new() { Name = "Option 1", IsSelected = true },
+        new() { Name = "Option 2", IsSelected = false },
+        new() { Name = "Option 3", IsSelected = false },
+        new() { Name = "Option 4", IsSelected = true },
+        new() { Name = "Option 5", IsSelected = false },
+        new() { Name = "Option 6", IsSelected = true },
+        new() { Name = "Option 7", IsSelected = false },
+        new() { Name = "Option 8", IsSelected = false },
+        new() { Name = "Option 9", IsSelected = true },
+        new() { Name = "Option 10", IsSelected = false }
     };
-    public ObservableCollection<StswSelectionItem> Items
+    public BindingList<StswListBoxTestModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
     }
+
+    /// SelectionCounter
+    public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
 
     /// SelectionMode
     private SelectionMode selectionMode = SelectionMode.Multiple;
@@ -34,4 +43,31 @@ public class StswListBoxContext : ControlsContext
         set => SetProperty(ref selectionMode, value);
     }
     #endregion
+}
+
+public class StswListBoxTestModel : StswObservableObject, IStswSelectionItem
+{
+    /// ID
+    private int id;
+    public int ID
+    {
+        get => id;
+        set => SetProperty(ref id, value);
+    }
+
+    /// Name
+    private string? name;
+    public string? Name
+    {
+        get => name;
+        set => SetProperty(ref name, value);
+    }
+
+    /// IsSelected
+    private bool isSelected;
+    public bool IsSelected
+    {
+        get => isSelected;
+        set => SetProperty(ref isSelected, value);
+    }
 }

@@ -5,9 +5,9 @@
     <Style TargetType="{x:Type se:StswToggleSwitch}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
-        <Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="2"/>
 
@@ -27,12 +27,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <!-- box -->
-                        <Border x:Name="PART_MainBorder"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                SnapsToDevicePixels="True">
+                        <se:StswBorder x:Name="PART_MainBorder"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerClipping="{TemplateBinding CornerClipping}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       SnapsToDevicePixels="True">
                             <Grid Margin="{TemplateBinding Padding}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -40,30 +41,24 @@
                                 </Grid.ColumnDefinitions>
                                 <se:StswIcon x:Name="PART_CheckedPath" Grid.Column="0"
                                              Data="{TemplateBinding IconChecked}"
-                                             Fill="{TemplateBinding CheckedGlyphBrush}"
+                                             Fill="{TemplateBinding GlyphBrushChecked}"
                                              Opacity="0"
                                              Scale="{TemplateBinding IconScale}"/>
                                 <se:StswIcon x:Name="PART_UncheckedPath" Grid.Column="1"
                                              Data="{TemplateBinding IconUnchecked}"
-                                             Fill="{TemplateBinding UncheckedGlyphBrush}"
+                                             Fill="{TemplateBinding GlyphBrushUnchecked}"
                                              Opacity="0"
                                              Scale="{TemplateBinding IconScale}"/>
                                 <Grid x:Name="PART_SwitchGrid" Grid.ColumnSpan="2"
                                       HorizontalAlignment="Left"
                                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-                                    <Border x:Name="PART_SwitchBorder" Grid.ColumnSpan="2">
-                                        <se:StswIcon x:Name="PART_Icon"
-                                                     Data="{TemplateBinding Icon}"
-                                                     Fill="{TemplateBinding GlyphBrush}"
-                                                     Scale="{TemplateBinding IconScale}"/>
-                                    </Border>
+                                    <Border x:Name="PART_SwitchBorder"/>
                                 </Grid>
                             </Grid>
-                        </Border>
+                        </se:StswBorder>
                         <!-- content -->
                         <ContentPresenter x:Name="PART_Content" Grid.Column="1"
                                           Focusable="False"
-                                          RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -142,7 +137,6 @@
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_SwitchBorder"/>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Foreground}" TargetName="PART_Icon"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
                         </Trigger>
                         <MultiTrigger>

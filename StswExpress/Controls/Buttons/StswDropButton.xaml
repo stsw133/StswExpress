@@ -7,14 +7,12 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="PopupThickness" Value="2"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="MaxDropDownHeight" Value="140"/>
-
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -34,36 +32,24 @@
                                          BorderBrush="{TemplateBinding BorderBrush}"
                                          BorderThickness="{TemplateBinding BorderThickness}"
                                          ClickMode="Press"
+                                         CornerClipping="{TemplateBinding CornerClipping}"
                                          CornerRadius="{TemplateBinding CornerRadius}"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                          Padding="0"
-                                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                          HorizontalContentAlignment="Stretch"
                                          VerticalContentAlignment="Stretch"
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <ContentControl DockPanel.Dock="Right"
-                                            Focusable="False"
-                                            HorizontalAlignment="Right"
-                                            Width="24"
-                                            Visibility="{TemplateBinding ArrowVisibility}">
-                                <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}"/>
-                            </ContentControl>
+                            <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="Right"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
                             <!-- popup -->
-                            <se:StswPopup AllowsTransparency="True"
-                                          BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                          BorderThickness="{TemplateBinding PopupThickness}"
-                                          CornerRadius="{TemplateBinding CornerRadius}"
-                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                           MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
                                           Padding="0"
@@ -76,9 +62,11 @@
                             </se:StswPopup>
                             <!-- content -->
                             <ContentPresenter Content="{TemplateBinding Header}"
+                                              ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -86,7 +74,7 @@
                     </se:StswToggleButton>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsReadOnly" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource StswDropButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -7,9 +7,9 @@ namespace StswExpress;
 
 /// <summary>
 /// Represents a control that displays a collection of items in a hierarchical list.
-/// ItemsSource with items of <see cref="IStswSelection"/> type automatically binds selected items.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswTreeView : TreeView
+public class StswTreeView : TreeView, IStswCornerControl
 {
     static StswTreeView()
     {
@@ -18,12 +18,14 @@ public class StswTreeView : TreeView
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Handles the event triggered when the ItemsSource property changes in the control.
+    /// Checks if the ItemsSource collection contains items implementing the <see cref="IStswSelectionItem"/> interface
+    /// to enable advanced selection features.
     /// </summary>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelection>() != null;
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
 
         //var selectedItem = FindAllTreeItems(this).FirstOrDefault(x => x.IsSelected);
         //if (selectedItem != null)
@@ -37,7 +39,8 @@ public class StswTreeView : TreeView
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the control uses selection items that implement
+    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
     /// </summary>
     internal bool UsesSelectionItems
     {
@@ -54,7 +57,26 @@ public class StswTreeView : TreeView
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTreeView)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

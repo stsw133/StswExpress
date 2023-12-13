@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -8,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a component and displays an icon.
 /// </summary>
-public class StswComponentButton : Button, IStswComponent
+public class StswComponentButton : Button, IStswComponentControl, IStswIconControl
 {
     static StswComponentButton()
     {
@@ -49,15 +48,15 @@ public class StswComponentButton : Button, IStswComponent
     /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
-    public GridLength? IconScale
+    public GridLength IconScale
     {
-        get => (GridLength?)GetValue(IconScaleProperty);
+        get => (GridLength)GetValue(IconScaleProperty);
         set => SetValue(IconScaleProperty, value);
     }
     public static readonly DependencyProperty IconScaleProperty
         = DependencyProperty.Register(
             nameof(IconScale),
-            typeof(GridLength?),
+            typeof(GridLength),
             typeof(StswComponentButton)
         );
 
@@ -93,16 +92,49 @@ public class StswComponentButton : Button, IStswComponent
     #endregion
 
     #region Style properties
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? BorderBrush { get; private set; }
+    /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// </summary>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswComponentButton)
+        );
 
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness? BorderThickness { get; private set; }
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswComponentButton)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the icon.
+    /// </summary>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswComponentButton)
+        );
     #endregion
 }

@@ -12,7 +12,7 @@
         <se:StswNavigationElement/>
         <se:StswNavigationElement Text="Home" IconData="{x:Static se:StswIcons.Home}" ContextNamespace="TestApp.HomeContext"/>
         <se:StswNavigationElement/>
-        <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}">
+        <se:StswNavigationElement Text="Controls" IconData="{x:Static se:StswIcons.ApplicationVariableOutline}" IsChecked="True">
             <se:StswNavigationElement Text="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">
                 <se:StswNavigationElement Text="StswButton" ContextNamespace="TestApp.StswButtonContext"/>
                 <se:StswNavigationElement Text="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
@@ -20,6 +20,9 @@
                 <se:StswNavigationElement Text="StswRepeatButton" ContextNamespace="TestApp.StswRepeatButtonContext"/>
                 <se:StswNavigationElement Text="StswSplitButton" ContextNamespace="TestApp.StswSplitButtonContext"/>
                 <se:StswNavigationElement Text="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Text="Charts" IconData="{x:Static se:StswIcons.ChartBar}">
+                <se:StswNavigationElement Text="StswChartPie" ContextNamespace="TestApp.StswChartPieContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Text="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
@@ -34,7 +37,7 @@
                 <se:StswNavigationElement Text="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
                 <se:StswNavigationElement Text="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.SelectColor}">
+            <se:StswNavigationElement Text="Color" IconData="{x:Static se:StswIcons.PaletteOutline}">
                 <se:StswNavigationElement Text="StswColorBox" ContextNamespace="TestApp.StswColorBoxContext"/>
                 <se:StswNavigationElement Text="StswColorPicker" ContextNamespace="TestApp.StswColorPickerContext"/>
                 <se:StswNavigationElement Text="StswColorSelector" ContextNamespace="TestApp.StswColorSelectorContext"/>
@@ -42,19 +45,21 @@
             <se:StswNavigationElement Text="Components" IconData="{x:Static se:StswIcons.ButtonPointer}">
                 <se:StswNavigationElement Text="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
                 <se:StswNavigationElement Text="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
-                <se:StswNavigationElement Text="StswComponentPanel" ContextNamespace="TestApp.StswComponentPanelContext"/>
+                <se:StswNavigationElement Text="StswComponentDrop" ContextNamespace="TestApp.StswComponentDropContext"/>
+                <se:StswNavigationElement Text="StswComponentHeader" ContextNamespace="TestApp.StswComponentHeaderContext"/>
                 <se:StswNavigationElement Text="StswComponentRepeater" ContextNamespace="TestApp.StswComponentRepeaterContext"/>
+                <se:StswNavigationElement Text="StswComponentSelector" ContextNamespace="TestApp.StswComponentSelectorContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Date &amp; time" IconData="{x:Static se:StswIcons.Calendar}">
+            <se:StswNavigationElement Text="Date &amp; time" IconData="{x:Static se:StswIcons.CalendarRange}">
                 <se:StswNavigationElement Text="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>
                 <se:StswNavigationElement Text="StswDatePicker" ContextNamespace="TestApp.StswDatePickerContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Dialogs" IconData="{x:Static se:StswIcons.MessageOutline}">
+            <se:StswNavigationElement Text="Dialogs" IconData="{x:Static se:StswIcons.MessageTextOutline}">
                 <se:StswNavigationElement Text="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Text="StswMessageDialog" ContextNamespace="TestApp.StswMessageDialogContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Filtering" IconData="{x:Static se:StswIcons.Filter}">
-                <se:StswNavigationElement Text="StswFilter" ContextNamespace="TestApp.StswFilterContext"/>
+            <se:StswNavigationElement Text="Filtering" IconData="{x:Static se:StswIcons.FilterOutline}">
+                <se:StswNavigationElement Text="StswFilterBox" ContextNamespace="TestApp.StswFilterBoxContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Input" IconData="{x:Static se:StswIcons.FormTextbox}">
                 <se:StswNavigationElement Text="StswAdaptiveBox" ContextNamespace="TestApp.StswAdaptiveBoxContext"/>
@@ -65,9 +70,8 @@
                 <se:StswNavigationElement Text="StswTextBox" ContextNamespace="TestApp.StswTextBoxContext"/>
                 <se:StswNavigationElement Text="StswTextEditor" ContextNamespace="TestApp.StswTextEditorContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Layout" IconData="{x:Static se:StswIcons.Group}">
-                <se:StswNavigationElement Text="RgsClippingBorder" ContextNamespace="TestApp.RgsClippingBorderContext"/>
-                <se:StswNavigationElement Text="StswClippingBorder" ContextNamespace="TestApp.StswClippingBorderContext"/>
+            <se:StswNavigationElement Text="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
+                <se:StswNavigationElement Text="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
                 <se:StswNavigationElement Text="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Text="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Text="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
@@ -75,30 +79,32 @@
                 <se:StswNavigationElement Text="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
+                <se:StswNavigationElement Text="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Text="StswImage" ContextNamespace="TestApp.StswImageContext"/>
+                <!--
+                <se:StswNavigationElement Text="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
+                -->
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Navigation" IconData="{x:Static se:StswIcons.NavigationVariantOutline}">
+            <se:StswNavigationElement Text="Navigation" IconData="{x:Static se:StswIcons.Menu}">
                 <se:StswNavigationElement Text="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
                 <se:StswNavigationElement Text="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
-                <se:StswNavigationElement Text="StswPager" ContextNamespace="TestApp.StswPagerContext"/>
                 <se:StswNavigationElement Text="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
                 <se:StswNavigationElement Text="StswShifter" ContextNamespace="TestApp.StswShifterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement Text="StswLogPanel" ContextNamespace="TestApp.StswLogPanelContext"/>
                 <se:StswNavigationElement Text="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
+                <se:StswNavigationElement Text="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
             </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Style" IconData="{x:Static se:StswIcons.FormatLineStyle}">
+            <se:StswNavigationElement Text="Text &amp; style" IconData="{x:Static se:StswIcons.Text}">
                 <se:StswNavigationElement Text="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
                 <se:StswNavigationElement Text="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
+                <se:StswNavigationElement Text="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Text="StswLoadingCircle" ContextNamespace="TestApp.StswLoadingCircleContext"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Text="Text" IconData="{x:Static se:StswIcons.Text}">
                 <se:StswNavigationElement Text="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
                 <se:StswNavigationElement Text="StswText" ContextNamespace="TestApp.StswTextContext"/>
-                <se:StswNavigationElement Text="StswTruncateLabel" ContextNamespace="TestApp.StswTruncateLabelContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Text="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
                 <se:StswNavigationElement Text="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
@@ -106,7 +112,7 @@
                 <se:StswNavigationElement Text="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
         </se:StswNavigationElement>
-        <se:StswNavigationElement Text="Examples" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}">
+        <se:StswNavigationElement Text="Examples" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">
             <se:StswNavigationElement Text="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" ContextNamespace="TestApp.DatabasesContext"/>
             <se:StswNavigationElement Text="Account" IconData="{x:Static se:StswIcons.Account}" IsEnabled="False"/>
             <se:StswNavigationElement Text="Contractors" IconData="{x:Static se:StswIcons.AccountGroup}" ContextNamespace="TestApp.ContractorsContext"/>

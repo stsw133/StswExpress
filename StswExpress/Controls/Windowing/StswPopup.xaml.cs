@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
-public class StswPopup : Popup
+public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
     {
@@ -26,7 +26,7 @@ public class StswPopup : Popup
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets the data used to generate the child elements of this control.
     /// </summary>
     public object? Content
     {
@@ -43,7 +43,7 @@ public class StswPopup : Popup
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the background brush for the control.
     /// </summary>
     public Brush Background
     {
@@ -58,7 +58,7 @@ public class StswPopup : Popup
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the border brush for the control.
     /// </summary>
     public Brush BorderBrush
     {
@@ -73,7 +73,7 @@ public class StswPopup : Popup
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the border thickness for the control.
     /// </summary>
     public Thickness BorderThickness
     {
@@ -88,7 +88,26 @@ public class StswPopup : Popup
         );
 
     /// <summary>
-    /// Gets or sets the corner radius of the custom window.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPopup)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -102,9 +121,24 @@ public class StswPopup : Popup
             typeof(StswPopup)
         );
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="StswScrollViewer"/> inside the control is dynamic.
+    /// </summary>
+    public bool IsScrollDynamic
+    {
+        get => (bool)GetValue(IsScrollDynamicProperty);
+        set => SetValue(IsScrollDynamicProperty, value);
+    }
+    public static readonly DependencyProperty IsScrollDynamicProperty
+        = DependencyProperty.Register(
+            nameof(IsScrollDynamic),
+            typeof(bool),
+            typeof(StswPopup),
+            new PropertyMetadata(true)
+        );
 
     /// <summary>
-    /// 
+    /// Gets or sets the padding for the control.
     /// </summary>
     public Thickness Padding
     {

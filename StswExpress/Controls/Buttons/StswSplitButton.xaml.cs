@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a regular button with a drop-down button.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSplitButton : ItemsControl, ICommandSource
+public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCornerControl, IStswDropControl
 {
     public StswSplitButton()
     {
@@ -67,55 +67,8 @@ public class StswSplitButton : ItemsControl, ICommandSource
             typeof(StswSplitButton)
         );
 
-    /*
     /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponent> Components
-    {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswSplitButton)
-        );
-    */
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets the header content of the control.
-    /// </summary>
-    public object? Header
-    {
-        get => (object?)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
-    public static readonly DependencyProperty HeaderProperty
-        = DependencyProperty.Register(
-            nameof(Header),
-            typeof(object),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop-down portion of the button is open.
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -165,7 +118,26 @@ public class StswSplitButton : ItemsControl, ICommandSource
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded (including popup).
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswSplitButton)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -180,33 +152,19 @@ public class StswSplitButton : ItemsControl, ICommandSource
         );
 
     /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the button.
+    /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>
-    public double? MaxDropDownHeight
+    public double MaxDropDownHeight
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
+        get => (double)GetValue(MaxDropDownHeightProperty);
         set => SetValue(MaxDropDownHeightProperty, value);
     }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
-            typeof(double?),
-            typeof(StswSplitButton)
-        );
-
-    /// <summary>
-    /// Gets or sets the border thickness of the drop-down popup.
-    /// </summary>
-    public Thickness PopupThickness
-    {
-        get => (Thickness)GetValue(PopupThicknessProperty);
-        set => SetValue(PopupThicknessProperty, value);
-    }
-    public static readonly DependencyProperty PopupThicknessProperty
-        = DependencyProperty.Register(
-            nameof(PopupThickness),
-            typeof(Thickness),
-            typeof(StswSplitButton)
+            typeof(double),
+            typeof(StswSplitButton),
+            new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
 
     /// <summary>

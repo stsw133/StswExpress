@@ -55,71 +55,71 @@
     "en": "Pink",
     "pl": "Różowy"
   },
-  "StswFilter.Between": {
+  "StswFilterBox.Between": {
     "en": "Is between",
     "pl": "Pomiędzy"
   },
-  "StswFilter.Contains": {
+  "StswFilterBox.Contains": {
     "en": "Contains",
     "pl": "Zawiera"
   },
-  "StswFilter.EndsWith": {
+  "StswFilterBox.EndsWith": {
     "en": "Ends with",
     "pl": "Kończy się na"
   },
-  "StswFilter.Equal": {
+  "StswFilterBox.Equal": {
     "en": "Is equal",
     "pl": "Jest równe"
   },
-  "StswFilter.Greater": {
+  "StswFilterBox.Greater": {
     "en": "Is greater than",
     "pl": "Jest większe niż"
   },
-  "StswFilter.GreaterEqual": {
+  "StswFilterBox.GreaterEqual": {
     "en": "Is greater or equal",
     "pl": "Jest większe lub równe"
   },
-  "StswFilter.In": {
+  "StswFilterBox.In": {
     "en": "Is in",
     "pl": "Zawiera się w"
   },
-  "StswFilter.Less": {
+  "StswFilterBox.Less": {
     "en": "Is less than",
     "pl": "Jest mniejsze niż"
   },
-  "StswFilter.LessEqual": {
+  "StswFilterBox.LessEqual": {
     "en": "Is less or equal",
     "pl": "Jest mniejsze lub równe"
   },
-  "StswFilter.Like": {
+  "StswFilterBox.Like": {
     "en": "Is like",
     "pl": "Podobne do"
   },
-  "StswFilter.NotContains": {
+  "StswFilterBox.NotContains": {
     "en": "Not contains",
     "pl": "Nie zawiera"
   },
-  "StswFilter.NotEqual": {
+  "StswFilterBox.NotEqual": {
     "en": "Is not equal",
     "pl": "Nie jest równe"
   },
-  "StswFilter.NotIn": {
+  "StswFilterBox.NotIn": {
     "en": "Is not in",
     "pl": "Nie zawiera się w"
   },
-  "StswFilter.NotLike": {
+  "StswFilterBox.NotLike": {
     "en": "Is not like",
     "pl": "Niepodobne do"
   },
-  "StswFilter.NotNull": {
+  "StswFilterBox.NotNull": {
     "en": "Is not null",
     "pl": "Niepuste"
   },
-  "StswFilter.Null": {
+  "StswFilterBox.Null": {
     "en": "Is null",
     "pl": "Puste"
   },
-  "StswFilter.StartsWith": {
+  "StswFilterBox.StartsWith": {
     "en": "Starts with",
     "pl": "Rozpoczyna się od"
   },

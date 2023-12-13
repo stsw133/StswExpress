@@ -7,13 +7,14 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
@@ -24,16 +25,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswListBox}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <se:StswScrollViewer Focusable="False" IsDynamic="True" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollViewer>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -42,12 +44,10 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
-                        <!--
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -59,7 +59,7 @@
                     <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
                     <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
-                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
 
                     <Setter Property="Template">
@@ -69,8 +69,11 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                        Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter/>
+                                        Padding="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="True">
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">

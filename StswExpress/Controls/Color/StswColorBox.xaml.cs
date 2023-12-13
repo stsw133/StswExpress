@@ -14,11 +14,11 @@ namespace StswExpress;
 /// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorBox : TextBox
+public class StswColorBox : TextBox, IStswCornerControl
 {
     public StswColorBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswColorBox()
     {
@@ -53,8 +53,9 @@ public class StswColorBox : TextBox
     }
 
     /// <summary>
-    /// 
+    /// Updates the main property associated with the selected color in the control based on user input.
     /// </summary>
+    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     private void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = SelectedColor;
@@ -71,13 +72,12 @@ public class StswColorBox : TextBox
             result = (Color)ColorConverter.ConvertFromString(Text);
 
         if (!IsAlphaEnabled)
-            SelectedColor = Color.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B);
+            result = Color.FromRgb(result.R, result.G, result.B);
 
         if (result != SelectedColor || alwaysUpdate)
         {
-            SelectedColor = result;
+            Text = result.ToString();
 
-            Text = SelectedColor.ToString();
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
                 bindingExpression.UpdateSource();
@@ -89,30 +89,15 @@ public class StswColorBox : TextBox
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswColorBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswColorBox)
         );
 
@@ -132,7 +117,7 @@ public class StswColorBox : TextBox
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown portion of the box is open.
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
     {
@@ -202,7 +187,26 @@ public class StswColorBox : TextBox
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

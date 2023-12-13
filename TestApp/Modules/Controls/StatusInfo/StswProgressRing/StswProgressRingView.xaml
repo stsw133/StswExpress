@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="TestApp.StswProgressRingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswProgressRingContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control being a progress ring with additional features such as displaying progress as text and different states.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsIndeterminate -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsIndeterminate"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsIndeterminate}"/>
+            <!-- Minimum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum"/>
+            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
+            <!-- Maximum -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
+            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <!-- State -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="State"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding State}" SelectedValuePath="Value"/>
+            <!-- TextMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="TextMode"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TextMode}" SelectedValuePath="Value"/>
+            <!-- Value -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
+            <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswProgressRing IsEnabled="{Binding IsEnabled}"
+                             IsIndeterminate="{Binding IsIndeterminate}"
+                             Margin="5"
+                             Maximum="{Binding Maximum}"
+                             Minimum="{Binding Minimum}"
+                             State="{Binding State}"
+                             TextMode="{Binding TextMode}"
+                             Value="{Binding SelectedValue}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+
+    </local:ControlsBase>
+</UserControl>

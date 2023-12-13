@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
@@ -20,7 +21,6 @@
         <Setter Property="SelectedColorText" Value="{Binding Foreground.Color, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="ToolbarMode" Value="Full"/>
         
-        <Setter Property="ComponentsAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -35,26 +35,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTextEditor}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- toolbar -->
-                            <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="{TemplateBinding ComponentsAlignment}" Focusable="False">
-                                <se:StswShifter Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <se:StswShifter.ButtonStyle>
-                                        <Style TargetType="{x:Type ButtonBase}">
-                                            <Setter Property="BorderThickness" Value="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextEditor}}}"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </se:StswShifter.ButtonStyle>
+                            <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="Top" Focusable="False">
+                                <se:StswShifter ButtonDownBorderThickness="0 1 0 0" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 0 0 1"
+                                                Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                     <DockPanel>
                                         <!-- file -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FileNew"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}"
@@ -96,7 +92,7 @@
                                                 </se:StswButton>
                                             </DockPanel>
 
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FileReload"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}"
@@ -144,7 +140,7 @@
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- edit -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_EditUndo"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="ApplicationCommands.Undo"
@@ -176,7 +172,7 @@
                                                 </se:StswButton>
                                             </DockPanel>
 
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_EditCut"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="ApplicationCommands.Cut"
@@ -214,7 +210,7 @@
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- font -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <DockPanel DockPanel.Dock="Right">
                                                     <se:StswNumericBox x:Name="PART_FontSize"
                                                                        BorderThickness="{TemplateBinding ComponentBorderThickness}"
@@ -258,7 +254,7 @@
                                                                  SeparatorThickness="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </DockPanel>
 
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FontBold"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="EditingCommands.ToggleBold"
@@ -326,9 +322,12 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    PopupThickness="0"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorText}">
+                                                    <se:StswSplitButton.Resources>
+                                                        <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                                        <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                                    </se:StswSplitButton.Resources>
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorText}" Scale="1.25"/>
@@ -337,10 +336,10 @@
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                                            <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <se:StswColorSelector SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                         </TabItem>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
-                                                            <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                            <se:StswColorPicker SelectedColor="{Binding SelectedColorText, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
                                                 </se:StswSplitButton>
@@ -352,9 +351,12 @@
                                                                     Focusable="False"
                                                                     Margin="{TemplateBinding SubPadding}"
                                                                     MaxDropDownHeight="NaN"
-                                                                    PopupThickness="0"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorHighlight}">
+                                                    <se:StswSplitButton.Resources>
+                                                        <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                                        <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                                    </se:StswSplitButton.Resources>
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorHighlight}" Scale="1.25"/>
@@ -363,10 +365,10 @@
                                                     </se:StswSplitButton.Header>
                                                     <TabControl>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
-                                                            <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
+                                                            <se:StswColorSelector SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ColorAuto="Transparent"/>
                                                         </TabItem>
                                                         <TabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
-                                                            <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
+                                                            <se:StswColorPicker SelectedColor="{Binding SelectedColorHighlight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="True"/>
                                                         </TabItem>
                                                     </TabControl>
                                                 </se:StswSplitButton>
@@ -378,7 +380,7 @@
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
                                         <!-- paragraph -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_SectionIncrease"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="EditingCommands.IncreaseIndentation"
@@ -398,9 +400,8 @@
                                                                ToolTip="{se:Tr StswTextEditor.Paragraph.IndentDecrease}">
                                                     <se:StswIcon Data="{x:Static se:StswIcons.FormatIndentDecrease}"/>
                                                 </se:StswButton>
-                                                
+
                                                 <se:StswDropButton x:Name="PART_SectionList"
-                                                                   ArrowVisibility="Collapsed"
                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -410,6 +411,11 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatListText}"/>
                                                     </se:StswDropButton.Header>
+                                                    <se:StswDropButton.Resources>
+                                                        <Style TargetType="{x:Type se:StswDropArrow}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Style>
+                                                    </se:StswDropButton.Resources>
 
                                                     <se:StswButton BorderThickness="0" Command="EditingCommands.ToggleBullets" CornerRadius="0" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
@@ -420,7 +426,6 @@
                                                 </se:StswDropButton>
                                                 
                                                 <se:StswDropButton x:Name="PART_SectionInterline"
-                                                                   ArrowVisibility="Collapsed"
                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -430,6 +435,11 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ArrowExpandVertical}"/>
                                                     </se:StswDropButton.Header>
+                                                    <se:StswDropButton.Resources>
+                                                        <Style TargetType="{x:Type se:StswDropArrow}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Style>
+                                                    </se:StswDropButton.Resources>
                                                     
                                                     <se:StswButton Content="auto" BorderThickness="0" CornerRadius="0" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <se:StswButton Content="1" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
@@ -439,7 +449,7 @@
                                                 </se:StswDropButton>
                                             </DockPanel>
 
-                                            <DockPanel DockPanel.Dock="{TemplateBinding ComponentsAlignment}">
+                                            <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_SectionAlignLeft"
                                                                BorderThickness="{TemplateBinding ComponentBorderThickness}"
                                                                Command="EditingCommands.AlignLeft"
@@ -490,7 +500,7 @@
                                             <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <DockPanel DockPanel.Dock="{Binding ComponentsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswTextEditor}}}"/>
+                                                        <DockPanel DockPanel.Dock="Top"/>
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                             </ItemsControl>
@@ -500,7 +510,7 @@
                             </Grid>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                                              DockPanel.Dock="Top"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
@@ -511,7 +521,7 @@
                                                  HorizontalScrollBarVisibility="Hidden" 
                                                  VerticalScrollBarVisibility="Hidden"/>
                         </DockPanel>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ToolbarMode" Value="Collapsed">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ToolBar"/>

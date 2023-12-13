@@ -10,66 +10,34 @@
         <local:StswLogPanelContext/>
     </d:UserControl.DataContext>
 
-    <Grid DockPanel.Dock="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <!-- name and description -->
-        <se:StswScrollViewer IsDynamic="True">
-            <StackPanel Margin="5">
-                <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
-                    <LineBreak/>
-                    <Run>
-                        Represents a control being a progress bar with additional features such as displaying progress as text and different states.
-                    </Run>
-                </se:StswText>
-                <StackPanel Margin="5">
-                    <se:StswText FontWeight="Medium" Text="Properties:"/>
-                    <!-- Alignment -->
-                    <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Alignment (control | content):"/>
-                    <UniformGrid>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type HorizontalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalContentAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value"/>
-                        <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type VerticalAlignment}}"
-                                         DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalContentAlignment}" SelectedValuePath="Value"/>
-                    </UniformGrid>
-                    <!-- IsClosable -->
-                    <se:StswCheckBox Content="IsClosable" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsClosable}" Margin="0 3"/>
-                    <!-- IsEnabled -->
-                    <se:StswCheckBox Content="IsEnabled" FontSize="15" FontWeight="Medium" IsChecked="{Binding IsEnabled}" Margin="0 3"/>
-                    <!-- Add random item -->
-                    <se:StswButton Command="{Binding AddRandomItemCommand}" Margin="0 3">
-                        <Label Content="Add random item" FontSize="15" FontWeight="Medium"/>
-                    </se:StswButton>
-                    <!-- Load from files -->
-                    <se:StswButton Command="{Binding LoadFromFilesCommand}" Margin="0 3">
-                        <Label Content="Load from files" FontSize="15" FontWeight="Medium"/>
-                    </se:StswButton>
-                </StackPanel>
-            </StackPanel>
-        </se:StswScrollViewer>
-        <GridSplitter Width="5"/>
-        <!-- control -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <se:StswLogPanel IsClosable="{Binding IsClosable}"
-                             IsEnabled="{Binding IsEnabled}"
-                             ItemsSource="{Binding Items}"
-                             Margin="5"
-                             HorizontalAlignment="{Binding HorizontalAlignment}"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             VerticalAlignment="{Binding VerticalAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <GridSplitter Height="5" Margin="0 -5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        </Grid>
-    </Grid>
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- IsClosable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsClosable"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
+            <!-- Add random item -->
+            <se:StswButton Command="{Binding AddRandomItemCommand}" Margin="0 3">
+                <se:StswText FontSize="15" FontWeight="Medium" Text="Add random item"/>
+            </se:StswButton>
+            <!-- Load from files -->
+            <se:StswButton Command="{Binding LoadFromFilesCommand}" Margin="0 3">
+                <se:StswText FontSize="15" FontWeight="Medium" Text="Load from files"/>
+            </se:StswButton>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswLogPanel IsClosable="{Binding IsClosable}"
+                         IsEnabled="{Binding IsEnabled}"
+                         ItemsSource="{Binding ItemsSource}"
+                         Margin="5"
+                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                         VerticalAlignment="{Binding VerticalAlignment}"
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
 </UserControl>

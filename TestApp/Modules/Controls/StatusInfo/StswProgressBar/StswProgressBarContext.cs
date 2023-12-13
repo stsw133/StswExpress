@@ -35,7 +35,7 @@ public class StswProgressBarContext : ControlsContext
     }
 
     /// State
-    private StswProgressState state = StswProgressState.Ready;
+    private StswProgressState state = StswProgressState.Running;
     public StswProgressState State
     {
         get => state;

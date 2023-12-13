@@ -6,33 +6,35 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a header and allows the user to collapse or expand content.
 /// </summary>
-public class StswExpander : Expander
+public class StswExpander : Expander, IStswCornerControl
 {
     static StswExpander()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswExpander), new FrameworkPropertyMetadata(typeof(StswExpander)));
     }
 
-    #region Main properties
-    /// <summary>
-    /// Gets or sets the visibility of the arrow icon in the drop button.
-    /// </summary>
-    public Visibility ArrowVisibility
-    {
-        get => (Visibility)GetValue(ArrowVisibilityProperty);
-        set => SetValue(ArrowVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ArrowVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ArrowVisibility),
-            typeof(Visibility),
-            typeof(StswExpander)
-        );
-    #endregion
-
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswExpander)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

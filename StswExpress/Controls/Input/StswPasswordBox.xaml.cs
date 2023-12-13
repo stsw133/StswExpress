@@ -9,11 +9,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows users to enter a secured password.
 /// </summary>
-public class StswPasswordBox : Control
+public class StswPasswordBox : Control, IStswCornerControl
 {
     public StswPasswordBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswPasswordBox()
     {
@@ -22,7 +22,7 @@ public class StswPasswordBox : Control
 
     #region Events & methods
     private bool _isPasswordChanging;
-    private PasswordBox? partPasswordBox;
+    private PasswordBox? passwordBox;
 
     /// <summary>
     /// Occurs when the password in the StswPasswordBox changes.
@@ -37,11 +37,11 @@ public class StswPasswordBox : Control
         base.OnApplyTemplate();
 
         /// PasswordBox: password changed
-        if (GetTemplateChild("PART_PasswordBox") is PasswordBox pwdBox)
+        if (GetTemplateChild("PART_PasswordBox") is PasswordBox passwordBox)
         {
-            pwdBox.Password = Password;
-            pwdBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
-            partPasswordBox = pwdBox;
+            passwordBox.Password = Password;
+            passwordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
+            this.passwordBox = passwordBox;
         }
     }
 
@@ -51,8 +51,8 @@ public class StswPasswordBox : Control
     public void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
         _isPasswordChanging = true;
-        if (sender is PasswordBox pwdBox)
-            Password = pwdBox.Password;
+        if (sender is PasswordBox passwordBox)
+            Password = passwordBox.Password;
         _isPasswordChanging = false;
     }
     #endregion
@@ -61,30 +61,15 @@ public class StswPasswordBox : Control
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswPasswordBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswPasswordBox)
         );
 
@@ -109,8 +94,8 @@ public class StswPasswordBox : Control
     {
         if (obj is StswPasswordBox stsw)
         {
-            if (stsw.partPasswordBox != null && !stsw._isPasswordChanging)
-                stsw.partPasswordBox.Password = stsw.Password;
+            if (stsw.passwordBox != null && !stsw._isPasswordChanging)
+                stsw.passwordBox.Password = stsw.Password;
 
             stsw.PasswordChanged?.Invoke(stsw, EventArgs.Empty);
         }
@@ -149,7 +134,26 @@ public class StswPasswordBox : Control
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPasswordBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

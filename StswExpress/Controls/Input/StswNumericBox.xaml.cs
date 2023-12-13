@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -12,11 +13,11 @@ namespace StswExpress;
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswNumericBox : TextBox
+public class StswNumericBox : TextBox, IStswCornerControl
 {
     public StswNumericBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswNumericBox()
     {
@@ -37,10 +38,10 @@ public class StswNumericBox : TextBox
         base.OnApplyTemplate();
 
         /// Button: up
-        if (GetTemplateChild("PART_ButtonUp") is StswRepeatButton btnUp)
+        if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
             btnUp.Click += PART_ButtonUp_Click;
         /// Button: down
-        if (GetTemplateChild("PART_ButtonDown") is StswRepeatButton btnDown)
+        if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
             btnDown.Click += PART_ButtonDown_Click;
 
         OnFormatChanged(this, new DependencyPropertyChangedEventArgs());
@@ -53,7 +54,7 @@ public class StswNumericBox : TextBox
     {
         if (decimal.TryParse(Text, out var result))
             Value = result;
-        Value = Value == null ? 0 : Value + Increment;
+        Value = Value + Increment ?? 0;
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class StswNumericBox : TextBox
     {
         if (decimal.TryParse(Text, out var result))
             Value = result;
-        Value = Value == null ? 0 : Value - Increment;
+        Value = Value - Increment ?? 0;
     }
 
     /// <summary>
@@ -93,25 +94,23 @@ public class StswNumericBox : TextBox
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && Value.HasValue)
+        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && decimal.TryParse(Text, out var result))
         {
-            if (decimal.TryParse(Text, out var result))
-                Value = result;
-
             if (e.Delta > 0)
             {
-                if (decimal.MaxValue - Increment >= Value)
-                    Value += Increment;
+                if (decimal.MaxValue - Increment >= result)
+                    result += Increment;
                 else
-                    Value = decimal.MaxValue;
+                    result = decimal.MaxValue;
             }
             else if (e.Delta < 0)
             {
-                if (decimal.MinValue + Increment <= Value)
-                    Value -= Increment;
+                if (decimal.MinValue + Increment <= result)
+                    result -= Increment;
                 else
-                    Value = decimal.MinValue;
+                    result = decimal.MinValue;
             }
+            Value = result;
 
             e.Handled = true;
         }
@@ -133,24 +132,24 @@ public class StswNumericBox : TextBox
     }
 
     /// <summary>
-    /// 
+    /// Updates the main property associated with the selected value in the control based on user input.
     /// </summary>
+    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
     private void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = Value;
 
         if (string.IsNullOrEmpty(Text))
             result = null;
-        else if (StswFn.TryCalculateString(Text, out var res1))
-            result = Convert.ToDecimal(res1);
-        else if (decimal.TryParse(Text, out var res2))
-            result = res2;
+        else if (StswFn.TryCalculateString(Text, out var res))
+            result = res;
+        else if (decimal.TryParse(Text, out res))
+            result = res;
 
         if (result != Value || alwaysUpdate)
         {
-            Value = result;
-
             Text = result?.ToString(Format);
+
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
                 bindingExpression.UpdateSource();
@@ -162,30 +161,15 @@ public class StswNumericBox : TextBox
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswNumericBox)
         );
 
@@ -211,15 +195,8 @@ public class StswNumericBox : TextBox
         {
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
             {
-                var newBinding = new Binding()
-                {
-                    ConverterCulture = binding.ConverterCulture,
-                    Mode = binding.Mode,
-                    Path = binding.Path,
-                    RelativeSource = binding.RelativeSource,
-                    StringFormat = stsw.Format,
-                    UpdateSourceTrigger = binding.UpdateSourceTrigger
-                };
+                var newBinding = binding.Clone();
+                newBinding.StringFormat = stsw.Format;
                 stsw.SetBinding(TextProperty, newBinding);
             }
         }
@@ -335,7 +312,26 @@ public class StswNumericBox : TextBox
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswNumericBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

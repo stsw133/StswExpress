@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
 
@@ -24,12 +25,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTreeView}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer"
                                              CanContentScroll="False"
                                              Focusable="False"
@@ -39,7 +41,7 @@
                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollViewer>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -51,12 +53,10 @@
                         <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="True">
                             <Setter Property="CanContentScroll" Value="True" TargetName="PART_ScrollViewer"/>
                         </Trigger>
-                        <!--
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -68,7 +68,7 @@
                     <Setter Property="Background" Value="{DynamicResource StswItem.Static.Background}"/>
                     <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Static.Border}"/>
 
-                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
                     
                     <Setter Property="Template">
@@ -95,10 +95,11 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             Padding="{TemplateBinding Padding}"
-                                            SnapsToDevicePixels="True"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <ContentPresenter ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter ContentSource="Header"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Border>
                                     <ItemsPresenter x:Name="PART_Items" Grid.Column="1" Grid.Row="1"/>
                                 </Grid>

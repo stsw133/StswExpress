@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -41,31 +42,65 @@ public class ControlsContext : StswObservableObject
     #endregion
 
     #region Properties
-    /// Alignment
-    private HorizontalAlignment horizontalAlignment;
+    /// HorizontalAlignment
+    public ObservableCollection<StswComboItem> HorizontalAlignmentSelector { get; set; } = new()
+    {
+        new() { Display = StswIcons.AlignHorizontalLeft, Value = HorizontalAlignment.Left },
+        new() { Display = StswIcons.AlignHorizontalCenter, Value = HorizontalAlignment.Center },
+        new() { Display = StswIcons.AlignHorizontalRight, Value = HorizontalAlignment.Right },
+        new() { Display = StswIcons.AlignHorizontalDistribute, Value = HorizontalAlignment.Stretch },
+    };
     public HorizontalAlignment HorizontalAlignment
     {
         get => horizontalAlignment;
         set => SetProperty(ref horizontalAlignment, value);
     }
-    private HorizontalAlignment horizontalContentAlignment;
+    private HorizontalAlignment horizontalAlignment;
+
+    /// HorizontalContentAlignment
+    public ObservableCollection<StswComboItem> HorizontalContentAlignmentSelector { get; set; } = new()
+    {
+        new() { Display = StswIcons.AlignHorizontalLeft, Value = HorizontalAlignment.Left },
+        new() { Display = StswIcons.AlignHorizontalCenter, Value = HorizontalAlignment.Center },
+        new() { Display = StswIcons.AlignHorizontalRight, Value = HorizontalAlignment.Right },
+        new() { Display = StswIcons.AlignHorizontalDistribute, Value = HorizontalAlignment.Stretch },
+    };
     public HorizontalAlignment HorizontalContentAlignment
     {
         get => horizontalContentAlignment;
         set => SetProperty(ref horizontalContentAlignment, value);
     }
-    private VerticalAlignment verticalAlignment;
+    private HorizontalAlignment horizontalContentAlignment;
+
+    /// VerticalAlignment
+    public ObservableCollection<StswComboItem> VerticalAlignmentSelector { get; set; } = new()
+    {
+        new() { Display = StswIcons.AlignVerticalTop, Value = VerticalAlignment.Top },
+        new() { Display = StswIcons.AlignVerticalCenter, Value = VerticalAlignment.Center },
+        new() { Display = StswIcons.AlignVerticalBottom, Value = VerticalAlignment.Bottom },
+        new() { Display = StswIcons.AlignVerticalDistribute, Value = VerticalAlignment.Stretch },
+    };
     public VerticalAlignment VerticalAlignment
     {
         get => verticalAlignment;
         set => SetProperty(ref verticalAlignment, value);
     }
-    private VerticalAlignment verticalContentAlignment;
+    private VerticalAlignment verticalAlignment;
+
+    /// VerticalContentAlignment
+    public ObservableCollection<StswComboItem> VerticalContentAlignmentSelector { get; set; } = new()
+    {
+        new() { Display = StswIcons.AlignVerticalTop, Value = VerticalAlignment.Top },
+        new() { Display = StswIcons.AlignVerticalCenter, Value = VerticalAlignment.Center },
+        new() { Display = StswIcons.AlignVerticalBottom, Value = VerticalAlignment.Bottom },
+        new() { Display = StswIcons.AlignVerticalDistribute, Value = VerticalAlignment.Stretch },
+    };
     public VerticalAlignment VerticalContentAlignment
     {
         get => verticalContentAlignment;
         set => SetProperty(ref verticalContentAlignment, value);
     }
+    private VerticalAlignment verticalContentAlignment;
 
     /// IsEnabled
     private bool isEnabled = true;

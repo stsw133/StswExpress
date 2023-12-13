@@ -37,6 +37,11 @@
                 <local:StswToggleButtonView/>
             </DataTemplate>
             
+            <!-- Charts -->
+            <DataTemplate DataType="{x:Type local:StswChartPieContext}">
+                <local:StswChartPieView/>
+            </DataTemplate>
+            
             <!-- Checks -->
             <DataTemplate DataType="{x:Type local:StswCheckBoxContext}">
                 <local:StswCheckBoxView/>
@@ -86,11 +91,17 @@
             <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
                 <local:StswComponentCheckView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentPanelContext}">
-                <local:StswComponentPanelView/>
+            <DataTemplate DataType="{x:Type local:StswComponentDropContext}">
+                <local:StswComponentDropView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComponentHeaderContext}">
+                <local:StswComponentHeaderView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswComponentRepeaterContext}">
                 <local:StswComponentRepeaterView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswComponentSelectorContext}">
+                <local:StswComponentSelectorView/>
             </DataTemplate>
             
             <!-- DateTime -->
@@ -110,8 +121,8 @@
             </DataTemplate>
 
             <!-- Filtering -->
-            <DataTemplate DataType="{x:Type local:StswFilterContext}">
-                <local:StswFilterView/>
+            <DataTemplate DataType="{x:Type local:StswFilterBoxContext}">
+                <local:StswFilterBoxView/>
             </DataTemplate>
 
             <!-- Input -->
@@ -138,8 +149,8 @@
             </DataTemplate>
             
             <!-- Layout-->
-            <DataTemplate DataType="{x:Type local:StswClippingBorderContext}">
-                <local:StswClippingBorderView/>
+            <DataTemplate DataType="{x:Type local:StswBorderContext}">
+                <local:StswBorderView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
@@ -156,13 +167,16 @@
             <DataTemplate DataType="{x:Type local:StswZoomControlContext}">
                 <local:StswZoomControlView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:RgsClippingBorderContext}">
-                <local:RgsClippingBorderView/>
-            </DataTemplate>
-            
+
             <!-- Media -->
+            <DataTemplate DataType="{x:Type local:StswGalleryContext}">
+                <local:StswGalleryView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswMediaPlayerContext}">
+                <local:StswMediaPlayerView/>
             </DataTemplate>
             
             <!-- Navigation -->
@@ -174,9 +188,6 @@
             </DataTemplate>
             
             <!-- Scrolling -->
-            <DataTemplate DataType="{x:Type local:StswPagerContext}">
-                <local:StswPagerView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
                 <local:StswScrollViewerView/>
             </DataTemplate>
@@ -191,21 +202,22 @@
             <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
                 <local:StswProgressBarView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswProgressRingContext}">
+                <local:StswProgressRingView/>
+            </DataTemplate>
             
-            <!-- Style -->
+            <!-- TextStyle -->
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswIconContext}">
                 <local:StswIconView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLabelContext}">
+                <local:StswLabelView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswLoadingCircleContext}">
                 <local:StswLoadingCircleView/>
-            </DataTemplate>
-            
-            <!-- Text -->
-            <DataTemplate DataType="{x:Type local:StswTruncateLabelContext}">
-                <local:StswTruncateLabelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswOutlinedTextContext}">
                 <local:StswOutlinedTextView/>

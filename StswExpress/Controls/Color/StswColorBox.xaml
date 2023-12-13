@@ -8,13 +8,13 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
-        <Setter Property="ComponentsAlignment" Value="Right"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -23,42 +23,46 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswColorBox}">
-                    <se:StswClippingBorder x:Name="PART_MainBorder"
-                                           Background="{TemplateBinding Background}"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           BorderThickness="{TemplateBinding BorderThickness}"
-                                           CornerRadius="{TemplateBinding CornerRadius}"
-                                           SnapsToDevicePixels="True">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- function button -->
-                            <se:StswDropButton x:Name="PART_FunctionButton"
-                                               DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
-                                               ArrowVisibility="Collapsed" Focusable="False"
-                                               BorderThickness="0" PopupThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                            <se:StswDropButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                                               Focusable="False"
+                                               BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <se:StswDropButton.Resources>
-                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
-                                </se:StswDropButton.Resources>
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
                                 </se:StswDropButton.Header>
+                                <se:StswDropButton.Resources>
+                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
+                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                    <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
+                                    <Style TargetType="{x:Type se:StswDropArrow}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                </se:StswDropButton.Resources>
                                 <se:StswTabControl>
                                     <se:StswTabItem Header="Standardowe">
-                                        <se:StswColorSelector BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
                                     <se:StswTabItem Header="Szczegółowe">
-                                        <se:StswColorPicker BorderThickness="0" SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
+                                        <se:StswColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
                                     </se:StswTabItem>
                                 </se:StswTabControl>
                             </se:StswDropButton>
                             <!-- separator -->
-                            <se:StswSeparator x:Name="PART_Separator"
-                                              DockPanel.Dock="{TemplateBinding ComponentsAlignment}"
+                            <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- components -->
-                            <ItemsControl DockPanel.Dock="{TemplateBinding ComponentsAlignment}" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -90,7 +94,7 @@
                                 </Grid>
                             </DockPanel>
                         </DockPanel>
-                    </se:StswClippingBorder>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>

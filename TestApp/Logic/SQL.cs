@@ -13,12 +13,12 @@ internal static class SQL
     /// InitializeTables
     internal static void InitializeContractorsTables()
     {
-        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswDatabase.CurrentDatabase?.Server))
+        if (DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow) || string.IsNullOrEmpty(StswDatabases.Current?.Server))
             return;
 
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -55,7 +55,7 @@ internal static class SQL
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -98,7 +98,7 @@ internal static class SQL
 
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -178,7 +178,7 @@ internal static class SQL
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -209,7 +209,7 @@ internal static class SQL
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 
@@ -242,7 +242,7 @@ internal static class SQL
         
         try
         {
-            using (var sqlConn = new SqlConnection(StswDatabase.CurrentDatabase?.GetConnString()))
+            using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
             {
                 sqlConn.Open();
 

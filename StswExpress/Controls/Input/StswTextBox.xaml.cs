@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,11 +11,11 @@ namespace StswExpress;
 /// Represents a control that can be used to display or edit unformatted text.
 /// </summary>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox
+public class StswTextBox : TextBox, IStswCornerControl
 {
     public StswTextBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponent>());
+        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
     }
     static StswTextBox()
     {
@@ -50,30 +49,15 @@ public class StswTextBox : TextBox
     /// <summary>
     /// Gets or sets the collection of components to be displayed in the control.
     /// </summary>
-    public ObservableCollection<IStswComponent> Components
+    public ObservableCollection<IStswComponentControl> Components
     {
-        get => (ObservableCollection<IStswComponent>)GetValue(ComponentsProperty);
+        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
         set => SetValue(ComponentsProperty, value);
     }
     public static readonly DependencyProperty ComponentsProperty
         = DependencyProperty.Register(
             nameof(Components),
-            typeof(ObservableCollection<IStswComponent>),
-            typeof(StswTextBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the alignment of the components within the control.
-    /// </summary>
-    public Dock ComponentsAlignment
-    {
-        get => (Dock)GetValue(ComponentsAlignmentProperty);
-        set => SetValue(ComponentsAlignmentProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsAlignmentProperty
-        = DependencyProperty.Register(
-            nameof(ComponentsAlignment),
-            typeof(Dock),
+            typeof(ObservableCollection<IStswComponentControl>),
             typeof(StswTextBox)
         );
 
@@ -95,7 +79,26 @@ public class StswTextBox : TextBox
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswTextBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {

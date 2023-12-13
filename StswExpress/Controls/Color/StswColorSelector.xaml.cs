@@ -114,7 +114,9 @@ public class StswColorSelector : Control
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -125,36 +127,6 @@ public class StswColorSelector : Control
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswColorSelector)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the buttons in the control.
-    /// </summary>
-    public Thickness SubBorderThickness
-    {
-        get => (Thickness)GetValue(SubBorderThicknessProperty);
-        set => SetValue(SubBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SubBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SubBorderThickness),
-            typeof(Thickness),
-            typeof(StswColorSelector)
-        );
-
-    /// <summary>
-    /// Gets or sets the margin of the color groups in the control.
-    /// </summary>
-    public Thickness SubPadding
-    {
-        get => (Thickness)GetValue(SubPaddingProperty);
-        set => SetValue(SubPaddingProperty, value);
-    }
-    public static readonly DependencyProperty SubPaddingProperty
-        = DependencyProperty.Register(
-            nameof(SubPadding),
-            typeof(Thickness),
             typeof(StswColorSelector)
         );
     #endregion

@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.3.2</Version>
+    <Version>0.4.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -23,16 +23,16 @@
     <PackageReleaseNotes>Changed functionality:
 ⦁ StswCollection remade into StswBindingList - it derives from BindingList now and is behaving better when any property inside list has been modified.
 ⦁ IStswCollectionItem's "ItemState" property is now of type "StswItemState" (new enum) instead of "DataRowState".
-⦁ StswEnumToListConverter returns list of StswSelectionItem type instead of StswComboItem - it should fix StswFilter if it has result of this converter as ItemsSource.
+⦁ StswEnumToListConverter returns list of StswSelectionItem type instead of StswComboItem - it should fix StswSqlFilter if it has result of this converter as ItemsSource.
 ⦁ ToStswCollection extension method renamed into ToStswBindingList.
 Bugfixes:
 ⦁ ConvertTo extension method can properly convert to enum type.
-⦁ StswFilter properly calculates SQL string when its ItemsSource contains enum values.</PackageReleaseNotes>
+⦁ StswSqlFilter properly calculates SQL string when its ItemsSource contains enum values.</PackageReleaseNotes>
     <PackageTags>Collection of controls; Collection of helpers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Helpers\StswIcons.cs~RFa51e7cef.TMP" />
+    <None Remove="Utils\StswIcons.cs~RFa51e7cef.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,8 +58,12 @@ Bugfixes:
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.102.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ClosedXML" Version="0.102.1">
+      <PrivateAssets></PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3">
+      <PrivateAssets></PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +80,12 @@ Bugfixes:
 
   <ItemGroup>
     <Page Update="Controls\Buttons\StswSplitButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Charts\StswChartLegend.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Charts\StswChartPie.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Collections\StswTreeView.xaml">
@@ -99,7 +109,7 @@ Bugfixes:
     <Page Update="Controls\Components\StswComponentCheck.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Components\StswComponentPanel.xaml">
+    <Page Update="Controls\Components\StswComponentSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DateTime\StswCalendar.xaml">
@@ -122,7 +132,13 @@ Bugfixes:
     <Page Update="Controls\Layout\StswSidePanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Scrolling\StswPager.xaml">
+    <Page Update="Controls\Media\StswGallery.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Media\StswMediaPlayer.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Navigation\StswContextMenu.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Scrolling\StswShifter.xaml">
@@ -131,13 +147,16 @@ Bugfixes:
     <Page Update="Controls\StatusInfo\StswLogPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Text\StswText.xaml">
+    <Page Update="Controls\StatusInfo\StswProgressRing.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Text\StswTruncateLabel.xaml">
+    <Page Update="Controls\TextStyle\StswText.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Filtering\StswFilter.xaml">
+    <Page Update="Controls\TextStyle\StswLabel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Filtering\StswFilterBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Navigation\StswTabItem.xaml">
@@ -169,7 +188,7 @@ Bugfixes:
     <Page Update="Controls\Navigation\StswNavigation.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Style\StswLoadingCircle.xaml">
+    <Page Update="Controls\TextStyle\StswLoadingCircle.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -216,11 +235,11 @@ Bugfixes:
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Style\StswHeader.xaml">
+    <Page Update="Controls\TextStyle\StswHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Style\StswIcon.xaml">
+    <Page Update="Controls\TextStyle\StswIcon.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

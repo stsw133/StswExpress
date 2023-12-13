@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 
 namespace StswExpress;
 
-public class StswToggleSwitch : ToggleButton
+public class StswToggleSwitch : ToggleButton, IStswCornerControl
 {
     static StswToggleSwitch()
     {
@@ -17,7 +17,7 @@ public class StswToggleSwitch : ToggleButton
     #region Events & methods
     private Border? switchBorder, mainBorder;
     private Grid? switchGrid;
-    private StswIcon? path, checkedPath, uncheckedPath;
+    private StswIcon? checkedPath, uncheckedPath;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -29,21 +29,18 @@ public class StswToggleSwitch : ToggleButton
         if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
             this.switchBorder = switchBorder;
         if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
+        {
+            mainBorder.SizeChanged += (s, e) => AdjustSize();
             this.mainBorder = mainBorder;
+        }
         if (GetTemplateChild("PART_SwitchGrid") is Grid switchGrid)
             this.switchGrid = switchGrid;
-        if (GetTemplateChild("PART_Icon") is StswIcon path)
-        {
-            path.Opacity = (IsChecked == true ? 1 : 0);
-            this.path = path;
-        }
         if (GetTemplateChild("PART_CheckedPath") is StswIcon checkedPath)
             this.checkedPath = checkedPath;
         if (GetTemplateChild("PART_UncheckedPath") is StswIcon uncheckedPath)
             this.uncheckedPath = uncheckedPath;
 
         Loaded += (s, e) => AdjustAll();
-        SizeChanged += (s, e) => AdjustSize();
     }
 
     /// <summary>
@@ -84,6 +81,9 @@ public class StswToggleSwitch : ToggleButton
     /// </summary>
     private void AdjustSize()
     {
+        if (!IsLoaded)
+            return;
+
         if (switchBorder != null)
             switchBorder.CornerRadius = new CornerRadius(
                     CornerRadius.TopLeft - BorderThickness.Top - Padding.Top,
@@ -145,7 +145,26 @@ public class StswToggleSwitch : ToggleButton
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
     /// </summary>
     public CornerRadius CornerRadius
     {
@@ -162,14 +181,14 @@ public class StswToggleSwitch : ToggleButton
     /// <summary>
     /// Gets or sets the brush used to render the glyph (icon).
     /// </summary>
-    public Brush? GlyphBrush
+    public Brush? GlyphBrushChecked
     {
-        get => (Brush?)GetValue(GlyphBrushProperty);
-        set => SetValue(GlyphBrushProperty, value);
+        get => (Brush?)GetValue(GlyphBrushCheckedProperty);
+        set => SetValue(GlyphBrushCheckedProperty, value);
     }
-    public static readonly DependencyProperty GlyphBrushProperty
+    public static readonly DependencyProperty GlyphBrushCheckedProperty
         = DependencyProperty.Register(
-            nameof(GlyphBrush),
+            nameof(GlyphBrushChecked),
             typeof(Brush),
             typeof(StswToggleSwitch)
         );
@@ -177,45 +196,15 @@ public class StswToggleSwitch : ToggleButton
     /// <summary>
     /// Gets or sets the brush used to render the glyph (icon).
     /// </summary>
-    public Brush? CheckedGlyphBrush
+    public Brush? GlyphBrushUnchecked
     {
-        get => (Brush?)GetValue(CheckedGlyphBrushProperty);
-        set => SetValue(CheckedGlyphBrushProperty, value);
+        get => (Brush?)GetValue(GlyphBrushUncheckedProperty);
+        set => SetValue(GlyphBrushUncheckedProperty, value);
     }
-    public static readonly DependencyProperty CheckedGlyphBrushProperty
+    public static readonly DependencyProperty GlyphBrushUncheckedProperty
         = DependencyProperty.Register(
-            nameof(CheckedGlyphBrush),
+            nameof(GlyphBrushUnchecked),
             typeof(Brush),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the brush used to render the glyph (icon).
-    /// </summary>
-    public Brush? UncheckedGlyphBrush
-    {
-        get => (Brush?)GetValue(UncheckedGlyphBrushProperty);
-        set => SetValue(UncheckedGlyphBrushProperty, value);
-    }
-    public static readonly DependencyProperty UncheckedGlyphBrushProperty
-        = DependencyProperty.Register(
-            nameof(UncheckedGlyphBrush),
-            typeof(Brush),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon.
-    /// </summary>
-    public Geometry? Icon
-    {
-        get => (Geometry?)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
-    public static readonly DependencyProperty IconProperty
-        = DependencyProperty.Register(
-            nameof(Icon),
-            typeof(Geometry),
             typeof(StswToggleSwitch)
         );
 
@@ -310,14 +299,6 @@ public class StswToggleSwitch : ToggleButton
         Storyboard.SetTarget(switchPlacement, switchGrid);
         Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
 
-        var pathOpacity = new DoubleAnimation(
-            toValue: 1,
-            duration: TimeSpan.FromMilliseconds(300));
-        pathOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(pathOpacity);
-        Storyboard.SetTarget(pathOpacity, path);
-        Storyboard.SetTargetProperty(pathOpacity, new PropertyPath(OpacityProperty));
-
         var checkedContentOpacity = new DoubleAnimation(
             toValue: 1,
             duration: TimeSpan.FromMilliseconds(350));
@@ -372,14 +353,6 @@ public class StswToggleSwitch : ToggleButton
         Storyboard.SetTarget(switchPlacement, switchGrid);
         Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
 
-        var pathOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(300));
-        pathOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(pathOpacity);
-        Storyboard.SetTarget(pathOpacity, path);
-        Storyboard.SetTargetProperty(pathOpacity, new PropertyPath(OpacityProperty));
-
         var checkedContentOpacity = new DoubleAnimation(
             toValue: 0,
             duration: TimeSpan.FromMilliseconds(150));
@@ -433,14 +406,6 @@ public class StswToggleSwitch : ToggleButton
         sb.Children.Add(switchPlacement);
         Storyboard.SetTarget(switchPlacement, switchGrid);
         Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
-
-        var pathOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(300));
-        pathOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(pathOpacity);
-        Storyboard.SetTarget(pathOpacity, path);
-        Storyboard.SetTargetProperty(pathOpacity, new PropertyPath(OpacityProperty));
 
         var checkedContentOpacity = new DoubleAnimation(
             toValue: 0,

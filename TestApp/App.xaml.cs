@@ -19,16 +19,18 @@ public partial class App : StswApp
 
         StswSecurity.Key = "myOwnStswHashKey";
 
-        StswDatabase.ImportDatabases();
-        StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
+        StswDatabases.ImportList();
+        StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();
 
         var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp()));
 
         /// example for removing language from config:
+        //StswTranslator.AvailableLanguages.Remove("");
         //StswTranslator.AvailableLanguages.Remove("pl");
         //StswSettings.Default.Language = "en";
         /// example for removing theme from config:
+        //StswResources.AvailableThemes.Remove(StswTheme.Auto);
         //StswResources.AvailableThemes.Remove(StswTheme.Pink);
         //StswSettings.Default.Theme = (int)StswTheme.Dark;
     }

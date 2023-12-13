@@ -19,14 +19,14 @@ public class StswLogPanelContext : ControlsContext
     /// Command: add random item
     private void AddRandomItem()
     {
-        Items.Add(new(
+        ItemsSource.Add(new(
             StswFn.GetNextEnumValue(StswLogType.None, new Random().Next(Enum.GetValues(typeof(StswLogType)).Length)),
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."[..new Random().Next(10, 199)])
         );
     }
 
     /// Command: load from files
-    private Task LoadFromFiles_Executed() => Task.Run(() => Items = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
+    private Task LoadFromFiles_Executed() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
     #endregion
 
     #region Properties
@@ -38,12 +38,12 @@ public class StswLogPanelContext : ControlsContext
         set => SetProperty(ref isClosable, value);
     }
 
-    /// Items
-    private ObservableCollection<StswLogItem> items = new();
-    public ObservableCollection<StswLogItem> Items
+    /// ItemsSource
+    private ObservableCollection<StswLogItem> itemsSource = new();
+    public ObservableCollection<StswLogItem> ItemsSource
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => itemsSource;
+        set => SetProperty(ref itemsSource, value);
     }
     #endregion
 }
