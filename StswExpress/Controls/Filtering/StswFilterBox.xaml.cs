@@ -268,6 +268,21 @@ public class StswFilterBox : Control, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the menu mode for the filter mode button.
+    /// </summary>
+    public StswMenuMode FilterMenuMode
+    {
+        get => (StswMenuMode)GetValue(FilterMenuModeProperty);
+        set => SetValue(FilterMenuModeProperty, value);
+    }
+    public static readonly DependencyProperty FilterMenuModeProperty
+        = DependencyProperty.Register(
+            nameof(FilterMenuMode),
+            typeof(StswMenuMode),
+            typeof(StswFilterBox)
+        );
+
+    /// <summary>
     /// Gets or sets the current filter mode.
     /// </summary>
     public StswFilterMode? FilterMode
@@ -289,7 +304,7 @@ public class StswFilterBox : Control, IStswCornerControl
         if (obj is StswFilterBox stsw)
         {
             /// visual change for mode box
-            if (!stsw.FilterMode.In(null, StswFilterMode.None)
+            if (stsw.FilterMode != null
              && stsw.filterMode?.Content is StswOutlinedText symbolBlock and not null
              && stsw.filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock and not null)
             {
@@ -424,7 +439,7 @@ public class StswFilterBox : Control, IStswCornerControl
         get => (bool)GetValue(IsInDataGridProperty);
         set => SetValue(IsInDataGridProperty, value);
     }
-    public static readonly DependencyProperty IsInDataGridProperty
+    internal static readonly DependencyProperty IsInDataGridProperty
         = DependencyProperty.Register(
             nameof(IsInDataGrid),
             typeof(bool),

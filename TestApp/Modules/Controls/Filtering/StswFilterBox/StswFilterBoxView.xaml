@@ -16,19 +16,28 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- FilterMenuMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterMenuMode:"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding FilterMenuMode}" SelectedValuePath="Value"/>
             <!-- FilterType -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterType:"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding FilterType}" SelectedValuePath="Value"/>
+            <!-- IsFilterCaseSensitive -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsFilterCaseSensitive"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterCaseSensitive}"/>
             <!-- IsFilterNullSensitive -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsFilterNullSensitive"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswFilterBox FilterMode="Contains"
+        <se:StswFilterBox FilterMenuMode="{Binding FilterMenuMode}"
+                          FilterMode="Contains"
                           FilterType="{Binding FilterType}"
                           FilterValuePath="tab.ColumnName"
                           IsEnabled="{Binding IsEnabled}"
+                          IsFilterCaseSensitive="{Binding IsFilterCaseSensitive}"
                           IsFilterNullSensitive="{Binding IsFilterNullSensitive}"
                           Margin="5"
                           HorizontalAlignment="{Binding HorizontalAlignment}"

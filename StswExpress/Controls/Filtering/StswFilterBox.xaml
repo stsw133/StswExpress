@@ -12,6 +12,8 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="FilterMenuMode" Value="Full"/>
+
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -269,12 +271,15 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNull"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ModeNotNull"/>
                         </Trigger>
-                        <Trigger Property="FilterMode" Value="None">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilterMode"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
-                        </Trigger>
                         <Trigger Property="FilterMode" Value="Between">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_SecondControl"/>
+                        </Trigger>
+                        <Trigger Property="FilterMenuMode" Value="ReadOnly">
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FilterMode"/>
+                        </Trigger>
+                        <Trigger Property="FilterMenuMode" Value="Disabled">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FilterMode"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
                         </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>

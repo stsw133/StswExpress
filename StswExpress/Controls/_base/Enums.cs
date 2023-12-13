@@ -84,7 +84,6 @@ public enum StswDialogImage
 /// </summary>
 public enum StswFilterMode
 {
-    None,
     Equal,
     NotEqual,
     Greater,
@@ -129,7 +128,7 @@ public enum StswLogType
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswImage.MenuMode"/>.
+/// Enumeration for <see cref="StswFilterBox.FilterMenuMode"/> and <see cref="StswImage.MenuMode"/>.
 /// </summary>
 public enum StswMenuMode
 {

@@ -27,6 +27,14 @@ public class StswFilterBoxContext : ControlsContext
     #endregion
 
     #region Properties
+    /// FilterMenuMode
+    private StswMenuMode filterMenuMode = StswMenuMode.Full;
+    public StswMenuMode FilterMenuMode
+    {
+        get => filterMenuMode;
+        set => SetProperty(ref filterMenuMode, value);
+    }
+
     /// FilterType
     private StswAdaptiveType filterType = StswAdaptiveType.Text;
     public StswAdaptiveType FilterType
@@ -35,6 +43,14 @@ public class StswFilterBoxContext : ControlsContext
         set => SetProperty(ref filterType, value);
     }
 
+    /// IsFilterCaseSensitive
+    private bool isFilterCaseSensitive = false;
+    public bool IsFilterCaseSensitive
+    {
+        get => isFilterCaseSensitive;
+        set => SetProperty(ref isFilterCaseSensitive, value);
+    }
+    
     /// IsFilterNullSensitive
     private bool isFilterNullSensitive = false;
     public bool IsFilterNullSensitive
