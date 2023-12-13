@@ -62,6 +62,7 @@
         </DockPanel>
         <!-- data grid -->
         <se:StswDataGrid FiltersData="{Binding FiltersContractors, Mode=OneWayToSource}"
+                         FiltersType="SQL"
                          FrozenColumnCount="1"
                          ItemsSource="{Binding ListContractors}"
                          Margin="3"

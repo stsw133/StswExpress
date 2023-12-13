@@ -31,7 +31,7 @@ public class StswLogPanel : ListBox, IStswCornerControl
     {
         base.OnItemsChanged(e);
 
-        if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is StswScrollViewer scrollViewer)
+        if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
             scrollViewer?.ScrollToEnd();
     }
     
