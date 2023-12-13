@@ -55,71 +55,71 @@
     "en": "Pink",
     "pl": "Różowy"
   },
-  "StswSqlFilter.Between": {
+  "StswFilterBox.Between": {
     "en": "Is between",
     "pl": "Pomiędzy"
   },
-  "StswSqlFilter.Contains": {
+  "StswFilterBox.Contains": {
     "en": "Contains",
     "pl": "Zawiera"
   },
-  "StswSqlFilter.EndsWith": {
+  "StswFilterBox.EndsWith": {
     "en": "Ends with",
     "pl": "Kończy się na"
   },
-  "StswSqlFilter.Equal": {
+  "StswFilterBox.Equal": {
     "en": "Is equal",
     "pl": "Jest równe"
   },
-  "StswSqlFilter.Greater": {
+  "StswFilterBox.Greater": {
     "en": "Is greater than",
     "pl": "Jest większe niż"
   },
-  "StswSqlFilter.GreaterEqual": {
+  "StswFilterBox.GreaterEqual": {
     "en": "Is greater or equal",
     "pl": "Jest większe lub równe"
   },
-  "StswSqlFilter.In": {
+  "StswFilterBox.In": {
     "en": "Is in",
     "pl": "Zawiera się w"
   },
-  "StswSqlFilter.Less": {
+  "StswFilterBox.Less": {
     "en": "Is less than",
     "pl": "Jest mniejsze niż"
   },
-  "StswSqlFilter.LessEqual": {
+  "StswFilterBox.LessEqual": {
     "en": "Is less or equal",
     "pl": "Jest mniejsze lub równe"
   },
-  "StswSqlFilter.Like": {
+  "StswFilterBox.Like": {
     "en": "Is like",
     "pl": "Podobne do"
   },
-  "StswSqlFilter.NotContains": {
+  "StswFilterBox.NotContains": {
     "en": "Not contains",
     "pl": "Nie zawiera"
   },
-  "StswSqlFilter.NotEqual": {
+  "StswFilterBox.NotEqual": {
     "en": "Is not equal",
     "pl": "Nie jest równe"
   },
-  "StswSqlFilter.NotIn": {
+  "StswFilterBox.NotIn": {
     "en": "Is not in",
     "pl": "Nie zawiera się w"
   },
-  "StswSqlFilter.NotLike": {
+  "StswFilterBox.NotLike": {
     "en": "Is not like",
     "pl": "Niepodobne do"
   },
-  "StswSqlFilter.NotNull": {
+  "StswFilterBox.NotNull": {
     "en": "Is not null",
     "pl": "Niepuste"
   },
-  "StswSqlFilter.Null": {
+  "StswFilterBox.Null": {
     "en": "Is null",
     "pl": "Puste"
   },
-  "StswSqlFilter.StartsWith": {
+  "StswFilterBox.StartsWith": {
     "en": "Starts with",
     "pl": "Rozpoczyna się od"
   },
