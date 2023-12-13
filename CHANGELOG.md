@@ -1,3 +1,61 @@
+# **0.4.0**
+2023-12-13
+
+### New functionality:
+
+* There is new category for Stsw controls named "Charts" that includes 2 new controls: **StswChartLegend** and **StswChartPie** used to present analytics data and statistics.
+* New component controls: **StswComponentDrop** (almost the same functionality as **StswDropButton**), **StswComponentHeader** (almost the same functionality as **StswHeader**).
+* New control: **StswProgressRing** (almost the same functionality as **StswProgressBar**).
+* New control: **StswToolTip** (just a tooltip with layout scaling and with style that fits other Stsw controls).
+* New extension to clone binding and new extension for getting attribute of T type from enum.
+
+### Changed functionality:
+
+* **StswClippingBorder** has been renamed into **StswBorder** and no longer clips its child by default. **StswFilter** has been renamed into **StswFilterBox**. **IStswComponent** has been renamed into **IStswComponentControl**. **IStswSelection** has been renamed into **IStswSelectionItem**. Added 3 new control interfaces: **IStswCornerControl**, **IStswDropControl** and **IStswIconControl**.
+* All Stsw controls that have **StswBorder** inside their template implement **IStswCornerControl** interface that allows them to use two properties: "CornerClipping" and "CornerRadius". Latter is used to set radius of border's corners, former is used to clip all elements inside border that stick out of border when border has corner radius greater than 0.
+* All Stsw controls that had arrow icon in their templates are now using separated internal control named **StswDropArrow**. Those controls no longer have "ArrowVisibility" property - instead arrow's visibility can be changed through dynamic visibility with key: "StswDropArrow.Visibility".
+* All Stsw component controls changes their opacity on IsMouseOver and IsPressed instead of changing foreground brush. Additionally they have new properties for icon: "IconFill", "IconStroke" and "IconStrokeThickness".
+* All Stsw controls that have "MaxDropDownHeight" property, have its default value equal to ⅓ of primary screen's height.
+* Changed the way scale worked for icons and images:
+  **Before:** *null* fits content, *auto* fits whole space, *star* do nothing, *value* multiply by 12 pixels.
+  **After:** *null* is not possible, *auto* fits content, *star* fits whole space, *value* multiply by 12 pixels.
+* Changed the way some text modes worked for progress controls:
+  **Before:** *value* shows current value based on minimum and maximum.
+  **After:** *value* shows exact value from property, *progress* shows what *value* was showing before.
+* **StswLogPanel** derives from ListBox class now (simply to enable virtualization) and its templates have been improved.
+* **StswComponentPanel** has been reworked and renamed into **StswComponentSelector**.
+* **StswTruncateLabel** has been renamed into **StswLabel** and no longer truncates content by default.
+* **StswPager** has been renamed into **StswGallery** and its goal now is presenting images. Also uses **StswZoomPanel** inside its template and can properly slide images with arrow keys.
+* **StswRatingControl** instead of "Orientation" property with 2 options, has new "Direction" property that allows for all 4 direction modes for selecting value. Additionally it implements **IStswIconControl** interface now so its icon properties have "Icon" word prefix now.
+* **StswDropButton** and **StswSplitButton** controls are derived from HeaderedItemsControl class now so they can use advanced header properties.
+* **StswToggleButton**'s "Icon" property has been removed and some properties have been renamed: "CheckedGlyphBrush" into "GlyphBrushChecked" and "UncheckedGlyphBrush" into "GlyphBrushUnchecked".
+* **StswColorPicker**'s and **StswColorSelector**'s templates have been improved a little, no longer have outer border and additionally can have stretched content.
+* **StswGroupBox**'s and **StswEpander**'s templates have been simplified.
+* **StswPopup**'s border thickness, corner radius and padding are now controlled by dynamic resource values.
+* **StswShifter** has 4 new properties for border thickness, one for each of its buttons.
+* **StswAdaptiveBox** can now pass "Components" and "IsThreeState" property values to box that is in use at the moment.
+* **StswFilterBox**'s "FilterSqlColumn" property has been renamed into "FilterValuePath".
+* All Stsw controls no longer use "RecognizesAccessKey" property in their templates and no longer use "ComponentAlignment" and "PopupThickness" properties at all.
+* Some changes in usage of theme brushes in Stsw controls - for example **StswDropButton** uses "StswButton.Pressed.Background" as its background brush when drop-down is open instead of "StswDropButton.Checked.Background".
+* **StswLog**'s import is improved.
+* **StswDatabase** renamed to **StswDatabases**. Some methods are renamed and the way of importing and exporting "Port" is improved.
+* Automatic language can be removed from confgiuration dialog now.
+
+### Bugfixes:
+
+* **StswToggleSwitch** no longer have different size when is checked at start.
+* **StswListBox**, **StswListView** and **StswTreeView** will properly determine if they are using ItemsSource of **IStswSelectionItem** type.
+* **StswSelectionBox**'s list box do not content scroll by default to elimiate bug with last empty item.
+* **StswColorBox**, **StswDatePicker** and **StswNumericBox** no longer update their main property twice in certain situations.
+* **StswProgressBar**'s background and border can be changed in custom state mode.
+* **StswTabControl** properly shows border when last tab is selected.
+* **StswImage**'s, **StswFilterBox**'s and **StswWindow**'s context menus are scaling with interface size from configuration dialog now.
+* Bugfix for double date selections in **StswCalendar** when starting date had specified time.
+* Bugfix for **StswBindingList** if list has been reseted.
+* Bugfix for **StswDataGrid**'s special column dynamic brushes for Dark and Pink themes.
+* Stsw button controls no longer have additional grid in their template to fix clipping border since there exists "CornerClipping" property now.
+* **StswContentDialog** will no longer throw exception if someone will try to close it multiple times in a moment.
+
 # **0.3.2**
 2023-10-26
 

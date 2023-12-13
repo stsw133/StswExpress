@@ -147,7 +147,7 @@
 
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#1a1a1a"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
-    <Thickness x:Key="StswItem.Thickness.Border">0.5</Thickness>
+    <Thickness x:Key="StswItem.Thickness.Border">0</Thickness>
     <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#474747"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=0}"/>
