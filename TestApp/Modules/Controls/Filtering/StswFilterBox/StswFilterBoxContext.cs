@@ -1,17 +1,22 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
 
 namespace TestApp;
 
 public class StswFilterBoxContext : ControlsContext
 {
-    public ICommand RefreshCommand { get; set; }
+    public StswCommand<ControlsBase?> RefreshCommand => new(Refresh);
 
-    public StswFilterBoxContext()
+    public override void SetDefaults()
     {
-        RefreshCommand = new StswCommand<ControlsBase?>(Refresh);
+        base.SetDefaults();
+
+        FilterMenuMode = (StswMenuMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(FilterMenuMode)))?.Value ?? default;
+        FilterType = (StswAdaptiveType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(FilterType)))?.Value ?? default;
+        IsFilterCaseSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterCaseSensitive)))?.Value ?? default;
+        IsFilterNullSensitive = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFilterNullSensitive)))?.Value ?? default;
     }
 
-    #region Events and methods
+    #region Events & methods
     /// Command: refresh
     private void Refresh(ControlsBase? controlsBase)
     {
@@ -28,7 +33,7 @@ public class StswFilterBoxContext : ControlsContext
 
     #region Properties
     /// FilterMenuMode
-    private StswMenuMode filterMenuMode = StswMenuMode.Full;
+    private StswMenuMode filterMenuMode;
     public StswMenuMode FilterMenuMode
     {
         get => filterMenuMode;
@@ -36,7 +41,7 @@ public class StswFilterBoxContext : ControlsContext
     }
 
     /// FilterType
-    private StswAdaptiveType filterType = StswAdaptiveType.Text;
+    private StswAdaptiveType filterType;
     public StswAdaptiveType FilterType
     {
         get => filterType;
@@ -44,15 +49,15 @@ public class StswFilterBoxContext : ControlsContext
     }
 
     /// IsFilterCaseSensitive
-    private bool isFilterCaseSensitive = false;
+    private bool isFilterCaseSensitive;
     public bool IsFilterCaseSensitive
     {
         get => isFilterCaseSensitive;
         set => SetProperty(ref isFilterCaseSensitive, value);
     }
-    
+
     /// IsFilterNullSensitive
-    private bool isFilterNullSensitive = false;
+    private bool isFilterNullSensitive;
     public bool IsFilterNullSensitive
     {
         get => isFilterNullSensitive;

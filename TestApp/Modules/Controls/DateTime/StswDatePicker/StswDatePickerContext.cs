@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswDatePickerContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => SelectedDate = default);
+    public StswCommand RandomizeCommand => new(() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days)));
 
-    public StswDatePickerContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        base.SetDefaults();
+
+        Format = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Format)))?.Value ?? default;
+        IncrementType = (StswDateIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => SelectedDate = default;
-
-    /// Command: randomize
-    private void Randomize() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue-DateTime.MinValue).Days));
-    #endregion
 
     #region Properties
     /// Components
@@ -32,7 +27,7 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// Format
-    private string? format = "d";
+    private string? format;
     public string? Format
     {
         get => format;
@@ -40,7 +35,7 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// IncrementType
-    private StswDateIncrementType incrementType = StswDateIncrementType.Day;
+    private StswDateIncrementType incrementType;
     public StswDateIncrementType IncrementType
     {
         get => incrementType;
@@ -48,7 +43,7 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

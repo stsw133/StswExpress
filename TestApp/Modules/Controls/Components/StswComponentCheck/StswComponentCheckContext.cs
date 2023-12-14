@@ -1,12 +1,26 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 
 namespace TestApp;
 
 public class StswComponentCheckContext : ControlsContext
 {
+    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
+
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
+        IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
+        IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
+    }
+
     #region Properties
     /// ContentVisibility
-    private Visibility contentVisibility = Visibility.Collapsed;
+    private Visibility contentVisibility;
     public Visibility ContentVisibility
     {
         get => contentVisibility;
@@ -14,15 +28,15 @@ public class StswComponentCheckContext : ControlsContext
     }
 
     /// IconScale
-    private double iconScale = 1.33;
-    public double IconScale
+    private GridLength iconScale;
+    public GridLength IconScale
     {
         get => iconScale;
         set => SetProperty(ref iconScale, value);
     }
 
     /// IsBusy
-    private bool isBusy = false;
+    private bool isBusy;
     public bool IsBusy
     {
         get => isBusy;
@@ -30,7 +44,7 @@ public class StswComponentCheckContext : ControlsContext
     }
 
     /// IsThreeState
-    private bool isThreeState = false;
+    private bool isThreeState;
     public bool IsThreeState
     {
         get => isThreeState;

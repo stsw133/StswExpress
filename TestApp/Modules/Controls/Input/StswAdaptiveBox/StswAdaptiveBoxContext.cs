@@ -1,22 +1,22 @@
-﻿namespace TestApp;
+﻿using System.Linq;
+
+namespace TestApp;
 
 public class StswAdaptiveBoxContext : ControlsContext
 {
-    public StswCommand ClearTypeCommand { get; set; }
+    public StswCommand ClearTypeCommand => new(() => Type = null);
 
-    public StswAdaptiveBoxContext()
+    public override void SetDefaults()
     {
-        ClearTypeCommand = new(ClearType);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// Command: clear Type
-    private void ClearType() => Type = null;
-    #endregion
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        Type = (StswAdaptiveType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
+    }
 
     #region Properties
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

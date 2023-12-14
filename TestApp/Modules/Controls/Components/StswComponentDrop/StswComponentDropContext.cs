@@ -1,26 +1,24 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System;
+using System.Linq;
+using System.Windows;
 
 namespace TestApp;
 
 public class StswComponentDropContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
+    public StswCommand<string?> OnClickCommand => new((x) => { ClickOption = Convert.ToInt32(x); IsDropDownOpen = false; });
+    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
 
-    public StswComponentDropContext()
+    public override void SetDefaults()
     {
-        OnClickCommand = new StswCommand<string?>(OnClick);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// Command: on click
-    private void OnClick(string? parameter)
-    {
-        if (int.TryParse(parameter, out var result))
-            ClickOption = result;
-        IsDropDownOpen = false;
+        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
+        IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
+        IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-    #endregion
 
     #region Properties
     /// ClickOption
@@ -32,7 +30,7 @@ public class StswComponentDropContext : ControlsContext
     }
 
     /// ContentVisibility
-    private Visibility contentVisibility = Visibility.Collapsed;
+    private Visibility contentVisibility;
     public Visibility ContentVisibility
     {
         get => contentVisibility;
@@ -40,15 +38,15 @@ public class StswComponentDropContext : ControlsContext
     }
 
     /// IconScale
-    private double iconScale = 1.33;
-    public double IconScale
+    private GridLength iconScale;
+    public GridLength IconScale
     {
         get => iconScale;
         set => SetProperty(ref iconScale, value);
     }
 
     /// IsBusy
-    private bool isBusy = false;
+    private bool isBusy;
     public bool IsBusy
     {
         get => isBusy;
@@ -64,7 +62,7 @@ public class StswComponentDropContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

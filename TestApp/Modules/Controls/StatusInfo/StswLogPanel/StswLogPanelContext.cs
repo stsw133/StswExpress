@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp;
 
 public class StswLogPanelContext : ControlsContext
 {
-    public StswCommand AddRandomItemCommand { get; set; }
-    public StswAsyncCommand LoadFromFilesCommand { get; set; }
+    public StswCommand AddRandomItemCommand => new(AddRandomItem);
+    public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles_Executed);
 
-    public StswLogPanelContext()
+    public override void SetDefaults()
     {
-        AddRandomItemCommand = new(AddRandomItem);
-        LoadFromFilesCommand = new(LoadFromFiles_Executed);
+        base.SetDefaults();
+
+        IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
     }
 
     #region Events and methods

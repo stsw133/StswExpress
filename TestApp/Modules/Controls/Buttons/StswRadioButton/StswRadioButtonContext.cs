@@ -1,25 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace TestApp;
 
 public class StswRadioButtonContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
-
-    public StswRadioButtonContext()
-    {
-        OnClickCommand = new StswCommand<string?>(OnClick);
-    }
-
-    #region Events and methods
-    /// OnClickCommand
-    private void OnClick(string? parameter)
-    {
-        if (int.TryParse(parameter, out var result))
-            ClickOption = result;
-    }
-    #endregion
+    public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
     #region Properties
     /// ClickOption

@@ -11,6 +11,13 @@ public class StswListBoxContext : ControlsContext
         Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectionCounter));
     }
 
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
+    }
+
     #region Properties
     /// Items
     private BindingList<StswListBoxTestModel> items = new()
@@ -36,7 +43,7 @@ public class StswListBoxContext : ControlsContext
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
 
     /// SelectionMode
-    private SelectionMode selectionMode = SelectionMode.Multiple;
+    private SelectionMode selectionMode;
     public SelectionMode SelectionMode
     {
         get => selectionMode;

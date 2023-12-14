@@ -18,10 +18,15 @@
         <local:ControlsBase.Properties>
             <!-- Icons -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Icons"/>
-            <se:StswComboBox DisplayMemberPath="Display" IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedValue="{Binding Data}" SelectedValuePath="Value"/>
+            <se:StswComboBox CornerClipping="True" DisplayMemberPath="Display" IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedValue="{Binding Data}" SelectedValuePath="Value"/>
             <!-- Scale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Scale"/>
-            <se:StswNumericBox Format="N2" Increment="0.1" Margin="0 0 0 3" Maximum="5" Minimum="0.1" Value="{Binding Scale}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding Scale}">
+                <se:StswTextBox.Components>
+                    <se:StswComponentButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
+                    <se:StswComponentButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
+                </se:StswTextBox.Components>
+            </se:StswTextBox>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswIcon Data="{Binding Data}"

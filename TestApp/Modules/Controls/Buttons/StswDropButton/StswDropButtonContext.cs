@@ -1,25 +1,19 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Linq;
+using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswDropButtonContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
+    public StswCommand<string?> OnClickCommand => new((x) => { ClickOption = Convert.ToInt32(x); IsDropDownOpen = false; });
 
-    public StswDropButtonContext()
+    public override void SetDefaults()
     {
-        OnClickCommand = new StswCommand<string?>(OnClick);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// Command: on click
-    private void OnClick(string? parameter)
-    {
-        if (int.TryParse(parameter, out var result))
-            ClickOption = result;
-        IsDropDownOpen = false;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-    #endregion
 
     #region Properties
     /// ClickOption
@@ -39,7 +33,7 @@ public class StswDropButtonContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

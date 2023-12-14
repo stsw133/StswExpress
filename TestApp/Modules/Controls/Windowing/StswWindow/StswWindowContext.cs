@@ -12,7 +12,7 @@ public class StswWindowContext : ControlsContext
         OpenNewWindowCommand = new StswCommand(OpenNewWindow);
     }
 
-    #region Events and methods
+    #region Events & methods
     /// Command: open new window
     private void OpenNewWindow()
     {

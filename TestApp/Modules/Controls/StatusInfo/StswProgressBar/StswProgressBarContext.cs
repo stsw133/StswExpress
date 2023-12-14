@@ -1,10 +1,21 @@
-﻿namespace TestApp;
+﻿using System.Linq;
+
+namespace TestApp;
 
 public class StswProgressBarContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        IsIndeterminate = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsIndeterminate)))?.Value ?? default;
+        State = (StswProgressState?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(State)))?.Value ?? default;
+        TextMode = (StswProgressTextMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextMode)))?.Value ?? default;
+    }
+
     #region Properties
     /// IsIndeterminate
-    private bool isIndeterminate = false;
+    private bool isIndeterminate;
     public bool IsIndeterminate
     {
         get => isIndeterminate;
@@ -35,7 +46,7 @@ public class StswProgressBarContext : ControlsContext
     }
 
     /// State
-    private StswProgressState state = StswProgressState.Running;
+    private StswProgressState state;
     public StswProgressState State
     {
         get => state;
@@ -43,7 +54,7 @@ public class StswProgressBarContext : ControlsContext
     }
 
     /// TextMode
-    private StswProgressTextMode textMode = StswProgressTextMode.Percentage;
+    private StswProgressTextMode textMode;
     public StswProgressTextMode TextMode
     {
         get => textMode;

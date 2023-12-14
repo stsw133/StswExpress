@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswMediaPlayerContext : ControlsContext
 {
-    public ICommand SelectItemSourceCommand { get; set; }
+    public StswCommand SelectItemSourceCommand => new(SelectItemSource);
 
-    public StswMediaPlayerContext()
-    {
-        SelectItemSourceCommand = new StswCommand(SelectItemSource);
-    }
-
-    #region Commands
+    #region Commands & methods
     /// Command: select Source
     public void SelectItemSource()
     {

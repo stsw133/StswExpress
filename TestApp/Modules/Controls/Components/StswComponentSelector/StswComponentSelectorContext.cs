@@ -1,21 +1,22 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows;
 
 namespace TestApp;
 
 public class StswComponentSelectorContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
+    public StswCommand OnClickCommand => new(() => ClickCounter++);
+    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
 
-    public StswComponentSelectorContext()
+    public override void SetDefaults()
     {
-        OnClickCommand = new StswCommand(OnClick);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// OnClickCommand
-    private void OnClick() => ClickCounter++;
-    #endregion
+        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
+        IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
+        IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+    }
 
     #region Properties
     /// ClickCounter
@@ -27,7 +28,7 @@ public class StswComponentSelectorContext : ControlsContext
     }
 
     /// ContentVisibility
-    private Visibility contentVisibility = Visibility.Collapsed;
+    private Visibility contentVisibility;
     public Visibility ContentVisibility
     {
         get => contentVisibility;
@@ -35,15 +36,15 @@ public class StswComponentSelectorContext : ControlsContext
     }
 
     /// IconScale
-    private double iconScale = 1.33;
-    public double IconScale
+    private GridLength iconScale;
+    public GridLength IconScale
     {
         get => iconScale;
         set => SetProperty(ref iconScale, value);
     }
 
     /// IsBusy
-    private bool isBusy = false;
+    private bool isBusy;
     public bool IsBusy
     {
         get => isBusy;

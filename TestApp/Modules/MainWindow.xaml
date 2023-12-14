@@ -102,7 +102,6 @@
                 <se:StswNavigationElement Text="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>
                 <se:StswNavigationElement Text="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Text="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
-                <se:StswNavigationElement Text="StswLoadingCircle" ContextNamespace="TestApp.StswLoadingCircleContext"/>
                 <se:StswNavigationElement Text="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
                 <se:StswNavigationElement Text="StswText" ContextNamespace="TestApp.StswTextContext"/>
             </se:StswNavigationElement>

@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Linq;
 using System.Windows.Media;
 
 namespace TestApp;
 
 public class StswColorBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => SelectedColor = default);
+    public StswCommand RandomizeCommand => new(() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255)));
 
-    public StswColorBoxContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        base.SetDefaults();
+
+        IsAlphaEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlphaEnabled)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => SelectedColor = default;
-
-    /// Command: randomize
-    private void Randomize() => SelectedColor = Color.FromRgb((byte)new Random().Next(255), (byte)new Random().Next(255), (byte)new Random().Next(255));
-    #endregion
 
     #region Properties
     /// Components
@@ -33,7 +27,7 @@ public class StswColorBoxContext : ControlsContext
     }
 
     /// IsAlphaEnabled
-    private bool isAlphaEnabled = true;
+    private bool isAlphaEnabled;
     public bool IsAlphaEnabled
     {
         get => isAlphaEnabled;
@@ -41,7 +35,7 @@ public class StswColorBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

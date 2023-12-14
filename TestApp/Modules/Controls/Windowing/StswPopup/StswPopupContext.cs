@@ -4,7 +4,7 @@ public class StswPopupContext : ControlsContext
 {
     #region Properties
     /// IsOpen
-    private bool isOpen;
+    private bool isOpen = false;
     public bool IsOpen
     {
         get => isOpen;

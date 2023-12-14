@@ -17,7 +17,7 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>

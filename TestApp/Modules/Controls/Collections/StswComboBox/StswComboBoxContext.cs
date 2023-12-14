@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswComboBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => SelectedItem = null);
+    public StswCommand RandomizeCommand => new(() => SelectedItem = Items[new Random().Next(0, Items.Count)]);
 
-    public StswComboBoxContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        base.SetDefaults();
+
+        IsEditable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEditable)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => SelectedItem = null;
-
-    /// Command: randomize
-    private void Randomize() => SelectedItem = Items[new Random().Next(0, Items.Count)];
-    #endregion
 
     #region Properties
     /// Components
@@ -33,7 +27,7 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// IsEditable
-    private bool isEditable = false;
+    private bool isEditable;
     public bool IsEditable
     {
         get => isEditable;
@@ -41,7 +35,7 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

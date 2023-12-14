@@ -1,11 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace TestApp;
 
 public class StswIconContext : ControlsContext
 {
+    public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
+
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
+    }
+
     #region Properties
     /// Data
     private Geometry? data = StswIcons.Abacus;
@@ -22,8 +33,8 @@ public class StswIconContext : ControlsContext
                                                          .ToList();
 
     /// Scale
-    private double scale = 2;
-    public double Scale
+    private GridLength scale;
+    public GridLength Scale
     {
         get => scale;
         set => SetProperty(ref scale, value);

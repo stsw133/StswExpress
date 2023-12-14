@@ -23,7 +23,7 @@ public class DatabasesContext : StswObservableObject
         ExportCommand = new StswAsyncCommand(Export);
     }
 
-    #region Commands
+    #region Commands & methods
     /// MoveUp
     private void MoveUp()
     {

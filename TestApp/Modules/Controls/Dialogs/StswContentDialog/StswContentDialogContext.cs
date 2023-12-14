@@ -1,18 +1,12 @@
 ﻿using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswContentDialogContext : ControlsContext
 {
-    public ICommand OpenContentDialogCommand { get; set; }
+    public StswAsyncCommand OpenContentDialogCommand => new(OpenContentDialog);
 
-    public StswContentDialogContext()
-    {
-        OpenContentDialogCommand = new StswAsyncCommand(OpenContentDialog);
-    }
-
-    #region Events and methods
+    #region Events & methods
     /// Command: open content dialog
     private async Task OpenContentDialog()
     {

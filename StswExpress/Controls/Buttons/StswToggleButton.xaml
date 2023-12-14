@@ -68,7 +68,7 @@
 
     
     
-    <!-- template for StswToggleButton in StswDropButton & StswSplitButton -->
+    <!-- template for StswToggleButton in StswDropButton & StswSplitButton & StswComboBox & StswSelectionBox -->
     <ControlTemplate x:Key="StswDropToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
         <se:StswBorder x:Name="PART_MainBorder"
                        Background="{TemplateBinding Background}"

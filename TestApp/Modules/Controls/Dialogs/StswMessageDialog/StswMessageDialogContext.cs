@@ -1,14 +1,17 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
 
 namespace TestApp;
 
 public class StswMessageDialogContext : ControlsContext
 {
-    public ICommand OpenMessageDialogCommand { get; set; }
+    public StswCommand OpenMessageDialogCommand => new(OpenMessageDialog);
 
-    public StswMessageDialogContext()
+    public override void SetDefaults()
     {
-        OpenMessageDialogCommand = new StswCommand(OpenMessageDialog);
+        base.SetDefaults();
+
+        MessageDialogButtons = (StswDialogButtons?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(MessageDialogButtons)))?.Value ?? default;
+        MessageDialogImage = (StswDialogImage?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(MessageDialogImage)))?.Value ?? default;
     }
 
     #region Events and methods
@@ -28,7 +31,7 @@ public class StswMessageDialogContext : ControlsContext
 
     #region Properties
     /// MessageDialogButtons
-    private StswDialogButtons messageDialogButtons = StswDialogButtons.OK;
+    private StswDialogButtons messageDialogButtons;
     public StswDialogButtons MessageDialogButtons
     {
         get => messageDialogButtons;
@@ -36,7 +39,7 @@ public class StswMessageDialogContext : ControlsContext
     }
 
     /// MessageDialogImage
-    private StswDialogImage messageDialogImage = StswDialogImage.None;
+    private StswDialogImage messageDialogImage;
     public StswDialogImage MessageDialogImage
     {
         get => messageDialogImage;

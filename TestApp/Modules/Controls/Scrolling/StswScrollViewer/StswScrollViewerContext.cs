@@ -1,12 +1,22 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 
 namespace TestApp;
 
 public class StswScrollViewerContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        HorizontalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalScrollBarVisibility)))?.Value ?? default;
+        VerticalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalScrollBarVisibility)))?.Value ?? default;
+        isDynamic = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDynamic)))?.Value ?? default;
+    }
+
     #region Properties
     /// HorizontalScrollBarVisibility
-    private ScrollBarVisibility horizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+    private ScrollBarVisibility horizontalScrollBarVisibility;
     public ScrollBarVisibility HorizontalScrollBarVisibility
     {
         get => horizontalScrollBarVisibility;
@@ -14,7 +24,7 @@ public class StswScrollViewerContext : ControlsContext
     }
 
     /// VerticalScrollBarVisibility
-    private ScrollBarVisibility verticalScrollBarVisibility = ScrollBarVisibility.Auto;
+    private ScrollBarVisibility verticalScrollBarVisibility;
     public ScrollBarVisibility VerticalScrollBarVisibility
     {
         get => verticalScrollBarVisibility;
@@ -22,7 +32,7 @@ public class StswScrollViewerContext : ControlsContext
     }
 
     /// IsDynamic
-    private bool isDynamic = false;
+    private bool isDynamic;
     public bool IsDynamic
     {
         get => isDynamic;

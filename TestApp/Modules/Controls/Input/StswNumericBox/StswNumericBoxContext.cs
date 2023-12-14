@@ -1,26 +1,20 @@
-﻿using System.Windows.Input;
-using System;
+﻿using System;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswNumericBoxContext : ControlsContext
 {
-    public StswCommand ClearCommand { get; set; }
-    public StswCommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => SelectedValue = default);
+    public StswCommand RandomizeCommand => new(() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue));
 
-    public StswNumericBoxContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new(Clear);
-        RandomizeCommand = new(Randomize);
+        base.SetDefaults();
+
+        Increment = (decimal?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Increment)))?.Value ?? default;
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => SelectedValue = default;
-
-    /// Command: randomize
-    private void Randomize() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue);
-    #endregion
 
     #region Properties
     /// Components
@@ -40,7 +34,7 @@ public class StswNumericBoxContext : ControlsContext
     }
 
     /// Increment
-    private decimal increment = 1;
+    private decimal increment;
     public decimal Increment
     {
         get => increment;
@@ -48,7 +42,7 @@ public class StswNumericBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

@@ -1,12 +1,20 @@
-﻿using System.Windows.Documents;
+﻿using System.Linq;
+using System.Windows.Documents;
 
 namespace TestApp;
 
 public class StswTextEditorContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+    }
+
     #region Properties
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

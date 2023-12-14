@@ -1,26 +1,19 @@
-﻿using System.Windows.Input;
-using System;
+﻿using System;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswTextBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => Text = string.Empty);
+    public StswCommand RandomizeCommand => new(() => Text = Guid.NewGuid().ToString());
 
-    public StswTextBoxContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        base.SetDefaults();
+
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => Text = string.Empty;
-
-    /// Command: randomize
-    private void Randomize() => Text = Guid.NewGuid().ToString();
-    #endregion
 
     #region Properties
     /// Components
@@ -32,7 +25,7 @@ public class StswTextBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

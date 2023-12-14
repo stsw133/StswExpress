@@ -7,20 +7,18 @@ namespace TestApp;
 
 public class StswSelectionBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
-    public ICommand? SetTextCommand { get; set; }
+    public StswCommand ClearCommand => new(Clear);
+    public StswCommand RandomizeCommand => new(Randomize);
+    public ICommand? SetTextCommand { get; set; } = null; /// this command is only for updating text in box when popup did not load yet
 
-    public StswSelectionBoxContext()
+    public override void SetDefaults()
     {
-        Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectionCounter));
+        base.SetDefaults();
 
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
-        SetTextCommand = null; /// this command is only for updating text in box when popup did not load yet
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Events and methods
+    #region Events & methods
     /// Command: clear
     private void Clear()
     {
@@ -46,7 +44,7 @@ public class StswSelectionBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;

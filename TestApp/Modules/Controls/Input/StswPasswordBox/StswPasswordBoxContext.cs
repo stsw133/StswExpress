@@ -1,26 +1,19 @@
-﻿using System.Windows.Input;
-using System;
+﻿using System;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswPasswordBoxContext : ControlsContext
 {
-    public ICommand ClearCommand { get; set; }
-    public ICommand RandomizeCommand { get; set; }
+    public StswCommand ClearCommand => new(() => Password = string.Empty);
+    public StswCommand RandomizeCommand => new(() => Password = Guid.NewGuid().ToString());
 
-    public StswPasswordBoxContext()
+    public override void SetDefaults()
     {
-        ClearCommand = new StswCommand(Clear);
-        RandomizeCommand = new StswCommand(Randomize);
+        base.SetDefaults();
+
+        ShowPassword = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowPassword)))?.Value ?? default;
     }
-
-    #region Events and methods
-    /// Command: clear
-    private void Clear() => Password = string.Empty;
-
-    /// Command: randomize
-    private void Randomize() => Password = Guid.NewGuid().ToString();
-    #endregion
 
     #region Properties
     /// Components

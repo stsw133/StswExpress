@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -8,6 +9,8 @@ namespace TestApp;
 public class ControlsContext : StswObservableObject
 {
     public string ThisControlName => GetType().Name[..^7];
+    public Style ThisControlStyle = new();
+    public List<Setter> ThisControlSetters = new();
 
     public ControlsContext()
     {
@@ -16,26 +19,26 @@ public class ControlsContext : StswObservableObject
 
     #region Events & methods
     /// SetDefaults
-    public void SetDefaults()
+    public virtual void SetDefaults()
     {
-        var style = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
-        if (style != null)
+        ThisControlStyle = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
+        if (ThisControlStyle != null)
         {
-            var setters = style.Setters.Select(x => (Setter)x);
+            ThisControlSetters = ThisControlStyle.Setters.Select(x => (Setter)x).ToList();
 
-            if (setters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalAlignment))) is Setter horizontalAlignment)
+            if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalAlignment))) is Setter horizontalAlignment)
                 HorizontalAlignment = (HorizontalAlignment)horizontalAlignment.Value;
 
-            if (setters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalContentAlignment))) is Setter horizontalContentAlignment)
+            if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalContentAlignment))) is Setter horizontalContentAlignment)
                 HorizontalContentAlignment = (HorizontalAlignment)horizontalContentAlignment.Value;
 
-            if (setters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalAlignment))) is Setter verticalAlignment)
+            if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalAlignment))) is Setter verticalAlignment)
                 VerticalAlignment = (VerticalAlignment)verticalAlignment.Value;
 
-            if (setters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalContentAlignment))) is Setter verticalContentAlignment)
+            if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalContentAlignment))) is Setter verticalContentAlignment)
                 VerticalContentAlignment = (VerticalAlignment)verticalContentAlignment.Value;
 
-            if (setters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEnabled))) is Setter isEnabled)
+            if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEnabled))) is Setter isEnabled)
                 IsEnabled = (bool)isEnabled.Value;
         }
     }

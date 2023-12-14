@@ -2,20 +2,21 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswGalleryContext : ControlsContext
 {
-    public ICommand SelectItemsSourceCommand { get; set; }
+    public StswCommand SelectItemsSourceCommand => new(SelectItemsSource);
 
-    public StswGalleryContext()
+    public override void SetDefaults()
     {
-        SelectItemsSourceCommand = new StswCommand(SelectItemsSource);
+        base.SetDefaults();
+
+        Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
-    #region Commands
+    #region Commands & methods
     /// Command: select ItemsSource
     public void SelectItemsSource()
     {
@@ -51,7 +52,7 @@ public class StswGalleryContext : ControlsContext
     }
 
     /// Orientation
-    private Orientation orientation = Orientation.Horizontal;
+    private Orientation orientation;
     public Orientation Orientation
     {
         get => orientation;

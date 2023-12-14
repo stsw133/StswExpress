@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.4.2</Version>
+    <Version>0.5.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -20,8 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes>Bugfixes:
-⦁ StswCalendar no longer allows to select date that is not between minimum and maximum range. "Today" button becomes disabled when current date is not in minimum and maximum range.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
   </PropertyGroup>
 
@@ -182,7 +181,7 @@
     <Page Update="Controls\Navigation\StswNavigation.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\TextStyle\StswLoadingCircle.xaml">
+    <Page Update="Controls\_subcontrols\StswLoadingCircle.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

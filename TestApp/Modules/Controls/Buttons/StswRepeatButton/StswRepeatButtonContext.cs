@@ -1,20 +1,8 @@
-﻿using System.Windows.Input;
-
-namespace TestApp;
+﻿namespace TestApp;
 
 public class StswRepeatButtonContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
-
-    public StswRepeatButtonContext()
-    {
-        OnClickCommand = new StswCommand(OnClick);
-    }
-
-    #region Events and methods
-    /// OnClickCommand
-    private void OnClick() => ClickCounter++;
-    #endregion
+    public StswCommand OnClickCommand => new(() => ClickCounter++);
 
     #region Properties
     /// ClickCounter

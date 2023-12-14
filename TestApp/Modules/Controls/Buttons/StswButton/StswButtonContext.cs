@@ -1,20 +1,17 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
 
 namespace TestApp;
 
 public class StswButtonContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
+    public StswCommand OnClickCommand => new(() => ClickCounter++);
 
-    public StswButtonContext()
+    public override void SetDefaults()
     {
-        OnClickCommand = new StswCommand(OnClick);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// Command: on click
-    private void OnClick() => ClickCounter++;
-    #endregion
+        IsDefault = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDefault)))?.Value ?? default;
+    }
 
     #region Properties
     /// ClickCounter
@@ -26,7 +23,7 @@ public class StswButtonContext : ControlsContext
     }
 
     /// IsDefault
-    private bool isDefault = false;
+    private bool isDefault;
     public bool IsDefault
     {
         get => isDefault;

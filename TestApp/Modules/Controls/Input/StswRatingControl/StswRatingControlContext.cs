@@ -1,12 +1,21 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 
 namespace TestApp;
 
 public class StswRatingControlContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        Direction = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Direction)))?.Value ?? default;
+        ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
+    }
+
     #region Properties
     /// Direction
-    private ExpandDirection direction = ExpandDirection.Right;
+    private ExpandDirection direction;
     public ExpandDirection Direction
     {
         get => direction;
@@ -14,7 +23,7 @@ public class StswRatingControlContext : ControlsContext
     }
 
     /// ItemsNumber
-    private int itemsNumber = 5;
+    private int itemsNumber;
     public int ItemsNumber
     {
         get => itemsNumber;

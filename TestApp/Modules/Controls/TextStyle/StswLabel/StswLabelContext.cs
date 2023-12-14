@@ -1,10 +1,19 @@
-﻿namespace TestApp;
+﻿using System.Linq;
+
+namespace TestApp;
 
 public class StswLabelContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        IsTruncationAllowed = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsTruncationAllowed)))?.Value ?? default;
+    }
+
     #region Properties
     /// IsTruncationAllowed
-    private bool isTruncationAllowed = false;
+    private bool isTruncationAllowed;
     public bool IsTruncationAllowed
     {
         get => isTruncationAllowed;

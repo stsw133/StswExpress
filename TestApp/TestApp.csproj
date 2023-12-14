@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>TestApp</AssemblyName>
-    <Version>0.4</Version>
+    <Version>0.5</Version>
     <Copyright></Copyright>
     <Authors>Karol Staszewski</Authors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -124,9 +124,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswLoadingCircle\StswLoadingCircleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml.cs">
@@ -316,9 +313,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\TextStyle\StswLoadingCircle\StswLoadingCircleView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml">

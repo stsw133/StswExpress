@@ -1,12 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswDataGridContext : ControlsContext
 {
+    public override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
+        SpecialColumnVisibility = (StswSpecialColumnVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SpecialColumnVisibility)))?.Value ?? default;
+    }
+
     #region Properties
     /// IsReadOnly
-    private bool isReadOnly = false;
+    private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;
@@ -15,15 +24,15 @@ public class StswDataGridContext : ControlsContext
 
     /// Items
     private StswBindingList<StswDataGridTestModel> items = new(
-            new List<StswDataGridTestModel>()
-            {
-                new() { ID = 1, Name = "First row", ShowDetails = false },
-                new() { ID = 2, Name = "Second row" },
-                new() { ID = 3, Name = "Third row" },
-                new() { ID = 4, Name = "Fourth row", ShowDetails = false },
-                new() { ID = 5, Name = "Fifth row" }
-            }
-        );
+        new List<StswDataGridTestModel>()
+        {
+            new() { ID = 1, Name = "First row", ShowDetails = false },
+            new() { ID = 2, Name = "Second row" },
+            new() { ID = 3, Name = "Third row" },
+            new() { ID = 4, Name = "Fourth row", ShowDetails = false },
+            new() { ID = 5, Name = "Fifth row" }
+        }
+    );
     public StswBindingList<StswDataGridTestModel> Items
     {
         get => items;
@@ -31,7 +40,7 @@ public class StswDataGridContext : ControlsContext
     }
 
     /// SpecialColumnVisibility
-    private StswSpecialColumnVisibility specialColumnVisibility = StswSpecialColumnVisibility.All;
+    private StswSpecialColumnVisibility specialColumnVisibility;
     public StswSpecialColumnVisibility SpecialColumnVisibility
     {
         get => specialColumnVisibility;

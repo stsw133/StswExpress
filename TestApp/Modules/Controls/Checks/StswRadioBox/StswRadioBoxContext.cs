@@ -1,25 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace TestApp;
 
 public class StswRadioBoxContext : ControlsContext
 {
-    public ICommand OnClickCommand { get; set; }
+    public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
-    public StswRadioBoxContext()
+    public override void SetDefaults()
     {
-        OnClickCommand = new StswCommand<string?>(OnClick);
-    }
+        base.SetDefaults();
 
-    #region Events and methods
-    /// OnClickCommand
-    private void OnClick(string? parameter)
-    {
-        if (int.TryParse(parameter, out var result))
-            ClickOption = result;
+        IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
     }
-    #endregion
 
     #region Properties
     /// ClickOption
@@ -84,7 +78,7 @@ public class StswRadioBoxContext : ControlsContext
     }
 
     /// IsThreeState
-    private bool isThreeState = false;
+    private bool isThreeState;
     public bool IsThreeState
     {
         get => isThreeState;

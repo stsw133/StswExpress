@@ -3,7 +3,10 @@ using System.Windows.Controls;
 
 namespace StswExpress;
 
-internal class StswDropArrow : Control
+/// <summary>
+/// Represents a control displaying rotatable arrow icon.
+/// </summary>
+public class StswDropArrow : Control
 {
     static StswDropArrow()
     {
