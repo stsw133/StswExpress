@@ -65,7 +65,7 @@
                                 <se:StswText>
                                     <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold"/>
                                     <LineBreak/>
-                                    <Run Text="{Binding Description, Mode=OneWay}" FontSize="10"/>
+                                    <Run Text="{Binding Description, Mode=OneWay}" FontSize="11"/>
                                 </se:StswText>
                             </se:StswToolTip>
                         </Ellipse.ToolTip>

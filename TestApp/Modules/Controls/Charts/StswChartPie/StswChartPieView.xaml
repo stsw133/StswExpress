@@ -18,18 +18,19 @@
         
         <!-- content -->
         <DockPanel HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswChartPie IsEnabled="{Binding IsEnabled}"
-                             ItemsSource="{Binding Items}"
-                             Margin="5"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"
-                             Width="300"/>
-            <se:StswChartLegend Header="Some header..."
+            <se:StswChartLegend DockPanel.Dock="Bottom"
+                                Header="Some header..."
                                 IsEnabled="{Binding IsEnabled}"
                                 ItemsSource="{Binding Items}"
                                 Margin="5"
                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswChartPie IsEnabled="{Binding IsEnabled}"
+                             ItemsSource="{Binding Items}"
+                             Margin="5"
+                             MaxHeight="400"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         </DockPanel>
         <!-- status panel -->
 
