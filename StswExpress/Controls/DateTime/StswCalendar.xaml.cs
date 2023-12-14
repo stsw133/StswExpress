@@ -142,7 +142,8 @@ public class StswCalendar : Control, IStswCornerControl
     /// </summary>
     private void SelectDate(DateTime? date)
     {
-        SelectedDate = date;
+        if (date.Between(Minimum ?? DateTime.MinValue, Maximum ?? DateTime.MaxValue))
+            SelectedDate = date;
 
         /// for DatePicker
         var popupRootFinder = VisualTreeHelper.GetParent(this);
@@ -276,6 +277,12 @@ public class StswCalendar : Control, IStswCornerControl
     {
         if (obj is StswCalendar stsw)
         {
+            if (e.Property.Name.In(nameof(Minimum), nameof(Maximum)))
+            {
+                if (stsw.GetTemplateChild("PART_ButtonToday") is ButtonBase buttonToday)
+                    buttonToday.IsEnabled = DateTime.Today.Between(stsw.Minimum ?? DateTime.MinValue, stsw.Maximum ?? DateTime.MaxValue);
+            }
+
             if (stsw.SelectionMode == StswCalendarMode.ByYear)
             {
                 if (stsw.ListMonths.Count == 0)

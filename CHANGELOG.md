@@ -1,3 +1,9 @@
+# **0.4.2**
+2023-12-14
+
+### Bugfixes:
+* **StswCalendar** no longer allows to select date that is not between minimum and maximum range. "Today" button becomes disabled when current date is not in minimum and maximum range.
+
 # **0.4.1**
 2023-12-13
 

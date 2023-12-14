@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski</Authors>
-    <Version>0.4.1</Version>
+    <Version>0.4.2</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -20,8 +20,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <PackageReleaseNotes>Changed functionality:
-⦁ StswFilterBox have "FilterMenuMode" property for filter mode button. StswFilterMode enum no longer have "None" value.</PackageReleaseNotes>
+    <PackageReleaseNotes>Bugfixes:
+⦁ StswCalendar no longer allows to select date that is not between minimum and maximum range. "Today" button becomes disabled when current date is not in minimum and maximum range.</PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
   </PropertyGroup>
 

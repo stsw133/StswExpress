@@ -162,7 +162,8 @@
                             <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
                                 <se:StswSeparator DockPanel.Dock="Top"/>
                                 <Grid Margin="{TemplateBinding Padding}">
-                                    <se:StswComponentButton Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    <se:StswComponentButton x:Name="PART_ButtonToday"
+                                                            Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                             CommandParameter="{x:Static sys:DateTime.Today}"
                                                             Content="{se:Tr StswCalendar.Today}"
                                                             HorizontalAlignment="Stretch"
