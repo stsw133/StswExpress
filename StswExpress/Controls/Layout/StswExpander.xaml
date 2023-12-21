@@ -46,9 +46,12 @@
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow" Focusable="False" IsDropDownOpen="{TemplateBinding IsExpanded}" Width="24"/>
-                                    <ContentPresenter x:Name="PART_Content"
-                                                      Content="{TemplateBinding Header}"
+                                    <se:StswDropArrow x:Name="PART_Arrow"
+                                                      Focusable="False"
+                                                      IsDropDownOpen="{TemplateBinding IsExpanded}"
+                                                      Width="24"/>
+                                    <ContentPresenter Content="{TemplateBinding Header}"
+                                                      ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                                       ContentTemplate="{TemplateBinding HeaderTemplate}"
                                                       ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                                       SnapsToDevicePixels="True"/>

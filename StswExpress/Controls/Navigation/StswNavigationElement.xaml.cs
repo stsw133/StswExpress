@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -11,20 +11,20 @@ namespace StswExpress;
 /// <summary>
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
+/// <remarks>
+/// WARNING: There are bugs when switching from <see cref="StswToolbarMode.Compact"/> mode
+/// to <see cref="StswToolbarMode.Full"/> mode - all buttons in expander can become invisible.
+/// </remarks>
 [ContentProperty(nameof(Items))]
-public class StswNavigationElement : ContentControl, IStswCornerControl
+public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
 {
-    public StswNavigationElement()
-    {
-        SetValue(ItemsProperty, new ObservableCollection<StswNavigationElement>());
-    }
     static StswNavigationElement()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNavigationElement), new FrameworkPropertyMetadata(typeof(StswNavigationElement)));
     }
 
     #region Events & methods
-    private StswNavigation? stswNavi;
+    private StswNavigation? stswNavigation;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -35,73 +35,36 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
 
         /// StswNavigation
         if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
-            stswNavi = stswNavigation;
+            this.stswNavigation = stswNavigation;
+
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
-
-        CheckSubItemPadding();
+        //OnItemsIndentationChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
-    /// Checks and updates the sub-item padding based on the ancestors and compact state.
+    /// FOR BUGFIX - temporary method for repairing bug with changing indendation.
     /// </summary>
-    public void CheckSubItemPadding()
+    /// <param name="drawingContext"></param>
+    protected override void OnRender(DrawingContext drawingContext)
     {
-        var padding = Padding;
-        var ancestorElement = this;
-
-        while (ancestorElement != null)
-        {
-            ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
-            if (ancestorElement != null && ancestorElement.Items.Count > 0 && !ancestorElement.IsCompact && ancestorElement.ContextNamespace == null)
-                padding = new Thickness(padding.Left + ancestorElement.SubItemIndentation, padding.Top, padding.Right, padding.Bottom);
-        }
-        SubItemPadding = padding;
-    }
-
-    /// <summary>
-    /// Finds the <see cref="Popup"/> container of the navigation element if it exists.
-    /// </summary>
-    public Popup? FindPopupContainer()
-    {
-        var ancestorElement = this;
-        while (ancestorElement != null)
-        {
-            if (ancestorElement.Container is Popup popup)
-                return popup;
-            ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
-        }
-        return null;
+        base.OnRender(drawingContext);
+        OnItemsIndentationChanged(this, new DependencyPropertyChangedEventArgs());
     }
     #endregion
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the <see cref="UIElement"/> that serves as the container for this navigation element.
-    /// </summary>
-    public UIElement Container
-    {
-        get => (UIElement)GetValue(ContainerProperty);
-        internal set => SetValue(ContainerProperty, value);
-    }
-    public static readonly DependencyProperty ContainerProperty
-        = DependencyProperty.Register(
-            nameof(Container),
-            typeof(UIElement),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
     /// Gets or sets the namespace of the context associated with this navigation element.
     /// </summary>
-    public string ContextNamespace
+    public object ContextNamespace
     {
-        get => (string)GetValue(ContextNamespaceProperty);
+        get => (object)GetValue(ContextNamespaceProperty);
         set => SetValue(ContextNamespaceProperty, value);
     }
     public static readonly DependencyProperty ContextNamespaceProperty
         = DependencyProperty.Register(
             nameof(ContextNamespace),
-            typeof(string),
+            typeof(object),
             typeof(StswNavigationElement)
         );
 
@@ -171,11 +134,26 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
     public bool IsBusy
     {
         get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
+        internal set => SetValue(IsBusyProperty, value);
     }
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
+            typeof(bool),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsInCompactPanel
+    {
+        get => (bool)GetValue(IsInCompactPanelProperty);
+        internal set => SetValue(IsInCompactPanelProperty, value);
+    }
+    public static readonly DependencyProperty IsInCompactPanelProperty
+        = DependencyProperty.Register(
+            nameof(IsInCompactPanel),
             typeof(bool),
             typeof(StswNavigationElement)
         );
@@ -201,14 +179,61 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
     {
         if (obj is StswNavigationElement stsw)
         {
-            if (stsw.IsChecked && stsw.stswNavi != null && stsw.ContextNamespace != null)
+            if (stsw.stswNavigation != null)
             {
-                if (!stsw.stswNavi.IsExtended && stsw.FindPopupContainer() is Popup popup)
-                    popup.IsOpen = false;
+                /// when expanding expander in compact mode
+                if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswToolbarMode.Compact)
+                {
+                    /// move compact panel items back to previous expander
+                    if (stsw.stswNavigation.CompactedExpander != null && stsw.stswNavigation.ItemsCompact.Count > 0)
+                    {
+                        stsw.stswNavigation.CompactedExpander.Items.Clear();
+                        foreach (StswNavigationElement item in stsw.stswNavigation.ItemsCompact.Clone())
+                        {
+                            item.IsInCompactPanel = false;
+                            stsw.stswNavigation.CompactedExpander.Items.Add(item);
+                        }
+                    }
 
-                stsw.IsBusy = true;
-                stsw.stswNavi.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
-                stsw.IsBusy = false;
+                    /// when clicking the same expander
+                    if (stsw.stswNavigation.CompactedExpander == stsw && stsw.stswNavigation.ItemsCompact.Count > 0)
+                        stsw.stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
+                    else /// when clicking different expander
+                    {
+                        /// load new items to compact panel
+                        stsw.stswNavigation.CompactedExpander = stsw;
+                        stsw.stswNavigation.ItemsCompact = stsw.Items.Clone().Cast<StswNavigationElement>().ToObservableCollection();
+                        foreach (var item in stsw.stswNavigation.ItemsCompact)
+                            item.IsInCompactPanel = true;
+                    }
+
+                    stsw.IsChecked = false;
+                }
+                /// when clicking button
+                else if (!stsw.HasItems && stsw.IsChecked)
+                {
+                    /// uncheck last button, check new button
+                    if (stsw.stswNavigation.LastSelectedItem != stsw)
+                        stsw.stswNavigation.LastSelectedItem = stsw;
+
+                    /// hide compact panel
+                    if (stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
+                        stsw.stswNavigation.ItemsCompact.Clear();
+
+                    /// load context for content presenter
+                    if (stsw.ContextNamespace != null)
+                    {
+                        stsw.IsBusy = true;
+                        stsw.stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
+                        stsw.IsBusy = false;
+                    }
+                }
+                /// do not allow to uncheck checked button
+                else if (!stsw.HasItems && stsw.stswNavigation.LastSelectedItem == stsw)
+                    stsw.IsChecked = true;
+                /// collapse expander so it is not needed to click it twice
+                //else if (stsw.HasItems && stsw.stswNavigation.CurrentlyExpandedElement == stsw && stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
+                //    stsw.IsChecked = false;
             }
         }
     }
@@ -216,61 +241,28 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the navigation element is in the compact state.
     /// </summary>
-    public bool IsCompact
+    public StswToolbarMode TabStripMode
     {
-        get => (bool)GetValue(IsCompactProperty);
-        internal set => SetValue(IsCompactProperty, value);
+        get => (StswToolbarMode)GetValue(TabStripModeProperty);
+        internal set => SetValue(TabStripModeProperty, value);
     }
-    public static readonly DependencyProperty IsCompactProperty
+    public static readonly DependencyProperty TabStripModeProperty
         = DependencyProperty.Register(
-            nameof(IsCompact),
-            typeof(bool),
+            nameof(TabStripMode),
+            typeof(StswToolbarMode),
             typeof(StswNavigationElement),
-            new FrameworkPropertyMetadata(default(bool),
+            new FrameworkPropertyMetadata(default(StswToolbarMode),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsCompactChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    public static void OnIsCompactChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    public static void OnTabStripModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswNavigationElement stsw)
         {
-            if (stsw.IsCompact && stsw.Items.Count > 0)
+            if (stsw.HasItems && stsw.TabStripMode == StswToolbarMode.Compact)
                 stsw.IsChecked = false;
-
-            foreach (var stswNE in StswFn.FindVisualChildren<StswNavigationElement>(stsw.Container))
-                stswNE.CheckSubItemPadding();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the collection of sub-elements.
-    /// </summary>
-    public ObservableCollection<StswNavigationElement> Items
-    {
-        get => (ObservableCollection<StswNavigationElement>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
-    }
-    public static readonly DependencyProperty ItemsProperty
-        = DependencyProperty.Register(
-            nameof(Items),
-            typeof(ObservableCollection<StswNavigationElement>),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
-    /// Gets or sets the text content of the navigation element.
-    /// </summary>
-    public object? Text
-    {
-        get => (object?)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-    public static readonly DependencyProperty TextProperty
-        = DependencyProperty.Register(
-            nameof(Text),
-            typeof(object),
-            typeof(StswNavigationElement)
-        );
     #endregion
 
     #region Style properties
@@ -309,6 +301,100 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets the fill brush of the icon.
+    /// </summary>
+    public Brush IconFill
+    {
+        get => (Brush)GetValue(IconFillProperty);
+        set => SetValue(IconFillProperty, value);
+    }
+    public static readonly DependencyProperty IconFillProperty
+        = DependencyProperty.Register(
+            nameof(IconFill),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke brush of the icon.
+    /// </summary>
+    public Brush IconStroke
+    {
+        get => (Brush)GetValue(IconStrokeProperty);
+        set => SetValue(IconStrokeProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeProperty
+        = DependencyProperty.Register(
+            nameof(IconStroke),
+            typeof(Brush),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the stroke thickness of the icon.
+    /// </summary>
+    public double IconStrokeThickness
+    {
+        get => (double)GetValue(IconStrokeThicknessProperty);
+        set => SetValue(IconStrokeThicknessProperty, value);
+    }
+    public static readonly DependencyProperty IconStrokeThicknessProperty
+        = DependencyProperty.Register(
+            nameof(IconStrokeThickness),
+            typeof(double),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
+    /// Gets or sets the indentation value for items. Checks and updates the item padding based on the ancestors and compact state.
+    /// </summary>
+    public double ItemsIndentation
+    {
+        get => (double)GetValue(ItemsIndentationProperty);
+        set => SetValue(ItemsIndentationProperty, value);
+    }
+    public static readonly DependencyProperty ItemsIndentationProperty
+        = DependencyProperty.Register(
+            nameof(ItemsIndentation),
+            typeof(double),
+            typeof(StswNavigationElement),
+            new FrameworkPropertyMetadata(default(double),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsIndentationChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnItemsIndentationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswNavigationElement stsw)
+        {
+            var padding = stsw.Padding;
+            var ancestorElement = stsw;
+
+            while (ancestorElement != null)
+            {
+                ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
+                if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswToolbarMode.Full && ancestorElement.ContextNamespace == null)
+                    padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
+            }
+            stsw.ItemsMargin = padding;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the indentation value for items.
+    /// </summary>
+    internal Thickness? ItemsMargin
+    {
+        get => (Thickness?)GetValue(ItemsMarginProperty);
+        set => SetValue(ItemsMarginProperty, value);
+    }
+    internal static readonly DependencyProperty ItemsMarginProperty
+        = DependencyProperty.Register(
+            nameof(ItemsMargin),
+            typeof(Thickness?),
+            typeof(StswNavigationElement)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the sub-item border.
     /// </summary>
     public double SeparatorThickness
@@ -320,36 +406,6 @@ public class StswNavigationElement : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
-    /// Gets or sets the indentation value for sub-items.
-    /// </summary>
-    public double SubItemIndentation
-    {
-        get => (double)GetValue(SubItemIndentationProperty);
-        set => SetValue(SubItemIndentationProperty, value);
-    }
-    public static readonly DependencyProperty SubItemIndentationProperty
-        = DependencyProperty.Register(
-            nameof(SubItemIndentation),
-            typeof(double),
-            typeof(StswNavigationElement)
-        );
-
-    /// <summary>
-    /// Gets or sets the padding for the sub-item.
-    /// </summary>
-    internal Thickness SubItemPadding
-    {
-        get => (Thickness)GetValue(SubItemPaddingProperty);
-        set => SetValue(SubItemPaddingProperty, value);
-    }
-    public static readonly DependencyProperty SubItemPaddingProperty
-        = DependencyProperty.Register(
-            nameof(SubItemPadding),
-            typeof(Thickness),
             typeof(StswNavigationElement)
         );
     #endregion

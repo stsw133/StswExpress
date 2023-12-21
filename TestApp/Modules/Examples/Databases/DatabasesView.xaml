@@ -58,6 +58,19 @@
         <!-- selected database model -->
         <se:StswScrollViewer IsDynamic="True">
             <StackPanel DataContext="{Binding SelectedDatabase}">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Count, Mode=OneWay, Source={x:Static se:StswDatabases.List}}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                
                 <!-- name -->
                 <StackPanel DockPanel.Dock="Top" Margin="3">
                     <Label Content="Name:"/>
@@ -93,7 +106,7 @@
                     <Label Content="Password:"/>
                     <se:StswPasswordBox Password="{Binding Password}">
                         <se:StswPasswordBox.Components>
-                            <se:StswComponentCheck IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}" Margin="0 0 3 0"
+                            <se:StswComponentCheck Focusable="False" IconUnchecked="{x:Static se:StswIcons.Eye}" IconChecked="{x:Static se:StswIcons.EyeOff}" Margin="0 0 3 0"
                                                    IsChecked="{Binding ShowPassword, RelativeSource={RelativeSource AncestorType={x:Type se:StswPasswordBox}}}"/>
                         </se:StswPasswordBox.Components>
                     </se:StswPasswordBox>

@@ -29,10 +29,12 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- header -->
-                            <se:StswLabel x:Name="PART_Header" DockPanel.Dock="Top"
+                            <se:StswLabel x:Name="PART_Header"
+                                          DockPanel.Dock="Top"
                                           Background="{DynamicResource StswExpander.Static.Header}"
                                           BorderThickness="0"
                                           Content="{TemplateBinding Header}"
+                                          ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                           FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"

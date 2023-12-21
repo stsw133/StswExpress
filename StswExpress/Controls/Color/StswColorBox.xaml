@@ -48,10 +48,10 @@
                                     </Style>
                                 </se:StswDropButton.Resources>
                                 <se:StswTabControl>
-                                    <se:StswTabItem Header="Standardowe">
+                                    <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
                                         <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </se:StswTabItem>
-                                    <se:StswTabItem Header="Szczegółowe">
+                                    <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorDetailed}">
                                         <se:StswColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"/>
                                     </se:StswTabItem>
                                 </se:StswTabControl>

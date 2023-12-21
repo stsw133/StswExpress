@@ -61,19 +61,6 @@ public static class StswFn
     }
     #endregion
 
-    #region Enum functions
-    /// <summary>
-    /// Returns the next value in an enumeration, with wraparound if the end of the enumeration is reached.
-    /// </summary>
-    public static T GetNextEnumValue<T>(T value, int count = 1) where T : Enum
-    {
-        var values = (T[])Enum.GetValues(typeof(T));
-        var index = Array.IndexOf(values, value);
-        var nextIndex = (index + count) % values.Length;
-        return values[nextIndex];
-    }
-    #endregion
-
     #region File functions
     /// <summary>
     /// Moves a file to recycle bin.
@@ -346,6 +333,27 @@ public static class StswFn
             result = result.Replace(textToRemove + textToRemove, textToRemove);
 
         return result;
+    }
+
+    /// <summary>
+    /// Returns a new list of strings separated by a certain number of lines.
+    /// </summary>
+    public static IEnumerable<string> SplitStringByLines(string input, int linesPerPart)
+    {
+        if (string.IsNullOrEmpty(input) || linesPerPart <= 0)
+        {
+            yield return input;
+            yield break;
+        }
+
+        var lines = input.Split(new[] { '\n' }, StringSplitOptions.None);
+        var index = 0;
+
+        while (index < lines.Length)
+        {
+            yield return string.Join(string.Empty, lines.Skip(index).Take(linesPerPart));
+            index += linesPerPart;
+        }
     }
     #endregion
 

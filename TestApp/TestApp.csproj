@@ -48,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Modules\Controls\Buttons\StswShiftButton\StswShiftButtonView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -234,6 +237,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Modules\Controls\Buttons\StswShiftButton\StswShiftButtonView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

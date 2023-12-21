@@ -22,7 +22,7 @@ public class StswLogPanelContext : ControlsContext
     private void AddRandomItem()
     {
         ItemsSource.Add(new(
-            StswFn.GetNextEnumValue(StswLogType.None, new Random().Next(Enum.GetValues(typeof(StswLogType)).Length)),
+            StswLogType.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswLogType)).Length)),
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."[..new Random().Next(10, 199)])
         );
     }

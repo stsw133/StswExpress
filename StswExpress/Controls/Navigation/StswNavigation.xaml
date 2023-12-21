@@ -12,9 +12,9 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="SeparatorThickness" Value="1"/>
 
-        <Setter Property="IsExtended" Value="True"/>
-        <Setter Property="ItemsAlignment" Value="Left"/>
-        <Setter Property="ItemsWidth" Value="NaN"/>
+        <Setter Property="TabStripMode" Value="Full"/>
+        <Setter Property="TabStripPlacement" Value="Left"/>
+        <Setter Property="TabStripWidth" Value="NaN"/>
 
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -25,45 +25,88 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswNavigation}">
-                    <DockPanel>
-                        <!-- navigation list part -->
-                        <se:StswBorder x:Name="PART_MainBorder"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}"
-                                       SnapsToDevicePixels="True">
-                            <DockPanel>
-                                <DockPanel x:Name="PART_ItemsPanel" DockPanel.Dock="{TemplateBinding ItemsAlignment}" Background="{TemplateBinding Background}">
-                                    <!-- function button -->
-                                    <se:StswToggleButton x:Name="PART_FunctionButton"
-                                                         DockPanel.Dock="Top"
-                                                         BorderThickness="0"
-                                                         CornerClipping="False"
-                                                         CornerRadius="0"
-                                                         Focusable="False"
-                                                         IsChecked="{Binding IsExtended, RelativeSource={RelativeSource TemplatedParent}}"
-                                                         Padding="5">
+                    <!-- navigation list part -->
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <DockPanel x:Name="PART_MainPanel"
+                                       DockPanel.Dock="{TemplateBinding TabStripPlacement}"
+                                       Background="{TemplateBinding Background}"
+                                       Width="{Binding TabStripWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                <!-- components -->
+                                <DockPanel x:Name="PART_Functions">
+                                    <se:StswToggleButton x:Name="PART_TabStripModeButton" BorderThickness="0" CornerClipping="False" CornerRadius="0">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <!-- navigation pinned items -->
-                                    <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
+                                    <se:StswShifter x:Name="PART_Components"
+                                                    ButtonLeftBorderThickness="0 0 1 0"
+                                                    ButtonRightBorderThickness="1 0 0 0"
+                                                    HorizontalScrollBarVisibility="Auto"
+                                                    VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <DockPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </se:StswShifter>
+                                </DockPanel>
+                                <!-- navigation pinned items -->
+                                <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="{x:Type StackPanel}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
+                                                                <Setter Property="Orientation" Value="Vertical"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
+                                                                <Setter Property="Orientation" Value="Horizontal"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
+                                                                <Setter Property="Orientation" Value="Vertical"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
+                                                                <Setter Property="Orientation" Value="Horizontal"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+                                            </StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <!-- navigation items -->
+                                <se:StswScrollViewer x:Name="PART_Items" IsDynamic="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <se:StswScrollViewer.Resources>
+                                        <Style TargetType="{x:Type se:StswScrollBar}">
+                                            <Setter Property="ExpandedWidth" Value="12"/>
+                                        </Style>
+                                    </se:StswScrollViewer.Resources>
+                                    <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel>
                                                     <StackPanel.Style>
                                                         <Style TargetType="{x:Type StackPanel}">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
+                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
                                                                     <Setter Property="Orientation" Value="Vertical"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
+                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
                                                                     <Setter Property="Orientation" Value="Horizontal"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
+                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
                                                                     <Setter Property="Orientation" Value="Vertical"/>
                                                                 </DataTrigger>
-                                                                <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
+                                                                <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
                                                                     <Setter Property="Orientation" Value="Horizontal"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -73,46 +116,14 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                    <!-- navigation items -->
-                                    <se:StswScrollViewer x:Name="PART_Items" IsDynamic="False" VerticalScrollBarVisibility="Auto">
-                                        <se:StswScrollViewer.Resources>
-                                            <Style TargetType="{x:Type se:StswScrollBar}">
-                                                <Setter Property="ExpandedWidth" Value="12"/>
-                                            </Style>
-                                        </se:StswScrollViewer.Resources>
-                                        <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel>
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="{x:Type StackPanel}">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Left">
-                                                                        <Setter Property="Orientation" Value="Vertical"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Top">
-                                                                        <Setter Property="Orientation" Value="Horizontal"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Right">
-                                                                        <Setter Property="Orientation" Value="Vertical"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding ItemsAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}" Value="Bottom">
-                                                                        <Setter Property="Orientation" Value="Horizontal"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                    </StackPanel>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
-                                    </se:StswScrollViewer>
-                                </DockPanel>
-                                <!-- separator -->
-                                <se:StswSeparator x:Name="PART_Separator"
-                                                  DockPanel.Dock="{TemplateBinding ItemsAlignment}"
-                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                  BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                                </se:StswScrollViewer>
+                            </DockPanel>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="{TemplateBinding TabStripPlacement}"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"/>
+                            <Grid>
                                 <!-- content -->
                                 <ContentPresenter Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -123,41 +134,72 @@
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </DockPanel>
-                        </se:StswBorder>
-                    </DockPanel>
+                                <!-- compact panel -->
+                                <se:StswShifter x:Name="PART_CompactPanel"
+                                                Background="{TemplateBinding Background}"
+                                                ButtonDownBorderThickness="0 1 0 0"
+                                                ButtonUpBorderThickness="0 0 0 1"
+                                                HorizontalAlignment="Left"
+                                                HorizontalScrollBarVisibility="Auto"
+                                                VerticalScrollBarVisibility="Auto"
+                                                Visibility="Collapsed">
+                                    <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 1">
+                                        <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>
+                                    </se:StswBorder>
+                                </se:StswShifter>
+                            </Grid>
+                        </DockPanel>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsExtended" Value="True">
-                            <Setter Property="Width" Value="{Binding ItemsWidth, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_ItemsPanel"/>
+                        <Trigger Property="TabStripMode" Value="Collapsed">
+                            <Setter Property="IsChecked" Value="{x:Null}" TargetName="PART_TabStripModeButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Components"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
-                        <Trigger Property="ItemsAlignment" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
-                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                        <Trigger Property="TabStripMode" Value="Compact">
+                            <Setter Property="IsChecked" Value="False" TargetName="PART_TabStripModeButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Components"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_CompactPanel"/>
+                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
-                        <Trigger Property="ItemsAlignment" Value="Top">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
+                        <Trigger Property="TabStripMode" Value="Full">
+                            <Setter Property="IsChecked" Value="True" TargetName="PART_TabStripModeButton"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Functions"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
-                        <Trigger Property="ItemsAlignment" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_FunctionButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_FunctionButton"/>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Functions"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
                         </Trigger>
-                        <Trigger Property="ItemsAlignment" Value="Bottom">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_FunctionButton"/>
-                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_FunctionButton"/>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Functions"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_TabStripModeButton"/>
+                            <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Top">
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Functions"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
+                            <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding ItemsCompact.Count, RelativeSource={RelativeSource Self}}" Value="0">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_CompactPanel"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -24,11 +24,11 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice1}" Text="Page 1" ContextNamespace="TestApp.HomeContext"/>
-            <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice2}" Text="Page 2" ContextNamespace="TestApp.HomeContext"/>
-            <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice3}" Text="Page 3" ContextNamespace="TestApp.HomeContext"/>
-            <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice4}" Text="Page 4" ContextNamespace="TestApp.HomeContext"/>
-            <se:StswNavigationElement IconData="{x:Static se:StswIcons.Dice5}" Text="Page 5" ContextNamespace="TestApp.HomeContext"/>
+            <se:StswNavigationElement Header="Page 1" IconData="{x:Static se:StswIcons.Dice1}" ContextNamespace="TestApp.HomeContext"/>
+            <se:StswNavigationElement Header="Page 2" IconData="{x:Static se:StswIcons.Dice2}" ContextNamespace="TestApp.HomeContext"/>
+            <se:StswNavigationElement Header="Page 3" IconData="{x:Static se:StswIcons.Dice3}" ContextNamespace="TestApp.HomeContext"/>
+            <se:StswNavigationElement Header="Page 4" IconData="{x:Static se:StswIcons.Dice4}" ContextNamespace="TestApp.HomeContext"/>
+            <se:StswNavigationElement Header="Page 5" IconData="{x:Static se:StswIcons.Dice5}" ContextNamespace="TestApp.HomeContext"/>
         </se:StswNavigation>
         <!-- status panel -->
 

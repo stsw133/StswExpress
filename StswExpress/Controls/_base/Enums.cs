@@ -184,7 +184,7 @@ public enum StswTheme
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswTextEditor.ToolbarMode"/>.
+/// Enumeration for <see cref="StswNavigation.TabStripMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
 /// </summary>
 public enum StswToolbarMode
 {

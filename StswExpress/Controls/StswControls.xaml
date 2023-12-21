@@ -9,6 +9,7 @@
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRadioButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRepeatButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswShiftButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
         

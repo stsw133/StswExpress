@@ -454,6 +454,18 @@ public static class StswExtensions
         var attributes = enumVal.GetType().GetMember(enumVal.ToString())[0].GetCustomAttributes(typeof(T), false);
         return attributes?.Length > 0 ? (T)attributes[0] : null;
     }
+
+    /// <summary>
+    /// Returns the next value in an enumeration, with wraparound if the end of the enumeration is reached.
+    /// </summary>
+    public static T GetNextValue<T>(this T value, int count = 1) where T : Enum
+    {
+        var values = (T[])Enum.GetValues(typeof(T));
+        var index = Array.IndexOf(values, value);
+        var valuesLength = values.Length;
+        var nextIndex = (index + count % valuesLength + valuesLength) % valuesLength;
+        return values[nextIndex];
+    }
     #endregion
 
     #region Function extensions
