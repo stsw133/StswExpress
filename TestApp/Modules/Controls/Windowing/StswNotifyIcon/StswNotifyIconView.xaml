@@ -21,7 +21,7 @@
                            IconPath="/Resources/icon.ico"
                            Text="{x:Static se:StswFn.AppNameAndVersion}">
             <se:StswNotifyIcon.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Style="{DynamicResource StswContextMenu}">
                     <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
                 </ContextMenu>
             </se:StswNotifyIcon.ContextMenu>

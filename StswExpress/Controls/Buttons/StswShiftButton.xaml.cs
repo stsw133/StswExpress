@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -10,6 +13,10 @@ namespace StswExpress;
 /// </summary>
 public class StswShiftButton : ComboBox, IStswCornerControl
 {
+    public StswShiftButton()
+    {
+        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(ProgressBar)).AddValueChanged(this, OnSelectedIndexChanged);
+    }
     static StswShiftButton()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswShiftButton), new FrameworkPropertyMetadata(typeof(StswShiftButton)));
@@ -28,13 +35,15 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         /// Button: previous
         if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase buttonPrevious)
         {
-            buttonPrevious.Click += (s, e) => { CheckIndexAvailability(-1, out var newIndex); SelectedIndex = newIndex; };
+            buttonPrevious.IsEnabled = CanShiftBy(-1);
+            buttonPrevious.Click += (s, e) => ShiftBy(-1);
             this.buttonPrevious = buttonPrevious;
         }
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
         {
-            buttonNext.Click += (s, e) => { CheckIndexAvailability(1, out var newIndex); SelectedIndex = newIndex; };
+            buttonNext.IsEnabled = CanShiftBy(1);
+            buttonNext.Click += (s, e) => ShiftBy(1);
             this.buttonNext = buttonNext;
         }
     }
@@ -42,17 +51,52 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     /// <summary>
     /// 
     /// </summary>
-    private bool CheckIndexAvailability(int step, out int newIndex)
+    /// <param name="e"></param>
+    protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
+    {
+        base.OnPreviewMouseWheel(e);
+
+        if (IsKeyboardFocusWithin)
+        {
+            if (e.Delta > 0)
+                ShiftBy(1);
+            else
+                ShiftBy(-1);
+        }
+        e.Handled = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool CanShiftBy(int step)
     {
         if (SelectedIndex + step >= Items.Count || SelectedIndex + step < 0)
-        {
-            newIndex = (SelectedIndex + step % Items.Count + Items.Count) % Items.Count;
             return false;
-        }
-
-        newIndex = SelectedIndex + step;
         return true;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ShiftBy(int step)
+    {
+        if (Items.Count == 0)
+            SelectedIndex = -1;
+        else if (IsLoopingEnabled || CanShiftBy(step))
+            SelectedIndex = (SelectedIndex + step % Items.Count + Items.Count) % Items.Count;
+        else if (step > 0)
+            SelectedIndex = Items.Count - 1;
+        else
+            SelectedIndex = 0;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnSelectedIndexChanged(object? sender, EventArgs e) => OnIsLoopingEnabledChanged(this, new DependencyPropertyChangedEventArgs());
     #endregion
 
     #region Main properties
@@ -79,13 +123,8 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         {
             if (stsw.buttonPrevious != null && stsw.buttonNext != null)
             {
-                if (stsw.IsLoopingEnabled)
-                    stsw.buttonPrevious.IsEnabled = stsw.buttonPrevious.IsEnabled = true;
-                else
-                {
-                    stsw.buttonPrevious.IsEnabled = stsw.CheckIndexAvailability(-1, out var _);
-                    stsw.buttonNext.IsEnabled = stsw.CheckIndexAvailability(1, out var _);
-                }
+                stsw.buttonPrevious.IsEnabled = stsw.IsLoopingEnabled || stsw.CanShiftBy(-1);
+                stsw.buttonNext.IsEnabled = stsw.IsLoopingEnabled || stsw.CanShiftBy(1);
             }
         }
     }

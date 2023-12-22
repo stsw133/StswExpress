@@ -1,7 +1,7 @@
 # StswExpress
 WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-  - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswSplitButton, StswToggleButton
+  - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView

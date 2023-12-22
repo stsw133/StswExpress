@@ -8,7 +8,7 @@
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
 
-    <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="210">
+    <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="202">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
                 <se:StswTextBox BorderThickness="0" CornerRadius="0" Padding="24 3 3 3" Placeholder="Find module..."/>

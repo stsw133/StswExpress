@@ -17,7 +17,7 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 {
     public TrTextIdConverter()
     {
-        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -78,6 +78,6 @@ public class TrTextIdConverter : MarkupExtension, IValueConverter
 
     ~TrTextIdConverter()
     {
-        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

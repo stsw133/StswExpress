@@ -5,6 +5,14 @@ namespace TestApp;
 public class StswShiftButtonContext : ControlsContext
 {
     #region Properties
+    /// IsLoopingEnabled
+    private bool isLoopingEnabled;
+    public bool IsLoopingEnabled
+    {
+        get => isLoopingEnabled;
+        set => SetProperty(ref isLoopingEnabled, value);
+    }
+
     /// Items
     private List<string?> items = new()
     {

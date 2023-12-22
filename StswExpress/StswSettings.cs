@@ -24,7 +24,7 @@ public sealed partial class StswSettings
         {
             case nameof(Default.Language):
                 {
-                    StswTranslator.Instance.CurrentLanguage = string.IsNullOrEmpty((string?)e.NewValue) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : (string)e.NewValue;
+                    StswTranslator.CurrentLanguage = string.IsNullOrEmpty((string?)e.NewValue) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : (string)e.NewValue;
                     break;
                 }
             case nameof(Default.Theme):

@@ -27,14 +27,14 @@ public class StswApp : Application
         //StswDatabase.ImportDatabases();
         //StswDatabase.CurrentDatabase = StswDatabase.AllDatabases.FirstOrDefault() ?? new();
 
-        /// merged dictionaries
+        /// merged dictionaries (themes)
         var dict = Resources.MergedDictionaries.FirstOrDefault(x => x.Source == new Uri("/StswExpress;component/StswResources.xaml", UriKind.RelativeOrAbsolute));
         dict ??= Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources);
         Current.Resources.MergedDictionaries.Remove(dict);
         Current.Resources.MergedDictionaries.Add(new StswResources((StswTheme)StswSettings.Default.Theme));
 
         /// language
-        StswTranslator.Instance.CurrentLanguage = string.IsNullOrEmpty(StswSettings.Default.Language) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : StswSettings.Default.Language;
+        StswTranslator.CurrentLanguage = string.IsNullOrEmpty(StswSettings.Default.Language) ? CultureInfo.InstalledUICulture.TwoLetterISOLanguageName : StswSettings.Default.Language;
 
         var trFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "translations.stsw.json");
 

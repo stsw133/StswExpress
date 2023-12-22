@@ -15,9 +15,14 @@
             Represents a control that provides a user interface element used to trigger actions upon being clicked.
         </local:ControlsBase.Description>
         <!-- properties -->
-        
+        <local:ControlsBase.Properties>
+            <!-- IsLoopingEnabled -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsLoopingEnabled"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsLoopingEnabled}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswShiftButton IsEnabled="{Binding IsEnabled}"
+                            IsLoopingEnabled="{Binding IsLoopingEnabled}"
                             ItemsSource="{Binding Items}"
                             Margin="5"
                             SelectedItem="{Binding SelectedItem}"

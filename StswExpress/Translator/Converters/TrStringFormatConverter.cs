@@ -15,12 +15,12 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 {
     public TrStringFormatConverter()
     {
-        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.CurrentLanguageChanged), CurrentLanguageChanged);
     }
     public TrStringFormatConverter(string textId)
     {
         TextID = textId;
-        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.AddHandler(StswTranslator.Instance, nameof(StswTranslator.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 
     /// <summary>
@@ -102,6 +102,6 @@ public class TrStringFormatConverter : MarkupExtension, IValueConverter
 
     ~TrStringFormatConverter()
     {
-        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        WeakEventManager<StswTranslator, TranslatorLanguageChangedEventArgs>.RemoveHandler(StswTranslator.Instance, nameof(StswTranslator.CurrentLanguageChanged), CurrentLanguageChanged);
     }
 }

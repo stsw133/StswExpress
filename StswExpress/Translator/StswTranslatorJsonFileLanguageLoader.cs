@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 namespace StswExpress;
 
@@ -15,13 +15,11 @@ public class StswTranslatorJsonFileLanguageLoader : IStswTranslatorFileLanguageL
     {
         string json = File.ReadAllText(fileName);
 
-        var fileDictionnary = JsonConvert.DeserializeObject<SortedDictionary<string, SortedDictionary<string, string>>>(json);
-        fileDictionnary?.Keys.ToList().ForEach(delegate (string textId)
-            {
-                fileDictionnary[textId].Keys.ToList().ForEach(delegate (string languageId)
-                {
-                    mainLoader.AddTranslation(textId, languageId, fileDictionnary[textId][languageId], fileName);
-                });
-            });
+        var fileDictionary = JsonSerializer.Deserialize<SortedDictionary<string, SortedDictionary<string, string>>>(json);
+        fileDictionary?.Keys.ToList().ForEach((string textId) =>
+            fileDictionary[textId].Keys.ToList().ForEach((string languageId) =>
+                mainLoader.AddTranslation(textId, languageId, fileDictionary[textId][languageId], fileName)
+            )
+        );
     }
 }

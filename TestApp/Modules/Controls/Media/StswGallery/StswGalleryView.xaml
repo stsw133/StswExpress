@@ -34,18 +34,7 @@
                         HorizontalAlignment="{Binding HorizontalAlignment}"
                         HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                         VerticalAlignment="{Binding VerticalAlignment}"
-                        VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswGallery.ContextMenu>
-                <ContextMenu>
-                    <UniformGrid>
-                        
-                    <se:StswComponentButton/>
-                    <se:StswComponentButton/>
-                    <se:StswComponentButton/>
-                    </UniformGrid>
-                </ContextMenu>
-            </se:StswGallery.ContextMenu>
-        </se:StswGallery>
+                        VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
         
     </local:ControlsBase>

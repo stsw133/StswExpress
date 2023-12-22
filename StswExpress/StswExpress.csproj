@@ -54,9 +54,6 @@
     <PackageReference Include="ClosedXML" Version="0.102.1">
       <PrivateAssets></PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3">
-      <PrivateAssets></PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
