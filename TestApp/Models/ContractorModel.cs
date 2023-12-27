@@ -91,7 +91,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     private string? street;
 
     /// IsArchival
-    [StswExport("Is archival", "{0:yes;1;no}")]
+    [StswExport("Is archival")]
     public bool IsArchival
     {
         get => isArchival;

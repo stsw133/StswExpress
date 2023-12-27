@@ -17,7 +17,7 @@ WPF .NET 6.0 library containing:
   - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
   - **StatusInfo:** StswLogPanel, StswProgressBar, StswProgressRing
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswLoadingCircle, StswOutlinedText, StswText
-  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswToolTip, StswWindow
+  - **Windowing:** StswApp, StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
 - possibility to scale GUI and change themes (light/dark)
 

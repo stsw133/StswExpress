@@ -1,3 +1,9 @@
+# **0.4.3**
+2023-12-27
+
+### Bugfixes:
+* **StswExport** is improved - now numeric and date values should be properly displayed and formatted in cells.
+
 # **0.4.2**
 2023-12-14
 
