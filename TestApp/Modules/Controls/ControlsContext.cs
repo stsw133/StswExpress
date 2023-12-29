@@ -21,7 +21,12 @@ public class ControlsContext : StswObservableObject
     /// SetDefaults
     public virtual void SetDefaults()
     {
-        ThisControlStyle = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
+        try
+        {
+            ThisControlStyle = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
+        }
+        catch { }
+
         if (ThisControlStyle != null)
         {
             ThisControlSetters = ThisControlStyle.Setters.Select(x => (Setter)x).ToList();

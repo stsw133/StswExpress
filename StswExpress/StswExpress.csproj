@@ -125,7 +125,7 @@
     <Page Update="Controls\Media\StswGallery.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Media\StswMediaPlayer.xaml">
+    <Page Update="Controls\Media\StswMediaElement.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Navigation\StswContextMenu.xaml">
@@ -176,6 +176,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Navigation\StswNavigation.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\Windowing\StswWindowBar.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\_subcontrols\StswLoadingCircle.xaml">

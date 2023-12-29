@@ -23,7 +23,11 @@ public class StswSidePanel : ContentControl
         base.OnApplyTemplate();
 
         if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
-            expandBorder.MouseEnter += (s, e) => IsExpanded = true;
+            expandBorder.MouseEnter += (s, e) =>
+            {
+                if (ExpandMode == StswToolbarMode.Collapsed)
+                    ExpandMode = StswToolbarMode.Compact;
+            };
     }
 
     /// <summary>
@@ -33,7 +37,8 @@ public class StswSidePanel : ContentControl
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        IsExpanded = false;
+        if (ExpandMode == StswToolbarMode.Compact)
+            ExpandMode = StswToolbarMode.Collapsed;
     }
     #endregion
 
@@ -41,15 +46,15 @@ public class StswSidePanel : ContentControl
     /// <summary>
     /// Gets or sets the degree to which the corners of the control are rounded.
     /// </summary>
-    public bool IsExpanded
+    public StswToolbarMode ExpandMode
     {
-        get => (bool)GetValue(IsExpandedProperty);
-        set => SetValue(IsExpandedProperty, value);
+        get => (StswToolbarMode)GetValue(ExpandModeProperty);
+        set => SetValue(ExpandModeProperty, value);
     }
-    public static readonly DependencyProperty IsExpandedProperty
+    public static readonly DependencyProperty ExpandModeProperty
         = DependencyProperty.Register(
-            nameof(IsExpanded),
-            typeof(bool),
+            nameof(ExpandMode),
+            typeof(StswToolbarMode),
             typeof(StswSidePanel)
         );
     #endregion

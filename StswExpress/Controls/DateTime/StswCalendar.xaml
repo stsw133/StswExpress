@@ -75,18 +75,8 @@
                                                        CommandParameter="{Binding Month}"
                                                        Content="{Binding Name}"
                                                        CornerClipping="False"
-                                                       CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
-                                            <se:StswButton.Resources>
-                                                <Style TargetType="{x:Type se:StswButton}">
-                                                    <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
-                                                            <Setter Property="Visibility" Value="Hidden"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </se:StswButton.Resources>
-                                        </se:StswButton>
+                                                       CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
+                                                       Style="{DynamicResource StswCalendarButtonMonthStyle}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -115,45 +105,13 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswButton Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
-                                                           CommandParameter="{Binding Date}"
-                                                           Content="{Binding Name}"
-                                                           CornerClipping="False"
-                                                           CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}">
-                                                <se:StswButton.Resources>
-                                                    <Style TargetType="{x:Type se:StswButton}">
-                                                        <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Date.DayOfWeek}" Value="Sunday">
-                                                                <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
-                                                                <Setter Property="Opacity" Value="0.6"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
-                                                                <Setter Property="FontWeight" Value="Medium"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
-                                                                <Setter Property="Visibility" Value="Hidden"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                                <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Background}"/>
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Checked.Border}"/>
-                                                            </DataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding IsSelected}" Value="True"/>
-                                                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Value="False"/>
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="Background" Value="{DynamicResource StswButton.CheckedAndDisabled.Background}"/>
-                                                            </MultiDataTrigger>
-                                                            <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
-                                                                <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </se:StswButton.Resources>
-                                            </se:StswButton>
+                                            <se:StswToggleButton Command="{Binding SelectDateCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
+                                                                 CommandParameter="{Binding Date}"
+                                                                 Content="{Binding Name}"
+                                                                 CornerClipping="False"
+                                                                 CornerRadius="{Binding ItemCornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"
+                                                                 IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Style="{DynamicResource StswCalendarButtonDayStyle}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -195,6 +153,45 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- StswCalendarButtonMonthStyle -->
+    <Style x:Key="StswCalendarButtonMonthStyle" TargetType="{x:Type se:StswButton}">
+        <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
+                <Setter Property="Visibility" Value="Hidden"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- StswCalendarButtonDayStyle -->
+    <Style x:Key="StswCalendarButtonDayStyle" TargetType="{x:Type se:StswToggleButton}">
+        <Setter Property="BorderThickness" Value="{Binding ItemBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Date.DayOfWeek}" Value="Sunday">
+                <Setter Property="Foreground" Value="{DynamicResource StswCalendar.SpecialDay.Foreground}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding InCurrentMonth}" Value="False">
+                <Setter Property="Opacity" Value="0.6"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding InCurrentMonth}" Value="True">
+                <Setter Property="FontWeight" Value="Medium"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding InMinMaxRange}" Value="False">
+                <Setter Property="Visibility" Value="Hidden"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Date.DayOfWeek}" Value="Sunday"/>
+                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswCalendar}}}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}"/>
+            </MultiDataTrigger>
+            <DataTrigger Binding="{Binding IsCurrentDay}" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource StswCalendar.IsCurrentDay.Border}"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     
 </ResourceDictionary>

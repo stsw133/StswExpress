@@ -32,106 +32,7 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <!-- title bar -->
-                            <Grid x:Name="PART_TitleBar" Grid.Row="0" Height="30">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <!-- icon & title -->
-                                <se:StswHeader x:Name="PART_Header"
-                                               Grid.ColumnSpan="2"
-                                               Content="{TemplateBinding Title}"
-                                               IconScale="auto"
-                                               IconSource="{TemplateBinding Icon}"/>
-                                <!-- buttons panel -->
-                                <StackPanel x:Name="PART_ButtonsPanel" Grid.Column="1" Orientation="Horizontal">
-                                    <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                    <se:StswButton x:Name="PART_ButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Minimize}">
-                                        <se:StswOutlinedText Text="🗕"/>
-                                    </se:StswButton>
-                                    <se:StswButton x:Name="PART_ButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Maximize}">
-                                        <se:StswOutlinedText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
-                                    </se:StswButton>
-                                    <se:StswButton x:Name="PART_ButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
-                                        <se:StswOutlinedText Text="🗙"/>
-                                        <se:StswButton.Resources>
-                                            <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
-                                            <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
-                                        </se:StswButton.Resources>
-                                    </se:StswButton>
-                                    
-                                    <StackPanel.Resources>
-                                        <Style TargetType="{x:Type se:StswOutlinedText}">
-                                            <Setter Property="Fill" Value="White"/>
-                                            <Setter Property="Stroke" Value="Black"/>
-                                            <Setter Property="StrokeThickness" Value="2"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswWindow.Inactive.Foreground}"/>
-                                                    <Setter Property="Stroke" Value="Transparent"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                </StackPanel>
-                                <!-- context menu -->
-                                <Grid.ContextMenu>
-                                    <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenu}">
-                                        <ContextMenu.Resources>
-                                            <Style TargetType="{x:Type se:StswText}">
-                                                <Setter Property="FontWeight" Value="Heavy"/>
-                                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                            </Style>
-                                        </ContextMenu.Resources>
-                                        <!-- config -->
-                                        <MenuItem x:Name="PART_iConfig" Header="{se:Tr StswWindow.Config}">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="⚙"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <se:StswSeparator/>
-                                        <!-- default -->
-                                        <MenuItem x:Name="PART_MenuDefault" Header="{se:Tr StswWindow.DefaultSize}">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="↕"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <!-- minimize -->
-                                        <MenuItem x:Name="PART_MenuMinimize" Header="{se:Tr StswWindow.Minimize}">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="🗕"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <!-- restore -->
-                                        <MenuItem x:Name="PART_MenuRestore" Header="{se:Tr StswWindow.Maximize}">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <!-- fullscreen -->
-                                        <MenuItem x:Name="PART_MenuFullscreen" Header="{se:Tr StswWindow.Fullscreen}" InputGestureText="F11">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="⛶"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <se:StswSeparator/>
-                                        <!-- close -->
-                                        <MenuItem x:Name="PART_MenuClose" Header="{se:Tr StswWindow.Close}" InputGestureText="Alt + F4">
-                                            <MenuItem.Icon>
-                                                <se:StswText Text="🗙" Foreground="{DynamicResource StswColor.Negative}"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                            </Grid>
+                            
                             <!-- content grid -->
                             <Grid x:Name="PART_Content" Grid.Row="1">
                                 <AdornerDecorator>
@@ -139,63 +40,80 @@
                                         <ContentPresenter/>
                                     </se:StswContentDialog>
                                 </AdornerDecorator>
-
-                                <!-- fullscreen button panel -->
-                                <se:StswSidePanel x:Name="PART_FullscreenPanel" MinHeight="10" HorizontalContentAlignment="Right" VerticalAlignment="Top">
-                                    <DockPanel Height="30">
-                                        <se:StswButton x:Name="PART_FsButtonMinimize" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Minimize}">
-                                            <se:StswOutlinedText Text="🗕"/>
-                                        </se:StswButton>
-                                        <se:StswButton x:Name="PART_FsButtonRestore" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.DisableFullscreen}">
-                                            <se:StswOutlinedText Text="⛶"/>
-                                        </se:StswButton>
-                                        <se:StswButton x:Name="PART_FsButtonClose" Style="{DynamicResource StswWindowButtonStyle}" ToolTip="{se:Tr StswWindow.Close}">
-                                            <se:StswOutlinedText Text="🗙"/>
-                                            <se:StswButton.Resources>
-                                                <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="Red"/>
-                                                <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="Red"/>
-                                            </se:StswButton.Resources>
-                                        </se:StswButton>
-                                    </DockPanel>
-
-                                    <se:StswSidePanel.Resources>
-                                        <Style TargetType="{x:Type se:StswOutlinedText}">
-                                            <Setter Property="Fill" Value="White"/>
-                                            <Setter Property="Stroke" Value="Black"/>
-                                            <Setter Property="StrokeThickness" Value="2"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type se:StswWindow}}}" Value="False">
-                                                    <Setter Property="Fill" Value="{DynamicResource StswWindow.Inactive.Foreground}"/>
-                                                    <Setter Property="Stroke" Value="Transparent"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </se:StswSidePanel.Resources>
-                                </se:StswSidePanel>
                             </Grid>
+
+                            <!-- title bar -->
+                            <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" Height="30" VerticalAlignment="Top">
+                                <se:StswWindowBar x:Name="PART_WindowBar">
+                                    <se:StswWindowBar.ContextMenu>
+                                        <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenu}">
+                                            <ContextMenu.Resources>
+                                                <Style TargetType="{x:Type se:StswText}">
+                                                    <Setter Property="FontWeight" Value="Heavy"/>
+                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                </Style>
+                                            </ContextMenu.Resources>
+                                            <!-- config -->
+                                            <MenuItem x:Name="PART_iConfig" Header="{se:Tr StswWindow.Config}">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="⚙"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <se:StswSeparator/>
+                                            <!-- default -->
+                                            <MenuItem x:Name="PART_MenuDefault" Header="{se:Tr StswWindow.DefaultSize}">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="↕"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <!-- minimize -->
+                                            <MenuItem x:Name="PART_MenuMinimize" Header="{se:Tr StswWindow.Minimize}">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="🗕"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <!-- restore -->
+                                            <MenuItem x:Name="PART_MenuRestore" Header="{se:Tr StswWindow.Maximize}">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <!-- fullscreen -->
+                                            <MenuItem x:Name="PART_MenuFullscreen" Header="{se:Tr StswWindow.Fullscreen}" InputGestureText="F11">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="⛶"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <se:StswSeparator/>
+                                            <!-- close -->
+                                            <MenuItem x:Name="PART_MenuClose" Header="{se:Tr StswWindow.Close}" InputGestureText="Alt + F4">
+                                                <MenuItem.Icon>
+                                                    <se:StswText Text="🗙" Foreground="{DynamicResource StswColor.Negative}"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </se:StswWindowBar.ContextMenu>
+                                </se:StswWindowBar>
+                            </se:StswSidePanel>
+
                         </Grid>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Fullscreen" Value="True">
+                            <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_WindowBarPanel"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Right" TargetName="PART_WindowBarPanel"/>
+                        </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Inactive.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Foreground" Value="{DynamicResource StswWindow.Inactive.Foreground}" TargetName="PART_Header"/>
-                        </Trigger>
-                        <Trigger Property="Fullscreen" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FullscreenPanel"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="NoResize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimize"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonMinimize"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuMinimize"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonRestore"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FsButtonRestore"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuFullscreen"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuDefault"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MenuRestore"/>
@@ -203,27 +121,12 @@
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
                             <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
-                            <Setter Property="ToolTip" Value="{se:Tr StswWindow.Restore}" TargetName="PART_ButtonRestore"/>
                             <Setter Property="Header" Value="{se:Tr StswWindow.Restore}" TargetName="PART_MenuRestore"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    
-    
-    <!-- StswWindowButton -->
-    <Style x:Key="StswWindowButtonStyle" TargetType="{x:Type se:StswButton}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="Padding" Value="3"/>
-        <Setter Property="Width" Value="45"/>
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
     </Style>
 
 </ResourceDictionary>

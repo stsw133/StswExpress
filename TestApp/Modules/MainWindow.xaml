@@ -7,7 +7,7 @@
                mc:Ignorable="d" Height="600" Width="1000" WindowStartupLocation="CenterScreen"
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
-
+    
     <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="202">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
@@ -88,9 +88,7 @@
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
                 <se:StswNavigationElement Header="StswGallery" ContextNamespace="TestApp.StswGalleryContext"/>
                 <se:StswNavigationElement Header="StswImage" ContextNamespace="TestApp.StswImageContext"/>
-                <!--
-                <se:StswNavigationElement Text="StswMediaPlayer" ContextNamespace="TestApp.StswMediaPlayerContext"/>
-                -->
+                <se:StswNavigationElement Header="StswMediaElement" ContextNamespace="TestApp.StswMediaElementContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Navigation" IconData="{x:Static se:StswIcons.Menu}">
                 <se:StswNavigationElement Header="StswNavigation" ContextNamespace="TestApp.StswNavigationContext"/>
@@ -117,6 +115,7 @@
                 <se:StswNavigationElement Header="StswPopup" ContextNamespace="TestApp.StswPopupContext"/>
                 <se:StswNavigationElement Header="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
+            <se:StswNavigationElement Header="Test control" ContextNamespace="TestApp.StswTestContext"/>
         </se:StswNavigationElement>
         <se:StswNavigationElement Header="Examples" IconData="{x:Static se:StswIcons.ApplicationArrayOutline}" IsChecked="True">
             <se:StswNavigationElement Header="Databases" IconData="{x:Static se:StswIcons.DatabaseCog}" ContextNamespace="TestApp.DatabasesContext"/>

@@ -66,13 +66,16 @@
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml.cs">
+    <Compile Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\_test\StswTestView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Special\Changelog\ChangelogView.xaml.cs">
@@ -255,13 +258,16 @@
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml">
+    <Page Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\_test\StswTestView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Special\Changelog\ChangelogView.xaml">

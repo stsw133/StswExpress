@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TestApp.StswTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswTestContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Some control description...
+        </local:ControlsBase.Description>
+        <!-- properties 
+        <local:ControlsBase.Properties>
+            
+        </local:ControlsBase.Properties> -->
+        <!-- content -->
+        <!-- *** here declare a control *** -->
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
+                <Run Text="Some result"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

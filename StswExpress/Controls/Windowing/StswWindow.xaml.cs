@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,8 +16,6 @@ public class StswWindow : Window, IStswCornerControl
 {
     public StswWindow()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
-
         var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
         CommandBindings.Add(new CommandBinding(commandBinding, (s, e) => Fullscreen = !Fullscreen));
     }
@@ -28,7 +25,7 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    private FrameworkElement? titleBar;
+    private StswWindowBar? windowBar;
     private WindowState preFullscreenState;
 
     /// <summary>
@@ -93,11 +90,13 @@ public class StswWindow : Window, IStswCornerControl
             mniClose.Click += CloseClick;
 
         /// Chrome change
-        if (GetTemplateChild("PART_TitleBar") is FrameworkElement titleBar)
+        if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
         {
-            titleBar.SizeChanged += (s, e) => UpdateChrome();
-            titleBar.IsVisibleChanged += (s, e) => UpdateChrome();
-            this.titleBar = titleBar;
+            windowBar.SizeChanged += (s, e) => UpdateChrome();
+            //windowBar.IsVisibleChanged += (s, e) => UpdateChrome();
+            if (windowBar.Parent is StswSidePanel windowBarPanel and not null)
+                windowBarPanel.ExpandMode = Fullscreen ? StswToolbarMode.Collapsed : StswToolbarMode.Full;
+            this.windowBar = windowBar;
         }
         StateChanged += (s, e) => UpdateChrome();
     }
@@ -114,14 +113,14 @@ public class StswWindow : Window, IStswCornerControl
         {
             WindowChrome.SetWindowChrome(this, null);
         }
-        else if (titleBar != null)
+        else if (windowBar != null)
         {
             var max = WindowState == WindowState.Maximized;
             var cr = CornerRadius;
 
             chrome ??= new WindowChrome();
             chrome.CornerRadius = new CornerRadius(cr.TopLeft * iSize, cr.TopRight * iSize, cr.BottomRight * iSize, cr.BottomLeft * iSize);
-            chrome.CaptionHeight = (titleBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (titleBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
+            chrome.CaptionHeight = (windowBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (windowBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
             chrome.GlassFrameThickness = new Thickness(0);
             chrome.ResizeBorderThickness = new Thickness(max ? 0 : 5 * iSize);
             chrome.UseAeroCaptionButtons = false;
@@ -180,21 +179,6 @@ public class StswWindow : Window, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the collection of UI elements used in the custom window's title bar.
-    /// </summary>
-    public ObservableCollection<UIElement> Components
-    {
-        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<UIElement>),
-            typeof(StswWindow)
-        );
-
-    /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.
     /// </summary>
     public bool Fullscreen
@@ -215,7 +199,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (obj is StswWindow stsw)
         {
-            if (/*stsw.fullscreenPanel is not null &&*/ stsw.titleBar is not null)
+            if (stsw.windowBar is not null)
             {
                 if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                     return;
@@ -227,13 +211,15 @@ public class StswWindow : Window, IStswCornerControl
                     if (stsw.WindowState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;
 
-                    stsw.titleBar.Visibility = Visibility.Collapsed;
+                    if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
+                        windowBarPanel.ExpandMode = StswToolbarMode.Collapsed;
+
                     stsw.WindowState = WindowState.Maximized;
                 }
                 else
                 {
-                    stsw.titleBar.Visibility = Visibility.Visible;
-                    //stsw.fullscreenPanel.Visibility = Visibility.Collapsed;
+                    if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
+                        windowBarPanel.ExpandMode = StswToolbarMode.Full;
 
                     if (stsw.preFullscreenState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;
@@ -377,8 +363,8 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 165)
         {
-            if (titleBar != null)
-                titleBar.ContextMenu.IsOpen = true;
+            if (windowBar != null)
+                windowBar.ContextMenu.IsOpen = true;
             handled = true;
         }
         return IntPtr.Zero;

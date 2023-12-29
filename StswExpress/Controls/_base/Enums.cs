@@ -1,7 +1,8 @@
 ﻿namespace StswExpress;
 
 /// <summary>
-/// Enumeration for <see cref="StswAdaptiveBox.Type"/>, <see cref="StswFilterBox.FilterType"/> and <see cref="StswFilterBox.FilterType"/>.
+/// Enumeration for <see cref="StswAdaptiveBox.Type"/>,
+/// <see cref="StswFilterBox.FilterType"/> and <see cref="StswFilterBox.FilterType"/>.
 /// </summary>
 public enum StswAdaptiveType
 {
@@ -184,7 +185,8 @@ public enum StswTheme
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswNavigation.TabStripMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
+/// Enumeration for <see cref="StswNavigation.TabStripMode"/>,
+/// <see cref="StswSidePanel.ExpandMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
 /// </summary>
 public enum StswToolbarMode
 {

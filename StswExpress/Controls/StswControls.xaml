@@ -63,7 +63,7 @@
 
         <ResourceDictionary Source="Media/StswGallery.xaml"/>
         <ResourceDictionary Source="Media/StswImage.xaml"/>
-        <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
+        <ResourceDictionary Source="Media/StswMediaElement.xaml"/>
 
         <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
@@ -88,6 +88,7 @@
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>
         <ResourceDictionary Source="Windowing/StswToolTip.xaml"/>
         <ResourceDictionary Source="Windowing/StswWindow.xaml"/>
+        <ResourceDictionary Source="Windowing/StswWindowBar.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

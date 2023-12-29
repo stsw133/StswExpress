@@ -9,6 +9,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <!--
+            <Style TargetType="{x:Type se:StswWindowBar}">
+                <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
+                <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            </Style>
+            -->
 
             <!-- Home -->
             <DataTemplate DataType="{x:Type local:HomeContext}">
@@ -178,8 +184,8 @@
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswMediaPlayerContext}">
-                <local:StswMediaPlayerView/>
+            <DataTemplate DataType="{x:Type local:StswMediaElementContext}">
+                <local:StswMediaElementView/>
             </DataTemplate>
             
             <!-- Navigation -->
@@ -237,8 +243,13 @@
                 <local:StswWindowView/>
             </DataTemplate>
             
-            
-            
+            <!-- Test -->
+            <DataTemplate DataType="{x:Type local:StswTestContext}">
+                <local:StswTestView/>
+            </DataTemplate>
+
+
+
             <!-- Examples -->
             <DataTemplate DataType="{x:Type local:ContractorsContext}">
                 <local:ContractorsView/>

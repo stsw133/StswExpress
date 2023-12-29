@@ -2,7 +2,7 @@
 
 namespace TestApp;
 
-public class StswMediaPlayerContext : ControlsContext
+public class StswMediaElementContext : ControlsContext
 {
     public StswCommand SelectItemSourceCommand => new(SelectItemSource);
 
