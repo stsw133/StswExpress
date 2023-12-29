@@ -8,6 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         
@@ -26,36 +27,23 @@
                                      CornerRadius="{TemplateBinding CornerRadius}"
                                      Focusable="False"
                                      SnapsToDevicePixels="True"
-                                     Height="300" Width="400"
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     Height="300" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}"
+                                     Width="400" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}}">
                         <se:StswGroupBox.Header>
                             <se:StswHeader Content="{se:Tr StswConfig}"
                                            FontWeight="Medium"
                                            IconData="{x:Static se:StswIcons.Cog}"
                                            IconFill="{DynamicResource StswColor.Designer}"/>
                         </se:StswGroupBox.Header>
-                        <DockPanel>
-                            <!-- buttons -->
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="{TemplateBinding Padding}">
-                                <se:StswButton x:Name="PART_ButtonConfirm"
-                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               Margin="{TemplateBinding Padding}"
-                                               Padding="15 5">
-                                    <se:StswButton.CommandParameter>
-                                        <sys:Boolean>True</sys:Boolean>
-                                    </se:StswButton.CommandParameter>
-                                    <se:StswHeader Content="{se:Tr StswConfig.Confirm}" IconData="{x:Static se:StswIcons.Check}" IconFill="{DynamicResource StswColor.Positive}"/>
-                                </se:StswButton>
-                                <se:StswButton x:Name="PART_ButtonCancel"
-                                               Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                               CommandParameter="{x:Null}"
-                                               Margin="{TemplateBinding Padding}"
-                                               Padding="15 5">
-                                    <se:StswHeader Content="{se:Tr StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
-                                </se:StswButton>
-                            </UniformGrid>
-                            <se:StswScrollViewer IsDynamic="True">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <!-- options -->
+                            <se:StswScrollViewer Grid.Row="0" IsDynamic="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                 <DockPanel>
                                     <!-- isize -->
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
@@ -108,7 +96,16 @@
                                     </StackPanel>
                                 </DockPanel>
                             </se:StswScrollViewer>
-                        </DockPanel>
+                            <!-- buttons -->
+                            <UniformGrid Grid.Row="1" Rows="1" Margin="{TemplateBinding Padding}">
+                                <se:StswButton x:Name="PART_ButtonConfirm" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
+                                    <se:StswHeader Content="{se:Tr StswConfig.Confirm}" IconData="{x:Static se:StswIcons.Check}" IconFill="{DynamicResource StswColor.Positive}"/>
+                                </se:StswButton>
+                                <se:StswButton x:Name="PART_ButtonCancel" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">
+                                    <se:StswHeader Content="{se:Tr StswConfig.Cancel}" IconData="{x:Static se:StswIcons.Cancel}" IconFill="{DynamicResource StswColor.Negative}"/>
+                                </se:StswButton>
+                            </UniformGrid>
+                        </Grid>
                     </se:StswGroupBox>
                 </ControlTemplate>
             </Setter.Value>

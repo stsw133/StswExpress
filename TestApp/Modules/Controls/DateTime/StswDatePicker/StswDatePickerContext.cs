@@ -17,7 +17,6 @@ public class StswDatePickerContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -72,5 +71,4 @@ public class StswDatePickerContext : ControlsContext
         get => selectedDate;
         set => SetProperty(ref selectedDate, value);
     }
-    #endregion
 }

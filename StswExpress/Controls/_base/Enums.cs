@@ -23,6 +23,17 @@ public enum StswCalendarMode
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswNavigation.TabStripMode"/>,
+/// <see cref="StswSidePanel.ExpandMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
+/// </summary>
+public enum StswCompactibility
+{
+    Collapsed,
+    Compact,
+    Full
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswDatabaseModel.Type"/>.
 /// </summary>
 public enum StswDatabaseType
@@ -182,15 +193,4 @@ public enum StswTheme
     Light,
     Dark,
     Pink
-}
-
-/// <summary>
-/// Enumeration for <see cref="StswNavigation.TabStripMode"/>,
-/// <see cref="StswSidePanel.ExpandMode"/> and <see cref="StswTextEditor.ToolbarMode"/>.
-/// </summary>
-public enum StswToolbarMode
-{
-    Collapsed,
-    Compact,
-    Full
 }

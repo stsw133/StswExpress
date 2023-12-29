@@ -17,7 +17,6 @@ public class StswColorBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -49,5 +48,4 @@ public class StswColorBoxContext : ControlsContext
         get => selectedColor;
         set => SetProperty(ref selectedColor, value);
     }
-    #endregion
 }

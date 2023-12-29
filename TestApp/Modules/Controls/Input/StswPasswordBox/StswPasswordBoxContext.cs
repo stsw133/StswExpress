@@ -15,7 +15,6 @@ public class StswPasswordBoxContext : ControlsContext
         ShowPassword = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowPassword)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -39,5 +38,4 @@ public class StswPasswordBoxContext : ControlsContext
         get => showPassword;
         set => SetProperty(ref showPassword, value);
     }
-    #endregion
 }

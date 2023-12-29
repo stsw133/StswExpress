@@ -82,10 +82,10 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// <param name="e"></param>
     private void BtnTabStripMode_Click(object sender, RoutedEventArgs e)
     {
-        if (TabStripMode == StswToolbarMode.Full)
-            TabStripMode = StswToolbarMode.Compact;
+        if (TabStripMode == StswCompactibility.Full)
+            TabStripMode = StswCompactibility.Compact;
         else
-            TabStripMode = StswToolbarMode.Full;
+            TabStripMode = StswCompactibility.Full;
     }
     #endregion
 
@@ -210,17 +210,17 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the navigation shows elements and their names.
     /// </summary>
-    public StswToolbarMode TabStripMode
+    public StswCompactibility TabStripMode
     {
-        get => (StswToolbarMode)GetValue(TabStripModeProperty);
+        get => (StswCompactibility)GetValue(TabStripModeProperty);
         set => SetValue(TabStripModeProperty, value);
     }
     public static readonly DependencyProperty TabStripModeProperty
         = DependencyProperty.Register(
             nameof(TabStripMode),
-            typeof(StswToolbarMode),
+            typeof(StswCompactibility),
             typeof(StswNavigation),
-            new FrameworkPropertyMetadata(default(StswToolbarMode),
+            new FrameworkPropertyMetadata(default(StswCompactibility),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -231,13 +231,13 @@ public class StswNavigation : ContentControl, IStswCornerControl
             /// get back all items from compact panel into original expander
             if (stsw.CompactedExpander != null && stsw.ItemsCompact.Count > 0)
             {
-                if (stsw.TabStripMode == StswToolbarMode.Full)
+                if (stsw.TabStripMode == StswCompactibility.Full)
                 {
                     stsw.CompactedExpander.Items.Clear();
                     foreach (StswNavigationElement item in stsw.ItemsCompact.Clone())
                         stsw.CompactedExpander.Items.Add(item);
                 }
-                else if (stsw.TabStripMode == StswToolbarMode.Compact)
+                else if (stsw.TabStripMode == StswCompactibility.Compact)
                 {
                     stsw.ItemsCompact.Clear();
                     foreach (StswNavigationElement item in stsw.CompactedExpander.Items.Clone())

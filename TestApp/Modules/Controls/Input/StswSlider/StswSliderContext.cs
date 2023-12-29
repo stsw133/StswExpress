@@ -2,7 +2,6 @@
 
 public class StswSliderContext : ControlsContext
 {
-    #region Properties
     /// Maximum
     private double? maximum = 100;
     public double? Maximum
@@ -48,5 +47,4 @@ public class StswSliderContext : ControlsContext
         get => tickFrequency;
         set => SetProperty(ref tickFrequency, value);
     }
-    #endregion
 }

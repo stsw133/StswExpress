@@ -32,11 +32,11 @@
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswListView.ItemsPanel>
+            <!-- <se:StswListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="4" VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
-            </se:StswListView.ItemsPanel>
+            </se:StswListView.ItemsPanel> -->
         </se:StswListView>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

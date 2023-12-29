@@ -12,8 +12,8 @@ namespace StswExpress;
 /// Represents a navigation element that can contain sub-elements and interact with a parent navigation control.
 /// </summary>
 /// <remarks>
-/// WARNING: There are bugs when switching from <see cref="StswToolbarMode.Compact"/> mode
-/// to <see cref="StswToolbarMode.Full"/> mode - all buttons in expander can become invisible.
+/// WARNING: There are bugs when switching from <see cref="StswCompactibility.Compact"/> mode
+/// to <see cref="StswCompactibility.Full"/> mode - all buttons in expander can become invisible.
 /// </remarks>
 [ContentProperty(nameof(Items))]
 public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, IStswIconControl
@@ -182,7 +182,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             if (stsw.stswNavigation != null)
             {
                 /// when expanding expander in compact mode
-                if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswToolbarMode.Compact)
+                if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Compact)
                 {
                     /// move compact panel items back to previous expander
                     if (stsw.stswNavigation.CompactedExpander != null && stsw.stswNavigation.ItemsCompact.Count > 0)
@@ -217,7 +217,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                         stsw.stswNavigation.LastSelectedItem = stsw;
 
                     /// hide compact panel
-                    if (stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)
+                    if (stsw.stswNavigation.TabStripMode == StswCompactibility.Compact)
                         stsw.stswNavigation.ItemsCompact.Clear();
 
                     /// load context for content presenter
@@ -241,17 +241,17 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     /// <summary>
     /// Gets or sets a value indicating whether the navigation element is in the compact state.
     /// </summary>
-    public StswToolbarMode TabStripMode
+    public StswCompactibility TabStripMode
     {
-        get => (StswToolbarMode)GetValue(TabStripModeProperty);
+        get => (StswCompactibility)GetValue(TabStripModeProperty);
         internal set => SetValue(TabStripModeProperty, value);
     }
     public static readonly DependencyProperty TabStripModeProperty
         = DependencyProperty.Register(
             nameof(TabStripMode),
-            typeof(StswToolbarMode),
+            typeof(StswCompactibility),
             typeof(StswNavigationElement),
-            new FrameworkPropertyMetadata(default(StswToolbarMode),
+            new FrameworkPropertyMetadata(default(StswCompactibility),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnTabStripModeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -259,7 +259,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     {
         if (obj is StswNavigationElement stsw)
         {
-            if (stsw.HasItems && stsw.TabStripMode == StswToolbarMode.Compact)
+            if (stsw.HasItems && stsw.TabStripMode == StswCompactibility.Compact)
                 stsw.IsChecked = false;
         }
     }
@@ -372,7 +372,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
             while (ancestorElement != null)
             {
                 ancestorElement = StswFn.FindVisualAncestor<StswNavigationElement>(ancestorElement);
-                if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswToolbarMode.Full && ancestorElement.ContextNamespace == null)
+                if (ancestorElement != null && ancestorElement.Items.Count > 0 && ancestorElement.TabStripMode == StswCompactibility.Full && ancestorElement.ContextNamespace == null)
                     padding = new Thickness(padding.Left + ancestorElement.ItemsIndentation, padding.Top, padding.Right, padding.Bottom);
             }
             stsw.ItemsMargin = padding;

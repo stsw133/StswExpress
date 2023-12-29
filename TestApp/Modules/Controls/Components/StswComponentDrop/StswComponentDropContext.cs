@@ -20,7 +20,6 @@ public class StswComponentDropContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickOption
     private int clickOption;
     public int ClickOption
@@ -68,5 +67,4 @@ public class StswComponentDropContext : ControlsContext
         get => isReadOnly;
         set => SetProperty(ref isReadOnly, value);
     }
-    #endregion
 }

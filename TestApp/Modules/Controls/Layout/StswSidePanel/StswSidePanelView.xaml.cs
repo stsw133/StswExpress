@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswZoomControlView.xaml
+/// Interaction logic for StswSidePanelView.xaml
 /// </summary>
-public partial class StswZoomControlView : UserControl
+public partial class StswSidePanelView : UserControl
 {
-    public StswZoomControlView()
+    public StswSidePanelView()
     {
         InitializeComponent();
     }

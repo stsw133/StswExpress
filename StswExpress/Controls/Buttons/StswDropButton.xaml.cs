@@ -49,10 +49,7 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 _ = Mouse.Capture(null);
         }
     }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
-    {
-        SetCurrentValue(IsDropDownOpenProperty, false);
-    }
+    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.

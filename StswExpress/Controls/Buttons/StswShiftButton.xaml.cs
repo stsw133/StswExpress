@@ -9,13 +9,14 @@ using System.Windows.Input;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a control that allows shifting through items using arrow buttons or keyboard input.
 /// </summary>
 public class StswShiftButton : ComboBox, IStswCornerControl
 {
     public StswShiftButton()
     {
-        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(ProgressBar)).AddValueChanged(this, OnSelectedIndexChanged);
+        DependencyPropertyDescriptor.FromProperty(IsReadOnlyProperty, typeof(ComboBox)).AddValueChanged(this, CheckButtonAccessibility);
+        DependencyPropertyDescriptor.FromProperty(SelectedIndexProperty, typeof(ComboBox)).AddValueChanged(this, CheckButtonAccessibility);
     }
     static StswShiftButton()
     {
@@ -35,40 +36,84 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         /// Button: previous
         if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase buttonPrevious)
         {
-            buttonPrevious.IsEnabled = CanShiftBy(-1);
+            buttonPrevious.IsEnabled = CanShiftBy(-1) && !IsReadOnly;
             buttonPrevious.Click += (s, e) => ShiftBy(-1);
             this.buttonPrevious = buttonPrevious;
         }
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
         {
-            buttonNext.IsEnabled = CanShiftBy(1);
+            buttonNext.IsEnabled = CanShiftBy(1) && !IsReadOnly;
             buttonNext.Click += (s, e) => ShiftBy(1);
             this.buttonNext = buttonNext;
         }
     }
 
     /// <summary>
-    /// 
+    /// Overrides the behavior for mouse wheel input to shift through items if the control has focus and is not read-only.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
     {
         base.OnPreviewMouseWheel(e);
 
-        if (IsKeyboardFocusWithin)
+        if (IsKeyboardFocusWithin && !IsReadOnly)
         {
-            if (e.Delta > 0)
-                ShiftBy(1);
-            else
+            if (e.Delta < 0)
                 ShiftBy(-1);
+            else
+                ShiftBy(1);
         }
         e.Handled = true;
     }
 
     /// <summary>
-    /// 
+    /// Overrides the behavior for keyboard input to shift through items if the control has focus and is not read-only.
     /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        base.OnPreviewKeyDown(e);
+
+        if (IsEditable)
+            return;
+
+        if (IsKeyboardFocusWithin && !IsReadOnly)
+        {
+            switch (e.Key)
+            {
+                case Key.Down:
+                case Key.Left:
+                    ShiftBy(-1);
+                    break;
+                case Key.Right:
+                case Key.Up:
+                    ShiftBy(1);
+                    break;
+                case Key.PageDown:
+                    ShiftBy(-10);
+                    break;
+                case Key.PageUp:
+                    ShiftBy(10);
+                    break;
+                case Key.Home:
+                    if (Items.Count > 0)
+                        SelectedIndex = 0;
+                    break;
+                case Key.End:
+                    if (Items.Count > 0)
+                        SelectedIndex = Items.Count - 1;
+                    break;
+            }
+        }
+        e.Handled = true;
+    }
+
+    /// <summary>
+    /// Determines whether shifting by a specified step is possible based on the current selected index and item count.
+    /// </summary>
+    /// <param name="step">The step value for shifting through items</param>
+    /// <returns><see langword="true"/> if shifting by the given step is possible; <see langword="false"/> otherwise</returns>
     private bool CanShiftBy(int step)
     {
         if (SelectedIndex + step >= Items.Count || SelectedIndex + step < 0)
@@ -77,8 +122,9 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Shifts the selected index by the specified step, considering looping and boundary conditions.
     /// </summary>
+    /// <param name="step">The step value for shifting through items</param>
     private void ShiftBy(int step)
     {
         if (Items.Count == 0)
@@ -92,16 +138,23 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Checks the accessibility and updates the enabled state of the previous and next shift buttons based on current conditions.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnSelectedIndexChanged(object? sender, EventArgs e) => OnIsLoopingEnabledChanged(this, new DependencyPropertyChangedEventArgs());
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void CheckButtonAccessibility(object? sender, EventArgs e)
+    {
+        if (buttonPrevious != null && buttonNext != null)
+        {
+            buttonPrevious.IsEnabled = (IsLoopingEnabled || CanShiftBy(-1)) && !IsReadOnly;
+            buttonNext.IsEnabled = (IsLoopingEnabled || CanShiftBy(1)) && !IsReadOnly;
+        }
+    }
     #endregion
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether looping through items is enabled when reaching the beginning or end.
     /// </summary>
     public bool IsLoopingEnabled
     {
@@ -121,11 +174,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     {
         if (obj is StswShiftButton stsw)
         {
-            if (stsw.buttonPrevious != null && stsw.buttonNext != null)
-            {
-                stsw.buttonPrevious.IsEnabled = stsw.IsLoopingEnabled || stsw.CanShiftBy(-1);
-                stsw.buttonNext.IsEnabled = stsw.IsLoopingEnabled || stsw.CanShiftBy(1);
-            }
+            stsw.CheckButtonAccessibility(null, EventArgs.Empty);
         }
     }
     #endregion
@@ -162,6 +211,21 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswShiftButton)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between arrow button and content presenter.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswShiftButton)
         );
     #endregion

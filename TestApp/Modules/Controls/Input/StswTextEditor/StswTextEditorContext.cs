@@ -12,7 +12,6 @@ public class StswTextEditorContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
@@ -28,5 +27,4 @@ public class StswTextEditorContext : ControlsContext
         get => text;
         set => SetProperty(ref text, value);
     }
-    #endregion
 }

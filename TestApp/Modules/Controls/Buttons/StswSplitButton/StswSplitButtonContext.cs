@@ -14,7 +14,6 @@ public class StswSplitButtonContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickOption
     private int clickOption;
     public int ClickOption
@@ -38,5 +37,4 @@ public class StswSplitButtonContext : ControlsContext
         get => isReadOnly;
         set => SetProperty(ref isReadOnly, value);
     }
-    #endregion
 }

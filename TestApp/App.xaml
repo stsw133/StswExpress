@@ -161,6 +161,9 @@
             <DataTemplate DataType="{x:Type local:StswBorderContext}">
                 <local:StswBorderView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswContentSwitcherContext}">
+                <local:StswContentSwitcherView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
             </DataTemplate>
@@ -238,6 +241,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswPopupContext}">
                 <local:StswPopupView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswToolTipContext}">
+                <local:StswToolTipView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswWindowContext}">
                 <local:StswWindowView/>

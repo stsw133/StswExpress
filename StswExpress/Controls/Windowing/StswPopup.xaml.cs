@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a custom window control with additional functionality and customization options.
+/// Represents a custom popup control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
 public class StswPopup : Popup, IStswCornerControl

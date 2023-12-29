@@ -18,7 +18,6 @@ public class StswComponentCheckContext : ControlsContext
         IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
     }
 
-    #region Properties
     /// ContentVisibility
     private Visibility contentVisibility;
     public Visibility ContentVisibility
@@ -50,5 +49,4 @@ public class StswComponentCheckContext : ControlsContext
         get => isThreeState;
         set => SetProperty(ref isThreeState, value);
     }
-    #endregion
 }

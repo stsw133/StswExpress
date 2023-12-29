@@ -8,7 +8,7 @@ namespace TestApp;
 public class StswLogPanelContext : ControlsContext
 {
     public StswCommand AddRandomItemCommand => new(AddRandomItem);
-    public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles_Executed);
+    public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles);
 
     public override void SetDefaults()
     {
@@ -17,7 +17,7 @@ public class StswLogPanelContext : ControlsContext
         IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
     }
 
-    #region Events and methods
+    #region Events & methods
     /// Command: add random item
     private void AddRandomItem()
     {
@@ -28,10 +28,9 @@ public class StswLogPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task LoadFromFiles_Executed() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
+    private Task LoadFromFiles() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
     #endregion
 
-    #region Properties
     /// IsClosable
     private bool isClosable;
     public bool IsClosable
@@ -47,5 +46,4 @@ public class StswLogPanelContext : ControlsContext
         get => itemsSource;
         set => SetProperty(ref itemsSource, value);
     }
-    #endregion
 }

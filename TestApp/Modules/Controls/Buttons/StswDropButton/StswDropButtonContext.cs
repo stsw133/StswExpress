@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Input;
 
 namespace TestApp;
 
@@ -15,7 +14,6 @@ public class StswDropButtonContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickOption
     private int clickOption;
     public int ClickOption
@@ -39,5 +37,4 @@ public class StswDropButtonContext : ControlsContext
         get => isReadOnly;
         set => SetProperty(ref isReadOnly, value);
     }
-    #endregion
 }

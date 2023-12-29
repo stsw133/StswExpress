@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="TestApp.StswToolTipView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswToolTipContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
+        <local:ControlsBase.Description>
+            Represents a control for displaying informative or descriptive content when hovering over an element.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- ShowDuration -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDuration"/>
+            <se:StswNumericBox Format="0" Margin="0 0 0 3" Value="{Binding ShowDuration}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.ShowDuration="{Binding ShowDuration}">
+            <se:StswText.ToolTip>
+                <se:StswToolTip>
+                    <se:StswText Text="Here is some tooltip that have rounded corners &#10; and uses the same brushes as StswPopup." TextWrapping="Wrap"/>
+                </se:StswToolTip>
+            </se:StswText.ToolTip>
+        </se:StswText>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

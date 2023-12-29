@@ -12,7 +12,6 @@ public class StswSeparatorContext : ControlsContext
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
-    #region Properties
     /// Orientation
     private Orientation orientation;
     public Orientation Orientation
@@ -20,5 +19,4 @@ public class StswSeparatorContext : ControlsContext
         get => orientation;
         set => SetProperty(ref orientation, value);
     }
-    #endregion
 }

@@ -2,6 +2,10 @@
 using System.Windows.Controls;
 
 namespace StswExpress;
+
+/// <summary>
+/// Represents a control for displaying informative or descriptive content when hovering over an element.
+/// </summary>
 public class StswToolTip : ToolTip, IStswCornerControl
 {
     static StswToolTip()

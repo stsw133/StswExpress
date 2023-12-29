@@ -1,19 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a config box behaving like content dialog.
 /// </summary>
-internal class StswConfig : Control
+internal class StswConfig : Control, IStswCornerControl
 {
-    public ICommand CloseCommand { get; internal set; }
-
-    internal StswConfig()
+    internal StswConfig(object? identifier)
     {
-        CloseCommand = new StswCommand<bool?>(Close);
+        this.identifier = identifier;
     }
     static StswConfig()
     {
@@ -28,8 +26,15 @@ internal class StswConfig : Control
     {
         base.OnApplyTemplate();
 
+        /// Button: confirm
+        if (GetTemplateChild("PART_ButtonConfirm") is ButtonBase btnConfirm)
+            btnConfirm.Click += (s, e) => Close(true);
+        /// Button: cancel
+        if (GetTemplateChild("PART_ButtonCancel") is ButtonBase btnCancel)
+            btnCancel.Click += (s, e) => Close(false);
+
         /// iSize
-        if (GetTemplateChild("PART_iSize") is StswSlider iSize)
+        if (GetTemplateChild("PART_iSize") is Slider iSize)
             iSize.MouseLeave += (s, e) => StswSettings.Default.iSize = iSize.Value;
     }
 
@@ -39,7 +44,7 @@ internal class StswConfig : Control
     /// <param name="result"></param>
     private void Close(bool? result)
     {
-        StswContentDialog.Close(Window.GetWindow(this));
+        StswContentDialog.Close(identifier);
 
         if (result == true)
             StswSettings.Default.Save();
@@ -59,33 +64,30 @@ internal class StswConfig : Control
     /// <returns></returns>
     public static async void Show(object identifier)
     {
-        StswConfig dialog = new()
-        {
-            Identifier = identifier
-        };
         if (!StswContentDialog.GetInstance(identifier).IsOpen)
-            await StswContentDialog.Show(dialog, dialog.Identifier);
+            await StswContentDialog.Show(new StswConfig(identifier), identifier);
     }
-    #endregion
-
-    #region Main properties
-    /// <summary>
-    /// Identifier which is used in conjunction with <see cref="Show(object)"/> to determine where a dialog should be shown.
-    /// </summary>
-    public object? Identifier
-    {
-        get => GetValue(IdentifierProperty);
-        set => SetValue(IdentifierProperty, value);
-    }
-    public static readonly DependencyProperty IdentifierProperty
-        = DependencyProperty.Register(
-            nameof(Identifier),
-            typeof(object),
-            typeof(StswConfig)
-        );
+    private readonly object? identifier;
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswConfig)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control's border are rounded by defining
     /// a radius value for each corner independently. This property allows users to control the roundness

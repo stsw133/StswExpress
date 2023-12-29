@@ -12,17 +12,25 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control that provides a user interface element used to trigger actions upon being clicked.
+            Represents a control that allows shifting through items using arrow buttons or keyboard input.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsEditable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsEditable"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEditable}"/>
             <!-- IsLoopingEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsLoopingEnabled"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsLoopingEnabled}"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswShiftButton IsEnabled="{Binding IsEnabled}"
+        <se:StswShiftButton IsEditable="{Binding IsEditable}"
+                            IsEnabled="{Binding IsEnabled}"
                             IsLoopingEnabled="{Binding IsLoopingEnabled}"
+                            IsReadOnly="{Binding IsReadOnly}"
                             ItemsSource="{Binding Items}"
                             Margin="5"
                             SelectedItem="{Binding SelectedItem}"

@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
@@ -128,7 +128,7 @@
                                                     VerticalAlignment="Stretch"
                                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                    Visibility="{TemplateBinding IsEditable, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                                                    Visibility="Collapsed"/>
                                 </Grid>
                             </DockPanel>
                         </se:StswToggleButton>
@@ -141,6 +141,7 @@
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="IsTabStop" Value="False"/>
                             <Setter Property="Padding" Value="0" TargetName="PART_MainButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_EditableTextBox"/>
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Height" Value="95" TargetName="DropDownBorder"/>

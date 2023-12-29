@@ -9,21 +9,21 @@
         <ControlTemplate TargetType="{x:Type UserControl}">
             <Grid d:Background="White">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="207"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
                 <se:StswScrollViewer IsDynamic="True">
-                    <StackPanel Margin="5">
+                    <StackPanel Margin="3">
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
-                            <Run FontSize="20" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
+                            <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
                             <LineBreak/>
                             <Run Text="{Binding Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </se:StswText>
                         <StackPanel Margin="5">
                             <se:StswText FontWeight="Medium" HorizontalAlignment="Center" Text="Properties:"/>
                             <!-- HorizontalAlignment -->
-                            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
                             <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding HorizontalAlignmentSelector}" SelectedValue="{Binding HorizontalAlignment}" SelectedValuePath="Value">
                                 <se:StswListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -51,7 +51,7 @@
                                 </se:StswListBox.ItemTemplate>
                             </se:StswListBox>
                             <!-- VerticalAlignment -->
-                            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
                             <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding VerticalAlignmentSelector}" SelectedValue="{Binding VerticalAlignment}" SelectedValuePath="Value">
                                 <se:StswListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -79,7 +79,7 @@
                                 </se:StswListBox.ItemTemplate>
                             </se:StswListBox>
                             <!-- IsEnabled -->
-                            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
+                            <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
                             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEnabled}"/>
                             <!-- other properties -->
                             <ItemsControl ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>

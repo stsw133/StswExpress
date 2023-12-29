@@ -13,7 +13,6 @@ public class StswProgressRingContext : ControlsContext
         TextMode = (StswProgressTextMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TextMode)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsIndeterminate
     private bool isIndeterminate;
     public bool IsIndeterminate
@@ -60,5 +59,4 @@ public class StswProgressRingContext : ControlsContext
         get => textMode;
         set => SetProperty(ref textMode, value);
     }
-    #endregion
 }

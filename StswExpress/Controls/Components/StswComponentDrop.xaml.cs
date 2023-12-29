@@ -125,10 +125,7 @@ public class StswComponentDrop : ItemsControl, IStswComponentControl, IStswDropC
                 _ = Mouse.Capture(null);
         }
     }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
-    {
-        SetCurrentValue(IsDropDownOpenProperty, false);
-    }
+    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop button is in read-only mode.

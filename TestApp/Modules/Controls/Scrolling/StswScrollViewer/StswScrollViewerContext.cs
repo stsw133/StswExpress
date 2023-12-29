@@ -14,7 +14,6 @@ public class StswScrollViewerContext : ControlsContext
         isDynamic = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDynamic)))?.Value ?? default;
     }
 
-    #region Properties
     /// HorizontalScrollBarVisibility
     private ScrollBarVisibility horizontalScrollBarVisibility;
     public ScrollBarVisibility HorizontalScrollBarVisibility
@@ -38,5 +37,4 @@ public class StswScrollViewerContext : ControlsContext
         get => isDynamic;
         set => SetProperty(ref isDynamic, value);
     }
-    #endregion
 }

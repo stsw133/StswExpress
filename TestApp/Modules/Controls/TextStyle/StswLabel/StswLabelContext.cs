@@ -11,7 +11,6 @@ public class StswLabelContext : ControlsContext
         IsTruncationAllowed = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsTruncationAllowed)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsTruncationAllowed
     private bool isTruncationAllowed;
     public bool IsTruncationAllowed
@@ -19,5 +18,4 @@ public class StswLabelContext : ControlsContext
         get => isTruncationAllowed;
         set => SetProperty(ref isTruncationAllowed, value);
     }
-    #endregion
 }

@@ -16,7 +16,6 @@ public class StswMediaElementContext : ControlsContext
     }
     #endregion
 
-    #region Properties
     /// FilePath
     private string? filePath;
     public string? FilePath
@@ -40,5 +39,4 @@ public class StswMediaElementContext : ControlsContext
         get => source;
         set => SetProperty(ref source, value);
     }
-    #endregion
 }

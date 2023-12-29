@@ -442,15 +442,15 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
     /// <summary>
     /// Gets or sets a value indicating whether the control shows tool bar and how many options.
     /// </summary>
-    public StswToolbarMode ToolbarMode
+    public StswCompactibility ToolbarMode
     {
-        get => (StswToolbarMode)GetValue(ToolbarModeProperty);
+        get => (StswCompactibility)GetValue(ToolbarModeProperty);
         set => SetValue(ToolbarModeProperty, value);
     }
     public static readonly DependencyProperty ToolbarModeProperty
         = DependencyProperty.Register(
             nameof(ToolbarMode),
-            typeof(StswToolbarMode),
+            typeof(StswCompactibility),
             typeof(StswTextEditor)
         );
     #endregion

@@ -4,7 +4,6 @@ namespace TestApp;
 
 public class StswCalendarContext : ControlsContext
 {
-    #region Properties
     /// Maximum
     private DateTime? maximum;
     public DateTime? Maximum
@@ -27,5 +26,4 @@ public class StswCalendarContext : ControlsContext
         get => selectedDate;
         set => SetProperty(ref selectedDate, value);
     }
-    #endregion
 }

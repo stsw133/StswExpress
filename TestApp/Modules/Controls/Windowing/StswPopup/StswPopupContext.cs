@@ -2,7 +2,6 @@
 
 public class StswPopupContext : ControlsContext
 {
-    #region Properties
     /// IsOpen
     private bool isOpen = false;
     public bool IsOpen
@@ -10,5 +9,4 @@ public class StswPopupContext : ControlsContext
         get => isOpen;
         set => SetProperty(ref isOpen, value);
     }
-    #endregion
 }

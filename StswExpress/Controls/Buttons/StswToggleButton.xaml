@@ -68,7 +68,7 @@
 
     
     
-    <!-- template for StswToggleButton in StswDropButton & StswSplitButton & StswComboBox & StswSelectionBox -->
+    <!-- template for StswToggleButton in: "StswDropButton" & "StswSplitButton" & "StswComboBox" & "StswSelectionBox" -->
     <ControlTemplate x:Key="StswDropToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
         <se:StswBorder x:Name="PART_MainBorder"
                        Background="{TemplateBinding Background}"
@@ -103,8 +103,8 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
-    <!-- template for StswNavigationElement -->
+
+    <!-- template for StswToggleButton in: "StswNavigationElement" -->
     <ControlTemplate x:Key="StswNavigationToggleButtonTemplate" TargetType="{x:Type se:StswToggleButton}">
         <se:StswBorder x:Name="PART_MainBorder"
                        Background="{TemplateBinding Background}"

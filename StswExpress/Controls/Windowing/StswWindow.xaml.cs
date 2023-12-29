@@ -95,7 +95,7 @@ public class StswWindow : Window, IStswCornerControl
             windowBar.SizeChanged += (s, e) => UpdateChrome();
             //windowBar.IsVisibleChanged += (s, e) => UpdateChrome();
             if (windowBar.Parent is StswSidePanel windowBarPanel and not null)
-                windowBarPanel.ExpandMode = Fullscreen ? StswToolbarMode.Collapsed : StswToolbarMode.Full;
+                windowBarPanel.ExpandMode = Fullscreen ? StswCompactibility.Collapsed : StswCompactibility.Full;
             this.windowBar = windowBar;
         }
         StateChanged += (s, e) => UpdateChrome();
@@ -212,14 +212,14 @@ public class StswWindow : Window, IStswCornerControl
                         stsw.WindowState = WindowState.Minimized;
 
                     if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
-                        windowBarPanel.ExpandMode = StswToolbarMode.Collapsed;
+                        windowBarPanel.ExpandMode = StswCompactibility.Collapsed;
 
                     stsw.WindowState = WindowState.Maximized;
                 }
                 else
                 {
                     if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
-                        windowBarPanel.ExpandMode = StswToolbarMode.Full;
+                        windowBarPanel.ExpandMode = StswCompactibility.Full;
 
                     if (stsw.preFullscreenState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;

@@ -17,7 +17,6 @@ public class StswComponentHeaderContext : ControlsContext
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
     }
 
-    #region Properties
     /// ContentVisibility
     private Visibility contentVisibility;
     public Visibility ContentVisibility
@@ -41,5 +40,4 @@ public class StswComponentHeaderContext : ControlsContext
         get => isBusy;
         set => SetProperty(ref isBusy, value);
     }
-    #endregion
 }

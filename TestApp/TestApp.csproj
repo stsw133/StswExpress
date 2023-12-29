@@ -66,6 +66,9 @@
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Layout\StswContentSwitcher\StswContentSwitcherView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -73,6 +76,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\_test\StswTestView.xaml.cs">
@@ -258,6 +264,9 @@
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Layout\StswContentSwitcher\StswContentSwitcherView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -265,6 +274,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\_test\StswTestView.xaml">

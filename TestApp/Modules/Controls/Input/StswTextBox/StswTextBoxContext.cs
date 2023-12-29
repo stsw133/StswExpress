@@ -15,7 +15,6 @@ public class StswTextBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -39,5 +38,4 @@ public class StswTextBoxContext : ControlsContext
         get => text;
         set => SetProperty(ref text, value);
     }
-    #endregion
 }

@@ -55,6 +55,7 @@
         <ResourceDictionary Source="Input/StswTextEditor.xaml"/>
 
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
+        <ResourceDictionary Source="Layout/StswContentSwitcher.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>

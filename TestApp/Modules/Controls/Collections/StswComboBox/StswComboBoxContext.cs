@@ -13,11 +13,11 @@ public class StswComboBoxContext : ControlsContext
     {
         base.SetDefaults();
 
+        SelectedItem = Items[new Random().Next(30)];
         IsEditable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEditable)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -43,30 +43,18 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// Items
-    private List<string?> items = new()
-    {
-        "Option 1",
-        "Option 2",
-        "Option 3",
-        "Option 4",
-        "Option 5",
-        "Option 6",
-        "Option 7",
-        "Option 8",
-        "Option 9",
-        "Option 10"
-    };
-    public List<string?> Items
+    private List<string> items = Enumerable.Range(1, 30).Select(i => "Option " + i).ToList();
+    public List<string> Items
     {
         get => items;
         set => SetProperty(ref items, value);
     }
+
     /// SelectedItem
-    private string? selectedItem = "Option 4";
+    private string? selectedItem;
     public string? SelectedItem
     {
         get => selectedItem;
         set => SetProperty(ref selectedItem, value);
     }
-    #endregion
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -15,24 +16,11 @@ public class StswListViewContext : ControlsContext
     {
         base.SetDefaults();
 
-        SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? default;
+        SelectionMode = (SelectionMode?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SelectionMode)))?.Value ?? SelectionMode.Multiple;//default;
     }
 
-    #region Properties
     /// Items
-    private BindingList<StswListBoxTestModel> items = new()
-    {
-        new() { Name = "Option 1", IsSelected = true },
-        new() { Name = "Option 2", IsSelected = false },
-        new() { Name = "Option 3", IsSelected = false },
-        new() { Name = "Option 4", IsSelected = true },
-        new() { Name = "Option 5", IsSelected = false },
-        new() { Name = "Option 6", IsSelected = true },
-        new() { Name = "Option 7", IsSelected = false },
-        new() { Name = "Option 8", IsSelected = false },
-        new() { Name = "Option 9", IsSelected = true },
-        new() { Name = "Option 10", IsSelected = false }
-    };
+    private BindingList<StswListBoxTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
     public BindingList<StswListBoxTestModel> Items
     {
         get => items;
@@ -49,5 +37,4 @@ public class StswListViewContext : ControlsContext
         get => selectionMode;
         set => SetProperty(ref selectionMode, value);
     }
-    #endregion
 }

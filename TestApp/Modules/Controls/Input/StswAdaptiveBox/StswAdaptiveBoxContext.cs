@@ -14,7 +14,6 @@ public class StswAdaptiveBoxContext : ControlsContext
         Type = (StswAdaptiveType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
@@ -38,5 +37,4 @@ public class StswAdaptiveBoxContext : ControlsContext
         get => type;
         set => SetProperty(ref type, value);
     }
-    #endregion
 }

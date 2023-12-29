@@ -26,7 +26,6 @@ public class StswGalleryContext : ControlsContext
     }
     #endregion
 
-    #region Properties
     /// DirectoryPath
     private string? directoryPath;
     public string? DirectoryPath
@@ -58,5 +57,4 @@ public class StswGalleryContext : ControlsContext
         get => orientation;
         set => SetProperty(ref orientation, value);
     }
-    #endregion
 }

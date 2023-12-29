@@ -15,7 +15,6 @@ public class StswTabControlContext : ControlsContext
         TabStripPlacement = (Dock?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(TabStripPlacement)))?.Value ?? default;
     }
 
-    #region Properties
     /// AreTabsVisible
     private bool areTabsVisible = true;
     public bool AreTabsVisible
@@ -78,5 +77,4 @@ public class StswTabControlContext : ControlsContext
         get => tabStripPlacement;
         set => SetProperty(ref tabStripPlacement, value);
     }
-    #endregion
 }

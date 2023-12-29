@@ -18,7 +18,6 @@ public class StswComponentButtonContext : ControlsContext
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickCounter
     private int clickCounter;
     public int ClickCounter
@@ -50,5 +49,4 @@ public class StswComponentButtonContext : ControlsContext
         get => isBusy;
         set => SetProperty(ref isBusy, value);
     }
-    #endregion
 }

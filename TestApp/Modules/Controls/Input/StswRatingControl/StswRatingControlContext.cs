@@ -13,7 +13,6 @@ public class StswRatingControlContext : ControlsContext
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
     }
 
-    #region Properties
     /// Direction
     private ExpandDirection direction;
     public ExpandDirection Direction
@@ -37,5 +36,4 @@ public class StswRatingControlContext : ControlsContext
         get => selectedValue;
         set => SetProperty(ref selectedValue, value);
     }
-    #endregion
 }

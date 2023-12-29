@@ -7,7 +7,6 @@ public class StswRadioButtonContext : ControlsContext
 {
     public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
-    #region Properties
     /// ClickOption
     private int clickOption;
     public int ClickOption
@@ -22,5 +21,4 @@ public class StswRadioButtonContext : ControlsContext
         get => selectedOption;
         set => SetProperty(ref selectedOption, value);
     }
-    #endregion
 }

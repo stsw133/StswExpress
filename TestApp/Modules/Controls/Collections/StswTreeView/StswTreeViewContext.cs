@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 
 namespace TestApp;
@@ -10,21 +11,12 @@ public class StswTreeViewContext : ControlsContext
         Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectedItem));
     }
 
-    #region Properties
     /// Items
-    private BindingList<StswTreeViewTestModel> items = new()
+    private BindingList<StswTreeViewTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswTreeViewTestModel
     {
-        new() { Name = "Option 1", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 1a" } } },
-        new() { Name = "Option 2", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 2a" } } },
-        new() { Name = "Option 3", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 3a", IsSelected = true } } },
-        new() { Name = "Option 4", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 4a" } } },
-        new() { Name = "Option 5", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 5a" } } },
-        new() { Name = "Option 6", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 6a" } } },
-        new() { Name = "Option 7", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 7a" } } },
-        new() { Name = "Option 8", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 8a" } } },
-        new() { Name = "Option 9", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 9a" } } },
-        new() { Name = "Option 10", SubItems = new BindingList<StswTreeViewTestModel> { new() { Name = "Option 10a" } } }
-    };
+        Name = "Option " + i,
+        SubItems = new(Enumerable.Range(97, 5).Select(j => new StswTreeViewTestModel { Name = "Option " + i + (char)j, IsSelected = new Random().Next(2) == 0 } ).ToList())
+    }).ToList());
     public BindingList<StswTreeViewTestModel> Items
     {
         get => items;
@@ -32,8 +24,8 @@ public class StswTreeViewContext : ControlsContext
     }
 
     /// SelectedItem
-    public object? SelectedItem => Items.AsEnumerable().FirstOrDefault(x => x.IsSelected);
-    #endregion
+    public object? SelectedItem => Items.AsEnumerable().FirstOrDefault(x => x.IsSelected)?.Name ?? "none or one of sub-items";
+    //public object? SelectedItem => Items.SelectMany(item => new[] { item }.Concat(item.SubItems?.SelectMany(subItem => new[] { subItem }.Concat(subItem.SubItems ?? Enumerable.Empty<StswTreeViewTestModel>())) ?? Enumerable.Empty<StswTreeViewTestModel>())).FirstOrDefault(item => item.IsSelected);
 }
 
 public class StswTreeViewTestModel : StswObservableObject, IStswSelectionItem
@@ -55,8 +47,8 @@ public class StswTreeViewTestModel : StswObservableObject, IStswSelectionItem
     }
 
     /// SubItems
-    private object? subItems;
-    public object? SubItems
+    private BindingList<StswTreeViewTestModel>? subItems;
+    public BindingList<StswTreeViewTestModel>? SubItems
     {
         get => subItems;
         set => SetProperty(ref subItems, value);

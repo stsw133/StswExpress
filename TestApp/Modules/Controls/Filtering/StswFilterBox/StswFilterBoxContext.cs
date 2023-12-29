@@ -31,7 +31,6 @@ public class StswFilterBoxContext : ControlsContext
     }
     #endregion
 
-    #region Properties
     /// FilterMenuMode
     private StswMenuMode filterMenuMode;
     public StswMenuMode FilterMenuMode
@@ -99,5 +98,4 @@ public class StswFilterBoxContext : ControlsContext
         get => value2;
         set => SetProperty(ref value2, value);
     }
-    #endregion
 }

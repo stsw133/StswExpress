@@ -14,7 +14,7 @@ public class StswMessageDialogContext : ControlsContext
         MessageDialogImage = (StswDialogImage?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(MessageDialogImage)))?.Value ?? default;
     }
 
-    #region Events and methods
+    #region Events & methods
     /// Command: open message dialog
     private async void OpenMessageDialog()
     {
@@ -29,7 +29,6 @@ public class StswMessageDialogContext : ControlsContext
     }
     #endregion
 
-    #region Properties
     /// MessageDialogButtons
     private StswDialogButtons messageDialogButtons;
     public StswDialogButtons MessageDialogButtons
@@ -53,5 +52,4 @@ public class StswMessageDialogContext : ControlsContext
         get => messageDialogResult;
         set => SetProperty(ref messageDialogResult, value);
     }
-    #endregion
 }

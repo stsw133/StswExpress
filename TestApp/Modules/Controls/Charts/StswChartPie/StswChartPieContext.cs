@@ -5,7 +5,6 @@ namespace TestApp;
 
 public class StswChartPieContext : ControlsContext
 {
-    #region Properties
     /// Items
     private ObservableCollection<StswChartModel> items = new()
     {
@@ -25,5 +24,4 @@ public class StswChartPieContext : ControlsContext
         get => items;
         set => SetProperty(ref items, value);
     }
-    #endregion
 }

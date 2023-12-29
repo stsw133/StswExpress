@@ -21,7 +21,6 @@ public class StswContentDialogContext : ControlsContext
     }
     #endregion
 
-    #region Properties
     /// ContentDialogResult
     private string? contentDialogResult;
     public string? ContentDialogResult
@@ -37,5 +36,4 @@ public class StswContentDialogContext : ControlsContext
         get => isOpen;
         set => SetProperty(ref isOpen, value);
     }
-    #endregion
 }

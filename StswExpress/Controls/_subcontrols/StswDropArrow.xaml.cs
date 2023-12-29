@@ -13,6 +13,7 @@ public class StswDropArrow : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropArrow), new FrameworkPropertyMetadata(typeof(StswDropArrow)));
     }
 
+    #region Main properties
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
@@ -27,4 +28,5 @@ public class StswDropArrow : Control
             typeof(bool),
             typeof(StswDropArrow)
         );
+    #endregion
 }

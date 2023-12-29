@@ -6,7 +6,7 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a custom window control with additional functionality and customization options.
+/// Represents a custom window bar control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Components))]
 public class StswWindowBar : Control

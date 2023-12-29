@@ -2,7 +2,6 @@
 
 public class StswToggleButtonContext : ControlsContext
 {
-    #region Properties
     /// IsChecked
     private bool isChecked;
     public bool IsChecked
@@ -10,5 +9,4 @@ public class StswToggleButtonContext : ControlsContext
         get => isChecked;
         set => SetProperty(ref isChecked, value);
     }
-    #endregion
 }

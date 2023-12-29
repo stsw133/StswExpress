@@ -18,7 +18,7 @@
         <local:ControlsBase.Properties>
             <!-- Icons -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Icons"/>
-            <se:StswComboBox CornerClipping="True" DisplayMemberPath="Display" IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedValue="{Binding Data}" SelectedValuePath="Value"/>
+            <se:StswShiftButton DisplayMemberPath="Display" IsEditable="True" ItemsSource="{Binding Icons}" Margin="0 0 0 3" SelectedValue="{Binding Data}" SelectedValuePath="Value"/>
             <!-- Scale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Scale"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Scale}">

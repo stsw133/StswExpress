@@ -16,7 +16,6 @@ public class StswNumericBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    #region Properties
     /// Components
     private bool components = false;
     public bool Components
@@ -71,5 +70,4 @@ public class StswNumericBoxContext : ControlsContext
         get => selectedValue;
         set => SetProperty(ref selectedValue, value);
     }
-    #endregion
 }

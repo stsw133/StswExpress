@@ -13,7 +13,6 @@ public class StswImageContext : ControlsContext
         Stretch = (Stretch?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Stretch)))?.Value ?? default;
     }
 
-    #region Properties
     /// MenuMode
     private StswMenuMode menuMode;
     public StswMenuMode MenuMode
@@ -29,5 +28,4 @@ public class StswImageContext : ControlsContext
         get => stretch;
         set => SetProperty(ref stretch, value);
     }
-    #endregion
 }

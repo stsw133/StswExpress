@@ -47,7 +47,6 @@
                                                  Padding="0"
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
-                                                 Width="24"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
                                 <se:StswDropArrow Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             </se:StswToggleButton>

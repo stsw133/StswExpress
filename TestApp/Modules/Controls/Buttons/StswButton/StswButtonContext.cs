@@ -13,7 +13,6 @@ public class StswButtonContext : ControlsContext
         IsDefault = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDefault)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickCounter
     private int clickCounter;
     public int ClickCounter
@@ -37,5 +36,4 @@ public class StswButtonContext : ControlsContext
         get => type;
         set => SetProperty(ref type, value);
     }
-    #endregion
 }

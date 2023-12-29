@@ -17,7 +17,6 @@ public class StswIconContext : ControlsContext
         Scale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Scale)))?.Value ?? default;
     }
 
-    #region Properties
     /// Data
     private Geometry? data = StswIcons.Abacus;
     public Geometry? Data
@@ -39,5 +38,4 @@ public class StswIconContext : ControlsContext
         get => scale;
         set => SetProperty(ref scale, value);
     }
-    #endregion
 }

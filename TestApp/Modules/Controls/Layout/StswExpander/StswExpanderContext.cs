@@ -12,7 +12,6 @@ public class StswExpanderContext : ControlsContext
         ExpandDirection = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ExpandDirection)))?.Value ?? default;
     }
 
-    #region Properties
     /// ExpandDirection
     private ExpandDirection expandDirection;
     public ExpandDirection ExpandDirection
@@ -20,5 +19,4 @@ public class StswExpanderContext : ControlsContext
         get => expandDirection;
         set => SetProperty(ref expandDirection, value);
     }
-    #endregion
 }

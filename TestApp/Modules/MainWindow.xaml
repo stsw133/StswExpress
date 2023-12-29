@@ -79,6 +79,7 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
+                <se:StswNavigationElement Header="StswContentSwitcher" ContextNamespace="TestApp.StswContentSwitcherContext"/>
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
@@ -113,6 +114,7 @@
             <se:StswNavigationElement Header="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">
                 <se:StswNavigationElement Header="StswNotifyIcon" ContextNamespace="TestApp.StswNotifyIconContext"/>
                 <se:StswNavigationElement Header="StswPopup" ContextNamespace="TestApp.StswPopupContext"/>
+                <se:StswNavigationElement Header="StswToolTip" ContextNamespace="TestApp.StswToolTipContext"/>
                 <se:StswNavigationElement Header="StswWindow" ContextNamespace="TestApp.StswWindowContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Test control" ContextNamespace="TestApp.StswTestContext"/>

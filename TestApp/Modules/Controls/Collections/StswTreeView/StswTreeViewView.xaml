@@ -38,7 +38,7 @@
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">
-                <Run Text="{Binding SelectedItem.Name, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text="{Binding SelectedItem, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" is selected"/>
             </se:StswText>
         </local:ControlsBase.StatusPanel>

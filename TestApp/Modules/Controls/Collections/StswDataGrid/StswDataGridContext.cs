@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace TestApp;
 
@@ -13,7 +12,6 @@ public class StswDataGridContext : ControlsContext
         SpecialColumnVisibility = (StswSpecialColumnVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SpecialColumnVisibility)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
@@ -23,16 +21,7 @@ public class StswDataGridContext : ControlsContext
     }
 
     /// Items
-    private StswBindingList<StswDataGridTestModel> items = new(
-        new List<StswDataGridTestModel>()
-        {
-            new() { ID = 1, Name = "First row", ShowDetails = false },
-            new() { ID = 2, Name = "Second row" },
-            new() { ID = 3, Name = "Third row" },
-            new() { ID = 4, Name = "Fourth row", ShowDetails = false },
-            new() { ID = 5, Name = "Fifth row" }
-        }
-    );
+    private StswBindingList<StswDataGridTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }).ToList());
     public StswBindingList<StswDataGridTestModel> Items
     {
         get => items;
@@ -46,7 +35,6 @@ public class StswDataGridContext : ControlsContext
         get => specialColumnVisibility;
         set => SetProperty(ref specialColumnVisibility, value);
     }
-    #endregion
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem

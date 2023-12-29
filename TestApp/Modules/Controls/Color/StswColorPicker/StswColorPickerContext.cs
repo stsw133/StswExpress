@@ -12,7 +12,6 @@ public class StswColorPickerContext : ControlsContext
         IsAlphaEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsAlphaEnabled)))?.Value ?? default;
     }
 
-    #region Properties
     /// IsAlphaEnabled
     private bool isAlphaEnabled;
     public bool IsAlphaEnabled
@@ -28,5 +27,4 @@ public class StswColorPickerContext : ControlsContext
         get => selectedColor;
         set => SetProperty(ref selectedColor, value);
     }
-    #endregion
 }

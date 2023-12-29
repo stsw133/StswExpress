@@ -13,7 +13,6 @@ public class StswShifterContext : ControlsContext
         VerticalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalScrollBarVisibility)))?.Value ?? default;
     }
 
-    #region Properties
     /// HorizontalScrollBarVisibility
     private ScrollBarVisibility horizontalScrollBarVisibility;
     public ScrollBarVisibility HorizontalScrollBarVisibility
@@ -29,5 +28,4 @@ public class StswShifterContext : ControlsContext
         get => verticalScrollBarVisibility;
         set => SetProperty(ref verticalScrollBarVisibility, value);
     }
-    #endregion
 }

@@ -15,7 +15,6 @@ public class StswToggleSwitchContext : ControlsContext
         IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
     }
 
-    #region Properties
     /// ClickOption
     private int clickOption;
     public int ClickOption
@@ -84,5 +83,4 @@ public class StswToggleSwitchContext : ControlsContext
         get => isThreeState;
         set => SetProperty(ref isThreeState, value);
     }
-    #endregion
 }
