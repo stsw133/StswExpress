@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -71,21 +72,15 @@ public static class StswExport
                             ++row;
 
                             var value = properties[col].GetValue(item);
-
-                            string valueAsString;
-                            if (attribute?.ColumnFormat != null)
-                            {
-                                if (value is IFormattable f)
-                                    valueAsString = (value as dynamic).ToString(attribute?.ColumnFormat);
-                                else if (value != null)
-                                    valueAsString = string.Format(attribute.ColumnFormat, value.GetHashCode());
-                                else
-                                    valueAsString = value?.ToString() ?? string.Empty;
-                            }
+                            if (properties[col].PropertyType.IsNumericType())
+                                ws.Cell(row, col + 1).SetValue(Convert.ToDecimal(value));
+                            else if (properties[col].PropertyType.In(typeof(DateTime), typeof(DateTime?)))
+                                ws.Cell(row, col + 1).SetValue(Convert.ToDateTime(value));
                             else
-                                valueAsString = value?.ToString() ?? string.Empty;
+                                ws.Cell(row, col + 1).SetValue(Convert.ToString(value));
 
-                            ws.Cell(row, col + 1).Value = valueAsString;
+                            if (attribute?.ColumnFormat != null)
+                                ws.Cell(row, col + 1).Style.NumberFormat.Format = attribute.ColumnFormat;
                         }
                     }
 
