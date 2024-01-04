@@ -57,7 +57,7 @@ public static class StswLog
         foreach (var log in allLogs.Where(x => x.Length > 0))
         {
             var descBeginsAt = log.Length >= 24 && log[20] == '|' && log[24] == '|' ? 26 : 22;
-            var type = (StswLogType)Enum.Parse(typeof(StswLogType), Enum.GetNames(typeof(StswLogType)).First(x => x.StartsWith(descBeginsAt == 26 ? log[22..23] : "N")));
+            var type = (StswInfoType)Enum.Parse(typeof(StswInfoType), Enum.GetNames(typeof(StswInfoType)).First(x => x.StartsWith(descBeginsAt == 26 ? log[22..23] : "N")));
             DateTime.TryParse(log[..19], out var date);
             result.Add(new StswLogItem(type, log[descBeginsAt..]) { DateTime = date });
         }
@@ -70,7 +70,7 @@ public static class StswLog
     /// Every log entry is written in a new line and starts with current date and time with a new file created each day.
     /// </summary>
     /// <param name="text">Text to log.</param>
-    public static void Write(StswLogType type, string text)
+    public static void Write(StswInfoType type, string text)
     {
         if (!Directory.Exists(DirectoryPath))
             Directory.CreateDirectory(DirectoryPath);
@@ -99,7 +99,7 @@ public static class StswLog
 /// </summary>
 public class StswLogItem
 {
-    public StswLogItem(StswLogType type, string description)
+    public StswLogItem(StswInfoType type, string description)
     {
         Type = type;
         Description = description;
@@ -108,7 +108,7 @@ public class StswLogItem
     /// <summary>
     /// 
     /// </summary>
-    public StswLogType Type { get; set; }
+    public StswInfoType Type { get; set; }
 
     /// <summary>
     /// 

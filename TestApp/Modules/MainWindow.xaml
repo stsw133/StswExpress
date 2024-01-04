@@ -79,11 +79,11 @@
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
-                <se:StswNavigationElement Header="StswContentSwitcher" ContextNamespace="TestApp.StswContentSwitcherContext"/>
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
                 <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
+                <se:StswNavigationElement Header="StswTimedSwitch" ContextNamespace="TestApp.StswTimedSwitchContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
@@ -100,7 +100,16 @@
                 <se:StswNavigationElement Header="StswShifter" ContextNamespace="TestApp.StswShifterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
-                <se:StswNavigationElement Header="StswLogPanel" ContextNamespace="TestApp.StswLogPanelContext"/>
+                <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">
+                    <se:StswNavigationElement.Header>
+                        <DockPanel>
+                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Value="100" Margin="1 0 0 0" Height="15" Width="20" Type="Error"/>
+                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Value="12" Margin="1 0 0 0" Height="15" Width="20"/>
+                            <se:StswText Text="StswInfoBadge"/>
+                        </DockPanel>
+                    </se:StswNavigationElement.Header>
+                </se:StswNavigationElement>
+                <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
             </se:StswNavigationElement>

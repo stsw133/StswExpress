@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="TestApp.StswInfoBadgeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswInfoBadgeContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that can be customized to display a number, icon, or a simple dot.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Format -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Format"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoFormat}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Format}" SelectedValuePath="Value"/>
+            <!-- Limit -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Limit"/>
+            <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
+            <!-- Type -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Type"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoType}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Value"/>
+            <!-- Value -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
+            <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswInfoBadge Format="{Binding Format}"
+                          IconData="{x:Static se:StswIcons.Cake}"
+                          IsEnabled="{Binding IsEnabled}"
+                          Limit="{Binding Limit}"
+                          Margin="5"
+                          Type="{Binding Type}"
+                          Value="{Binding SelectedValue}"
+                          HorizontalAlignment="{Binding HorizontalAlignment}"
+                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                          VerticalAlignment="{Binding VerticalAlignment}"
+                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+
+    </local:ControlsBase>
+</UserControl>

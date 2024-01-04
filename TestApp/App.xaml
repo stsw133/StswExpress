@@ -161,9 +161,6 @@
             <DataTemplate DataType="{x:Type local:StswBorderContext}">
                 <local:StswBorderView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswContentSwitcherContext}">
-                <local:StswContentSwitcherView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
             </DataTemplate>
@@ -175,6 +172,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSidePanelContext}">
                 <local:StswSidePanelView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
+                <local:StswTimedSwitchView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswZoomControlContext}">
                 <local:StswZoomControlView/>
@@ -208,8 +208,11 @@
             </DataTemplate>
 
             <!-- StatusInfo -->
-            <DataTemplate DataType="{x:Type local:StswLogPanelContext}">
-                <local:StswLogPanelView/>
+            <DataTemplate DataType="{x:Type local:StswInfoBadgeContext}">
+                <local:StswInfoBadgeView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswInfoPanelContext}">
+                <local:StswInfoPanelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswProgressBarContext}">
                 <local:StswProgressBarView/>

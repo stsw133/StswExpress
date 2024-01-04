@@ -116,6 +116,29 @@ public enum StswFilterMode
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswInfoBadge.Format"/>.
+/// </summary>
+public enum StswInfoFormat
+{
+    Dot,
+    Icon,
+    Number
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswInfoBadge.Type"/> and <see cref="StswLogItem.Type"/>.
+/// </summary>
+public enum StswInfoType
+{
+    None,
+    Debug,
+    Error,
+    Information,
+    Success,
+    Warning
+}
+
+/// <summary>
 /// Enumeration for <see cref="IStswCollectionItem.ItemState"/>.
 /// </summary>
 public enum StswItemState
@@ -124,19 +147,6 @@ public enum StswItemState
     Added,
     Deleted,
     Modified
-}
-
-/// <summary>
-/// Enumeration for <see cref="StswLogItem.Type"/>.
-/// </summary>
-public enum StswLogType
-{
-    None,
-    Debug,
-    Error,
-    Information,
-    Success,
-    Warning
 }
 
 /// <summary>

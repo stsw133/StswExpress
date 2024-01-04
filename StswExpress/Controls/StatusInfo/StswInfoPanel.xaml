@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Thickness x:Key="StswLogPanel.Thickness.Margin">3</Thickness>
+    <Thickness x:Key="StswInfoPanel.Thickness.Margin">3</Thickness>
 
-    <Style TargetType="{x:Type se:StswLogPanel}">
+    <Style TargetType="{x:Type se:StswInfoPanel}">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
@@ -25,7 +25,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswLogPanel}">
+                <ControlTemplate TargetType="{x:Type se:StswInfoPanel}">
                     <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False" IsDynamic="{TemplateBinding IsScrollDynamic}">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </se:StswScrollViewer>
@@ -40,21 +40,21 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                 <se:StswBorder x:Name="PART_MainBorder"
-                                               BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                               CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                               Margin="{DynamicResource StswLogPanel.Thickness.Margin}"
+                                               BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                               CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                               CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                               Margin="{DynamicResource StswInfoPanel.Thickness.Margin}"
                                                SnapsToDevicePixels="True"
-                                               HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
-                                               VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
-                                    <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}">
+                                               HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                               VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}">
+                                    <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}">
                                         <se:StswText DockPanel.Dock="Bottom" Padding="2 0" Text="{Binding Description}" TextWrapping="Wrap"/>
                                         <se:StswComponentButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
-                                                                Command="{Binding RemoveLogCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}}"
+                                                                Command="{Binding RemoveLogCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
                                                                 CommandParameter="{Binding}"
                                                                 IconData="{x:Static se:StswIcons.Close}"
                                                                 VerticalAlignment="Top"
-                                                                Visibility="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswLogPanel}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                                                                Visibility="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}, Converter={x:Static se:StswBoolConverter.Instance}}"/>
                                         <se:StswHeader x:Name="PART_Header" DockPanel.Dock="Top"
                                                        Content="{Binding DateTime}"
                                                        ContentStringFormat="yyyy-MM-dd HH:mm:ss"

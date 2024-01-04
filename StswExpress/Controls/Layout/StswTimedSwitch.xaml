@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswContentSwitcher}">
+    <Style TargetType="{x:Type se:StswTimedSwitch}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
 
@@ -14,7 +14,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswContentSwitcher}">
+                <ControlTemplate TargetType="{x:Type se:StswTimedSwitch}">
                     <Grid>
                         <ContentControl x:Name="PART_DefaultContent"
                                         Content="{TemplateBinding Content}"

@@ -66,10 +66,13 @@
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Layout\StswContentSwitcher\StswContentSwitcherView.xaml.cs">
+    <Compile Update="Modules\Controls\Layout\StswTimedSwitch\StswTimedSwitchView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\StatusInfo\StswInfoBadge\StswInfoBadgeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml.cs">
@@ -264,10 +267,13 @@
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Layout\StswContentSwitcher\StswContentSwitcherView.xaml">
+    <Page Update="Modules\Controls\Layout\StswTimedSwitch\StswTimedSwitchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\StatusInfo\StswInfoBadge\StswInfoBadgeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\StatusInfo\StswProgressRing\StswProgressRingView.xaml">

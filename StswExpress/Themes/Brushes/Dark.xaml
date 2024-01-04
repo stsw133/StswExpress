@@ -110,26 +110,26 @@
     <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#d19847"/>
     <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Fill" Color="Transparent"/>
 
-    <SolidColorBrush x:Key="StswDialog.None.Background" Color="#292929"/>
-    <SolidColorBrush x:Key="StswDialog.None.Border" Color="#575757"/>
-    <SolidColorBrush x:Key="StswDialog.None.Foreground" Color="#666666"/>
+    <SolidColorBrush x:Key="StswDialog.None.Background" Color="#262626"/>
+    <SolidColorBrush x:Key="StswDialog.None.Border" Color="#363636"/>
+    <SolidColorBrush x:Key="StswDialog.None.Foreground" Color="#737373"/>
     <SolidColorBrush x:Key="StswDialog.Debug.Background" Color="#2e0f3d"/>
-    <SolidColorBrush x:Key="StswDialog.Debug.Border" Color="#44304f"/>
+    <SolidColorBrush x:Key="StswDialog.Debug.Border" Color="#3a2942"/>
     <SolidColorBrush x:Key="StswDialog.Debug.Foreground" Color="#a347d1"/>
     <SolidColorBrush x:Key="StswDialog.Error.Background" Color="#3d0f0f"/>
-    <SolidColorBrush x:Key="StswDialog.Error.Border" Color="#4f3030"/>
+    <SolidColorBrush x:Key="StswDialog.Error.Border" Color="#422929"/>
     <SolidColorBrush x:Key="StswDialog.Error.Foreground" Color="#d14747"/>
     <SolidColorBrush x:Key="StswDialog.Information.Background" Color="#0f2e3d"/>
-    <SolidColorBrush x:Key="StswDialog.Information.Border" Color="#30444f"/>
+    <SolidColorBrush x:Key="StswDialog.Information.Border" Color="#293a42"/>
     <SolidColorBrush x:Key="StswDialog.Information.Foreground" Color="#47a3d1"/>
     <SolidColorBrush x:Key="StswDialog.Question.Background" Color="#0f2e3d"/>
-    <SolidColorBrush x:Key="StswDialog.Question.Border" Color="#30444f"/>
+    <SolidColorBrush x:Key="StswDialog.Question.Border" Color="#293a42"/>
     <SolidColorBrush x:Key="StswDialog.Question.Foreground" Color="#47a3d1"/>
     <SolidColorBrush x:Key="StswDialog.Success.Background" Color="#173617"/>
-    <SolidColorBrush x:Key="StswDialog.Success.Border" Color="#364a36"/>
+    <SolidColorBrush x:Key="StswDialog.Success.Border" Color="#2d3e2d"/>
     <SolidColorBrush x:Key="StswDialog.Success.Foreground" Color="#5eba5e"/>
     <SolidColorBrush x:Key="StswDialog.Warning.Background" Color="#3d2a0f"/>
-    <SolidColorBrush x:Key="StswDialog.Warning.Border" Color="#4f4230"/>
+    <SolidColorBrush x:Key="StswDialog.Warning.Border" Color="#423829"/>
     <SolidColorBrush x:Key="StswDialog.Warning.Foreground" Color="#d19847"/>
 
     <SolidColorBrush x:Key="StswExpander.Static.Background" Color="#1a1a1a"/>

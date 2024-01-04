@@ -134,8 +134,12 @@
     <Page Update="Controls\Scrolling\StswShifter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\StatusInfo\StswLogPanel.xaml">
+    <Page Update="Controls\StatusInfo\StswInfoPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Controls\StatusInfo\StswInfoBadge.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\StatusInfo\StswProgressRing.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

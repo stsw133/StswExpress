@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TestApp;
 
-public class StswLogPanelContext : ControlsContext
+public class StswInfoPanelContext : ControlsContext
 {
     public StswCommand AddRandomItemCommand => new(AddRandomItem);
     public StswAsyncCommand LoadFromFilesCommand => new(LoadFromFiles);
@@ -22,7 +22,7 @@ public class StswLogPanelContext : ControlsContext
     private void AddRandomItem()
     {
         ItemsSource.Add(new(
-            StswLogType.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswLogType)).Length)),
+            StswInfoType.None.GetNextValue(new Random().Next(Enum.GetValues(typeof(StswInfoType)).Length)),
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."[..new Random().Next(10, 199)])
         );
     }

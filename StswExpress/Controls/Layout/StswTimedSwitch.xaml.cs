@@ -9,11 +9,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that manages the display of different content for a specified duration when the timer is enabled.
 /// </summary>
-public class StswContentSwitcher : ContentControl
+public class StswTimedSwitch : ContentControl
 {
-    static StswContentSwitcher()
+    static StswTimedSwitch()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswContentSwitcher), new FrameworkPropertyMetadata(typeof(StswContentSwitcher)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswTimedSwitch), new FrameworkPropertyMetadata(typeof(StswTimedSwitch)));
     }
 
     #region Events & methods
@@ -59,14 +59,14 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(IsTimerEnabled),
             typeof(bool),
-            typeof(StswContentSwitcher),
+            typeof(StswTimedSwitch),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnIsTimerEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnIsTimerEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswContentSwitcher stsw)
+        if (obj is StswTimedSwitch stsw)
         {
             if (stsw.IsTimerEnabled)
                 stsw.timer.Start();
@@ -87,12 +87,12 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(SwitchTime),
             typeof(TimeSpan),
-            typeof(StswContentSwitcher),
+            typeof(StswTimedSwitch),
             new PropertyMetadata(default(TimeSpan), OnSwitchTimeChanged)
         );
     public static void OnSwitchTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswContentSwitcher stsw)
+        if (obj is StswTimedSwitch stsw)
         {
             if (stsw.SwitchTime.TotalMilliseconds > 0)
                 stsw.timer.Interval = stsw.SwitchTime.TotalMilliseconds;
@@ -111,7 +111,7 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(TimedContent),
             typeof(object),
-            typeof(StswContentSwitcher)
+            typeof(StswTimedSwitch)
         );
 
     /// <summary>
@@ -126,7 +126,7 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(TimedContentStringFormat),
             typeof(string),
-            typeof(StswContentSwitcher)
+            typeof(StswTimedSwitch)
         );
 
     /// <summary>
@@ -141,7 +141,7 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(TimedContentTemplate),
             typeof(DataTemplate),
-            typeof(StswContentSwitcher)
+            typeof(StswTimedSwitch)
         );
 
     /// <summary>
@@ -156,7 +156,7 @@ public class StswContentSwitcher : ContentControl
         = DependencyProperty.Register(
             nameof(TimedContentTemplateSelector),
             typeof(DataTemplateSelector),
-            typeof(StswContentSwitcher)
+            typeof(StswTimedSwitch)
         );
     #endregion
 }

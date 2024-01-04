@@ -9,17 +9,17 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-public class StswLogPanel : ListBox, IStswCornerControl
+public class StswInfoPanel : ListBox, IStswCornerControl
 {
     public ICommand RemoveLogCommand { get; set; }
 
-    public StswLogPanel()
+    public StswInfoPanel()
     {
         RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog);
     }
-    static StswLogPanel()
+    static StswInfoPanel()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLogPanel), new FrameworkPropertyMetadata(typeof(StswLogPanel)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
     }
 
     #region Events & methods
@@ -61,7 +61,7 @@ public class StswLogPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsClosable),
             typeof(bool),
-            typeof(StswLogPanel)
+            typeof(StswInfoPanel)
         );
     #endregion
 
@@ -80,7 +80,7 @@ public class StswLogPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswLogPanel)
+            typeof(StswInfoPanel)
         );
 
     /// <summary>
@@ -97,7 +97,7 @@ public class StswLogPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswLogPanel)
+            typeof(StswInfoPanel)
         );
 
     /// <summary>
@@ -112,7 +112,7 @@ public class StswLogPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsScrollDynamic),
             typeof(bool),
-            typeof(StswLogPanel),
+            typeof(StswInfoPanel),
             new PropertyMetadata(true)
         );
     #endregion

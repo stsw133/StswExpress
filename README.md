@@ -11,11 +11,11 @@ WPF .NET 6.0 library containing:
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **Filtering:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-  - **Layout:** StswBorder, StswContentSwitcher, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
+  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswTimedSwitch, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaElement
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
-  - **StatusInfo:** StswLogPanel, StswProgressBar, StswProgressRing
+  - **StatusInfo:** StswInfoBadge, StswInfoPanel, StswProgressBar, StswProgressRing
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswOutlinedText, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.

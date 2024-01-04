@@ -35,7 +35,7 @@ public partial class App : StswApp
         //StswSettings.Default.Theme = (int)StswTheme.Dark;
     }
 
-    private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => StswLog.Write(StswLogType.Error, e.Exception.ToString());
+    private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => StswLog.Write(StswInfoType.Error, e.Exception.ToString());
 
     private void OpenHelp() => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
 }

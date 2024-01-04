@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswContentSwitcherContext : ControlsContext
+public class StswTimedSwitchContext : ControlsContext
 {
     public StswCommand EnableTimerCommand => new(() => IsTimerEnabled = true);
 

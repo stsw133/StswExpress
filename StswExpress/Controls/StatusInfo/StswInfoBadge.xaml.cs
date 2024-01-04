@@ -1,0 +1,166 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+
+namespace StswExpress;
+
+/// <summary>
+/// Represents a control that can be customized to display a number, icon, or a simple dot.
+/// </summary>
+public class StswInfoBadge : Control, IStswCornerControl
+{
+    static StswInfoBadge()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoBadge), new FrameworkPropertyMetadata(typeof(StswInfoBadge)));
+    }
+
+    #region Events & methods
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        OnValueChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+    #endregion
+
+    #region Main properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? DisplayedValue
+    {
+        get => (string?)GetValue(DisplayedValueProperty);
+        internal set => SetValue(DisplayedValueProperty, value);
+    }
+    public static readonly DependencyProperty DisplayedValueProperty
+        = DependencyProperty.Register(
+            nameof(DisplayedValue),
+            typeof(string),
+            typeof(StswInfoBadge)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public StswInfoFormat Format
+    {
+        get => (StswInfoFormat)GetValue(FormatProperty);
+        set => SetValue(FormatProperty, value);
+    }
+    public static readonly DependencyProperty FormatProperty
+        = DependencyProperty.Register(
+            nameof(Format),
+            typeof(StswInfoFormat),
+            typeof(StswInfoBadge)
+        );
+
+    /// <summary>
+    /// Gets or sets the geometry used for the icon.
+    /// </summary>
+    public Geometry? IconData
+    {
+        get => (Geometry?)GetValue(IconDataProperty);
+        set => SetValue(IconDataProperty, value);
+    }
+    public static readonly DependencyProperty IconDataProperty
+        = DependencyProperty.Register(
+            nameof(IconData),
+            typeof(Geometry),
+            typeof(StswInfoBadge)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Limit
+    {
+        get => (int)GetValue(LimitProperty);
+        set => SetValue(LimitProperty, value);
+    }
+    public static readonly DependencyProperty LimitProperty
+        = DependencyProperty.Register(
+            nameof(Limit),
+            typeof(int),
+            typeof(StswInfoBadge),
+            new FrameworkPropertyMetadata(default(int), OnValueChanged)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public StswInfoType Type
+    {
+        get => (StswInfoType)GetValue(TypeProperty);
+        set => SetValue(TypeProperty, value);
+    }
+    public static readonly DependencyProperty TypeProperty
+        = DependencyProperty.Register(
+            nameof(Type),
+            typeof(StswInfoType),
+            typeof(StswInfoBadge)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Value
+    {
+        get => (int)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+    public static readonly DependencyProperty ValueProperty
+        = DependencyProperty.Register(
+            nameof(Value),
+            typeof(int),
+            typeof(StswInfoBadge),
+            new FrameworkPropertyMetadata(default(int), OnValueChanged)
+        );
+    public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswInfoBadge stsw)
+        {
+            stsw.DisplayedValue = stsw.Value > stsw.Limit ? $"{stsw.Limit}+" : $"{stsw.Value}";
+        }
+    }
+    #endregion
+
+    #region Style properties
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
+    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswInfoBadge)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswInfoBadge)
+        );
+    #endregion
+}

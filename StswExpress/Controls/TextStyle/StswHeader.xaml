@@ -11,7 +11,7 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="Template">
@@ -21,10 +21,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                        <StackPanel Margin="{TemplateBinding Padding}"
-                                    Orientation="{TemplateBinding Orientation}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <DockPanel Margin="{TemplateBinding Padding}">
                             <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
@@ -125,16 +122,18 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Visibility="{TemplateBinding ContentVisibility}"/>
-                        </StackPanel>
+                        </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Icon"/>
                             <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Icon"/>
                             <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
