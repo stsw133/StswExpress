@@ -15,5 +15,4 @@
 /// Changes to do for now:
 // TODO - StswTextEditor needs to be simplified
 // TODO - StswNavigationElement needs bugfixes for compact mode
-// TODO - StswNavigationElement needs to be separated into different controls (Container, Button, Separator(?))
 // TODO - StswTabControl and StswTabItem needs some bugfixes and improvements for DataContext purposes

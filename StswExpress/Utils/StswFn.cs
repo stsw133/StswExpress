@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
@@ -359,14 +360,40 @@ public static class StswFn
 
     #region Universal functions
     /// <summary>
-    /// Opens the context menu of a FrameworkElement at its current position.
+    /// Opens the context menu of a <see cref="FrameworkElement"/> at its current position.
     /// </summary>
-    public static void OpenContextMenu(object sender)
+    public static void OpenContextMenu(FrameworkElement f)
     {
-        if (sender is FrameworkElement f)
+        f.ContextMenu.PlacementTarget = f;
+        f.ContextMenu.IsOpen = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="f"></param>
+    public static void RemoveFromParent(FrameworkElement f)
+    {
+        if (f.Parent == null)
+            return;
+
+        switch (f.Parent)
         {
-            f.ContextMenu.PlacementTarget = f;
-            f.ContextMenu.IsOpen = true;
+            case ContentControl contentControl:
+                contentControl.Content = null;
+                break;
+            case ContentPresenter contentPresenter:
+                contentPresenter.Content = null;
+                break;
+            case Decorator decorator:
+                decorator.Child = null;
+                break;
+            case ItemsControl itemsControl:
+                itemsControl.Items.Remove(f);
+                break;
+            case Panel panel:
+                panel.Children.Remove(f);
+                break;
         }
     }
     #endregion

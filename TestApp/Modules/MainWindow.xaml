@@ -109,6 +109,7 @@
                         </DockPanel>
                     </se:StswNavigationElement.Header>
                 </se:StswNavigationElement>
+                <se:StswNavigationElement Header="StswInfoBar" ContextNamespace="TestApp.StswInfoBarContext"/>
                 <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>

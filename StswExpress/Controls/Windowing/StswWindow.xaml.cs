@@ -40,36 +40,6 @@ public class StswWindow : Window, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// Button: minimize
-        if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
-            btnMinimize.Click += MinimizeClick;
-        /// Button: restore
-        if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore)
-            btnRestore.Click += RestoreClick;
-        /// Button: close
-        if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
-            btnClose.Click += CloseClick;
-
-        /// Fullscreen button: minimize
-        if (GetTemplateChild("PART_FsButtonMinimize") is Button btnFsMinimize)
-            btnFsMinimize.Click += MinimizeClick;
-        /// Fullscreen button: restore
-        if (GetTemplateChild("PART_FsButtonRestore") is Button btnFsRestore)
-            btnFsRestore.Click += FullscreenClick;
-        /// Fullscreen button: close
-        if (GetTemplateChild("PART_FsButtonClose") is Button btnFsClose)
-            btnFsClose.Click += CloseClick;
-        /*
-        /// Menu: scaling
-        if (GetTemplateChild("PART_MenuScaling") is MenuItem mniScaling)
-            mniScaling.Click += (s, e) => Settings.Default.iSize = 1;
-        if (GetTemplateChild("PART_MenuScalingSlider") is Slider sliScaling)
-            sliScaling.ValueChanged += (s, e) => UpdateChrome();
-        /// Menu: theme
-        if (GetTemplateChild("PART_MenuTheme") is MenuItem mniTheme)
-            foreach (MenuItem mni in mniTheme.Items)
-                mni.Click += (s, e) => ThemeClick(mniTheme.Items.IndexOf(mni) - 1);
-        */
         /// Menu: config
         if (GetTemplateChild("PART_iConfig") is MenuItem mniConfig)
             mniConfig.Click += (s, e) => StswConfig.Show(this);
@@ -93,7 +63,6 @@ public class StswWindow : Window, IStswCornerControl
         if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
         {
             windowBar.SizeChanged += (s, e) => UpdateChrome();
-            //windowBar.IsVisibleChanged += (s, e) => UpdateChrome();
             if (windowBar.Parent is StswSidePanel windowBarPanel and not null)
                 windowBarPanel.ExpandMode = Fullscreen ? StswCompactibility.Collapsed : StswCompactibility.Full;
             this.windowBar = windowBar;
@@ -199,7 +168,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (obj is StswWindow stsw)
         {
-            if (stsw.windowBar is not null)
+            if (stsw.windowBar != null)
             {
                 if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                     return;
@@ -226,7 +195,7 @@ public class StswWindow : Window, IStswCornerControl
 
                     stsw.WindowState = stsw.preFullscreenState;
                 }
-                stsw.Focus();
+                stsw.Activate();
 
                 stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
             }

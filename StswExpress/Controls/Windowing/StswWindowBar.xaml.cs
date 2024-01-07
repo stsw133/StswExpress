@@ -71,11 +71,7 @@ public class StswWindowBar : Control
     /// <summary>
     /// Event handler for the close button click to close the window.
     /// </summary>
-    protected void CloseClick(object? sender, RoutedEventArgs e)
-    {
-        if (stswWindow != null)
-            stswWindow.Close();
-    }
+    protected void CloseClick(object? sender, RoutedEventArgs e) => stswWindow?.Close();
     #endregion
 
     #region Main properties

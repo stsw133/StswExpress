@@ -77,6 +77,7 @@
         <ResourceDictionary Source="Scrolling/StswShifter.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>

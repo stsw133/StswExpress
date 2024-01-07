@@ -15,7 +15,7 @@ WPF .NET 6.0 library containing:
   - **Media:** StswGallery, StswImage, StswMediaElement
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
-  - **StatusInfo:** StswInfoBadge, StswInfoPanel, StswProgressBar, StswProgressRing
+  - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswOutlinedText, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.
