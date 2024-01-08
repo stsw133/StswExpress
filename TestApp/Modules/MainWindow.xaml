@@ -39,6 +39,7 @@
             <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
                 <se:StswNavigationElement Header="StswComboBox" ContextNamespace="TestApp.StswComboBoxContext"/>
                 <se:StswNavigationElement Header="StswDataGrid" ContextNamespace="TestApp.StswDataGridContext"/>
+                <se:StswNavigationElement Header="StswDataPager" ContextNamespace="TestApp.StswDataPagerContext"/>
                 <se:StswNavigationElement Header="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Header="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>

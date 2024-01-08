@@ -26,95 +26,7 @@
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <ContentControl.Style>
-                                    <Style TargetType="{x:Type ContentControl}">
-                                        <Style.Triggers>
-                                            <!-- StswIcon -->
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IconData, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True"/>
-                                                    <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Null}"/>
-                                                    <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                                         Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                                         Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                                         Stroke="{Binding IconStroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                                         StrokeThickness="{Binding IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}">
-                                                                <se:StswIcon.Style>
-                                                                    <Style TargetType="{x:Type se:StswIcon}">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="auto">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </se:StswIcon.Style>
-                                                            </se:StswIcon>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </MultiDataTrigger>
-                                            <!-- StswImage -->
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True"/>
-                                                    <Condition Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswImage MenuMode="Disabled"
-                                                                          Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                                          Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}">
-                                                                <se:StswImage.Style>
-                                                                    <Style TargetType="{x:Type se:StswImage}">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="auto">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </se:StswImage.Style>
-                                                            </se:StswImage>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </MultiDataTrigger>
-                                            <!-- StswLoadingCircle -->
-                                            <DataTrigger Binding="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <se:StswLoadingCircle Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}">
-                                                                <se:StswLoadingCircle.Style>
-                                                                    <Style TargetType="{x:Type se:StswLoadingCircle}">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}" Value="{x:Null}">
-                                                                                <Setter Property="Height" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                                <Setter Property="Width" Value="{Binding ActualHeight, ElementName=PART_Content}"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                                                                                <Setter Property="Scale" Value="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </se:StswLoadingCircle.Style>
-                                                            </se:StswLoadingCircle>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <!-- content -->
                             <ContentPresenter x:Name="PART_Content"
                                               Focusable="False"
@@ -125,6 +37,47 @@
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IconSource" Value="{x:Null}">
+                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                     Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                     Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                     Stroke="{Binding IconStroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                     StrokeThickness="{Binding IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IconData" Value="{x:Null}">
+                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <se:StswImage MenuMode="Disabled"
+                                                      Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                      Source="{Binding IconSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IconSource" Value="{x:Null}"/>
+                                <Condition Property="IconData" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsBusy" Value="True">
+                            <Setter Property="ContentTemplate" TargetName="PART_Icon">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <se:StswLoadingCircle Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                              Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
                         </Trigger>

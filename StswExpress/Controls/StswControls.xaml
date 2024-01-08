@@ -22,6 +22,7 @@
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
         <ResourceDictionary Source="Collections/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="Collections/StswDataPager.xaml"/>
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>

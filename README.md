@@ -4,7 +4,7 @@ WPF .NET 6.0 library containing:
   - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
-  - **Collections:** StswComboBox, StswDataGrid, StswListBox, StswListView, StswSelectionBox, StswTreeView
+  - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
   - **Components:** StswComponentButton, StswComponentCheck, StswComponentDrop, StswComponentHeader, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
