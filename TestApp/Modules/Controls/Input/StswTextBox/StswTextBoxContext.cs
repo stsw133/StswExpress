@@ -15,20 +15,20 @@ public class StswTextBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    /// Components
-    private bool components = false;
-    public bool Components
-    {
-        get => components;
-        set => SetProperty(ref components, value);
-    }
-
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
     {
         get => isReadOnly;
         set => SetProperty(ref isReadOnly, value);
+    }
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
     }
 
     /// Text

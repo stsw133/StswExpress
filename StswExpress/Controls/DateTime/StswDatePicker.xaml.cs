@@ -17,7 +17,7 @@ public class StswDatePicker : TextBox, IStswCornerControl
 {
     public StswDatePicker()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswDatePicker()
     {
@@ -146,21 +146,6 @@ public class StswDatePicker : TextBox, IStswCornerControl
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswDatePicker)
-        );
-
     /// <summary>
     /// Gets or sets the custom date and time format string used to display the selected date in the control.
     /// When set, the date is formatted according to the provided format string.
@@ -299,6 +284,21 @@ public class StswDatePicker : TextBox, IStswCornerControl
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
+            typeof(StswDatePicker)
+        );
 
     ///// <summary>
     ///// Gets or sets the text value of the control.

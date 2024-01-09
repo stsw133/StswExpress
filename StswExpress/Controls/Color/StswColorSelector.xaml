@@ -68,13 +68,13 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswComponentButton Background="{Binding}"
+                                            <se:StswSubButton Background="{Binding}"
                                                                     BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     CommandParameter="{Binding}"
                                                                     Height="18" Width="18">
-                                                <se:StswComponentButton.Style>
-                                                    <Style TargetType="{x:Type se:StswComponentButton}">
+                                                <se:StswSubButton.Style>
+                                                    <Style TargetType="{x:Type se:StswSubButton}">
                                                         <Setter Property="Margin" Value="3 0"/>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}}" Value="0">
@@ -85,8 +85,8 @@
                                                             </Trigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </se:StswComponentButton.Style>
-                                            </se:StswComponentButton>
+                                                </se:StswSubButton.Style>
+                                            </se:StswSubButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -111,13 +111,13 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <se:StswComponentButton Background="{Binding}"
+                                            <se:StswSubButton Background="{Binding}"
                                                                     BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
                                                                     CommandParameter="{Binding}"
                                                                     Height="18" Width="18">
-                                                <se:StswComponentButton.Style>
-                                                    <Style TargetType="{x:Type se:StswComponentButton}">
+                                                <se:StswSubButton.Style>
+                                                    <Style TargetType="{x:Type se:StswSubButton}">
                                                         <Setter Property="Margin" Value="3"/>
                                                         <Style.Triggers>
                                                             <Trigger Property="IsEnabled" Value="False">
@@ -125,8 +125,8 @@
                                                             </Trigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </se:StswComponentButton.Style>
-                                            </se:StswComponentButton>
+                                                </se:StswSubButton.Style>
+                                            </se:StswSubButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

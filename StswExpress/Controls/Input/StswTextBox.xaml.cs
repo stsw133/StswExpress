@@ -15,7 +15,7 @@ public class StswTextBox : TextBox, IStswCornerControl
 {
     public StswTextBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswTextBox()
     {
@@ -47,21 +47,6 @@ public class StswTextBox : TextBox, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswTextBox)
-        );
-
-    /// <summary>
     /// Gets or sets the placeholder text to display in the box when no text is provided.
     /// </summary>
     public string? Placeholder
@@ -73,6 +58,21 @@ public class StswTextBox : TextBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
+            typeof(StswTextBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
             typeof(StswTextBox)
         );
     #endregion

@@ -15,14 +15,6 @@ public class StswFilePickerContext : ControlsContext
         PathType = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(PathType)))?.Value ?? default;
     }
 
-    /// Components
-    private bool components = false;
-    public bool Components
-    {
-        get => components;
-        set => SetProperty(ref components, value);
-    }
-
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
@@ -53,5 +45,13 @@ public class StswFilePickerContext : ControlsContext
     {
         get => selectedPath;
         set => SetProperty(ref selectedPath, value);
+    }
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
     }
 }

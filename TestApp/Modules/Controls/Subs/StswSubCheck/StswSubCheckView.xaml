@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="TestApp.StswSubCheckView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswSubCheckContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that functions as a component and displays an icon.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- ContentVisibility -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ContentVisibility"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
+                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
+            <!-- IconScale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
+                <se:StswTextBox.SubControls>
+                    <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
+                    <se:StswSubButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
+                </se:StswTextBox.SubControls>
+            </se:StswTextBox>
+            <!-- IsBusy -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+            <!-- IsThreeState -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsThreeState"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
+            <se:StswSubCheck Content="Visibility"
+                                   ContentVisibility="{Binding ContentVisibility}"
+                                   FontSize="11"
+                                   IconUnchecked="{x:Static se:StswIcons.EyeOff}"
+                                   IconChecked="{x:Static se:StswIcons.Eye}"
+                                   IconIndeterminate="{x:Static se:StswIcons.EyeOffOutline}"
+                                   IconScale="{Binding IconScale}"
+                                   IsBusy="{Binding IsBusy}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   IsThreeState="{Binding IsThreeState}"
+                                   Margin="0 0 5 0"
+                                   HorizontalAlignment="{Binding HorizontalAlignment}"
+                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                   VerticalAlignment="{Binding VerticalAlignment}"
+                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswSubCheck Content="Sound"
+                                   ContentVisibility="{Binding ContentVisibility}"
+                                   FontSize="11"
+                                   IconUnchecked="{x:Static se:StswIcons.MusicNoteOff}"
+                                   IconChecked="{x:Static se:StswIcons.MusicNote}"
+                                   IconIndeterminate="{x:Static se:StswIcons.MusicNoteOffOutline}"
+                                   IconScale="{Binding IconScale}"
+                                   IsBusy="{Binding IsBusy}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   IsThreeState="{Binding IsThreeState}"
+                                   Margin="0 0 5 0"
+                                   HorizontalAlignment="{Binding HorizontalAlignment}"
+                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                   VerticalAlignment="{Binding VerticalAlignment}"
+                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswSubCheck Content="Wifi"
+                                   ContentVisibility="{Binding ContentVisibility}"
+                                   FontSize="11"
+                                   IconUnchecked="{x:Static se:StswIcons.WifiOff}"
+                                   IconChecked="{x:Static se:StswIcons.Wifi}"
+                                   IconIndeterminate="{x:Static se:StswIcons.WifiStrengthOffOutline}"
+                                   IconScale="{Binding IconScale}"
+                                   IsBusy="{Binding IsBusy}"
+                                   IsEnabled="{Binding IsEnabled}"
+                                   IsThreeState="{Binding IsThreeState}"
+                                   Margin="0 0 5 0"
+                                   HorizontalAlignment="{Binding HorizontalAlignment}"
+                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                   VerticalAlignment="{Binding VerticalAlignment}"
+                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        </UniformGrid>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

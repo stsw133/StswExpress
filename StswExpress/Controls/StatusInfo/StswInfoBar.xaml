@@ -27,7 +27,7 @@
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <DockPanel DockPanel.Dock="Top">
-                                <se:StswComponentButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                                <se:StswSubButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
                                                         IconData="{x:Static se:StswIcons.Close}"
                                                         VerticalAlignment="Top"
                                                         Visibility="Collapsed"/>

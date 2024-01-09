@@ -47,7 +47,7 @@
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <DockPanel Margin="5" VerticalAlignment="Top">
-                <se:StswComponentButton Command="{Binding RefreshCommand}"
+                <se:StswSubButton Command="{Binding RefreshCommand}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:ControlsBase}}}"
                                         Content="Filter: "
                                         Padding="5"

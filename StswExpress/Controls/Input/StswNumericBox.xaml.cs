@@ -17,7 +17,7 @@ public class StswNumericBox : TextBox, IStswCornerControl
 {
     public StswNumericBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswNumericBox()
     {
@@ -159,21 +159,6 @@ public class StswNumericBox : TextBox, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
     /// Gets or sets the custom number format string used to display the value in the control.
     /// When set, the value is formatted according to the provided format string.
     /// </summary>
@@ -268,6 +253,21 @@ public class StswNumericBox : TextBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
+            typeof(StswNumericBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
             typeof(StswNumericBox)
         );
 

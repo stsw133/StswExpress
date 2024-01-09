@@ -17,7 +17,7 @@ public class StswAdaptiveBox : Control, IStswCornerControl
 {
     public StswAdaptiveBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswAdaptiveBox()
     {
@@ -37,21 +37,6 @@ public class StswAdaptiveBox : Control, IStswCornerControl
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswAdaptiveBox)
-        );
-
     /// <summary>
     /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
     /// </summary>
@@ -139,6 +124,21 @@ public class StswAdaptiveBox : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SelectedValuePath),
             typeof(string),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
             typeof(StswAdaptiveBox)
         );
 

@@ -8,7 +8,7 @@
                Title="{Binding Source={x:Static se:StswFn.AppNameAndVersion}}"
                Icon="/TestApp;component/Resources/icon.ico">
     
-    <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="202">
+    <se:StswNavigation BorderThickness="0 1 0 0" TabStripWidth="192">
         <se:StswNavigation.Components>
             <Grid Visibility="Collapsed">
                 <se:StswTextBox BorderThickness="0" CornerRadius="0" Padding="24 3 3 3" Placeholder="Find module..."/>
@@ -50,15 +50,6 @@
                 <se:StswNavigationElement Header="StswColorBox" ContextNamespace="TestApp.StswColorBoxContext"/>
                 <se:StswNavigationElement Header="StswColorPicker" ContextNamespace="TestApp.StswColorPickerContext"/>
                 <se:StswNavigationElement Header="StswColorSelector" ContextNamespace="TestApp.StswColorSelectorContext"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Header="Components" IconData="{x:Static se:StswIcons.ButtonPointer}">
-                <se:StswNavigationElement Header="StswComponentButton" ContextNamespace="TestApp.StswComponentButtonContext"/>
-                <se:StswNavigationElement Header="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
-                <se:StswNavigationElement Header="StswComponentDrop" ContextNamespace="TestApp.StswComponentDropContext"/>
-                <se:StswNavigationElement Header="StswComponentHeader" ContextNamespace="TestApp.StswComponentHeaderContext"/>
-                <se:StswNavigationElement Header="StswComponentRadio" ContextNamespace="TestApp.StswComponentRadioContext"/>
-                <se:StswNavigationElement Header="StswComponentRepeater" ContextNamespace="TestApp.StswComponentRepeaterContext"/>
-                <se:StswNavigationElement Header="StswComponentSelector" ContextNamespace="TestApp.StswComponentSelectorContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Date &amp; time" IconData="{x:Static se:StswIcons.CalendarRange}">
                 <se:StswNavigationElement Header="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>
@@ -119,6 +110,15 @@
                 <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
+            </se:StswNavigationElement>
+            <se:StswNavigationElement Header="Subs" IconData="{x:Static se:StswIcons.WidgetsOutline}">
+                <se:StswNavigationElement Header="StswSubButton" ContextNamespace="TestApp.StswSubButtonContext"/>
+                <se:StswNavigationElement Header="StswSubCheck" ContextNamespace="TestApp.StswSubCheckContext"/>
+                <se:StswNavigationElement Header="StswSubDrop" ContextNamespace="TestApp.StswSubDropContext"/>
+                <se:StswNavigationElement Header="StswSubHeader" ContextNamespace="TestApp.StswSubHeaderContext"/>
+                <se:StswNavigationElement Header="StswSubRadio" ContextNamespace="TestApp.StswSubRadioContext"/>
+                <se:StswNavigationElement Header="StswSubRepeater" ContextNamespace="TestApp.StswSubRepeaterContext"/>
+                <se:StswNavigationElement Header="StswSubSelector" ContextNamespace="TestApp.StswSubSelectorContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Text &amp; style" IconData="{x:Static se:StswIcons.Text}">
                 <se:StswNavigationElement Header="StswHeader" ContextNamespace="TestApp.StswHeaderContext"/>

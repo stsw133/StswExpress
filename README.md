@@ -6,7 +6,6 @@ WPF .NET 6.0 library containing:
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
-  - **Components:** StswComponentButton, StswComponentCheck, StswComponentDrop, StswComponentHeader, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **File:** StswFilePicker
@@ -17,6 +16,7 @@ WPF .NET 6.0 library containing:
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
+  - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswOutlinedText, StswText
   - **Windowing:** StswNotifyIcon, StswPopup, StswToolTip, StswWindow, StswWindowBar
 - many helpful classes like commands, converters, exporting to Excel, extensions, geometry icons, logging system, mail sending, security etc.

@@ -23,10 +23,10 @@
             <!-- IconScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
-                <se:StswTextBox.Components>
-                    <se:StswComponentButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
-                    <se:StswComponentButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
-                </se:StswTextBox.Components>
+                <se:StswTextBox.SubControls>
+                    <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
+                    <se:StswSubButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
+                </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>

@@ -12,7 +12,7 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
         
-        <Setter Property="ComponentBorderThickness" Value="1"/>
+        <Setter Property="SubBorderThickness" Value="1"/>
         <Setter Property="SubCornerRadius" Value="6"/>
         <Setter Property="SubPadding" Value="2"/>
 
@@ -52,7 +52,7 @@
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FileNew"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileNewCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -62,7 +62,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FileOpen"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileOpenCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -72,7 +72,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FileSave"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileSaveCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -82,7 +82,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FileSaveAs"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileSaveAsCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -94,7 +94,7 @@
 
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FileReload"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileReloadCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -104,7 +104,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FileInfo"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileInfoCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -114,7 +114,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FilePrint"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FilePrintCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -124,7 +124,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_FileEmail"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FileMailCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -142,7 +142,7 @@
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_EditUndo"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Undo"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -152,7 +152,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_EditRedo"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Redo"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -162,7 +162,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_EditSelectAll"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.SelectAll"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -174,7 +174,7 @@
 
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_EditCut"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Cut"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -184,7 +184,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_EditCopy"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Copy"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -194,7 +194,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_EditPaste"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="ApplicationCommands.Paste"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -213,18 +213,18 @@
                                             <DockPanel DockPanel.Dock="Top">
                                                 <DockPanel DockPanel.Dock="Right">
                                                     <se:StswNumericBox x:Name="PART_FontSize"
-                                                                       BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                       BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                        CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                        Focusable="False"
                                                                        Format="N1"
                                                                        Height="{Binding ActualHeight, ElementName=PART_FileNew}"
                                                                        Margin="{TemplateBinding SubPadding}"
                                                                        Minimum="1" Maximum="1638"
-                                                                       SeparatorThickness="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                       SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                        Width="60"/>
                                                     
                                                     <se:StswButton x:Name="PART_FontIncrease"
-                                                                   BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                   BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    Command="EditingCommands.IncreaseFontSize"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -234,7 +234,7 @@
                                                     </se:StswButton>
 
                                                     <se:StswButton x:Name="PART_FontDecrease"
-                                                                   BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                   BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    Command="EditingCommands.DecreaseFontSize"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -245,18 +245,18 @@
                                                 </DockPanel>
 
                                                 <se:StswComboBox x:Name="PART_FontFamily"
-                                                                 BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                 BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                  CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                  Focusable="False"
                                                                  Height="{Binding ActualHeight, ElementName=PART_FileNew}"
                                                                  IsEditable="True"
                                                                  Margin="{TemplateBinding SubPadding}"
-                                                                 SeparatorThickness="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                 SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </DockPanel>
 
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_FontBold"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleBold"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -266,7 +266,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_FontItalic"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleItalic"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -276,7 +276,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_FontUnderline"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleUnderline"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -286,7 +286,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_FontStrikethrough"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="{Binding FontStrikethroughCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -296,7 +296,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_FontSubscript"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleSubscript"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -306,7 +306,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_FontSuperscript"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.ToggleSuperscript"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -316,7 +316,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswSplitButton x:Name="PART_FontColorText"
-                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                     Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                     Focusable="False"
@@ -345,7 +345,7 @@
                                                 </se:StswSplitButton>
 
                                                 <se:StswSplitButton x:Name="PART_FontColorHighlight"
-                                                                    BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                     Command="{Binding FontColorTextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                     CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                     Focusable="False"
@@ -382,7 +382,7 @@
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_SectionIncrease"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.IncreaseIndentation"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -392,7 +392,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_SectionDecrease"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.DecreaseIndentation"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -402,11 +402,11 @@
                                                 </se:StswButton>
 
                                                 <se:StswDropButton x:Name="PART_SectionList"
-                                                                   BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                   BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   SeparatorThickness="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                   SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="{se:Tr StswTextEditor.Paragraph.StartList}">
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatListText}"/>
@@ -426,11 +426,11 @@
                                                 </se:StswDropButton>
                                                 
                                                 <se:StswDropButton x:Name="PART_SectionInterline"
-                                                                   BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                                   BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
                                                                    Margin="{TemplateBinding SubPadding}"
-                                                                   SeparatorThickness="{Binding ComponentBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                   SeparatorThickness="{Binding SubBorderThickness.Left, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="{se:Tr StswTextEditor.Paragraph.Interline}">
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ArrowExpandVertical}"/>
@@ -451,7 +451,7 @@
 
                                             <DockPanel DockPanel.Dock="Top">
                                                 <se:StswButton x:Name="PART_SectionAlignLeft"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignLeft"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -461,7 +461,7 @@
                                                 </se:StswButton>
                                                 
                                                 <se:StswButton x:Name="PART_SectionAlignCenter"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignCenter"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -471,7 +471,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_SectionAlignRight"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignRight"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -481,7 +481,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswButton x:Name="PART_SectionAlignJustify"
-                                                               BorderThickness="{TemplateBinding ComponentBorderThickness}"
+                                                               BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                Command="EditingCommands.AlignJustify"
                                                                CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                Focusable="False"
@@ -495,9 +495,9 @@
                                         </DockPanel>
                                         <!-- separator -->
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
-                                        <!-- components -->
+                                        <!-- sub controls -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                                            <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <DockPanel DockPanel.Dock="Top"/>

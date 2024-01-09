@@ -16,9 +16,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- Components -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Components"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Components}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
@@ -29,6 +26,9 @@
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="PathType"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswPathType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding PathType}" SelectedValuePath="Value"/>
+            <!-- SubControls -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswFilePicker IsEnabled="{Binding IsEnabled}"
@@ -42,11 +42,11 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswFilePicker.Components>
-                <se:StswComponentButton Command="{Binding ClearCommand}"
-                                        IconData="{x:Static se:StswIcons.Close}"
-                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-            </se:StswFilePicker.Components>
+            <se:StswFilePicker.SubControls>
+                <se:StswSubButton Command="{Binding ClearCommand}"
+                                  IconData="{x:Static se:StswIcons.Close}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswFilePicker.SubControls>
         </se:StswFilePicker>
         <!-- status panel -->
         

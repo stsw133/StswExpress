@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswInfoPanel}">
-        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="0"/>

@@ -17,14 +17,6 @@ public class StswColorBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    /// Components
-    private bool components = false;
-    public bool Components
-    {
-        get => components;
-        set => SetProperty(ref components, value);
-    }
-
     /// IsAlphaEnabled
     private bool isAlphaEnabled;
     public bool IsAlphaEnabled
@@ -47,5 +39,13 @@ public class StswColorBoxContext : ControlsContext
     {
         get => selectedColor;
         set => SetProperty(ref selectedColor, value);
+    }
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
     }
 }

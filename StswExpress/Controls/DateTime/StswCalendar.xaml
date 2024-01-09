@@ -42,11 +42,11 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <se:StswComponentRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswComponentRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswComponentButton x:Name="PART_ButtonSelectionMode" Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}" Content="{TemplateBinding SelectionName}"/>
-                                <se:StswComponentRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
-                                <se:StswComponentRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousYear" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonPreviousMonth" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubButton x:Name="PART_ButtonSelectionMode" Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}" Content="{TemplateBinding SelectionName}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextMonth" Grid.Column="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
+                                <se:StswSubRepeater x:Name="PART_ButtonNextYear" Grid.Column="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="{TemplateBinding ItemPadding}"/>
                             </Grid>
                         </se:StswGroupBox.Header>
 
@@ -120,7 +120,7 @@
                             <DockPanel Grid.Row="1" Background="{DynamicResource StswExpander.Static.Header}">
                                 <se:StswSeparator DockPanel.Dock="Top"/>
                                 <Grid Margin="{TemplateBinding Padding}">
-                                    <se:StswComponentButton x:Name="PART_ButtonToday"
+                                    <se:StswSubButton x:Name="PART_ButtonToday"
                                                             Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                             CommandParameter="{x:Static sys:DateTime.Today}"
                                                             Content="{se:Tr StswCalendar.Today}"

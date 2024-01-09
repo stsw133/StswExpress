@@ -42,23 +42,23 @@
                                        Padding="{TemplateBinding Padding}">
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <se:StswComponentButton x:Name="PART_BtnRepeat"
+                                    <se:StswSubButton x:Name="PART_BtnRepeat"
                                                             IconData="{x:Static se:StswIcons.Replay}"
                                                             IconFill="{DynamicResource StswColor.Neutral}"
                                                             Margin="{TemplateBinding Padding}"
                                                             ToolTip="Replay"/>
-                                    <se:StswComponentButton x:Name="PART_BtnStop"
+                                    <se:StswSubButton x:Name="PART_BtnStop"
                                                             IconData="{x:Static se:StswIcons.Stop}"
                                                             IconFill="{DynamicResource StswColor.Neutral}"
                                                             Margin="{TemplateBinding Padding}"
                                                             ToolTip="Stop"/>
-                                    <se:StswComponentButton x:Name="PART_BtnPrevious"
+                                    <se:StswSubButton x:Name="PART_BtnPrevious"
                                                             BorderThickness="1 1 0 1"
                                                             IconData="{x:Static se:StswIcons.SkipPrevious}"
                                                             IconFill="{DynamicResource StswColor.Neutral}"
                                                             Padding="{TemplateBinding Padding}"
                                                             ToolTip="Previous"/>
-                                    <se:StswComponentCheck x:Name="PART_BtnPlay"
+                                    <se:StswSubCheck x:Name="PART_BtnPlay"
                                                            Background="{DynamicResource StswColor.Neutral}"
                                                            BorderThickness="1"
                                                            IconChecked="{x:Static se:StswIcons.Pause}"
@@ -68,13 +68,13 @@
                                                            IsChecked="{Binding IsPlaying, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                            Padding="{TemplateBinding Padding}"
                                                            ToolTip="Pause/play"/>
-                                    <se:StswComponentButton x:Name="PART_BtnNext"
+                                    <se:StswSubButton x:Name="PART_BtnNext"
                                                             BorderThickness="0 1 1 1"
                                                             IconData="{x:Static se:StswIcons.SkipNext}"
                                                             IconFill="{DynamicResource StswColor.Neutral}"
                                                             Padding="{TemplateBinding Padding}"
                                                             ToolTip="Next"/>
-                                    <se:StswComponentCheck x:Name="PART_BtnMute"
+                                    <se:StswSubCheck x:Name="PART_BtnMute"
                                                            IconChecked="{x:Static se:StswIcons.VolumeHigh}"
                                                            IconUnchecked="{x:Static se:StswIcons.VolumeVariantOff}"
                                                            IconFill="{DynamicResource StswColor.Neutral}"

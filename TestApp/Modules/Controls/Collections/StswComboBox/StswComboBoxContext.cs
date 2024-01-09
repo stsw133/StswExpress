@@ -18,14 +18,6 @@ public class StswComboBoxContext : ControlsContext
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
-    /// Components
-    private bool components = false;
-    public bool Components
-    {
-        get => components;
-        set => SetProperty(ref components, value);
-    }
-
     /// IsEditable
     private bool isEditable;
     public bool IsEditable
@@ -56,5 +48,13 @@ public class StswComboBoxContext : ControlsContext
     {
         get => selectedItem;
         set => SetProperty(ref selectedItem, value);
+    }
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
     }
 }

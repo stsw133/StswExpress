@@ -16,15 +16,15 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- Components -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Components"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Components}"/>
             <!-- IsAlphaEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsAlphaEnabled"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlphaEnabled}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- SubControls -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswColorBox IsAlphaEnabled="{Binding IsAlphaEnabled}"
@@ -37,14 +37,14 @@
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
                          VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswColorBox.Components>
-                <se:StswComponentButton Command="{Binding RandomizeCommand}"
-                                        IconData="{x:Static se:StswIcons.DiceMultiple}"
-                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                <se:StswComponentButton Command="{Binding ClearCommand}"
-                                        IconData="{x:Static se:StswIcons.Close}"
-                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-            </se:StswColorBox.Components>
+            <se:StswColorBox.SubControls>
+                <se:StswSubButton Command="{Binding RandomizeCommand}"
+                                  IconData="{x:Static se:StswIcons.DiceMultiple}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                <se:StswSubButton Command="{Binding ClearCommand}"
+                                  IconData="{x:Static se:StswIcons.Close}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswColorBox.SubControls>
         </se:StswColorBox>
         <!-- status panel -->
         

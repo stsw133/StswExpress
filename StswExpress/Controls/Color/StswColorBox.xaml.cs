@@ -18,7 +18,7 @@ public class StswColorBox : TextBox, IStswCornerControl
 {
     public StswColorBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswColorBox()
     {
@@ -86,21 +86,6 @@ public class StswColorBox : TextBox, IStswCornerControl
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswColorBox)
-        );
-
     /// <summary>
     /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
     /// </summary>
@@ -170,6 +155,21 @@ public class StswColorBox : TextBox, IStswCornerControl
             stsw.SelectedColorChanged?.Invoke(stsw, EventArgs.Empty);
         }
     }
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
+            typeof(StswColorBox)
+        );
 
     ///// <summary>
     ///// Gets or sets the text value of the control.

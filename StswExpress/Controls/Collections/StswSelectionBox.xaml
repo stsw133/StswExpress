@@ -44,8 +44,8 @@
                         <DockPanel>
                             <!-- arrow -->
                             <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
-                            <!-- components -->
-                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                            <!-- sub controls -->
+                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>

@@ -99,10 +99,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Components\StswComponentCheck.xaml">
+    <Page Update="Controls\Subs\StswSubCheck.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Components\StswComponentSelector.xaml">
+    <Page Update="Controls\Subs\StswSubSelector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\DateTime\StswCalendar.xaml">

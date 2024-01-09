@@ -34,14 +34,6 @@ public class StswSelectionBoxContext : ControlsContext
     }
     #endregion
 
-    /// Components
-    private bool components = false;
-    public bool Components
-    {
-        get => components;
-        set => SetProperty(ref components, value);
-    }
-
     /// IsReadOnly
     private bool isReadOnly;
     public bool IsReadOnly
@@ -60,4 +52,12 @@ public class StswSelectionBoxContext : ControlsContext
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
+    }
 }

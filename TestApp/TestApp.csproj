@@ -63,13 +63,13 @@
     <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentRadio\StswComponentRadioView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentDrop\StswComponentDropView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentHeader\StswComponentHeaderView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubHeader\StswSubHeaderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml.cs">
@@ -117,16 +117,16 @@
     <Compile Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentRepeater\StswComponentRepeaterView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubRepeater\StswSubRepeaterView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubButton\StswSubButtonView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubCheck\StswSubCheckView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Components\StswComponentSelector\StswComponentSelectorView.xaml.cs">
+    <Compile Update="Modules\Controls\Subs\StswSubSelector\StswSubSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml.cs">
@@ -276,13 +276,13 @@
     <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentRadio\StswComponentRadioView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentDrop\StswComponentDropView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubDrop\StswSubDropView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentHeader\StswComponentHeaderView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubHeader\StswSubHeaderView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\File\StswFilePicker\StswFilePickerView.xaml">
@@ -333,16 +333,16 @@
     <Page Update="Modules\Controls\Collections\StswListBox\StswListBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentRepeater\StswComponentRepeaterView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubRepeater\StswSubRepeaterView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentButton\StswComponentButtonView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubButton\StswSubButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentCheck\StswComponentCheckView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubCheck\StswSubCheckView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Components\StswComponentSelector\StswComponentSelectorView.xaml">
+    <Page Update="Modules\Controls\Subs\StswSubSelector\StswSubSelectorView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Dialogs\StswMessageDialog\StswMessageDialogView.xaml">

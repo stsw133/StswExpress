@@ -23,9 +23,9 @@
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterType"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Value">
-                <se:StswComboBox.Components>
-                    <se:StswComponentButton Command="{Binding ClearTypeCommand}" IconData="{x:Static se:StswIcons.Close}"/>
-                </se:StswComboBox.Components>
+                <se:StswComboBox.SubControls>
+                    <se:StswSubButton Command="{Binding ClearTypeCommand}" IconData="{x:Static se:StswIcons.Close}"/>
+                </se:StswComboBox.SubControls>
             </se:StswComboBox>
         </local:ControlsBase.Properties>
         <!-- content -->

@@ -33,14 +33,6 @@
         <ResourceDictionary Source="Color/StswColorPicker.xaml"/>
         <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
 
-        <ResourceDictionary Source="Components/StswComponentButton.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentCheck.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentDrop.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentHeader.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentRadio.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentRepeater.xaml"/>
-        <ResourceDictionary Source="Components/StswComponentSelector.xaml"/>
-
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
 
@@ -86,6 +78,14 @@
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
+
+        <ResourceDictionary Source="Subs/StswSubButton.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubCheck.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubDrop.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubHeader.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubRadio.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubRepeater.xaml"/>
+        <ResourceDictionary Source="Subs/StswSubSelector.xaml"/>
 
         <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>

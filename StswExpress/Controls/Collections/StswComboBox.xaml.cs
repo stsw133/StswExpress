@@ -11,7 +11,7 @@ public class StswComboBox : ComboBox, IStswCornerControl, IStswDropControl
 {
     public StswComboBox()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswComboBox()
     {
@@ -19,21 +19,6 @@ public class StswComboBox : ComboBox, IStswCornerControl, IStswDropControl
     }
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswComboBox)
-        );
-
     /// <summary>
     /// Gets or sets the placeholder text displayed in the control when no item is selected.
     /// </summary>
@@ -46,6 +31,21 @@ public class StswComboBox : ComboBox, IStswCornerControl, IStswDropControl
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
             typeof(StswComboBox)
         );
     #endregion

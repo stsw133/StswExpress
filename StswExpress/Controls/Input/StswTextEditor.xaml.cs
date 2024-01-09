@@ -33,7 +33,7 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
 
     public StswTextEditor()
     {
-        SetValue(ComponentsProperty, new ObservableCollection<IStswComponentControl>());
+        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
 
         FileNewCommand = new StswCommand(FileNew);
         FileOpenCommand = new StswCommand(FileOpen);
@@ -332,21 +332,6 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the collection of components to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswComponentControl> Components
-    {
-        get => (ObservableCollection<IStswComponentControl>)GetValue(ComponentsProperty);
-        set => SetValue(ComponentsProperty, value);
-    }
-    public static readonly DependencyProperty ComponentsProperty
-        = DependencyProperty.Register(
-            nameof(Components),
-            typeof(ObservableCollection<IStswComponentControl>),
-            typeof(StswTextEditor)
-        );
-
-    /// <summary>
     /// Gets or sets the file path associated with the content of the editor.
     /// </summary>
     public string? FilePath
@@ -440,6 +425,21 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
     }
 
     /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> SubControls
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
+        set => SetValue(SubControlsProperty, value);
+    }
+    public static readonly DependencyProperty SubControlsProperty
+        = DependencyProperty.Register(
+            nameof(SubControls),
+            typeof(ObservableCollection<IStswSubControl>),
+            typeof(StswTextEditor)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether the control shows tool bar and how many options.
     /// </summary>
     public StswCompactibility ToolbarMode
@@ -456,21 +456,6 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the thickness of the buttons in the control.
-    /// </summary>
-    public Thickness ComponentBorderThickness
-    {
-        get => (Thickness)GetValue(ComponentBorderThicknessProperty);
-        set => SetValue(ComponentBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty ComponentBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(ComponentBorderThickness),
-            typeof(Thickness),
-            typeof(StswTextEditor)
-        );
-
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
     /// When set to <see langword="true"/>, content within the control's border area is clipped to match
@@ -506,7 +491,7 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the separator between box and components.
+    /// Gets or sets the thickness of the separator between box and subs.
     /// </summary>
     public double SeparatorThickness
     {
@@ -517,6 +502,21 @@ public class StswTextEditor : RichTextBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
+            typeof(StswTextEditor)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the buttons in the control.
+    /// </summary>
+    public Thickness SubBorderThickness
+    {
+        get => (Thickness)GetValue(SubBorderThicknessProperty);
+        set => SetValue(SubBorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SubBorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SubBorderThickness),
+            typeof(Thickness),
             typeof(StswTextEditor)
         );
 

@@ -83,7 +83,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <se:StswComponentCheck x:Name="PART_Expander" Grid.Column="0"
+                                    <se:StswSubCheck x:Name="PART_Expander" Grid.Column="0"
                                                            Background="{TemplateBinding Background}"
                                                            ClickMode="Press"
                                                            IconChecked="{x:Static se:StswIcons.MenuDown}"

@@ -99,29 +99,6 @@
                 <local:StswColorSelectorView/>
             </DataTemplate>
             
-            <!-- Components -->
-            <DataTemplate DataType="{x:Type local:StswComponentButtonContext}">
-                <local:StswComponentButtonView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentCheckContext}">
-                <local:StswComponentCheckView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentDropContext}">
-                <local:StswComponentDropView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentHeaderContext}">
-                <local:StswComponentHeaderView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentRadioContext}">
-                <local:StswComponentRadioView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentRepeaterContext}">
-                <local:StswComponentRepeaterView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswComponentSelectorContext}">
-                <local:StswComponentSelectorView/>
-            </DataTemplate>
-            
             <!-- DateTime -->
             <DataTemplate DataType="{x:Type local:StswCalendarContext}">
                 <local:StswCalendarView/>
@@ -237,7 +214,30 @@
             <DataTemplate DataType="{x:Type local:StswProgressRingContext}">
                 <local:StswProgressRingView/>
             </DataTemplate>
-            
+
+            <!-- Subs -->
+            <DataTemplate DataType="{x:Type local:StswSubButtonContext}">
+                <local:StswSubButtonView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubCheckContext}">
+                <local:StswSubCheckView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubDropContext}">
+                <local:StswSubDropView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubHeaderContext}">
+                <local:StswSubHeaderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubRadioContext}">
+                <local:StswSubRadioView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubRepeaterContext}">
+                <local:StswSubRepeaterView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSubSelectorContext}">
+                <local:StswSubSelectorView/>
+            </DataTemplate>
+
             <!-- TextStyle -->
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>

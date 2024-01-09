@@ -16,9 +16,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- Components -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Components"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding Components}"/>
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Format"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
@@ -34,6 +31,9 @@
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <!-- SubControls -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswNumericBox Format="{Binding Format}"
@@ -49,14 +49,14 @@
                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswNumericBox.Components>
-                <se:StswComponentButton Command="{Binding RandomizeCommand}"
-                                        IconData="{x:Static se:StswIcons.DiceMultiple}"
-                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-                <se:StswComponentButton Command="{Binding ClearCommand}"
-                                        IconData="{x:Static se:StswIcons.Close}"
-                                        Visibility="{Binding Components, Converter={x:Static se:StswBoolConverter.Instance}}"/>
-            </se:StswNumericBox.Components>
+            <se:StswNumericBox.SubControls>
+                <se:StswSubButton Command="{Binding RandomizeCommand}"
+                                  IconData="{x:Static se:StswIcons.DiceMultiple}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                <se:StswSubButton Command="{Binding ClearCommand}"
+                                  IconData="{x:Static se:StswIcons.Close}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswNumericBox.SubControls>
         </se:StswNumericBox>
         <!-- status panel -->
         

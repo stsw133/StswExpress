@@ -61,8 +61,8 @@
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
-                            <!-- components -->
-                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding Components}">
+                            <!-- sub controls -->
+                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
