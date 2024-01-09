@@ -40,7 +40,7 @@
     <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="#B79"/>
     <SolidColorBrush x:Key="StswButton.Checked.Background" Color="#C7A7B7"/>
     <SolidColorBrush x:Key="StswButton.Checked.Border" Color="#D7B7C7"/>
-    <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#C7A7B7"/>
+    <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#BF8FA7"/>
     <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#423"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="#ECD"/>

@@ -63,6 +63,9 @@
     <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Components\StswComponentRadio\StswComponentRadioView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Components\StswComponentDrop\StswComponentDropView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -271,6 +274,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Components\StswComponentRadio\StswComponentRadioView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Components\StswComponentDrop\StswComponentDropView.xaml">

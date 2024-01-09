@@ -37,7 +37,7 @@
     <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="#999"/>
     <SolidColorBrush x:Key="StswButton.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
     <SolidColorBrush x:Key="StswButton.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}"/>
-    <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
+    <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=35%}"/>
     <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#333"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="#DDD"/>

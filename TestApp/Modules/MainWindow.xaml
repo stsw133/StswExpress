@@ -56,6 +56,7 @@
                 <se:StswNavigationElement Header="StswComponentCheck" ContextNamespace="TestApp.StswComponentCheckContext"/>
                 <se:StswNavigationElement Header="StswComponentDrop" ContextNamespace="TestApp.StswComponentDropContext"/>
                 <se:StswNavigationElement Header="StswComponentHeader" ContextNamespace="TestApp.StswComponentHeaderContext"/>
+                <se:StswNavigationElement Header="StswComponentRadio" ContextNamespace="TestApp.StswComponentRadioContext"/>
                 <se:StswNavigationElement Header="StswComponentRepeater" ContextNamespace="TestApp.StswComponentRepeaterContext"/>
                 <se:StswNavigationElement Header="StswComponentSelector" ContextNamespace="TestApp.StswComponentSelectorContext"/>
             </se:StswNavigationElement>

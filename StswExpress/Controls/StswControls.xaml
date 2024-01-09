@@ -37,6 +37,7 @@
         <ResourceDictionary Source="Components/StswComponentCheck.xaml"/>
         <ResourceDictionary Source="Components/StswComponentDrop.xaml"/>
         <ResourceDictionary Source="Components/StswComponentHeader.xaml"/>
+        <ResourceDictionary Source="Components/StswComponentRadio.xaml"/>
         <ResourceDictionary Source="Components/StswComponentRepeater.xaml"/>
         <ResourceDictionary Source="Components/StswComponentSelector.xaml"/>
 
