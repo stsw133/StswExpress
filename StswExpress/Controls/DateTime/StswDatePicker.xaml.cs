@@ -317,8 +317,8 @@ public class StswDatePicker : TextBox, IStswCornerControl
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
-    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {

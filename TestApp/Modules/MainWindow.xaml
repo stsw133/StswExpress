@@ -22,6 +22,7 @@
             <se:StswNavigationElement Header="Buttons" IconData="{x:Static se:StswIcons.ButtonCursor}">
                 <se:StswNavigationElement Header="StswButton" ContextNamespace="TestApp.StswButtonContext"/>
                 <se:StswNavigationElement Header="StswDropButton" ContextNamespace="TestApp.StswDropButtonContext"/>
+                <se:StswNavigationElement Header="StswHyperlinkButton" ContextNamespace="TestApp.StswHyperlinkButtonContext"/>
                 <se:StswNavigationElement Header="StswRadioButton" ContextNamespace="TestApp.StswRadioButtonContext"/>
                 <se:StswNavigationElement Header="StswRepeatButton" ContextNamespace="TestApp.StswRepeatButtonContext"/>
                 <se:StswNavigationElement Header="StswShiftButton" ContextNamespace="TestApp.StswShiftButtonContext"/>
@@ -66,6 +67,9 @@
                 <se:StswNavigationElement Header="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
                 <se:StswNavigationElement Header="StswMessageDialog" ContextNamespace="TestApp.StswMessageDialogContext"/>
             </se:StswNavigationElement>
+            <se:StswNavigationElement Header="File" IconData="{x:Static se:StswIcons.FolderFileOutline}">
+                <se:StswNavigationElement Header="StswFilePicker" ContextNamespace="TestApp.StswFilePickerContext"/>
+            </se:StswNavigationElement>
             <se:StswNavigationElement Header="Filtering" IconData="{x:Static se:StswIcons.FilterOutline}">
                 <se:StswNavigationElement Header="StswFilterBox" ContextNamespace="TestApp.StswFilterBoxContext"/>
             </se:StswNavigationElement>
@@ -104,8 +108,8 @@
                 <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">
                     <se:StswNavigationElement.Header>
                         <DockPanel>
-                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Value="100" Margin="1 0 0 0" Height="15" Width="20" Type="Error"/>
-                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Value="12" Margin="1 0 0 0" Height="15" Width="20"/>
+                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Height="13" Width="21" Margin="2 0 0 0" Type="Error" Value="100"/>
+                            <se:StswInfoBadge DockPanel.Dock="Right" Format="Number" Height="13" Width="21" Margin="2 0 0 0" Type="Information" Value="12"/>
                             <se:StswText Text="StswInfoBadge"/>
                         </DockPanel>
                     </se:StswNavigationElement.Header>

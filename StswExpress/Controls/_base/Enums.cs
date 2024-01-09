@@ -126,7 +126,8 @@ public enum StswInfoFormat
 }
 
 /// <summary>
-/// Enumeration for <see cref="StswInfoBadge.Type"/> and <see cref="StswLogItem.Type"/>.
+/// Enumeration for <see cref="StswInfoBadge.Type"/>,
+/// <see cref="StswInfoBar.Type"/> and <see cref="StswLogItem.Type"/>.
 /// </summary>
 public enum StswInfoType
 {
@@ -157,6 +158,15 @@ public enum StswMenuMode
     Disabled,
     Full,
     ReadOnly
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswFilePicker.PathType"/>.
+/// </summary>
+public enum StswPathType
+{
+    Directory,
+    File
 }
 
 /// <summary>

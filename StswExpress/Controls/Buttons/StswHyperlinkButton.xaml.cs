@@ -1,17 +1,48 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control that provides a container for a group of controls with an optional header.
+/// Represents a button control that functions as a hyperlink, allowing navigation to a specified URI when clicked.
 /// </summary>
-public class StswGroupBox : GroupBox, IStswCornerControl
+public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 {
-    static StswGroupBox()
+    static StswHyperlinkButton()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswGroupBox), new FrameworkPropertyMetadata(typeof(StswGroupBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHyperlinkButton), new FrameworkPropertyMetadata(typeof(StswHyperlinkButton)));
     }
+
+    #region Events & methods
+    /// <summary>
+    /// Handles the click event of the hyperlink button to open the specified URI if available.
+    /// </summary>
+    protected override void OnClick()
+    {
+        base.OnClick();
+
+        if (NavigateUri?.AbsoluteUri != null)
+            StswFn.OpenFile(NavigateUri.AbsoluteUri);
+    }
+    #endregion
+
+    #region Main properties
+    /// <summary>
+    /// Gets or sets the URI source that the hyperlink button navigates to when clicked.
+    /// </summary>
+    public Uri NavigateUri
+    {
+        get => (Uri)GetValue(NavigateUriProperty);
+        set => SetValue(NavigateUriProperty, value);
+    }
+    public static readonly DependencyProperty NavigateUriProperty
+        = DependencyProperty.Register(
+            nameof(NavigateUri),
+            typeof(Uri),
+            typeof(StswHyperlinkButton)
+        );
+    #endregion
 
     #region Style properties
     /// <summary>
@@ -28,7 +59,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswGroupBox)
+            typeof(StswHyperlinkButton)
         );
 
     /// <summary>
@@ -45,22 +76,7 @@ public class StswGroupBox : GroupBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswGroupBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between header and content.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswGroupBox)
+            typeof(StswHyperlinkButton)
         );
     #endregion
 }

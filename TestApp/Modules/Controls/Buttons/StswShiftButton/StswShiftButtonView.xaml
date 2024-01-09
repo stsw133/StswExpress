@@ -37,7 +37,13 @@
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}"
-                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswShiftButton.ItemTemplate>
+                <ItemContainerTemplate>
+                    <se:StswHeader Content="{Binding}" IconData="{x:Static se:StswIcons.Cake}"/>
+                </ItemContainerTemplate>
+            </se:StswShiftButton.ItemTemplate>
+        </se:StswShiftButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">

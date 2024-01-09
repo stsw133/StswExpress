@@ -1,22 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a panel control that displays information bars in a scrollable list, providing optional functionality for a close button.
 /// </summary>
 public class StswInfoPanel : ListBox, IStswCornerControl
 {
-    public ICommand RemoveLogCommand { get; set; }
-
-    public StswInfoPanel()
-    {
-        RemoveLogCommand = new StswCommand<StswLogItem?>(RemoveLog);
-    }
     static StswInfoPanel()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
@@ -24,9 +16,9 @@ public class StswInfoPanel : ListBox, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Handles changes in the items collection and scrolls to the end if new items are added.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
         base.OnItemsChanged(e);
@@ -34,23 +26,11 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
             scrollViewer?.ScrollToEnd();
     }
-    
-    /// Command: remove log
-    /// <summary>
-    /// 
-    /// </summary>
-    public void RemoveLog(StswLogItem? item)
-    {
-        if (ItemsSource is IList list and not null)
-            list.Remove(item);
-        else
-            Items?.Remove(item);
-    }
     #endregion
 
     #region Main properties
     /// <summary>
-    /// Gets or sets a value indicating whether the log is closable and has a close button.
+    /// Gets or sets a value indicating whether the items are closable and has a close button.
     /// </summary>
     public bool IsClosable
     {
@@ -68,8 +48,8 @@ public class StswInfoPanel : ListBox, IStswCornerControl
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
-    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {

@@ -6,7 +6,7 @@ using System.Windows.Controls.Primitives;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents an information bar control that can display a description, title, and type information, with an optional close button.
 /// </summary>
 public class StswInfoBar : Control, IStswCornerControl
 {
@@ -28,11 +28,10 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="System.NotImplementedException"></exception>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel and not null)
@@ -49,7 +48,7 @@ public class StswInfoBar : Control, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets the description displayed within the control.
     /// </summary>
     public string? Description
     {
@@ -79,7 +78,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the title displayed within the control.
     /// </summary>
     public string? Title
     {
@@ -94,7 +93,7 @@ public class StswInfoBar : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the type of information represented by the control.
     /// </summary>
     public StswInfoType Type
     {
@@ -112,8 +111,8 @@ public class StswInfoBar : Control, IStswCornerControl
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
-    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {

@@ -49,6 +49,7 @@
                                                                 Command="{Binding PageChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
                                                                 CommandParameter="{Binding Page}"
                                                                 Content="{Binding Description}"
+                                                                CornerRadius="5"
                                                                 FontSize="11"
                                                                 IsChecked="{Binding IsSelected}"
                                                                 IsEnabled="{Binding IsEnabled}"

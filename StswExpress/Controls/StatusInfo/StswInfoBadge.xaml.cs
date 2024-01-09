@@ -28,7 +28,8 @@ public class StswInfoBadge : Control, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Represents the displayed value in the control, dynamically updated to show the actual value
+    /// or a truncated version followed by a '+' if it exceeds the specified limit.
     /// </summary>
     public string? DisplayedValue
     {
@@ -43,7 +44,7 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Specifies the format of the displayed information, allowing customization of the presentation style.
     /// </summary>
     public StswInfoFormat Format
     {
@@ -73,7 +74,9 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Sets a maximum limit for the displayed value.
+    /// If the assigned value surpasses this limit,
+    /// the displayed value is truncated and appended with a '+'.
     /// </summary>
     public int Limit
     {
@@ -89,7 +92,8 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Represents the type of information displayed, allowing
+    /// customization based on different data representations.
     /// </summary>
     public StswInfoType Type
     {
@@ -104,7 +108,7 @@ public class StswInfoBadge : Control, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Defines the numerical value, used to reflect specific information or statistics.
     /// </summary>
     public int Value
     {
@@ -130,8 +134,8 @@ public class StswInfoBadge : Control, IStswCornerControl
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
-    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {

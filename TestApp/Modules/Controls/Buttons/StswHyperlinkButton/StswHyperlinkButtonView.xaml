@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="TestApp.StswHyperlinkButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswHyperlinkButtonContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a ...
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- NavigateUri -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="NavigateUri"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding NavigateUri}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswHyperlinkButton Content="Open hyperlink in browser from source url"
+                                IsEnabled="{Binding IsEnabled}"
+                                Margin="5"
+                                NavigateUri="{Binding NavigateUri}"
+                                HorizontalAlignment="{Binding HorizontalAlignment}"
+                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                VerticalAlignment="{Binding VerticalAlignment}"
+                                VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

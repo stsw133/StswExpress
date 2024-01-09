@@ -1,7 +1,7 @@
 # StswExpress
 WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
-  - **Buttons:** StswButton, StswDropButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
+  - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
@@ -9,6 +9,7 @@ WPF .NET 6.0 library containing:
   - **Components:** StswComponentButton, StswComponentCheck, StswComponentDrop, StswComponentHeader, StswComponentRepeater, StswComponentSelector
   - **DateTime:** StswCalendar, StswDatePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
+  - **File:** StswFilePicker
   - **Filtering:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
   - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswTimedSwitch, StswZoomControl

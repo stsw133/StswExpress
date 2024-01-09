@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswShiftButton}">
-        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
@@ -69,13 +69,13 @@
                                                 VerticalAlignment="Stretch"
                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                Visibility="Collapsed"/>
+                                                Visibility="Hidden"/>
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentPresenter"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_ContentPresenter"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_EditableTextBox"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">

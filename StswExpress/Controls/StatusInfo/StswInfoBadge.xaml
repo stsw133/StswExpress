@@ -5,15 +5,18 @@
     <Style TargetType="{x:Type se:StswInfoBadge}">
         <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Background}"/>
 
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="FontFamily" Value="Arial"/>
         <Setter Property="Format" Value="Number"/>
         <Setter Property="Limit" Value="99"/>
         <Setter Property="Type" Value="Information"/>
 
+        <!-- <Setter Property="Height" Value="13"/> -->
+        <!-- <Setter Property="Width" Value="21"/> -->
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -27,13 +30,12 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}">
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
                         <Viewbox Margin="{TemplateBinding Padding}"
                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ContentControl x:Name="PART_ContentControl"
-                                            Focusable="False"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentControl x:Name="PART_ContentControl" Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Viewbox>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>

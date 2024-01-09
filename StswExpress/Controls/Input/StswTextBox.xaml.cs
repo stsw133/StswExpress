@@ -24,7 +24,7 @@ public class StswTextBox : TextBox, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the KeyDown event for the internal content host of the date picker.
+    /// Handles the KeyDown event for the internal content host of the text box.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
     protected override void OnKeyDown(KeyEventArgs e)
@@ -35,7 +35,7 @@ public class StswTextBox : TextBox, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Updates the main property associated with the text in the control based on user input.
     /// </summary>
     private void UpdateMainProperty()
     {
@@ -80,8 +80,8 @@ public class StswTextBox : TextBox, IStswCornerControl
     #region Style properties
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match the
-    /// border's rounded corners, preventing elements from protruding beyond the border.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
     /// </summary>
     public bool CornerClipping
     {

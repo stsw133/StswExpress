@@ -12,7 +12,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control being a progress bar with additional features such as displaying progress as text and different states.
+            Represents an information bar control that can display a description, title, and type information, with an optional close button.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>

@@ -7,6 +7,7 @@
         
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
+        <ResourceDictionary Source="Buttons/StswHyperlinkButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRadioButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswRepeatButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswShiftButton.xaml"/>
@@ -45,6 +46,8 @@
         <ResourceDictionary Source="Dialogs/StswContentDialog.xaml"/>
         <ResourceDictionary Source="Dialogs/StswMessageDialog.xaml"/>
 
+        <ResourceDictionary Source="File/StswFilePicker.xaml"/>
+        
         <ResourceDictionary Source="Filtering/StswFilterBox.xaml"/>
 
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
