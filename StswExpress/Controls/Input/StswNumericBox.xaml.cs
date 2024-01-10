@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswNumericBox : TextBox, IStswCornerControl
+public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswNumericBox()
     {

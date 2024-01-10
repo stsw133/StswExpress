@@ -17,7 +17,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Header))]
-public class StswFilterBox : Control, IStswCornerControl
+public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
 {
     public ICommand SelectModeCommand { get; set; }
 

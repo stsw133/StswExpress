@@ -12,18 +12,10 @@ public class StswSubCheckContext : ControlsContext
     {
         base.SetDefaults();
 
-        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
         IsThreeState = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsThreeState)))?.Value ?? default;
-    }
-
-    /// ContentVisibility
-    private Visibility contentVisibility;
-    public Visibility ContentVisibility
-    {
-        get => contentVisibility;
-        set => SetProperty(ref contentVisibility, value);
     }
 
     /// IconScale
@@ -48,5 +40,13 @@ public class StswSubCheckContext : ControlsContext
     {
         get => isThreeState;
         set => SetProperty(ref isThreeState, value);
+    }
+
+    /// IsContentVisible
+    private bool isContentVisible;
+    public bool IsContentVisible
+    {
+        get => isContentVisible;
+        set => SetProperty(ref isContentVisible, value);
     }
 }

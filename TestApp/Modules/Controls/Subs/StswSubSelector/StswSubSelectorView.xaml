@@ -17,10 +17,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- ContentVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ContentVisibility"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
-                 DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
             <!-- IconScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
@@ -32,20 +28,23 @@
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+            <!-- IsContentVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSubSelector Content="Menu"
-                                  ContentVisibility="{Binding ContentVisibility}"
-                                  FontSize="11"
-                                  IconData="{x:Static se:StswIcons.Menu}"
-                                  IconScale="{Binding IconScale}"
-                                  IsBusy="{Binding IsBusy}"
-                                  IsEnabled="{Binding IsEnabled}"
-                                  Margin="5"
-                                  HorizontalAlignment="{Binding HorizontalAlignment}"
-                                  HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                  VerticalAlignment="{Binding VerticalAlignment}"
-                                  VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                            FontSize="11"
+                            IconData="{x:Static se:StswIcons.Menu}"
+                            IconScale="{Binding IconScale}"
+                            IsBusy="{Binding IsBusy}"
+                            IsContentVisible="{Binding IsContentVisible}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Margin="5"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.Filter}" IconScale="{Binding IconScale}"/>
             <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.Refresh}" IconScale="{Binding IconScale}"/>
             <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.Magnify}" IconScale="{Binding IconScale}"/>

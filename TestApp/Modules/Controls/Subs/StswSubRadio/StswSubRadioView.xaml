@@ -16,10 +16,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- ContentVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ContentVisibility"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
             <!-- IconScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
@@ -31,54 +27,57 @@
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+            <!-- IsContentVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
             <se:StswSubRadio Command="{Binding OnClickCommand}"
-                                   CommandParameter="1"
-                                   Content="Option 1"
-                                   ContentVisibility="{Binding ContentVisibility}"
-                                   FontSize="11"
-                                   IconData="{x:Static se:StswIcons.Dice1}"
-                                   IconScale="{Binding IconScale}"
-                                   IsBusy="{Binding IsBusy}"
-                                   IsChecked="{Binding SelectedOption[0]}"
-                                   IsEnabled="{Binding IsEnabled}"
-                                   Margin="0 0 5 0"
-                                   HorizontalAlignment="{Binding HorizontalAlignment}"
-                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                   VerticalAlignment="{Binding VerticalAlignment}"
-                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                             CommandParameter="1"
+                             Content="Option 1"
+                             FontSize="11"
+                             IconData="{x:Static se:StswIcons.Dice1}"
+                             IconScale="{Binding IconScale}"
+                             IsBusy="{Binding IsBusy}"
+                             IsChecked="{Binding SelectedOption[0]}"
+                             IsContentVisible="{Binding IsContentVisible}"
+                             IsEnabled="{Binding IsEnabled}"
+                             Margin="0 0 5 0"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswSubRadio Command="{Binding OnClickCommand}"
-                                   CommandParameter="2"
-                                   Content="Option 2"
-                                   ContentVisibility="{Binding ContentVisibility}"
-                                   FontSize="11"
-                                   IconData="{x:Static se:StswIcons.Dice2}"
-                                   IconScale="{Binding IconScale}"
-                                   IsBusy="{Binding IsBusy}"
-                                   IsChecked="{Binding SelectedOption[1]}"
-                                   IsEnabled="{Binding IsEnabled}"
-                                   Margin="0 0 5 0"
-                                   HorizontalAlignment="{Binding HorizontalAlignment}"
-                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                   VerticalAlignment="{Binding VerticalAlignment}"
-                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                             CommandParameter="2"
+                             Content="Option 2"
+                             FontSize="11"
+                             IconData="{x:Static se:StswIcons.Dice2}"
+                             IconScale="{Binding IconScale}"
+                             IsBusy="{Binding IsBusy}"
+                             IsChecked="{Binding SelectedOption[1]}"
+                             IsContentVisible="{Binding IsContentVisible}"
+                             IsEnabled="{Binding IsEnabled}"
+                             Margin="0 0 5 0"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswSubRadio Command="{Binding OnClickCommand}"
-                                   CommandParameter="3"
-                                   Content="Option 3"
-                                   ContentVisibility="{Binding ContentVisibility}"
-                                   FontSize="11"
-                                   IconData="{x:Static se:StswIcons.Dice3}"
-                                   IconScale="{Binding IconScale}"
-                                   IsBusy="{Binding IsBusy}"
-                                   IsChecked="{Binding SelectedOption[2]}"
-                                   IsEnabled="{Binding IsEnabled}"
-                                   Margin="0 0 5 0"
-                                   HorizontalAlignment="{Binding HorizontalAlignment}"
-                                   HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                   VerticalAlignment="{Binding VerticalAlignment}"
-                                   VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                             CommandParameter="3"
+                             Content="Option 3"
+                             FontSize="11"
+                             IconData="{x:Static se:StswIcons.Dice3}"
+                             IconScale="{Binding IconScale}"
+                             IsBusy="{Binding IsBusy}"
+                             IsChecked="{Binding SelectedOption[2]}"
+                             IsContentVisible="{Binding IsContentVisible}"
+                             IsEnabled="{Binding IsEnabled}"
+                             Margin="0 0 5 0"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         </UniformGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

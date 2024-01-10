@@ -115,10 +115,10 @@ public class StswWindow : Window, IStswCornerControl
         Width = DefaultWidth;
 
         /// center the window on the screen
-        if (_hwndSource != null)
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
         {
             int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            var monitor = MonitorFromWindow(_hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
+            var monitor = MonitorFromWindow(hwndSource.Handle, MONITOR_DEFAULTTONEAREST);
             if (monitor != IntPtr.Zero)
             {
                 var monitorInfo = new MONITORINFO();
@@ -133,17 +133,23 @@ public class StswWindow : Window, IStswCornerControl
     /// <summary>
     /// Event handler for the minimize button click to minimize the window.
     /// </summary>
-    protected void MinimizeClick(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    internal void MinimizeClick(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
     /// <summary>
     /// Event handler for the restore button click to toggle between normal and maximized window state.
     /// </summary>
-    protected void RestoreClick(object? sender, RoutedEventArgs e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+    internal void RestoreClick(object? sender, RoutedEventArgs e)
+    {
+        if (Fullscreen)
+            Fullscreen = false;
+        else
+            WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+    }
 
     /// <summary>
     /// Event handler for the close button click to close the window.
     /// </summary>
-    protected void CloseClick(object? sender, RoutedEventArgs e) => Close();
+    internal void CloseClick(object? sender, RoutedEventArgs e) => Close();
     #endregion
 
     #region Main properties
@@ -196,6 +202,7 @@ public class StswWindow : Window, IStswCornerControl
                     stsw.WindowState = stsw.preFullscreenState;
                 }
                 stsw.Activate();
+                stsw.Focus();
 
                 stsw.FullscreenChanged?.Invoke(stsw, EventArgs.Empty);
             }
@@ -281,16 +288,15 @@ public class StswWindow : Window, IStswCornerControl
         );
     #endregion
 
-    #region OnInitialized
-    private HwndSource? _hwndSource;
-
-    /// OnInitialized
-    protected override void OnInitialized(EventArgs e)
+    #region Advanced logic
+    /// OnSourceInitialized
+    protected override void OnSourceInitialized(EventArgs e)
     {
-        SourceInitialized += OnSourceInitialized; /// Avoid hiding task bar upon maximization
-        Loaded += OnLoaded; /// Hide default context menu and show custom
-        Closed += OnClosed; /// Hide default context menu and show custom
-        base.OnInitialized(e);
+        base.OnSourceInitialized(e);
+
+        IntPtr handle = new WindowInteropHelper(this).Handle;
+        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
+            hwndSource.AddHook(new HwndSourceHook(WndProc));
 
         if (DefaultHeight == 0)
             DefaultHeight = Height;
@@ -298,39 +304,18 @@ public class StswWindow : Window, IStswCornerControl
             DefaultWidth = Width;
     }
 
-    /// OnSourceInitialized
-    void OnSourceInitialized(object? sender, EventArgs e)
-    {
-        _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-        IntPtr handle = new WindowInteropHelper(this).Handle;
-        HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
-    }
-    #endregion
-
-    #region Hide default context menu and show custom
-    private HwndSourceHook? _hook;
-
-    /// OnLoaded
-    private void OnLoaded(object? sender, RoutedEventArgs e)
-    {
-        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
-        {
-            _hook = new HwndSourceHook(WndProc);
-            hwndSource.AddHook(_hook);
-        }
-    }
-
-    /// OnClosed
-    private void OnClosed(object? sender, EventArgs e)
-    {
-        if (PresentationSource.FromVisual(this) is HwndSource hwndSource)
-            hwndSource.RemoveHook(_hook);
-    }
-
     /// WndProc
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 165)
+        /// Avoid hiding task bar upon maximization
+        if (msg == 0x24)
+        {
+            if (!Fullscreen)
+                WmGetMinMaxInfo(hwnd, lParam);
+            handled = false;
+        }
+        /// Hide default context menu and show custom
+        else if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 0xa5)
         {
             if (windowBar != null)
                 windowBar.ContextMenu.IsOpen = true;
@@ -338,46 +323,31 @@ public class StswWindow : Window, IStswCornerControl
         }
         return IntPtr.Zero;
     }
-    #endregion
-
-    #region Avoid hiding task bar upon maximization
-    /// WindowProc
-    private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        switch (msg)
-        {
-            case 0x0024:
-                if (!Fullscreen)
-                    WmGetMinMaxInfo(hwnd, lParam);
-                handled = false;
-                break;
-        }
-        return (IntPtr)0;
-    }
 
     /// WmGetMinMaxInfo
     private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
-        if (Marshal.PtrToStructure(lParam, typeof(MINMAXINFO)) is MINMAXINFO mmi)
-        {
-            int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-            if (monitor != IntPtr.Zero)
-            {
-                var monitorInfo = new MONITORINFO();
-                GetMonitorInfo(monitor, monitorInfo);
-                var rcWorkArea = monitorInfo.rcWork;
-                var rcMonitorArea = monitorInfo.rcMonitor;
-                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
-                mmi.ptMaxTrackSize.x = Math.Abs(rcWorkArea.Width);
-                mmi.ptMaxTrackSize.y = Math.Abs(rcWorkArea.Height);
-            }
+        if (Marshal.PtrToStructure(lParam, typeof(MINMAXINFO)) is not MINMAXINFO mmi)
+            return;
 
-            Marshal.StructureToPtr(mmi, lParam, true);
-        }
+        var monitor = MonitorFromWindow(hwnd, 0x02);
+        if (monitor == IntPtr.Zero)
+            return;
+
+        var monitorInfo = new MONITORINFO();
+        if (!GetMonitorInfo(monitor, monitorInfo))
+            return;
+
+        var rcWorkArea = monitorInfo.rcWork;
+        var rcMonitorArea = monitorInfo.rcMonitor;
+        mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+        mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+        mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
+        mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+        mmi.ptMaxTrackSize.x = Math.Abs(rcWorkArea.Width);
+        mmi.ptMaxTrackSize.y = Math.Abs(rcWorkArea.Height);
+
+        Marshal.StructureToPtr(mmi, lParam, true);
     }
 
     /// POINT
@@ -447,11 +417,11 @@ public class StswWindow : Window, IStswCornerControl
         public static bool operator ==(RECT rect1, RECT rect2) => rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
         public static bool operator !=(RECT rect1, RECT rect2) => !(rect1 == rect2);
     }
-    #endregion
 
     [DllImport("user32")]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
 
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+    #endregion
 }

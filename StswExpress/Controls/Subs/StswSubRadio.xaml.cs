@@ -16,21 +16,6 @@ public class StswSubRadio : RadioButton, IStswSubControl, IStswIconControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the visibility of the content within the control.
-    /// </summary>
-    public Visibility? ContentVisibility
-    {
-        get => (Visibility)GetValue(ContentVisibilityProperty);
-        set => SetValue(ContentVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ContentVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ContentVisibility),
-            typeof(Visibility),
-            typeof(StswSubRadio)
-        );
-
-    /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>
     public Geometry? IconData
@@ -71,6 +56,21 @@ public class StswSubRadio : RadioButton, IStswSubControl, IStswIconControl
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
+            typeof(bool),
+            typeof(StswSubRadio)
+        );
+
+    /// <summary>
+    /// Gets or sets whether the the content within the control is visible or not.
+    /// </summary>
+    public bool IsContentVisible
+    {
+        get => (bool)GetValue(IsContentVisibleProperty);
+        set => SetValue(IsContentVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsContentVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsContentVisible),
             typeof(bool),
             typeof(StswSubRadio)
         );

@@ -110,7 +110,7 @@
                                 <Condition Property="IsInCompactPanel" Value="False"/>
                                 <Condition Property="TabStripMode" Value="Compact"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="ContentVisibility" Value="Collapsed" TargetName="PART_Header"/>
+                            <Setter Property="IsContentVisible" Value="False" TargetName="PART_Header"/>
                             <Setter Property="ToolTip" Value="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
                             <Setter Property="HorizontalContentAlignment" Value="Center" TargetName="PART_Header"/>
                             <Setter Property="VerticalContentAlignment" Value="Center" TargetName="PART_Header"/>

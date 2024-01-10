@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : ContentControl, IStswCornerControl, IStswDropControl
+public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     public StswSelectionBox()
     {

@@ -13,9 +13,9 @@ public class StswSubButtonContext : ControlsContext
     {
         base.SetDefaults();
 
-        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
     }
 
     /// ClickCounter
@@ -24,14 +24,6 @@ public class StswSubButtonContext : ControlsContext
     {
         get => clickCounter;
         set => SetProperty(ref clickCounter, value);
-    }
-
-    /// ContentVisibility
-    private Visibility contentVisibility;
-    public Visibility ContentVisibility
-    {
-        get => contentVisibility;
-        set => SetProperty(ref contentVisibility, value);
     }
 
     /// IconScale
@@ -48,5 +40,13 @@ public class StswSubButtonContext : ControlsContext
     {
         get => isBusy;
         set => SetProperty(ref isBusy, value);
+    }
+
+    /// IsContentVisible
+    private bool isContentVisible;
+    public bool IsContentVisible
+    {
+        get => isContentVisible;
+        set => SetProperty(ref isContentVisible, value);
     }
 }

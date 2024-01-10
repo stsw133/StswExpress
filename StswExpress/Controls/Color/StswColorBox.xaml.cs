@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that allows users to select colors either by entering color values or using a color picker and selector.
 /// </summary>
 [ContentProperty(nameof(SelectedColor))]
-public class StswColorBox : TextBox, IStswCornerControl
+public class StswColorBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswColorBox()
     {

@@ -13,7 +13,7 @@ namespace StswExpress;
 /// A control that allows users to select and display date.
 /// </summary>
 [ContentProperty(nameof(SelectedDate))]
-public class StswDatePicker : TextBox, IStswCornerControl
+public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswDatePicker()
     {

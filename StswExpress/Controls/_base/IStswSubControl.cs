@@ -15,12 +15,6 @@ public interface IStswSubControl
     public static readonly DependencyProperty? ContentProperty;
 
     /// <summary>
-    /// Gets or sets the visibility of the content within the control.
-    /// </summary>
-    public Visibility? ContentVisibility { get; set; }
-    public static readonly DependencyProperty? ContentVisibilityProperty;
-
-    /// <summary>
     /// Gets or sets the scale of the icon.
     /// </summary>
     public GridLength IconScale { get; set; }
@@ -31,6 +25,12 @@ public interface IStswSubControl
     /// </summary>
     public bool IsBusy { get; set; }
     public static readonly DependencyProperty? IsBusyProperty;
+
+    /// <summary>
+    /// Gets or sets whether the the content within the control is visible or not.
+    /// </summary>
+    public bool IsContentVisible { get; set; }
+    public static readonly DependencyProperty? IsContentVisibleProperty;
 
     /// <summary>
     /// Gets or sets the orientation of the control.

@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that can be used to display or edit unformatted text.
 /// </summary>
 [ContentProperty(nameof(Text))]
-public class StswTextBox : TextBox, IStswCornerControl
+public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswTextBox()
     {

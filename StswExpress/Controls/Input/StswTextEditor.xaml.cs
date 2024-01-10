@@ -16,7 +16,7 @@ namespace StswExpress;
 /// <summary>
 /// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>
-public class StswTextEditor : RichTextBox, IStswCornerControl
+public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     public ICommand FileNewCommand { get; set; }
     public ICommand FileOpenCommand { get; set; }

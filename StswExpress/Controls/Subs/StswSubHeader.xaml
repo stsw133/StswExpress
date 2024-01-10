@@ -9,8 +9,9 @@
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="0"/>
-        
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -27,13 +28,13 @@
                                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                    ContentTemplate="{TemplateBinding ContentTemplate}"
                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                   ContentVisibility="{TemplateBinding ContentVisibility}"
                                    IconData="{TemplateBinding IconData}"
                                    IconFill="{TemplateBinding IconFill}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IconStroke="{TemplateBinding IconStroke}"
                                    IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
                                    IsBusy="{TemplateBinding IsBusy}"
+                                   IsContentVisible="{TemplateBinding IsContentVisible}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True"

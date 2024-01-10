@@ -14,9 +14,9 @@ public class StswSubDropContext : ControlsContext
     {
         base.SetDefaults();
 
-        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
@@ -26,14 +26,6 @@ public class StswSubDropContext : ControlsContext
     {
         get => clickOption;
         set => SetProperty(ref clickOption, value);
-    }
-
-    /// ContentVisibility
-    private Visibility contentVisibility;
-    public Visibility ContentVisibility
-    {
-        get => contentVisibility;
-        set => SetProperty(ref contentVisibility, value);
     }
 
     /// IconScale
@@ -50,6 +42,14 @@ public class StswSubDropContext : ControlsContext
     {
         get => isBusy;
         set => SetProperty(ref isBusy, value);
+    }
+
+    /// IsContentVisible
+    private bool isContentVisible;
+    public bool IsContentVisible
+    {
+        get => isContentVisible;
+        set => SetProperty(ref isContentVisible, value);
     }
 
     /// IsDropDownOpen

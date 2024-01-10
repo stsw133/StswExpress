@@ -21,8 +21,6 @@ public class StswWindowBar : Control
     }
 
     #region Events & methods
-    private StswWindow? stswWindow;
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -32,46 +30,18 @@ public class StswWindowBar : Control
 
         /// StswWindow
         if (StswFn.FindVisualAncestor<StswWindow>(this) is StswWindow stswWindow)
-            this.stswWindow = stswWindow;
-
-        /// Button: minimize
-        if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
-            btnMinimize.Click += MinimizeClick;
-        /// Button: restore
-        if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore)
-            btnRestore.Click += RestoreClick;
-        /// Button: close
-        if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
-            btnClose.Click += CloseClick;
-    }
-
-    /// <summary>
-    /// Event handler for the minimize button click to minimize the window.
-    /// </summary>
-    protected void MinimizeClick(object? sender, RoutedEventArgs e)
-    {
-        if (stswWindow != null)
-            stswWindow.WindowState = WindowState.Minimized;
-    }
-
-    /// <summary>
-    /// Event handler for the restore button click to toggle between normal and maximized window state.
-    /// </summary>
-    protected void RestoreClick(object? sender, RoutedEventArgs e)
-    {
-        if (stswWindow != null)
         {
-            if (stswWindow.Fullscreen == true)
-                stswWindow.Fullscreen = false;
-            else
-                stswWindow.WindowState = stswWindow.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+            /// Button: minimize
+            if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
+                btnMinimize.Click += stswWindow.MinimizeClick;
+            /// Button: restore
+            if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore)
+                btnRestore.Click += stswWindow.RestoreClick;
+            /// Button: close
+            if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
+                btnClose.Click += stswWindow.CloseClick;
         }
     }
-
-    /// <summary>
-    /// Event handler for the close button click to close the window.
-    /// </summary>
-    protected void CloseClick(object? sender, RoutedEventArgs e) => stswWindow?.Close();
     #endregion
 
     #region Main properties

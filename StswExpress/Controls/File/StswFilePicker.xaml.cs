@@ -16,7 +16,7 @@ namespace StswExpress;
 /// 
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
-public class StswFilePicker : TextBox, IStswCornerControl
+public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
 {
     public StswFilePicker()
     {

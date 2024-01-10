@@ -9,6 +9,7 @@
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="0"/>
 
         <Setter Property="IsTabStop" Value="False"/>
@@ -24,19 +25,19 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   ContentVisibility="{TemplateBinding ContentVisibility}"
                                    IconData="{TemplateBinding IconData}"
                                    IconFill="{TemplateBinding IconFill}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IconStroke="{TemplateBinding IconStroke}"
                                    IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
                                    IsBusy="{TemplateBinding IsBusy}"
+                                   IsContentVisible="{TemplateBinding IsContentVisible}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <Grid>
+                        <DockPanel>
                             <!-- popup -->
                             <Popup x:Name="PART_Popup"
                                    AllowsTransparency="True"
@@ -54,19 +55,21 @@
                                         <ItemsPresenter Margin="3"/>
                                     </se:StswShifter>
                                 </se:StswBorder>
-                                
                             </Popup>
                             <!-- content -->
-                            <ContentPresenter ContentSource="Content"
+                            <ContentPresenter x:Name="PART_Content"
+                                              ContentSource="Content"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Visibility="{TemplateBinding ContentVisibility}"/>
-                        </Grid>
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </DockPanel>
                     </se:StswHeader>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsContentVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Opacity" Value="0.6"/>
                         </Trigger>

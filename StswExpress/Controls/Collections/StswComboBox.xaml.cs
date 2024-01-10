@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswCornerControl, IStswDropControl
+public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     public StswComboBox()
     {

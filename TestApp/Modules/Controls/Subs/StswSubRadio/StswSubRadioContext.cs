@@ -15,9 +15,9 @@ public class StswSubRadioContext : ControlsContext
     {
         base.SetDefaults();
 
-        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
     }
 
     /// ClickOption
@@ -35,14 +35,6 @@ public class StswSubRadioContext : ControlsContext
         set => SetProperty(ref selectedOption, value);
     }
 
-    /// ContentVisibility
-    private Visibility contentVisibility;
-    public Visibility ContentVisibility
-    {
-        get => contentVisibility;
-        set => SetProperty(ref contentVisibility, value);
-    }
-
     /// IconScale
     private GridLength iconScale;
     public GridLength IconScale
@@ -57,5 +49,13 @@ public class StswSubRadioContext : ControlsContext
     {
         get => isBusy;
         set => SetProperty(ref isBusy, value);
+    }
+
+    /// IsContentVisible
+    private bool isContentVisible;
+    public bool IsContentVisible
+    {
+        get => isContentVisible;
+        set => SetProperty(ref isContentVisible, value);
     }
 }

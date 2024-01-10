@@ -13,7 +13,7 @@ namespace StswExpress;
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswAdaptiveBox : Control, IStswCornerControl
+public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
 {
     public StswAdaptiveBox()
     {

@@ -16,10 +16,6 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- ContentVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ContentVisibility"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ContentVisibility}" SelectedValuePath="Value"/>
             <!-- IconScale -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
@@ -31,45 +27,48 @@
             <!-- IsBusy -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+            <!-- IsContentVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <UniformGrid Margin="5" Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}">
             <se:StswSubHeader Content="Info"
-                                    ContentVisibility="{Binding ContentVisibility}"
-                                    FontSize="11"
-                                    IconData="{x:Static se:StswIcons.InformationOutline}"
-                                    IconScale="{Binding IconScale}"
-                                    IsBusy="{Binding IsBusy}"
-                                    IsEnabled="{Binding IsEnabled}"
-                                    Margin="0 0 5 0"
-                                    HorizontalAlignment="{Binding HorizontalAlignment}"
-                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                    VerticalAlignment="{Binding VerticalAlignment}"
-                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                              FontSize="11"
+                              IconData="{x:Static se:StswIcons.InformationOutline}"
+                              IconScale="{Binding IconScale}"
+                              IsBusy="{Binding IsBusy}"
+                              IsContentVisible="{Binding IsContentVisible}"
+                              IsEnabled="{Binding IsEnabled}"
+                              Margin="0 0 5 0"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswSubHeader Content="Warning"
-                                    ContentVisibility="{Binding ContentVisibility}"
-                                    FontSize="11"
-                                    IconData="{x:Static se:StswIcons.AlertCircleOutline}"
-                                    IconScale="{Binding IconScale}"
-                                    IsBusy="{Binding IsBusy}"
-                                    IsEnabled="{Binding IsEnabled}"
-                                    Margin="0 0 5 0"
-                                    HorizontalAlignment="{Binding HorizontalAlignment}"
-                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                    VerticalAlignment="{Binding VerticalAlignment}"
-                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                              FontSize="11"
+                              IconData="{x:Static se:StswIcons.AlertCircleOutline}"
+                              IconScale="{Binding IconScale}"
+                              IsBusy="{Binding IsBusy}"
+                              IsContentVisible="{Binding IsContentVisible}"
+                              IsEnabled="{Binding IsEnabled}"
+                              Margin="0 0 5 0"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswSubHeader Content="Error"
-                                    ContentVisibility="{Binding ContentVisibility}"
-                                    FontSize="11"
-                                    IconData="{x:Static se:StswIcons.CloseCircleOutline}"
-                                    IconScale="{Binding IconScale}"
-                                    IsBusy="{Binding IsBusy}"
-                                    IsEnabled="{Binding IsEnabled}"
-                                    Margin="0 0 5 0"
-                                    HorizontalAlignment="{Binding HorizontalAlignment}"
-                                    HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                    VerticalAlignment="{Binding VerticalAlignment}"
-                                    VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                              FontSize="11"
+                              IconData="{x:Static se:StswIcons.CloseCircleOutline}"
+                              IconScale="{Binding IconScale}"
+                              IsBusy="{Binding IsBusy}"
+                              IsContentVisible="{Binding IsContentVisible}"
+                              IsEnabled="{Binding IsEnabled}"
+                              Margin="0 0 5 0"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         </UniformGrid>
         <!-- status panel -->
         

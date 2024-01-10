@@ -12,17 +12,9 @@ public class StswSubHeaderContext : ControlsContext
     {
         base.SetDefaults();
 
-        ContentVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ContentVisibility)))?.Value ?? default;
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
-    }
-
-    /// ContentVisibility
-    private Visibility contentVisibility;
-    public Visibility ContentVisibility
-    {
-        get => contentVisibility;
-        set => SetProperty(ref contentVisibility, value);
+        IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
     }
 
     /// IconScale
@@ -39,5 +31,13 @@ public class StswSubHeaderContext : ControlsContext
     {
         get => isBusy;
         set => SetProperty(ref isBusy, value);
+    }
+
+    /// IsContentVisible
+    private bool isContentVisible;
+    public bool IsContentVisible
+    {
+        get => isContentVisible;
+        set => SetProperty(ref isContentVisible, value);
     }
 }

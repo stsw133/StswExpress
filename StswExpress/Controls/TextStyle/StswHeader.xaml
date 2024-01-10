@@ -7,6 +7,7 @@
         
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
+        <Setter Property="IsContentVisible" Value="True"/>
 
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -32,8 +33,7 @@
                                               Focusable="False"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Visibility="{TemplateBinding ContentVisibility}"/>
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -79,6 +79,9 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="HasContent" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
+                        </Trigger>
+                        <Trigger Property="IsContentVisible" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">

@@ -16,21 +16,6 @@ public class StswHeader : Label, IStswIconControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the visibility of the content.
-    /// </summary>
-    public Visibility? ContentVisibility
-    {
-        get => (Visibility)GetValue(ContentVisibilityProperty);
-        set => SetValue(ContentVisibilityProperty, value);
-    }
-    public static readonly DependencyProperty ContentVisibilityProperty
-        = DependencyProperty.Register(
-            nameof(ContentVisibility),
-            typeof(Visibility),
-            typeof(StswHeader)
-        );
-
-    /// <summary>
     /// Gets or sets the geometry data for the icon.
     /// </summary>
     public Geometry? IconData
@@ -86,6 +71,21 @@ public class StswHeader : Label, IStswIconControl
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.Register(
             nameof(IsBusy),
+            typeof(bool),
+            typeof(StswHeader)
+        );
+
+    /// <summary>
+    /// Gets or sets whether the the content within the control is visible or not.
+    /// </summary>
+    public bool IsContentVisible
+    {
+        get => (bool)GetValue(IsContentVisibleProperty);
+        set => SetValue(IsContentVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsContentVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsContentVisible),
             typeof(bool),
             typeof(StswHeader)
         );
