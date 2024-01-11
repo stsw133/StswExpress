@@ -56,6 +56,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -66,6 +67,7 @@ public class StswScrollBar : ScrollBar
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

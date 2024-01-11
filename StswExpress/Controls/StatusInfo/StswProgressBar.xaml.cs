@@ -29,6 +29,8 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     /// <summary>
     /// Event handler to update the text displayed on the progress bar based on its state.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)

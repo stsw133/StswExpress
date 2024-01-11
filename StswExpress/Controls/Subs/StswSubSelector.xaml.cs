@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -12,8 +13,12 @@ namespace StswExpress;
 /// It can expand to show additional sub controls when the mouse is over an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSubSelector : ItemsControl, IStswSubControl, IStswIconControl
+public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
 {
+    public StswSubSelector()
+    {
+        SetValue(ItemsProperty, new ObservableCollection<IStswSubControl>());
+    }
     static StswSubSelector()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubSelector), new FrameworkPropertyMetadata(typeof(StswSubSelector)));
@@ -40,7 +45,7 @@ public class StswSubSelector : ItemsControl, IStswSubControl, IStswIconControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
@@ -51,21 +56,6 @@ public class StswSubSelector : ItemsControl, IStswSubControl, IStswIconControl
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// 
-    /// </summary>
-    public object? Content
-    {
-        get => (object?)GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
-    }
-    public static readonly DependencyProperty ContentProperty
-        = DependencyProperty.Register(
-            nameof(Content),
-            typeof(object),
-            typeof(StswSubSelector)
-        );
-    
     /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>
@@ -123,6 +113,21 @@ public class StswSubSelector : ItemsControl, IStswSubControl, IStswIconControl
         = DependencyProperty.Register(
             nameof(IsContentVisible),
             typeof(bool),
+            typeof(StswSubSelector)
+        );
+
+    /// <summary>
+    /// Gets or sets the collection of sub controls to be displayed in the control.
+    /// </summary>
+    public ObservableCollection<IStswSubControl> Items
+    {
+        get => (ObservableCollection<IStswSubControl>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
+    public static readonly DependencyProperty ItemsProperty
+        = DependencyProperty.Register(
+            nameof(Items),
+            typeof(ObservableCollection<IStswSubControl>),
             typeof(StswSubSelector)
         );
 

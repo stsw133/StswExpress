@@ -53,8 +53,8 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         foreach (var weakRef in LoadedInstances.ToList())
@@ -68,8 +68,8 @@ public class StswContentDialog : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         foreach (var weakRef in LoadedInstances.ToList())

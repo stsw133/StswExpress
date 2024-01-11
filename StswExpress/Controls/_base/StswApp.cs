@@ -16,6 +16,7 @@ public class StswApp : Application
     /// <summary>
     /// Starting method that sets up various aspects of the application such as the theme, resources, commands, culture, and a callback for when the application exits.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);

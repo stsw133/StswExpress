@@ -34,6 +34,8 @@ public class StswTabControl : TabControl
     /// Handles the click event of the PART_FunctionButton.
     /// Creates and adds a new tab item based on the NewTabTemplate.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         if (NewTabTemplate == null)

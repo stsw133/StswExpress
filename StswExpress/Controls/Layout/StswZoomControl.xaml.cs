@@ -78,8 +78,8 @@ public class StswZoomControl : Border
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void child_MouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (child != null)
@@ -106,8 +106,8 @@ public class StswZoomControl : Border
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (child != null)
@@ -123,8 +123,8 @@ public class StswZoomControl : Border
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (child != null)
@@ -137,15 +137,15 @@ public class StswZoomControl : Border
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     void child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e) => Reset();
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void child_MouseMove(object sender, MouseEventArgs e)
     {
         if (child?.IsMouseCaptured == true)

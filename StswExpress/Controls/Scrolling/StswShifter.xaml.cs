@@ -58,6 +58,7 @@ public class StswShifter : ScrollViewer
     /// Overrides the MouseWheel event to handle scrolling behavior.
     /// When the scroll reaches the top or bottom, it raises the MouseWheel event for the parent UIElement.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling
@@ -93,7 +94,7 @@ public class StswShifter : ScrollViewer
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         if (e.HorizontalChange != 0)
@@ -115,8 +116,6 @@ public class StswShifter : ScrollViewer
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void OnHorizontalOffsetChanged()
     {
         if (btnLeft == null || btnRight == null)
@@ -136,8 +135,6 @@ public class StswShifter : ScrollViewer
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void OnVerticalOffsetChanged()
     {
         if (btnUp == null || btnDown == null)

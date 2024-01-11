@@ -35,6 +35,7 @@ public class StswColorBox : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the KeyDown event on the content host element in the control.
     /// Triggers the LostFocus event if the Enter key is pressed.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -46,6 +47,7 @@ public class StswColorBox : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the LostFocus event on the content host element in the control.
     /// Updates the selected color based on the text input and updates the source binding.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
         UpdateMainProperty(false);

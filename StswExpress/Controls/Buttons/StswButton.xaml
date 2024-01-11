@@ -41,7 +41,7 @@
                             <Setter Property="Background" Value="{DynamicResource StswButton.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        <Trigger Property="Button.IsDefaulted" Value="True">
+                        <Trigger Property="IsDefaulted" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Defaulted.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

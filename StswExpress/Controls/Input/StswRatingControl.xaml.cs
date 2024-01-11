@@ -28,6 +28,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
@@ -38,6 +39,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
@@ -62,6 +64,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

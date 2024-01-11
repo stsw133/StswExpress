@@ -33,6 +33,8 @@ public class StswProgressRing : ProgressBar
     /// <summary>
     /// Event handler to update the text displayed on the progress bar based on its state.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void OnTextChanged(object? sender, EventArgs e)
     {
         if (Maximum != Minimum && TextMode != StswProgressTextMode.Custom)
@@ -51,8 +53,8 @@ public class StswProgressRing : ProgressBar
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = new DoubleCollection() { (Value - Minimum) / (Maximum - Minimum) * 34.4589, 34.4589 };
     #endregion
 

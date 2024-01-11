@@ -19,6 +19,7 @@ public class StswScrollViewer : ScrollViewer
     /// Overrides the MouseWheel event to handle scrolling behavior.
     /// When the scroll reaches the top or bottom, it raises the MouseWheel event for the parent UIElement.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         /// horizontal scrolling

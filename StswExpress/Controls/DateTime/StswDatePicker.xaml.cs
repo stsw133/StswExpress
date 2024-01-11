@@ -44,6 +44,7 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the KeyDown event for the internal content host of the date picker.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -56,6 +57,7 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Parses the text input and updates the SelectedDate property based on the provided format.
     /// The new SelectedDate is displayed in the Text property, and the binding is updated if active.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
         UpdateMainProperty(false);
@@ -66,6 +68,7 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the MouseWheel event for the internal content host of the date picker.
     /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);

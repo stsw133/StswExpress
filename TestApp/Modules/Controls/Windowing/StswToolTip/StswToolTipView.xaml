@@ -24,7 +24,7 @@
         <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.ShowDuration="{Binding ShowDuration}">
             <se:StswText.ToolTip>
                 <se:StswToolTip>
-                    <se:StswText Text="Here is some tooltip that have rounded corners &#10; and uses the same brushes as StswPopup." TextWrapping="Wrap"/>
+                    <se:StswText Text="Here is some tooltip that has rounded corners&#10;and uses the same brushes as StswPopup." TextWrapping="Wrap"/>
                 </se:StswToolTip>
             </se:StswText.ToolTip>
         </se:StswText>

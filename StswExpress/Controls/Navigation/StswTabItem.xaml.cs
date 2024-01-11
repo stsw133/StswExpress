@@ -32,6 +32,8 @@ public class StswTabItem : TabItem
     /// Handles the click event of the PART_FunctionButton.
     /// Removes the current tab item from the parent StswTabControl.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);

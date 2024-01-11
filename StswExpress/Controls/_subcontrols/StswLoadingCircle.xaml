@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswLoadingCircle}">
-        <Setter Property="Fill" Value="{DynamicResource StswWindow.Static.Foreground}"/>
+        <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
         <Setter Property="IsTabStop" Value="False"/>

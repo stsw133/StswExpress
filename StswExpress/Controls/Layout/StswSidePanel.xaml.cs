@@ -33,7 +33,7 @@ public class StswSidePanel : ContentControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);

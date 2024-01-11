@@ -48,6 +48,8 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Handles the PasswordChanged event for the internal PasswordBox, updating the Password property accordingly.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     public void PART_PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
     {
         _isPasswordChanging = true;

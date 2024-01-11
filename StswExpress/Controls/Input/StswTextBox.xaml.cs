@@ -27,6 +27,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the KeyDown event for the internal content host of the text box.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);

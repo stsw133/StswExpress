@@ -52,6 +52,8 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the context menu is opening.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_MainBorder_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
         ((MenuItem)GetTemplateChild("PART_Cut")).IsEnabled = MenuMode == StswMenuMode.Full;
@@ -65,6 +67,8 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the "Cut" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniCut_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
@@ -75,6 +79,8 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the "Copy" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniCopy_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
@@ -84,6 +90,8 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the "Paste" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniPaste_Click(object sender, RoutedEventArgs e)
     {
         if (Clipboard.ContainsImage())
@@ -93,11 +101,15 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the "Delete" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniDelete_Click(object sender, RoutedEventArgs e) => Source = null;
 
     /// <summary>
     /// Occurs when the "Load" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniLoad_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog()
@@ -115,6 +127,8 @@ public class StswImage : Control
     /// <summary>
     /// Occurs when the "Save" menu item is clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void MniSave_Click(object sender, RoutedEventArgs e)
     {
         if (Source == null)

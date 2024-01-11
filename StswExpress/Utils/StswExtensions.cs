@@ -7,10 +7,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -172,7 +175,7 @@ public static class StswExtensions
     }
     #endregion
 
-    #region Converting extensions
+    #region Convert extensions
     /// <summary>
     /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
     /// </summary>
@@ -269,6 +272,26 @@ public static class StswExtensions
             yield return obj;
         }
     }
+
+    /// <summary>
+    /// Converts <see cref="System.Drawing.Bitmap"/> to <see cref="ImageSource"/>.
+    /// </summary>
+    public static ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
+    {
+        var handle = bmp.GetHbitmap();
+        try
+        {
+            return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        }
+        finally
+        {
+            DeleteObject(handle);
+        }
+    }
+
+    [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteObject([In] IntPtr hObject);
 
     /// <summary>
     /// Converts <see cref="IEnumerable{T}"/> to <see cref="ObservableCollection{T}"/>.

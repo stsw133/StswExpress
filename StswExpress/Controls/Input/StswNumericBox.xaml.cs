@@ -50,6 +50,8 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Handles the click event for the "Up" button, incrementing the numeric value.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
         if (decimal.TryParse(Text, out var result))
@@ -60,6 +62,8 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Handles the click event for the "Down" button, decrementing the numeric value.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
         if (decimal.TryParse(Text, out var result))
@@ -71,6 +75,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the KeyDown event for the internal content host of the numeric box.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -81,6 +86,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnLostFocus(RoutedEventArgs e)
     {
         UpdateMainProperty(false);
@@ -90,6 +96,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);

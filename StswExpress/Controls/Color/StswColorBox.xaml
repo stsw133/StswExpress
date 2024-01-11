@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
+
+    <sys:Int32 x:Key="StswColorBox.Size.Icon">16</sys:Int32>
 
     <Style TargetType="{x:Type se:StswColorBox}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
@@ -72,10 +75,10 @@
                             <!-- content -->
                             <DockPanel>
                                 <Ellipse Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"
-                                         Margin="{TemplateBinding Padding}"
+                                         Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1"
-                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                         Height="{DynamicResource StswColorBox.Size.Icon}" Width="{DynamicResource StswColorBox.Size.Icon}"/>
                                 <Grid>
                                     <se:StswText x:Name="PART_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"

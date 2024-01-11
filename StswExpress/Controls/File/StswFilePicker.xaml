@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
+
+    <sys:Int32 x:Key="StswFilePicker.Size.Icon">16</sys:Int32>
 
     <Style TargetType="{x:Type se:StswFilePicker}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
@@ -52,29 +55,34 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                             <!-- content -->
-                            <Grid>
-                                <se:StswText x:Name="PART_Placeholder"
-                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
-                                             IsHitTestVisible="False"
-                                             Margin="{TemplateBinding Padding}"
-                                             Padding="2 0 0 0"
-                                             Text="{TemplateBinding Placeholder}"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                             Visibility="Collapsed"/>
-                                <se:StswScrollViewer x:Name="PART_ContentHost"
-                                                     Focusable="False"
-                                                     IsDynamic="True"
-                                                     HorizontalScrollBarVisibility="Hidden"
-                                                     VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
+                            <DockPanel>
+                                <Image Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                       Source="{TemplateBinding IconSource}"
+                                       Height="{DynamicResource StswFilePicker.Size.Icon}" Width="{DynamicResource StswFilePicker.Size.Icon}"/>
+                                <Grid>
+                                    <se:StswText x:Name="PART_Placeholder"
+                                                 Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
+                                                 IsHitTestVisible="False"
+                                                 Margin="{TemplateBinding Padding}"
+                                                 Padding="2 0 0 0"
+                                                 Text="{TemplateBinding Placeholder}"
+                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                 Visibility="Collapsed"/>
+                                    <se:StswScrollViewer x:Name="PART_ContentHost"
+                                                         Focusable="False"
+                                                         IsDynamic="True"
+                                                         HorizontalScrollBarVisibility="Hidden"
+                                                         VerticalScrollBarVisibility="Hidden"/>
+                                </Grid>
+                            </DockPanel>
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
-                        <Trigger Property="Text" Value="">
+                        <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">

@@ -12,7 +12,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            ...
+            A control that allows users to select file or directory path with additional features.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>

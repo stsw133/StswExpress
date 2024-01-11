@@ -4,8 +4,8 @@
 
     <Style TargetType="{x:Type se:StswWindow}">
         <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Static.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Foreground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Active.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Active.Foreground}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FontFamily" Value="{DynamicResource StswWindow.Font.Family}"/>

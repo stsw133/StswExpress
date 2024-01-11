@@ -85,6 +85,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// <summary>
     /// Occurs when the editor's selection changes.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnSelectionChanged(RoutedEventArgs e)
     {
         base.OnSelectionChanged(e);
@@ -266,11 +267,13 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         };
         Process.Start(startInfo);
     }
-    
+
     /// <summary>
     /// Event handler for the selection changed event of the font family combo box.
     /// Applies the selected font family to the text of the selected portion in the editor.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_FontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!Selection.IsEmpty && fontFamily?.SelectedItem != null)
@@ -282,6 +285,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// Event handler for the value changed event of the font size numeric box.
     /// Applies the selected font size to the text of the selected portion in the editor.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_FontSize_ValueChanged(object? sender, EventArgs e)
     {
         if (!Selection.IsEmpty && fontSize?.Value != null)

@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswToolTip}">
-        <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswTip.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswTip.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerClipping" Value="False"/>

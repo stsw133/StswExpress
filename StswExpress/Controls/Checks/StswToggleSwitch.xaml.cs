@@ -46,7 +46,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -57,7 +57,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -68,7 +68,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);

@@ -65,7 +65,7 @@
                                 BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                 BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
                                 Height="18" Width="18"/>
-                        <Label Content="{Binding Name}" Foreground="{DynamicResource StswWindow.Static.Foreground}"/>
+                        <Label Content="{Binding Name}" Foreground="{DynamicResource StswText.Static.Foreground}"/>
                     </StackPanel>
                     <DataTemplate.Triggers>
                         

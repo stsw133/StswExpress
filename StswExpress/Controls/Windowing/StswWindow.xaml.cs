@@ -101,11 +101,15 @@ public class StswWindow : Window, IStswCornerControl
     /// <summary>
     /// Event handler for the fullscreen button click to toggle fullscreen mode.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     protected void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
     /// <summary>
     /// Event handler for the default button click to reset the window size to its default.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     protected void DefaultClick(object? sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
@@ -133,11 +137,15 @@ public class StswWindow : Window, IStswCornerControl
     /// <summary>
     /// Event handler for the minimize button click to minimize the window.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     internal void MinimizeClick(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
     /// <summary>
     /// Event handler for the restore button click to toggle between normal and maximized window state.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     internal void RestoreClick(object? sender, RoutedEventArgs e)
     {
         if (Fullscreen)
@@ -149,6 +157,8 @@ public class StswWindow : Window, IStswCornerControl
     /// <summary>
     /// Event handler for the close button click to close the window.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     internal void CloseClick(object? sender, RoutedEventArgs e) => Close();
     #endregion
 

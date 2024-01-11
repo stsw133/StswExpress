@@ -82,6 +82,11 @@ public class StswMediaElement : Control
     }*/
 
     /// Button: replay
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnReplay_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)
@@ -92,6 +97,11 @@ public class StswMediaElement : Control
     }
 
     /// Button: stop
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)
@@ -103,6 +113,11 @@ public class StswMediaElement : Control
     }
 
     /// Button: previous
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnPrevious_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)
@@ -121,6 +136,11 @@ public class StswMediaElement : Control
     }
 
     /// Button: play
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnPlay_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)
@@ -139,6 +159,11 @@ public class StswMediaElement : Control
     }
 
     /// Button: next
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnNext_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)
@@ -157,6 +182,11 @@ public class StswMediaElement : Control
     }
 
     /// Button: mute
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void BtnMute_Click(object sender, RoutedEventArgs e)
     {
         if (mediaElement != null)

@@ -145,9 +145,9 @@
             </Setter.Value>
         </Setter>
 
-        
-        
-        <Setter Property="ColorAuto" Value="{DynamicResource StswWindow.Static.Foreground}"/>
+
+
+        <Setter Property="ColorAuto" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="ColorPaletteTheme">
             <Setter.Value>
                 <x:Array Type="{x:Type SolidColorBrush}">

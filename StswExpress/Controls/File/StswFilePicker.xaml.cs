@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// A control that allows users to select file or directory path with additional features.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
 public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
@@ -40,7 +43,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        /// Button: file dialog
+        /// Button: open dialog window
         if (GetTemplateChild("PART_FunctionButton") is ButtonBase btnFunction)
             btnFunction.Click += PART_FunctionButton_Click;
 
@@ -51,6 +54,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the KeyDown event for the internal content host of the file picker.
     /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
@@ -62,6 +66,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Handles the MouseWheel event for the internal content host of the file picker.
     /// Adjusts the selected path based on the mouse wheel's scrolling direction.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnMouseWheel(MouseWheelEventArgs e)
     {
         base.OnMouseWheel(e);
@@ -75,7 +80,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Lists adjacent paths based on the current selected path and path type.
     /// </summary>
     private void ListAdjacentPaths()
     {
@@ -91,9 +96,9 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     private IList<string>? adjacentPaths;
 
     /// <summary>
-    /// 
+    /// Shifts the selected path by a specified step, updating it with an adjacent path.
     /// </summary>
-    /// <param name="step"></param>
+    /// <param name="step">The step value for shifting the path by</param>
     private void ShiftBy(int step)
     {
         if (!string.IsNullOrEmpty(SelectedPath) && adjacentPaths?.Count > 0)
@@ -120,10 +125,10 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Handles the Click event for the file dialog button, triggering a file or directory selection dialog.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
     {
         if (PathType == StswPathType.Directory)
@@ -134,7 +139,10 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         }
         else
         {
-            var dialog = new System.Windows.Forms.OpenFileDialog();
+            var dialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                Filter = Filter
+            };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 SelectedPath = dialog.FileName;
         }
@@ -143,7 +151,37 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets the filter string for file dialog filters.
+    /// </summary>
+    public string Filter
+    {
+        get => (string)GetValue(FilterProperty);
+        set => SetValue(FilterProperty, value);
+    }
+    public static readonly DependencyProperty FilterProperty
+        = DependencyProperty.Register(
+            nameof(Filter),
+            typeof(string),
+            typeof(StswFilePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets the icon source for the file picker.
+    /// </summary>
+    public ImageSource? IconSource
+    {
+        get => (ImageSource?)GetValue(IconSourceProperty);
+        set => SetValue(IconSourceProperty, value);
+    }
+    public static readonly DependencyProperty IconSourceProperty
+        = DependencyProperty.Register(
+            nameof(IconSource),
+            typeof(ImageSource),
+            typeof(StswFilePicker)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether shifting through adjacent paths is enabled.
     /// </summary>
     public bool IsShiftingEnabled
     {
@@ -168,7 +206,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the type of paths that can be selected (File or Directory).
     /// </summary>
     public StswPathType PathType
     {
@@ -199,7 +237,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the currently selected path in the control.
     /// </summary>
     public string? SelectedPath
     {
@@ -219,11 +257,29 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     {
         if (obj is StswFilePicker stsw)
         {
-            var pathExists = stsw.PathType == StswPathType.Directory ? Directory.Exists(stsw.SelectedPath) : File.Exists(stsw.SelectedPath);
-            if (pathExists && Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
+            stsw.IconSource = null;
+
+            if (stsw.PathType == StswPathType.Directory ? Directory.Exists(stsw.SelectedPath) : File.Exists(stsw.SelectedPath))
             {
-                stsw.parentPath = parentPath;
-                stsw.ListAdjacentPaths();
+                /// path icon
+                if (stsw.PathType == StswPathType.Directory)
+                {
+                    var shinfo = new SHFILEINFO();
+                    if (SHGetFileInfo(stsw.SelectedPath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON) != IntPtr.Zero)
+                        stsw.IconSource = Icon.FromHandle(shinfo.hIcon).ToBitmap().ToImageSource();
+                }
+                else
+                {
+                    if (Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
+                        stsw.IconSource = icon.ToBitmap().ToImageSource();
+                }
+
+                /// load adjacent paths
+                if (Directory.GetParent(stsw.SelectedPath!)?.FullName is string parentPath && parentPath != stsw.parentPath)
+                {
+                    stsw.parentPath = parentPath;
+                    stsw.ListAdjacentPaths();
+                }
             }
 
             stsw.SelectedPathChanged?.Invoke(stsw, EventArgs.Empty);
@@ -310,4 +366,22 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
             typeof(StswFilePicker)
         );
     #endregion
+
+    const uint SHGFI_ICON = 0x100;
+    const uint SHGFI_LARGEICON = 0x0; // Large icon
+
+    [DllImport("shell32.dll")]
+    static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    public struct SHFILEINFO
+    {
+        public IntPtr hIcon;
+        public int iIcon;
+        public uint dwAttributes;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        public string szDisplayName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+        public string szTypeName;
+    }
 }

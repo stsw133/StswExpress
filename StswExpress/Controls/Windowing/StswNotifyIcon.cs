@@ -26,6 +26,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles the Loaded event to initialize the NotifyIcon.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void StswNotifyIcon_Loaded(object sender, RoutedEventArgs e)
     {
         _window = ContextControl as Window ?? Window.GetWindow(this);
@@ -51,6 +53,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles the StateChanged event of the associated Window to show/hide the window when minimized.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void StswWindow_StateChanged(object? sender, EventArgs e)
     {
         if (_window != null && Tray != null && _window.WindowState == WindowState.Minimized)
@@ -63,6 +67,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles the MouseDoubleClick event of the NotifyIcon to show the window when double-clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void Tray_MouseDoubleClick(object? sender, MouseEventArgs e)
     {
         if (_window != null && Tray != null)
@@ -78,6 +84,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles the MouseDown event of the NotifyIcon to show the context menu when right-clicked.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void Tray_MouseDown(object? sender, MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Right)
@@ -94,6 +102,8 @@ public class StswNotifyIcon : FrameworkElement
     /// <summary>
     /// Handles the Unloaded event to clean up resources.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void StswNotifyIcon_Unloaded(object sender, RoutedEventArgs e)
     {
         Tray?.Dispose();

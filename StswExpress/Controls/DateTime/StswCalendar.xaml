@@ -121,13 +121,13 @@
                                 <se:StswSeparator DockPanel.Dock="Top"/>
                                 <Grid Margin="{TemplateBinding Padding}">
                                     <se:StswSubButton x:Name="PART_ButtonToday"
-                                                            Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                            CommandParameter="{x:Static sys:DateTime.Today}"
-                                                            Content="{se:Tr StswCalendar.Today}"
-                                                            HorizontalAlignment="Stretch"
-                                                            HorizontalContentAlignment="Center"
-                                                            IconData="{x:Static se:StswIcons.CalendarToday}"
-                                                            Margin="{TemplateBinding ItemPadding}"/>
+                                                      Command="{Binding SelectDateCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      CommandParameter="{x:Static sys:DateTime.Today}"
+                                                      Content="{se:Tr StswCalendar.Today}"
+                                                      HorizontalAlignment="Stretch"
+                                                      HorizontalContentAlignment="Center"
+                                                      IconData="{x:Static se:StswIcons.CalendarToday}"
+                                                      Margin="{TemplateBinding ItemPadding}"/>
                                 </Grid>
                             </DockPanel>
                         </Grid>

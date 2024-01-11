@@ -54,6 +54,8 @@ public class StswColorPicker : Control
     /// Handles the MouseDown event on the color grid element in the control.
     /// Triggers the MouseMove event if the left mouse button is pressed.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_ColorGrid_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
@@ -65,6 +67,8 @@ public class StswColorPicker : Control
     /// Handles the MouseMove event on the color grid element in the control.
     /// Updates the selected color and the position of the color ellipse.
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_ColorGrid_MouseMove(object sender, MouseEventArgs e)
     {
         var grid = (Grid)sender;
@@ -105,6 +109,8 @@ public class StswColorPicker : Control
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
     private void PART_ColorGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var grid = (Grid)sender;

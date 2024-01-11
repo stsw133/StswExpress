@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswMessageDialog}">
-        <Setter Property="Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="10"/>
@@ -93,6 +93,12 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
+                        </Trigger>
+                        <Trigger Property="Image" Value="None">
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_Header"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Header"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_Header"/>

@@ -243,6 +243,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     /// <summary>
     /// Event handler for handling the KeyDown event.
     /// </summary>
+    /// <param name="e">The event arguments</param>
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);

@@ -4,18 +4,7 @@
 
     <Style TargetType="{x:Type se:StswContentDialog}">
         <Setter Property="Background" Value="Black"/>
-        <!--
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Padding" Value="3"/>
-        
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswContentDialog}">
@@ -139,7 +128,6 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center">
                             <ContentControl x:Name="PART_PopupContentElement"
-                                            Margin="{Binding DialogMargin, RelativeSource={RelativeSource TemplatedParent}}"
                                             Content="{Binding DialogContent, RelativeSource={RelativeSource TemplatedParent}}"
                                             ContentStringFormat="{Binding DialogContentStringFormat, RelativeSource={RelativeSource TemplatedParent}}"
                                             ContentTemplate="{Binding DialogContentTemplate, RelativeSource={RelativeSource TemplatedParent}}"
@@ -148,6 +136,7 @@
                                             Focusable="True"
                                             Foreground="{TemplateBinding Foreground}"
                                             IsTabStop="False"
+                                            Margin="{Binding DialogMargin, RelativeSource={RelativeSource TemplatedParent}}"
                                             Opacity="0"
                                             Tag="{TemplateBinding DialogBackground}"
                                             TextElement.Foreground="{TemplateBinding Foreground}"/>
