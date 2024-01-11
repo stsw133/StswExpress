@@ -4,7 +4,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <sys:Int32 x:Key="StswColorBox.Size.Icon">16</sys:Int32>
+    <sys:Double x:Key="StswColorBox.Size.Icon">16</sys:Double>
 
     <Style TargetType="{x:Type se:StswColorBox}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>

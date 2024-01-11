@@ -97,7 +97,6 @@
                         <Trigger Property="Image" Value="None">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_Header"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Header"/>
                             <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Debug">

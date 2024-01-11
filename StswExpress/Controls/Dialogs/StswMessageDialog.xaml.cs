@@ -53,6 +53,28 @@ public class StswMessageDialog : Control
         };
         return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
     }
+
+    /// <summary>
+    /// Shows the message dialog synchronously.
+    /// </summary>
+    /// <param name="content">The content of the dialog.</param>
+    /// <param name="title">The title of the dialog.</param>
+    /// <param name="buttons">The buttons to be displayed in the dialog.</param>
+    /// <param name="image">The image to be displayed in the dialog.</param>
+    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <returns>The result of the dialog.</returns>
+    public static bool? ShowSynchronously(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
+    {
+        var taskCompletionSource = new TaskCompletionSource<bool?>();
+
+        Application.Current.Dispatcher.Invoke(async () =>
+        {
+            var result = await Show(content, title, buttons, image, identifier);
+            taskCompletionSource.SetResult(result);
+        });
+
+        return taskCompletionSource.Task.Result;
+    }
     #endregion
 
     #region Main properties

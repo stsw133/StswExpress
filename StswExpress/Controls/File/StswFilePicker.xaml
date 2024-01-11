@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <sys:Int32 x:Key="StswFilePicker.Size.Icon">16</sys:Int32>
+    <sys:Double x:Key="StswFilePicker.Size.Icon">16</sys:Double>
 
     <Style TargetType="{x:Type se:StswFilePicker}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>

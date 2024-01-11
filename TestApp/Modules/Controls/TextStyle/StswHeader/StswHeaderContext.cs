@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace TestApp;
 
@@ -15,6 +16,7 @@ public class StswHeaderContext : ControlsContext
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
+        Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
     /// IconScale
@@ -39,6 +41,14 @@ public class StswHeaderContext : ControlsContext
     {
         get => isContentVisible;
         set => SetProperty(ref isContentVisible, value);
+    }
+
+    /// Orientation
+    private Orientation orientation;
+    public Orientation Orientation
+    {
+        get => orientation;
+        set => SetProperty(ref orientation, value);
     }
 
     /// ShowDescription
