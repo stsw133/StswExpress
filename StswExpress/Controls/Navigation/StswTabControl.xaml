@@ -35,14 +35,14 @@
                                            Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                            <se:StswShifter x:Name="PART_Shifter" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:StswDirectionViewer x:Name="PART_Shifter" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <TabPanel x:Name="HeaderPanel"
                                           Background="Transparent"
                                           IsItemsHost="True"
                                           KeyboardNavigation.TabIndex="1"
                                           Margin="2 2 2 0"
                                           Panel.ZIndex="1"/>
-                            </se:StswShifter>
+                            </se:StswDirectionViewer>
                         </DockPanel>
                         <Border x:Name="PART_ContentPanel" DockPanel.Dock="Bottom"
                                 Background="{TemplateBinding Background}"

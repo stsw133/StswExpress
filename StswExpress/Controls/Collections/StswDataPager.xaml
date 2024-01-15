@@ -32,8 +32,8 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- page buttons -->
-                            <se:StswShifter DockPanel.Dock="Bottom" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                                            ButtonDownBorderThickness="0 1 0 0" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 0 0 1">
+                            <se:StswDirectionViewer DockPanel.Dock="Bottom" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0"
+                                                    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -57,7 +57,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </se:StswShifter>
+                            </se:StswDirectionViewer>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"

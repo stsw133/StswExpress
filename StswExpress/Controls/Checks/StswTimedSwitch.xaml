@@ -6,7 +6,6 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
 
-        <Setter Property="IsTimerEnabled" Value="False"/>
         <Setter Property="SwitchTime" Value="0.00:00:02"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -29,7 +28,7 @@
                                         Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsTimerEnabled" Value="True">
+                        <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_DefaultContent"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_TimedContent"/>
                         </Trigger>

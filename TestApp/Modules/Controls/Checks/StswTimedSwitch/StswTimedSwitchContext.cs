@@ -5,22 +5,22 @@ namespace TestApp;
 
 public class StswTimedSwitchContext : ControlsContext
 {
-    public StswCommand EnableTimerCommand => new(() => IsTimerEnabled = true);
+    public StswCommand EnableTimerCommand => new(() => IsChecked = true);
 
     public override void SetDefaults()
     {
         base.SetDefaults();
 
-        IsTimerEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsTimerEnabled)))?.Value ?? default;
+        IsChecked = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsChecked)))?.Value ?? default;
         SwitchTime = (TimeSpan?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SwitchTime)))?.Value ?? default;
     }
 
-    /// IsTimerEnabled
-    private bool isTimerEnabled;
-    public bool IsTimerEnabled
+    /// IsChecked
+    private bool isChecked;
+    public bool IsChecked
     {
-        get => isTimerEnabled;
-        set => SetProperty(ref isTimerEnabled, value);
+        get => isChecked;
+        set => SetProperty(ref isChecked, value);
     }
 
     /// SwitchTime

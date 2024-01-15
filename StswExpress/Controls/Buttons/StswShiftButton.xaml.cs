@@ -48,7 +48,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
             this.buttonNext = buttonNext;
         }
     }
-
+    
     /// <summary>
     /// Overrides the behavior for mouse wheel input to shift through items if the control has focus and is not read-only.
     /// </summary>
@@ -59,7 +59,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
 
         if (IsKeyboardFocusWithin && !IsReadOnly)
         {
-            if (e.Delta < 0)
+            if (e.Delta >= 0)
                 ShiftBy(-1);
             else
                 ShiftBy(1);
@@ -82,12 +82,12 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         {
             switch (e.Key)
             {
-                case Key.Down:
                 case Key.Left:
+                case Key.Up:
                     ShiftBy(-1);
                     break;
+                case Key.Down:
                 case Key.Right:
-                case Key.Up:
                     ShiftBy(1);
                     break;
                 case Key.PageDown:

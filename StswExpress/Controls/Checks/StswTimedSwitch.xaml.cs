@@ -2,14 +2,13 @@
 using System.Windows;
 using System.Timers;
 using System;
-using System.Windows.Data;
 
 namespace StswExpress;
 
 /// <summary>
 /// Represents a control that manages the display of different content for a specified duration when the timer is enabled.
 /// </summary>
-public class StswTimedSwitch : ContentControl
+public class StswTimedSwitch : CheckBox
 {
     static StswTimedSwitch()
     {
@@ -32,6 +31,26 @@ public class StswTimedSwitch : ContentControl
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnChecked(RoutedEventArgs e)
+    {
+        base.OnChecked(e);
+        timer.Start();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnUnchecked(RoutedEventArgs e)
+    {
+        base.OnUnchecked(e);
+        timer.Stop();
+    }
+
+    /// <summary>
     /// Handles the Elapsed event of the Timer to switch back to the default content.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
@@ -40,41 +59,13 @@ public class StswTimedSwitch : ContentControl
     {
         Dispatcher.Invoke(() =>
         {
-            SetValue(IsTimerEnabledProperty, false);
+            SetValue(IsCheckedProperty, false);
             timer.Stop();
         });
     }
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets a value indicating whether the timer for content switching is enabled.
-    /// </summary>
-    public bool IsTimerEnabled
-    {
-        get => (bool)GetValue(IsTimerEnabledProperty);
-        set => SetValue(IsTimerEnabledProperty, value);
-    }
-    public static readonly DependencyProperty IsTimerEnabledProperty
-        = DependencyProperty.Register(
-            nameof(IsTimerEnabled),
-            typeof(bool),
-            typeof(StswTimedSwitch),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsTimerEnabledChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    public static void OnIsTimerEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswTimedSwitch stsw)
-        {
-            if (stsw.IsTimerEnabled)
-                stsw.timer.Start();
-            else
-                stsw.timer.Stop();
-        }
-    }
-
     /// <summary>
     /// Gets or sets the duration for how long the content is switched from default content to timed content.
     /// </summary>

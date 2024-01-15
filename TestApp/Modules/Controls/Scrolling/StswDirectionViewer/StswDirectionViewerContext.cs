@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace TestApp;
 
-public class StswShifterContext : ControlsContext
+public class StswDirectionViewerContext : ControlsContext
 {
     public override void SetDefaults()
     {

@@ -57,6 +57,9 @@
     <Compile Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Checks\StswShiftSwitch\StswShiftSwitchView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,7 +81,7 @@
     <Compile Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Layout\StswTimedSwitch\StswTimedSwitchView.xaml.cs">
+    <Compile Update="Modules\Controls\Checks\StswTimedSwitch\StswTimedSwitchView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml.cs">
@@ -147,7 +150,7 @@
     <Compile Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrolling\StswDirectionViewer\StswDirectionViewerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
@@ -270,6 +273,9 @@
     <Page Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Modules\Controls\Checks\StswShiftSwitch\StswShiftSwitchView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -291,7 +297,7 @@
     <Page Update="Modules\Controls\Input\StswAdaptiveBox\StswAdaptiveBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Layout\StswTimedSwitch\StswTimedSwitchView.xaml">
+    <Page Update="Modules\Controls\Checks\StswTimedSwitch\StswTimedSwitchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml">
@@ -363,7 +369,7 @@
     <Page Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswShifter\StswShifterView.xaml">
+    <Page Update="Modules\Controls\Scrolling\StswDirectionViewer\StswDirectionViewerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">

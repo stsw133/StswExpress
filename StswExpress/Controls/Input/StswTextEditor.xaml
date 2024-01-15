@@ -45,8 +45,8 @@
                         <DockPanel>
                             <!-- toolbar -->
                             <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="Top" Focusable="False">
-                                <se:StswShifter ButtonDownBorderThickness="0 1 0 0" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 0 0 1"
-                                                Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswDirectionViewer ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0"
+                                                        Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                                     <DockPanel>
                                         <!-- file -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
@@ -506,7 +506,7 @@
                                             </ItemsControl>
                                         </DockPanel>
                                     </DockPanel>
-                                </se:StswShifter>
+                                </se:StswDirectionViewer>
                             </Grid>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"

@@ -13,7 +13,7 @@
 
     <DockPanel IsHitTestVisible="{Binding SaveCommand.IsWorking, Mode=OneWay, Converter={x:Static se:StswBoolConverter.Instance}, ConverterParameter=!}">
         <!-- button panel -->
-        <se:StswShifter DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+        <se:StswDirectionViewer DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
             <UniformGrid Rows="1" HorizontalAlignment="Left">
                 <se:StswSplitButton Margin=" 0 0 6 0" IsDropDownOpen="{Binding IsRefreshOpen}" Command="{Binding RefreshCommand}">
                     <se:StswSplitButton.Header>
@@ -30,7 +30,7 @@
                     <se:StswHeader Content="Export to Excel" IconData="{x:Static se:StswIcons.MicrosoftExcel}" IconFill="{DynamicResource StswColor.Positive}" IsBusy="{Binding ExportCommand.IsWorking}"/>
                 </se:StswButton>
             </UniformGrid>
-        </se:StswShifter>
+        </se:StswDirectionViewer>
         <!-- progress panel -->
         <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
         <DockPanel DockPanel.Dock="Bottom">

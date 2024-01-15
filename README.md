@@ -3,7 +3,7 @@ WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartLegend, StswChartPie
-  - **Checks:** StswCheckBox, StswRadioBox, StswToggleSwitch
+  - **Checks:** StswCheckBox, StswRadioBox, StswShiftSwitch, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
   - **DateTime:** StswCalendar, StswDatePicker
@@ -14,7 +14,7 @@ WPF .NET 6.0 library containing:
   - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswTimedSwitch, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaElement
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Scrolling:** StswScrollBar, StswScrollViewer, StswShifter
+  - **Scrolling:** StswDirectionViewer, StswScrollBar, StswScrollViewer
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector
   - **TextStyle:** StswHeader, StswIcon, StswLabel, StswOutlinedText, StswText

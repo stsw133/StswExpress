@@ -8,11 +8,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswShifter : ScrollViewer
+public class StswDirectionViewer : ScrollViewer
 {
-    static StswShifter()
+    static StswDirectionViewer()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswShifter), new FrameworkPropertyMetadata(typeof(StswShifter)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionViewer), new FrameworkPropertyMetadata(typeof(StswDirectionViewer)));
     }
 
     #region Events & methods
@@ -165,7 +165,7 @@ public class StswShifter : ScrollViewer
         = DependencyProperty.Register(
             nameof(ButtonDownBorderThickness),
             typeof(Thickness),
-            typeof(StswShifter)
+            typeof(StswDirectionViewer)
         );
 
     /// <summary>
@@ -180,7 +180,7 @@ public class StswShifter : ScrollViewer
         = DependencyProperty.Register(
             nameof(ButtonLeftBorderThickness),
             typeof(Thickness),
-            typeof(StswShifter)
+            typeof(StswDirectionViewer)
         );
     
     /// <summary>
@@ -195,7 +195,7 @@ public class StswShifter : ScrollViewer
         = DependencyProperty.Register(
             nameof(ButtonRightBorderThickness),
             typeof(Thickness),
-            typeof(StswShifter)
+            typeof(StswDirectionViewer)
         );
     
     /// <summary>
@@ -210,7 +210,7 @@ public class StswShifter : ScrollViewer
         = DependencyProperty.Register(
             nameof(ButtonUpBorderThickness),
             typeof(Thickness),
-            typeof(StswShifter)
+            typeof(StswDirectionViewer)
         );
 
     /// <summary>
@@ -227,7 +227,7 @@ public class StswShifter : ScrollViewer
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswShifter)
+            typeof(StswDirectionViewer)
         );
     #endregion
 }

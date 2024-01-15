@@ -16,20 +16,17 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- IsTimerEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsTimerEnabled"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsTimerEnabled}"/>
             <!-- SwitchTime -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SwitchTime"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding SwitchTime}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswTimedSwitch IsEnabled="{Binding IsEnabled}"
-                                IsTimerEnabled="{Binding IsTimerEnabled}"
-                                Margin="5"
-                                SwitchTime="{Binding SwitchTime}"
-                                HorizontalAlignment="{Binding HorizontalAlignment}"
-                                VerticalAlignment="{Binding VerticalAlignment}">
+        <se:StswTimedSwitch IsChecked="{Binding IsChecked}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Margin="5"
+                            SwitchTime="{Binding SwitchTime}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswButton Command="{Binding EnableTimerCommand}">
                 <se:StswHeader Content="Zapisz wszystkie zmiany" IconData="{x:Static se:StswIcons.ContentSaveAll}" IconFill="{DynamicResource StswColor.Modify}"/>
             </se:StswButton>

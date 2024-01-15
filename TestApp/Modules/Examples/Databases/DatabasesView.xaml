@@ -13,7 +13,7 @@
     <DockPanel>
         <DockPanel Width="150">
             <!-- button panel -->
-            <se:StswShifter DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <se:StswDirectionViewer DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Orientation="Horizontal">
                     <se:StswSubButton Command="{Binding MoveUpCommand}"
                                             IconData="{x:Static se:StswIcons.ArrowUp}"
@@ -50,7 +50,7 @@
                                             IsBusy="{Binding ExportCommand.IsWorking}"
                                             ToolTip="Export list of databases"/>
                 </StackPanel>
-            </se:StswShifter>
+            </se:StswDirectionViewer>
             <!-- list -->
             <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Source={x:Static se:StswDatabases.List}}" SelectedItem="{Binding SelectedDatabase}"/>
         </DockPanel>

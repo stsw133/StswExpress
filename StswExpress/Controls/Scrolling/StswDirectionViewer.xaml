@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswShifter}">
+    <Style TargetType="{x:Type se:StswDirectionViewer}">
         <Setter Property="ButtonDownBorderThickness" Value="2"/>
         <Setter Property="ButtonLeftBorderThickness" Value="2"/>
         <Setter Property="ButtonRightBorderThickness" Value="2"/>
@@ -18,7 +18,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswShifter}">
+                <ControlTemplate TargetType="{x:Type se:StswDirectionViewer}">
                     <Border x:Name="PART_MainBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"

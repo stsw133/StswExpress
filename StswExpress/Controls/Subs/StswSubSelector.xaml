@@ -53,10 +53,10 @@
                                            BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                            SnapsToDevicePixels="False">
-                                <se:StswShifter ButtonDownBorderThickness="0 1 0 0" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 0 0 1"
-                                                Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswDirectionViewer ButtonDownBorderThickness="0 1 0 0" ButtonUpBorderThickness="0 0 0 1"
+                                                        Focusable="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                     <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
-                                </se:StswShifter>
+                                </se:StswDirectionViewer>
                             </se:StswBorder>
                         </Popup>
                     </Grid>

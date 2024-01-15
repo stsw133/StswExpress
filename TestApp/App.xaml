@@ -61,6 +61,12 @@
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswShiftSwitchContext}">
+                <local:StswShiftSwitchView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
+                <local:StswTimedSwitchView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswToggleSwitchContext}">
                 <local:StswToggleSwitchView/>
             </DataTemplate>
@@ -164,9 +170,6 @@
             <DataTemplate DataType="{x:Type local:StswSidePanelContext}">
                 <local:StswSidePanelView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
-                <local:StswTimedSwitchView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswZoomControlContext}">
                 <local:StswZoomControlView/>
             </DataTemplate>
@@ -191,11 +194,11 @@
             </DataTemplate>
             
             <!-- Scrolling -->
+            <DataTemplate DataType="{x:Type local:StswDirectionViewerContext}">
+                <local:StswDirectionViewerView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
                 <local:StswScrollViewerView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswShifterContext}">
-                <local:StswShifterView/>
             </DataTemplate>
 
             <!-- StatusInfo -->

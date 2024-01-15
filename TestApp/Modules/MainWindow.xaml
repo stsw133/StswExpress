@@ -35,6 +35,8 @@
             <se:StswNavigationElement Header="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">
                 <se:StswNavigationElement Header="StswCheckBox" ContextNamespace="TestApp.StswCheckBoxContext"/>
                 <se:StswNavigationElement Header="StswRadioBox" ContextNamespace="TestApp.StswRadioBoxContext"/>
+                <se:StswNavigationElement Header="StswShiftSwitch" ContextNamespace="TestApp.StswShiftSwitchContext"/>
+                <se:StswNavigationElement Header="StswTimedSwitch" ContextNamespace="TestApp.StswTimedSwitchContext"/>
                 <se:StswNavigationElement Header="StswToggleSwitch" ContextNamespace="TestApp.StswToggleSwitchContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ListBoxOutline}">
@@ -80,7 +82,6 @@
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
                 <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
-                <se:StswNavigationElement Header="StswTimedSwitch" ContextNamespace="TestApp.StswTimedSwitchContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Media" IconData="{x:Static se:StswIcons.ImageOutline}">
@@ -93,8 +94,8 @@
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
+                <se:StswNavigationElement Header="StswDirectionViewer" ContextNamespace="TestApp.StswDirectionViewerContext"/>
                 <se:StswNavigationElement Header="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
-                <se:StswNavigationElement Header="StswShifter" ContextNamespace="TestApp.StswShifterContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">
