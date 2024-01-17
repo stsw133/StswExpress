@@ -80,14 +80,55 @@ public class StswMailbox
 /// <summary>
 /// Represents an email account and provides a way to send emails using that account.
 /// </summary>
-public class StswMailboxModel
+public class StswMailboxModel : StswObservableObject
 {
-    public string Host { get; set; } = string.Empty;
-    public int Port { get; set; } = 0;
-    public string Address { get; set; } = string.Empty;
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public bool EnableSSL { get; set; } = false;
+    /// Host
+    public string Host
+    {
+        get => host;
+        set => SetProperty(ref host, value);
+    }
+    private string host = string.Empty;
+
+    /// Port
+    public int Port
+    {
+        get => port;
+        set => SetProperty(ref port, value);
+    }
+    private int port = 0;
+
+    /// Address
+    public string Address
+    {
+        get => address;
+        set => SetProperty(ref address, value);
+    }
+    private string address = string.Empty;
+
+    /// Username
+    public string Username
+    {
+        get => username;
+        set => SetProperty(ref username, value);
+    }
+    private string username = string.Empty;
+
+    /// Password
+    public string Password
+    {
+        get => password;
+        set => SetProperty(ref password, value);
+    }
+    private string password = string.Empty;
+
+    /// EnableSSL
+    public bool EnableSSL
+    {
+        get => enableSSL;
+        set => SetProperty(ref enableSSL, value);
+    }
+    private bool enableSSL = false;
 
     /// <summary>
     /// Sends an email using the SMTP protocol.

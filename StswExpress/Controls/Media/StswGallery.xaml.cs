@@ -72,14 +72,14 @@ public class StswGallery : Control
         {
             if (e.Delta > 0)
                 Left();
-            else
+            else //if (e.Delta < 0)
                 Right();
         }
         else
         {
             if (e.Delta > 0)
                 Up();
-            else
+            else //if (e.Delta < 0)
                 Down();
         }
 

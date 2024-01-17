@@ -65,6 +65,18 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
+    /// Handles the MouseDown event for the internal content host of the time picker.
+    /// If the Middle mouse button is pressed, the IncrementType value is changed.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
+        if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
+            IncrementType = IncrementType.GetNextValue();
+    }
+
+    /// <summary>
     /// Handles the MouseWheel event for the internal content host of the date picker.
     /// Adjusts the selected date based on the mouse wheel's scrolling direction and the IncrementType property.
     /// </summary>
@@ -73,31 +85,31 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateIncrementType.None && DateTime.TryParse(Text, out var result))
+        if (IsKeyboardFocused && !IsReadOnly && IncrementType != StswDateTimeIncrementType.None && DateTime.TryParse(Text, out var result))
         {
             if (e.Delta > 0)
             {
                 result = IncrementType switch
                 {
-                    StswDateIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= result ? result.AddYears(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= result ? result.AddMonths(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= result ? result.AddDays(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= result ? result.AddHours(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= result ? result.AddMinutes(1) : DateTime.MaxValue,
-                    StswDateIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= result ? result.AddSeconds(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Year => DateTime.MaxValue.AddYears(-1) >= result ? result.AddYears(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Month => DateTime.MaxValue.AddMonths(-1) >= result ? result.AddMonths(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Day => DateTime.MaxValue.AddDays(-1) >= result ? result.AddDays(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Hour => DateTime.MaxValue.AddHours(-1) >= result ? result.AddHours(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Minute => DateTime.MaxValue.AddMinutes(-1) >= result ? result.AddMinutes(1) : DateTime.MaxValue,
+                    StswDateTimeIncrementType.Second => DateTime.MaxValue.AddSeconds(-1) >= result ? result.AddSeconds(1) : DateTime.MaxValue,
                     _ => result
                 };
             }
-            else if (e.Delta < 0)
+            else //if (e.Delta < 0)
             {
                 result = IncrementType switch
                 {
-                    StswDateIncrementType.Year => DateTime.MinValue.AddYears(1) <= result ? result.AddYears(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Month => DateTime.MinValue.AddMonths(1) <= result ? result.AddMonths(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Day => DateTime.MinValue.AddDays(1) <= result ? result.AddDays(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Hour => DateTime.MinValue.AddHours(1) <= result ? result.AddHours(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= result ? result.AddMinutes(-1) : DateTime.MinValue,
-                    StswDateIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= result ? result.AddSeconds(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Year => DateTime.MinValue.AddYears(1) <= result ? result.AddYears(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Month => DateTime.MinValue.AddMonths(1) <= result ? result.AddMonths(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Day => DateTime.MinValue.AddDays(1) <= result ? result.AddDays(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Hour => DateTime.MinValue.AddHours(1) <= result ? result.AddHours(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Minute => DateTime.MinValue.AddMinutes(1) <= result ? result.AddMinutes(-1) : DateTime.MinValue,
+                    StswDateTimeIncrementType.Second => DateTime.MinValue.AddSeconds(1) <= result ? result.AddSeconds(-1) : DateTime.MinValue,
                     _ => result
                 };
             }
@@ -197,15 +209,15 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// Gets or sets the type of increment to be applied when scrolling the mouse wheel over the date picker.
     /// This property defines how the date changes when the mouse wheel is scrolled up or down.
     /// </summary>
-    public StswDateIncrementType IncrementType
+    public StswDateTimeIncrementType IncrementType
     {
-        get => (StswDateIncrementType)GetValue(IncrementTypeProperty);
+        get => (StswDateTimeIncrementType)GetValue(IncrementTypeProperty);
         set => SetValue(IncrementTypeProperty, value);
     }
     public static readonly DependencyProperty IncrementTypeProperty
         = DependencyProperty.Register(
             nameof(IncrementType),
-            typeof(StswDateIncrementType),
+            typeof(StswDateTimeIncrementType),
             typeof(StswDatePicker)
         );
 

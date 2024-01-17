@@ -54,7 +54,7 @@ public enum StswDataGridFiltersType
 /// <summary>
 /// Enumeration for <see cref="StswDatePicker.IncrementType"/>.
 /// </summary>
-public enum StswDateIncrementType
+public enum StswDateTimeIncrementType
 {
     None,
     Year,
@@ -212,4 +212,16 @@ public enum StswTheme
     Light,
     Dark,
     Pink
+}
+
+/// <summary>
+/// Enumeration for <see cref="StswTimePicker.IncrementType"/>.
+/// </summary>
+public enum StswTimeSpanIncrementType
+{
+    None,
+    Day,
+    Hour,
+    Minute,
+    Second
 }

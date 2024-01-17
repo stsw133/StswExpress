@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace StswExpress;
 
 /// <summary>
-/// Converts <see cref="bool"/> → targetType.<br/>
-/// Use '<c>!</c>' at the beginning of converter parameter to reverse output value.<br/>
-/// <br/>
-/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
-/// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
+/// Converts an enumeration type to a list of <see cref="StswSelectionItem"/> for data binding purposes.
+/// The converter is designed to generate a list of items, each representing an enumeration value, along with its display name and value.
+/// The converter expects the enumeration type as the 'parameter' argument.
 /// </summary>
+/// <remarks>
+/// This can be useful for populating collection controls such as ComboBox or ListBox.
+/// </remarks>
 public class StswEnumToListConverter : MarkupExtension, IValueConverter
 {
     private static StswEnumToListConverter? instance;

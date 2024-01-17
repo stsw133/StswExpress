@@ -58,12 +58,8 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         base.OnPreviewMouseWheel(e);
 
         if (IsKeyboardFocusWithin && !IsReadOnly)
-        {
-            if (e.Delta >= 0)
-                ShiftBy(-1);
-            else
-                ShiftBy(1);
-        }
+            ShiftBy(e.Delta > 0 ? -1 : 1);
+
         e.Handled = true;
     }
 

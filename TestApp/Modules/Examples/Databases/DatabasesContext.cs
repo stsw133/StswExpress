@@ -69,7 +69,6 @@ public class DatabasesContext : StswObservableObject
     }
     #endregion
 
-    #region Properties
     /// SelectedDatabase
     public StswDatabaseModel? SelectedDatabase
     {
@@ -77,5 +76,4 @@ public class DatabasesContext : StswObservableObject
         set => SetProperty(ref selectedDatabase, value);
     }
     private StswDatabaseModel? selectedDatabase = StswDatabases.Current ?? new();
-    #endregion
 }

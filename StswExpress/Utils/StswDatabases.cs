@@ -146,11 +146,11 @@ public class StswDatabaseModel : StswObservableObject
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.
     /// </summary>
-    public string? GetConnString() => Type switch
+    public string GetConnString() => Type switch
     {
         StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
         StswDatabaseType.MySQL => $"Server={Server};{(Port > 0 ? $"Port={Port}" : string.Empty)};Database={Database};Uid={Login};Pwd={Password};Application Name={StswFn.AppName()};",
         StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
-        _ => null
+        _ => throw new Exception("This type of database management system is not supported!")
     };
 }

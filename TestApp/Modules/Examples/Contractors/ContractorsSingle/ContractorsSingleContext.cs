@@ -2,7 +2,6 @@
 
 public class ContractorsSingleContext : StswObservableObject
 {
-    #region Properties
     /// ID
     private int? id = new();
     public int? ID
@@ -18,5 +17,4 @@ public class ContractorsSingleContext : StswObservableObject
         get => isCloned;
         set => SetProperty(ref isCloned, value);
     }
-    #endregion
 }

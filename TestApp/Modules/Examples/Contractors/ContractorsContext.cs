@@ -4,7 +4,6 @@ namespace TestApp;
 
 public class ContractorsContext : StswObservableObject
 {
-    #region Properties
     /// Tabs
     private static ObservableCollection<StswTabItem> tabs = new()
     {
@@ -24,5 +23,4 @@ public class ContractorsContext : StswObservableObject
         set => SetProperty(ref tabs, value);
     }
     public static ObservableCollection<StswTabItem> Tabs_ => tabs;
-    #endregion
 }

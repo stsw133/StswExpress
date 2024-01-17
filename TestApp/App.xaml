@@ -112,6 +112,9 @@
             <DataTemplate DataType="{x:Type local:StswDatePickerContext}">
                 <local:StswDatePickerView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswTimePickerContext}">
+                <local:StswTimePickerView/>
+            </DataTemplate>
             
             <!-- Dialogs -->
             <DataTemplate DataType="{x:Type local:StswContentDialogContext}">
@@ -291,6 +294,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:DatabasesContext}">
                 <local:DatabasesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:GalleryContext}">
+                <local:GalleryView/>
             </DataTemplate>
             
             

@@ -3,17 +3,17 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswDatePickerContext : ControlsContext
+public class StswTimePickerContext : ControlsContext
 {
-    public StswCommand ClearCommand => new(() => SelectedDate = default);
-    public StswCommand RandomizeCommand => new(() => SelectedDate = new DateTime().AddDays(new Random().Next((DateTime.MaxValue - DateTime.MinValue).Days)));
+    public StswCommand ClearCommand => new(() => SelectedTime = default);
+    public StswCommand RandomizeCommand => new(() => SelectedTime = new TimeSpan(0, 0, 0, new Random().Next(int.MaxValue)));
 
     public override void SetDefaults()
     {
         base.SetDefaults();
 
         Format = (string?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Format)))?.Value ?? default;
-        IncrementType = (StswDateTimeIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
+        IncrementType = (StswTimeSpanIncrementType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IncrementType)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
     }
 
@@ -26,8 +26,8 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// IncrementType
-    private StswDateTimeIncrementType incrementType;
-    public StswDateTimeIncrementType IncrementType
+    private StswTimeSpanIncrementType incrementType;
+    public StswTimeSpanIncrementType IncrementType
     {
         get => incrementType;
         set => SetProperty(ref incrementType, value);
@@ -42,26 +42,26 @@ public class StswDatePickerContext : ControlsContext
     }
 
     /// Maximum
-    private DateTime? maximum;
-    public DateTime? Maximum
+    private TimeSpan? maximum;
+    public TimeSpan? Maximum
     {
         get => maximum;
         set => SetProperty(ref maximum, value);
     }
     /// Minimum
-    private DateTime? minimum;
-    public DateTime? Minimum
+    private TimeSpan? minimum;
+    public TimeSpan? Minimum
     {
         get => minimum;
         set => SetProperty(ref minimum, value);
     }
 
-    /// SelectedDate
-    private DateTime? selectedDate = DateTime.Now;
-    public DateTime? SelectedDate
+    /// SelectedTime
+    private TimeSpan? selectedTime = new();
+    public TimeSpan? SelectedTime
     {
-        get => selectedDate;
-        set => SetProperty(ref selectedDate, value);
+        get => selectedTime;
+        set => SetProperty(ref selectedTime, value);
     }
 
     /// SubControls

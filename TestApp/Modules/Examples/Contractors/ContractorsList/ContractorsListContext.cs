@@ -261,7 +261,6 @@ public class ContractorsListContext : StswObservableObject
 
     #endregion
 
-    #region Properties
     /// Data collections
     private StswBindingList<ContractorModel> listContractors = new();
     public StswBindingList<ContractorModel> ListContractors
@@ -313,5 +312,4 @@ public class ContractorsListContext : StswObservableObject
         get => selectedContractor;
         set => SetProperty(ref selectedContractor, value);
     }
-    #endregion
 }

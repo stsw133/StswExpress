@@ -110,7 +110,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
                 else
                     result = decimal.MaxValue;
             }
-            else if (e.Delta < 0)
+            else //if (e.Delta < 0)
             {
                 if (decimal.MinValue + Increment <= result)
                     result -= Increment;

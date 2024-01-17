@@ -1,0 +1,164 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+                    xmlns:se="clr-namespace:StswExpress">
+
+    <Style TargetType="{x:Type se:StswTimePicker}">
+        <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
+        
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
+
+        <!-- <Setter Property="Format" Value="dd\.hh\:mm\:ss"/> -->
+        <Setter Property="IncrementType" Value="Second"/>
+        <Setter Property="Text" Value="{Binding SelectedTime, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+        
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type se:StswTimePicker}">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <!-- function button -->
+                            <se:StswDropButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                                               Focusable="False"
+                                               BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <se:StswDropButton.Header>
+                                    <se:StswIcon Data="{x:Static se:StswIcons.ClockOutline}"/>
+                                </se:StswDropButton.Header>
+                                <se:StswDropButton.Resources>
+                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
+                                    <Style TargetType="{x:Type se:StswDropArrow}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                </se:StswDropButton.Resources>
+                                <Grid MaxHeight="500">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!-- labels -->
+                                    <se:StswBorder Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" BorderThickness="0 0 0 1">
+                                        <UniformGrid Rows="1">
+                                            <se:StswLabel Content="Hours:"/>
+                                            <se:StswLabel Content="Minutes:"/>
+                                            <se:StswLabel Content="Seconds:"/>
+                                        </UniformGrid>
+                                    </se:StswBorder>
+                                    <!-- hours -->
+                                    <se:StswListBox Grid.Column="0" Grid.Row="1"
+                                                    BorderThickness="0"
+                                                    HorizontalContentAlignment="Center"
+                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=24}"
+                                                    ScrollViewer.CanContentScroll="False"
+                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                    <!-- ... -->
+                                    <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
+                                    <!-- minutes -->
+                                    <se:StswListBox Grid.Column="2" Grid.Row="1"
+                                                    BorderThickness="0"
+                                                    HorizontalContentAlignment="Center"
+                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
+                                                    ScrollViewer.CanContentScroll="False"
+                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                    <!-- ... -->
+                                    <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
+                                    <!-- seconds -->
+                                    <se:StswListBox Grid.Column="4" Grid.Row="1"
+                                                    BorderThickness="0"
+                                                    HorizontalContentAlignment="Center"
+                                                    ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
+                                                    ScrollViewer.CanContentScroll="False"
+                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                </Grid>
+                            </se:StswDropButton>
+                            <!-- separator -->
+                            <se:StswSeparator DockPanel.Dock="Right"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Vertical"/>
+                            <!-- sub controls -->
+                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <!-- content -->
+                            <Grid>
+                                <se:StswText x:Name="PART_Placeholder"
+                                             Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
+                                             IsHitTestVisible="False"
+                                             Margin="{TemplateBinding Padding}"
+                                             Padding="2 0 0 0"
+                                             Text="{TemplateBinding Placeholder}"
+                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             Visibility="Collapsed"/>
+                                <se:StswScrollViewer x:Name="PART_ContentHost"
+                                                     Focusable="False"
+                                                     IsDynamic="True"
+                                                     HorizontalScrollBarVisibility="Hidden"
+                                                     VerticalScrollBarVisibility="Hidden"/>
+                            </Grid>
+                        </DockPanel>
+                    </se:StswBorder>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswBox.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.MouseOver.Border}" TargetName="PART_MainBorder"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Focused.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Focused.Border}" TargetName="PART_MainBorder"/>
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

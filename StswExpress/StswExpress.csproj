@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.102.1">
+    <PackageReference Include="ClosedXML" Version="0.102.2">
       <PrivateAssets></PrivateAssets>
     </PackageReference>
   </ItemGroup>
@@ -101,6 +101,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\DateTime\StswTimePicker.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Subs\StswSubCheck.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

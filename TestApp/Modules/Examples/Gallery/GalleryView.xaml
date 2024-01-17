@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="TestApp.GalleryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:GalleryContext/>
+    </d:UserControl.DataContext>
+
+    <Grid Background="Black">
+        <se:StswZoomControl>
+            <Image Source="{Binding SelectedFile}"/>
+        </se:StswZoomControl>
+        <se:StswSidePanel MinHeight="30" VerticalAlignment="Bottom">
+            <se:StswBorder Background="#333" BorderThickness="2 2 2 0" HorizontalAlignment="Center">
+                <UniformGrid Rows="1">
+                    <se:StswSubButton Command="{Binding ChangeNavigationModeCommand}"
+                                      IconData="{x:Static se:StswIcons.MenuOpen}" IconFill="White"
+                                      Padding="5"/>
+                    <se:StswSubCheck IconChecked="{x:Static se:StswIcons.Repeat}" IconUnchecked="{x:Static se:StswIcons.RepeatOff}"
+                                     IsChecked="{Binding IsLoopingEnabled}" IconFill="White"
+                                     Padding="5"/>
+                    <se:StswSubButton Command="{Binding SelectDirectoryCommand}"
+                                      IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="White"
+                                      Padding="5"/>
+                    <se:StswSubButton Command="{Binding NextFileCommand}" CommandParameter="-1"
+                                      IconData="{x:Static se:StswIcons.ArrowLeft}" IconFill="White"
+                                      Padding="5"/>
+                    <se:StswSubButton Command="{Binding NextFileCommand}" CommandParameter="1"
+                                      IconData="{x:Static se:StswIcons.ArrowRight}" IconFill="White"
+                                      Padding="5"/>
+                </UniformGrid>
+            </se:StswBorder>
+        </se:StswSidePanel>
+    </Grid>
+
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding NextFileCommand}" CommandParameter="-1" Key="Left"/>
+        <KeyBinding Command="{Binding NextFileCommand}" CommandParameter="1" Key="Right"/>
+    </UserControl.InputBindings>
+</UserControl>

@@ -56,6 +56,7 @@
             <se:StswNavigationElement Header="Date &amp; time" IconData="{x:Static se:StswIcons.CalendarRange}">
                 <se:StswNavigationElement Header="StswCalendar" ContextNamespace="TestApp.StswCalendarContext"/>
                 <se:StswNavigationElement Header="StswDatePicker" ContextNamespace="TestApp.StswDatePickerContext"/>
+                <se:StswNavigationElement Header="StswTimePicker" ContextNamespace="TestApp.StswTimePickerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Dialogs" IconData="{x:Static se:StswIcons.MessageTextOutline}">
                 <se:StswNavigationElement Header="StswContentDialog" ContextNamespace="TestApp.StswContentDialogContext"/>
@@ -145,7 +146,7 @@
             <se:StswNavigationElement Header="Attributes" IconData="{x:Static se:StswIcons.Tag}" Visibility="Collapsed"/>
             <se:StswNavigationElement Header="Files" IconData="{x:Static se:StswIcons.File}" Visibility="Collapsed"/>
             <se:StswNavigationElement Header="Calendar" IconData="{x:Static se:StswIcons.Calendar}" Visibility="Collapsed"/>
-            <se:StswNavigationElement Header="Gallery" IconData="{x:Static se:StswIcons.ViewGallery}" Visibility="Collapsed"/>
+            <se:StswNavigationElement Header="Gallery" IconData="{x:Static se:StswIcons.ViewGallery}" ContextNamespace="TestApp.GalleryContext"/>
             <se:StswNavigationElement Header="Stats" IconData="{x:Static se:StswIcons.ChartBar}" Visibility="Collapsed"/>
         </se:StswNavigationElement>
         <se:StswNavigationElement/>

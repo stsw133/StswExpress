@@ -65,10 +65,10 @@ public class StswDirectionViewer : ScrollViewer
         if (ComputedHorizontalScrollBarVisibility == Visibility.Visible
         && (ComputedVerticalScrollBarVisibility != Visibility.Visible || Keyboard.Modifiers == ModifierKeys.Shift))
         {
-            if (e.Delta < 0)
-                ScrollInfo.MouseWheelRight();
-            else
+            if (e.Delta > 0)
                 ScrollInfo.MouseWheelLeft();
+            else //if (e.Delta < 0)
+                ScrollInfo.MouseWheelRight();
 
             e.Handled = true;
         }
