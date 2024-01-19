@@ -38,7 +38,7 @@ public class StswNotifyIcon : FrameworkElement
             Tray = new()
             {
                 Icon = Icon ?? IconFromPath(IconPath),
-                Text = Text,
+                Text = Text
             };
             Tray.MouseDoubleClick += Tray_MouseDoubleClick;
             Tray.MouseDown += Tray_MouseDown;
@@ -88,7 +88,7 @@ public class StswNotifyIcon : FrameworkElement
     /// <param name="e">The event arguments</param>
     private void Tray_MouseDown(object? sender, MouseEventArgs e)
     {
-        if (e.Button == MouseButtons.Right)
+        if (e.Button == MouseButtons.Right && ContextMenu != null)
         {
             if (PresentationSource.FromVisual(ContextMenu) is HwndSource hwndSource)
                 _ = SetForegroundWindow(hwndSource.Handle);
