@@ -137,7 +137,7 @@
     <Page Update="Controls\Media\StswGallery.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Media\StswMediaElement.xaml">
+    <Page Update="Controls\Media\StswMediaPlayer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Navigation\StswContextMenu.xaml">

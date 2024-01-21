@@ -87,7 +87,7 @@
     <Compile Update="Modules\Controls\Checks\StswTimedSwitch\StswTimedSwitchView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml.cs">
+    <Compile Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StatusInfo\StswInfoBadge\StswInfoBadgeView.xaml.cs">
@@ -306,7 +306,7 @@
     <Page Update="Modules\Controls\Checks\StswTimedSwitch\StswTimedSwitchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Media\StswMediaElement\StswMediaElementView.xaml">
+    <Page Update="Modules\Controls\Media\StswMediaPlayer\StswMediaPlayerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\StatusInfo\StswInfoBadge\StswInfoBadgeView.xaml">

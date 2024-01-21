@@ -184,8 +184,8 @@
             <DataTemplate DataType="{x:Type local:StswImageContext}">
                 <local:StswImageView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswMediaElementContext}">
-                <local:StswMediaElementView/>
+            <DataTemplate DataType="{x:Type local:StswMediaPlayerContext}">
+                <local:StswMediaPlayerView/>
             </DataTemplate>
             
             <!-- Navigation -->

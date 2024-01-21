@@ -12,7 +12,7 @@ WPF .NET 6.0 library containing:
   - **Filtering:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
   - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswTimedSwitch, StswZoomControl
-  - **Media:** StswGallery, StswImage, StswMediaElement
+  - **Media:** StswGallery, StswImage, StswMediaPlayer
   - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswDirectionViewer, StswScrollBar, StswScrollViewer
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
