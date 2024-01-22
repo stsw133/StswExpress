@@ -69,10 +69,10 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <se:StswSubButton Background="{Binding}"
-                                                                    BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                                    CommandParameter="{Binding}"
-                                                                    Height="18" Width="18">
+                                                              BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                              Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                              CommandParameter="{Binding}"
+                                                              Height="18" Width="18">
                                                 <se:StswSubButton.Style>
                                                     <Style TargetType="{x:Type se:StswSubButton}">
                                                         <Setter Property="Margin" Value="3 0"/>
@@ -112,10 +112,10 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <se:StswSubButton Background="{Binding}"
-                                                                    BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                                    Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
-                                                                    CommandParameter="{Binding}"
-                                                                    Height="18" Width="18">
+                                                              BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                              Command="{Binding SelectColorCommand, RelativeSource={RelativeSource AncestorType={x:Type se:StswColorSelector}}}"
+                                                              CommandParameter="{Binding}"
+                                                              Height="18" Width="18">
                                                 <se:StswSubButton.Style>
                                                     <Style TargetType="{x:Type se:StswSubButton}">
                                                         <Setter Property="Margin" Value="3"/>

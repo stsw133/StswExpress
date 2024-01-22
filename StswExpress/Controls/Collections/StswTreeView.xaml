@@ -84,12 +84,12 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <se:StswSubCheck x:Name="PART_Expander" Grid.Column="0"
-                                                           Background="{TemplateBinding Background}"
-                                                           ClickMode="Press"
-                                                           IconChecked="{x:Static se:StswIcons.MenuDown}"
-                                                           IconUnchecked="{x:Static se:StswIcons.MenuRight}"
-                                                           IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                     Background="{TemplateBinding Background}"
+                                                     ClickMode="Press"
+                                                     IconChecked="{x:Static se:StswIcons.MenuDown}"
+                                                     IconUnchecked="{x:Static se:StswIcons.MenuRight}"
+                                                     IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     <Border x:Name="PART_Border" Grid.Column="1"
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"

@@ -1,6 +1,38 @@
 {\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil\fcharset0 Cascadia Mono;}{\f2\fnil Arial;}{\f3\fnil Cascadia Mono;}{\f4\fnil\fcharset2 Symbol;}}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.4.3\line\b0\fs16 2023-12-27\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.5.0\line\b0\fs16 2024-01-22\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 There is new category for Stsw controls named "File" that includes 1 new control: \b StswFilePicker \b0 used to select either file or directory path.\par
+{\pntext\f4\'B7\tab}New controls: \b StswHyperlinkButton\b0 , \b StswShiftButton\b0 , \b StswTimedSwitch\b0 , \b StswDataPager\b0 , \b StswTimePicker\b0 , \b StswFilePicker\b0 , \b StswMediaPlayer\b0 , \b StswMenuItem\b0 , \b StswInfoBadge\b0 , \b StswInfoBar\b0 , \b StswWindowBar\b0 .\par
+{\pntext\f4\'B7\tab}New control style: \b StswContextMenu\b0 .\par
+{\pntext\f4\'B7\tab}New interface: \b IStswBoxControl\b0 . \b IStswComponentControl \b0 renamed into \b IStswSubControl\b0 .\par
+{\pntext\f4\'B7\tab}New converter: \b StswListFromRangeConverter\b0 .\par
+{\pntext\f4\'B7\tab}New extensions: \b ToImageSource\b0 , \b GetNextValue \b0 (instead of \b GetNextEnumValue \b0 function).\par
+{\pntext\f4\'B7\tab}New functions: \b SplitStringByLines\b0 , \b RemoveFromParent\b0 .\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 External library called "NewtonsoftJson" is no longer used.\par
+{\pntext\f4\'B7\tab}\b StswNavigation \b0 and \b StswNavigationElement \b0 have been reworked.\par
+{\pntext\f4\'B7\tab}\b StswSidePanel \b0 can be set to be always visible.\par
+{\pntext\f4\'B7\tab}"Components" controls category renamed into "Subs" controls. All component controls changed prefix to "Sub". All properties for components renamed into "SubControls".\par
+{\pntext\f4\'B7\tab}\b StswShifter \b0 renamed into \b StswDirectionViewer\b0 . \b StswLogPanel \b0 renamed into \b StswInfoPanel\b0 .\par
+{\pntext\f4\'B7\tab}\b StswHeader \b0 and all sub controls now has property "IsContentVisible" instead of "ContentVisibility".\par
+{\pntext\f4\'B7\tab}Part of \b StswWindow\b0 's functionality moved to new control \b StswWindowBar\b0 .\par
+{\pntext\f4\'B7\tab}A few changes in Stsw enums.\par
+{\pntext\f4\'B7\tab}A few changes in theme brush key names.\par
+{\pntext\f4\'B7\tab}\b StswMailboxModel \b0 implements INotifyPropertyChanged now.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Bugfix translation for \b StswColorBox\b0 's tab headers.\f1\lang21\par
+{\pntext\f4\'B7\tab}\f0\lang1045 Going into fullscreen mode should properly activate and focus window.\f1\lang21\par
+
+\pard\sa200\sl276\slmult1\qj\par
+
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 0.4.3\line\b0\fs16 2023-12-27\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
 
@@ -30,8 +62,7 @@
 
 \pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 There is new category for Stsw controls named "Charts" that includes 2 new controls: \b StswChartLegend \b0 and \b StswChartPie \b0 used to present analytics data and statistics.\par
 {\pntext\f4\'B7\tab}New component controls: \b StswComponentDrop \b0 (almost the same functionality as \b StswDropButton\b0 ), \b StswComponentHeader \b0 (almost the same functionality as \b StswHeader\b0 ).\par
-{\pntext\f4\'B7\tab}New control: \b StswProgressRing \b0 (almost the same functionality as \b StswProgressBar\b0 ).\par
-{\pntext\f4\'B7\tab}New control: \b StswToolTip \b0 (just a tooltip with layout scaling and with style that fits other Stsw controls).\par
+{\pntext\f4\'B7\tab}New controls: \b StswProgressRing \b0 (almost the same functionality as \b StswProgressBar\b0 ), \b StswToolTip \b0 (just a tooltip with layout scaling and with style that fits other Stsw controls).\par
 {\pntext\f4\'B7\tab}New extension to clone binding and new extension for getting attribute of T type from enum.\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par

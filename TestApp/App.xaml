@@ -61,9 +61,6 @@
             <DataTemplate DataType="{x:Type local:StswRadioBoxContext}">
                 <local:StswRadioBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswShiftSwitchContext}">
-                <local:StswShiftSwitchView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTimedSwitchContext}">
                 <local:StswTimedSwitchView/>
             </DataTemplate>

@@ -57,9 +57,6 @@
     <Compile Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Checks\StswShiftSwitch\StswShiftSwitchView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -274,9 +271,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Charts\StswChartPie\StswChartPieView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\Checks\StswShiftSwitch\StswShiftSwitchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml">

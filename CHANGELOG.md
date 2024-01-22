@@ -1,3 +1,34 @@
+# **0.5.0**
+2024-01-22
+
+### New functionality:
+
+* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker **used to select either file or directory path.
+* New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswFilePicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
+* New control style: **StswContextMenu**.
+* New interface: **IStswBoxControl**. **IStswComponentControl **renamed into **IStswSubControl**.
+* New converter: **StswListFromRangeConverter**.
+* New extensions: **ToImageSource**, **GetNextValue **(instead of **GetNextEnumValue **function).
+* New functions: **SplitStringByLines**, **RemoveFromParent**.
+
+### Changed functionality:
+
+* External library called "NewtonsoftJson" is no longer used.
+* **StswNavigation **and **StswNavigationElement **have been reworked.
+* **StswSidePanel **can be set to be always visible.
+* "Components" controls category renamed into "Subs" controls. All component controls changed prefix to "Sub". All properties for components renamed into "SubControls".
+* **StswShifter **renamed into **StswDirectionViewer**. **StswLogPanel **renamed into **StswInfoPanel**.
+* **StswHeader **and all sub controls now has property "IsContentVisible" instead of "ContentVisibility".
+* Part of **StswWindow**'s functionality moved to new control **StswWindowBar**.
+* A few changes in Stsw enums.
+* A few changes in theme brush key names.
+* **StswMailboxModel **implements INotifyPropertyChanged now.
+
+### Bugfixes:
+
+* Bugfix translation for **StswColorBox**'s tab headers.
+* Going into fullscreen mode should properly activate and focus window.
+
 # **0.4.3**
 2023-12-27
 

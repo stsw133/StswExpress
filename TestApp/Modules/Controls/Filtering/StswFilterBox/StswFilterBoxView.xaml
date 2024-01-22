@@ -48,10 +48,10 @@
         <local:ControlsBase.StatusPanel>
             <DockPanel Margin="5" VerticalAlignment="Top">
                 <se:StswSubButton Command="{Binding RefreshCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:ControlsBase}}}"
-                                        Content="Filter: "
-                                        Padding="5"
-                                        VerticalAlignment="Top"/>
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:ControlsBase}}}"
+                                  Content="Filter: "
+                                  Padding="5"
+                                  VerticalAlignment="Top"/>
                 <StackPanel>
                     <se:StswText Padding="5" TextWrapping="Wrap" Visibility="{Binding Value1, Converter={x:Static se:StswNotNullConverter.Instance}}">
                         <Run Text="{Binding SqlParam1, Mode=OneWay}"/>

@@ -3,17 +3,17 @@ WPF .NET 6.0 library containing:
 - new controls (many of them are similar to those from WinUI 3) or WPF controls with new style and/or new functionalities:
   - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartLegend, StswChartPie
-  - **Checks:** StswCheckBox, StswRadioBox, StswShiftSwitch, StswToggleSwitch
+  - **Checks:** StswCheckBox, StswRadioBox, StswTimedSwitch, StswToggleSwitch
   - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
-  - **DateTime:** StswCalendar, StswDatePicker
+  - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **File:** StswFilePicker
   - **Filtering:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
-  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswTimedSwitch, StswZoomControl
+  - **Layout:** StswBorder, StswExpander, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaPlayer
-  - **Navigation:** StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
+  - **Navigation:** StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
   - **Scrolling:** StswDirectionViewer, StswScrollBar, StswScrollViewer
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector

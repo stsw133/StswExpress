@@ -33,14 +33,14 @@ public class StswMessageDialog : Control
     private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
 
     /// <summary>
-    /// 
+    /// Shows the message dialog asynchronously.
     /// </summary>
-    /// <param name="content"></param>
-    /// <param name="title"></param>
-    /// <param name="buttons"></param>
-    /// <param name="image"></param>
-    /// <param name="identifier"></param>
-    /// <returns></returns>
+    /// <param name="content">The content of the dialog.</param>
+    /// <param name="title">The title of the dialog.</param>
+    /// <param name="buttons">The buttons to be displayed in the dialog.</param>
+    /// <param name="image">The image to be displayed in the dialog.</param>
+    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <returns>The result of the dialog.</returns>
     public static async Task<bool?> Show(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
     {
         StswMessageDialog dialog = new()
@@ -52,28 +52,6 @@ public class StswMessageDialog : Control
             Identifier = identifier ?? StswApp.StswWindow
         };
         return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
-    }
-
-    /// <summary>
-    /// Shows the message dialog synchronously.
-    /// </summary>
-    /// <param name="content">The content of the dialog.</param>
-    /// <param name="title">The title of the dialog.</param>
-    /// <param name="buttons">The buttons to be displayed in the dialog.</param>
-    /// <param name="image">The image to be displayed in the dialog.</param>
-    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
-    /// <returns>The result of the dialog.</returns>
-    public static bool? ShowSynchronously(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
-    {
-        var taskCompletionSource = new TaskCompletionSource<bool?>();
-
-        Application.Current.Dispatcher.Invoke(async () =>
-        {
-            var result = await Show(content, title, buttons, image, identifier);
-            taskCompletionSource.SetResult(result);
-        });
-
-        return taskCompletionSource.Task.Result;
     }
     #endregion
 

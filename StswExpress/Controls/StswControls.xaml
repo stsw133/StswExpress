@@ -19,7 +19,6 @@
 
         <ResourceDictionary Source="Checks/StswCheckBox.xaml"/>
         <ResourceDictionary Source="Checks/StswRadioBox.xaml"/>
-        <ResourceDictionary Source="Checks/StswShiftSwitch.xaml"/>
         <ResourceDictionary Source="Checks/StswTimedSwitch.xaml"/>
         <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
 
@@ -66,6 +65,7 @@
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
         <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
+        <ResourceDictionary Source="Navigation/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
