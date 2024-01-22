@@ -56,9 +56,11 @@
                             </ItemsControl>
                             <!-- content -->
                             <DockPanel>
-                                <Image Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                <Image x:Name="PART_Icon"
+                                       Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
                                        Source="{TemplateBinding IconSource}"
-                                       Height="{DynamicResource StswFilePicker.Size.Icon}" Width="{DynamicResource StswFilePicker.Size.Icon}"/>
+                                       Height="{DynamicResource StswFilePicker.Size.Icon}"
+                                       Width="{DynamicResource StswFilePicker.Size.Icon}"/>
                                 <Grid>
                                     <se:StswText x:Name="PART_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
@@ -79,6 +81,9 @@
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IconSource" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                        </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
