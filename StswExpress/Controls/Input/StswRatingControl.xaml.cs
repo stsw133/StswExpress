@@ -57,7 +57,7 @@ public class StswRatingControl : Control, IStswIconControl
         else if (Direction == ExpandDirection.Up && ActualHeight != 0)
             Placeholder = Convert.ToInt32(Math.Round(Items.Count - y / ActualHeight * Items.Count + 0.4));
 
-        if (!CanReset && Placeholder == 0)
+        if (!IsResetEnabled && Placeholder == 0)
             Placeholder = 1;
     }
 
@@ -73,21 +73,6 @@ public class StswRatingControl : Control, IStswIconControl
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the reseting behaviour of the control.
-    /// </summary>
-    public bool CanReset
-    {
-        get => (bool)GetValue(CanResetProperty);
-        set => SetValue(CanResetProperty, value);
-    }
-    public static readonly DependencyProperty CanResetProperty
-        = DependencyProperty.Register(
-            nameof(CanReset),
-            typeof(bool),
-            typeof(StswRatingControl)
-        );
-
     /// <summary>
     /// Gets or sets the direction of the control.
     /// </summary>
@@ -137,6 +122,21 @@ public class StswRatingControl : Control, IStswIconControl
         );
 
     /// <summary>
+    /// Gets or sets the reseting behaviour of the control.
+    /// </summary>
+    public bool IsResetEnabled
+    {
+        get => (bool)GetValue(IsResetEnabledProperty);
+        set => SetValue(IsResetEnabledProperty, value);
+    }
+    public static readonly DependencyProperty IsResetEnabledProperty
+        = DependencyProperty.Register(
+            nameof(IsResetEnabled),
+            typeof(bool),
+            typeof(StswRatingControl)
+        );
+
+    /// <summary>
     /// Gets or sets the items for control.
     /// </summary>
     internal ObservableCollection<StswRatingItem> Items
@@ -181,12 +181,12 @@ public class StswRatingControl : Control, IStswIconControl
                 if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
                 {
                     while (stsw.Items.Count < val)
-                        stsw.Items.Insert(0, new());
+                        stsw.Items.Insert(0, new() { Value = stsw.Items.Count + 1 });
                 }
                 else
                 {
                     while (stsw.Items.Count < val)
-                        stsw.Items.Add(new());
+                        stsw.Items.Add(new() { Value = stsw.Items.Count + 1 });
                 }
             }
             else if (val < stsw.Items.Count)
@@ -205,6 +205,21 @@ public class StswRatingControl : Control, IStswIconControl
             stsw.Value = stsw.Items.Count(x => x.IsChecked);
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Visibility ItemsNumberVisibility
+    {
+        get => (Visibility)GetValue(ItemsNumberVisibilityProperty);
+        set => SetValue(ItemsNumberVisibilityProperty, value);
+    }
+    public static readonly DependencyProperty ItemsNumberVisibilityProperty
+        = DependencyProperty.Register(
+            nameof(ItemsNumberVisibility),
+            typeof(Visibility),
+            typeof(StswRatingControl)
+        );
 
     /// <summary>
     /// Gets or sets the numeric value of the control.
@@ -379,4 +394,14 @@ public class StswRatingItem : StswObservableObject
         internal set => SetProperty(ref isMouseOver, value);
     }
     private bool isMouseOver;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Value
+    {
+        get => value;
+        internal set => SetProperty(ref this.value, value);
+    }
+    private int value;
 }

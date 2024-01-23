@@ -123,18 +123,35 @@
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Foreground}" TargetName="PART_Icon"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
-                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
                                 <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsChecked" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.CheckedAndDisabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Unchecked.Disabled.Foreground}" TargetName="PART_Icon"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Unchecked.Disabled.Foreground}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}" TargetName="PART_Icon"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsChecked" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Foreground}" TargetName="PART_Icon"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

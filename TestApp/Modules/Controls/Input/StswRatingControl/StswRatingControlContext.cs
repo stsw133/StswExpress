@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace TestApp;
@@ -11,6 +12,7 @@ public class StswRatingControlContext : ControlsContext
 
         Direction = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Direction)))?.Value ?? default;
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
+        ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
     }
 
     /// Direction
@@ -27,6 +29,14 @@ public class StswRatingControlContext : ControlsContext
     {
         get => itemsNumber;
         set => SetProperty(ref itemsNumber, value);
+    }
+
+    /// ItemsNumberVisibility
+    private Visibility itemsNumberVisibility;
+    public Visibility ItemsNumberVisibility
+    {
+        get => itemsNumberVisibility;
+        set => SetProperty(ref itemsNumberVisibility, value);
     }
 
     /// SelectedValue
