@@ -11,8 +11,9 @@
         <Setter Property="IconStroke" Value="{DynamicResource StswRating.Static.Border}"/>
         <Setter Property="IconStrokeThickness" Value="1"/>
 
-        <Setter Property="CanReset" Value="True"/>
+        <Setter Property="IsResetEnabled" Value="True"/>
         <Setter Property="ItemsNumber" Value="5"/>
+        <Setter Property="ItemsNumberVisibility" Value="Collapsed"/>
 
         <Setter Property="Direction" Value="Right"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -54,13 +55,20 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <se:StswIcon x:Name="PART_Icon"
+                                <DockPanel>
+                                    <se:StswText DockPanel.Dock="Bottom"
+                                                 Text="{Binding Value}"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Visibility="{Binding ItemsNumberVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
+                                    <se:StswIcon x:Name="PART_Icon"
                                              Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              Stroke="{Binding IconStroke, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"
                                              StrokeThickness="{Binding IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}"/>
+                                </DockPanel>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsChecked}" Value="True">
                                         <Setter Property="Fill" Value="{DynamicResource StswRating.Checked.Background}" TargetName="PART_Icon"/>
@@ -80,7 +88,7 @@
                                             <Condition Binding="{Binding IsChecked}" Value="True"/>
                                             <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type se:StswRatingControl}}}" Value="False"/>
                                         </MultiDataTrigger.Conditions>
-                                        <Setter Property="Fill" Value="{DynamicResource StswRating.CheckedAndDisabled.Background}" TargetName="PART_Icon"/>
+                                        <Setter Property="Fill" Value="{DynamicResource StswRating.CheckedDisabled.Background}" TargetName="PART_Icon"/>
                                     </MultiDataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
