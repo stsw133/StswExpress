@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswText}">
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
+                <Setter Property="Opacity" Value="0.4"/>
             </Trigger>
         </Style.Triggers>
     </Style>

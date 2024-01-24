@@ -48,15 +48,16 @@
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
                                         <se:StswHeader Content="{se:Tr StswConfig.Scaling, Suffix=':'}" IconData="{x:Static se:StswIcons.Resize}"/>
                                         <DockPanel>
-                                            <se:StswText Padding="0" Width="40" VerticalAlignment="Center">
+                                            <se:StswText Padding="0" VerticalAlignment="Center" Width="40">
                                                 <Run Text="{Binding Value, ElementName=PART_iSize, StringFormat={}{0:N0}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=100}"/>
                                                 <Run Text="%"/>
                                             </se:StswText>
                                             <se:StswSlider x:Name="PART_iSize"
-                                                           TickPlacement="BottomRight"
                                                            IsSnapToTickEnabled="True"
-                                                           Minimum="0.5" Maximum="3"
+                                                           Maximum="3"
+                                                           Minimum="0.5"
                                                            TickFrequency="0.1"
+                                                           TickPlacement="BottomRight"
                                                            Value="{Binding iSize, Mode=OneWay, Source={x:Static se:StswSettings.Default}}"/>
                                         </DockPanel>
                                     </StackPanel>

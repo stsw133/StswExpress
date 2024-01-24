@@ -89,9 +89,13 @@
                             <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
                             <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Content"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
-                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                <Condition Binding="{Binding Content, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type se:StswText}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

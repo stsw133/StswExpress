@@ -17,13 +17,13 @@
         <!-- properties -->
 
         <!-- content -->
-        <se:StswOutlinedText Fill="Red"
-                             FontSize="20"
+        <se:StswOutlinedText Fill="{DynamicResource StswColor.Primary}"
+                             FontSize="30"
                              IsEnabled="{Binding IsEnabled}"
                              Margin="5"
-                             Stroke="DarkRed"
+                             Stroke="{DynamicResource StswText.Static.Foreground}"
                              StrokeThickness="2"
-                             Text="Some random text with dark red stroke and red fill"
+                             Text="Lorem ipsum dolor sit amet..."
                              HorizontalAlignment="{Binding HorizontalAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"/>
         <!-- status panel -->

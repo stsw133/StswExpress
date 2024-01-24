@@ -34,13 +34,17 @@
                                                  Visibility="Collapsed"/>
                             <!-- popup -->
                             <se:StswPopup BorderThickness="0"
+                                          CornerClipping="False"
                                           CornerRadius="0"
                                           IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
                                           Padding="0"
                                           Placement="Relative"
                                           PlacementTarget="{Binding ElementName=PART_StandardContent}"
                                           StaysOpen="False">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                <ContentPresenter Focusable="False"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </se:StswPopup>
                             <!-- content -->
@@ -63,9 +67,13 @@
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_StandardContent"/>
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_TruncationButton"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                <Condition Binding="{Binding Content, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIsTypeConverter.Instance}, ConverterParameter={x:Type se:StswText}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}"/>
-                        </Trigger>
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

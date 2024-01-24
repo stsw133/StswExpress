@@ -51,8 +51,12 @@
                        VerticalAlignment="{Binding VerticalAlignment}"
                        VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <StackPanel>
-                <se:StswText Text="Some header..."/>
-                <se:StswText Text="Some description..." Opacity="0.6" FontSize="10" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+                <se:StswText Text="Lorem ipsum dolor sit amet..."/>
+                <se:StswText FontSize="9" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}" TextWrapping="Wrap">
+                    <Run Text="...consectetuer adipiscing elit."/>
+                    <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
+                    <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus..." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
+                </se:StswText>
             </StackPanel>
         </se:StswHeader>
         <!-- status panel -->
