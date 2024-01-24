@@ -166,6 +166,25 @@ public static class StswFn
 
     #region Numeric functions
     /// <summary>
+    /// Shifts the selected index by the specified step, considering looping and boundary conditions.
+    /// </summary>
+    /// <param name="currIndex"></param>
+    /// <param name="itemsCount"></param>
+    /// <param name="step">The step value for shifting through items</param>
+    /// <param name="isLoopingAllowed"></param>
+    public static int ShiftIndexBy(int currIndex, int itemsCount, int step, bool isLoopingAllowed)
+    {
+        if (itemsCount <= 0)
+            return -1;
+        else if (isLoopingAllowed || !(currIndex + step >= itemsCount || currIndex + step < 0))
+            return (currIndex + step % itemsCount + itemsCount) % itemsCount;
+        else if (step > 0)
+            return itemsCount - 1;
+        else
+            return 0;
+    }
+
+    /// <summary>
     /// Attempts to calculate a result from the provided mathematical expression using the order of operations and returns a bool indicating success or failure.
     /// The result of the calculation is stored in the result out parameter if successful.
     /// </summary>

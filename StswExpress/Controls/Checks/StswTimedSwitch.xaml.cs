@@ -28,6 +28,8 @@ public class StswTimedSwitch : CheckBox
         timer.Elapsed += Timer_Elapsed;
 
         OnSwitchTimeChanged(this, new DependencyPropertyChangedEventArgs());
+        if (IsChecked == true && SwitchTime.TotalMilliseconds > 0 && !timer.Enabled)
+            timer.Start();
     }
 
     /// <summary>
@@ -37,7 +39,8 @@ public class StswTimedSwitch : CheckBox
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-        timer.Start();
+        if (SwitchTime.TotalMilliseconds > 0)
+            timer.Start();
     }
 
     /// <summary>
@@ -86,7 +89,11 @@ public class StswTimedSwitch : CheckBox
         if (obj is StswTimedSwitch stsw)
         {
             if (stsw.SwitchTime.TotalMilliseconds > 0)
+            {
                 stsw.timer.Interval = stsw.SwitchTime.TotalMilliseconds;
+                if (stsw.IsChecked == true)
+                    stsw.timer.Start();
+            }
         }
     }
 
