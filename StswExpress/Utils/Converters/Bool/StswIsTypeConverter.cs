@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -15,7 +16,21 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => parameter is Type type ? value?.GetType() == type : Binding.DoNothing;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value?.GetType() is Type val)
+        {
+            if (parameter is Type type)
+            {
+                if (targetType == typeof(Visibility))
+                    return val == type ? Visibility.Visible : Visibility.Collapsed;
+                else
+                    return val == type;
+            }
+            else return val;
+        }
+        else return Binding.DoNothing;
+    }
 
     /// ConvertBack
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
