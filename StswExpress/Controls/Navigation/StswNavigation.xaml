@@ -42,8 +42,7 @@
                                     <se:StswToggleButton x:Name="PART_TabStripModeButton" BorderThickness="0" CornerClipping="False" CornerRadius="0">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswDirectionViewer x:Name="PART_Components" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0"
-                                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                    <se:StswDirectionViewer x:Name="PART_Components" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
                                         <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -134,11 +133,10 @@
                                 <!-- compact panel -->
                                 <se:StswDirectionViewer x:Name="PART_CompactPanel"
                                                         Background="{TemplateBinding Background}"
-                                                        ButtonDownBorderThickness="0 1 0 0"
-                                                        ButtonUpBorderThickness="0 0 0 1"
+                                                        BBtnThickness="0 0 0 1"
+                                                        FBtnThickness="0 1 0 0"
                                                         HorizontalAlignment="Left"
                                                         HorizontalScrollBarVisibility="Disabled"
-                                                        VerticalScrollBarVisibility="Auto"
                                                         Visibility="Collapsed">
                                     <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 1">
                                         <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>

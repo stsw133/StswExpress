@@ -12,7 +12,6 @@
         <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="1"/>
 
-        <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -53,8 +52,7 @@
                                            BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                            SnapsToDevicePixels="False">
-                                <se:StswDirectionViewer ButtonDownBorderThickness="0 1 0 0" ButtonUpBorderThickness="0 0 0 1"
-                                                        Focusable="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
                                 </se:StswDirectionViewer>
                             </se:StswBorder>

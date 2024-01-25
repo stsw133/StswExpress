@@ -35,7 +35,7 @@
                                            Visibility="{TemplateBinding NewTabButtonVisibility}">
                                 <se:StswIcon Data="{x:Static se:StswIcons.Plus}" Scale="1.25"/>
                             </se:StswButton>
-                            <se:StswDirectionViewer x:Name="PART_Shifter" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:StswDirectionViewer x:Name="PART_DirectionViewer" VerticalScrollBarVisibility="Disabled">
                                 <TabPanel x:Name="HeaderPanel"
                                           Background="Transparent"
                                           IsItemsHost="True"
@@ -65,16 +65,16 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FunctionButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="ButtonLeftBorderThickness" Value="1 0 1 1" TargetName="PART_Shifter"/>
-                            <Setter Property="ButtonRightBorderThickness" Value="1 0 1 1" TargetName="PART_Shifter"/>
+                            <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="1 0 1 1" TargetName="PART_DirectionViewer"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="1" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Margin" Value="2 0 0 2" TargetName="HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="ButtonLeftBorderThickness" Value="1 1 0 1" TargetName="PART_Shifter"/>
-                            <Setter Property="ButtonRightBorderThickness" Value="1 1 0 1" TargetName="PART_Shifter"/>
+                            <Setter Property="BBtnThickness" Value="1 1 0 1" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="1 1 0 1" TargetName="PART_DirectionViewer"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Column" Value="0" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
@@ -83,8 +83,8 @@
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="ButtonLeftBorderThickness" Value="0 1 1 1" TargetName="PART_Shifter"/>
-                            <Setter Property="ButtonRightBorderThickness" Value="0 1 1 1" TargetName="PART_Shifter"/>
+                            <Setter Property="BBtnThickness" Value="0 1 1 1" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="0 1 1 1" TargetName="PART_DirectionViewer"/>
                             <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Column" Value="1" TargetName="PART_HeaderPanel"/>
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_HeaderPanel"/>
@@ -93,8 +93,8 @@
                             <Setter Property="Grid.Row" Value="0" TargetName="PART_ContentPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
-                            <Setter Property="ButtonLeftBorderThickness" Value="1 1 1 0" TargetName="PART_Shifter"/>
-                            <Setter Property="ButtonRightBorderThickness" Value="1 1 1 0" TargetName="PART_Shifter"/>
+                            <Setter Property="BBtnThickness" Value="1 1 1 0" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="1 1 1 0" TargetName="PART_DirectionViewer"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
