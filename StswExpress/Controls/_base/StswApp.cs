@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace StswExpress;
@@ -19,6 +21,25 @@ public class StswApp : Application
     /// <param name="e">The event arguments</param>
     protected override void OnStartup(StartupEventArgs e)
     {
+        /// close duplicated application
+        if (!AllowMultipleInstances)
+        {
+            var thisProcessName = Process.GetCurrentProcess().ProcessName;
+            var otherInstances = Process.GetProcesses().Where(x => x.ProcessName == thisProcessName && StswFn.GetProcessUser(x) == Environment.UserName);
+            if (otherInstances.Count() > 1)
+            {
+                Current.Shutdown();
+
+                if (otherInstances.FirstOrDefault(x => x.Id != Process.GetCurrentProcess().Id) is Process originalProcess and not null)
+                {
+                    if (originalProcess.MainWindowHandle != IntPtr.Zero)
+                        SetForegroundWindow(originalProcess.MainWindowHandle);
+                }
+
+                return;
+            }
+        }
+
         base.OnStartup(e);
 
         /// hash key
@@ -61,4 +82,23 @@ public class StswApp : Application
     /// Current application's main StswWindow.
     /// </summary>
     public static StswWindow StswWindow => (StswWindow)Current.MainWindow;
+
+    /// <summary>
+    /// Gets or sets if running multiple instances of application is allowed or not.
+    /// </summary>
+    public bool AllowMultipleInstances
+    {
+        get => _allowMultipleInstances;
+        set
+        {
+            VerifyAccess();
+            _allowMultipleInstances = value;
+        }
+    }
+    private bool _allowMultipleInstances = true;
+
+
+
+    [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
 }

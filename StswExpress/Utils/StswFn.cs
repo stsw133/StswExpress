@@ -9,7 +9,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Json;
+using System.Security.Principal;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -309,6 +311,39 @@ public static class StswFn
     #endregion
 
     #region Special functions
+    /// <summary>
+    /// Determines the owner of the process.
+    /// </summary>
+    /// <returns></returns>
+    public static string? GetProcessUser(Process process)
+    {
+        var processHandle = IntPtr.Zero;
+        try
+        {
+            OpenProcessToken(process.Handle, 8, out processHandle);
+            var wi = new WindowsIdentity(processHandle);
+            var user = wi.Name;
+            return user.Contains('\\') ? user[(user.IndexOf("\\") + 1)..] : user;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            if (processHandle != IntPtr.Zero)
+                CloseHandle(processHandle);
+        }
+    }
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    private static extern bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+
+    private static extern bool CloseHandle(IntPtr hObject);
+
     /// <summary>
     /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
     /// </summary>

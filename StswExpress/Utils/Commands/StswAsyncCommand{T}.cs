@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
@@ -9,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// An async command implementation (with parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
 /// </summary>
-public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
+public class StswAsyncCommand<T> : StswObservableObject, ICommand
 {
     private Func<object?, Task> _execute { get; }
     private readonly Func<bool>? _canExecute;
@@ -26,7 +24,7 @@ public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public bool CanExecute(object? parameter) => !IsWorking && (_canExecute?.Invoke() ?? true);
+    public bool CanExecute(object? parameter) => !IsBusy && (_canExecute?.Invoke() ?? true);
 
     /// <summary>
     /// 
@@ -34,14 +32,14 @@ public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
     /// <param name="parameter"></param>
     public async void Execute(object? parameter)
     {
-        if (!IsWorking)
+        if (!IsBusy)
         {
-            IsWorking = true;
+            IsBusy = true;
             UpdateCanExecute();
 
             await _execute(parameter);
 
-            IsWorking = false;
+            IsBusy = false;
             UpdateCanExecute();
         }
     }
@@ -49,17 +47,10 @@ public class StswAsyncCommand<T> : ICommand, INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public bool IsWorking
+    public bool IsBusy
     {
-        get => isWorking;
-        private set
-        {
-            isWorking = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWorking)));
-        }
+        get => isBusy;
+        private set => SetProperty(ref isBusy, value);
     }
-    private bool isWorking;
-
-    /// Notify the view that the IsWorking property has changed
-    public event PropertyChangedEventHandler? PropertyChanged;
+    private bool isBusy;
 }
