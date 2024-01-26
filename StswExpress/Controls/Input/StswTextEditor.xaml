@@ -45,8 +45,7 @@
                         <DockPanel>
                             <!-- toolbar -->
                             <Grid x:Name="PART_ToolBar" Background="{DynamicResource StswExpander.Static.Background}" DockPanel.Dock="Top" Focusable="False">
-                                <se:StswDirectionViewer ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0"
-                                                        Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Focusable="False" VerticalScrollBarVisibility="Disabled">
                                     <DockPanel>
                                         <!-- file -->
                                         <DockPanel Margin="{TemplateBinding SubPadding}">

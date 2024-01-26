@@ -120,8 +120,7 @@
                        CornerClipping="{TemplateBinding CornerClipping}"
                        CornerRadius="{TemplateBinding CornerRadius}"
                        SnapsToDevicePixels="True">
-            <se:StswDirectionViewer ButtonDownBorderThickness="0 1 0 0" ButtonUpBorderThickness="0 0 0 1" Focusable="False" Padding="{TemplateBinding Padding}"
-                                    HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled" Padding="{TemplateBinding Padding}">
                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             </se:StswDirectionViewer>
         </se:StswBorder>

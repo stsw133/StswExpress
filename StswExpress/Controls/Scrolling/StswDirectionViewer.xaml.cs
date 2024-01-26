@@ -154,65 +154,35 @@ public class StswDirectionViewer : ScrollViewer
 
     #region Style properties
     /// <summary>
-    /// Gets or sets the thickness of the down button.
+    /// Gets or sets the thickness of the back (up and left) buttons.
     /// </summary>
-    public Thickness ButtonDownBorderThickness
+    public Thickness BBtnThickness
     {
-        get => (Thickness)GetValue(ButtonDownBorderThicknessProperty);
-        set => SetValue(ButtonDownBorderThicknessProperty, value);
+        get => (Thickness)GetValue(BBtnThicknessProperty);
+        set => SetValue(BBtnThicknessProperty, value);
     }
-    public static readonly DependencyProperty ButtonDownBorderThicknessProperty
+    public static readonly DependencyProperty BBtnThicknessProperty
         = DependencyProperty.Register(
-            nameof(ButtonDownBorderThickness),
+            nameof(BBtnThickness),
             typeof(Thickness),
             typeof(StswDirectionViewer)
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the left button.
+    /// Gets or sets the thickness of the front (down and right) buttons.
     /// </summary>
-    public Thickness ButtonLeftBorderThickness
+    public Thickness FBtnThickness
     {
-        get => (Thickness)GetValue(ButtonLeftBorderThicknessProperty);
-        set => SetValue(ButtonLeftBorderThicknessProperty, value);
+        get => (Thickness)GetValue(FBtnThicknessProperty);
+        set => SetValue(FBtnThicknessProperty, value);
     }
-    public static readonly DependencyProperty ButtonLeftBorderThicknessProperty
+    public static readonly DependencyProperty FBtnThicknessProperty
         = DependencyProperty.Register(
-            nameof(ButtonLeftBorderThickness),
+            nameof(FBtnThickness),
             typeof(Thickness),
             typeof(StswDirectionViewer)
         );
     
-    /// <summary>
-    /// Gets or sets the thickness of the right button.
-    /// </summary>
-    public Thickness ButtonRightBorderThickness
-    {
-        get => (Thickness)GetValue(ButtonRightBorderThicknessProperty);
-        set => SetValue(ButtonRightBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty ButtonRightBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(ButtonRightBorderThickness),
-            typeof(Thickness),
-            typeof(StswDirectionViewer)
-        );
-    
-    /// <summary>
-    /// Gets or sets the thickness of the up button.
-    /// </summary>
-    public Thickness ButtonUpBorderThickness
-    {
-        get => (Thickness)GetValue(ButtonUpBorderThicknessProperty);
-        set => SetValue(ButtonUpBorderThicknessProperty, value);
-    }
-    public static readonly DependencyProperty ButtonUpBorderThicknessProperty
-        = DependencyProperty.Register(
-            nameof(ButtonUpBorderThickness),
-            typeof(Thickness),
-            typeof(StswDirectionViewer)
-        );
-
     /// <summary>
     /// Gets or sets the degree to which the corners of the control's border are rounded by defining
     /// a radius value for each corner independently. This property allows users to control the roundness

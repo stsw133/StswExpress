@@ -58,8 +58,7 @@
                             <se:StswGroupBox.Header>
                                 <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
-                                                    Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl AlternationCount="6" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -101,8 +100,7 @@
                             <se:StswGroupBox.Header>
                                 <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer ButtonDownBorderThickness="0 0 0 1" ButtonLeftBorderThickness="0 0 1 0" ButtonRightBorderThickness="1 0 0 0" ButtonUpBorderThickness="0 1 0 0"
-                                                    Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"  Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
