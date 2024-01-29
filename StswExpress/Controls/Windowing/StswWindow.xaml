@@ -43,7 +43,7 @@
                             </Grid>
 
                             <!-- title bar -->
-                            <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" Height="30" VerticalAlignment="Top">
+                            <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">
                                 <se:StswWindowBar x:Name="PART_WindowBar">
                                     <se:StswWindowBar.ContextMenu>
                                         <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenu}">

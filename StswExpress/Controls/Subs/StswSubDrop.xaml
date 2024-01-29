@@ -20,53 +20,47 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSubDrop}">
-                    <se:StswSubCheck x:Name="PART_MainButton"
-                                     Background="{TemplateBinding Background}"
-                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                     ClickMode="Press"
-                                     IconChecked="{TemplateBinding IconData}"
-                                     IconUnchecked="{TemplateBinding IconData}"
-                                     IconFill="{TemplateBinding IconFill}"
-                                     IconScale="{TemplateBinding IconScale}"
-                                     IconStroke="{TemplateBinding IconStroke}"
-                                     IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
-                                     IsBusy="{TemplateBinding IsBusy}"
-                                     IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                     Orientation="{TemplateBinding Orientation}"
-                                     Padding="{TemplateBinding Padding}"
-                                     SnapsToDevicePixels="True"
-                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <Grid>
-                            <!-- popup -->
-                            <se:StswPopup AllowsTransparency="True"
-                                          BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                          MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                          Padding="0"
-                                          Placement="Bottom"
-                                          PlacementTarget="{Binding ElementName=PART_MainButton}"
-                                          PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                          SnapsToDevicePixels="True"
-                                          StaysOpen="False">
-                                <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
-                            </se:StswPopup>
-                            <!-- content -->
-                            <ContentPresenter x:Name="PART_Content"
-                                              ContentSource="Content"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                    </se:StswSubCheck>
+                    <Grid>
+                        <!-- button -->
+                        <se:StswSubCheck x:Name="PART_MainButton"
+                                         Background="{TemplateBinding Background}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         Content="{TemplateBinding Content}"
+                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                         ContentTemplate="{TemplateBinding ContentTemplate}"
+                                         ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                         ClickMode="Press"
+                                         IconChecked="{TemplateBinding IconData}"
+                                         IconUnchecked="{TemplateBinding IconData}"
+                                         IconFill="{TemplateBinding IconFill}"
+                                         IconScale="{TemplateBinding IconScale}"
+                                         IconStroke="{TemplateBinding IconStroke}"
+                                         IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
+                                         IsBusy="{TemplateBinding IsBusy}"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         IsContentVisible="{TemplateBinding IsContentVisible}"
+                                         Orientation="{TemplateBinding Orientation}"
+                                         Padding="{TemplateBinding Padding}"
+                                         SnapsToDevicePixels="True"
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <!-- popup -->
+                        <se:StswPopup AllowsTransparency="True"
+                                      BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                      IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                      MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
+                                      Padding="0"
+                                      Placement="Bottom"
+                                      PlacementTarget="{Binding ElementName=PART_MainButton}"
+                                      PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                                      SnapsToDevicePixels="True"
+                                      StaysOpen="False">
+                            <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
+                        </se:StswPopup>
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsContentVisible" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Content"/>
-                        </Trigger>
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.ReadOnly.Foreground}" TargetName="PART_MainButton"/>
                             <Setter Property="IsEnabled" Value="False" TargetName="PART_Items"/>

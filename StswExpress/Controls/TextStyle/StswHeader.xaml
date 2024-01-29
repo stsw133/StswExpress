@@ -9,7 +9,6 @@
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsContentVisible" Value="True"/>
 
-        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

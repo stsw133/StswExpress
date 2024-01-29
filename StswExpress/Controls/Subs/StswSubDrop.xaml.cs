@@ -39,6 +39,51 @@ public class StswSubDrop : ItemsControl, IStswSubControl, IStswDropControl, ISts
         );
 
     /// <summary>
+    /// 
+    /// </summary>
+    public string? ContentStringFormat
+    {
+        get => (string?)GetValue(ContentStringFormatProperty);
+        set => SetValue(ContentStringFormatProperty, value);
+    }
+    public static readonly DependencyProperty ContentStringFormatProperty
+        = DependencyProperty.Register(
+            nameof(ContentStringFormat),
+            typeof(string),
+            typeof(StswSubDrop)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public DataTemplate? ContentTemplate
+    {
+        get => (DataTemplate?)GetValue(ContentTemplateProperty);
+        set => SetValue(ContentTemplateProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateProperty
+        = DependencyProperty.Register(
+            nameof(ContentTemplate),
+            typeof(DataTemplate),
+            typeof(StswSubDrop)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public DataTemplateSelector? ContentTemplateSelector
+    {
+        get => (DataTemplateSelector?)GetValue(ContentTemplateSelectorProperty);
+        set => SetValue(ContentTemplateSelectorProperty, value);
+    }
+    public static readonly DependencyProperty ContentTemplateSelectorProperty
+        = DependencyProperty.Register(
+            nameof(ContentTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(StswSubDrop)
+        );
+
+    /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>
     public Geometry? IconData

@@ -59,8 +59,11 @@ public class StswNotifyIcon : FrameworkElement
     {
         if (_window != null && Tray != null && _window.WindowState == WindowState.Minimized)
         {
-            _window.Hide();
-            Tray.Visible = true;
+            if (IsEnabled)
+            {
+                _window.Hide();
+                Tray.Visible = true;
+            }
         }
     }
 
