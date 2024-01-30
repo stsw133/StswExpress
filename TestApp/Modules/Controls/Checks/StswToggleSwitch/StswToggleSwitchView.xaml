@@ -68,10 +68,6 @@
                                  IsEnabled="{Binding IsEnabled}"
                                  IsThreeState="{Binding IsThreeState}"
                                  Margin="0 0 0 5"
-                                 GlyphBrushChecked="#F7B"
-                                 GlyphBrushUnchecked="#B33"
-                                 IconUnchecked="{x:Static se:StswIcons.HeartBroken}"
-                                 IconChecked="{x:Static se:StswIcons.Heart}"
                                  HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                                  VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         </UniformGrid>

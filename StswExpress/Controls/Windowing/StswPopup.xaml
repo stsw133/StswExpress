@@ -25,8 +25,7 @@
                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                       SnapsToDevicePixels="True">
+                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
             <se:StswScrollViewer Focusable="False"
                                  IsDynamic="{Binding IsScrollDynamic, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                  HorizontalScrollBarVisibility="Auto"
@@ -34,8 +33,7 @@
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
-                                  Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                  SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>
+                                  Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>
             </se:StswScrollViewer>
         </se:StswBorder>
     </DataTemplate>

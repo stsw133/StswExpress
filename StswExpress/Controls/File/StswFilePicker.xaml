@@ -18,7 +18,11 @@
         <Setter Property="IsShiftingEnabled" Value="True"/>
         <Setter Property="PathType" Value="File"/>
         <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus}"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -32,12 +36,11 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- function button -->
                             <se:StswButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
-                                           Focusable="False"
+                                           Focusable="True"
                                            BorderThickness="0" CornerRadius="0" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}"/>
                             </se:StswButton>

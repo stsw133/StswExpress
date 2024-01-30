@@ -14,7 +14,10 @@
 
         <Setter Property="FilterMenuMode" Value="Full"/>
 
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -31,7 +34,6 @@
                                        CornerClipping="{TemplateBinding CornerClipping}"
                                        CornerRadius="{TemplateBinding CornerRadius}"
                                        Margin="0 3 0 0"
-                                       SnapsToDevicePixels="True"
                                        Visibility="{TemplateBinding FilterVisibility}">
                             <DockPanel>
                                 <!-- filter mode -->

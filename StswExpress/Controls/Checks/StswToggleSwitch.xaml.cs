@@ -15,9 +15,14 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     #region Events & methods
-    private Border? switchBorder, mainBorder;
-    private Grid? switchGrid;
-    private StswIcon? checkedPath, uncheckedPath;
+    private Border? _switch;
+    private Border? _outerBorder;
+    private Border? _checkedBackgroundBorder;
+
+    private bool loaded = false;
+    private double _width = 0;
+    private double _height = 0;
+    private double _switchSize = 0;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -26,103 +31,86 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
-            this.switchBorder = switchBorder;
-        if (GetTemplateChild("PART_MainBorder") is Border mainBorder)
-        {
-            mainBorder.SizeChanged += (s, e) => AdjustSize();
-            this.mainBorder = mainBorder;
-        }
-        if (GetTemplateChild("PART_SwitchGrid") is Grid switchGrid)
-            this.switchGrid = switchGrid;
-        if (GetTemplateChild("PART_CheckedPath") is StswIcon checkedPath)
-            this.checkedPath = checkedPath;
-        if (GetTemplateChild("PART_UncheckedPath") is StswIcon uncheckedPath)
-            this.uncheckedPath = uncheckedPath;
+        if (GetTemplateChild("PART_Switch") is Border _switch)
+            this._switch = _switch;
+        if (GetTemplateChild("PART_MainBorder") is Border _outerBorder)
+            this._outerBorder = _outerBorder;
+        if (GetTemplateChild("PART_CheckBackground") is Border _checkedBackgroundBorder)
+            this._checkedBackgroundBorder = _checkedBackgroundBorder;
 
-        Loaded += (s, e) => AdjustAll();
+        Loaded += (s, e) => SetSwitch();
+        loaded = true;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e">The event arguments</param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
-        if (IsLoaded)
-            CheckedAnimation();
+        if (_switch != null)
+            AnimateChecked();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e">The event arguments</param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
-        if (IsLoaded)
-            UncheckedAnimation();
+        if (_switch != null)
+            AnimateUnhecked();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e">The event arguments</param>
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
-        if (IsLoaded)
-            IndeterminateAnimation();
+        if (_switch != null)
+            AnimateIndeterminate();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private void AdjustSize()
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
-        if (!IsLoaded)
+        base.OnRenderSizeChanged(sizeInfo);
+
+        if (!loaded)
             return;
 
-        if (switchBorder != null)
-            switchBorder.CornerRadius = new CornerRadius(
-                    CornerRadius.TopLeft - BorderThickness.Top - Padding.Top,
-                    CornerRadius.TopRight - BorderThickness.Top - Padding.Top,
-                    CornerRadius.BottomLeft - BorderThickness.Bottom - Padding.Bottom,
-                    CornerRadius.BottomRight - BorderThickness.Bottom - Padding.Bottom
-                );
+        _width = _outerBorder!.RenderSize.Width;
+        _height = _outerBorder!.RenderSize.Height;
+        _switchSize = _switch!.RenderSize.Height;
 
-        if (switchGrid != null)
-            switchGrid.Margin = IsChecked switch
-            {
-                false => uncheckedMargin,
-                true => checkedMargin,
-                null => indeterminateMargin
-            };
+        SetSwitch();
     }
-    private Thickness checkedMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth - (BorderThickness.Left + BorderThickness.Right + switchGrid.ActualWidth + Padding.Right + Padding.Left), 0, 0, 0) : new Thickness(0);
-    private Thickness uncheckedMargin => new Thickness(0);
-    private Thickness indeterminateMargin => mainBorder != null ? new Thickness(mainBorder.ActualWidth / 2 - (switchGrid.ActualWidth / 2 + BorderThickness.Left), 0, 0, 0) : new Thickness(0);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private void AdjustAll()
+    void SetSwitch()
     {
-        AdjustSize();
+        _switch!.Measure(new Size(ActualWidth, ActualHeight));
+        _switch!.Width = _switchSize;
+        _switch!.Measure(new Size(ActualWidth, ActualHeight));
+        _switch.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
+        InstantSwitch();
+        _checkedBackgroundBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);
+        _checkedBackgroundBorder!.CornerRadius = new CornerRadius(_height / 2.0);
+        _outerBorder!.CornerRadius = new CornerRadius(_height / 2.0);
+        if (IsChecked == true)
+            _checkedBackgroundBorder.Opacity = 1;
+        else
+            _checkedBackgroundBorder.Opacity = 0;
+    }
 
-        if (IsChecked == true && checkedPath != null)
-            checkedPath.Opacity = 1;
-        else if (IsChecked == false && uncheckedPath != null)
-            uncheckedPath.Opacity = 1;
-
-        //if (switchBorder != null)
-        //    switchBorder.Background = IsChecked switch
-        //    {
-        //        false => (SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background"),
-        //        true => (SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background"),
-        //        _ => (SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")
-        //    };
+    Thickness SwitchPadding(bool? state)
+    {
+        Thickness padding;
+        switch (state)
+        {
+            case false:
+                padding = new Thickness(0);
+                break;
+            case true:
+                padding = new Thickness(_width - _outerBorder!.BorderThickness.Left - _outerBorder.BorderThickness.Right - _outerBorder.Padding.Left - _outerBorder.Padding.Right - _switchSize,
+                    0, 0, 0);
+                break;
+            default:
+                padding = new Thickness((_width - _outerBorder!.BorderThickness.Left - _outerBorder.BorderThickness.Right - _outerBorder.Padding.Left - _outerBorder.Padding.Right - _switchSize) / 2,
+                    0, 0, 0);
+                break;
+        }
+        return padding;
     }
     #endregion
 
@@ -179,251 +167,131 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the brush used to render the glyph (icon).
+    /// 
     /// </summary>
-    public Brush? GlyphBrushChecked
+    public Brush CheckedBrush
     {
-        get => (Brush?)GetValue(GlyphBrushCheckedProperty);
-        set => SetValue(GlyphBrushCheckedProperty, value);
+        get => (Brush)GetValue(CheckedBrushProperty);
+        set => SetValue(CheckedBrushProperty, value);
     }
-    public static readonly DependencyProperty GlyphBrushCheckedProperty
+    public static readonly DependencyProperty CheckedBrushProperty
         = DependencyProperty.Register(
-            nameof(GlyphBrushChecked),
+            nameof(CheckedBrush),
             typeof(Brush),
-            typeof(StswToggleSwitch)
+            typeof(StswToggleSwitch),
+            new PropertyMetadata(new LinearGradientBrush(Color.FromRgb(0, 130, 130), Color.FromRgb(0, 170, 170), 0.8))
         );
 
-    /// <summary>
-    /// Gets or sets the brush used to render the glyph (icon).
-    /// </summary>
-    public Brush? GlyphBrushUnchecked
-    {
-        get => (Brush?)GetValue(GlyphBrushUncheckedProperty);
-        set => SetValue(GlyphBrushUncheckedProperty, value);
-    }
-    public static readonly DependencyProperty GlyphBrushUncheckedProperty
-        = DependencyProperty.Register(
-            nameof(GlyphBrushUnchecked),
-            typeof(Brush),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon in the checked state.
-    /// </summary>
-    public Geometry? IconChecked
-    {
-        get => (Geometry?)GetValue(IconCheckedProperty);
-        set => SetValue(IconCheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconCheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconChecked),
-            typeof(Geometry),
-            typeof(StswToggleSwitch)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon in the unchecked state.
-    /// </summary>
-    public Geometry? IconUnchecked
-    {
-        get => (Geometry?)GetValue(IconUncheckedProperty);
-        set => SetValue(IconUncheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconUncheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconUnchecked),
-            typeof(Geometry),
-            typeof(StswToggleSwitch)
-        );
     #endregion
 
     #region Animations
-    /// <summary>
-    /// 
-    /// </summary>
-    void MouseDownAnimation()
+    void InstantSwitch()
     {
         var sb = new Storyboard();
 
-        var switchMargin = new ThicknessAnimation(
-            toValue: new Thickness(switchGrid.ActualHeight * 0.05),
-            duration: TimeSpan.FromMilliseconds(300));
-        switchMargin.EasingFunction = new CubicEase();
-        sb.Children.Add(switchMargin);
-        Storyboard.SetTarget(switchMargin, switchBorder);
-        Storyboard.SetTargetProperty(switchMargin, new PropertyPath(MarginProperty));
+        var switchMarginAnim = new ThicknessAnimation(
+            toValue: SwitchPadding(IsChecked),
+            TimeSpan.Zero,
+            FillBehavior.HoldEnd);
+        sb.Children.Add(switchMarginAnim);
+        Storyboard.SetTarget(switchMarginAnim, _switch);
+        Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
+
+        var switchWidthAnim = new DoubleAnimation(
+            toValue: _switchSize,
+            TimeSpan.Zero,
+            FillBehavior.HoldEnd);
+        sb.Children.Add(switchWidthAnim);
+        Storyboard.SetTarget(switchWidthAnim, _switch);
+        Storyboard.SetTargetProperty(switchWidthAnim, new PropertyPath(WidthProperty));
 
         sb.Begin();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void MouseUpAnimation()
+
+    void AnimateChecked()
     {
         var sb = new Storyboard();
 
-        var switchMargin = new ThicknessAnimation(
-            toValue: new Thickness(0),
-            duration: TimeSpan.FromMilliseconds(300));
-        switchMargin.EasingFunction = new CubicEase();
-        sb.Children.Add(switchMargin);
-        Storyboard.SetTarget(switchMargin, switchBorder);
-        Storyboard.SetTargetProperty(switchMargin, new PropertyPath(MarginProperty));
+        var switchMarginAnim = new ThicknessAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = SwitchPadding(true),
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(switchMarginAnim);
+        Storyboard.SetTarget(switchMarginAnim, _switch);
+        Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
+
+        var backgroundOpacityAnim = new DoubleAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = 1,
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(backgroundOpacityAnim);
+        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBackgroundBorder);
+        Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void CheckedAnimation()
+    void AnimateUnhecked()
     {
         var sb = new Storyboard();
-        /*
-        var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Checked.Toggle.Background")).Color,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchColor.EasingFunction = new CubicEase();
-        sb.Children.Add(switchColor);
-        Storyboard.SetTarget(switchColor, switchBorder);
-        Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-        */
-        var switchPlacement = new ThicknessAnimation(
-            toValue: checkedMargin,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchPlacement.EasingFunction = new CubicEase();
-        sb.Children.Add(switchPlacement);
-        Storyboard.SetTarget(switchPlacement, switchGrid);
-        Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
 
-        var checkedContentOpacity = new DoubleAnimation(
-            toValue: 1,
-            duration: TimeSpan.FromMilliseconds(350));
-        checkedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        checkedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(checkedContentOpacity);
-        Storyboard.SetTarget(checkedContentOpacity, checkedPath);
-        Storyboard.SetTargetProperty(checkedContentOpacity, new PropertyPath(OpacityProperty));
+        var switchMarginAnim = new ThicknessAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = SwitchPadding(false),
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(switchMarginAnim);
+        Storyboard.SetTarget(switchMarginAnim, _switch);
+        Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
-        var uncheckedContentOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(150));
-        uncheckedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        uncheckedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(uncheckedContentOpacity);
-        Storyboard.SetTarget(uncheckedContentOpacity, uncheckedPath);
-        Storyboard.SetTargetProperty(uncheckedContentOpacity, new PropertyPath(OpacityProperty));
-
-        var checkedContentSlide = new ThicknessAnimation(
-            toValue: new Thickness(0),
-            fromValue: new Thickness(ActualHeight, 0 ,-ActualHeight, 0),
-            duration: TimeSpan.FromMilliseconds(350));
-        checkedContentSlide.BeginTime = TimeSpan.FromMilliseconds(0);
-        checkedContentSlide.EasingFunction = new CubicEase();
-        sb.Children.Add(checkedContentSlide);
-        Storyboard.SetTarget(checkedContentSlide, checkedPath);
-        Storyboard.SetTargetProperty(checkedContentSlide, new PropertyPath(MarginProperty));
+        var backgroundOpacityAnim = new DoubleAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = 0,
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(backgroundOpacityAnim);
+        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBackgroundBorder);
+        Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void UncheckedAnimation()
+    void AnimateIndeterminate()
     {
         var sb = new Storyboard();
-        /*
-        var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Unchecked.Toggle.Background")).Color,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchColor.EasingFunction = new CubicEase();
-        sb.Children.Add(switchColor);
-        Storyboard.SetTarget(switchColor, switchBorder);
-        Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-        */
-        var switchPlacement = new ThicknessAnimation(
-            toValue: uncheckedMargin,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchPlacement.EasingFunction = new CubicEase();
-        sb.Children.Add(switchPlacement);
-        Storyboard.SetTarget(switchPlacement, switchGrid);
-        Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
 
-        var checkedContentOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(150));
-        checkedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        checkedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(checkedContentOpacity);
-        Storyboard.SetTarget(checkedContentOpacity, checkedPath);
-        Storyboard.SetTargetProperty(checkedContentOpacity, new PropertyPath(OpacityProperty));
+        var switchMarginAnim = new ThicknessAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = SwitchPadding(null),
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(switchMarginAnim);
+        Storyboard.SetTarget(switchMarginAnim, _switch);
+        Storyboard.SetTargetProperty(switchMarginAnim, new PropertyPath(MarginProperty));
 
-        var uncheckedContentOpacity = new DoubleAnimation(
-            toValue: 1,
-            duration: TimeSpan.FromMilliseconds(350));
-        uncheckedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        uncheckedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(uncheckedContentOpacity);
-        Storyboard.SetTarget(uncheckedContentOpacity, uncheckedPath);
-        Storyboard.SetTargetProperty(uncheckedContentOpacity, new PropertyPath(OpacityProperty));
-
-        var uncheckedContentSlide = new ThicknessAnimation(
-            toValue: new Thickness(0),
-            fromValue: new Thickness(-ActualHeight, 0, ActualHeight, 0),
-            duration: TimeSpan.FromMilliseconds(350));
-        uncheckedContentSlide.BeginTime = TimeSpan.FromMilliseconds(0);
-        uncheckedContentSlide.EasingFunction = new CubicEase();
-        sb.Children.Add(uncheckedContentSlide);
-        Storyboard.SetTarget(uncheckedContentSlide, uncheckedPath);
-        Storyboard.SetTargetProperty(uncheckedContentSlide, new PropertyPath(MarginProperty));
-
-        sb.Begin();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    void IndeterminateAnimation()
-    {
-        var sb = new Storyboard();
-        /*
-        var switchColor = new ColorAnimation(
-            toValue: ((SolidColorBrush)FindResource("StswCheck.Indeterminate.Toggle.Background")).Color,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchColor.EasingFunction = new CubicEase();
-        sb.Children.Add(switchColor);
-        Storyboard.SetTarget(switchColor, switchBorder);
-        Storyboard.SetTargetProperty(switchColor, new PropertyPath("(Border.Background).(SolidColorBrush.Color)", null));
-        */
-        var switchPlacement = new ThicknessAnimation(
-            toValue: indeterminateMargin,
-            duration: TimeSpan.FromMilliseconds(300));
-        switchPlacement.EasingFunction = new CubicEase();
-        sb.Children.Add(switchPlacement);
-        Storyboard.SetTarget(switchPlacement, switchGrid);
-        Storyboard.SetTargetProperty(switchPlacement, new PropertyPath(MarginProperty));
-
-        var checkedContentOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(150));
-        checkedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        checkedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(checkedContentOpacity);
-        Storyboard.SetTarget(checkedContentOpacity, checkedPath);
-        Storyboard.SetTargetProperty(checkedContentOpacity, new PropertyPath(OpacityProperty));
-
-        var uncheckedContentOpacity = new DoubleAnimation(
-            toValue: 0,
-            duration: TimeSpan.FromMilliseconds(150));
-        uncheckedContentOpacity.BeginTime = TimeSpan.FromMilliseconds(0);
-        uncheckedContentOpacity.EasingFunction = new CubicEase();
-        sb.Children.Add(uncheckedContentOpacity);
-        Storyboard.SetTarget(uncheckedContentOpacity, uncheckedPath);
-        Storyboard.SetTargetProperty(uncheckedContentOpacity, new PropertyPath(OpacityProperty));
+        var backgroundOpacityAnim = new DoubleAnimation()
+        {
+            Duration = TimeSpan.FromMilliseconds(400),
+            FillBehavior = FillBehavior.HoldEnd,
+            To = 0,
+            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+        };
+        sb.Children.Add(backgroundOpacityAnim);
+        Storyboard.SetTarget(backgroundOpacityAnim, _checkedBackgroundBorder);
+        Storyboard.SetTargetProperty(backgroundOpacityAnim, new PropertyPath(OpacityProperty));
 
         sb.Begin();
     }

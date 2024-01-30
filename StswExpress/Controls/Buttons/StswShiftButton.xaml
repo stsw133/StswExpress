@@ -11,8 +11,11 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
-        
-        <Setter Property="IsTabStop" Value="False"/>
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -26,11 +29,10 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- button: previous -->
-                            <se:StswRepeatButton x:Name="PART_ButtonPrevious" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" Padding="0" Width="24">
+                            <se:StswRepeatButton x:Name="PART_ButtonPrevious" DockPanel.Dock="Left" BorderThickness="0" CornerRadius="0" IsTabStop="False" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.ChevronLeft}"/>
                             </se:StswRepeatButton>
                             <se:StswSeparator DockPanel.Dock="Left"
@@ -38,7 +40,7 @@
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- button: next -->
-                            <se:StswRepeatButton x:Name="PART_ButtonNext" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" Padding="0" Width="24">
+                            <se:StswRepeatButton x:Name="PART_ButtonNext" DockPanel.Dock="Right" BorderThickness="0" CornerRadius="0" IsTabStop="False" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.ChevronRight}"/>
                             </se:StswRepeatButton>
                             <se:StswSeparator DockPanel.Dock="Right"
@@ -54,7 +56,6 @@
                                                   ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
                                                   IsHitTestVisible="False"
                                                   Margin="{TemplateBinding Padding}"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <se:StswTextBox x:Name="PART_EditableTextBox"

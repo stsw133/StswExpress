@@ -12,6 +12,10 @@
         <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -37,7 +41,6 @@
                                    IsContentVisible="{TemplateBinding IsContentVisible}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"
-                                   SnapsToDevicePixels="True"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     <ControlTemplate.Triggers>

@@ -100,6 +100,9 @@ public class StswShiftButton : ComboBox, IStswCornerControl
                     if (Items.Count > 0)
                         SelectedIndex = Items.Count - 1;
                     break;
+                case Key.Tab:
+                    (Keyboard.FocusedElement as UIElement)?.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                    break;
             }
         }
         e.Handled = true;

@@ -5,8 +5,11 @@
     <Style TargetType="{x:Type se:StswTimedSwitch}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-
         <Setter Property="SwitchTime" Value="0.00:00:02"/>
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -19,12 +22,14 @@
                                         Content="{TemplateBinding Content}"
                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
+                                        ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                        Focusable="False"/>
                         <ContentControl x:Name="PART_TimedContent"
                                         Content="{TemplateBinding TimedContent}"
                                         ContentStringFormat="{TemplateBinding TimedContentStringFormat}"
                                         ContentTemplate="{TemplateBinding TimedContentTemplate}"
                                         ContentTemplateSelector="{TemplateBinding TimedContentTemplateSelector}"
+                                        Focusable="False"
                                         Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>

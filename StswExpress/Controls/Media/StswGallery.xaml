@@ -6,7 +6,10 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
 
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -20,8 +23,7 @@
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
                             <Grid.Resources>
                                 <Style TargetType="{x:Type se:StswRepeatButton}">
@@ -39,7 +41,6 @@
                             <!-- content -->
                             <se:StswZoomControl Focusable="False"
                                                 Margin="{TemplateBinding Padding}"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <Image Source="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"/>
