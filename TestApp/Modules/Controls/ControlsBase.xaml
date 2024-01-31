@@ -82,7 +82,7 @@
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
                             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEnabled}"/>
                             <!-- other properties -->
-                            <ItemsControl ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                            <ItemsControl Focusable="False" ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </StackPanel>
                     </StackPanel>
                 </se:StswScrollViewer>

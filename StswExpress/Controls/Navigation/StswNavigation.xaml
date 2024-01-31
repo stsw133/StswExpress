@@ -80,7 +80,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollViewer x:Name="PART_Items" IsDynamic="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswScrollViewer x:Name="PART_Items" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                     <se:StswScrollViewer.Resources>
                                         <Style TargetType="{x:Type se:StswScrollBar}">
                                             <Setter Property="ExpandedWidth" Value="12"/>

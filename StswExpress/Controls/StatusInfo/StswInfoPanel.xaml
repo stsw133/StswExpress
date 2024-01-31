@@ -35,9 +35,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    SnapsToDevicePixels="True">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False" IsDynamic="{TemplateBinding IsScrollDynamic}">
-                            <ItemsPresenter Focusable="False"
-                                            Margin="3"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ItemsPresenter Focusable="False" Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollViewer>
                     </se:StswBorder>
                 </ControlTemplate>

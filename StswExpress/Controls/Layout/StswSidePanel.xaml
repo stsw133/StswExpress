@@ -26,9 +26,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 MinHeight="{TemplateBinding MinHeight}"
                                 MinWidth="{TemplateBinding MinWidth}"
-                                SnapsToDevicePixels="True"
-                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                SnapsToDevicePixels="True"/>
                         <ContentPresenter x:Name="PART_Content"
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"

@@ -133,8 +133,7 @@ public class StswPopup : Popup, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsScrollDynamic),
             typeof(bool),
-            typeof(StswPopup),
-            new PropertyMetadata(true)
+            typeof(StswPopup)
         );
 
     /// <summary>

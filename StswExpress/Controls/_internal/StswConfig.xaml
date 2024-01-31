@@ -42,7 +42,7 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- options -->
-                            <se:StswScrollViewer Grid.Row="0" IsDynamic="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <se:StswScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                 <DockPanel>
                                     <!-- isize -->
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">

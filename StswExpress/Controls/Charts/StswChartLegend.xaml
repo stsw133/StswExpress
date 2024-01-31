@@ -27,10 +27,7 @@
                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
-                        <se:StswScrollViewer DockPanel.Dock="Top"
-                                             Padding="{TemplateBinding Padding}"
-                                             HorizontalScrollBarVisibility="Auto"
-                                             VerticalScrollBarVisibility="Auto">
+                        <se:StswScrollViewer DockPanel.Dock="Top" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </DockPanel>

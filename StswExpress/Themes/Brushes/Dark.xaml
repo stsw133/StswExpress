@@ -160,6 +160,7 @@
     <SolidColorBrush x:Key="StswBox.Disabled.Background" Color="#292929"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Border" Color="#383838"/>
     <SolidColorBrush x:Key="StswBox.Disabled.Foreground" Color="#666"/>
+    <SolidColorBrush x:Key="StswBox.Error.Border" Color="#d14747"/>
     <SolidColorBrush x:Key="StswBox.Placeholder.Foreground" Color="#999"/>
 
     <SolidColorBrush x:Key="StswRating.Static.Background" Color="#1a1a1a"/>
