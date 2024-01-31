@@ -12,7 +12,11 @@
 
         <Setter Property="State" Value="Running"/>
         <Setter Property="TextMode" Value="Value"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

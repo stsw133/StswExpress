@@ -10,8 +10,11 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -32,10 +35,9 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False" IsDynamic="{TemplateBinding IsScrollDynamic}">
-                            <ItemsPresenter Focusable="False" Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ItemsPresenter Focusable="False" Margin="3"/>
                         </se:StswScrollViewer>
                     </se:StswBorder>
                 </ControlTemplate>

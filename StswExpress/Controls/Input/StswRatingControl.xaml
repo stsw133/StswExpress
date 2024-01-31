@@ -11,12 +11,15 @@
         <Setter Property="IconStroke" Value="{DynamicResource StswRating.Static.Border}"/>
         <Setter Property="IconStrokeThickness" Value="1"/>
 
+        <Setter Property="Direction" Value="Right"/>
         <Setter Property="IsResetEnabled" Value="True"/>
         <Setter Property="ItemsNumber" Value="5"/>
         <Setter Property="ItemsNumberVisibility" Value="Collapsed"/>
 
-        <Setter Property="Direction" Value="Right"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

@@ -10,7 +10,10 @@
         <Setter Property="CornerRadius" Value="1"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

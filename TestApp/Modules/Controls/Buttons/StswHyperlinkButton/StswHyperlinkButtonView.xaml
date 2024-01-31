@@ -12,7 +12,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a ...
+            Represents a button control that functions as a hyperlink, allowing navigation to a specified URI when clicked.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>

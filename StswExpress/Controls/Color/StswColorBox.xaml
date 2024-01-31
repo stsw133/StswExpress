@@ -19,6 +19,10 @@
         <Setter Property="IsAlphaEnabled" Value="True"/>
         <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -32,8 +36,7 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- function button -->
                             <se:StswDropButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"

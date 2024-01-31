@@ -12,7 +12,11 @@
         <Setter Property="AreTabsVisible" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=1~False~True}"/>
         <Setter Property="NewTabButtonVisibility" Value="Visible"/>
         <Setter Property="TabStripPlacement" Value="Top"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -23,8 +27,7 @@
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
                     <DockPanel x:Name="PART_TemplateRoot"
                                ClipToBounds="True"
-                               KeyboardNavigation.TabNavigation="Local"
-                               SnapsToDevicePixels="True">
+                               KeyboardNavigation.TabNavigation="Local">
                         <DockPanel x:Name="PART_HeaderPanel" DockPanel.Dock="Top">
                             <se:StswButton x:Name="PART_FunctionButton"
                                            DockPanel.Dock="Right"
@@ -53,8 +56,7 @@
                                 KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
                                               ContentSource="SelectedContent"
-                                              Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                              Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </DockPanel>
                     <ControlTemplate.Triggers>

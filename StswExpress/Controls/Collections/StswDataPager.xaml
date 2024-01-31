@@ -14,7 +14,11 @@
         
         <Setter Property="ItemsPerPage" Value="25"/>
         <Setter Property="PageCurrent" Value="1"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -28,12 +32,11 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- page buttons -->
-                            <se:StswDirectionViewer DockPanel.Dock="Bottom" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
-                                <ItemsControl ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
+                            <se:StswDirectionViewer DockPanel.Dock="Bottom" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Focusable="False" VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl Focusable="False" ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <UniformGrid Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataPager}}}"
@@ -67,8 +70,7 @@
                                               ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                              Focusable="False"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                              Focusable="False"/>
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>

@@ -21,8 +21,7 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswBorder.LayoutTransform>
                             <ScaleTransform ScaleX="{Binding iSize, Source={x:Static se:StswSettings.Default}}"
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>

@@ -12,6 +12,10 @@
         <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -38,7 +42,6 @@
                                        IsContentVisible="{TemplateBinding IsContentVisible}"
                                        Orientation="{TemplateBinding Orientation}"
                                        Padding="{TemplateBinding Padding}"
-                                       SnapsToDevicePixels="True"
                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <!-- popup -->
@@ -50,8 +53,7 @@
                             <se:StswBorder Background="{DynamicResource StswPopup.Static.Background}"
                                            BorderBrush="{DynamicResource StswPopup.Static.Border}"
                                            BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
-                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                           SnapsToDevicePixels="False">
+                                           MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
                                 </se:StswDirectionViewer>

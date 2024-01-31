@@ -11,6 +11,10 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -30,8 +34,7 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer"
                                              CanContentScroll="False"
                                              Focusable="False"
@@ -39,7 +42,7 @@
                                              Padding="{TemplateBinding Padding}"
                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
@@ -94,10 +97,8 @@
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
-                                            Padding="{TemplateBinding Padding}"
-                                            SnapsToDevicePixels="True">
+                                            Padding="{TemplateBinding Padding}">
                                         <ContentPresenter ContentSource="Header"
-                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                     </Border>

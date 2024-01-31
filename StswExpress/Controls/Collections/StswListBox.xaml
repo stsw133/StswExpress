@@ -10,7 +10,11 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
-        
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -30,10 +34,9 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswScrollViewer Focusable="False" IsDynamic="True" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
@@ -69,10 +72,8 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                        Padding="{TemplateBinding Padding}"
-                                        SnapsToDevicePixels="True">
-                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -118,10 +119,9 @@
                        BorderBrush="{TemplateBinding BorderBrush}"
                        BorderThickness="{TemplateBinding BorderThickness}"
                        CornerClipping="{TemplateBinding CornerClipping}"
-                       CornerRadius="{TemplateBinding CornerRadius}"
-                       SnapsToDevicePixels="True">
+                       CornerRadius="{TemplateBinding CornerRadius}">
             <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled" Padding="{TemplateBinding Padding}">
-                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                <ItemsPresenter/>
             </se:StswDirectionViewer>
         </se:StswBorder>
         <ControlTemplate.Triggers>

@@ -12,6 +12,10 @@
         <Setter Property="IsContentVisible" Value="True"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -42,7 +46,6 @@
                                          IsContentVisible="{TemplateBinding IsContentVisible}"
                                          Orientation="{TemplateBinding Orientation}"
                                          Padding="{TemplateBinding Padding}"
-                                         SnapsToDevicePixels="True"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <!-- popup -->
@@ -55,7 +58,6 @@
                                       Placement="Bottom"
                                       PlacementTarget="{Binding ElementName=PART_MainButton}"
                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                      SnapsToDevicePixels="True"
                                       StaysOpen="False">
                             <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                         </se:StswPopup>

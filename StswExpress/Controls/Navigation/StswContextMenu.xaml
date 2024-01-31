@@ -11,6 +11,10 @@
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Padding" Value="1"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -30,8 +34,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource StswMenu.CornerRadius.Border}"
-                                Padding="{TemplateBinding Padding}"
-                                SnapsToDevicePixels="True">
+                                Padding="{TemplateBinding Padding}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                         </Border>
                     </Grid>

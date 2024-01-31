@@ -16,7 +16,10 @@
         <Setter Property="ItemCornerRadius" Value="10"/>
         <Setter Property="ItemPadding" Value="3"/>
 
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -31,8 +34,7 @@
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      CornerClipping="{TemplateBinding CornerClipping}"
                                      CornerRadius="{TemplateBinding CornerRadius}"
-                                     Padding="0"
-                                     SnapsToDevicePixels="True">
+                                     Padding="0">
                         <se:StswGroupBox.Header>
                             <Grid Margin="{TemplateBinding Padding}">
                                 <Grid.ColumnDefinitions>

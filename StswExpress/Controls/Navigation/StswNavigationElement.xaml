@@ -17,7 +17,10 @@
         <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
         <Setter Property="ItemsIndentation" Value="20"/>
 
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

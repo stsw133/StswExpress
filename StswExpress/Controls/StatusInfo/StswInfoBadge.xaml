@@ -15,6 +15,10 @@
         <Setter Property="Limit" Value="99"/>
         <Setter Property="Type" Value="Information"/>
 
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
         <!-- <Setter Property="Height" Value="13"/> -->
         <!-- <Setter Property="Width" Value="21"/> -->
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -30,12 +34,11 @@
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
-                                   CornerRadius="{TemplateBinding CornerRadius}"
-                                   SnapsToDevicePixels="True">
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <Viewbox Margin="{TemplateBinding Padding}"
                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ContentControl x:Name="PART_ContentControl" Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentControl x:Name="PART_ContentControl" Focusable="False"/>
                         </Viewbox>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
