@@ -13,7 +13,7 @@ namespace StswExpress;
 /// It can expand to show additional sub controls when the mouse is over an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
+public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
     public StswSubSelector()
     {
@@ -25,8 +25,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
     }
 
     #region Events & methods
-    private Popup? popup;
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -36,10 +34,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
 
         /// StswPopup: popup
         if (GetTemplateChild("PART_Popup") is Popup popup)
-        {
-            popup.Child.MouseLeave += (s, e) => popup.IsOpen = false;
-            this.popup = popup;
-        }
+            popup.Child.MouseLeave += (s, e) => IsDropDownOpen = false;
     }
 
     /// <summary>
@@ -49,9 +44,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
     protected override void OnMouseEnter(MouseEventArgs e)
     {
         base.OnMouseEnter(e);
-
-        if (popup != null)
-            popup.IsOpen = true;
+        IsDropDownOpen = true;
     }
     #endregion
 
@@ -117,6 +110,21 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
         );
 
     /// <summary>
+    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// </summary>
+    public bool IsDropDownOpen
+    {
+        get => (bool)GetValue(IsDropDownOpenProperty);
+        set => SetValue(IsDropDownOpenProperty, value);
+    }
+    public static readonly DependencyProperty IsDropDownOpenProperty
+        = DependencyProperty.Register(
+            nameof(IsDropDownOpen),
+            typeof(bool),
+            typeof(StswSubSelector)
+        );
+
+    /// <summary>
     /// Gets or sets the collection of sub controls to be displayed in the control.
     /// </summary>
     public ObservableCollection<IStswSubControl> Items
@@ -148,6 +156,40 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswSubSelector)
+        );
+
+    /// <summary>
+    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
+    /// a radius value for each corner independently. This property allows users to control the roundness
+    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswSubSelector)
+        );
+
     /// <summary>
     /// Gets or sets the fill brush of the icon.
     /// </summary>
@@ -196,17 +238,33 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswIconControl
     /// <summary>
     /// Gets or sets the maximum height of the drop-down portion of the control.
     /// </summary>
-    public double? MaxDropDownHeight
+    public double MaxDropDownHeight
     {
-        get => (double?)GetValue(MaxDropDownHeightProperty);
+        get => (double)GetValue(MaxDropDownHeightProperty);
         set => SetValue(MaxDropDownHeightProperty, value);
     }
     public static readonly DependencyProperty MaxDropDownHeightProperty
         = DependencyProperty.Register(
             nameof(MaxDropDownHeight),
-            typeof(double?),
+            typeof(double),
             typeof(StswSubSelector),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
+    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
+    /// </summary>
+    public StswPopupModel Popup
+    {
+        get => (StswPopupModel)GetValue(PopupProperty);
+        set => SetValue(PopupProperty, value);
+    }
+    public static readonly DependencyProperty PopupProperty
+        = DependencyProperty.Register(
+            nameof(Popup),
+            typeof(StswPopupModel),
+            typeof(StswSubSelector)
         );
     #endregion
 }

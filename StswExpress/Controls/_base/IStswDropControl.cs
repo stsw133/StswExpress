@@ -18,4 +18,11 @@ public interface IStswDropControl
     /// </summary>
     public double MaxDropDownHeight { get; set; }
     public static readonly DependencyProperty? MaxDropDownHeightProperty;
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
+    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
+    /// </summary>
+    public StswPopupModel Popup { get; set; }
+    public static readonly DependencyProperty? PopupProperty;
 }

@@ -12,6 +12,17 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="Popup">
+            <Setter.Value>
+                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
+                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                   BorderThickness="2"
+                                   CornerClipping="True"
+                                   CornerRadius="10"
+                                   Padding="0"/>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -77,13 +88,14 @@
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
                                     <se:StswBorder x:Name="DropDownBorder"
-                                                   Background="{DynamicResource StswPopup.Static.Background}"
-                                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                   BorderThickness="{DynamicResource StswPopup.Thickness.Border}"
-                                                   CornerClipping="True"
-                                                   CornerRadius="{DynamicResource StswPopup.CornerRadius.Border}"
+                                                   Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderBrush="{Binding Popup.BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderThickness="{Binding Popup.BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerClipping="{Binding Popup.CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerRadius="{Binding Popup.CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                   MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}">
+                                                   MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}"
+                                                   Padding="{Binding Popup.Padding, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">

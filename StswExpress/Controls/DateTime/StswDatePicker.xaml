@@ -44,10 +44,15 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
                                 </se:StswDropButton.Header>
+                                <se:StswDropButton.Popup>
+                                    <se:StswPopupModel Background="Transparent"
+                                                       BorderBrush="Transparent"
+                                                       BorderThickness="0"
+                                                       CornerClipping="False"
+                                                       CornerRadius="0"
+                                                       Padding="0"/>
+                                </se:StswDropButton.Popup>
                                 <se:StswDropButton.Resources>
-                                    <SolidColorBrush x:Key="StswPopup.Static.Background" Color="Transparent"/>
-                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
-                                    <Thickness x:Key="StswPopup.Thickness.Border">0</Thickness>
                                     <Style TargetType="{x:Type se:StswDropArrow}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </Style>

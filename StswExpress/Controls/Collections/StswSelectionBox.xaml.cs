@@ -19,7 +19,6 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
     public StswSelectionBox()
     {
         Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
-        
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
     }
     static StswSelectionBox()
@@ -306,6 +305,22 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
             typeof(double),
             typeof(StswSelectionBox),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
+    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
+    /// </summary>
+    public StswPopupModel Popup
+    {
+        get => (StswPopupModel)GetValue(PopupProperty);
+        set => SetValue(PopupProperty, value);
+    }
+    public static readonly DependencyProperty PopupProperty
+        = DependencyProperty.Register(
+            nameof(Popup),
+            typeof(StswPopupModel),
+            typeof(StswSelectionBox)
         );
 
     /// <summary>

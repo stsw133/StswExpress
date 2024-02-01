@@ -7,10 +7,14 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswBorder.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource StswText.Static.Foreground}"/>
 
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="1"/>
+
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.33"/>
         <Setter Property="IsContentVisible" Value="True"/>
-        <Setter Property="Padding" Value="1"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -32,6 +36,8 @@
                                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                    ContentTemplate="{TemplateBinding ContentTemplate}"
                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
                                    IconFill="{TemplateBinding IconFill}"
                                    IconScale="{TemplateBinding IconScale}"
                                    IconStroke="{TemplateBinding IconStroke}"

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace StswExpress;
@@ -8,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>
-public class StswSubRepeater : RepeatButton, IStswSubControl, IStswIconControl
+public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRepeater()
     {

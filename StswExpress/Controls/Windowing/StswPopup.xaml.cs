@@ -14,7 +14,7 @@ public class StswPopup : Popup, IStswCornerControl
 {
     public StswPopup()
     {
-        Child = new ContentControl()
+        Child ??= new ContentControl()
         {
             ContentTemplate = (DataTemplate)FindResource("StswPopupChildTemplate")
         };
@@ -151,4 +151,100 @@ public class StswPopup : Popup, IStswCornerControl
             typeof(StswPopup)
         );
     #endregion
+}
+
+/// <summary>
+/// Data model for properties of <see cref="StswPopup"/> that is included in a control.
+/// </summary>
+public class StswPopupModel : DependencyObject, IStswCornerControl
+{
+    /// <summary>
+    /// Gets or sets the background brush for the popup.
+    /// </summary>
+    public Brush Background
+    {
+        get => (Brush)GetValue(BackgroundProperty);
+        set => SetValue(BackgroundProperty, value);
+    }
+    public static readonly DependencyProperty BackgroundProperty
+        = DependencyProperty.Register(
+            nameof(Background),
+            typeof(Brush),
+            typeof(StswPopupModel)
+        );
+
+    /// <summary>
+    /// Gets or sets the border brush for the popup.
+    /// </summary>
+    public Brush BorderBrush
+    {
+        get => (Brush)GetValue(BorderBrushProperty);
+        set => SetValue(BorderBrushProperty, value);
+    }
+    public static readonly DependencyProperty BorderBrushProperty
+        = DependencyProperty.Register(
+            nameof(BorderBrush),
+            typeof(Brush),
+            typeof(StswPopupModel)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the border for the popup.
+    /// </summary>
+    public Thickness BorderThickness
+    {
+        get => (Thickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
+    public static readonly DependencyProperty BorderThicknessProperty
+        = DependencyProperty.Register(
+            nameof(BorderThickness),
+            typeof(Thickness),
+            typeof(StswPopupModel)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the popup.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswPopupModel)
+        );
+
+    /// <summary>
+    /// Gets or sets the corner radius for the popup.
+    /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+    public static readonly DependencyProperty CornerRadiusProperty
+        = DependencyProperty.Register(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(StswPopupModel)
+        );
+
+    /// <summary>
+    /// Gets or sets the padding for the popup.
+    /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+    public static readonly DependencyProperty PaddingProperty
+        = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
+            typeof(StswPopupModel)
+        );
 }
