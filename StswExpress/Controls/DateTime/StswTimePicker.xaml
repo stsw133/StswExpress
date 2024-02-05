@@ -104,7 +104,8 @@
                             <se:StswSeparator DockPanel.Dock="Right"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
-                                              Orientation="Vertical"/>
+                                              Orientation="Vertical"
+                                              Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
                             <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>

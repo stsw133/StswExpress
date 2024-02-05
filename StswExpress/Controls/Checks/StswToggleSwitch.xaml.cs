@@ -15,9 +15,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     #region Events & methods
-    private Border? _switch;
-    private Border? _outerBorder;
-    private Border? _checkedBackgroundBorder;
+    private Border? _mainBorder, _checkedBackgroundBorder, _switch;
 
     private bool loaded = false;
     private double _width = 0;
@@ -31,17 +29,21 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_Switch") is Border _switch)
-            this._switch = _switch;
-        if (GetTemplateChild("PART_MainBorder") is Border _outerBorder)
-            this._outerBorder = _outerBorder;
+        if (GetTemplateChild("PART_MainBorder") is Border _mainBorder)
+            this._mainBorder = _mainBorder;
         if (GetTemplateChild("PART_CheckBackground") is Border _checkedBackgroundBorder)
             this._checkedBackgroundBorder = _checkedBackgroundBorder;
+        if (GetTemplateChild("PART_Switch") is Border _switch)
+            this._switch = _switch;
 
         Loaded += (s, e) => SetSwitch();
         loaded = true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnChecked(RoutedEventArgs e)
     {
         base.OnChecked(e);
@@ -49,6 +51,10 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateChecked();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnUnchecked(RoutedEventArgs e)
     {
         base.OnUnchecked(e);
@@ -56,6 +62,10 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateUnhecked();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnIndeterminate(RoutedEventArgs e)
     {
         base.OnIndeterminate(e);
@@ -63,6 +73,10 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
             AnimateIndeterminate();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sizeInfo"></param>
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
@@ -70,48 +84,46 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         if (!loaded)
             return;
 
-        _width = _outerBorder!.RenderSize.Width;
-        _height = _outerBorder!.RenderSize.Height;
+        _width = _mainBorder!.RenderSize.Width;
+        _height = _mainBorder!.RenderSize.Height;
         _switchSize = _switch!.RenderSize.Height;
 
         SetSwitch();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void SetSwitch()
     {
-        _switch!.Measure(new Size(ActualWidth, ActualHeight));
-        _switch!.Width = _switchSize;
-        _switch!.Measure(new Size(ActualWidth, ActualHeight));
-        _switch.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
-        InstantSwitch();
-        _checkedBackgroundBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);
-        _checkedBackgroundBorder!.CornerRadius = new CornerRadius(_height / 2.0);
-        _outerBorder!.CornerRadius = new CornerRadius(_height / 2.0);
-        if (IsChecked == true)
-            _checkedBackgroundBorder.Opacity = 1;
-        else
-            _checkedBackgroundBorder.Opacity = 0;
+        if (_mainBorder != null)
+        {
+            _switch!.Measure(new Size(ActualWidth, ActualHeight));
+            _switch!.Width = _switchSize;
+            _switch!.Measure(new Size(ActualWidth, ActualHeight));
+            _switch.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
+            InstantSwitch();
+            _checkedBackgroundBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);
+            _checkedBackgroundBorder!.CornerRadius = new CornerRadius(_height / 2.0);
+            _mainBorder!.CornerRadius = new CornerRadius(_height / 2.0);
+            if (IsChecked == true)
+                _checkedBackgroundBorder.Opacity = 1;
+            else
+                _checkedBackgroundBorder.Opacity = 0;
+        }
     }
 
-    Thickness SwitchPadding(bool? state)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    Thickness SwitchPadding(bool? state) => state switch
     {
-        Thickness padding;
-        switch (state)
-        {
-            case false:
-                padding = new Thickness(0);
-                break;
-            case true:
-                padding = new Thickness(_width - _outerBorder!.BorderThickness.Left - _outerBorder.BorderThickness.Right - _outerBorder.Padding.Left - _outerBorder.Padding.Right - _switchSize,
-                    0, 0, 0);
-                break;
-            default:
-                padding = new Thickness((_width - _outerBorder!.BorderThickness.Left - _outerBorder.BorderThickness.Right - _outerBorder.Padding.Left - _outerBorder.Padding.Right - _switchSize) / 2,
-                    0, 0, 0);
-                break;
-        }
-        return padding;
-    }
+        false => new Thickness(0),
+        true => new Thickness(_width - _mainBorder!.BorderThickness.Left - _mainBorder.BorderThickness.Right - Padding.Left - Padding.Right - _switchSize, 0, 0, 0),
+        _ => new Thickness((_width - _mainBorder!.BorderThickness.Left - _mainBorder.BorderThickness.Right - Padding.Left - Padding.Right - _switchSize) / 2, 0, 0, 0),
+    };
     #endregion
 
     #region Main properties
@@ -167,24 +179,25 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the brush used to render the toggle.
     /// </summary>
-    public Brush CheckedBrush
+    public Brush? ToggleBrush
     {
-        get => (Brush)GetValue(CheckedBrushProperty);
-        set => SetValue(CheckedBrushProperty, value);
+        get => (Brush?)GetValue(ToggleBrushProperty);
+        set => SetValue(ToggleBrushProperty, value);
     }
-    public static readonly DependencyProperty CheckedBrushProperty
+    public static readonly DependencyProperty ToggleBrushProperty
         = DependencyProperty.Register(
-            nameof(CheckedBrush),
+            nameof(ToggleBrush),
             typeof(Brush),
-            typeof(StswToggleSwitch),
-            new PropertyMetadata(new LinearGradientBrush(Color.FromRgb(0, 130, 130), Color.FromRgb(0, 170, 170), 0.8))
+            typeof(StswToggleSwitch)
         );
-
     #endregion
 
     #region Animations
+    /// <summary>
+    /// 
+    /// </summary>
     void InstantSwitch()
     {
         var sb = new Storyboard();
@@ -208,7 +221,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         sb.Begin();
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     void AnimateChecked()
     {
         var sb = new Storyboard();
@@ -238,6 +253,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         sb.Begin();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void AnimateUnhecked()
     {
         var sb = new Storyboard();
@@ -267,6 +285,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         sb.Begin();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void AnimateIndeterminate()
     {
         var sb = new Storyboard();

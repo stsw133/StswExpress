@@ -51,6 +51,8 @@ public static class StswSecurity
     {
         if (key == null)
             throw new ArgumentNullException(nameof(Key));
+        if (key.Length < 16)
+            throw new FormatException(nameof(Key));
 
         using var aesAlg = Aes.Create();
         aesAlg.Key = Encoding.UTF8.GetBytes(key);
@@ -76,10 +78,12 @@ public static class StswSecurity
     {
         if (key == null)
             throw new ArgumentNullException(nameof(Key));
+        if (key.Length < 16)
+            throw new FormatException(nameof(Key));
 
         using var aesAlg = Aes.Create();
         aesAlg.Key = Encoding.UTF8.GetBytes(key);
-        aesAlg.IV = new byte[16]; // Initialization Vector
+        aesAlg.IV = new byte[16];
         var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
         using var msDecrypt = new MemoryStream(Convert.FromBase64String(text));

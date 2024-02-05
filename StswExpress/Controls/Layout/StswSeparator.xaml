@@ -44,5 +44,22 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <ControlTemplate x:Key="StswSeparatorEnabledTemplate" TargetType="{x:Type se:StswSeparator}">
+        <Border x:Name="PART_MainBorder"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                CornerRadius="{TemplateBinding CornerRadius}"/>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
+                <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_MainBorder"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_MainBorder"/>
+                <Setter Property="VerticalAlignment" Value="Stretch" TargetName="PART_MainBorder"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
 </ResourceDictionary>
