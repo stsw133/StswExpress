@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -172,6 +173,67 @@ public static class StswExtensions
         }
 
         throw new NotSupportedException("Failed to clone binding");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <returns></returns>
+    public static object? Copy(this object o)
+    {
+        var type = o.GetType();
+        var target = Activator.CreateInstance(type);
+        var propInfo = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (var pi in propInfo)
+        {
+            if (!pi.CanWrite)
+                continue;
+
+            if (IsListType(pi.PropertyType, out var innerType))
+            {
+                var listType = typeof(List<>).MakeGenericType(innerType);
+                var list = (IList?)Activator.CreateInstance(listType);
+                if (pi.GetValue(o, null) is IList oldList)
+                    foreach (var item in oldList)
+                        list?.Add(item.Copy());
+                pi.SetValue(target, list);
+            }
+            else if (pi.PropertyType.IsValueType || pi.PropertyType.IsEnum || pi.PropertyType == typeof(string))
+                pi.SetValue(target, pi.GetValue(o, null), null);
+            else
+            {
+                var propValue = pi.GetValue(o, null);
+                pi.SetValue(target, propValue == null ? null : Copy(propValue), null);
+            }
+        }
+
+
+        return target;
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="innerType"></param>
+    /// <returns></returns>
+    internal static bool IsListType(this Type type, out Type innerType)
+    {
+        var interfaceTest = new Func<Type, Type>(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>) ? i.GetGenericArguments().Single() : null);
+
+        innerType = interfaceTest(type);
+        if (innerType != null)
+            return true;
+
+        foreach (var i in type.GetInterfaces())
+        {
+            innerType = interfaceTest(i);
+            if (innerType != null)
+                return true;
+        }
+
+        return false;
     }
     #endregion
 
