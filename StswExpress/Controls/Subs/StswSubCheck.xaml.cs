@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>
-public class StswSubCheck : CheckBox, IStswSubControl//, IStswIconControl
+public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//, IStswIconControl
 {
     static StswSubCheck()
     {
@@ -15,66 +15,6 @@ public class StswSubCheck : CheckBox, IStswSubControl//, IStswIconControl
     }
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the geometry used for the icon in the checked state.
-    /// </summary>
-    public Geometry? IconChecked
-    {
-        get => (Geometry?)GetValue(IconCheckedProperty);
-        set => SetValue(IconCheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconCheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconChecked),
-            typeof(Geometry),
-            typeof(StswSubCheck)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon in the indeterminate state.
-    /// </summary>
-    public Geometry? IconIndeterminate
-    {
-        get => (Geometry?)GetValue(IconIndeterminateProperty);
-        set => SetValue(IconIndeterminateProperty, value);
-    }
-    public static readonly DependencyProperty IconIndeterminateProperty
-        = DependencyProperty.Register(
-            nameof(IconIndeterminate),
-            typeof(Geometry),
-            typeof(StswSubCheck)
-        );
-
-    /// <summary>
-    /// Gets or sets the scale of the icon.
-    /// </summary>
-    public GridLength IconScale
-    {
-        get => (GridLength)GetValue(IconScaleProperty);
-        set => SetValue(IconScaleProperty, value);
-    }
-    public static readonly DependencyProperty IconScaleProperty
-        = DependencyProperty.Register(
-            nameof(IconScale),
-            typeof(GridLength),
-            typeof(StswSubCheck)
-        );
-
-    /// <summary>
-    /// Gets or sets the geometry used for the icon in the unchecked state.
-    /// </summary>
-    public Geometry? IconUnchecked
-    {
-        get => (Geometry?)GetValue(IconUncheckedProperty);
-        set => SetValue(IconUncheckedProperty, value);
-    }
-    public static readonly DependencyProperty IconUncheckedProperty
-        = DependencyProperty.Register(
-            nameof(IconUnchecked),
-            typeof(Geometry),
-            typeof(StswSubCheck)
-        );
-
     /// <summary>
     /// Gets or sets a value indicating whether the control is in a busy/loading state.
     /// </summary>

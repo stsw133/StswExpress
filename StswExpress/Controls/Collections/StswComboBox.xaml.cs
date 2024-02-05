@@ -86,6 +86,22 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
+    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
+    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
+    /// </summary>
+    public StswPopupModel Popup
+    {
+        get => (StswPopupModel)GetValue(PopupProperty);
+        set => SetValue(PopupProperty, value);
+    }
+    public static readonly DependencyProperty PopupProperty
+        = DependencyProperty.Register(
+            nameof(Popup),
+            typeof(StswPopupModel),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between arrow icon and main button.
     /// </summary>
     public double SeparatorThickness

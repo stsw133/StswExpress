@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -11,12 +9,8 @@ namespace StswExpress;
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswSubDrop : ItemsControl, IStswSubControl, IStswDropControl, IStswIconControl
+public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, IStswDropControl, IStswIconControl
 {
-    public StswSubDrop()
-    {
-        Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnPreviewMouseDownOutsideCapturedElement);
-    }
     static StswSubDrop()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubDrop), new FrameworkPropertyMetadata(typeof(StswSubDrop)));
@@ -144,51 +138,6 @@ public class StswSubDrop : ItemsControl, IStswSubControl, IStswDropControl, ISts
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
-    /// </summary>
-    public bool IsDropDownOpen
-    {
-        get => (bool)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
-    }
-    public static readonly DependencyProperty IsDropDownOpenProperty
-        = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(StswSubDrop),
-            new FrameworkPropertyMetadata(default(bool),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnIsDropDownOpenChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnIsDropDownOpenChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSubDrop stsw)
-        {
-            if (stsw.IsDropDownOpen)
-                _ = Mouse.Capture(stsw, CaptureMode.SubTree);
-            else
-                _ = Mouse.Capture(null);
-        }
-    }
-    private void OnPreviewMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e) => SetCurrentValue(IsDropDownOpenProperty, false);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the drop button is in read-only mode.
-    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-    public static readonly DependencyProperty IsReadOnlyProperty
-        = DependencyProperty.Register(
-            nameof(IsReadOnly),
-            typeof(bool),
-            typeof(StswSubDrop)
-        );
-
-    /// <summary>
     /// Gets or sets the orientation of the control.
     /// </summary>
     public Orientation Orientation
@@ -205,23 +154,6 @@ public class StswSubDrop : ItemsControl, IStswSubControl, IStswDropControl, ISts
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswSubDrop)
-        );
-
     /// <summary>
     /// Gets or sets the fill brush of the icon.
     /// </summary>
@@ -265,22 +197,6 @@ public class StswSubDrop : ItemsControl, IStswSubControl, IStswDropControl, ISts
             nameof(IconStrokeThickness),
             typeof(double),
             typeof(StswSubDrop)
-        );
-
-    /// <summary>
-    /// Gets or sets the maximum height of the drop-down portion of the control.
-    /// </summary>
-    public double MaxDropDownHeight
-    {
-        get => (double)GetValue(MaxDropDownHeightProperty);
-        set => SetValue(MaxDropDownHeightProperty, value);
-    }
-    public static readonly DependencyProperty MaxDropDownHeightProperty
-        = DependencyProperty.Register(
-            nameof(MaxDropDownHeight),
-            typeof(double),
-            typeof(StswSubDrop),
-            new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
         );
     #endregion
 }

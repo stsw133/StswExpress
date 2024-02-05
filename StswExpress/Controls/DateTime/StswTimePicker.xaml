@@ -44,8 +44,15 @@
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.ClockOutline}"/>
                                 </se:StswDropButton.Header>
+                                <se:StswDropButton.Popup>
+                                    <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
+                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                                       BorderThickness="2"
+                                                       CornerClipping="False"
+                                                       CornerRadius="0"
+                                                       Padding="0"/>
+                                </se:StswDropButton.Popup>
                                 <se:StswDropButton.Resources>
-                                    <CornerRadius x:Key="StswPopup.CornerRadius.Border">0</CornerRadius>
                                     <Style TargetType="{x:Type se:StswDropArrow}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </Style>

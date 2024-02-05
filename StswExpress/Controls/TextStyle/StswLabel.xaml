@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswLabel}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -17,9 +20,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLabel}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- button -->
                             <se:StswToggleButton x:Name="PART_TruncationButton"
@@ -58,7 +64,7 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
-                    </Border>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

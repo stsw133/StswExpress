@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>
-public class StswSubRadio : RadioButton, IStswSubControl, IStswIconControl
+public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubRadio()
     {

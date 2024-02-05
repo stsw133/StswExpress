@@ -5,7 +5,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that functions as a sub control and displays an icon.
 /// </summary>
-public class StswSubHeader : StswHeader, IStswSubControl, IStswIconControl
+public class StswSubHeader : StswHeader, IStswSubControl, IStswCornerControl, IStswIconControl
 {
     static StswSubHeader()
     {

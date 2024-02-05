@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswHeader}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
         
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
@@ -21,18 +24,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswHeader}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel Margin="{TemplateBinding Padding}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <!-- icon -->
                             <ContentControl x:Name="PART_Icon" Focusable="False"/>
-                            <!-- content -->
                             <ContentPresenter x:Name="PART_Content" Focusable="False"/>
                         </DockPanel>
-                    </Border>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IconSource" Value="{x:Null}">
                             <Setter Property="ContentTemplate" TargetName="PART_Icon">

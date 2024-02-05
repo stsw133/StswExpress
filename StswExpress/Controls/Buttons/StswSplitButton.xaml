@@ -12,6 +12,17 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="Popup">
+            <Setter.Value>
+                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
+                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
+                                   BorderThickness="2"
+                                   CornerClipping="True"
+                                   CornerRadius="10"
+                                   Padding="0"/>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -58,10 +69,15 @@
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- popup -->
-                            <se:StswPopup IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswPopup Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                          BorderBrush="{Binding Popup.BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                          BorderThickness="{Binding Popup.BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
+                                          CornerClipping="{Binding Popup.CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
+                                          CornerRadius="{Binding Popup.CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                           MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Padding="0"
+                                          Padding="{Binding Popup.Padding, RelativeSource={RelativeSource TemplatedParent}}"
                                           Placement="Bottom"
                                           PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                           PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
