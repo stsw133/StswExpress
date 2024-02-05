@@ -3,7 +3,10 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswCheckBox}">
+        <Setter Property="Background" Value="{DynamicResource StswCheck.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Static.Border}"/>
         <Setter Property="GlyphBrush" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+        
         <Setter Property="IconUnchecked" Value="{DynamicResource StswCheck.Unchecked.Icon}"/>
         <Setter Property="IconChecked" Value="{DynamicResource StswCheck.Checked.Icon}"/>
         <Setter Property="IconIndeterminate" Value="{DynamicResource StswCheck.Indeterminate.Icon}"/>
@@ -61,9 +64,10 @@
                             <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/>
                             <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="PART_MainBorder"/>
                         </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Static.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Static.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Data" Value="{Binding IconUnchecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
@@ -71,19 +75,10 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Static.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Data" Value="{Binding IconChecked, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Static.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Static.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Data" Value="{Binding IconIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_Icon"/>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.MouseOver.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True"/>
-                                <Condition Property="IsChecked" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.MouseOver.Border}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
@@ -92,22 +87,10 @@
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.MouseOver.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.MouseOver.Border}" TargetName="PART_MainBorder"/>
                         </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True"/>
-                                <Condition Property="IsChecked" Value="{x:Null}"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.MouseOver.Border}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsPressed" Value="True"/>
-                                <Condition Property="IsChecked" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Pressed.Border}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Pressed.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Pressed.Border}" TargetName="PART_MainBorder"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
@@ -116,24 +99,12 @@
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsPressed" Value="True"/>
-                                <Condition Property="IsChecked" Value="{x:Null}"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Pressed.Border}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsChecked" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Unchecked.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Unchecked.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Unchecked.Disabled.Foreground}" TargetName="PART_Icon"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Unchecked.Disabled.Foreground}"/>
-                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Disabled.Glyph}" TargetName="PART_Icon"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Disabled.Foreground}"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsEnabled" Value="False"/>
@@ -141,18 +112,8 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}" TargetName="PART_Icon"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.Disabled.Glyph}" TargetName="PART_Icon"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Checked.Disabled.Foreground}"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsChecked" Value="{x:Null}"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Background}" TargetName="PART_MainBorder"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Foreground}" TargetName="PART_Icon"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswCheck.Indeterminate.Disabled.Foreground}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

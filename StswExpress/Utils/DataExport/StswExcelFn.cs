@@ -1,5 +1,4 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -12,12 +11,12 @@ namespace StswExpress;
 /// <summary>
 /// Provides a method for exporting data to various file formats.
 /// </summary>
-public static class StswExport
+public static class StswExcelFn
 {
     /// <summary>
     /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
     /// </summary>
-    public static void ExportToExcel(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile, StswExportParameters? additionalParameters = null)
+    public static void ExportTo(IDictionary<string, IEnumerable> sheetsWithData, string? filePath, bool openFile, StswExportParameters? additionalParameters = null)
     {
         if (filePath == null)
         {
@@ -99,13 +98,13 @@ public static class StswExport
     /// <summary>
     /// Exports an <see cref="IEnumerable"/> to an Excel file in form of a table.
     /// </summary>
-    public static void ExportToExcel((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile, StswExportParameters? parameters = null)
+    public static void ExportTo((string name, IEnumerable data) sheetWithData, string? filePath, bool openFile, StswExportParameters? parameters = null)
     {
         var dict = new Dictionary<string, IEnumerable>
         {
             { sheetWithData.name, sheetWithData.data }
         };
-        ExportToExcel(dict, filePath, openFile, parameters);
+        ExportTo(dict, filePath, openFile, parameters);
     }
 
     /// <summary>
@@ -125,7 +124,7 @@ public static class StswExport
 }
 
 /// <summary>
-/// A class that is a attribute used for <see cref="StswExport"/> function to control exporting behavior for specific properties.
+/// A class that is a attribute used for <see cref="StswExcelFn"/> function to control exporting behavior for specific properties.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
 public class StswExportAttribute : Attribute

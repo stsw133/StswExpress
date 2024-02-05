@@ -253,7 +253,7 @@ public static class StswExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="T"/> to different type.
+    /// Converts <see cref="{T}"/> to different type.
     /// </summary>
     /// <param name="o">Object to convert.</param>
     /// <returns>Object of different type.</returns>
