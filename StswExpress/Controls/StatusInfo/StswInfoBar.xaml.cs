@@ -34,10 +34,10 @@ public class StswInfoBar : Control, IStswCornerControl
     /// <param name="e">The event arguments</param>
     private void FunctionButton_Click(object sender, RoutedEventArgs e)
     {
-        if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel and not null)
+        if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel)
         {
             var item = panel.ItemContainerGenerator.ItemFromContainer(VisualParent);
-            if (panel.ItemsSource is IList list and not null)
+            if (panel.ItemsSource is IList list)
                 list.Remove(item);
             else
                 panel.Items?.Remove(item);

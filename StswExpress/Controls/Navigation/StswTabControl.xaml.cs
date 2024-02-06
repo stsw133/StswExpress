@@ -53,7 +53,7 @@ public class StswTabControl : TabControl
         };
 
         int index = -1;
-        if (ItemsSource is IList list and not null)
+        if (ItemsSource is IList list)
             index = list.Add(newTab);
         else if (Items != null)
             index = Items.Add(newTab);

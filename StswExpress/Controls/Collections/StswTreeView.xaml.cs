@@ -29,7 +29,7 @@ public class StswTreeView : TreeView, IStswCornerControl
 
         //var selectedItem = FindAllTreeItems(this).FirstOrDefault(x => x.IsSelected);
         //if (selectedItem != null)
-        //    while (StswFn.FindVisualAncestor<TreeViewItem>(selectedItem) is TreeViewItem item and not null)
+        //    while (StswFn.FindVisualAncestor<TreeViewItem>(selectedItem) is TreeViewItem item)
         //    {
         //        item.IsExpanded = true;
         //        selectedItem = item;

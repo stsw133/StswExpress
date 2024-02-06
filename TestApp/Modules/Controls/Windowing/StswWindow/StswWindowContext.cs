@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TestApp;
@@ -22,9 +23,9 @@ public class StswWindowContext : ControlsContext
             Height = 450,
             Width = 750
         };
-        window.SetBinding(StswWindow.IsEnabledProperty, new Binding()
+        window.SetBinding(UIElement.IsEnabledProperty, new Binding()
         {
-            Path = new System.Windows.PropertyPath(nameof(IsEnabled)),
+            Path = new PropertyPath(nameof(IsEnabled)),
             Source = this
         });
         window.Show();

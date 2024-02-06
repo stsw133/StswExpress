@@ -39,7 +39,7 @@ public class StswTabItem : TabItem
         var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);
         if (tabControl != null)
         {
-            if (tabControl.ItemsSource is IList list and not null)
+            if (tabControl.ItemsSource is IList list)
                 list.Remove(this);
             else
                 tabControl.Items?.Remove(this);

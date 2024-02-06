@@ -95,7 +95,7 @@ public class StswMediaPlayer : ItemsControl
             if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
                 return true;
         }
-        else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info and not null)
+        else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
         {
             var files = Directory.GetFiles(info.FullName).ToList();
             if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
@@ -116,11 +116,11 @@ public class StswMediaPlayer : ItemsControl
             {
                 if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
                 {
-                    Source = new Uri(Items[index + step].ToString());
+                    Source = new Uri(Items[index + step].ToString()!);
                     mediaElement.Play();
                 }
             }
-            else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info and not null)
+            else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
             {
                 var files = Directory.GetFiles(info.FullName).ToList();
                 if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))

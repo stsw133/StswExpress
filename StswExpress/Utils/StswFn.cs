@@ -135,7 +135,7 @@ public static class StswFn
     {
         if (obj != null)
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child and not null)
+                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child)
                 {
                     if (child is T t)
                         yield return t;

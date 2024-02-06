@@ -16,6 +16,7 @@ public class StswHeaderContext : ControlsContext
         IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
         IsContentVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentVisible)))?.Value ?? default;
+        IsHighlighted = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsHighlighted)))?.Value ?? default;
         Orientation = (Orientation?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Orientation)))?.Value ?? default;
     }
 
@@ -41,6 +42,14 @@ public class StswHeaderContext : ControlsContext
     {
         get => isContentVisible;
         set => SetProperty(ref isContentVisible, value);
+    }
+
+    /// IsHighlighted
+    private bool isHighlighted;
+    public bool IsHighlighted
+    {
+        get => isHighlighted;
+        set => SetProperty(ref isHighlighted, value);
     }
 
     /// Orientation

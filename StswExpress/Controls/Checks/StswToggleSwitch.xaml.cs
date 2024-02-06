@@ -98,9 +98,9 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         if (_mainBorder != null)
         {
-            _switch!.Measure(new Size(ActualWidth, ActualHeight));
+            _switch!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
             _switch!.Width = _switchSize;
-            _switch!.Measure(new Size(ActualWidth, ActualHeight));
+            _switch!.Measure(new Size(_mainBorder.ActualWidth, _mainBorder.ActualHeight));
             _switch.CornerRadius = new CornerRadius(_switchSize * 1.2 / 2.0);
             InstantSwitch();
             _checkedBackgroundBorder!.Margin = new Thickness(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom);

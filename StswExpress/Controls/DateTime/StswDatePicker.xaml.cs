@@ -181,7 +181,7 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
     {
         if (obj is StswDatePicker stsw)
         {
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
+            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
                 var newBinding = binding.Clone();
                 newBinding.StringFormat = stsw.Format;

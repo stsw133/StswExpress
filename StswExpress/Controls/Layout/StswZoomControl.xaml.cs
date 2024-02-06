@@ -17,8 +17,8 @@ public class StswZoomControl : Border
     }
 
     #region Events & methods
-    private UIElement? child = null;
-    private Point origin, start;
+    private UIElement? _child;
+    private Point _origin, _start;
 
     /// <summary>
     /// 
@@ -26,14 +26,14 @@ public class StswZoomControl : Border
     /// <param name="element"></param>
     public void Initialize(UIElement element)
     {
-        child = element;
-        if (child != null)
+        _child = element;
+        if (_child != null)
         {
             var group = new TransformGroup();
             group.Children.Add(new ScaleTransform());
             group.Children.Add(new TranslateTransform());
-            child.RenderTransform = group;
-            child.RenderTransformOrigin = new Point(0.0, 0.0);
+            _child.RenderTransform = group;
+            _child.RenderTransformOrigin = new Point(0.0, 0.0);
             MouseLeftButtonDown += child_MouseLeftButtonDown;
             MouseLeftButtonUp += child_MouseLeftButtonUp;
             MouseMove += child_MouseMove;
@@ -61,15 +61,15 @@ public class StswZoomControl : Border
     /// </summary>
     public void Reset()
     {
-        if (child != null)
+        if (_child != null)
         {
             /// reset zoom
-            var st = GetScaleTransform(child);
+            var st = GetScaleTransform(_child);
             st.ScaleX = 1.0;
             st.ScaleY = 1.0;
 
             /// reset pan
-            var tt = GetTranslateTransform(child);
+            var tt = GetTranslateTransform(_child);
             tt.X = 0.0;
             tt.Y = 0.0;
         }
@@ -82,15 +82,15 @@ public class StswZoomControl : Border
     /// <param name="e">The event arguments</param>
     private void child_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (child != null)
+        if (_child != null)
         {
-            var st = GetScaleTransform(child);
-            var tt = GetTranslateTransform(child);
+            var st = GetScaleTransform(_child);
+            var tt = GetTranslateTransform(_child);
 
             if (e.Delta <= 0 && (st.ScaleX < 0.4 || st.ScaleY < 0.4))
                 return;
 
-            var relative = e.GetPosition(child);
+            var relative = e.GetPosition(_child);
             var absoluteX = relative.X * st.ScaleX + tt.X;
             var absoluteY = relative.Y * st.ScaleY + tt.Y;
 
@@ -110,13 +110,13 @@ public class StswZoomControl : Border
     /// <param name="e">The event arguments</param>
     private void child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (child != null)
+        if (_child != null)
         {
-            var tt = GetTranslateTransform(child);
-            start = e.GetPosition(this);
-            origin = new Point(tt.X, tt.Y);
+            var tt = GetTranslateTransform(_child);
+            _start = e.GetPosition(this);
+            _origin = new Point(tt.X, tt.Y);
             Cursor = Cursors.Hand;
-            child.CaptureMouse();
+            _child.CaptureMouse();
         }
     }
 
@@ -127,9 +127,9 @@ public class StswZoomControl : Border
     /// <param name="e">The event arguments</param>
     private void child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (child != null)
+        if (_child != null)
         {
-            child.ReleaseMouseCapture();
+            _child.ReleaseMouseCapture();
             Cursor = Cursors.Arrow;
         }
     }
@@ -148,12 +148,12 @@ public class StswZoomControl : Border
     /// <param name="e">The event arguments</param>
     private void child_MouseMove(object sender, MouseEventArgs e)
     {
-        if (child?.IsMouseCaptured == true)
+        if (_child?.IsMouseCaptured == true)
         {
-            var tt = GetTranslateTransform(child);
-            var v = start - e.GetPosition(this);
-            tt.X = origin.X - v.X;
-            tt.Y = origin.Y - v.Y;
+            var tt = GetTranslateTransform(_child);
+            var v = _start - e.GetPosition(this);
+            tt.X = _origin.X - v.X;
+            tt.Y = _origin.Y - v.Y;
         }
     }
     #endregion

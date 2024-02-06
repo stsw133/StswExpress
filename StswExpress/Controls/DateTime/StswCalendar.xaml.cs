@@ -247,9 +247,9 @@ public class StswCalendar : Control, IStswCornerControl
             if (stsw.SelectedDate.HasValue)
                 stsw.SelectedMonth = new DateTime(stsw.SelectedDate.Value.Year, stsw.SelectedDate.Value.Month, 1);
 
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarDay oldDay and not null)
+            if (stsw.ListDays.FirstOrDefault(x => x.Date == ((DateTime?)e.OldValue)?.Date) is StswCalendarDay oldDay)
                 oldDay.IsSelected = false;
-            if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay and not null)
+            if (stsw.ListDays.FirstOrDefault(x => x.Date == stsw.SelectedDate?.Date) is StswCalendarDay newDay)
                 newDay.IsSelected = true;
 
             stsw.SelectedDateChanged?.Invoke(stsw, EventArgs.Empty);

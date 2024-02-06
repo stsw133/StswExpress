@@ -29,7 +29,7 @@ public sealed partial class StswSettings
                 }
             case nameof(Default.Theme):
                 {
-                    if (StswResources.GetInstance() is StswResources theme and not null)
+                    if (StswResources.GetInstance() is StswResources theme)
                         theme.Theme = (StswTheme)e.NewValue;
                     break;
                 }

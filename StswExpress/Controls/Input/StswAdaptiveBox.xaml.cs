@@ -170,9 +170,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
                 else
                 {
                     /// find type based on binded property type
-                    if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b and not null)
+                    if (stsw.GetBindingExpression(ValueProperty) is BindingExpression b)
                     {
-                        if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t and not null)
+                        if (b.ResolvedSource?.GetType()?.GetProperty(b.ResolvedSourcePropertyName)?.PropertyType is Type t)
                         {
                             if (t.In(typeof(bool), typeof(bool?)))
                                 stsw.Type = StswAdaptiveType.Check;

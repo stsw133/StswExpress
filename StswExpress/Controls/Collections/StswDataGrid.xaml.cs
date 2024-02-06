@@ -230,7 +230,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
                 specialColumn.IsReadOnly = true;
 
                 /// set visibility for header
-                //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid and not null)
+                //if (specialColumn?.HeaderTemplate?.Template is TemplateContent grid)
                 //    grid.Visibility = stsw.SpecialColumnVisibility == StswSpecialColumnVisibility.All ? Visibility.Visible : Visibility.Collapsed;
 
                 /// triggers

@@ -106,12 +106,16 @@
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#CFC5CA"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Background" Color="#C7A7B7"/>
-    <SolidColorBrush x:Key="StswItem.Checked.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Foreground" Color="#999"/>
-    <SolidColorBrush x:Key="StswItem.CheckedDisabled.Background" Color="#DFBFCF"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Static.Background" Color="#C7A7B7"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Static.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Background" Color="#BF9FAF"/>
+    <SolidColorBrush x:Key="StswItem.Checked.MouseOver.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Background" Color="#DFBFCF"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Border" Color="Transparent"/>
+    <SolidColorBrush x:Key="StswItem.Checked.Disabled.Foreground" Color="#666"/>
 
     <!-- Color -->
     <SolidColorBrush x:Key="StswColorPicker.Static.Background" Color="Transparent"/>
@@ -270,6 +274,8 @@
     <SolidColorBrush x:Key="StswText.Static.Foreground" Color="#402"/>
     <SolidColorBrush x:Key="StswText.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswText.Disabled.Foreground" Color="#999"/>
+    <SolidColorBrush x:Key="StswText.Highlighted.Static.Foreground" Color="HotPink"/>
+    <SolidColorBrush x:Key="StswText.Highlighted.Disabled.Foreground" Color="LightPink"/>
 
     <!-- Windowing -->
     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#FFF5FA"/>

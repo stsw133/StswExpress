@@ -11,42 +11,42 @@
     </d:UserControl.DataContext>
 
     <DockPanel>
-        <DockPanel Width="150">
+        <DockPanel>
             <!-- button panel -->
-            <se:StswDirectionViewer DockPanel.Dock="Top" CornerRadius="0" Margin="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <se:StswDirectionViewer DockPanel.Dock="Top" CornerRadius="0" Padding="3" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Orientation="Horizontal">
                     <se:StswSubButton Command="{Binding MoveUpCommand}"
                                       IconData="{x:Static se:StswIcons.ArrowUp}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding MoveUpCommand.IsWorking}"
                                       ToolTip="Move selected database up"/>
                     <se:StswSubButton Command="{Binding MoveDownCommand}"
                                       IconData="{x:Static se:StswIcons.ArrowDown}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding MoveDownCommand.IsWorking}"
                                       ToolTip="Move selected database down"/>
                     <se:StswSubButton Command="{Binding AddCommand}"
                                       Foreground="{DynamicResource StswColor.Positive}"
                                       IconData="{x:Static se:StswIcons.Plus}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding AddCommand.IsWorking}"
                                       ToolTip="Add new database"/>
                     <se:StswSubButton Command="{Binding RemoveCommand}"
                                       Foreground="{DynamicResource StswColor.Negative}"
                                       IconData="{x:Static se:StswIcons.Minus}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding RemoveCommand.IsWorking}"
                                       ToolTip="Remove selected database"/>
                     <se:StswSubButton Command="{Binding ImportCommand}"
                                       Foreground="{DynamicResource StswColor.Neutral}"
                                       IconData="{x:Static se:StswIcons.Refresh}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding ImportCommand.IsWorking}"
                                       ToolTip="Import list of databases"/>
                     <se:StswSubButton Command="{Binding ExportCommand}"
                                       Foreground="{DynamicResource StswColor.Modify}"
                                       IconData="{x:Static se:StswIcons.DatabaseExportOutline}"
-                                      IconScale="2"
+                                      IconScale="1.5"
                                       IsBusy="{Binding ExportCommand.IsWorking}"
                                       ToolTip="Export list of databases"/>
                 </StackPanel>

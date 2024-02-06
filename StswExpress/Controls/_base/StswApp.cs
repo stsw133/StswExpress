@@ -30,7 +30,7 @@ public class StswApp : Application
             {
                 Current.Shutdown();
 
-                if (otherInstances.FirstOrDefault(x => x.Id != Process.GetCurrentProcess().Id) is Process originalProcess and not null)
+                if (otherInstances.FirstOrDefault(x => x.Id != Process.GetCurrentProcess().Id) is Process originalProcess)
                 {
                     if (originalProcess.MainWindowHandle != IntPtr.Zero)
                         SetForegroundWindow(originalProcess.MainWindowHandle);

@@ -177,7 +177,7 @@ public class StswTimePicker : TextBox, IStswBoxControl, IStswCornerControl
     {
         if (obj is StswTimePicker stsw)
         {
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
+            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
                 var newBinding = binding.Clone();
                 newBinding.StringFormat = stsw.Format;

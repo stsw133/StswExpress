@@ -87,7 +87,7 @@ public class ContractorsListContext : StswObservableObject
     {
         LoadingActions++;
 
-        if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
+        if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem)
         {
             if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
             {
@@ -97,7 +97,7 @@ public class ContractorsListContext : StswObservableObject
                 //    newContext.ID = 0;
                 //    newContext.IsCloned = false;
                 //
-                //    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
+                //    if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
                 //    {
                 //        header.Content = $"New contractor";
                 //        header.IconData = StswIcons.AccountPlus;
@@ -132,7 +132,7 @@ public class ContractorsListContext : StswObservableObject
 
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {
-            if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
+            if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem)
             {
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
@@ -142,7 +142,7 @@ public class ContractorsListContext : StswObservableObject
                         newContext.ID = m.ID;
                         newContext.IsCloned = true;
 
-                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
                         {
                             header.Content = $"Cloning contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountPlus;
@@ -187,7 +187,7 @@ public class ContractorsListContext : StswObservableObject
 
         if (SelectedContractor is ContractorModel m && m.ID > 0)
         {
-            if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem and not null)
+            if (ContractorsContext.Tabs_.FirstOrDefault() is StswTabItem tabItem)
             {
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
@@ -198,7 +198,7 @@ public class ContractorsListContext : StswObservableObject
                         newContext.ID = m.ID;
                         newContext.IsCloned = false;
 
-                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header and not null)
+                        if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Header is StswHeader header)
                         {
                             header.Content = $"Editing contractor (ID: {newContext.ID})";
                             header.IconData = StswIcons.AccountEdit;
@@ -257,7 +257,7 @@ public class ContractorsListContext : StswObservableObject
 
         LoadingActions--;
     }
-    private bool DeleteCondition() => SelectedContractor is ContractorModel m and not null;
+    private bool DeleteCondition() => SelectedContractor is ContractorModel m;
 
     #endregion
 

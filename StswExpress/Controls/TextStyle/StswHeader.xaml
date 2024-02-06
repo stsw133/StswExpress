@@ -95,9 +95,23 @@
                             <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
                             <Setter Property="Margin" Value="0 4 0 0" TargetName="PART_Content"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsHighlighted" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False"/>
+                                <Condition Property="IsHighlighted" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Disabled.Foreground}" TargetName="PART_Content"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

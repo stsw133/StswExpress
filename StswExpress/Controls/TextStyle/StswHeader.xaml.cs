@@ -185,5 +185,20 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
             typeof(double),
             typeof(StswHeader)
         );
+
+    /// <summary>
+    /// Gets or sets the highlighted style for the control.
+    /// </summary>
+    public bool IsHighlighted
+    {
+        get => (bool)GetValue(IsHighlightedProperty);
+        set => SetValue(IsHighlightedProperty, value);
+    }
+    public static readonly DependencyProperty IsHighlightedProperty
+        = DependencyProperty.Register(
+            nameof(IsHighlighted),
+            typeof(bool),
+            typeof(StswHeader)
+        );
     #endregion
 }

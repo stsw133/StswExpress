@@ -111,15 +111,25 @@
                                     <Trigger Property="IsExpanded" Value="False">
                                         <Setter Property="Visibility" TargetName="PART_Items" Value="Collapsed"/>
                                     </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True" SourceName="PART_Border">
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Static.Background}" TargetName="PART_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Static.Border}" TargetName="PART_Border"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource StswItem.MouseOver.Background}" TargetName="PART_Border"/>
                                         <Setter Property="BorderBrush" Value="{DynamicResource StswItem.MouseOver.Border}" TargetName="PART_Border"/>
                                     </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Background}" TargetName="PART_Border"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Border}" TargetName="PART_Border"/>
-                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True"/>
+                                            <Condition Property="IsSelected" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.MouseOver.Background}" TargetName="PART_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.MouseOver.Border}" TargetName="PART_Border"/>
+                                    </MultiTrigger>
                                     <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Disabled.Background}" TargetName="PART_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Disabled.Border}" TargetName="PART_Border"/>
                                         <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Disabled.Foreground}"/>
                                     </Trigger>
                                     <MultiTrigger>
@@ -127,7 +137,9 @@
                                             <Condition Property="IsSelected" Value="True"/>
                                             <Condition Property="IsEnabled" Value="False"/>
                                         </MultiTrigger.Conditions>
-                                        <Setter Property="Background" Value="{DynamicResource StswItem.CheckedDisabled.Background}" TargetName="PART_Border"/>
+                                        <Setter Property="Background" Value="{DynamicResource StswItem.Checked.Disabled.Background}" TargetName="PART_Border"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource StswItem.Checked.Disabled.Border}" TargetName="PART_Border"/>
+                                        <Setter Property="TextElement.Foreground" Value="{DynamicResource StswItem.Checked.Disabled.Foreground}"/>
                                     </MultiTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

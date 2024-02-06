@@ -55,7 +55,7 @@ public class StswBorder : Border, IStswCornerControl
     /// </summary>
     protected virtual void OnApplyChildClip()
     {
-        if (Child is UIElement child and not null)
+        if (Child is UIElement child)
         {
             _clipRect.RadiusX = _clipRect.RadiusY = Math.Max(0.0, CornerRadius.TopLeft - BorderThickness.Left * 0.5);
             _clipRect.Rect = new Rect(Child.RenderSize);

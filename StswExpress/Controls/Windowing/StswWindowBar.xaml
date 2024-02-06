@@ -56,6 +56,8 @@
                                 </se:StswButton>
 
                                 <StackPanel.Resources>
+                                    <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
+                                    
                                     <Style TargetType="{x:Type se:StswOutlinedText}">
                                         <Setter Property="Fill" Value="White"/>
                                         <Setter Property="Stroke" Value="Black"/>

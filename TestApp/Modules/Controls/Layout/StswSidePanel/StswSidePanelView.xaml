@@ -25,29 +25,30 @@
                           VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <Border BorderBrush="{DynamicResource StswBorder.Static.Border}" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <UniformGrid HorizontalAlignment="Center" Rows="1">
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding MinimizeCommand}">
-                        <se:StswIcon Data="{x:Static se:StswIcons.WindowMinimize}"/>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="1">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Dice1}"/>
                     </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding MaximizeCommand}">
-                        <se:StswIcon Data="{x:Static se:StswIcons.WindowMaximize}"/>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="2">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Dice2}"/>
                     </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding RestoreCommand}">
-                        <se:StswIcon Data="{x:Static se:StswIcons.WindowRestore}"/>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="3">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Dice3}"/>
                     </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding FullscreenCommand}">
-                        <se:StswIcon Data="{x:Static se:StswIcons.Fullscreen}"/>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="4">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Dice4}"/>
                     </se:StswButton>
-                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding CloseCommand}">
-                        <se:StswButton.Resources>
-                            <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="#BE22"/>
-                            <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="#7E22"/>
-                        </se:StswButton.Resources>
-                        <se:StswIcon Data="{x:Static se:StswIcons.WindowClose}"/>
+                    <se:StswButton BorderThickness="0" CornerRadius="0" Command="{Binding OnClickCommand}" CommandParameter="5">
+                        <se:StswIcon Data="{x:Static se:StswIcons.Dice5}"/>
                     </se:StswButton>
                 </UniformGrid>
             </Border>
         </se:StswSidePanel>
         <!-- status panel -->
-
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
+                <Run Text="You clicked option "/>
+                <Run Text="{Binding ClickOption}" FontWeight="Bold"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

@@ -36,8 +36,10 @@
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="{TemplateBinding CornerClipping}"
-                                       CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid Margin="{TemplateBinding Padding}"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       HorizontalAlignment="Left">
+                            <Grid x:Name="PART_Grid"
+                                  Margin="{TemplateBinding Padding}"
                                   Height="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=12}"
                                   Width="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=24}">
                                 <Border x:Name="PART_CheckBackground"
@@ -58,18 +60,14 @@
                         <!-- content -->
                         <ContentPresenter x:Name="PART_Content" Grid.Column="1"
                                           Focusable="False"
+                                          Margin="4 0 0 0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>
-                        </Trigger>
-                        <Trigger Property="HasContent" Value="True">
-                            <Setter Property="Margin" Value="4 0 0 0" TargetName="PART_Content"/>
-                            <!-- <Setter Property="HorizontalAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/> -->
-                            <!-- <Setter Property="VerticalAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" TargetName="PART_MainBorder"/> -->
-                            <!-- <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" TargetName="PART_MainBorder"/> -->
+                            <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Static.Background}" TargetName="PART_MainBorder"/>

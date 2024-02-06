@@ -41,7 +41,7 @@ public static class StswLog
 
             using var sr = new StreamReader(logFile);
             while (!sr.EndOfStream)
-                if (sr.ReadLine() is string l and not null)
+                if (sr.ReadLine() is string l)
                 {
                     if (DateTime.TryParse(l[..19], out var _))
                     {

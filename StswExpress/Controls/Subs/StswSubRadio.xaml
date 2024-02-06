@@ -45,6 +45,7 @@
                                    IconStrokeThickness="{TemplateBinding IconStrokeThickness}"
                                    IsBusy="{TemplateBinding IsBusy}"
                                    IsContentVisible="{TemplateBinding IsContentVisible}"
+                                   IsHighlighted="{TemplateBinding IsChecked}"
                                    Orientation="{TemplateBinding Orientation}"
                                    Padding="{TemplateBinding Padding}"
                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -57,22 +58,12 @@
                             <Setter Property="Opacity" Value="0.4"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="IconFill" Value="{DynamicResource StswButton.Defaulted.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Defaulted.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}" TargetName="PART_MainBorder"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Background" Value="Transparent" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        <!--
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsChecked" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="IconFill" Value="{DynamicResource StswButton.Checked.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource StswButton.Checked.Border}" TargetName="PART_MainBorder"/>
-                        </MultiTrigger>
-                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

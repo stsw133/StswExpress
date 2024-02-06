@@ -33,13 +33,11 @@
                             </Grid.RowDefinitions>
                             
                             <!-- content grid -->
-                            <Grid x:Name="PART_Content" Grid.Row="1">
-                                <AdornerDecorator>
-                                    <se:StswContentDialog IsTabStop="False" Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-                                        <ContentPresenter/>
-                                    </se:StswContentDialog>
-                                </AdornerDecorator>
-                            </Grid>
+                            <AdornerDecorator Grid.Row="1">
+                                <se:StswContentDialog IsTabStop="False" Identifier="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ContentPresenter/>
+                                </se:StswContentDialog>
+                            </AdornerDecorator>
 
                             <!-- title bar -->
                             <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">

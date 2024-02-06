@@ -30,6 +30,9 @@
             <!-- IsContentVisible -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
+            <!-- IsHighlighted -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsHighlighted"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsHighlighted}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Orientation"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
@@ -39,25 +42,18 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDescription}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswHeader IconData="{x:Static se:StswIcons.Cake}"
+        <se:StswHeader Content="Lorem ipsum dolor sit amet..." IconData="{x:Static se:StswIcons.Cake}"
                        IconScale="{Binding IconScale}"
                        IsBusy="{Binding IsBusy}"
                        IsContentVisible="{Binding IsContentVisible}"
                        IsEnabled="{Binding IsEnabled}"
+                       IsHighlighted="{Binding IsHighlighted}"
                        Margin="5"
                        Orientation="{Binding Orientation}"
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                        VerticalAlignment="{Binding VerticalAlignment}"
                        VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <StackPanel>
-                <se:StswText Text="Lorem ipsum dolor sit amet..."/>
-                <se:StswText FontSize="9" Visibility="{Binding ShowDescription, Converter={x:Static se:StswBoolConverter.Instance}}" TextWrapping="Wrap">
-                    <Run Text="...consectetuer adipiscing elit."/>
-                    <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
-                    <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus..." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
-                </se:StswText>
-            </StackPanel>
         </se:StswHeader>
         <!-- status panel -->
 

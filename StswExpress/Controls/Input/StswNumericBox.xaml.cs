@@ -185,7 +185,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     {
         if (obj is StswNumericBox stsw)
         {
-            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding and not null)
+            if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
                 var newBinding = binding.Clone();
                 newBinding.StringFormat = stsw.Format;

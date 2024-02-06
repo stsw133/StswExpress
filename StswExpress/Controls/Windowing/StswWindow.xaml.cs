@@ -63,7 +63,7 @@ public class StswWindow : Window, IStswCornerControl
         if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
         {
             windowBar.SizeChanged += (s, e) => UpdateChrome();
-            if (windowBar.Parent is StswSidePanel windowBarPanel and not null)
+            if (windowBar.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.ExpandMode = Fullscreen ? StswCompactibility.Collapsed : StswCompactibility.Full;
             this.windowBar = windowBar;
         }

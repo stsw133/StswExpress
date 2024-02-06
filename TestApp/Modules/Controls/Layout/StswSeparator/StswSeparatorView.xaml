@@ -10,7 +10,7 @@
         <local:StswSeparatorContext/>
     </d:UserControl.DataContext>
 
-    <local:ControlsBase ContentAlignmentVisibility="Visible">
+    <local:ControlsBase ContentAlignmentVisibility="Collapsed">
         <local:ControlsBase.Description>
             Represents a control that can be used to visually divide content in a user interface.
         </local:ControlsBase.Description>
