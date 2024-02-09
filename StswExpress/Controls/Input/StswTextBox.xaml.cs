@@ -31,7 +31,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
-        if (e.Key == Key.Enter)
+        if (!AcceptsReturn && e.Key == Key.Enter)
             UpdateMainProperty();
     }
 

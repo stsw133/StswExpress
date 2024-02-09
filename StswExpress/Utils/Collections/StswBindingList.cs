@@ -107,7 +107,8 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     {
         nameof(IStswCollectionItem.ItemMessage),
         nameof(IStswCollectionItem.ItemState),
-        nameof(IStswCollectionItem.ShowDetails)
+        nameof(IStswCollectionItem.ShowDetails),
+        nameof(IStswSelectionItem.IsSelected)
     };
 
 

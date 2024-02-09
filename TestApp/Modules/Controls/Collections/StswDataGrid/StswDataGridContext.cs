@@ -37,7 +37,7 @@ public class StswDataGridContext : ControlsContext
     }
 }
 
-public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem
+public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem
 {
     /// ID
     private int id;
@@ -77,5 +77,13 @@ public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem
     {
         get => showDetails;
         set => SetProperty(ref showDetails, value);
+    }
+
+    /// IsSelected
+    private bool isSelected;
+    public bool IsSelected
+    {
+        get => isSelected;
+        set => SetProperty(ref isSelected, value);
     }
 }

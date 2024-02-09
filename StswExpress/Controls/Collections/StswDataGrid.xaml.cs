@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -46,6 +47,32 @@ public class StswDataGrid : DataGrid, IStswCornerControl
             SqlFilter = null,
             SqlParameters = null
         };
+    }
+
+    /// <summary>
+    /// Handles the event triggered when the ItemsSource property changes in the control.
+    /// Checks if the ItemsSource collection contains items implementing the <see cref="IStswSelectionItem"/> interface
+    /// to enable advanced selection features.
+    /// </summary>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
+    }
+
+    protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)
+    {
+        base.OnSelectedCellsChanged(e);
+
+        if (UsesSelectionItems)
+        {
+            if (e.RemovedCells != null)
+                foreach (var item in e.RemovedCells.Select(x => x.Item).Distinct())
+                    ((IStswSelectionItem)item).IsSelected = false;
+            if (e.AddedCells != null)
+                foreach (var item in e.AddedCells.Select(x => x.Item).Distinct())
+                    ((IStswSelectionItem)item).IsSelected = true;
+        }
     }
 
     /// <summary>
@@ -270,39 +297,25 @@ public class StswDataGrid : DataGrid, IStswCornerControl
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control uses selection items that implement
+    /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.
+    /// </summary>
+    internal bool UsesSelectionItems
+    {
+        get => (bool)GetValue(UsesSelectionItemsProperty);
+        set => SetValue(UsesSelectionItemsProperty, value);
+    }
+    public static readonly DependencyProperty UsesSelectionItemsProperty
+        = DependencyProperty.Register(
+            nameof(UsesSelectionItems),
+            typeof(bool),
+            typeof(StswDataGrid)
+        );
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets the background brush for the header.
-    /// </summary>
-    public Brush BackgroundHeader
-    {
-        get => (Brush)GetValue(BackgroundHeaderProperty);
-        set => SetValue(BackgroundHeaderProperty, value);
-    }
-    public static readonly DependencyProperty BackgroundHeaderProperty
-        = DependencyProperty.Register(
-            nameof(BackgroundHeader),
-            typeof(Brush),
-            typeof(StswDataGrid)
-        );
-
-    /// <summary>
-    /// Gets or sets the border brush for the header.
-    /// </summary>
-    public SolidColorBrush BorderBrushHeader
-    {
-        get => (SolidColorBrush)GetValue(BorderBrushHeaderProperty);
-        set => SetValue(BorderBrushHeaderProperty, value);
-    }
-    public static readonly DependencyProperty BorderBrushHeaderProperty
-        = DependencyProperty.Register(
-            nameof(BorderBrushHeader),
-            typeof(SolidColorBrush),
-            typeof(StswDataGrid)
-        );
-
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
     /// When set to <see langword="true"/>, content within the control's border area is clipped to match
@@ -334,6 +347,36 @@ public class StswDataGrid : DataGrid, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the background brush for the header.
+    /// </summary>
+    public Brush HeaderBackground
+    {
+        get => (Brush)GetValue(HeaderBackgroundProperty);
+        set => SetValue(HeaderBackgroundProperty, value);
+    }
+    public static readonly DependencyProperty HeaderBackgroundProperty
+        = DependencyProperty.Register(
+            nameof(HeaderBackground),
+            typeof(Brush),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the border brush for the header.
+    /// </summary>
+    public SolidColorBrush HeaderBorderBrush
+    {
+        get => (SolidColorBrush)GetValue(HeaderBorderBrushProperty);
+        set => SetValue(HeaderBorderBrushProperty, value);
+    }
+    public static readonly DependencyProperty HeaderBorderBrushProperty
+        = DependencyProperty.Register(
+            nameof(HeaderBorderBrush),
+            typeof(SolidColorBrush),
             typeof(StswDataGrid)
         );
     #endregion
