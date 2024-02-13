@@ -57,7 +57,8 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
+        if (ItemsSource?.GetType()?.IsListType(out var innerType) == true)
+            UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
     }
 
     protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)

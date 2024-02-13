@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,7 +24,8 @@ public class StswListView : ListView, IStswCornerControl
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);
-        UsesSelectionItems = ItemsSource?.OfType<IStswSelectionItem>()?.Count() > 0;
+        if (ItemsSource?.GetType()?.IsListType(out var innerType) == true)
+            UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
     }
     #endregion
 

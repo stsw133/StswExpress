@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TestApp;
 
@@ -20,6 +21,14 @@ public class StswAdaptiveBoxContext : ControlsContext
     {
         get => isReadOnly;
         set => SetProperty(ref isReadOnly, value);
+    }
+
+    /// ItemsSource
+    private List<StswSelectionItem> itemsSource = new() { new() { Value = "test1" }, new() { Value = "test2" } };
+    public List<StswSelectionItem> ItemsSource
+    {
+        get => itemsSource;
+        set => SetProperty(ref itemsSource, value);
     }
 
     /// SelectedValue

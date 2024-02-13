@@ -218,9 +218,9 @@ public static class StswExtensions
     /// <param name="type"></param>
     /// <param name="innerType"></param>
     /// <returns></returns>
-    internal static bool IsListType(this Type type, out Type innerType)
+    internal static bool IsListType(this Type type, out Type? innerType)
     {
-        var interfaceTest = new Func<Type, Type>(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>) ? i.GetGenericArguments().Single() : null);
+        var interfaceTest = new Func<Type, Type?>(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>) ? i.GetGenericArguments().Single() : null);
 
         innerType = interfaceTest(type);
         if (innerType != null)

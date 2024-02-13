@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -47,10 +48,13 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
     /// </summary>
     internal void SetText()
     {
-        var itemsSource = ItemsSource?.OfType<IStswSelectionItem>()?.ToList();
-        if (itemsSource == null)
+        if (ItemsSource == null)
             return;
 
+        if (ItemsSource?.GetType()?.IsListType(out var innerType) != true || innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswSelectionBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+        var itemsSource = ItemsSource.OfType<IStswSelectionItem>().ToList();
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
         var selectedText = new StringBuilder();
 

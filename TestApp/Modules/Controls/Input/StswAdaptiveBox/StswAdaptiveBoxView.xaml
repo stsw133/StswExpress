@@ -29,10 +29,13 @@
             </se:StswComboBox>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswAdaptiveBox IsEnabled="{Binding IsEnabled}"
+        <se:StswAdaptiveBox DisplayMemberPath="Value"
+                            IsEnabled="{Binding IsEnabled}"
                             IsReadOnly="{Binding IsReadOnly}"
+                            ItemsSource="{Binding ItemsSource}"
                             Margin="5"
                             Placeholder=" . . . "
+                            SelectedValuePath="Value"
                             Type="{Binding Type}"
                             Value="{Binding SelectedValue}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
