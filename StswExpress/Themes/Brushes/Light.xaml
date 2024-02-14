@@ -104,7 +104,7 @@
     <Thickness x:Key="StswItem.Thickness.Border">0</Thickness>
     <SolidColorBrush x:Key="StswItem.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswItem.Static.Border" Color="Transparent"/>
-    <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#CCC"/>
+    <SolidColorBrush x:Key="StswItem.MouseOver.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswItem.MouseOver.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Background" Color="#EEE"/>
     <SolidColorBrush x:Key="StswItem.Disabled.Border" Color="Transparent"/>
@@ -281,7 +281,7 @@
     <SolidColorBrush x:Key="StswPopup.Static.Background" Color="#FFF"/>
     <SolidColorBrush x:Key="StswPopup.Static.Border" Color="#BBB"/>
     
-    <SolidColorBrush x:Key="StswTip.Static.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswTip.Static.Background" Color="#F0F0F0"/>
     <SolidColorBrush x:Key="StswTip.Static.Border" Color="#BBB"/>
 
     <FontFamily x:Key="StswWindow.Font.Family">Segoe UI</FontFamily>

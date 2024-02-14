@@ -5,7 +5,7 @@
     <Style TargetType="{x:Type se:StswProgressRing}">
         <Setter Property="Background" Value="{DynamicResource StswProgressBar.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswProgressBar.Static.Border}"/>
-        <Setter Property="Fill" Value="{DynamicResource StswColor.Primary}"/>
+        <Setter Property="Fill" Value="{DynamicResource StswProgressBar.Custom.Background}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="1"/>

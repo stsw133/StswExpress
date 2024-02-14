@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,8 @@ public class StswWindow : Window, IStswCornerControl
 {
     public StswWindow()
     {
+        SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
+
         var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
         CommandBindings.Add(new CommandBinding(commandBinding, (s, e) => Fullscreen = !Fullscreen));
     }
@@ -163,6 +166,21 @@ public class StswWindow : Window, IStswCornerControl
     #endregion
 
     #region Main properties
+    /// <summary>
+    /// Gets or sets the collection of UI elements used in the custom window's title bar.
+    /// </summary>
+    public ObservableCollection<UIElement> Components
+    {
+        get => (ObservableCollection<UIElement>)GetValue(ComponentsProperty);
+        set => SetValue(ComponentsProperty, value);
+    }
+    public static readonly DependencyProperty ComponentsProperty
+        = DependencyProperty.Register(
+            nameof(Components),
+            typeof(ObservableCollection<UIElement>),
+            typeof(StswWindow)
+        );
+
     /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.
     /// </summary>

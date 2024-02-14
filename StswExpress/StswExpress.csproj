@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Themes\Resources\pink_background.jpg" />
     <None Remove="Utils\StswIcons.cs~RFa51e7cef.TMP" />
   </ItemGroup>
 
@@ -57,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Themes\Resources\pink_background.jpg" />
     <Resource Include="Translator\Translations.json" />
   </ItemGroup>
 
