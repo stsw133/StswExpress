@@ -22,8 +22,8 @@ public class StswColorPicker : Control
 
     #region Events & methods
     private bool blockColorEllipse;
-    private Ellipse? colorEllipse;
-    private Grid? colorGrid;
+    private Ellipse? _colorEllipse;
+    private Grid? _colorGrid;
 
     /// <summary>
     /// Occurs when the selected color in the control changes.
@@ -43,11 +43,11 @@ public class StswColorPicker : Control
             colorGrid.MouseDown += PART_ColorGrid_MouseDown;
             colorGrid.MouseMove += PART_ColorGrid_MouseMove;
             colorGrid.SizeChanged += PART_ColorGrid_SizeChanged;
-            this.colorGrid = colorGrid;
+            _colorGrid = colorGrid;
         }
         /// PART_ColorEllipse
         if (GetTemplateChild("PART_ColorEllipse") is Ellipse colorEllipse)
-            this.colorEllipse = colorEllipse;
+            _colorEllipse = colorEllipse;
     }
 
     /// <summary>
@@ -96,10 +96,10 @@ public class StswColorPicker : Control
 
             SelectedColor = StswExtensions.FromAhsv(SelectedColor.A, x * 360 / grid.RenderSize.Width, 1 - (y / grid.RenderSize.Height), SelectedColorV);
             
-            if (colorEllipse != null)
+            if (_colorEllipse != null)
             {
-                Canvas.SetLeft(colorEllipse, x - colorEllipse.Width / 2);
-                Canvas.SetTop(colorEllipse, y - colorEllipse.Height / 2);
+                Canvas.SetLeft(_colorEllipse, x - _colorEllipse.Width / 2);
+                Canvas.SetTop(_colorEllipse, y - _colorEllipse.Height / 2);
             }
         }
 
@@ -120,10 +120,10 @@ public class StswColorPicker : Control
         var x = grid.ActualWidth * h / 360;
         var y = grid.ActualHeight - (grid.ActualHeight * s);
 
-        if (colorEllipse != null && x >= 0 && y >= 0)
+        if (_colorEllipse != null && x >= 0 && y >= 0)
         {
-            Canvas.SetLeft(colorEllipse, x - colorEllipse.Width / 2);
-            Canvas.SetTop(colorEllipse, y - colorEllipse.Height / 2);
+            Canvas.SetLeft(_colorEllipse, x - _colorEllipse.Width / 2);
+            Canvas.SetTop(_colorEllipse, y - _colorEllipse.Height / 2);
         }
     }
     #endregion
@@ -190,15 +190,15 @@ public class StswColorPicker : Control
             {
                 stsw.PickedColor = StswExtensions.FromHsv(h, s, 1);
 
-                if (stsw.colorGrid != null)
+                if (stsw._colorGrid != null)
                 {
-                    var x = stsw.colorGrid.ActualWidth * h / 360;
-                    var y = stsw.colorGrid.ActualHeight - (stsw.colorGrid.ActualHeight * s);
+                    var x = stsw._colorGrid.ActualWidth * h / 360;
+                    var y = stsw._colorGrid.ActualHeight - (stsw._colorGrid.ActualHeight * s);
 
-                    if (stsw.colorEllipse != null && x >= 0 && y >= 0)
+                    if (stsw._colorEllipse != null && x >= 0 && y >= 0)
                     {
-                        Canvas.SetLeft(stsw.colorEllipse, x - stsw.colorEllipse.Width / 2);
-                        Canvas.SetTop(stsw.colorEllipse, y - stsw.colorEllipse.Height / 2);
+                        Canvas.SetLeft(stsw._colorEllipse, x - stsw._colorEllipse.Width / 2);
+                        Canvas.SetTop(stsw._colorEllipse, y - stsw._colorEllipse.Height / 2);
                     }
                 }
             }

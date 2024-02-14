@@ -44,8 +44,8 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         base.OnApplyTemplate();
 
         /// Button: open dialog window
-        if (GetTemplateChild("PART_FunctionButton") is ButtonBase btnFunction)
-            btnFunction.Click += PART_FunctionButton_Click;
+        if (GetTemplateChild("PART_DialogButton") is ButtonBase btnDialog)
+            btnDialog.Click += PART_DialogButton_Click;
 
         ListAdjacentPaths();
     }
@@ -129,7 +129,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
+    private void PART_DialogButton_Click(object sender, RoutedEventArgs e)
     {
         if (PathType == StswPathType.Directory)
         {

@@ -22,7 +22,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Events & methods
     private bool _isPasswordChanging;
-    private PasswordBox? passwordBox;
+    private PasswordBox? _passwordBox;
 
     /// <summary>
     /// Occurs when the password in the StswPasswordBox changes.
@@ -41,7 +41,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         {
             passwordBox.Password = Password;
             passwordBox.PasswordChanged += PART_PasswordBox_PasswordChanged;
-            this.passwordBox = passwordBox;
+            _passwordBox = passwordBox;
         }
     }
 
@@ -81,8 +81,8 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     {
         if (obj is StswPasswordBox stsw)
         {
-            if (stsw.passwordBox != null && !stsw._isPasswordChanging)
-                stsw.passwordBox.Password = stsw.Password;
+            if (stsw._passwordBox != null && !stsw._isPasswordChanging)
+                stsw._passwordBox.Password = stsw.Password;
 
             stsw.PasswordChanged?.Invoke(stsw, EventArgs.Empty);
         }

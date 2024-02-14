@@ -41,11 +41,11 @@
                                        Background="{TemplateBinding Background}"
                                        Width="{Binding TabStripWidth, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- components -->
-                                <DockPanel x:Name="PART_Functions">
+                                <DockPanel x:Name="PART_Components">
                                     <se:StswToggleButton x:Name="PART_TabStripModeButton" BorderThickness="0" CornerClipping="False" CornerRadius="0">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswDirectionViewer x:Name="PART_Components" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
+                                    <se:StswDirectionViewer x:Name="PART_CustomComponents" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
                                         <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -151,14 +151,14 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripMode" Value="Collapsed">
                             <Setter Property="IsChecked" Value="{x:Null}" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Components"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_CustomComponents"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MainPanel"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
                             <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripMode" Value="Compact">
                             <Setter Property="IsChecked" Value="False" TargetName="PART_TabStripModeButton"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Components"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_CustomComponents"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_CompactPanel"/>
                             <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
@@ -166,7 +166,7 @@
                             <Setter Property="IsChecked" Value="True" TargetName="PART_TabStripModeButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Functions"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Components"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
@@ -174,21 +174,21 @@
                             <Setter Property="Width" Value="NaN" TargetName="PART_MainPanel"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Left">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Functions"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Components"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Right">
-                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Functions"/>
+                            <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Components"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_TabStripModeButton"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Top">
-                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Functions"/>
+                            <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Components"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Items"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_ItemsPinned"/>
                             <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_TabStripModeButton"/>

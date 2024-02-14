@@ -30,7 +30,7 @@
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <DockPanel DockPanel.Dock="Top">
-                                <se:StswSubButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                                <se:StswSubButton x:Name="PART_CloseBarButton" DockPanel.Dock="Right"
                                                   IconData="{x:Static se:StswIcons.Close}"
                                                   VerticalAlignment="Top"
                                                   Visibility="Collapsed"/>
@@ -46,7 +46,7 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsClosable" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_FunctionButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_CloseBarButton"/>
                         </Trigger>
                         <Trigger Property="Type" Value="None">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>

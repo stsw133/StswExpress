@@ -119,7 +119,7 @@
                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
-                                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                    <ContentPresenter x:Name="PART_Content"
                                                       Content="{TemplateBinding SelectionBoxItem}"
                                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                                       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -150,7 +150,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ContentPresenter"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="IsTabStop" Value="False"/>

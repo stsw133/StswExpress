@@ -65,7 +65,7 @@
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Visibility="Collapsed"/>
                             <!-- content -->
-                            <ContentPresenter x:Name="PART_ExpandSite"
+                            <ContentPresenter x:Name="PART_Content"
                                               Focusable="False"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -115,7 +115,7 @@
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ExpandSite"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True" SourceName="PART_Header">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.MouseOver.Background}" TargetName="PART_Header"/>

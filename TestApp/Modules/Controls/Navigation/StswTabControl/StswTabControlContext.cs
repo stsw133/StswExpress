@@ -31,18 +31,18 @@ public class StswTabControlContext : ControlsContext
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice1,
-                Content = "Tab 1"
+                Content = nameof(StswButton)
             },
-            Content = new HomeContext()
+            Content = new StswButtonContext()
         },
         new()
         {
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice2,
-                Content = "Tab 2"
+                Content = nameof(StswCheckBox)
             },
-            Content = new HomeContext(),
+            Content = new StswCheckBoxContext(),
             IsClosable = true
         },
         new()
@@ -50,9 +50,9 @@ public class StswTabControlContext : ControlsContext
             Header = new StswHeader()
             {
                 IconData = StswIcons.Dice3,
-                Content = "Tab 3"
+                Content = nameof(StswGroupBox)
             },
-            Content = new HomeContext(),
+            Content = new StswGroupBoxContext(),
             IsClosable = true
         }
     };

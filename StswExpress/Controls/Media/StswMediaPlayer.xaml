@@ -61,26 +61,25 @@
                                     <ColumnDefinition Width="120"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <se:StswSubCheck x:Name="PART_BtnShuffle"
+                                    <se:StswSubCheck x:Name="PART_ButtonShuffle"
                                                      IconChecked="{x:Static se:StswIcons.ShuffleDisabled}"
                                                      IconUnchecked="{x:Static se:StswIcons.Shuffle}"
                                                      IconFill="{DynamicResource StswColor.Neutral}"
                                                      Margin="{DynamicResource StswMedia.Thickness.Padding}"
                                                      ToolTip="Shuffle"
                                                      Visibility="Collapsed"/>
-                                    <se:StswSubButton x:Name="PART_BtnStop"
+                                    <se:StswSubButton x:Name="PART_ButtonStop"
                                                       IconData="{x:Static se:StswIcons.Stop}"
                                                       IconFill="{DynamicResource StswColor.Neutral}"
                                                       Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                      ToolTip="Stop"
-                                                      Visibility="Collapsed"/>
-                                    <se:StswSubButton x:Name="PART_BtnPrevious"
+                                                      ToolTip="Stop"/>
+                                    <se:StswSubButton x:Name="PART_ButtonPrevious"
                                                       BorderThickness="1 1 0 1"
                                                       IconData="{x:Static se:StswIcons.SkipPrevious}"
                                                       IconFill="{DynamicResource StswColor.Neutral}"
                                                       Padding="{DynamicResource StswMedia.Thickness.Padding}"
                                                       ToolTip="Previous"/>
-                                    <se:StswSubCheck x:Name="PART_BtnPlay"
+                                    <se:StswSubCheck x:Name="PART_ButtonPlay"
                                                      Background="{DynamicResource StswColor.Neutral}"
                                                      BorderThickness="1"
                                                      IconChecked="{x:Static se:StswIcons.Pause}"
@@ -91,22 +90,21 @@
                                                      IsChecked="{Binding IsPlaying, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Padding="{DynamicResource StswMedia.Thickness.Padding}"
                                                      ToolTip="Pause/play"/>
-                                    <se:StswSubButton x:Name="PART_BtnNext"
+                                    <se:StswSubButton x:Name="PART_ButtonNext"
                                                       BorderThickness="0 1 1 1"
                                                       IconData="{x:Static se:StswIcons.SkipNext}"
                                                       IconFill="{DynamicResource StswColor.Neutral}"
                                                       Padding="{DynamicResource StswMedia.Thickness.Padding}"
                                                       ToolTip="Next"/>
-                                    <se:StswSubCheck x:Name="PART_BtnRepeat"
+                                    <se:StswSubCheck x:Name="PART_ButtonRepeat"
                                                      IconChecked="{x:Static se:StswIcons.RepeatOff}"
                                                      IconUnchecked="{x:Static se:StswIcons.Repeat}"
                                                      IconFill="{DynamicResource StswColor.Neutral}"
                                                      Margin="{DynamicResource StswMedia.Thickness.Padding}"
-                                                     ToolTip="Repeat"
-                                                     Visibility="Collapsed"/>
+                                                     ToolTip="Repeat"/>
                                 </StackPanel>
                                 <DockPanel Grid.Column="2">
-                                    <se:StswSubCheck x:Name="PART_BtnMute"
+                                    <se:StswSubCheck x:Name="PART_ButtonMute"
                                                      IconChecked="{x:Static se:StswIcons.VolumeVariantOff}"
                                                      IconUnchecked="{x:Static se:StswIcons.VolumeHigh}"
                                                      IconFill="{DynamicResource StswColor.Neutral}"

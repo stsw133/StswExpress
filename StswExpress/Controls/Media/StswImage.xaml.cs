@@ -31,22 +31,22 @@ public class StswImage : Control
 
         /// Menu: cut
         if (GetTemplateChild("PART_Cut") is MenuItem mniCut)
-            mniCut.Click += MniCut_Click;
+            mniCut.Click += PART_Cut_Click;
         /// Menu: copy
         if (GetTemplateChild("PART_Copy") is MenuItem mniCopy)
-            mniCopy.Click += MniCopy_Click;
+            mniCopy.Click += PART_Copy_Click;
         /// Menu: paste
         if (GetTemplateChild("PART_Paste") is MenuItem mniPaste)
-            mniPaste.Click += MniPaste_Click;
+            mniPaste.Click += PART_Paste_Click;
         /// Menu: delete
         if (GetTemplateChild("PART_Delete") is MenuItem mniDelete)
-            mniDelete.Click += MniDelete_Click;
+            mniDelete.Click += PART_Delete_Click;
         /// Menu: load
         if (GetTemplateChild("PART_Load") is MenuItem mniLoad)
-            mniLoad.Click += MniLoad_Click;
+            mniLoad.Click += PART_Load_Click;
         /// Menu: save
         if (GetTemplateChild("PART_Save") is MenuItem mniSave)
-            mniSave.Click += MniSave_Click;
+            mniSave.Click += PART_Save_Click;
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class StswImage : Control
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniCut_Click(object sender, RoutedEventArgs e)
+    private void PART_Cut_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
@@ -81,7 +81,7 @@ public class StswImage : Control
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniCopy_Click(object sender, RoutedEventArgs e)
+    private void PART_Copy_Click(object sender, RoutedEventArgs e)
     {
         if (Source != null)
             Clipboard.SetImage(Source as BitmapSource);
@@ -92,7 +92,7 @@ public class StswImage : Control
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniPaste_Click(object sender, RoutedEventArgs e)
+    private void PART_Paste_Click(object sender, RoutedEventArgs e)
     {
         if (Clipboard.ContainsImage())
             Source = Clipboard.GetImage();
@@ -103,14 +103,14 @@ public class StswImage : Control
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniDelete_Click(object sender, RoutedEventArgs e) => Source = null;
+    private void PART_Delete_Click(object sender, RoutedEventArgs e) => Source = null;
 
     /// <summary>
     /// Occurs when the "Load" menu item is clicked.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniLoad_Click(object sender, RoutedEventArgs e)
+    private void PART_Load_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog()
         {
@@ -129,7 +129,7 @@ public class StswImage : Control
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void MniSave_Click(object sender, RoutedEventArgs e)
+    private void PART_Save_Click(object sender, RoutedEventArgs e)
     {
         if (Source == null)
             return;

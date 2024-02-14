@@ -28,7 +28,7 @@ public class StswWindow : Window, IStswCornerControl
     }
 
     #region Events & methods
-    private StswWindowBar? windowBar;
+    private StswWindowBar? _windowBar;
     private WindowState preFullscreenState;
 
     /// <summary>
@@ -48,19 +48,19 @@ public class StswWindow : Window, IStswCornerControl
             mniConfig.Click += (s, e) => StswConfig.Show(this);
         /// Menu: default
         if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault)
-            mniDefault.Click += DefaultClick;
+            mniDefault.Click += PART_MenuDefault_Click;
         /// Menu: minimize
         if (GetTemplateChild("PART_MenuMinimize") is MenuItem mniMinimize)
-            mniMinimize.Click += MinimizeClick;
+            mniMinimize.Click += PART_MenuMinimize_Click;
         /// Menu: restore
         if (GetTemplateChild("PART_MenuRestore") is MenuItem mniRestore)
-            mniRestore.Click += RestoreClick;
+            mniRestore.Click += PART_MenuRestore_Click;
         /// Menu: fullscreen
         if (GetTemplateChild("PART_MenuFullscreen") is MenuItem mniFullscreen)
-            mniFullscreen.Click += FullscreenClick;
+            mniFullscreen.Click += PART_MenuFullscreen_Click;
         /// Menu: close
         if (GetTemplateChild("PART_MenuClose") is MenuItem mniClose)
-            mniClose.Click += CloseClick;
+            mniClose.Click += PART_MenuClose_Click;
 
         /// Chrome change
         if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
@@ -68,7 +68,7 @@ public class StswWindow : Window, IStswCornerControl
             windowBar.SizeChanged += (s, e) => UpdateChrome();
             if (windowBar.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.ExpandMode = Fullscreen ? StswCompactibility.Collapsed : StswCompactibility.Full;
-            this.windowBar = windowBar;
+            _windowBar = windowBar;
         }
         StateChanged += (s, e) => UpdateChrome();
     }
@@ -85,14 +85,14 @@ public class StswWindow : Window, IStswCornerControl
         {
             WindowChrome.SetWindowChrome(this, null);
         }
-        else if (windowBar != null)
+        else if (_windowBar != null)
         {
             var max = WindowState == WindowState.Maximized;
             var cr = CornerRadius;
 
             chrome ??= new WindowChrome();
             chrome.CornerRadius = new CornerRadius(cr.TopLeft * iSize, cr.TopRight * iSize, cr.BottomRight * iSize, cr.BottomLeft * iSize);
-            chrome.CaptionHeight = (windowBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (windowBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
+            chrome.CaptionHeight = (_windowBar.ActualHeight - (max ? 0 : 2)) * iSize >= 0 ? (_windowBar.ActualHeight - (max ? 0 : 2)) * iSize : 0;
             chrome.GlassFrameThickness = new Thickness(0);
             chrome.ResizeBorderThickness = new Thickness(max ? 0 : 5 * iSize);
             chrome.UseAeroCaptionButtons = false;
@@ -106,14 +106,14 @@ public class StswWindow : Window, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    protected void FullscreenClick(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
+    protected void PART_MenuFullscreen_Click(object? sender, RoutedEventArgs e) => Fullscreen = !Fullscreen;
 
     /// <summary>
     /// Event handler for the default button click to reset the window size to its default.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    protected void DefaultClick(object? sender, RoutedEventArgs e)
+    protected void PART_MenuDefault_Click(object? sender, RoutedEventArgs e)
     {
         if (WindowState == WindowState.Maximized)
             WindowState = WindowState.Normal;
@@ -142,14 +142,14 @@ public class StswWindow : Window, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    internal void MinimizeClick(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    internal void PART_MenuMinimize_Click(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
     /// <summary>
     /// Event handler for the restore button click to toggle between normal and maximized window state.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    internal void RestoreClick(object? sender, RoutedEventArgs e)
+    internal void PART_MenuRestore_Click(object? sender, RoutedEventArgs e)
     {
         if (Fullscreen)
             Fullscreen = false;
@@ -162,7 +162,7 @@ public class StswWindow : Window, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    internal void CloseClick(object? sender, RoutedEventArgs e) => Close();
+    internal void PART_MenuClose_Click(object? sender, RoutedEventArgs e) => Close();
     #endregion
 
     #region Main properties
@@ -202,7 +202,7 @@ public class StswWindow : Window, IStswCornerControl
     {
         if (obj is StswWindow stsw)
         {
-            if (stsw.windowBar != null)
+            if (stsw._windowBar != null)
             {
                 if (stsw.ResizeMode.In(ResizeMode.NoResize, ResizeMode.CanMinimize))
                     return;
@@ -214,14 +214,14 @@ public class StswWindow : Window, IStswCornerControl
                     if (stsw.WindowState == WindowState.Maximized)
                         stsw.WindowState = WindowState.Minimized;
 
-                    if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
+                    if (stsw._windowBar.Parent is StswSidePanel windowBarPanel)
                         windowBarPanel.ExpandMode = StswCompactibility.Collapsed;
 
                     stsw.WindowState = WindowState.Maximized;
                 }
                 else
                 {
-                    if (stsw.windowBar.Parent is StswSidePanel windowBarPanel)
+                    if (stsw._windowBar.Parent is StswSidePanel windowBarPanel)
                         windowBarPanel.ExpandMode = StswCompactibility.Full;
 
                     if (stsw.preFullscreenState == WindowState.Maximized)
@@ -345,8 +345,8 @@ public class StswWindow : Window, IStswCornerControl
         /// Hide default context menu and show custom
         else if (msg == 0xa4 && wParam.ToInt32() == 0x02 || msg == 0xa5)
         {
-            if (windowBar != null)
-                windowBar.ContextMenu.IsOpen = true;
+            if (_windowBar != null)
+                _windowBar.ContextMenu.IsOpen = true;
             handled = true;
         }
         return IntPtr.Zero;

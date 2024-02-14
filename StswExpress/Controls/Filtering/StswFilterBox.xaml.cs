@@ -31,8 +31,8 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? filterMode;
-    private StswDataGrid? stswDataGrid;
+    private ButtonBase? _filterMode;
+    private StswDataGrid? _stswDataGrid;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -44,13 +44,13 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         /// IsInDataGrid
         if (StswFn.FindVisualAncestor<StswDataGrid>(this) is StswDataGrid stswDataGrid)
         {
-            this.stswDataGrid = stswDataGrid;
+            _stswDataGrid = stswDataGrid;
             IsInDataGrid = true;
         }
 
         /// ToggleButton: filter mode
         if (GetTemplateChild("PART_FilterMode") is ButtonBase filterMode)
-            this.filterMode = filterMode;
+            _filterMode = filterMode;
 
         /// default FilterMode
         if (FilterMode == null)
@@ -248,7 +248,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
     {
         base.OnKeyDown(e);
         if (e.Key == Key.Enter)
-            stswDataGrid?.RefreshCommand?.Execute(null);
+            _stswDataGrid?.RefreshCommand?.Execute(null);
     }
     #endregion
 
@@ -306,8 +306,8 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         {
             /// visual change for mode box
             if (stsw.FilterMode != null
-             && stsw.filterMode?.Content is StswOutlinedText symbolBlock
-             && stsw.filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
+             && stsw._filterMode?.Content is StswOutlinedText symbolBlock
+             && stsw._filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
             {
                 symbolBlock.Fill = newSymbolBlock.Fill;
                 symbolBlock.Text = newSymbolBlock.Text;

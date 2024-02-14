@@ -38,8 +38,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
-                            <!-- function button -->
-                            <se:StswButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                            <!-- buttons -->
+                            <se:StswButton x:Name="PART_DialogButton" DockPanel.Dock="Right"
                                            Focusable="True"
                                            BorderThickness="0" CornerRadius="0" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}"/>
@@ -105,7 +105,7 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_DialogButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>

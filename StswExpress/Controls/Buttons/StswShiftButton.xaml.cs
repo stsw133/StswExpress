@@ -24,7 +24,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     }
 
     #region Events & methods
-    private ButtonBase? buttonPrevious, buttonNext;
+    private ButtonBase? _buttonPrevious, _buttonNext;
     
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -38,14 +38,14 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         {
             buttonPrevious.IsEnabled = CanShiftBy(-1) && !IsReadOnly;
             buttonPrevious.Click += (s, e) => ShiftBy(-1);
-            this.buttonPrevious = buttonPrevious;
+            _buttonPrevious = buttonPrevious;
         }
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
         {
             buttonNext.IsEnabled = CanShiftBy(1) && !IsReadOnly;
             buttonNext.Click += (s, e) => ShiftBy(1);
-            this.buttonNext = buttonNext;
+            _buttonNext = buttonNext;
         }
     }
     
@@ -143,10 +143,10 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     /// <param name="e">The event arguments</param>
     private void CheckButtonAccessibility(object? sender, EventArgs e)
     {
-        if (buttonPrevious != null && buttonNext != null)
+        if (_buttonPrevious != null && _buttonNext != null)
         {
-            buttonPrevious.IsEnabled = (IsLoopingEnabled || CanShiftBy(-1)) && !IsReadOnly;
-            buttonNext.IsEnabled = (IsLoopingEnabled || CanShiftBy(1)) && !IsReadOnly;
+            _buttonPrevious.IsEnabled = (IsLoopingEnabled || CanShiftBy(-1)) && !IsReadOnly;
+            _buttonNext.IsEnabled = (IsLoopingEnabled || CanShiftBy(1)) && !IsReadOnly;
         }
     }
     #endregion

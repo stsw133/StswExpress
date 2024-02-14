@@ -36,8 +36,8 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
-                            <!-- function button -->
-                            <se:StswDropButton x:Name="PART_FunctionButton" DockPanel.Dock="Right"
+                            <!-- buttons -->
+                            <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
                                                Focusable="False"
                                                BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
@@ -111,7 +111,7 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswBox.ReadOnly.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.ReadOnly.Foreground}"/>
-                            <Setter Property="IsEnabled" Value="False" TargetName="PART_FunctionButton"/>
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_DropButton"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswBox.Disabled.Background}" TargetName="PART_MainBorder"/>

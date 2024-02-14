@@ -91,7 +91,7 @@ public class ContractorsListContext : StswObservableObject
         {
             if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
             {
-                tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
+                tabControl.PART_NewTabButton_Click(this, new RoutedEventArgs());
                 //if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.DataContext is ContractorsSingleContext newContext)
                 //{
                 //    newContext.ID = 0;
@@ -136,7 +136,7 @@ public class ContractorsListContext : StswObservableObject
             {
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
-                    tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
+                    tabControl.PART_NewTabButton_Click(this, new RoutedEventArgs());
                     if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Content is ContractorsSingleContext newContext)
                     {
                         newContext.ID = m.ID;
@@ -191,7 +191,7 @@ public class ContractorsListContext : StswObservableObject
             {
                 if (StswFn.FindVisualAncestor<StswTabControl>(tabItem) is StswTabControl tabControl)
                 {
-                    tabControl.PART_FunctionButton_Click(this, new RoutedEventArgs());
+                    tabControl.PART_NewTabButton_Click(this, new RoutedEventArgs());
 
                     if (ContractorsContext.Tabs_[tabControl.SelectedIndex]?.Content is ContractorsSingleContext newContext)
                     {

@@ -21,7 +21,7 @@ public class StswMediaPlayer : ItemsControl
     }
 
     #region Events & methods
-    private MediaElement? mediaElement;
+    private MediaElement? _mediaElement;
     private readonly Timer timer = new() { AutoReset = true };
 
     /// <summary>
@@ -32,29 +32,29 @@ public class StswMediaPlayer : ItemsControl
         base.OnApplyTemplate();
 
         /// Button: shuffle
-        //if (GetTemplateChild("PART_BtnShuffle") is CheckBox btnShuffle)
-        //    btnShuffle.Click += BtnShuffle_Click;
+        //if (GetTemplateChild("PART_ButtonShuffle") is CheckBox btnShuffle)
+        //    btnShuffle.Click += ButtonShuffle_Click;
         /// Button: stop
-        if (GetTemplateChild("PART_BtnStop") is ButtonBase btnStop)
+        if (GetTemplateChild("PART_ButtonStop") is ButtonBase btnStop)
             btnStop.Click += (s, e) => IsPlaying = null;
         /// Button: previous
-        if (GetTemplateChild("PART_BtnPrevious") is ButtonBase btnPrevious)
+        if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase btnPrevious)
             btnPrevious.Click += (s, e) => ShiftBy(-1);
         /// Button: play
-        if (GetTemplateChild("PART_BtnPlay") is CheckBox btnPlay)
+        if (GetTemplateChild("PART_ButtonPlay") is CheckBox btnPlay)
             btnPlay.Click += (s, e) => IsPlaying = IsPlaying != true;
         /// Button: next
-        if (GetTemplateChild("PART_BtnNext") is ButtonBase btnNext)
+        if (GetTemplateChild("PART_ButtonNext") is ButtonBase btnNext)
             btnNext.Click += (s, e) => ShiftBy(1);
         /// Button: repeat
-        //if (GetTemplateChild("PART_BtnRepeat") is CheckBox btnRepeat)
+        //if (GetTemplateChild("PART_ButtonRepeat") is CheckBox btnRepeat)
         //    btnRepeat.Click += BtnRepeat_Click;
         /// Button: mute
-        if (GetTemplateChild("PART_BtnMute") is CheckBox btnMute)
+        if (GetTemplateChild("PART_ButtonMute") is CheckBox btnMute)
             btnMute.Click += (s, e) => IsMuted = btnMute.IsChecked == true;
         /// Slider: timeline
         if (GetTemplateChild("PART_Timeline") is Slider timeline)
-            timeline.PreviewMouseUp += Timeline_PreviewMouseUp;
+            timeline.PreviewMouseUp += PART_Timeline_PreviewMouseUp;
 
         /// MediaElement
         if (GetTemplateChild("PART_MediaElement") is MediaElement mediaElement)
@@ -62,22 +62,22 @@ public class StswMediaPlayer : ItemsControl
             mediaElement.MediaEnded += (s, e) => { if (CanShiftBy(1)) ShiftBy(1); else IsPlaying = null; };
             mediaElement.MediaOpened += (s, e) => TimeMax = mediaElement.NaturalDuration.HasTimeSpan ? mediaElement.NaturalDuration.TimeSpan : new();
             mediaElement.SourceUpdated += (s, e) => IsPlaying = true;
-            this.mediaElement = mediaElement;
+            _mediaElement = mediaElement;
         }
 
         timer.Elapsed += Timer_Elapsed;
     }
 
     /// Slider: timeline
-    private void Timeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+    private void PART_Timeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (mediaElement != null)
+        if (_mediaElement != null)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 isUserChangingTimeline = true;
             if (e.LeftButton == MouseButtonState.Released)
             {
-                mediaElement.Position = new TimeSpan((long)((Slider)sender).Value * 10000);
+                _mediaElement.Position = new TimeSpan((long)((Slider)sender).Value * 10000);
                 isUserChangingTimeline = false;
             }
         }
@@ -110,14 +110,14 @@ public class StswMediaPlayer : ItemsControl
     /// <param name="step">The step value for shifting through items</param>
     private void ShiftBy(int step)
     {
-        if (mediaElement != null)
+        if (_mediaElement != null)
         {
             if (HasItems)
             {
                 if (Items.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
                 {
                     Source = new Uri(Items[index + step].ToString()!);
-                    mediaElement.Play();
+                    _mediaElement.Play();
                 }
             }
             else if (Source != null && Directory.GetParent(Source.OriginalString) is DirectoryInfo info)
@@ -126,7 +126,7 @@ public class StswMediaPlayer : ItemsControl
                 if (files.IndexOf(Source.OriginalString) is int index && (index + step).Between(0, Items.Count - 1))
                 {
                     Source = new Uri(files[index + step]);
-                    mediaElement.Play();
+                    _mediaElement.Play();
                 }
             }
         }
@@ -141,8 +141,8 @@ public class StswMediaPlayer : ItemsControl
     {
         Dispatcher.Invoke(() =>
         {
-            if (mediaElement != null && !isUserChangingTimeline)
-                TimeCurrent = mediaElement.Position;
+            if (_mediaElement != null && !isUserChangingTimeline)
+                TimeCurrent = _mediaElement.Position;
         });
     }
     #endregion
@@ -169,8 +169,8 @@ public class StswMediaPlayer : ItemsControl
     {
         if (obj is StswMediaPlayer stsw)
         {
-            if (stsw.mediaElement != null)
-                stsw.mediaElement.IsMuted = stsw.IsMuted;
+            if (stsw._mediaElement != null)
+                stsw._mediaElement.IsMuted = stsw.IsMuted;
         }
     }
 
@@ -195,23 +195,23 @@ public class StswMediaPlayer : ItemsControl
     {
         if (obj is StswMediaPlayer stsw)
         {
-            if (stsw.mediaElement != null)
+            if (stsw._mediaElement != null)
             {
                 if (stsw.IsPlaying == true)
                 {
                     stsw.timer.Start();
-                    stsw.mediaElement.Play();
+                    stsw._mediaElement.Play();
                 }
                 else if (stsw.IsPlaying == false)
                 {
                     stsw.timer.Stop();
-                    stsw.mediaElement.Pause();
+                    stsw._mediaElement.Pause();
                 }
                 else
                 {
-                    stsw.mediaElement.Position = new TimeSpan(0);
+                    stsw._mediaElement.Position = new TimeSpan(0);
                     stsw.timer.Stop();
-                    stsw.mediaElement.Stop();
+                    stsw._mediaElement.Stop();
                 }
             }
         }

@@ -23,8 +23,8 @@ public class StswInfoBar : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_FunctionButton") is ButtonBase functionButton)
-            functionButton.Click += FunctionButton_Click;
+        if (GetTemplateChild("PART_CloseBarButton") is ButtonBase closeBarButton)
+            closeBarButton.Click += PART_CloseBarButton_Click;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class StswInfoBar : Control, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void FunctionButton_Click(object sender, RoutedEventArgs e)
+    private void PART_CloseBarButton_Click(object sender, RoutedEventArgs e)
     {
         if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel)
         {

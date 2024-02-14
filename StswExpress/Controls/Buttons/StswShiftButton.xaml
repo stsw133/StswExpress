@@ -49,7 +49,7 @@
                                               Orientation="Vertical"/>
                             <!-- content -->
                             <Grid>
-                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                <ContentPresenter x:Name="PART_Content"
                                                   Content="{TemplateBinding SelectionBoxItem}"
                                                   ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                                   ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -76,7 +76,7 @@
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="True">
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_ContentPresenter"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Content"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_EditableTextBox"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">

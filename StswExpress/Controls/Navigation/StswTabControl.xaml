@@ -25,12 +25,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswTabControl}">
-                    <DockPanel x:Name="PART_TemplateRoot"
-                               ClipToBounds="True"
-                               KeyboardNavigation.TabNavigation="Local">
+                    <DockPanel ClipToBounds="True" KeyboardNavigation.TabNavigation="Local">
                         <DockPanel x:Name="PART_HeaderPanel" DockPanel.Dock="Top">
-                            <se:StswButton x:Name="PART_FunctionButton"
-                                           DockPanel.Dock="Right"
+                            <se:StswButton x:Name="PART_NewTabButton" DockPanel.Dock="Right"
                                            BorderThickness="0 1 1 0"
                                            CornerRadius="0 10 0 0"
                                            Margin="-3 2 0 0"

@@ -54,8 +54,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
 
     #region Events & methods
-    private StswComboBox? fontFamily;
-    private StswNumericBox? fontSize;
+    private StswComboBox? _fontFamily;
+    private StswNumericBox? _fontSize;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -69,13 +69,13 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         {
             fontFamily.ItemsSource = Fonts.SystemFontFamilies.OrderBy(x => x.Source);
             fontFamily.SelectionChanged += PART_FontFamily_SelectionChanged;
-            this.fontFamily = fontFamily;
+            _fontFamily = fontFamily;
         }
         /// Box: font size
         if (GetTemplateChild("PART_FontSize") is StswNumericBox fontSize)
         {
             fontSize.ValueChanged += PART_FontSize_ValueChanged;
-            this.fontSize = fontSize;
+            _fontSize = fontSize;
         }
 
         OnFilePathChanged(this, new DependencyPropertyChangedEventArgs());
@@ -105,12 +105,12 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             partFontUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
         */
         temp = Selection.GetPropertyValue(TextElement.FontFamilyProperty);
-        if (fontFamily != null)
-            fontFamily.SelectedItem = temp;
+        if (_fontFamily != null)
+            _fontFamily.SelectedItem = temp;
 
         temp = Selection.GetPropertyValue(TextElement.FontSizeProperty);
-        if (fontSize != null)
-            fontSize.Value = temp != DependencyProperty.UnsetValue ? Convert.ToDecimal(temp) : null;
+        if (_fontSize != null)
+            _fontSize.Value = temp != DependencyProperty.UnsetValue ? Convert.ToDecimal(temp) : null;
     }
 
     /// <summary>
@@ -276,8 +276,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// <param name="e">The event arguments</param>
     private void PART_FontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!Selection.IsEmpty && fontFamily?.SelectedItem != null)
-            Selection.ApplyPropertyValue(TextElement.FontFamilyProperty, fontFamily.SelectedItem);
+        if (!Selection.IsEmpty && _fontFamily?.SelectedItem != null)
+            Selection.ApplyPropertyValue(TextElement.FontFamilyProperty, _fontFamily.SelectedItem);
         Focus();
     }
 
@@ -289,8 +289,8 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     /// <param name="e">The event arguments</param>
     private void PART_FontSize_ValueChanged(object? sender, EventArgs e)
     {
-        if (!Selection.IsEmpty && fontSize?.Value != null)
-            Selection.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(fontSize.Value));
+        if (!Selection.IsEmpty && _fontSize?.Value != null)
+            Selection.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(_fontSize.Value));
         Focus();
     }
 

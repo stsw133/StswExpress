@@ -33,8 +33,7 @@
                                     Opacity="0"/>
                         </Border>
                         <DockPanel x:Name="PART_Header">
-                            <se:StswButton x:Name="PART_FunctionButton"
-                                           DockPanel.Dock="Right"
+                            <se:StswButton x:Name="PART_CloseTabButton" DockPanel.Dock="Right"
                                            Background="Transparent"
                                            BorderThickness="0"
                                            CornerRadius="0"
@@ -54,7 +53,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsClosable" Value="True">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_FunctionButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_CloseTabButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="BorderThickness" Value="1 0 1 1" TargetName="PART_MainBorder"/>

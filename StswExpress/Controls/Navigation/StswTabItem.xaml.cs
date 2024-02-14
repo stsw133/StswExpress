@@ -23,9 +23,9 @@ public class StswTabItem : TabItem
     {
         base.OnApplyTemplate();
 
-        /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is ButtonBase functionButton)
-            functionButton.Click += PART_FunctionButton_Click;
+        /// CloseTabButton
+        if (GetTemplateChild("PART_CloseTabButton") is ButtonBase closeTabButton)
+            closeTabButton.Click += PART_CloseTabButton_Click;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class StswTabItem : TabItem
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
+    public void PART_CloseTabButton_Click(object sender, RoutedEventArgs e)
     {
         var tabControl = StswFn.FindVisualAncestor<StswTabControl>(this);
         if (tabControl != null)

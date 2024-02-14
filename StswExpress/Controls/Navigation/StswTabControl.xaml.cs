@@ -25,18 +25,18 @@ public class StswTabControl : TabControl
     {
         base.OnApplyTemplate();
 
-        /// FunctionButton
-        if (GetTemplateChild("PART_FunctionButton") is ButtonBase functionButton)
-            functionButton.Click += PART_FunctionButton_Click;
+        /// NewTabButton
+        if (GetTemplateChild("PART_NewTabButton") is ButtonBase newTabButton)
+            newTabButton.Click += PART_NewTabButton_Click;
     }
 
     /// <summary>
-    /// Handles the click event of the PART_FunctionButton.
+    /// Handles the click event of the PART_NewTabButton.
     /// Creates and adds a new tab item based on the NewTabTemplate.
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    public void PART_FunctionButton_Click(object sender, RoutedEventArgs e)
+    public void PART_NewTabButton_Click(object sender, RoutedEventArgs e)
     {
         if (NewTabTemplate == null)
             return;

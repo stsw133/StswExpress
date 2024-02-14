@@ -16,7 +16,7 @@ public class StswDirectionViewer : ScrollViewer
     }
 
     #region Events & methods
-    private ButtonBase? btnDown, btnLeft, btnRight, btnUp;
+    private ButtonBase? _btnDown, _btnLeft, _btnRight, _btnUp;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -29,25 +29,25 @@ public class StswDirectionViewer : ScrollViewer
         if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
             btnDown.Click += (s, e) => ScrollInfo.MouseWheelDown();
-            this.btnDown = btnDown;
+            _btnDown = btnDown;
         }
         /// Button: left
         if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
             btnLeft.Click += (s, e) => ScrollInfo.MouseWheelLeft();
-            this.btnLeft = btnLeft;
+            _btnLeft = btnLeft;
         }
         /// Button: right
         if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
             btnRight.Click += (s, e) => ScrollInfo.MouseWheelRight();
-            this.btnRight = btnRight;
+            _btnRight = btnRight;
         }
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
             btnUp.Click += (s, e) => ScrollInfo.MouseWheelUp();
-            this.btnUp = btnUp;
+            _btnUp = btnUp;
         }
 
         OnHorizontalOffsetChanged();
@@ -99,17 +99,17 @@ public class StswDirectionViewer : ScrollViewer
     {
         if (e.HorizontalChange != 0)
         {
-            if (btnLeft != null)
-                btnLeft.IsEnabled = e.HorizontalOffset > 0;
-            if (btnRight != null)
-                btnRight.IsEnabled = e.HorizontalOffset + e.ViewportWidth < e.ExtentWidth;
+            if (_btnLeft != null)
+                _btnLeft.IsEnabled = e.HorizontalOffset > 0;
+            if (_btnRight != null)
+                _btnRight.IsEnabled = e.HorizontalOffset + e.ViewportWidth < e.ExtentWidth;
         }
         if (e.VerticalChange != 0)
         {
-            if (btnUp != null)
-                btnUp.IsEnabled = e.VerticalOffset > 0;
-            if (btnDown != null)
-                btnDown.IsEnabled = e.VerticalOffset + e.ViewportHeight < e.ExtentHeight;
+            if (_btnUp != null)
+                _btnUp.IsEnabled = e.VerticalOffset > 0;
+            if (_btnDown != null)
+                _btnDown.IsEnabled = e.VerticalOffset + e.ViewportHeight < e.ExtentHeight;
         }
     }
 
@@ -118,17 +118,17 @@ public class StswDirectionViewer : ScrollViewer
     /// </summary>
     private void OnHorizontalOffsetChanged()
     {
-        if (btnLeft == null || btnRight == null)
+        if (_btnLeft == null || _btnRight == null)
             return;
 
         if (HorizontalOffset == 0)
-            btnLeft.IsEnabled = false;
+            _btnLeft.IsEnabled = false;
         else if (HorizontalOffset >= ScrollableWidth)
-            btnRight.IsEnabled = false;
+            _btnRight.IsEnabled = false;
         else
         {
-            btnLeft.IsEnabled = true;
-            btnRight.IsEnabled = true;
+            _btnLeft.IsEnabled = true;
+            _btnRight.IsEnabled = true;
         }
     }
 
@@ -137,17 +137,17 @@ public class StswDirectionViewer : ScrollViewer
     /// </summary>
     private void OnVerticalOffsetChanged()
     {
-        if (btnUp == null || btnDown == null)
+        if (_btnUp == null || _btnDown == null)
             return;
 
         if (VerticalOffset == 0)
-            btnUp.IsEnabled = false;
+            _btnUp.IsEnabled = false;
         else if (VerticalOffset >= ScrollableWidth)
-            btnDown.IsEnabled = false;
+            _btnDown.IsEnabled = false;
         else
         {
-            btnUp.IsEnabled = true;
-            btnDown.IsEnabled = true;
+            _btnUp.IsEnabled = true;
+            _btnDown.IsEnabled = true;
         }
     }
     #endregion
@@ -169,7 +169,7 @@ public class StswDirectionViewer : ScrollViewer
         );
 
     /// <summary>
-    /// Gets or sets the thickness of the front (down and right) buttons.
+    /// Gets or sets the thickness of the forward (down and right) buttons.
     /// </summary>
     public Thickness FBtnThickness
     {

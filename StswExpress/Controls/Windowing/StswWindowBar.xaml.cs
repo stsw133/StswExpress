@@ -33,13 +33,13 @@ public class StswWindowBar : Control
         {
             /// Button: minimize
             if (GetTemplateChild("PART_ButtonMinimize") is Button btnMinimize)
-                btnMinimize.Click += stswWindow.MinimizeClick;
+                btnMinimize.Click += stswWindow.PART_MenuMinimize_Click;
             /// Button: restore
             if (GetTemplateChild("PART_ButtonRestore") is Button btnRestore)
-                btnRestore.Click += stswWindow.RestoreClick;
+                btnRestore.Click += stswWindow.PART_MenuRestore_Click;
             /// Button: close
             if (GetTemplateChild("PART_ButtonClose") is Button btnClose)
-                btnClose.Click += stswWindow.CloseClick;
+                btnClose.Click += stswWindow.PART_MenuClose_Click;
         }
     }
     #endregion

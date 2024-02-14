@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,7 +40,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
         base.OnApplyTemplate();
 
         if (GetTemplateChild("PART_TabStripModeButton") is ToggleButton tabStripModeButton)
-            tabStripModeButton.Click += BtnTabStripMode_Click;
+            tabStripModeButton.Click += PART_TabStripModeButton_Click;
     }
 
     /// <summary>
@@ -80,7 +79,7 @@ public class StswNavigation : ContentControl, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void BtnTabStripMode_Click(object sender, RoutedEventArgs e)
+    private void PART_TabStripModeButton_Click(object sender, RoutedEventArgs e)
     {
         if (TabStripMode == StswCompactibility.Full)
             TabStripMode = StswCompactibility.Compact;
