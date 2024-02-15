@@ -86,6 +86,21 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         );
 
     /// <summary>
+    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool IsErrorVisible
+    {
+        get => (bool)GetValue(IsErrorVisibleProperty);
+        set => SetValue(IsErrorVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsErrorVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsErrorVisible),
+            typeof(bool),
+            typeof(StswComboBox)
+        );
+
+    /// <summary>
     /// Gets or sets the data model for properties of the dropdown popup associated with the control.
     /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
     /// </summary>

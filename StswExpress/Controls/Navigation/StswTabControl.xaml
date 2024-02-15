@@ -61,7 +61,7 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_HeaderPanel"/>
                         </Trigger>
                         <Trigger Property="NewTabTemplate" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FunctionButton"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_NewTabButton"/>
                         </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="BBtnThickness" Value="1 0 1 1" TargetName="PART_DirectionViewer"/>

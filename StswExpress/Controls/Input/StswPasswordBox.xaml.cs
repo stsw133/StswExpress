@@ -168,5 +168,20 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
             typeof(CornerRadius),
             typeof(StswPasswordBox)
         );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool IsErrorVisible
+    {
+        get => (bool)GetValue(IsErrorVisibleProperty);
+        set => SetValue(IsErrorVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsErrorVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsErrorVisible),
+            typeof(bool),
+            typeof(StswPasswordBox)
+        );
     #endregion
 }

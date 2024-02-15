@@ -12,7 +12,7 @@
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+            Represents a control used for automatically selecting input box based on its value type.
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
@@ -32,7 +32,6 @@
         <se:StswAdaptiveBox DisplayMemberPath="Value"
                             IsEnabled="{Binding IsEnabled}"
                             IsReadOnly="{Binding IsReadOnly}"
-                            ItemsSource="{Binding ItemsSource}"
                             Margin="5"
                             Placeholder=" . . . "
                             SelectedValuePath="Value"

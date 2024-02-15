@@ -12,6 +12,7 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="IsErrorVisible" Value="True"/>
         <Setter Property="Popup">
             <Setter.Value>
                 <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
@@ -73,6 +74,25 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
+                                <!-- error -->
+                                <se:StswSubHeader x:Name="PART_Error" DockPanel.Dock="Right"
+                                                  IconData="{x:Static se:StswIcons.AlertCircleOutline}"
+                                                  IconFill="{DynamicResource StswBox.Error.Border}"
+                                                  Padding="{TemplateBinding Padding}"
+                                                  VerticalAlignment="Center"
+                                                  Visibility="Collapsed">
+                                    <se:StswSubHeader.ToolTip>
+                                        <se:StswToolTip>
+                                            <ItemsControl IsTabStop="False" ItemsSource="{Binding (Validation.Errors), RelativeSource={RelativeSource TemplatedParent}}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <se:StswText Text="{Binding ErrorContent}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </se:StswToolTip>
+                                    </se:StswSubHeader.ToolTip>
+                                </se:StswSubHeader>
                                 <!-- separator -->
                                 <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Right"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
@@ -196,6 +216,16 @@
                             <Setter Property="Foreground" Value="{DynamicResource StswButton.Disabled.Foreground}" TargetName="PART_MainButton"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
                         </Trigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainButton"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Validation.HasError" Value="True"/>
+                                <Condition Property="IsErrorVisible" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Error"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -259,7 +289,14 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        
+
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

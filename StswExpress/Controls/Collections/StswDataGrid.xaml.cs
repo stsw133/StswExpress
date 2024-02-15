@@ -65,7 +65,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     {
         base.OnSelectedCellsChanged(e);
 
-        if (UsesSelectionItems)
+        if (UsesSelectionItems && ItemsSource != null)
         {
             if (e.RemovedCells != null)
                 foreach (var item in e.RemovedCells.Select(x => x.Item).Distinct())

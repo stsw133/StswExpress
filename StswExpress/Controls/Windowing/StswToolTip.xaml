@@ -6,7 +6,7 @@
         <Setter Property="Background" Value="{DynamicResource StswTip.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswTip.Static.Border}"/>
 
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Padding" Value="3"/>

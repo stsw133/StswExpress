@@ -352,6 +352,21 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool IsErrorVisible
+    {
+        get => (bool)GetValue(IsErrorVisibleProperty);
+        set => SetValue(IsErrorVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsErrorVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsErrorVisible),
+            typeof(bool),
+            typeof(StswFilePicker)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
     public double SeparatorThickness
@@ -374,7 +389,7 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct SHFILEINFO
+    internal struct SHFILEINFO
     {
         public IntPtr hIcon;
         public int iIcon;

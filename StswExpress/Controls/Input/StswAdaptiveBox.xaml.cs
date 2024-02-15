@@ -9,8 +9,8 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// A control used for automatically select input box based on its value type.
-/// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
+/// Represents a control used for automatically selecting input box based on its value type.
+/// ItemsSource with items of <see cref="IStswSelectionItem"/> type are automatically bound to selected items.
 /// </summary>
 [ContentProperty(nameof(Value))]
 public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
@@ -66,9 +66,9 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
             typeof(bool),
             typeof(StswAdaptiveBox)
         );
-    
+
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the control supports three states.
     /// </summary>
     public bool IsThreeState
     {
@@ -255,6 +255,21 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool IsErrorVisible
+    {
+        get => (bool)GetValue(IsErrorVisibleProperty);
+        set => SetValue(IsErrorVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsErrorVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsErrorVisible),
+            typeof(bool),
             typeof(StswAdaptiveBox)
         );
 

@@ -32,7 +32,7 @@ public class StswAdaptiveBoxContext : ControlsContext
     }
 
     /// SelectedValue
-    private object? selectedValue;
+    private object? selectedValue = string.Empty;
     public object? SelectedValue
     {
         get => selectedValue;

@@ -17,6 +17,7 @@
         <Setter Property="SeparatorThickness" Value="2"/>
 
         <Setter Property="IsAlphaEnabled" Value="True"/>
+        <Setter Property="IsErrorVisible" Value="True"/>
         <Setter Property="Text" Value="{Binding SelectedColor, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -82,6 +83,25 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
+                            <!-- error -->
+                            <se:StswSubHeader x:Name="PART_Error" DockPanel.Dock="Right"
+                                              IconData="{x:Static se:StswIcons.AlertCircleOutline}"
+                                              IconFill="{DynamicResource StswBox.Error.Border}"
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"
+                                              Visibility="Collapsed">
+                                <se:StswSubHeader.ToolTip>
+                                    <se:StswToolTip>
+                                        <ItemsControl IsTabStop="False" ItemsSource="{Binding (Validation.Errors), RelativeSource={RelativeSource TemplatedParent}}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <se:StswText Text="{Binding ErrorContent}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </se:StswToolTip>
+                                </se:StswSubHeader.ToolTip>
+                            </se:StswSubHeader>
                             <!-- content -->
                             <DockPanel>
                                 <Ellipse Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"
@@ -137,6 +157,13 @@
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Validation.HasError" Value="True"/>
+                                <Condition Property="IsErrorVisible" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Error"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

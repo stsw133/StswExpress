@@ -223,6 +223,21 @@ public class StswColorBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool IsErrorVisible
+    {
+        get => (bool)GetValue(IsErrorVisibleProperty);
+        set => SetValue(IsErrorVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsErrorVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsErrorVisible),
+            typeof(bool),
+            typeof(StswColorBox)
+        );
+
+    /// <summary>
     /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>
     public double SeparatorThickness
