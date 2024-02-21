@@ -154,7 +154,7 @@ public class StswDatePicker : TextBox, IStswBoxControl, IStswCornerControl
             Text = result?.ToString(Format);
 
             var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
                 bindingExpression.UpdateSource();
         }
     }

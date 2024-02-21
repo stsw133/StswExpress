@@ -41,7 +41,7 @@ public class StswTextBox : TextBox, IStswBoxControl, IStswCornerControl
     private void UpdateMainProperty()
     {
         var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
             bindingExpression.UpdateSource();
     }
     #endregion

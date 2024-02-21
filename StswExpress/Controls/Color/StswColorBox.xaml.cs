@@ -81,7 +81,7 @@ public class StswColorBox : TextBox, IStswBoxControl, IStswCornerControl
             Text = result.ToString();
 
             var bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active/*, BindingStatus.UpdateSourceError*/))
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
                 bindingExpression.UpdateSource();
         }
     }

@@ -33,7 +33,7 @@ public static class StswDatabases
 
         if (!File.Exists(FilePath))
         {
-            (new FileInfo(FilePath))?.Directory?.Create();
+            new FileInfo(FilePath)?.Directory?.Create();
             File.Create(FilePath).Close();
         }
 

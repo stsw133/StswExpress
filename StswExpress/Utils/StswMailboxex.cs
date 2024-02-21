@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Mail;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace StswExpress;
 
 /// <summary>
 /// Provides functionality for managing email configurations and methods to import and export them.
 /// </summary>
-public class StswMailbox
+public static class StswMailboxex
 {
     /// <summary>
     /// The dictionary that contains all declared email configurations for application.
     /// </summary>
-    public static StswDictionary<string, StswMailboxModel> AllMailboxes { get; set; } = new();
+    public static ObservableCollection<StswMailboxModel> List { get; set; } = new();
 
     /// <summary>
     /// Default instance of email configuration (that is currently in use by application). 
     /// </summary>
-    public static StswMailboxModel? CurrentMailbox { get; set; }
+    public static StswMailboxModel? Current { get; set; }
 
     /// <summary>
     /// Specifies the location of the file where email configurations are stored.
@@ -27,15 +28,15 @@ public class StswMailbox
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
 
     /// <summary>
-    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in <see cref="AllMailboxes"/>.
+    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in <see cref="List"/>.
     /// </summary>
-    public static void ImportMailboxes()
+    public static void ImportList()
     {
-        AllMailboxes.Clear();
+        List.Clear();
 
         if (!File.Exists(FilePath))
         {
-            (new FileInfo(FilePath))?.Directory?.Create();
+            new FileInfo(FilePath)?.Directory?.Create();
             File.Create(FilePath).Close();
         }
 
@@ -46,14 +47,15 @@ public class StswMailbox
             if (line != null)
             {
                 var data = line.Split('|');
-                AllMailboxes.Add(StswSecurity.Decrypt(data[0]), new StswMailboxModel()
+                List.Add(new StswMailboxModel()
                 {
+                    Name = StswSecurity.Decrypt(data[0]),
                     Host = StswSecurity.Decrypt(data[1]),
-                    Port = Convert.ToInt32(StswSecurity.Decrypt(data[2])),
+                    Port = StswSecurity.Decrypt(data[2]) is string s1 && !string.IsNullOrEmpty(s1) ? Convert.ToInt32(s1) : 0,
                     Address = StswSecurity.Decrypt(data[3]),
                     Username = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5]),
-                    EnableSSL = Convert.ToBoolean(StswSecurity.Decrypt(data[6]))
+                    EnableSSL = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) ? Convert.ToBoolean(s2) : false
                 });
             }
         }
@@ -62,17 +64,17 @@ public class StswMailbox
     /// <summary>
     /// Writes email configurations to a file specified by <see cref="FilePath"/>.
     /// </summary>
-    public static void ExportMailboxes()
+    public static void ExportList()
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var mc in AllMailboxes)
-            stream.WriteLine(StswSecurity.Encrypt(mc.Key)
-                    + "|" + StswSecurity.Encrypt(mc.Value.Host)
-                    + "|" + StswSecurity.Encrypt(mc.Value.Port.ToString())
-                    + "|" + StswSecurity.Encrypt(mc.Value.Address)
-                    + "|" + StswSecurity.Encrypt(mc.Value.Username)
-                    + "|" + StswSecurity.Encrypt(mc.Value.Password)
-                    + "|" + StswSecurity.Encrypt(mc.Value.EnableSSL.ToString())
+        foreach (var mc in List)
+            stream.WriteLine(StswSecurity.Encrypt(mc.Name)
+                    + "|" + StswSecurity.Encrypt(mc.Host)
+                    + "|" + StswSecurity.Encrypt(mc.Port.ToString() ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(mc.Address)
+                    + "|" + StswSecurity.Encrypt(mc.Username)
+                    + "|" + StswSecurity.Encrypt(mc.Password)
+                    + "|" + StswSecurity.Encrypt(mc.EnableSSL.ToString() ?? string.Empty)
                 );
     }
 }
@@ -82,6 +84,14 @@ public class StswMailbox
 /// </summary>
 public class StswMailboxModel : StswObservableObject
 {
+    /// Name
+    public string Name
+    {
+        get => name;
+        set => SetProperty(ref name, value);
+    }
+    private string name = string.Empty;
+
     /// Host
     public string Host
     {

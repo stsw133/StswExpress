@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Calculates a mathematical expression based on input values passed as an array and a separator string.
 /// Converter supports <see cref="CornerRadius"/>, <see cref="Thickness"/> and any numeric type (for example <see cref="int"/> and <see cref="double"/>).<br/>
 /// </summary>
-[Obsolete]
+[Obsolete($"{nameof(StswCalculateConverter)} will be deleted soon. Please do not use it anymore.", false)]
 public class StswCalculateConverter : MarkupExtension, IMultiValueConverter
 {
     private static StswCalculateConverter? instance;
