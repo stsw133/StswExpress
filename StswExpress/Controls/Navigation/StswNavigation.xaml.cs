@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a navigation control that allows managing multiple contexts and navigation elements.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigation : ContentControl, IStswCornerControl
+public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollableControl
 {
     public StswNavigation()
     {
@@ -294,6 +294,22 @@ public class StswNavigation : ContentControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswNavigation)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswNavigation)
         );
 

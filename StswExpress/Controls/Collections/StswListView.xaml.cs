@@ -8,7 +8,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswListView : ListView, IStswCornerControl
+public class StswListView : ListView, IStswCornerControl, IStswScrollableControl
 {
     static StswListView()
     {
@@ -79,6 +79,22 @@ public class StswListView : ListView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswListView)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswListView)
         );
     #endregion

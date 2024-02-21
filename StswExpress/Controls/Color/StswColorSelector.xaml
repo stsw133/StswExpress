@@ -61,7 +61,9 @@
                             <se:StswGroupBox.Header>
                                 <se:StswLabel Content="{se:Tr StswColorSelector.ThemeColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="Disabled">
+                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled"
+                                                    Focusable="False"
+                                                    Padding="{TemplateBinding Padding}">
                                 <ItemsControl AlternationCount="6" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteTheme}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -103,7 +105,9 @@
                             <se:StswGroupBox.Header>
                                 <se:StswLabel Content="{se:Tr StswColorSelector.StandardColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"  Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="Disabled">
+                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled"
+                                                    Focusable="False"
+                                                    Padding="{TemplateBinding Padding}">
                                 <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ColorPaletteStandard}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>

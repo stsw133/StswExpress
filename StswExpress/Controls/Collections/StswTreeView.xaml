@@ -11,6 +11,17 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
 
+        <Setter Property="ScrollViewer">
+            <Setter.Value>
+                <se:StswScrollViewerModel CanContentScroll="True"
+                                          IsDynamic="True"
+                                          PanningMode="Both"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -19,12 +30,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
-        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -36,12 +41,13 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <se:StswScrollViewer x:Name="PART_ScrollViewer"
-                                             CanContentScroll="False"
+                                             CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource TemplatedParent}}"
                                              Focusable="False"
-                                             IsDynamic="True"
+                                             IsDynamic="{Binding ScrollViewer.IsDynamic, RelativeSource={RelativeSource TemplatedParent}}"
                                              Padding="{TemplateBinding Padding}"
-                                             HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                             VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                             PanningMode="{Binding ScrollViewer.PanningMode, RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding ScrollViewer.HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding ScrollViewer.VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </se:StswBorder>

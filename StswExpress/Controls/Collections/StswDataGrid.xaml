@@ -21,6 +21,17 @@
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="SpecialColumnVisibility" Value="All"/>
 
+        <Setter Property="ScrollViewer">
+            <Setter.Value>
+                <se:StswScrollViewerModel CanContentScroll="True"
+                                          IsDynamic="False"
+                                          PanningMode="Both"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -29,12 +40,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
-        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="CellStyle" Value="{DynamicResource StswDataGridCellStyle}"/>
         <Setter Property="ColumnHeaderStyle" Value="{DynamicResource StswDataGridColumnHeaderStyle}"/>
@@ -51,7 +56,13 @@
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True">
-                        <se:StswScrollViewer x:Name="DG_ScrollViewer" Focusable="False">
+                        <se:StswScrollViewer x:Name="DG_ScrollViewer"
+                                             CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource TemplatedParent}}"
+                                             Focusable="False"
+                                             IsDynamic="{Binding ScrollViewer.IsDynamic, RelativeSource={RelativeSource TemplatedParent}}"
+                                             PanningMode="{Binding ScrollViewer.PanningMode, RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding ScrollViewer.HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding ScrollViewer.VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                             <se:StswScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type se:StswScrollViewer}">
                                     <Grid>
@@ -442,13 +453,13 @@
                     <Grid>
                         <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
                         <Polygon x:Name="Arrow"
-                             Fill="Black"
-                             Margin="8 8 3 3"
-                             Opacity="0.15"
-                             Points="0,10 10,10 10,0"
-                             Stretch="Uniform"
-                             HorizontalAlignment="Right"
-                             VerticalAlignment="Bottom"/>
+                                 Fill="Black"
+                                 Margin="8 8 3 3"
+                                 Opacity="0.15"
+                                 Points="0,10 10,10 10,0"
+                                 Stretch="Uniform"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

@@ -16,6 +16,16 @@
         <Setter Property="TabStripPlacement" Value="Left"/>
         <Setter Property="TabStripWidth" Value="NaN"/>
 
+        <Setter Property="ScrollViewer">
+            <Setter.Value>
+                <se:StswScrollViewerModel CanContentScroll="True"
+                                          IsDynamic="False"
+                                          PanningMode="Both"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"/>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -83,7 +93,13 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollViewer x:Name="PART_Items" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <se:StswScrollViewer x:Name="PART_Items"
+                                                     CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Focusable="False"
+                                                     IsDynamic="{Binding ScrollViewer.IsDynamic, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     PanningMode="{Binding ScrollViewer.PanningMode, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     HorizontalScrollBarVisibility="{Binding ScrollViewer.HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VerticalScrollBarVisibility="{Binding ScrollViewer.VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswScrollViewer.Resources>
                                         <Style TargetType="{x:Type se:StswScrollBar}">
                                             <Setter Property="ExpandedWidth" Value="12"/>

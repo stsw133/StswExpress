@@ -15,7 +15,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerControl, IStswDropControl
+public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
 {
     public StswSelectionBox()
     {
@@ -339,6 +339,22 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
         = DependencyProperty.Register(
             nameof(Popup),
             typeof(StswPopupModel),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswSelectionBox)
         );
 

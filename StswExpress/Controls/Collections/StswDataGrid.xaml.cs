@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
-public class StswDataGrid : DataGrid, IStswCornerControl
+public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
 {
     public ICommand ClearFiltersCommand { get; set; }
 
@@ -378,6 +378,22 @@ public class StswDataGrid : DataGrid, IStswCornerControl
         = DependencyProperty.Register(
             nameof(HeaderBorderBrush),
             typeof(SolidColorBrush),
+            typeof(StswDataGrid)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswDataGrid)
         );
     #endregion

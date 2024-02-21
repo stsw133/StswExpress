@@ -32,7 +32,7 @@ public class StswAsyncCommand : StswObservableObject, ICommand
     /// </summary>
     public async void Execute(object? parameter)
     {
-        if (!IsBusy)
+        if (!IsBusy || IsReusable)
         {
             IsBusy = true;
             UpdateCanExecute();
@@ -53,4 +53,9 @@ public class StswAsyncCommand : StswObservableObject, ICommand
         private set => SetProperty(ref isBusy, value);
     }
     private bool isBusy;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsReusable;
 }

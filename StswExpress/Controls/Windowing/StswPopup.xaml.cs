@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a custom popup control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
-public class StswPopup : Popup, IStswCornerControl
+public class StswPopup : Popup, IStswCornerControl, IStswScrollableControl
 {
     public StswPopup()
     {
@@ -122,21 +122,6 @@ public class StswPopup : Popup, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswScrollViewer"/> inside the control is dynamic.
-    /// </summary>
-    public bool IsScrollDynamic
-    {
-        get => (bool)GetValue(IsScrollDynamicProperty);
-        set => SetValue(IsScrollDynamicProperty, value);
-    }
-    public static readonly DependencyProperty IsScrollDynamicProperty
-        = DependencyProperty.Register(
-            nameof(IsScrollDynamic),
-            typeof(bool),
-            typeof(StswPopup)
-        );
-
-    /// <summary>
     /// Gets or sets the padding for the control.
     /// </summary>
     public Thickness Padding
@@ -148,6 +133,22 @@ public class StswPopup : Popup, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
+            typeof(StswPopup)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswPopup)
         );
     #endregion

@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a panel control that displays information bars in a scrollable list, providing optional functionality for a close button.
 /// </summary>
-public class StswInfoPanel : ListBox, IStswCornerControl
+public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
 {
     static StswInfoPanel()
     {
@@ -81,19 +81,19 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="StswScrollViewer"/> inside the control is dynamic.
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
     /// </summary>
-    public bool IsScrollDynamic
+    public StswScrollViewerModel ScrollViewer
     {
-        get => (bool)GetValue(IsScrollDynamicProperty);
-        set => SetValue(IsScrollDynamicProperty, value);
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
     }
-    public static readonly DependencyProperty IsScrollDynamicProperty
+    public static readonly DependencyProperty ScrollViewerProperty
         = DependencyProperty.Register(
-            nameof(IsScrollDynamic),
-            typeof(bool),
-            typeof(StswInfoPanel),
-            new PropertyMetadata(true)
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
+            typeof(StswInfoPanel)
         );
     #endregion
 }

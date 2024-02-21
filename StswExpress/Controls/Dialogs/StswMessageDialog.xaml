@@ -7,6 +7,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
 
@@ -26,6 +27,7 @@
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                     CornerClipping="{TemplateBinding CornerClipping}"
                                      CornerRadius="{TemplateBinding CornerRadius}"
                                      Focusable="False"
                                      MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"

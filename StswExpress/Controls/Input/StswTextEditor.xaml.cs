@@ -16,7 +16,7 @@ namespace StswExpress;
 /// <summary>
 /// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>
-public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
+public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl, IStswScrollableControl
 {
     public ICommand FileNewCommand { get; set; }
     public ICommand FileOpenCommand { get; set; }
@@ -492,6 +492,22 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswTextEditor)
+        );
+
+    /// <summary>
+    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
+    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// </summary>
+    public StswScrollViewerModel ScrollViewer
+    {
+        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
+        set => SetValue(ScrollViewerProperty, value);
+    }
+    public static readonly DependencyProperty ScrollViewerProperty
+        = DependencyProperty.Register(
+            nameof(ScrollViewer),
+            typeof(StswScrollViewerModel),
             typeof(StswTextEditor)
         );
 

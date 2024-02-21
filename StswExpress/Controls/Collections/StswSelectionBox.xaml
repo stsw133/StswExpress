@@ -24,6 +24,17 @@
             </Setter.Value>
         </Setter>
 
+        <Setter Property="ScrollViewer">
+            <Setter.Value>
+                <se:StswScrollViewerModel CanContentScroll="False"
+                                          IsDynamic="True"
+                                          PanningMode="Both"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -32,12 +43,6 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -107,7 +112,7 @@
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                 MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
                                                 Padding="{Binding Popup.Padding, RelativeSource={RelativeSource TemplatedParent}}"
-                                                ScrollViewer.CanContentScroll="False"
+                                                ScrollViewer="{TemplateBinding ScrollViewer}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"/>
                             </Popup>

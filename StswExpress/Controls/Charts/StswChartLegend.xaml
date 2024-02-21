@@ -9,6 +9,16 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="ScrollViewer">
+            <Setter.Value>
+                <se:StswScrollViewerModel CanContentScroll="True"
+                                          IsDynamic="False"
+                                          PanningMode="Both"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"/>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -31,7 +41,14 @@
                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
-                        <se:StswScrollViewer DockPanel.Dock="Top" Focusable="False" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <se:StswScrollViewer DockPanel.Dock="Top"
+                                             CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource TemplatedParent}}"
+                                             Focusable="False"
+                                             IsDynamic="{Binding ScrollViewer.IsDynamic, RelativeSource={RelativeSource TemplatedParent}}"
+                                             Padding="{TemplateBinding Padding}"
+                                             PanningMode="{Binding ScrollViewer.PanningMode, RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding ScrollViewer.HorizontalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding ScrollViewer.VerticalScrollBarVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </DockPanel>
@@ -68,9 +85,6 @@
                                 Height="18" Width="18"/>
                         <Label Content="{Binding Name}" Foreground="{DynamicResource StswText.Static.Foreground}"/>
                     </StackPanel>
-                    <DataTemplate.Triggers>
-                        
-                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
