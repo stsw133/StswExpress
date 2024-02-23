@@ -21,6 +21,13 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDropButton), new FrameworkPropertyMetadata(typeof(StswDropButton)));
     }
 
+    #region Events & methods
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
+    #endregion
+
     #region Main properties
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.

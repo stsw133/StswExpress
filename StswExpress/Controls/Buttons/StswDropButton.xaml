@@ -63,7 +63,8 @@
                                               Orientation="Vertical"
                                               Visibility="Hidden"/>
                             <!-- popup -->
-                            <se:StswPopup Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswPopup x:Name="PART_Popup"
+                                          Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
                                           BorderBrush="{Binding Popup.BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                           BorderThickness="{Binding Popup.BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
                                           CornerClipping="{Binding Popup.CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"

@@ -74,6 +74,15 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     }
 
     /// <summary>
+    /// Prevents state changes when the <see cref="IsReadOnly"/> property is set to <see langword="true"/>.
+    /// </summary>
+    protected override void OnToggle()
+    {
+        if (!IsReadOnly)
+            base.OnToggle();
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <param name="sizeInfo"></param>
@@ -139,6 +148,21 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IconScale),
             typeof(GridLength),
+            typeof(StswToggleSwitch)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control is in read-only mode.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
             typeof(StswToggleSwitch)
         );
     #endregion

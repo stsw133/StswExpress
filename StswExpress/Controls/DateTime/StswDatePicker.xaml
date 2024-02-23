@@ -40,7 +40,7 @@
                             <!-- buttons -->
                             <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
                                                Focusable="False"
-                                               BorderThickness="0" CornerRadius="0" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               se:StswBorder.IsBorderless="True" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>

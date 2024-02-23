@@ -9,6 +9,12 @@ namespace StswExpress;
 public interface IStswCornerControl
 {
     /// <summary>
+    /// Gets or sets the thickness of the control's border.
+    /// </summary>
+    public Thickness BorderThickness { get; set; }
+    public static readonly DependencyProperty? BorderThicknessProperty;
+
+    /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the control.
     /// When set to <see langword="true"/>, content within the control's border area is clipped to match
     /// the border's rounded corners, preventing elements from protruding beyond the border.

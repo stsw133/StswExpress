@@ -95,6 +95,18 @@
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.Pressed.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Checked.Pressed.Border}" TargetName="PART_MainBorder"/>
                         </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.ReadOnly.Glyph}" TargetName="PART_Icon"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsReadOnly" Value="True"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource StswCheck.Checked.ReadOnly.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Fill" Value="{DynamicResource StswCheck.Checked.ReadOnly.Glyph}" TargetName="PART_Icon"/>
+                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswCheck.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswCheck.Disabled.Border}" TargetName="PART_MainBorder"/>

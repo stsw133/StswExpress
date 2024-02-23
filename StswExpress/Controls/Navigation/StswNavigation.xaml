@@ -52,7 +52,7 @@
                                        Width="{Binding TabStripWidth, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- components -->
                                 <DockPanel x:Name="PART_Components">
-                                    <se:StswToggleButton x:Name="PART_TabStripModeButton" BorderThickness="0" CornerClipping="False" CornerRadius="0">
+                                    <se:StswToggleButton x:Name="PART_TabStripModeButton" se:StswBorder.IsBorderless="True">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
                                     <se:StswDirectionViewer x:Name="PART_CustomComponents" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">

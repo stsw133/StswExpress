@@ -38,12 +38,9 @@
                                    SnapsToDevicePixels="True">
                         <DockPanel>
                             <!-- button -->
-                            <se:StswToggleButton x:Name="PART_MainButton"
-                                                 DockPanel.Dock="Top"
+                            <se:StswToggleButton x:Name="PART_MainButton" DockPanel.Dock="Top"
+                                                 se:StswBorder.IsBorderless="True"
                                                  Background="Transparent"
-                                                 BorderThickness="0"
-                                                 CornerClipping="False"
-                                                 CornerRadius="0"
                                                  FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
                                                  FontFamily="{TemplateBinding FontFamily}"
                                                  FontSize="{TemplateBinding FontSize}"

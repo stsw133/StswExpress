@@ -78,6 +78,11 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
 
         Text = selectedText.ToString();
     }
+
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Main properties

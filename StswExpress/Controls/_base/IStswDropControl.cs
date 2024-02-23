@@ -8,6 +8,11 @@ namespace StswExpress;
 public interface IStswDropControl
 {
     /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup();
+
+    /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen { get; set; }

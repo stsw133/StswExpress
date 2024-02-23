@@ -21,6 +21,13 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSplitButton), new FrameworkPropertyMetadata(typeof(StswSplitButton)));
     }
 
+    #region Events & methods
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
+    #endregion
+
     #region Main properties
     /// <summary>
     /// Gets or sets the command associated with the control.

@@ -42,7 +42,7 @@
                             <!-- buttons -->
                             <se:StswButton x:Name="PART_DialogButton" DockPanel.Dock="Right"
                                            Focusable="True"
-                                           BorderThickness="0" CornerRadius="0" Padding="0" Width="24">
+                                           se:StswBorder.IsBorderless="True" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}"/>
                             </se:StswButton>
                             <!-- separator -->

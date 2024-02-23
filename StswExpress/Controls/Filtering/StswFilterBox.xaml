@@ -38,7 +38,7 @@
                             <DockPanel>
                                 <!-- filter mode -->
                                 <se:StswToggleButton x:Name="PART_FilterMode"
-                                                     BorderThickness="0" CornerRadius="0" FontFamily="Segoe UI" FontSize="15" Padding="0" Width="24"
+                                                     se:StswBorder.IsBorderless="True" FontFamily="Segoe UI" FontSize="15" Padding="0" Width="24"
                                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswOutlinedText Stroke="Black" StrokeThickness="2"/>
                                     <se:StswToggleButton.ContextMenu>
@@ -176,16 +176,15 @@
                                 <!-- controls -->
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
-                                    <se:StswAdaptiveBox Type="{TemplateBinding FilterType}"
+                                    <se:StswAdaptiveBox se:StswBorder.IsBorderless="True"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                        BorderThickness="0"
-                                                        CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
                                                         Padding="{TemplateBinding Padding}"
                                                         Placeholder=" . . . "
                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                        Type="{TemplateBinding FilterType}"
                                                         Value="{Binding Value1, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswAdaptiveBox.Resources>
                                             <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z"/>
@@ -200,16 +199,15 @@
                                     </se:StswAdaptiveBox>
                                     <!-- second control -->
                                     <se:StswAdaptiveBox x:Name="PART_SecondControl"
-                                                        Type="{TemplateBinding FilterType}"
+                                                        se:StswBorder.IsBorderless="True"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                                        BorderThickness="0"
-                                                        CornerRadius="0"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"
                                                         ItemsSource="{TemplateBinding ItemsSource}"
                                                         Padding="{TemplateBinding Padding}"
                                                         Placeholder=" . . . "
                                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                                        Type="{TemplateBinding FilterType}"
                                                         Value="{Binding Value2, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                         Visibility="Collapsed">
                                         <se:StswAdaptiveBox.Resources>

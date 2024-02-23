@@ -99,7 +99,8 @@
                                                   Orientation="Vertical"
                                                   Visibility="{DynamicResource StswDropArrow.Visibility}"/>
                                 <!-- popup -->
-                                <Popup Grid.ColumnSpan="2"
+                                <Popup x:Name="PART_Popup"
+                                       Grid.ColumnSpan="2"
                                        AllowsTransparency="True"
                                        IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Placement="Bottom"
@@ -149,10 +150,8 @@
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                       Visibility="Collapsed"/>
                                     <se:StswTextBox x:Name="PART_EditableTextBox"
+                                                    se:StswBorder.IsBorderless="True"
                                                     AllowDrop="True"
-                                                    BorderThickness="0"
-                                                    CornerClipping="False"
-                                                    CornerRadius="0"
                                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                                     Padding="{TemplateBinding Padding}"
                                                     Placeholder="{TemplateBinding Placeholder}"

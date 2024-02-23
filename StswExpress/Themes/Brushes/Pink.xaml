@@ -7,7 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- rules:
-        * get matching item from Light theme, increase its R and decrease its G
+        * get matching item from Light theme, increase its R and decrease its G (in case of WindowGlassColor start with #ee1153 and increase its lightness by missing percent of Light theme)
     -->
 
     <!-- StswColors -->
@@ -91,6 +91,8 @@
         <GradientStop Color="#A47" Offset="0.5"/>
         <GradientStop Color="#B33" Offset="1"/>
     </LinearGradientBrush>
+    <SolidColorBrush x:Key="StswCheck.ReadOnly.Background" Color="#FFF0F7"/>
+    <SolidColorBrush x:Key="StswCheck.ReadOnly.Glyph" Color="#423"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswCheck.Disabled.Foreground" Color="#A89"/>
@@ -105,6 +107,8 @@
     <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Background" Color="#f3598c"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Border" Color="#B33"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Pressed.Toggle" Color="#ECD"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Background" Color="#fab7cb"/>
+    <SolidColorBrush x:Key="StswCheck.Checked.ReadOnly.Glyph" Color="#423"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Background" Color="#fbc6d8"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Border" Color="#fddee8"/>
     <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Foreground" Color="#A89"/>

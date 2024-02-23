@@ -18,6 +18,13 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
     }
 
+    #region Events & methods
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
+    #endregion
+
     #region Main properties
     /// <summary>
     /// Gets or sets the placeholder text displayed in the control when no item is selected.

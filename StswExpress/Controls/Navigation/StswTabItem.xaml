@@ -34,9 +34,8 @@
                         </Border>
                         <DockPanel x:Name="PART_Header">
                             <se:StswButton x:Name="PART_CloseTabButton" DockPanel.Dock="Right"
+                                           se:StswBorder.IsBorderless="True"
                                            Background="Transparent"
-                                           BorderThickness="0"
-                                           CornerRadius="0"
                                            Margin="3"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"

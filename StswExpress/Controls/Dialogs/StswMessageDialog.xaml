@@ -71,8 +71,7 @@
                                               BorderThickness="1"
                                               Orientation="Horizontal"/>
                             <!-- text -->
-                            <se:StswTextBox BorderThickness="0"
-                                            CornerRadius="0"
+                            <se:StswTextBox se:StswBorder.IsBorderless="True"
                                             IsReadOnly="True"
                                             Padding="{TemplateBinding Padding}"
                                             ScrollViewer.VerticalScrollBarVisibility="Auto"

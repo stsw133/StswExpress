@@ -19,57 +19,35 @@
             <!-- HasContent -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HasContent"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HasContent}"/>
+            <!-- IsReadOnly -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsThreeState -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsThreeState"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <UniformGrid DockPanel.Dock="Top" Columns="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswToggleSwitch Command="{Binding OnClickCommand}"
-                                 CommandParameter="1"
-                                 Content="{Binding Content1}"
-                                 IsChecked="{Binding SelectedOption[0]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswToggleSwitch Command="{Binding OnClickCommand}"
-                                 CommandParameter="2"
-                                 Content="{Binding Content2}"
-                                 IsChecked="{Binding SelectedOption[1]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswToggleSwitch Command="{Binding OnClickCommand}"
-                                 CommandParameter="3"
-                                 Content="{Binding Content3}"
-                                 IsChecked="{Binding SelectedOption[2]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswToggleSwitch Command="{Binding OnClickCommand}"
-                                 CommandParameter="4"
-                                 Content="{Binding Content4}"
-                                 IsChecked="{Binding SelectedOption[3]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswToggleSwitch Command="{Binding OnClickCommand}"
-                                 CommandParameter="5"
-                                 Content="{Binding Content5}"
-                                 IsChecked="{Binding SelectedOption[4]}"
-                                 IsEnabled="{Binding IsEnabled}"
-                                 IsThreeState="{Binding IsThreeState}"
-                                 Margin="0 0 0 5"
-                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="1" IsChecked="{Binding SelectedOption[0]}" Tag="Option 1"/>
+            <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="2" IsChecked="{Binding SelectedOption[1]}" Tag="Option 2"/>
+            <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="3" IsChecked="{Binding SelectedOption[2]}" Tag="Option 3"/>
+            <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="4" IsChecked="{Binding SelectedOption[3]}" Tag="Option 4"/>
+            <se:StswToggleSwitch Command="{Binding OnClickCommand}" CommandParameter="5" IsChecked="{Binding SelectedOption[4]}" Tag="Option 5"/>
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type se:StswToggleSwitch}">
+                    <Setter Property="Margin" Value="0 0 0 5"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/>
+                    <Setter Property="IsThreeState" Value="{Binding IsThreeState}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasContent}" Value="True">
+                            <Setter Property="Content" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </UniformGrid.Resources>
         </UniformGrid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

@@ -28,12 +28,10 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- button -->
-                            <se:StswToggleButton x:Name="PART_TruncationButton"
-                                                 DockPanel.Dock="Right"
-                                                 BorderThickness="0"
+                            <se:StswToggleButton x:Name="PART_TruncationButton" DockPanel.Dock="Right"
+                                                 se:StswBorder.IsBorderless="True"
                                                  ClickMode="Hover"
                                                  Content="..."
-                                                 CornerRadius="0"
                                                  Focusable="False"
                                                  IsTabStop="False"
                                                  Margin="2 0"
@@ -42,9 +40,7 @@
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                             <!-- popup -->
-                            <se:StswPopup BorderThickness="0"
-                                          CornerClipping="False"
-                                          CornerRadius="0"
+                            <se:StswPopup se:StswBorder.IsBorderless="True"
                                           IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
                                           Padding="0"
                                           Placement="Relative"

@@ -41,6 +41,7 @@
                                                                          CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          IsChecked="{Binding Value, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
+                                                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          IsThreeState="{Binding IsThreeState, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                          HorizontalContentAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"

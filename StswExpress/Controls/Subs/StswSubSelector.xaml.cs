@@ -46,6 +46,11 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         base.OnMouseEnter(e);
         IsDropDownOpen = true;
     }
+
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Main properties

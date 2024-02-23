@@ -437,10 +437,10 @@
                                                         </Style>
                                                     </se:StswDropButton.Resources>
 
-                                                    <se:StswButton BorderThickness="0" Command="EditingCommands.ToggleBullets" CornerRadius="0" Focusable="False" HorizontalContentAlignment="Left">
+                                                    <se:StswButton se:StswBorder.IsBorderless="True" Command="EditingCommands.ToggleBullets" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton BorderThickness="0" Command="EditingCommands.ToggleNumbering" CornerRadius="0" Focusable="False" HorizontalContentAlignment="Left">
+                                                    <se:StswButton se:StswBorder.IsBorderless="True" Command="EditingCommands.ToggleNumbering" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
                                                     </se:StswButton>
                                                 </se:StswDropButton>
@@ -460,12 +460,12 @@
                                                             <Setter Property="Visibility" Value="Collapsed"/>
                                                         </Style>
                                                     </se:StswDropButton.Resources>
-                                                    
-                                                    <se:StswButton Content="auto" BorderThickness="0" CornerRadius="0" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                                    <se:StswButton Content="1" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
-                                                    <se:StswButton Content="1.15" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
-                                                    <se:StswButton Content="1.5" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
-                                                    <se:StswButton Content="2" BorderThickness="0" CornerRadius="0" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="20"/>
+
+                                                    <se:StswButton Content="auto" se:StswBorder.IsBorderless="True" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <se:StswButton Content="1" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
+                                                    <se:StswButton Content="1.15" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
+                                                    <se:StswButton Content="1.5" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
+                                                    <se:StswButton Content="2" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="20"/>
                                                 </se:StswDropButton>
                                             </DockPanel>
 
