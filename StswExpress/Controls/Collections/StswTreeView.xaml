@@ -13,11 +13,7 @@
 
         <Setter Property="ScrollViewer">
             <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="True"
-                                          IsDynamic="True"
-                                          PanningMode="Both"
-                                          HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto"/>
+                <se:StswScrollViewerModel IsDynamic="True"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>

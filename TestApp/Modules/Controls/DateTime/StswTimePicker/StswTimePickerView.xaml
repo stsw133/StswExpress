@@ -17,23 +17,23 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Format -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Format"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Format, Type={x:Type se:StswTimePicker}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
             <!-- IncrementType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IncrementType"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IncrementType, Type={x:Type se:StswTimePicker}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswTimeSpanIncrementType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}" SelectedValuePath="Value"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswTimePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- Minimum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Minimum, Type={x:Type se:StswTimePicker}}"/>
             <se:StswTimePicker Margin="0 0 0 3" SelectedTime="{Binding Minimum}"/>
             <!-- Maximum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Maximum, Type={x:Type se:StswTimePicker}}"/>
             <se:StswTimePicker Margin="0 0 0 3" SelectedTime="{Binding Maximum}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswTimePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

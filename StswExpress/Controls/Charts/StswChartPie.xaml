@@ -8,7 +8,7 @@
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="StrokeThickness" Value="400"/>
+        <Setter Property="StrokeThickness" Value="500"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

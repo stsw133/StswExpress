@@ -17,13 +17,13 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsEditable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsEditable"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsEditable, Type={x:Type se:StswShiftButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEditable}"/>
             <!-- IsLoopingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsLoopingEnabled"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsLoopingEnabled, Type={x:Type se:StswShiftButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsLoopingEnabled}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswShiftButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

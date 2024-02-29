@@ -55,7 +55,7 @@ public class StswScrollViewer : ScrollViewer
 
     #region Main properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when are not used).
     /// </summary>
     public bool IsDynamic
     {
@@ -77,7 +77,7 @@ public class StswScrollViewer : ScrollViewer
 public class StswScrollViewerModel : DependencyObject
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the content can be scrolled.
     /// </summary>
     public bool CanContentScroll
     {
@@ -88,11 +88,12 @@ public class StswScrollViewerModel : DependencyObject
         = DependencyProperty.Register(
             nameof(CanContentScroll),
             typeof(bool),
-            typeof(StswScrollViewerModel)
+            typeof(StswScrollViewerModel),
+            new PropertyMetadata(true)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when are not used).
     /// </summary>
     public bool IsDynamic
     {
@@ -103,11 +104,12 @@ public class StswScrollViewerModel : DependencyObject
         = DependencyProperty.Register(
             nameof(IsDynamic),
             typeof(bool),
-            typeof(StswScrollViewerModel)
+            typeof(StswScrollViewerModel),
+            new PropertyMetadata(false)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the panning mode, determining the allowed direction(s) for panning.
     /// </summary>
     public PanningMode PanningMode
     {
@@ -118,11 +120,12 @@ public class StswScrollViewerModel : DependencyObject
         = DependencyProperty.Register(
             nameof(PanningMode),
             typeof(PanningMode),
-            typeof(StswScrollViewerModel)
+            typeof(StswScrollViewerModel),
+            new PropertyMetadata(PanningMode.Both)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the visibility of the horizontal scroll bar.
     /// </summary>
     public ScrollBarVisibility HorizontalScrollBarVisibility
     {
@@ -133,11 +136,12 @@ public class StswScrollViewerModel : DependencyObject
         = DependencyProperty.Register(
             nameof(HorizontalScrollBarVisibility),
             typeof(ScrollBarVisibility),
-            typeof(StswScrollViewerModel)
+            typeof(StswScrollViewerModel),
+            new PropertyMetadata(ScrollBarVisibility.Auto)
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the visibility of the vertical scroll bar.
     /// </summary>
     public ScrollBarVisibility VerticalScrollBarVisibility
     {
@@ -148,6 +152,7 @@ public class StswScrollViewerModel : DependencyObject
         = DependencyProperty.Register(
             nameof(VerticalScrollBarVisibility),
             typeof(ScrollBarVisibility),
-            typeof(StswScrollViewerModel)
+            typeof(StswScrollViewerModel),
+            new PropertyMetadata(ScrollBarVisibility.Auto)
         );
 }

@@ -201,7 +201,8 @@ public class StswPopupModel : DependencyObject, IStswCornerControl
         = DependencyProperty.Register(
             nameof(BorderThickness),
             typeof(Thickness),
-            typeof(StswPopupModel)
+            typeof(StswPopupModel),
+            new PropertyMetadata(new Thickness(2))
         );
 
     /// <summary>
@@ -216,7 +217,8 @@ public class StswPopupModel : DependencyObject, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswPopupModel)
+            typeof(StswPopupModel),
+            new PropertyMetadata(true)
         );
 
     /// <summary>
@@ -231,7 +233,8 @@ public class StswPopupModel : DependencyObject, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswPopupModel)
+            typeof(StswPopupModel),
+            new PropertyMetadata(new CornerRadius(10))
         );
 
     /// <summary>
@@ -246,6 +249,7 @@ public class StswPopupModel : DependencyObject, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Padding),
             typeof(Thickness),
-            typeof(StswPopupModel)
+            typeof(StswPopupModel),
+            new PropertyMetadata(new Thickness(0))
         );
 }

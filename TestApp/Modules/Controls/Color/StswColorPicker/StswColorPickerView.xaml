@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsAlphaEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsAlphaEnabled"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsAlphaEnabled, Type={x:Type se:StswColorPicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlphaEnabled}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

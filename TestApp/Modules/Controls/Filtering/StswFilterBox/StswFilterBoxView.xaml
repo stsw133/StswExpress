@@ -17,18 +17,18 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- FilterMenuMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterMenuMode:"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf FilterMenuMode, Type={x:Type se:StswFilterBox}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding FilterMenuMode}" SelectedValuePath="Value"/>
             <!-- FilterType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterType:"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf FilterType, Type={x:Type se:StswFilterBox}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding FilterType}" SelectedValuePath="Value"/>
             <!-- IsFilterCaseSensitive -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsFilterCaseSensitive"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsFilterCaseSensitive, Type={x:Type se:StswFilterBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterCaseSensitive}"/>
             <!-- IsFilterNullSensitive -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsFilterNullSensitive"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsFilterNullSensitive, Type={x:Type se:StswFilterBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterNullSensitive}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

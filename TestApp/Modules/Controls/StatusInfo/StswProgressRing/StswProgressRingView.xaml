@@ -17,24 +17,24 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsIndeterminate -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsIndeterminate"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsIndeterminate, Type={x:Type se:StswProgressRing}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsIndeterminate}"/>
             <!-- Minimum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Minimum"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Minimum, Type={x:Type se:StswProgressRing}}"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
             <!-- Maximum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Maximum"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Maximum, Type={x:Type se:StswProgressRing}}"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
             <!-- State -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="State"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf State, Type={x:Type se:StswProgressRing}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding State}" SelectedValuePath="Value"/>
             <!-- TextMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="TextMode"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf TextMode, Type={x:Type se:StswProgressRing}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TextMode}" SelectedValuePath="Value"/>
             <!-- Value -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Value, Type={x:Type se:StswProgressRing}}"/>
             <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

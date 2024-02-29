@@ -118,13 +118,7 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
     
 </ResourceDictionary>

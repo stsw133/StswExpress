@@ -23,11 +23,7 @@
 <!--
         <Setter Property="ScrollViewer">
             <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="True"
-                                          IsDynamic="False"
-                                          PanningMode="VerticalFirst"
-                                          HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto"/>
+                <se:StswScrollViewerModel PanningMode="VerticalFirst"/>
             </Setter.Value>
         </Setter>
 -->
@@ -633,13 +629,7 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
     
 </ResourceDictionary>

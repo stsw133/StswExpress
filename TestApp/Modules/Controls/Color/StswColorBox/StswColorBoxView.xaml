@@ -17,13 +17,13 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsAlphaEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsAlphaEnabled"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsAlphaEnabled, Type={x:Type se:StswColorBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlphaEnabled}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswColorBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswColorBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

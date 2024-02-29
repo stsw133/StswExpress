@@ -17,10 +17,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswTextBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswTextBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

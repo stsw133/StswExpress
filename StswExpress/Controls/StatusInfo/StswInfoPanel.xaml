@@ -14,11 +14,7 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="ScrollViewer">
             <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="True"
-                                          IsDynamic="False"
-                                          PanningMode="Both"
-                                          HorizontalScrollBarVisibility="Disabled"
-                                          VerticalScrollBarVisibility="Auto"/>
+                <se:StswScrollViewerModel HorizontalScrollBarVisibility="Disabled"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>

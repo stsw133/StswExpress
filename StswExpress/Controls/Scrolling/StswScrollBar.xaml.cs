@@ -117,7 +117,7 @@ public class StswScrollBar : ScrollBar
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the scroll bar is dynamic (automatically hide when is not used).
     /// </summary>
     public bool IsDynamic
     {

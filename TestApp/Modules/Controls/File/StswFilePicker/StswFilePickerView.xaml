@@ -17,17 +17,17 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsShiftingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsShiftingEnabled"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsShiftingEnabled, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
             <!-- PathType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="PathType"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf PathType, Type={x:Type se:StswFilePicker}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswPathType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding PathType}" SelectedValuePath="Value"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SubControls"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

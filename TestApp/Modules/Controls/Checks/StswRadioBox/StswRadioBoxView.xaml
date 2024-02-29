@@ -17,13 +17,13 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- HasContent -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="HasContent"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf HasContent, Type={x:Type se:StswRadioBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding HasContent}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswRadioBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsThreeState -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsThreeState"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsThreeState, Type={x:Type se:StswRadioBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsThreeState}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

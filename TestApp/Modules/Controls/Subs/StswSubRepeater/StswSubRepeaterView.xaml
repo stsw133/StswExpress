@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IconScale, Type={x:Type se:StswSubRepeater}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -25,10 +25,10 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsBusy, Type={x:Type se:StswSubRepeater}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsContentVisible, Type={x:Type se:StswSubRepeater}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IconScale"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IconScale, Type={x:Type se:StswHeader}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -25,20 +25,20 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsBusy, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsContentVisible"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsContentVisible, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
             <!-- IsHighlighted -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsHighlighted"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsHighlighted, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsHighlighted}"/>
             <!-- Orientation -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Orientation"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswHeader}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Orientation}" SelectedValuePath="Value"/>
             <!-- ShowDescription -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDescription"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ShowDescription, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDescription}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- ItemsPerPage -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ItemsPerPage"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsPerPage, Type={x:Type se:StswDataPager}}"/>
             <se:StswNumericBox Format="0" Margin="0 0 0 3" Value="{Binding ItemsPerPage}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

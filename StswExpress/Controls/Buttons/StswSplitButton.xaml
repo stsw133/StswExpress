@@ -14,12 +14,7 @@
 
         <Setter Property="Popup">
             <Setter.Value>
-                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
-                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                   BorderThickness="2"
-                                   CornerClipping="True"
-                                   CornerRadius="10"
-                                   Padding="0"/>
+                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
             </Setter.Value>
         </Setter>
 

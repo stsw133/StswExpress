@@ -17,14 +17,14 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Direction -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Direction"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Direction, Type={x:Type se:StswRatingControl}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Direction}" SelectedValuePath="Value"/>
             <!-- ItemsNumber -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ItemsNumber"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsNumber, Type={x:Type se:StswRatingControl}}"/>
             <se:StswNumericBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
             <!-- ItemsNumberVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ItemsNumberVisibility"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsNumberVisibility, Type={x:Type se:StswRatingControl}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}" SelectedValuePath="Value"/>
         </local:ControlsBase.Properties>

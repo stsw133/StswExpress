@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- SwitchTime -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SwitchTime"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SwitchTime, Type={x:Type se:StswTimedSwitch}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding SwitchTime}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

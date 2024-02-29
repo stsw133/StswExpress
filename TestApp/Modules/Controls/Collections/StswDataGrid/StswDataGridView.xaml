@@ -17,10 +17,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SpecialColumnVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="SpecialColumnVisibility"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SpecialColumnVisibility, Type={x:Type se:StswDataGrid}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpecialColumnVisibility}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}" SelectedValuePath="Value"/>
         </local:ControlsBase.Properties>

@@ -17,10 +17,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsReadOnly"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- Type -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="FilterType"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}"
                              DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Value">
                 <se:StswComboBox.SubControls>

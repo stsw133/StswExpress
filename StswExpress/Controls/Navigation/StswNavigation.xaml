@@ -16,15 +16,7 @@
         <Setter Property="TabStripPlacement" Value="Left"/>
         <Setter Property="TabStripWidth" Value="NaN"/>
 
-        <Setter Property="ScrollViewer">
-            <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="True"
-                                          IsDynamic="False"
-                                          PanningMode="Both"
-                                          HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ScrollViewer" Value="{se:New se:StswScrollViewerModel}"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

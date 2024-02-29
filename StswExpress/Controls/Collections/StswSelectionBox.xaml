@@ -15,22 +15,13 @@
         <Setter Property="IsErrorVisible" Value="True"/>
         <Setter Property="Popup">
             <Setter.Value>
-                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
-                                   BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                   BorderThickness="2"
-                                   CornerClipping="True"
-                                   CornerRadius="10"
-                                   Padding="0"/>
+                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
             </Setter.Value>
         </Setter>
 
         <Setter Property="ScrollViewer">
             <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="False"
-                                          IsDynamic="True"
-                                          PanningMode="Both"
-                                          HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto"/>
+                <se:StswScrollViewerModel CanContentScroll="False" IsDynamic="True"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
@@ -187,13 +178,7 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
 
 </ResourceDictionary>
