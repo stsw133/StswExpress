@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
@@ -6,6 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control displaying rotatable arrow icon.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswDropArrow : Control
 {
     static StswDropArrow()

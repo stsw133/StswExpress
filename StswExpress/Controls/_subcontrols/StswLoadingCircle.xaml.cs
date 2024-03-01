@@ -8,6 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control displaying loading circle.
 /// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswLoadingCircle : Control
 {
     static StswLoadingCircle()

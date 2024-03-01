@@ -4,7 +4,7 @@
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswDropArrow.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswLoadingCircle.xaml"/>
-        
+
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswHyperlinkButton.xaml"/>

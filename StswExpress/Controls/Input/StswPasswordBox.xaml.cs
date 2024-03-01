@@ -25,7 +25,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     private PasswordBox? _passwordBox;
 
     /// <summary>
-    /// Occurs when the password in the StswPasswordBox changes.
+    /// Occurs when the password in the box changes.
     /// </summary>
     public event EventHandler? PasswordChanged;
 
@@ -61,7 +61,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the password value in the control.
+    /// Gets or sets the password value in the box.
     /// </summary>
     public string? Password
     {
@@ -104,7 +104,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets a value indicating whether the password is visible in plain text in the control.
+    /// Gets or sets a value indicating whether the password is visible in plain text in the box.
     /// </summary>
     public bool ShowPassword
     {
