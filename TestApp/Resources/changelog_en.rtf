@@ -1,6 +1,49 @@
 {\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil\fcharset0 Cascadia Mono;}{\f2\fnil Arial;}{\f3\fnil Cascadia Mono;}{\f4\fnil\fcharset2 Symbol;}}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.5.0\line\b0\fs16 2024-01-22\par
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.6.0\line\b0\fs16 2024-03-02\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 Stsw check controls have read only mode controlled by "IsReadOnly" property.\par
+{\pntext\f4\'B7\tab}New interface: \b IStswScrollableControl\b0 . Other Stsw interfaces are extended too.\par
+{\pntext\f4\'B7\tab}New property for \b StswApp \b0 named "AllowMultipleInstances". If it is set to false then any additional instance of application is automatically closed allowing only one instance to be runned at the same time.\par
+{\pntext\f4\'B7\tab}New converter: \b StswIsTypeConverter\b0 .\par
+{\pntext\f4\'B7\tab}New markup extensions: \b NewExtension \b0 and \b NameOfExtension\b0 .\par
+{\pntext\f4\'B7\tab}New extensions: \b Copy \b0 and \b IsListType\b0 .\par
+{\pntext\f4\'B7\tab}New functions: \b ShiftIndexBy \b0 and \b GetProcessUser\b0 .\par
+{\pntext\f4\'B7\tab}New attached property "StswBorder.IsBorderless" that allows to set border thickness and corner radius to 0 for any control that implements \b IStswCornerControl \b0 interface.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 All Stsw controls have set "SnapsToDevicePixels" to false by default.\par
+{\pntext\f4\'B7\tab}All Stsw controls that contain \b StswPopup \b0 have new property "Popup" of new \b StswPopupModel \b0 type allowing to style its background, border and padding.\par
+{\pntext\f4\'B7\tab}All Stsw controls that contain \b StswScrollViewer \b0 have new property "ScrollViewer" of new \b StswScrollViewerModel \b0 type allowing to style its scroll bars.\par
+{\pntext\f4\'B7\tab}All Stsw box controls have improved validation error style that turns borders red and shows additional sub control. Its visibility can be managed by "IsErrorVisible" property.\par
+{\pntext\f4\'B7\tab}\b StswTimedSwitch \b0 can be set to infinite time (without reverting content to its base form).\par
+{\pntext\f4\'B7\tab}\b StswToggleSwitch \b0 has been remade.\par
+{\pntext\f4\'B7\tab}\b StswDataGrid \b0 can detect \b IStswSelectionItem \b0 interface on its "ItemsSource" property - it is similar functionality to other Stsw collection controls and allows to bind multiple selected items.\par
+{\pntext\f4\'B7\tab}\b StswDirectionViewer \b0 have only two button border properties instead of four: "BBtnThickness" (up or left) and "FBtnThickness" (down or right).\par
+{\pntext\f4\'B7\tab}Stsw commands are improved. Additionally "IsWorking" property has been renamed into "IsBusy" to match \b StswHeader\b0 's "IsBusy" property name. Async commands also have new "IsReausable" property that allows to run command multiple times.\par
+{\pntext\f4\'B7\tab}A few changes in theme brush key names and template styles (for Stsw check controls).\par
+{\pntext\f4\'B7\tab}A few changes in template part names.\par
+{\pntext\f4\'B7\tab}\b StswChartPie \b0 is full by default - it just looks better than a version with hole in center.\par
+{\pntext\f4\'B7\tab}\b StswRatingControl\b0 's "CanReset" property has been renamed into "IsResetEnabled". There is also one new property named "ItemsNumberVisibility" that allows to display order number below each icon.\par
+{\pntext\f4\'B7\tab}Dark theme has been modified to have darker colored parts. Pink theme has been remade.\par
+{\pntext\f4\'B7\tab}Stsw internal sub controls are disabled for editor browsing.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 All Stsw controls have corrected "Focusable" and "IsTabStop" values.\f1\lang21\par
+{\pntext\f4\'B7\tab}\f0\lang1045 All Stsw controls that were using \b StswScrollViewer \b0 have properly visible horizontal scroll bar - before it was never showing up, for example in \b StswDataGrid\b0 .\f1\lang21\par
+{\pntext\f4\'B7\tab}\f0\lang1045 All Stsw collection controls have better logic for detecting if its items source implements \b IStswSelectionItem \b0 interface.\f1\lang21\par
+{\pntext\f4\'B7\tab}\f0\lang1045 All Stsw box controls no longer updates binding property on Enter key if "AcceptsReturn" property is set to true.\f1\lang21\par
+{\pntext\f4\'B7\tab}\b\f0\lang1045 StswSubDrop \b0 has improved template to properly detect if it has content. \b StswHeader \b0 has "IsHighlighted" property so \b StswSubRadio \b0 has fixed checked style.\f1\lang21\par
+{\pntext\f4\'B7\tab}\b\f0\lang1045 StswNotifyIcon \b0 can show in tray only if it is enabled.\f1\lang21\par
+{\pntext\f4\'B7\tab}\b\f0\lang1045 StswWindow \b0 now can pass "Components" to its title bar.\f1\lang21\par
+
+\pard\sa200\sl276\slmult1\qj\par
+
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32\lang1045 0.5.0\line\b0\fs16 2024-01-22\par
 
 \pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
 
