@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -21,9 +22,9 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     }
 
     /// <summary>
-    /// 
+    /// Applies changes to the state of collection items and notifies listeners after a change has occurred.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments that describe the change.</param>
     protected override void OnListChanged(ListChangedEventArgs e)
     {
         base.OnListChanged(e);
@@ -83,6 +84,7 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         NotifyStateChanges();
     }
 
+    #region ItemState
     /// <summary>
     /// Gets the state of a specific collection item.
     /// </summary>
@@ -103,6 +105,9 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     public int Modified => GetItemsByState(StswItemState.Modified).Count();
     public int Deleted => GetItemsByState(StswItemState.Deleted).Count();
 
+    /// <summary>
+    /// Gets or sets a list of property names to be ignored during state tracking.
+    /// </summary>
     public List<string> IgnoredProperties = new List<string>()
     {
         nameof(IStswCollectionItem.ItemMessage),
@@ -111,17 +116,96 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         nameof(IStswSelectionItem.IsSelected)
     };
 
-
-
     /// Notify the view that the ItemStates property has changed
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void NotifyStateChanges()
     {
         OnPropertyChanged(nameof(Added));
         OnPropertyChanged(nameof(Modified));
         OnPropertyChanged(nameof(Deleted));
         OnPropertyChanged(nameof(Count));
+    }
+    #endregion
+
+    #region Sorting
+    private bool _isSorted;
+    private ListSortDirection _sortDirection = ListSortDirection.Ascending;
+    private PropertyDescriptor? _sortProperty;
+
+    protected override bool SupportsSortingCore => true;
+    protected override bool IsSortedCore => _isSorted;
+    protected override ListSortDirection SortDirectionCore => _sortDirection;
+    protected override PropertyDescriptor? SortPropertyCore => _sortProperty;
+
+    /// <summary>
+    /// Sorts the elements in the list based on the specified property descriptor and direction.
+    /// </summary>
+    /// <param name="prop">The property descriptor to sort by.</param>
+    /// <param name="direction">The direction of the sort.</param>
+    protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
+    {
+        if (Items is not List<T> itemsList)
+            return;
+
+        var comparer = new PropertyComparer<T>(prop, direction);
+        itemsList.Sort(comparer);
+
+        _sortProperty = prop;
+        _sortDirection = direction;
+        _isSorted = true;
+
+        OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+    }
+
+    /// <summary>
+    /// Removes any sort applied to the list.
+    /// </summary>
+    protected override void RemoveSortCore()
+    {
+        _isSorted = false;
+        _sortProperty = null;
+    }
+    #endregion
+}
+
+/// <summary>
+/// Provides a custom comparer for sorting elements based on a specified property.
+/// </summary>
+/// <typeparam name="T">The type of elements to compare.</typeparam>
+internal class PropertyComparer<T> : IComparer<T>
+{
+    private readonly PropertyDescriptor _property;
+    private readonly ListSortDirection _direction;
+
+    public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
+    {
+        _property = property;
+        _direction = direction;
+    }
+
+    /// <summary>
+    /// Compares two elements based on the specified property and sort direction.
+    /// </summary>
+    /// <param name="x">The first element to compare.</param>
+    /// <param name="y">The second element to compare.</param>
+    /// <returns>
+    /// A negative value if <paramref name="x"/> is less than <paramref name="y"/>;
+    /// zero if <paramref name="x"/> equals <paramref name="y"/>;
+    /// a positive value if <paramref name="x"/> is greater than <paramref name="y"/>.
+    /// </returns>
+    public int Compare(T? x, T? y)
+    {
+        if (_property.GetValue(x) is not IComparable xValue || _property.GetValue(y) is not IComparable yValue)
+            return 0;
+
+        if (_direction == ListSortDirection.Ascending)
+            return xValue.CompareTo(yValue);
+        else
+            return yValue.CompareTo(xValue);
     }
 }

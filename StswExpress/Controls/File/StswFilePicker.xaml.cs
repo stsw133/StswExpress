@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -19,12 +17,8 @@ namespace StswExpress;
 /// A control that allows users to select file or directory path with additional features.
 /// </summary>
 [ContentProperty(nameof(SelectedPath))]
-public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
+public class StswFilePicker : StswBoxBase
 {
-    public StswFilePicker()
-    {
-        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
-    }
     static StswFilePicker()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswFilePicker), new FrameworkPropertyMetadata(typeof(StswFilePicker)));
@@ -48,18 +42,6 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
             btnDialog.Click += PART_DialogButton_Click;
 
         ListAdjacentPaths();
-    }
-
-    /// <summary>
-    /// Handles the KeyDown event for the internal content host of the file picker.
-    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            UpdateMainProperty();
     }
 
     /// <summary>
@@ -117,11 +99,14 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
     /// <summary>
     /// Updates the main property associated with the selected path in the control based on user input.
     /// </summary>
-    private void UpdateMainProperty()
+    protected override void UpdateMainProperty(bool alwaysUpdate)
     {
-        var bindingExpression = GetBindingExpression(TextProperty);
-        if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
-            bindingExpression.UpdateSource();
+        if (alwaysUpdate)
+        {
+            var bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
+                bindingExpression.UpdateSource();
+        }
     }
 
     /// <summary>
@@ -222,21 +207,6 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text to display in the box when no path is selected.
-    /// </summary>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswFilePicker)
-        );
-
-    /// <summary>
     /// Gets or sets the currently selected path in the control.
     /// </summary>
     public string? SelectedPath
@@ -286,86 +256,9 @@ public class StswFilePicker : TextBox, IStswBoxControl, IStswCornerControl
         }
     }
     private string? parentPath;
-
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswSubControl> SubControls
-    {
-        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
-        set => SetValue(SubControlsProperty, value);
-    }
-    public static readonly DependencyProperty SubControlsProperty
-        = DependencyProperty.Register(
-            nameof(SubControls),
-            typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswFilePicker)
-        );
-
-    ///// <summary>
-    ///// Gets or sets the text value of the control.
-    ///// </summary>
-    //[Browsable(false)]
-    ////[Bindable(false)]
-    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    //[EditorBrowsable(EditorBrowsableState.Never)]
-    //public new string? Text
-    //{
-    //    get => base.Text;
-    //    internal set => base.Text = value;
-    //}
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswFilePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswFilePicker)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
-    /// </summary>
-    public bool IsErrorVisible
-    {
-        get => (bool)GetValue(IsErrorVisibleProperty);
-        set => SetValue(IsErrorVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsErrorVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsErrorVisible),
-            typeof(bool),
-            typeof(StswFilePicker)
-        );
-
     /// <summary>
     /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>

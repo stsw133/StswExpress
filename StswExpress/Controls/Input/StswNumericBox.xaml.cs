@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -13,12 +11,8 @@ namespace StswExpress;
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
+public class StswNumericBox : StswBoxBase
 {
-    public StswNumericBox()
-    {
-        SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
-    }
     static StswNumericBox()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
@@ -72,28 +66,6 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     }
 
     /// <summary>
-    /// Handles the KeyDown event for the internal content host of the numeric box.
-    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        base.OnKeyDown(e);
-        if (!AcceptsReturn && e.Key == Key.Enter)
-            UpdateMainProperty(true);
-    }
-
-    /// <summary>
-    /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
-    /// </summary>
-    /// <param name="e">The event arguments</param>
-    protected override void OnLostFocus(RoutedEventArgs e)
-    {
-        UpdateMainProperty(false);
-        base.OnLostFocus(e);
-    }
-
-    /// <summary>
     /// Handles the MouseWheel event for the content, incrementing or decrementing the numeric value based on the wheel movement.
     /// </summary>
     /// <param name="e">The event arguments</param>
@@ -142,7 +114,7 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     /// Updates the main property associated with the selected value in the control based on user input.
     /// </summary>
     /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
-    private void UpdateMainProperty(bool alwaysUpdate)
+    protected override void UpdateMainProperty(bool alwaysUpdate)
     {
         var result = Value;
 
@@ -249,49 +221,6 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text to display in the box when no value is provided.
-    /// </summary>
-    public string? Placeholder
-    {
-        get => (string?)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-    public static readonly DependencyProperty PlaceholderProperty
-        = DependencyProperty.Register(
-            nameof(Placeholder),
-            typeof(string),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the collection of sub controls to be displayed in the control.
-    /// </summary>
-    public ObservableCollection<IStswSubControl> SubControls
-    {
-        get => (ObservableCollection<IStswSubControl>)GetValue(SubControlsProperty);
-        set => SetValue(SubControlsProperty, value);
-    }
-    public static readonly DependencyProperty SubControlsProperty
-        = DependencyProperty.Register(
-            nameof(SubControls),
-            typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswNumericBox)
-        );
-
-    ///// <summary>
-    ///// Gets or sets the text value of the control.
-    ///// </summary>
-    //[Browsable(false)]
-    ////[Bindable(false)]
-    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    //[EditorBrowsable(EditorBrowsableState.Never)]
-    //public new string? Text
-    //{
-    //    get => base.Text;
-    //    internal set => base.Text = value;
-    //}
-
-    /// <summary>
     /// Gets or sets the numeric value of the control.
     /// </summary>
     public decimal? Value
@@ -318,55 +247,6 @@ public class StswNumericBox : TextBox, IStswBoxControl, IStswCornerControl
     #endregion
 
     #region Style properties
-    /// <summary>
-    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
-    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
-    /// the border's rounded corners, preventing elements from protruding beyond the border.
-    /// </summary>
-    public bool CornerClipping
-    {
-        get => (bool)GetValue(CornerClippingProperty);
-        set => SetValue(CornerClippingProperty, value);
-    }
-    public static readonly DependencyProperty CornerClippingProperty
-        = DependencyProperty.Register(
-            nameof(CornerClipping),
-            typeof(bool),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the degree to which the corners of the control's border are rounded by defining
-    /// a radius value for each corner independently. This property allows users to control the roundness
-    /// of corners, and large radius values are smoothly scaled to blend from corner to corner.
-    /// </summary>
-    public CornerRadius CornerRadius
-    {
-        get => (CornerRadius)GetValue(CornerRadiusProperty);
-        set => SetValue(CornerRadiusProperty, value);
-    }
-    public static readonly DependencyProperty CornerRadiusProperty
-        = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(StswNumericBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
-    /// </summary>
-    public bool IsErrorVisible
-    {
-        get => (bool)GetValue(IsErrorVisibleProperty);
-        set => SetValue(IsErrorVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsErrorVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsErrorVisible),
-            typeof(bool),
-            typeof(StswNumericBox)
-        );
-
     /// <summary>
     /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>

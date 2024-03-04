@@ -13,9 +13,11 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
 
+        <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
+        
         <Setter Property="Format" Value="d"/>
         <Setter Property="IncrementType" Value="Day"/>
-        <Setter Property="IsErrorVisible" Value="True"/>
         <Setter Property="Text" Value="{Binding SelectedDate, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -76,24 +78,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                             <!-- error -->
-                            <se:StswSubHeader x:Name="PART_Error" DockPanel.Dock="Right"
-                                              IconData="{x:Static se:StswIcons.AlertCircleOutline}"
-                                              IconFill="{DynamicResource StswBox.Error.Border}"
-                                              Padding="{TemplateBinding Padding}"
-                                              VerticalAlignment="Center"
-                                              Visibility="Collapsed">
-                                <se:StswSubHeader.ToolTip>
-                                    <se:StswToolTip>
-                                        <ItemsControl IsTabStop="False" ItemsSource="{Binding (Validation.Errors), RelativeSource={RelativeSource TemplatedParent}}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <se:StswText Text="{Binding ErrorContent}"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </se:StswToolTip>
-                                </se:StswSubHeader.ToolTip>
-                            </se:StswSubHeader>
+                            <se:StswSubError x:Name="PART_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
                             <Grid>
                                 <se:StswText x:Name="PART_Placeholder"
@@ -142,13 +127,6 @@
                         <Trigger Property="Validation.HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Validation.HasError" Value="True"/>
-                                <Condition Property="IsErrorVisible" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Error"/>
-                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

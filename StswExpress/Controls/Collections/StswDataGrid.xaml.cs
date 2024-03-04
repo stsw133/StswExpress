@@ -68,11 +68,17 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
         if (UsesSelectionItems && ItemsSource != null)
         {
             if (e.RemovedCells != null)
+            {
                 foreach (var item in e.RemovedCells.Select(x => x.Item).Distinct())
-                    ((IStswSelectionItem)item).IsSelected = false;
+                    if (item is IStswSelectionItem selectionItem)
+                        selectionItem.IsSelected = false;
+            }
             if (e.AddedCells != null)
+            {
                 foreach (var item in e.AddedCells.Select(x => x.Item).Distinct())
-                    ((IStswSelectionItem)item).IsSelected = true;
+                    if (item is IStswSelectionItem selectionItem)
+                        selectionItem.IsSelected = true;
+            }
         }
     }
 

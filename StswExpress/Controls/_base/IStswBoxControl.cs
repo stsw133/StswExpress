@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace StswExpress;
 
@@ -9,10 +10,23 @@ namespace StswExpress;
 public interface IStswBoxControl
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
+    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>
-    public bool IsErrorVisible { get; set; }
-    public static readonly DependencyProperty? IsErrorVisibleProperty;
+    public ReadOnlyObservableCollection<ValidationError> Errors { get; set; }
+    public static readonly DependencyProperty? ErrorsProperty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool HasError { get; set; }
+    public static readonly DependencyProperty? HasErrorProperty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// </summary>
+    public bool IsReadOnly { get; set; }
+    public static readonly DependencyProperty? IsReadOnlyProperty;
 
     /// <summary>
     /// Gets or sets the placeholder text to display in the box when no color is selected.

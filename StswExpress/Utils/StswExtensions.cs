@@ -176,6 +176,20 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
+    /// </summary>
+    public static IEnumerable Clone(this IEnumerable source)
+    {
+        foreach (var item in source)
+        {
+            if (item is ICloneable cloneableItem)
+                yield return cloneableItem.Clone();
+            else
+                yield return item;
+        }
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <param name="o"></param>
@@ -238,20 +252,6 @@ public static class StswExtensions
     #endregion
 
     #region Convert extensions
-    /// <summary>
-    /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
-    /// </summary>
-    public static IEnumerable Clone(this IEnumerable source)
-    {
-        foreach (var item in source)
-        {
-            if (item is ICloneable cloneableItem)
-                yield return cloneableItem.Clone();
-            else
-                yield return item;
-        }
-    }
-
     /// <summary>
     /// Converts <see cref="{T}"/> to different type.
     /// </summary>
@@ -596,6 +596,30 @@ public static class StswExtensions
             }
         }
         return default;
+    }
+    #endregion
+
+    #region List extensions
+    /// <summary>
+    /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the <see cref="IList{T}"/>.</typeparam>
+    /// <param name="iList">The <see cref="IList{T}"/> to remove elements from.</param>
+    /// <param name="itemsToRemove">The collection containing the elements to remove.</param>
+    public static void RemoveBy<T>(this IList<T> iList, IEnumerable<T> itemsToRemove)
+    {
+        var set = new HashSet<T>(itemsToRemove);
+
+        if (iList is not List<T> list)
+        {
+            int i = 0;
+            while (i < iList.Count)
+            {
+                if (set.Contains(iList[i])) iList.RemoveAt(i);
+                else i++;
+            }
+        }
+        else list.RemoveAll(set.Contains);
     }
     #endregion
 

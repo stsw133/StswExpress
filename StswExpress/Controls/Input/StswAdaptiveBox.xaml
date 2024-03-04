@@ -11,9 +11,10 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="SeparatorThickness" Value="2"/>
-
-        <Setter Property="IsErrorVisible" Value="True"/>
-
+<!--
+        <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
+-->
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -59,7 +60,6 @@
                                                                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           IsErrorVisible="{Binding IsErrorVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -82,7 +82,6 @@
                                                                              CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                             IsErrorVisible="{Binding IsErrorVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                              Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -106,7 +105,6 @@
                                                                            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                           IsErrorVisible="{Binding IsErrorVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                            Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
@@ -128,7 +126,6 @@
                                                                         BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
-                                                                        IsErrorVisible="{Binding IsErrorVisible, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"
                                                                         Placeholder="{Binding Placeholder, RelativeSource={RelativeSource AncestorType={x:Type se:StswAdaptiveBox}}}"

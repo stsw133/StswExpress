@@ -1,28 +1,44 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StswExpress;
-
-/// <summary>
-/// Represents a control that allows selection from a drop-down list of items.
-/// </summary>
-public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl
+public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
 {
-    public StswComboBox()
+    public StswBoxBase()
     {
         SetValue(SubControlsProperty, new ObservableCollection<IStswSubControl>());
-    }
-    static StswComboBox()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswComboBox), new FrameworkPropertyMetadata(typeof(StswComboBox)));
     }
 
     #region Events & methods
     /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
+    /// Handles the KeyDown event for the internal content host of the numeric box.
+    /// If the Enter key is pressed, the LostFocus event is triggered for the content host.
     /// </summary>
-    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
+    /// <param name="e">The event arguments</param>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+        if (!AcceptsReturn && e.Key == Key.Enter)
+            UpdateMainProperty(true);
+    }
+
+    /// <summary>
+    /// Handles the LostFocus event for the content, updating the value and applying any necessary formatting.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        UpdateMainProperty(false);
+        base.OnLostFocus(e);
+    }
+
+    /// <summary>
+    /// Updates the main property associated with the selected value in the control based on user input.
+    /// </summary>
+    /// <param name="alwaysUpdate">A value indicating whether to force a binding update regardless of changes.</param>
+    protected abstract void UpdateMainProperty(bool alwaysUpdate);
     #endregion
 
     #region Main properties
@@ -38,7 +54,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
 
     /// <summary>
@@ -53,11 +69,11 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(HasError),
             typeof(bool),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
 
     /// <summary>
-    /// Gets or sets the placeholder text displayed in the control when no item is selected.
+    /// Gets or sets the placeholder text to display in the box when no value is provided.
     /// </summary>
     public string? Placeholder
     {
@@ -68,7 +84,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(Placeholder),
             typeof(string),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
 
     /// <summary>
@@ -83,8 +99,23 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(SubControls),
             typeof(ObservableCollection<IStswSubControl>),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
+
+    /*
+    /// <summary>
+    /// Gets or sets the text value of the control.
+    /// </summary>
+    [Browsable(false)]
+    //[Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public new string? Text
+    {
+        get => base.Text;
+        internal set => base.Text = value;
+    }
+    */
     #endregion
 
     #region Style properties
@@ -102,7 +133,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
 
     /// <summary>
@@ -119,38 +150,7 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup
-    {
-        get => (StswPopupModel)GetValue(PopupProperty);
-        set => SetValue(PopupProperty, value);
-    }
-    public static readonly DependencyProperty PopupProperty
-        = DependencyProperty.Register(
-            nameof(Popup),
-            typeof(StswPopupModel),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the thickness of the separator between arrow icon and main button.
-    /// </summary>
-    public double SeparatorThickness
-    {
-        get => (double)GetValue(SeparatorThicknessProperty);
-        set => SetValue(SeparatorThicknessProperty, value);
-    }
-    public static readonly DependencyProperty SeparatorThicknessProperty
-        = DependencyProperty.Register(
-            nameof(SeparatorThickness),
-            typeof(double),
-            typeof(StswComboBox)
+            typeof(StswBoxBase)
         );
     #endregion
 }
