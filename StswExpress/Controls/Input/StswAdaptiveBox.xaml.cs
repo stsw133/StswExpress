@@ -53,6 +53,36 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         );
 
     /// <summary>
+    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
+    /// </summary>
+    public ReadOnlyObservableCollection<ValidationError> Errors
+    {
+        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+    public static readonly DependencyProperty ErrorsProperty
+        = DependencyProperty.Register(
+            nameof(Errors),
+            typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public static readonly DependencyProperty HasErrorProperty
+        = DependencyProperty.Register(
+            nameof(HasError),
+            typeof(bool),
+            typeof(StswAdaptiveBox)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether the control is in read-only mode.
     /// </summary>
     public bool IsReadOnly
@@ -255,21 +285,6 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswAdaptiveBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
-    /// </summary>
-    public bool IsErrorVisible
-    {
-        get => (bool)GetValue(IsErrorVisibleProperty);
-        set => SetValue(IsErrorVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsErrorVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsErrorVisible),
-            typeof(bool),
             typeof(StswAdaptiveBox)
         );
 

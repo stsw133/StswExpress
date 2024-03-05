@@ -61,6 +61,52 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
 
     #region Main properties
     /// <summary>
+    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
+    /// </summary>
+    public ReadOnlyObservableCollection<ValidationError> Errors
+    {
+        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+    public static readonly DependencyProperty ErrorsProperty
+        = DependencyProperty.Register(
+            nameof(Errors),
+            typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(StswPasswordBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public static readonly DependencyProperty HasErrorProperty
+        = DependencyProperty.Register(
+            nameof(HasError),
+            typeof(bool),
+            typeof(StswPasswordBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the drop button is in read-only mode.
+    /// When set to true, the popup with items is accessible, but all items within the popup are disabled.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+    public static readonly DependencyProperty IsReadOnlyProperty
+        = DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(StswPasswordBox)
+        );
+
+    /// <summary>
     /// Gets or sets the password value in the box.
     /// </summary>
     public string? Password
@@ -166,21 +212,6 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswPasswordBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
-    /// </summary>
-    public bool IsErrorVisible
-    {
-        get => (bool)GetValue(IsErrorVisibleProperty);
-        set => SetValue(IsErrorVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsErrorVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsErrorVisible),
-            typeof(bool),
             typeof(StswPasswordBox)
         );
     #endregion

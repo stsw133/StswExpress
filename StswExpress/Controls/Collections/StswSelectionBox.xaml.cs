@@ -102,6 +102,36 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
         );
 
     /// <summary>
+    /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
+    /// </summary>
+    public ReadOnlyObservableCollection<ValidationError> Errors
+    {
+        get => (ReadOnlyObservableCollection<ValidationError>)GetValue(ErrorsProperty);
+        set => SetValue(ErrorsProperty, value);
+    }
+    public static readonly DependencyProperty ErrorsProperty
+        = DependencyProperty.Register(
+            nameof(Errors),
+            typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="StswSubError"/> is visible within the box when there is at least one validation error.
+    /// </summary>
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public static readonly DependencyProperty HasErrorProperty
+        = DependencyProperty.Register(
+            nameof(HasError),
+            typeof(bool),
+            typeof(StswSelectionBox)
+        );
+
+    /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
     public bool IsDropDownOpen
@@ -297,21 +327,6 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSelectionBox)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the error sub control is visible within the box when there is at least one validation error.
-    /// </summary>
-    public bool IsErrorVisible
-    {
-        get => (bool)GetValue(IsErrorVisibleProperty);
-        set => SetValue(IsErrorVisibleProperty, value);
-    }
-    public static readonly DependencyProperty IsErrorVisibleProperty
-        = DependencyProperty.Register(
-            nameof(IsErrorVisible),
-            typeof(bool),
             typeof(StswSelectionBox)
         );
 
