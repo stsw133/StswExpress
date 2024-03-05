@@ -1,3 +1,21 @@
+# **0.6.1**  
+2024-03-05
+
+### New functionality:
+
+* New hidden sub control: **StswSubError **(used in box controls to show validation errors).
+* New base class: **StswBoxBase **(for box controls).
+* New converter: **StswRadioConverter **(for RadioBox based controls).
+* New extension: **RemoveBy **(to remove multiple items from IList).
+
+### Changed functionality:
+
+* **IStswBoxControl **interface has been extended. All box controls have 2 new properties: "Errors", "HasError", and 1 less property: "IsErrorVisible".
+
+### Bugfixes:
+
+* **StswBindingList **can be sorted now (for example in **StswDataGrid **when clicked on column).
+
 # **0.6.0**  
 2024-03-02
 

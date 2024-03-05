@@ -3,14 +3,27 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSubError}">
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource StswBox.Error.Border}"/>
         
-        <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircleOutline}"/>
-        <Setter Property="IconFill" Value="{DynamicResource StswBox.Error.Border}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="3"/>
         <!--
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"/>
         -->
+        <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircleOutline}"/>
+        <Setter Property="IconFill" Value="{DynamicResource StswBox.Error.Border}"/>
+        
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 

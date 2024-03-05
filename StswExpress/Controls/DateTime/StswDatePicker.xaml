@@ -124,7 +124,7 @@
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswBox.Disabled.Foreground}"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Placeholder"/>
                         </Trigger>
-                        <Trigger Property="Validation.HasError" Value="True">
+                        <Trigger Property="HasError" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Error.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
