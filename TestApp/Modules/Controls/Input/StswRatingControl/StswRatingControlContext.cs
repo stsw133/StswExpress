@@ -11,6 +11,7 @@ public class StswRatingControlContext : ControlsContext
         base.SetDefaults();
 
         Direction = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Direction)))?.Value ?? default;
+        IsResetEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsResetEnabled)))?.Value ?? default;
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
         ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
     }
@@ -29,6 +30,14 @@ public class StswRatingControlContext : ControlsContext
     {
         get => itemsNumber;
         set => SetProperty(ref itemsNumber, value);
+    }
+
+    /// IsResetEnabled
+    private bool isResetEnabled;
+    public bool IsResetEnabled
+    {
+        get => isResetEnabled;
+        set => SetProperty(ref isResetEnabled, value);
     }
 
     /// ItemsNumberVisibility

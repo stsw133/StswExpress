@@ -17,7 +17,7 @@
         
         <Setter Property="Popup">
             <Setter.Value>
-                <se:StswPopupModel  Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
+                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>

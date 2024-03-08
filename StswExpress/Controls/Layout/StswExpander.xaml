@@ -17,7 +17,7 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
@@ -111,6 +111,34 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False"/>
+                                <Condition Property="ExpandDirection" Value="Down"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="VerticalAlignment" Value="Top" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False"/>
+                                <Condition Property="ExpandDirection" Value="Left"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="HorizontalAlignment" Value="Right" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False"/>
+                                <Condition Property="ExpandDirection" Value="Right"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="HorizontalAlignment" Value="Left" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False"/>
+                                <Condition Property="ExpandDirection" Value="Up"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="VerticalAlignment" Value="Bottom" TargetName="PART_MainBorder"/>
+                        </MultiTrigger>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"/>

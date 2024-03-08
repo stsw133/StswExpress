@@ -13,10 +13,10 @@ namespace StswExpress;
 /// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
-public class RadioConverter : MarkupExtension, IValueConverter
+public class StswRadioConverter : MarkupExtension, IValueConverter
 {
-    private static RadioConverter? instance;
-    public static RadioConverter Instance => instance ??= new RadioConverter();
+    private static StswRadioConverter? instance;
+    public static StswRadioConverter Instance => instance ??= new StswRadioConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert

@@ -25,8 +25,8 @@ public class StswSidePanel : ContentControl
         if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
             expandBorder.MouseEnter += (s, e) =>
             {
-                if (ExpandMode == StswCompactibility.Collapsed)
-                    ExpandMode = StswCompactibility.Compact;
+                if (!IsAlwaysVisible && IsCollapsed)
+                    IsCollapsed = false;
             };
     }
 
@@ -37,25 +37,49 @@ public class StswSidePanel : ContentControl
     protected override void OnMouseLeave(MouseEventArgs e)
     {
         base.OnMouseLeave(e);
-        if (ExpandMode == StswCompactibility.Compact)
-            ExpandMode = StswCompactibility.Collapsed;
+        if (!IsAlwaysVisible && !IsCollapsed)
+            IsCollapsed = true;
     }
     #endregion
 
     #region Main properties
     /// <summary>
-    /// Gets or sets the degree to which the corners of the control are rounded.
+    /// Gets or sets whether the control is always visible.
     /// </summary>
-    public StswCompactibility ExpandMode
+    public bool IsAlwaysVisible
     {
-        get => (StswCompactibility)GetValue(ExpandModeProperty);
-        set => SetValue(ExpandModeProperty, value);
+        get => (bool)GetValue(IsAlwaysVisibleProperty);
+        set => SetValue(IsAlwaysVisibleProperty, value);
     }
-    public static readonly DependencyProperty ExpandModeProperty
+    public static readonly DependencyProperty IsAlwaysVisibleProperty
         = DependencyProperty.Register(
-            nameof(ExpandMode),
-            typeof(StswCompactibility),
-            typeof(StswSidePanel)
+            nameof(IsAlwaysVisible),
+            typeof(bool),
+            typeof(StswSidePanel),
+            new PropertyMetadata(default(bool), OnIsAlwaysVisibleChanged)
+        );
+    public static void OnIsAlwaysVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswSidePanel stsw)
+        {
+            stsw.IsCollapsed = !stsw.IsAlwaysVisible;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether the control is collapsed.
+    /// </summary>
+    internal bool IsCollapsed
+    {
+        get => (bool)GetValue(IsCollapsedProperty);
+        set => SetValue(IsCollapsedProperty, value);
+    }
+    internal static readonly DependencyProperty IsCollapsedProperty
+        = DependencyProperty.Register(
+            nameof(IsCollapsed),
+            typeof(bool),
+            typeof(StswSidePanel),
+            new PropertyMetadata(true)
         );
     #endregion
 }

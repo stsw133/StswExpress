@@ -26,7 +26,76 @@ public class StswRatingControl : Control, IStswIconControl
 
     #region Events & methods
     /// <summary>
-    /// 
+    /// Handles the key down event.
+    /// </summary>
+    /// <param name="e">The event arguments</param>
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.Tab)
+            return;
+
+        switch (e.Key)
+        {
+            case Key.Back when IsResetEnabled:
+                Value = 0;
+                break;
+            case Key.D1:
+            case Key.NumPad1:
+            case Key.D2:
+            case Key.NumPad2:
+            case Key.D3:
+            case Key.NumPad3:
+            case Key.D4:
+            case Key.NumPad4:
+            case Key.D5:
+            case Key.NumPad5:
+            case Key.D6:
+            case Key.NumPad6:
+            case Key.D7:
+            case Key.NumPad7:
+            case Key.D8:
+            case Key.NumPad8:
+            case Key.D9:
+            case Key.NumPad9:
+            case Key.D0:
+            case Key.NumPad0:
+                var key = e.Key.ToString().Last();
+                var numericValue = key == '0' ? 10 : int.Parse(key.ToString());
+                if (ItemsNumber >= numericValue)
+                    Value = numericValue;
+                break;
+            case Key.Down:
+                if (Direction == ExpandDirection.Down && Value < ItemsNumber)
+                    Value += 1;
+                else if (Direction == ExpandDirection.Up && Value > 0 && !(Value == 1 && !IsResetEnabled))
+                    Value -= 1;
+                break;
+            case Key.Left:
+                if (Direction == ExpandDirection.Left && Value < ItemsNumber)
+                    Value += 1;
+                else if (Direction == ExpandDirection.Right && Value > 0 && !(Value == 1 && !IsResetEnabled))
+                    Value -= 1;
+                break;
+            case Key.Right:
+                if (Direction == ExpandDirection.Right && Value < ItemsNumber)
+                    Value += 1;
+                else if (Direction == ExpandDirection.Left && Value > 0 && !(Value == 1 && !IsResetEnabled))
+                    Value -= 1;
+                break;
+            case Key.Up:
+                if (Direction == ExpandDirection.Up && Value < ItemsNumber)
+                    Value += 1;
+                else if (Direction == ExpandDirection.Down && Value > 0 && !(Value == 1 && !IsResetEnabled))
+                    Value -= 1;
+                break;
+        }
+        e.Handled = true;
+    }
+
+    /// <summary>
+    /// Handles the mouse down event.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -34,10 +103,11 @@ public class StswRatingControl : Control, IStswIconControl
         base.OnMouseDown(e);
         if (e.LeftButton == MouseButtonState.Pressed)
             Value = Placeholder;
+        Focus();
     }
 
     /// <summary>
-    /// 
+    /// Handles the mouse move event.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseMove(MouseEventArgs e)
@@ -45,24 +115,22 @@ public class StswRatingControl : Control, IStswIconControl
         base.OnMouseMove(e);
 
         var position = e.GetPosition(this);
-        int x = (int)Math.Floor(position.X);
-        int y = (int)Math.Floor(position.Y);
-
-        if (Direction == ExpandDirection.Down && ActualHeight != 0)
-            Placeholder = Convert.ToInt32(Math.Round(y / ActualHeight * Items.Count + 0.4));
-        else if (Direction == ExpandDirection.Left && ActualWidth != 0)
-            Placeholder = Convert.ToInt32(Math.Round((ActualWidth - x) / ActualWidth * Items.Count + 0.4));
-        else if (Direction == ExpandDirection.Right && ActualWidth != 0)
-            Placeholder = Convert.ToInt32(Math.Round(x / ActualWidth * Items.Count + 0.4));
-        else if (Direction == ExpandDirection.Up && ActualHeight != 0)
-            Placeholder = Convert.ToInt32(Math.Round(Items.Count - y / ActualHeight * Items.Count + 0.4));
+        var percentage = Direction switch
+        {
+            ExpandDirection.Down => position.Y / ActualHeight,
+            ExpandDirection.Left => (ActualWidth - position.X) / ActualWidth,
+            ExpandDirection.Right => position.X / ActualWidth,
+            ExpandDirection.Up => (Items.Count - position.Y / ActualHeight),
+            _ => 0
+        };
+        Placeholder = Convert.ToInt32(Math.Round(percentage * Items.Count + 0.4));
 
         if (!IsResetEnabled && Placeholder == 0)
             Placeholder = 1;
     }
 
     /// <summary>
-    /// 
+    /// Handles the mouse leave event.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
@@ -86,10 +154,18 @@ public class StswRatingControl : Control, IStswIconControl
             nameof(Direction),
             typeof(ExpandDirection),
             typeof(StswRatingControl),
-            new FrameworkPropertyMetadata(default(ExpandDirection),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+            new FrameworkPropertyMetadata(default(ExpandDirection), OnDirectionChanged)
         );
+    private static void OnDirectionChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswRatingControl stsw)
+        {
+            if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                stsw.Items = stsw.Items.OrderByDescending(x => x.Value).ToObservableCollection();
+            else
+                stsw.Items = stsw.Items.OrderBy(x => x.Value).ToObservableCollection();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the geometry data of the icon.
@@ -156,7 +232,7 @@ public class StswRatingControl : Control, IStswIconControl
     /// </summary>
     public int ItemsNumber
     {
-        //get => (int)GetValue(ItemsNumberProperty);
+        get => (int)GetValue(ItemsNumberProperty);
         set => SetValue(ItemsNumberProperty, value);
     }
     public static readonly DependencyProperty ItemsNumberProperty
@@ -177,37 +253,24 @@ public class StswRatingControl : Control, IStswIconControl
                 val = 0;
 
             if (val > stsw.Items.Count)
-            {
-                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                while (stsw.Items.Count < val)
                 {
-                    while (stsw.Items.Count < val)
-                        stsw.Items.Insert(0, new() { Value = stsw.Items.Count + 1 });
+                    var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? 0 : stsw.Items.Count;
+                    stsw.Items.Insert(index, new() { Value = stsw.Items.Count + 1 });
                 }
-                else
-                {
-                    while (stsw.Items.Count < val)
-                        stsw.Items.Add(new() { Value = stsw.Items.Count + 1 });
-                }
-            }
             else if (val < stsw.Items.Count)
-            {
-                if (stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up))
+                while (stsw.Items.Count > val)
                 {
-                    while (stsw.Items.Count > val)
-                        stsw.Items.RemoveAt(0);
+                    var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? 0 : stsw.Items.Count - 1;
+                    stsw.Items.RemoveAt(index);
                 }
-                else
-                {
-                    while (stsw.Items.Count > val)
-                        stsw.Items.Remove(stsw.Items.Last());
-                }
-            }
+            
             stsw.Value = stsw.Items.Count(x => x.IsChecked);
         }
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the visibility of the number of items.
     /// </summary>
     public Visibility ItemsNumberVisibility
     {
@@ -245,19 +308,27 @@ public class StswRatingControl : Control, IStswIconControl
             stsw.Items.ToList().ForEach(x => x.IsMouseOver = false);
 
             var val = stsw.Placeholder;
-            if (val is < 0 or null)
+            if (val is < 0 or null || val > stsw.Items.Count)
                 return;
-            else if (val > stsw.Items.Count)
-                val = stsw.Items.Count;
 
-            for (var i = 0; i <= val; i++)
+            var startIndex = stsw.Direction switch
             {
-                if (val - i < 1)
-                    continue;
-
-                var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? stsw.Items.Count - 1 - i : i;
-                stsw.Items[index].IsMouseOver = true;
-            }
+                ExpandDirection.Down => 0,
+                ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
+                ExpandDirection.Right => 0,
+                ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
+                _ => 0
+            };
+            var endIndex = stsw.Direction switch
+            {
+                ExpandDirection.Down => val,
+                ExpandDirection.Left => stsw.Items.Count,
+                ExpandDirection.Right => val,
+                ExpandDirection.Up => stsw.Items.Count,
+                _ => 0
+            };
+            for (var i = startIndex; i < endIndex; i++)
+                stsw.Items[i].IsMouseOver = true;
         }
     }
 
@@ -285,19 +356,27 @@ public class StswRatingControl : Control, IStswIconControl
             stsw.Items.ToList().ForEach(x => x.IsChecked = false);
 
             var val = stsw.Value;
-            if (val is < 0 or null)
+            if (val is < 0 or null || val > stsw.Items.Count)
                 return;
-            else if (val > stsw.Items.Count)
-                val = stsw.Items.Count;
 
-            for (int i = 0; i <= val; i++)
+            var startIndex = stsw.Direction switch
             {
-                if (val - i < 1)
-                    continue;
-
-                var index = stsw.Direction.In(ExpandDirection.Left, ExpandDirection.Up) ? stsw.Items.Count - 1 - i : i;
-                stsw.Items[index].IsChecked = true;
-            }
+                ExpandDirection.Down => 0,
+                ExpandDirection.Left => Math.Max(0, stsw.Items.Count - val.Value),
+                ExpandDirection.Right => 0,
+                ExpandDirection.Up => Math.Max(0, stsw.Items.Count - val.Value),
+                _ => 0
+            };
+            var endIndex = stsw.Direction switch
+            {
+                ExpandDirection.Down => val,
+                ExpandDirection.Left => stsw.Items.Count,
+                ExpandDirection.Right => val,
+                ExpandDirection.Up => stsw.Items.Count,
+                _ => 0
+            };
+            for (var i = startIndex; i < endIndex; i++)
+                stsw.Items[i].IsChecked = true;
         }
     }
     #endregion
@@ -347,7 +426,9 @@ public class StswRatingControl : Control, IStswIconControl
             typeof(double),
             typeof(StswRatingControl)
         );
+    #endregion
 
+    #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
 
     [Browsable(false)]
@@ -361,22 +442,16 @@ public class StswRatingControl : Control, IStswIconControl
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Thickness? BorderThickness { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Brush? Foreground { get; private set; }
     #endregion
 }
 
 /// <summary>
 /// Data model for <see cref="StswRatingControl"/>'s items.
 /// </summary>
-public class StswRatingItem : StswObservableObject
+internal class StswRatingItem : StswObservableObject
 {
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the item is checked.
     /// </summary>
     public bool IsChecked
     {
@@ -386,7 +461,7 @@ public class StswRatingItem : StswObservableObject
     private bool isChecked;
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the mouse is over the item.
     /// </summary>
     public bool IsMouseOver
     {
@@ -396,7 +471,7 @@ public class StswRatingItem : StswObservableObject
     private bool isMouseOver;
 
     /// <summary>
-    /// 
+    /// Gets or sets the value associated with the item.
     /// </summary>
     public int Value
     {

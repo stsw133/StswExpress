@@ -22,10 +22,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswImage}">
-                    <Border x:Name="PART_MainBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <Image Source="{TemplateBinding Source, Converter={x:Static se:StswNullToUnsetConverter.Instance}}"
                                Stretch="{TemplateBinding Stretch}"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -34,7 +36,6 @@
                             <ContextMenu x:Name="PART_Menu"
                                          DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                          Style="{DynamicResource StswContextMenu}">
-
                                 <!-- cut -->
                                 <MenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}">
                                     <MenuItem.Icon>
@@ -75,9 +76,10 @@
                                 </MenuItem>
                             </ContextMenu>
                         </Border.ContextMenu>
-                    </Border>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuMode" Value="Disabled">
+                            <Setter Property="IsEnabled" Value="False" TargetName="PART_Menu"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Menu"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

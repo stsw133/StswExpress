@@ -266,9 +266,6 @@
     <SolidColorBrush x:Key="StswRating.MouseOver.Border" Color="#423"/>
     <SolidColorBrush x:Key="StswRating.Checked.Background" Color="#f688ad"/>
     <SolidColorBrush x:Key="StswRating.Checked.Border" Color="#D55"/>
-    <SolidColorBrush x:Key="StswRating.Disabled.Background" Color="#FDE"/>
-    <SolidColorBrush x:Key="StswRating.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswRating.CheckedDisabled.Background" Color="#fbc6d8"/>
 
     <SolidColorBrush x:Key="StswSlider.Static.Background" Color="#ECD"/>
     <LinearGradientBrush x:Key="StswSlider.Static.Border" StartPoint="0 0" EndPoint="1 1">
@@ -279,7 +276,8 @@
     <SolidColorBrush x:Key="StswSlider.Static.Foreground" Color="#BBB"/>
     <SolidColorBrush x:Key="StswSlider.Disabled.Background" Color="#2957"/>
     <SolidColorBrush x:Key="StswSlider.Disabled.Border" Color="#3957"/>
-    <SolidColorBrush x:Key="StswSlider.Range.Background" Color="#f688ad"/>
+    <SolidColorBrush x:Key="StswSlider.Range.Static.Background" Color="#f688ad"/>
+    <SolidColorBrush x:Key="StswSlider.Range.Disabled.Background" Color="#fbc6d8"/>
     <SolidColorBrush x:Key="StswSlider.Thumb.Static.Background" Color="#ECD"/>
     <LinearGradientBrush x:Key="StswSlider.Thumb.Static.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>
@@ -300,7 +298,6 @@
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswSlider.Thumb.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswSlider.Thumb.Disabled.Border" Color="#ECD"/>
-    <SolidColorBrush x:Key="StswSlider.CheckedDisabled.Background" Color="#fbc6d8"/>
 
     <!-- Layout -->
     <LinearGradientBrush x:Key="StswBorder.Static.Border" StartPoint="0 0" EndPoint="1 1">
