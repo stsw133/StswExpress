@@ -11,6 +11,8 @@
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Padding" Value="3"/>
 
+        <Setter Property="IsMoveable" Value="False"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="HasDropShadow" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="TestApp.StswChartLegendView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswChartLegendContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control designed for displaying chart's legend.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Columns -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Columns, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswNumericBox Format="N0" Margin="0 0 0 3" Value="{Binding Columns}"/>
+            <!-- Rows -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Rows, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswNumericBox Format="N0" Margin="0 0 0 3" Value="{Binding Rows}"/>
+            <!-- ShowDetails -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ShowDetails, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswChartLegend Columns="{Binding Columns}"
+                            Header="Some random elements:"
+                            IsEnabled="{Binding IsEnabled}"
+                            ItemsSource="{Binding Items}"
+                            Margin="5"
+                            Rows="{Binding Rows}"
+                            ShowDetails="{Binding ShowDetails}"
+                            HorizontalAlignment="{Binding HorizontalAlignment}"
+                            VerticalAlignment="{Binding VerticalAlignment}"
+                            HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+
+    </local:ControlsBase>
+</UserControl>

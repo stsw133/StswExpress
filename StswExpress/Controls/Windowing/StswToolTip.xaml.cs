@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StswExpress;
 
@@ -12,6 +15,83 @@ public class StswToolTip : ToolTip, IStswCornerControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswToolTip), new FrameworkPropertyMetadata(typeof(StswToolTip)));
     }
+
+    #region Events & methods
+    private UIElement? _parent;
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        OnIsMoveableChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <summary>
+    /// Sets the offset of the tooltip based on the current mouse position.
+    /// </summary>
+    private void SetOffset()
+    {
+        var currentPos = Window.GetWindow(this).PointToScreen(Mouse.GetPosition(Window.GetWindow(this)));
+        HorizontalOffset = currentPos.X - StswSettings.Default.iSize * 4;
+        VerticalOffset = currentPos.Y + ActualHeight + 20 - StswSettings.Default.iSize * 40;
+    }
+    #endregion
+
+    #region Main properties
+    /// <summary>
+    /// Gets or sets a value indicating whether the tooltip is moveable.
+    /// </summary>
+    public bool IsMoveable
+    {
+        get => (bool)GetValue(IsMoveableProperty);
+        set => SetValue(IsMoveableProperty, value);
+    }
+    public static readonly DependencyProperty IsMoveableProperty
+        = DependencyProperty.Register(
+            nameof(IsMoveable),
+            typeof(bool),
+            typeof(StswToolTip),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnIsMoveableChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnIsMoveableChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswToolTip stsw)
+        {
+            if (stsw.IsMoveable)
+            {
+                stsw.Placement = PlacementMode.AbsolutePoint;
+
+                stsw._parent = StswFn.GetParentPopup(stsw)?.PlacementTarget;
+                if (stsw._parent == null)
+                    stsw._parent = Window.GetWindow(stsw);
+                if (stsw._parent != null)
+                {
+                    stsw.Opened += (s, e) => stsw.SetOffset();
+                    stsw._parent.MouseMove += (s, e) => stsw.SetOffset();
+                    //stsw._parent.MouseLeave += (s, e) => stsw.IsOpen = false;
+                }
+            }
+            else if ((bool?)e.OldValue == true)
+            {
+                if (stsw._parent != null)
+                {
+                    stsw.Opened -= (s, e) => stsw.SetOffset();
+                    stsw._parent.MouseMove -= (s, e) => stsw.SetOffset();
+                    //stsw._parent.MouseLeave -= (s, e) => stsw.IsOpen = false;
+                }
+
+                stsw.Placement = PlacementMode.Mouse;
+                stsw.HorizontalOffset = 0;
+                stsw.VerticalOffset = 0;
+            }
+        }
+    }
+    #endregion
 
     #region Style properties
     /// <summary>

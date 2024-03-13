@@ -15,19 +15,28 @@
             Represents a control for displaying a system tray icon with various properties for customization.
         </local:ControlsBase.Description>
         <!-- properties -->
-
+        <local:ControlsBase.Properties>
+            <!-- IsAlwaysVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsAlwaysVisible, Type={x:Type se:StswNotifyIcon}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlwaysVisible}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                           IconPath="/Resources/icon.ico"
-                           IsEnabled="{Binding IsEnabled}"
-                           Text="{x:Static se:StswFn.AppNameAndVersion}">
-            <se:StswNotifyIcon.ContextMenu>
-                <ContextMenu Style="{DynamicResource StswContextMenu}">
-                    <MenuItem Header="TEST" Command="{Binding TestCommand}"/>
-                </ContextMenu>
-            </se:StswNotifyIcon.ContextMenu>
-        </se:StswNotifyIcon>
+        <DockPanel>
+            <se:StswNotifyIcon ContextControl="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                               IconPath="/Resources/icon.ico"
+                               IsAlwaysVisible="{Binding IsAlwaysVisible}"
+                               IsEnabled="{Binding IsEnabled}"
+                               Text="{x:Static se:StswFn.AppNameAndVersion}"
+                               Tip="{Binding Tip}">
+                <se:StswNotifyIcon.ContextMenu>
+                    <ContextMenu Style="{DynamicResource StswContextMenu}">
+                        <MenuItem Header="Show random tip" Command="{Binding ShowTipMinimizedCommand}"/>
+                    </ContextMenu>
+                </se:StswNotifyIcon.ContextMenu>
+            </se:StswNotifyIcon>
+            <se:StswButton Command="{Binding ShowTipCommand}" Content="Show random tip" Margin="5"/>
+        </DockPanel>
         <!-- status panel -->
-
+        
     </local:ControlsBase>
 </UserControl>

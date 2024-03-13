@@ -1,17 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace TestApp;
 
 public class StswWindowContext : ControlsContext
 {
-    public ICommand OpenNewWindowCommand { get; set; }
-
-    public StswWindowContext()
-    {
-        OpenNewWindowCommand = new StswCommand(OpenNewWindow);
-    }
+    public StswCommand OpenNewWindowCommand => new(OpenNewWindow);
 
     #region Events & methods
     /// Command: open new window

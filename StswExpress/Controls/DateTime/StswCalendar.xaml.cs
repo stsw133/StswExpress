@@ -146,17 +146,8 @@ public class StswCalendar : Control, IStswCornerControl
             SelectedDate = date;
 
         /// for DatePicker
-        var popupRootFinder = VisualTreeHelper.GetParent(this);
-        while (popupRootFinder != null)
-        {
-            var logicalRoot = LogicalTreeHelper.GetParent(popupRootFinder);
-            if (logicalRoot is Popup popup)
-            {
-                popup.IsOpen = false;
-                break;
-            }
-            popupRootFinder = VisualTreeHelper.GetParent(popupRootFinder);
-        }
+        if (StswFn.GetParentPopup(this) is Popup popup)
+            popup.IsOpen = false;
     }
     #endregion
 

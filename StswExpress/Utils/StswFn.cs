@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Json;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Windows;
@@ -61,6 +62,53 @@ public static class StswFn
             parent = VisualTreeHelper.GetParent(parent);
         }
         return false;
+    }
+    #endregion
+
+    #region Color functions
+    /// <summary>
+    /// Generate new color based on passed value and the provided seed as parameter.
+    /// </summary>
+    /// <param name="text">Text to change into color.</param>
+    /// <param name="seed">Brightness threshold.</param>
+    /// <returns>Generated color.</returns>
+    public static Color GenerateColor(string text, int seed)
+    {
+        var color = Colors.Transparent;
+
+        /// generate new color
+        if (!string.IsNullOrEmpty(text))
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+                int r = hashBytes[0];
+                int g = hashBytes[1];
+                int b = hashBytes[2];
+
+                if (seed >= 0)
+                {
+                    if (r > seed)
+                        r -= (r - seed) / 2;
+                    else if (r < seed)
+                        r += (seed - r) / 2;
+
+                    if (g > seed)
+                        g -= (g - seed) / 2;
+                    else if (g < seed)
+                        g += (seed - g) / 2;
+
+                    if (b > seed)
+                        b -= (b - seed) / 2;
+                    else if (b < seed)
+                        b += (seed - b) / 2;
+                }
+
+                color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
+            }
+        }
+
+        return color;
     }
     #endregion
 
@@ -163,6 +211,23 @@ public static class StswFn
         }
 
         return VisualTreeHelper.GetParent(obj);
+    }
+
+    /// <summary>
+    /// Gets the parent popup of the given control.
+    /// </summary>
+    /// <returns></returns>
+    public static Popup? GetParentPopup(DependencyObject obj)
+    {
+        var popupRootFinder = VisualTreeHelper.GetParent(obj);
+        while (popupRootFinder != null)
+        {
+            var logicalRoot = LogicalTreeHelper.GetParent(popupRootFinder);
+            if (logicalRoot is Popup popup)
+                return popup;
+            popupRootFinder = VisualTreeHelper.GetParent(popupRootFinder);
+        }
+        return null;
     }
     #endregion
 

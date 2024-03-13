@@ -51,6 +51,9 @@
             </DataTemplate>
             
             <!-- Charts -->
+            <DataTemplate DataType="{x:Type local:StswChartLegendContext}">
+                <local:StswChartLegendView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswChartPieContext}">
                 <local:StswChartPieView/>
             </DataTemplate>

@@ -20,34 +20,11 @@ public class StswColorGeneratorConverter : MarkupExtension, IValueConverter
     {
         var pmr = parameter?.ToString() ?? string.Empty;
         var val = value?.ToString() ?? string.Empty;
-        Color color;
+        if (!int.TryParse(pmr, out var seed))
+            seed = -1;
 
         /// generate new color
-        if (!string.IsNullOrEmpty(val))
-        {
-            int hashCode = val.GetHashCode();
-            int r = (hashCode >> 16) & 0xFF;
-            int g = (hashCode >> 8) & 0xFF;
-            int b = hashCode & 0xFF;
-
-            if (!string.IsNullOrEmpty(pmr) && int.TryParse(pmr, out var brightnessThreshold) && int.TryParse(pmr, out var darknessThreshold))
-            {
-                if (r > brightnessThreshold)
-                    r -= (r - brightnessThreshold) / 2;
-                if (g > brightnessThreshold)
-                    g -= (g - brightnessThreshold) / 2;
-                if (b > brightnessThreshold)
-                    b -= (b - brightnessThreshold) / 2;
-                if (r < darknessThreshold)
-                    r += (darknessThreshold - r) / 2;
-                if (g < darknessThreshold)
-                    g += (darknessThreshold - g) / 2;
-                if (b < darknessThreshold)
-                    b += (darknessThreshold - b) / 2;
-            }
-
-            color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
-        }
+        var color = StswFn.GenerateColor(val, seed);
 
         /// result
         if (targetType == typeof(Color))

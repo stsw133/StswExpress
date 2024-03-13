@@ -53,6 +53,14 @@
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#e87373"/>
     <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#423"/>
 
+    <!-- Charts -->
+    <SolidColorBrush x:Key="StswChart.Static.Background" Color="#FFF5FA"/>
+    <LinearGradientBrush x:Key="StswChart.Static.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#B33" Offset="0"/>
+        <GradientStop Color="#A47" Offset="0.5"/>
+        <GradientStop Color="#B33" Offset="1"/>
+    </LinearGradientBrush>
+
     <!-- Checks -->
     <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
     <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>

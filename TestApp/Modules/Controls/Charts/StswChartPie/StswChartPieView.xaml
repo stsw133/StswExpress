@@ -19,7 +19,8 @@
         <!-- content -->
         <DockPanel HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswChartLegend DockPanel.Dock="Bottom"
-                                Header="Some header..."
+                                Columns="4"
+                                Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"
                                 ItemsSource="{Binding Items}"
                                 Margin="5"

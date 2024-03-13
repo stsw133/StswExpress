@@ -30,6 +30,7 @@
                 <se:StswNavigationElement Header="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Charts" IconData="{x:Static se:StswIcons.ChartBar}">
+                <se:StswNavigationElement Header="StswChartLegend" ContextNamespace="TestApp.StswChartLegendContext"/>
                 <se:StswNavigationElement Header="StswChartPie" ContextNamespace="TestApp.StswChartPieContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Checks" IconData="{x:Static se:StswIcons.CheckboxMarkedOutline}">

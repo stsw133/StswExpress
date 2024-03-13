@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartPie}">
-        <Setter Property="Background" Value="{DynamicResource StswRating.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswRating.MouseOver.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswChart.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswChart.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="3"/>
@@ -53,28 +53,34 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Ellipse RenderTransformOrigin="0.5 0.5"
-                             Stroke="{Binding Brush}"
-                             StrokeDashArray="{Binding StrokeDashArray}"
-                             StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
-                             ToolTipService.InitialShowDelay="0"
-                             Height="1000" Width="1000">
-                        <Ellipse.RenderTransform>
-                            <RotateTransform Angle="{Binding Angle}"/>
-                        </Ellipse.RenderTransform>
-                        <Ellipse.ToolTip>
-                            <se:StswToolTip>
-                                <se:StswText>
-                                    <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold"/>
-                                    <LineBreak/>
-                                    <Run Text="{Binding Description, Mode=OneWay}" FontSize="11"/>
-                                </se:StswText>
-                            </se:StswToolTip>
-                        </Ellipse.ToolTip>
-                    </Ellipse>
-                    <DataTemplate.Triggers>
-                        
-                    </DataTemplate.Triggers>
+                    <Grid>
+                        <Ellipse RenderTransformOrigin="0.5 0.5"
+                                 Stroke="{Binding Brush}"
+                                 StrokeDashArray="{Binding StrokeDashArray}"
+                                 StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
+                                 ToolTipService.InitialShowDelay="0"
+                                 Height="1000" Width="1000">
+                            <Ellipse.RenderTransform>
+                                <RotateTransform Angle="{Binding Angle}"/>
+                            </Ellipse.RenderTransform>
+                            <Ellipse.ToolTip>
+                                <se:StswToolTip IsMoveable="True">
+                                    <se:StswText>
+                                        <Run Text="{Binding Name, Mode=OneWay}" FontSize="12" FontWeight="Bold"/>
+                                        <LineBreak/>
+                                        <Run Text="{Binding Description, Mode=OneWay}" FontSize="11"/>
+                                    </se:StswText>
+                                </se:StswToolTip>
+                            </Ellipse.ToolTip>
+                        </Ellipse>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
+                            </StackPanel.RenderTransform>
+                            <se:StswText FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}" Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
+                            <se:StswText FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}" Text="%"/>
+                        </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

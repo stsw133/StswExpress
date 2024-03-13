@@ -40,7 +40,11 @@
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-8%}"/>
     <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#CCC"/>
-    
+
+    <!-- Charts -->
+    <SolidColorBrush x:Key="StswChart.Static.Background" Color="#1a1a1a"/>
+    <SolidColorBrush x:Key="StswChart.Static.Border" Color="#757575"/>
+
     <!-- Checks -->
     <PathGeometry x:Key="StswCheck.Indeterminate.Icon" Figures="M19,13H5V11H19V13Z"/>
     <PathGeometry x:Key="StswCheck.Unchecked.Icon" Figures="{x:Null}"/>

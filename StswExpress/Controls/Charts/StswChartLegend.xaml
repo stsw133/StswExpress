@@ -3,10 +3,12 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartLegend}">
-        <Setter Property="Background" Value="{DynamicResource StswRating.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswRating.MouseOver.Border}"/>
+        <Setter Property="Background" Value="{DynamicResource StswChart.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StswChart.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerClipping" Value="False"/>
+        <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="ScrollViewer" Value="{se:New se:StswScrollViewerModel}"/>
@@ -17,8 +19,8 @@
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -26,6 +28,7 @@
                     <DockPanel x:Name="PART_MainPanel"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <!-- header -->
                         <ContentPresenter DockPanel.Dock="Top"
                                           Content="{TemplateBinding Header}"
                                           ContentStringFormat="{TemplateBinding HeaderStringFormat}"
@@ -33,6 +36,7 @@
                                           ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
+                        <!-- items -->
                         <se:StswScrollViewer DockPanel.Dock="Top"
                                              CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource TemplatedParent}}"
                                              Focusable="False"
@@ -60,23 +64,50 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <UniformGrid/>
+                    <UniformGrid Columns="{Binding Columns, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
+                                 Rows="{Binding Rows, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Border Background="{Binding Brush}"
-                                BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
-                                Height="18" Width="18"/>
-                        <Label Content="{Binding Name}" Foreground="{DynamicResource StswText.Static.Foreground}"/>
-                    </StackPanel>
+                    <DockPanel>
+                        <se:StswBorder x:Name="PART_MainBorder"
+                                       Background="{Binding Brush}"
+                                       BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
+                                       BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
+                                       CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
+                                       CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}"
+                                       Height="18" Width="18">
+                            <Viewbox x:Name="PART_Percentage" Visibility="Collapsed">
+                                <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}">
+                                    <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
+                                                         FontWeight="Bold"
+                                                         Stroke="{DynamicResource StswBox.Static.Background}"
+                                                         StrokeThickness="4"
+                                                         Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
+                                    <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
+                                                         FontWeight="Bold"
+                                                         Stroke="{DynamicResource StswBox.Static.Background}"
+                                                         StrokeThickness="4"
+                                                         Text="%"/>
+                                </DockPanel>
+                            </Viewbox>
+                        </se:StswBorder>
+                        <Label Content="{Binding Name}"/>
+                    </DockPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ShowDetails, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartLegend}}}" Value="True">
+                            <Setter Property="Width" Value="36" TargetName="PART_MainBorder"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Percentage"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

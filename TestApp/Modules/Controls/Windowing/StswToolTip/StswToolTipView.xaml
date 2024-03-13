@@ -16,14 +16,17 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsMoveable -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsMoveable, Type={x:Type se:StswToolTip}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMoveable}"/>
             <!-- ShowDuration -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ShowDuration, Type={x:Type se:StswToolTip}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDuration"/>
             <se:StswNumericBox Format="0" Margin="0 0 0 3" Value="{Binding ShowDuration}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.ShowDuration="{Binding ShowDuration}">
+        <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="{Binding ShowDuration}">
             <se:StswText.ToolTip>
-                <se:StswToolTip>
+                <se:StswToolTip IsMoveable="{Binding IsMoveable}">
                     <se:StswText TextWrapping="Wrap" Width="300">
                         <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
                         <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
