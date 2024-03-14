@@ -206,7 +206,7 @@ public static class StswExtensions
 
             if (IsListType(pi.PropertyType, out var innerType))
             {
-                var listType = typeof(List<>).MakeGenericType(innerType);
+                var listType = typeof(List<>).MakeGenericType(innerType!);
                 var list = (IList?)Activator.CreateInstance(listType);
                 if (pi.GetValue(o, null) is IList oldList)
                     foreach (var item in oldList)
@@ -221,7 +221,6 @@ public static class StswExtensions
                 pi.SetValue(target, propValue == null ? null : Copy(propValue), null);
             }
         }
-
 
         return target;
     }
@@ -284,19 +283,20 @@ public static class StswExtensions
     /// <param name="o">Object to convert.</param>
     /// <param name="t">Type to convert to.</param>
     /// <returns>Object of different type.</returns>
-    public static object? ConvertTo(this object o, Type t)
+    public static object? ConvertTo(this object? o, Type t)
     {
+        var underlyingType = Nullable.GetUnderlyingType(t);
+
         if (o == null || o == DBNull.Value)
-            return Nullable.GetUnderlyingType(t) == null ? default : Convert.ChangeType(null, t);
-        else if (t.IsEnum)
-            return Enum.TryParse(t, o.ToString(), out var result) ? result : null;
+            return underlyingType == null ? default : Convert.ChangeType(null, t);
+        else if (t.IsEnum || underlyingType?.IsEnum == true)
+            return underlyingType == null
+                ? (Enum.TryParse(t, o.ToString(), out var result1) ? result1 : null)
+                : (Enum.TryParse(underlyingType, o.ToString(), out var result2) ? result2 : null);
         else
-        {
-            var underlyingType = Nullable.GetUnderlyingType(t);
             return underlyingType == null
                 ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
                 : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
-        }
     }
 
     /// <summary>

@@ -1,20 +1,28 @@
+# **0.6.2**  
+2024-03-14
+
+### Bugfixes:
+
+* **ConvertTo** extension now will work with nullable enums.
+
+
 # **0.6.1**  
 2024-03-05
 
 ### New functionality:
 
-* New hidden sub control: **StswSubError **(used in box controls to show validation errors).
-* New base class: **StswBoxBase **(for box controls).
-* New converter: **StswRadioConverter **(for RadioBox based controls).
-* New extension: **RemoveBy **(to remove multiple items from IList).
+* New hidden sub control: **StswSubError** (used in box controls to show validation errors).
+* New base class: **StswBoxBase** (for box controls).
+* New converter: **StswRadioConverter** (for RadioBox based controls).
+* New extension: **RemoveBy** (to remove multiple items from IList).
 
 ### Changed functionality:
 
-* **IStswBoxControl **interface has been extended. All box controls have 2 new properties: "Errors", "HasError", and 1 less property: "IsErrorVisible".
+* **IStswBoxControl** interface has been extended. All box controls have 2 new properties: "Errors", "HasError", and 1 less property: "IsErrorVisible".
 
 ### Bugfixes:
 
-* **StswBindingList **can be sorted now (for example in **StswDataGrid **when clicked on column).
+* **StswBindingList** can be sorted now (for example in **StswDataGrid** when clicked on column).
 
 # **0.6.0**  
 2024-03-02
@@ -23,27 +31,27 @@
 
 * Stsw check controls have read only mode controlled by "IsReadOnly" property.
 * New interface: **IStswScrollableControl**. Other Stsw interfaces are extended too.
-* New property for **StswApp **named "AllowMultipleInstances". If it is set to false then any additional instance of application is automatically closed allowing only one instance to be runned at the same time.
+* New property for **StswApp** named "AllowMultipleInstances". If it is set to false then any additional instance of application is automatically closed allowing only one instance to be runned at the same time.
 * New converter: **StswIsTypeConverter**.
-* New markup extensions: **NewExtension **and **NameOfExtension**.
-* New extensions: **Copy **and **IsListType**.
-* New functions: **ShiftIndexBy **and **GetProcessUser**.
-* New attached property "StswBorder.IsBorderless" that allows to set border thickness and corner radius to 0 for any control that implements **IStswCornerControl **interface.
+* New markup extensions: **NewExtension** and **NameOfExtension**.
+* New extensions: **Copy** and **IsListType**.
+* New functions: **ShiftIndexBy** and **GetProcessUser**.
+* New attached property "StswBorder.IsBorderless" that allows to set border thickness and corner radius to 0 for any control that implements **IStswCornerControl** interface.
 
 ### Changed functionality:
 
 * All Stsw controls have set "SnapsToDevicePixels" to false by default.
-* All Stsw controls that contain **StswPopup **have new property "Popup" of new **StswPopupModel **type allowing to style its background, border and padding.
-* All Stsw controls that contain **StswScrollViewer **have new property "ScrollViewer" of new **StswScrollViewerModel **type allowing to style its scroll bars.
+* All Stsw controls that contain **StswPopup** have new property "Popup" of new **StswPopupModel** type allowing to style its background, border and padding.
+* All Stsw controls that contain **StswScrollViewer** have new property "ScrollViewer" of new **StswScrollViewerModel** type allowing to style its scroll bars.
 * All Stsw box controls have improved validation error style that turns borders red and shows additional sub control. Its visibility can be managed by "IsErrorVisible" property.
-* **StswTimedSwitch **can be set to infinite time (without reverting content to its base form).
-* **StswToggleSwitch **has been remade.
-* **StswDataGrid **can detect **IStswSelectionItem **interface on its "ItemsSource" property - it is similar functionality to other Stsw collection controls and allows to bind multiple selected items.
-* **StswDirectionViewer **have only two button border properties instead of four: "BBtnThickness" (up or left) and "FBtnThickness" (down or right).
+* **StswTimedSwitch** can be set to infinite time (without reverting content to its base form).
+* **StswToggleSwitch** has been remade.
+* **StswDataGrid** can detect **IStswSelectionItem** interface on its "ItemsSource" property - it is similar functionality to other Stsw collection controls and allows to bind multiple selected items.
+* **StswDirectionViewer** have only two button border properties instead of four: "BBtnThickness" (up or left) and "FBtnThickness" (down or right).
 * Stsw commands are improved. Additionally "IsWorking" property has been renamed into "IsBusy" to match **StswHeader**'s "IsBusy" property name. Async commands also have new "IsReausable" property that allows to run command multiple times.
 * A few changes in theme brush key names and template styles (for Stsw check controls).
 * A few changes in template part names.
-* **StswChartPie **is full by default - it just looks better than a version with hole in center.
+* **StswChartPie** is full by default - it just looks better than a version with hole in center.
 * **StswRatingControl**'s "CanReset" property has been renamed into "IsResetEnabled". There is also one new property named "ItemsNumberVisibility" that allows to display order number below each icon.
 * Dark theme has been modified to have darker colored parts. Pink theme has been remade.
 * Stsw internal sub controls are disabled for editor browsing.
@@ -51,38 +59,38 @@
 ### Bugfixes:
 
 * All Stsw controls have corrected "Focusable" and "IsTabStop" values.
-* All Stsw controls that were using **StswScrollViewer **have properly visible horizontal scroll bar - before it was never showing up, for example in **StswDataGrid**.
-* All Stsw collection controls have better logic for detecting if its items source implements **IStswSelectionItem **interface.
+* All Stsw controls that were using **StswScrollViewer** have properly visible horizontal scroll bar - before it was never showing up, for example in **StswDataGrid**.
+* All Stsw collection controls have better logic for detecting if its items source implements **IStswSelectionItem** interface.
 * All Stsw box controls no longer updates binding property on Enter key if "AcceptsReturn" property is set to true.
-* **StswSubDrop **has improved template to properly detect if it has content. **StswHeader **has "IsHighlighted" property so **StswSubRadio **has fixed checked style.
-* **StswNotifyIcon **can show in tray only if it is enabled.
-* **StswWindow **now can pass "Components" to its title bar.
+* **StswSubDrop** has improved template to properly detect if it has content. **StswHeader** has "IsHighlighted" property so **StswSubRadio** has fixed checked style.
+* **StswNotifyIcon** can show in tray only if it is enabled.
+* **StswWindow** now can pass "Components" to its title bar.
 
 # **0.5.0**
 2024-01-22
 
 ### New functionality:
 
-* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker **used to select either file or directory path.
+* There is new category for Stsw controls named "File" that includes 1 new control: **StswFilePicker** used to select either file or directory path.
 * New controls: **StswHyperlinkButton**, **StswShiftButton**, **StswTimedSwitch**, **StswDataPager**, **StswTimePicker**, **StswFilePicker**, **StswMediaPlayer**, **StswMenuItem**, **StswInfoBadge**, **StswInfoBar**, **StswWindowBar**.
 * New control style: **StswContextMenu**.
-* New interface: **IStswBoxControl**. **IStswComponentControl **renamed into **IStswSubControl**.
+* New interface: **IStswBoxControl**. **IStswComponentControl** renamed into **IStswSubControl**.
 * New converter: **StswListFromRangeConverter**.
-* New extensions: **ToImageSource**, **GetNextValue **(instead of **GetNextEnumValue **function).
+* New extensions: **ToImageSource**, **GetNextValue** (instead of **GetNextEnumValue** function).
 * New functions: **SplitStringByLines**, **RemoveFromParent**.
 
 ### Changed functionality:
 
 * External library called "NewtonsoftJson" is no longer used.
-* **StswNavigation **and **StswNavigationElement **have been reworked.
-* **StswSidePanel **can be set to be always visible.
+* **StswNavigation** and **StswNavigationElement** have been reworked.
+* **StswSidePanel** can be set to be always visible.
 * "Components" controls category renamed into "Subs" controls. All component controls changed prefix to "Sub". All properties for components renamed into "SubControls".
-* **StswShifter **renamed into **StswDirectionViewer**. **StswLogPanel **renamed into **StswInfoPanel**.
-* **StswHeader **and all sub controls now has property "IsContentVisible" instead of "ContentVisibility".
+* **StswShifter** renamed into **StswDirectionViewer**. **StswLogPanel** renamed into **StswInfoPanel**.
+* **StswHeader** and all sub controls now has property "IsContentVisible" instead of "ContentVisibility".
 * Part of **StswWindow**'s functionality moved to new control **StswWindowBar**.
 * A few changes in Stsw enums.
 * A few changes in theme brush key names.
-* **StswMailboxModel **implements INotifyPropertyChanged now.
+* **StswMailboxModel** implements INotifyPropertyChanged now.
 
 ### Bugfixes:
 
