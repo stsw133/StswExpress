@@ -302,10 +302,8 @@ public class StswNotifyIcon : FrameworkElement
         if (_tray == null)
         {
             _tray = new();
-            //_tray.BalloonTipClosed += (s, e) => _tray.Visible = false;
             _tray.Click += (s, e) => _tray.Visible = false;
             _tray.MouseClick += (s, e) => _tray.Visible = false;
-            //_tray.MouseMove += (s, e) => _tray.Visible = false;
             System.Windows.Application.Current.Exit += (s, e) => _tray?.Dispose();
         }
         _tray.Icon = icon ?? Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()!.ManifestModule.Name);
@@ -329,9 +327,7 @@ public class StswNotifyIcon : FrameworkElement
         {
             var timeout = ((int?)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Accessibility", "MessageDuration", 5) ?? 5) * 1000;
             _tray?.ShowBalloonTip(timeout, tipTitle ?? string.Empty, tipText ?? string.Empty, (ToolTipIcon?)tipIcon ?? ToolTipIcon.None);
-            //Thread.Sleep(timeout + 2000);
         });
-        //_tray.Visible = false;
     }
     #endregion
 

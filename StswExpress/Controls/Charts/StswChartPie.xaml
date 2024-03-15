@@ -10,6 +10,8 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="StrokeThickness" Value="500"/>
 
+        <Setter Property="MinPercentageRender" Value="2"/>
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -73,14 +75,33 @@
                                 </se:StswToolTip>
                             </Ellipse.ToolTip>
                         </Ellipse>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel x:Name="PART_Percentage"
+                                    IsHitTestVisible="False"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                             <StackPanel.RenderTransform>
                                 <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
                             </StackPanel.RenderTransform>
-                            <se:StswText FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}" Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
-                            <se:StswText FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}" Text="%"/>
+                            <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
+                                                 FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}"
+                                                 FontWeight="Bold"
+                                                 Stroke="{DynamicResource StswBox.Static.Background}"
+                                                 StrokeThickness="4"
+                                                 Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
+                            <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
+                                                 FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}"
+                                                 FontWeight="Bold"
+                                                 Stroke="{DynamicResource StswBox.Static.Background}"
+                                                 StrokeThickness="4"
+                                                 Text="%"/>
                         </StackPanel>
                     </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsPercentageVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Percentage"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

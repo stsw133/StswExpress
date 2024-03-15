@@ -73,7 +73,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
                 {
                     stsw.Opened += (s, e) => stsw.SetOffset();
                     stsw._parent.MouseMove += (s, e) => stsw.SetOffset();
-                    //stsw._parent.MouseLeave += (s, e) => stsw.IsOpen = false;
                 }
             }
             else if ((bool?)e.OldValue == true)
@@ -82,7 +81,6 @@ public class StswToolTip : ToolTip, IStswCornerControl
                 {
                     stsw.Opened -= (s, e) => stsw.SetOffset();
                     stsw._parent.MouseMove -= (s, e) => stsw.SetOffset();
-                    //stsw._parent.MouseLeave -= (s, e) => stsw.IsOpen = false;
                 }
 
                 stsw.Placement = PlacementMode.Mouse;

@@ -38,17 +38,12 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
         if (itemsSource == null)
             return;
 
-        var items = itemsSource.OfType<StswChartModel>();
-        if (itemsSource.OfType<StswChartModel>() is ICollection { Count: > 0 } && items?.Count() == 0)
-            throw new ArgumentException($"ItemsSource value must be of '{nameof(StswChartModel)}' type.");
+        var items = itemsSource.OfType<StswChartLegendModel>();
+        if (itemsSource.OfType<StswChartLegendModel>() is ICollection { Count: > 0 } && items?.Count() == 0)
+            throw new ArgumentException($"ItemsSource value must be of '{nameof(StswChartLegendModel)}' type.");
 
-        var totalPercent = 0d;
         foreach (var item in items!)
-        {
             item.Percentage = Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100);
-            item.Description ??= $"{item.Value} ({item.Percentage:N2}%)";
-            totalPercent += item.Percentage;
-        }
     }
     #endregion
 
@@ -155,8 +150,13 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
 /// <summary>
 /// Data model for chart items.
 /// </summary>
-public class StswChartModel : StswObservableObject
+public class StswChartLegendModel : StswObservableObject
 {
+    /// <summary>
+    /// Gets or sets the brush used to represent the chart item.
+    /// </summary>
+    public Brush? Brush { get; set; }
+
     /// <summary>
     /// Gets or sets the name of the chart item.
     /// </summary>
@@ -172,42 +172,12 @@ public class StswChartModel : StswObservableObject
     private string? name;
 
     /// <summary>
-    /// Gets or sets the value of the chart item.
-    /// </summary>
-    public decimal Value { get; set; }
-
-    /// <summary>
     /// Gets or sets the percentage value of the chart item.
     /// </summary>
     public double Percentage { get; internal set; }
 
     /// <summary>
-    /// Gets or sets the description of the chart item.
+    /// Gets or sets the value of the chart item.
     /// </summary>
-    public string? Description { get; set; }
-
-    /// <summary>
-    /// Gets or sets the brush used to represent the chart item.
-    /// </summary>
-    public Brush? Brush { get; set; }
-
-    /// <summary>
-    /// Gets or sets the stroke dash array used to represent the chart item.
-    /// </summary>
-    public DoubleCollection? StrokeDashArray
-    {
-        get => strokeDashArray;
-        internal set => SetProperty(ref strokeDashArray, value);
-    }
-    private DoubleCollection? strokeDashArray;
-
-    /// <summary>
-    /// Gets or sets the angle of the chart item.
-    /// </summary>
-    public double Angle { get; internal set; }
-
-    /// <summary>
-    /// Gets or sets the center point of the chart item.
-    /// </summary>
-    public Point Center { get; internal set; }
+    public decimal Value { get; set; }
 }

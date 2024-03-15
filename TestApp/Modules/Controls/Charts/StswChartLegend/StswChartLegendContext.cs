@@ -23,7 +23,7 @@ public class StswChartLegendContext : ControlsContext
     }
     
     /// Items
-    private ObservableCollection<StswChartModel> items = new()
+    private ObservableCollection<StswChartLegendModel> items = new()
     {
         new() { Name = "Option 1", Value = 100 },
         new() { Name = "Option 2", Value = 81 },
@@ -36,7 +36,7 @@ public class StswChartLegendContext : ControlsContext
         new() { Name = "Option 9", Value = 4 },
         new() { Name = "Option 10", Value = 1 }
     };
-    public ObservableCollection<StswChartModel> Items
+    public ObservableCollection<StswChartLegendModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);
