@@ -2,6 +2,7 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
+        <ResourceDictionary Source="_subcontrols/StswChartTip.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswDropArrow.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswLoadingCircle.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswSubError.xaml"/>
@@ -15,6 +16,7 @@
         <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
         
+        <ResourceDictionary Source="Charts/StswChartColumns.xaml"/>
         <ResourceDictionary Source="Charts/StswChartLegend.xaml"/>
         <ResourceDictionary Source="Charts/StswChartPie.xaml"/>
 
@@ -29,6 +31,7 @@
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
+        <ResourceDictionary Source="Collections/StswSpinner.xaml"/>
         <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="Color/StswColorBox.xaml"/>

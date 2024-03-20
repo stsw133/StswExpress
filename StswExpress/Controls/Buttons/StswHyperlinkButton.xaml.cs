@@ -24,6 +24,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
 
         if (NavigateUri?.AbsoluteUri != null)
             StswFn.OpenFile(NavigateUri.AbsoluteUri);
+        WasClicked = true;
     }
     #endregion
 
@@ -76,6 +77,21 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswHyperlinkButton)
+        );
+
+    /// <summary>
+    /// Gets or sets whether the button was clicked at least once.
+    /// </summary>
+    public bool WasClicked
+    {
+        get => (bool)GetValue(WasClickedProperty);
+        internal set => SetValue(WasClickedProperty, value);
+    }
+    public static readonly DependencyProperty WasClickedProperty
+        = DependencyProperty.Register(
+            nameof(WasClicked),
+            typeof(bool),
             typeof(StswHyperlinkButton)
         );
     #endregion

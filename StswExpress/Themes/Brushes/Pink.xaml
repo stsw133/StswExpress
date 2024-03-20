@@ -38,6 +38,7 @@
         <GradientStop Color="#A47" Offset="0.5"/>
         <GradientStop Color="#B33" Offset="1"/>
     </LinearGradientBrush>
+    <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#423"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="#ECD"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Foreground" Color="#A89"/>
@@ -51,7 +52,6 @@
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Border" Color="#fddee8"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Foreground" Color="#756"/>
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="#e87373"/>
-    <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#423"/>
 
     <!-- Charts -->
     <SolidColorBrush x:Key="StswChart.Static.Background" Color="#FFF5FA"/>

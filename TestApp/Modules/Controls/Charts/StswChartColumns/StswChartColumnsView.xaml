@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswChartPieView"
+﻿<UserControl x:Class="TestApp.StswChartColumnsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,23 +7,23 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswChartPieContext/>
+        <local:StswChartColumnsContext/>
     </d:UserControl.DataContext>
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
         <local:ControlsBase.Description>
-            Represents a control being a pie chart.
+            Represents a control being a column chart.
         </local:ControlsBase.Description>
         <!-- properties -->
         
         <!-- content -->
         <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
-            <se:StswChartPie IsEnabled="{Binding IsEnabled}"
-                             ItemsSource="{Binding Items}"
-                             Margin="5"
-                             MaxHeight="400"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+            <se:StswChartColumns IsEnabled="{Binding IsEnabled}"
+                                 ItemsSource="{Binding Items}"
+                                 Margin="5"
+                                 MaxHeight="400"
+                                 HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                                 VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
             <se:StswChartLegend Columns="1"
                                 Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"

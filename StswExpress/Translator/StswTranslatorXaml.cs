@@ -141,6 +141,7 @@ public class Tr : MarkupExtension
         {
             var binding = new Binding("TranslatedText")
             {
+                Mode = BindingMode.OneWay,
                 Source = new TrData()
                 {
                     TextID = TextID,
@@ -167,7 +168,7 @@ public class Tr : MarkupExtension
             object result = Prefix + StswTranslator.Tr(TextID, DefaultText, LanguageID) + Suffix;
 
             if (Converter != null)
-                result = Converter.Convert(result, targetProperty.PropertyType, ConverterParameter, ConverterCulture);
+                result = Converter.Convert(result, targetProperty!.PropertyType, ConverterParameter, ConverterCulture);
 
             return result;
         }

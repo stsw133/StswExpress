@@ -30,6 +30,7 @@
                 <se:StswNavigationElement Header="StswToggleButton" ContextNamespace="TestApp.StswToggleButtonContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Charts" IconData="{x:Static se:StswIcons.ChartBar}">
+                <se:StswNavigationElement Header="StswChartColumns" ContextNamespace="TestApp.StswChartColumnsContext"/>
                 <se:StswNavigationElement Header="StswChartLegend" ContextNamespace="TestApp.StswChartLegendContext"/>
                 <se:StswNavigationElement Header="StswChartPie" ContextNamespace="TestApp.StswChartPieContext"/>
             </se:StswNavigationElement>
@@ -46,6 +47,7 @@
                 <se:StswNavigationElement Header="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Header="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
+                <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Color" IconData="{x:Static se:StswIcons.PaletteOutline}">

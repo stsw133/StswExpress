@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace StswExpress;
 
@@ -26,6 +25,10 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         MakeChart(newValue);
+        if (newValue != null)
+            foreach (StswChartElementModel item in newValue)
+                item.OnValueChangedCommand = new StswCommand(() => MakeChart(ItemsSource));
+
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 
@@ -33,17 +36,21 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
     /// Generates chart data based on the provided items source.
     /// </summary>
     /// <param name="itemsSource">The items source to generate the chart data from.</param>
-    public static void MakeChart(IEnumerable itemsSource)
+    public void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
             return;
 
-        var items = itemsSource.OfType<StswChartLegendModel>();
-        if (itemsSource.OfType<StswChartLegendModel>() is ICollection { Count: > 0 } && items?.Count() == 0)
-            throw new ArgumentException($"ItemsSource value must be of '{nameof(StswChartLegendModel)}' type.");
+        if (itemsSource?.GetType()?.IsListType(out var innerType) != true || innerType?.IsAssignableTo(typeof(StswChartElementModel)) != true)
+            throw new Exception($"{nameof(ItemsSource)} of chart control has to derive from {nameof(StswChartElementModel)} class!");
 
-        foreach (var item in items!)
-            item.Percentage = Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100);
+        var items = itemsSource.OfType<StswChartElementModel>();
+
+        /// calculate values
+        foreach (var item in items)
+            item.Percentage = item.Value != 0 ? Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100) : 0;
+
+        //itemsSource = items.OrderByDescending(x => x.Value);
     }
     #endregion
 
@@ -145,39 +152,4 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
             typeof(StswChartLegend)
         );
     #endregion
-}
-
-/// <summary>
-/// Data model for chart items.
-/// </summary>
-public class StswChartLegendModel : StswObservableObject
-{
-    /// <summary>
-    /// Gets or sets the brush used to represent the chart item.
-    /// </summary>
-    public Brush? Brush { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name of the chart item.
-    /// </summary>
-    public string? Name
-    {
-        get => name;
-        set
-        {
-            SetProperty(ref name, value);
-            Brush ??= new SolidColorBrush(StswFn.GenerateColor(Name ?? string.Empty, 130));
-        }
-    }
-    private string? name;
-
-    /// <summary>
-    /// Gets or sets the percentage value of the chart item.
-    /// </summary>
-    public double Percentage { get; internal set; }
-
-    /// <summary>
-    /// Gets or sets the value of the chart item.
-    /// </summary>
-    public decimal Value { get; set; }
 }

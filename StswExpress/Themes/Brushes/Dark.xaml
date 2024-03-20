@@ -26,6 +26,7 @@
     <SolidColorBrush x:Key="StswButton.MouseOver.Border" Color="#666666"/>
     <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="#575757"/>
     <SolidColorBrush x:Key="StswButton.Pressed.Border" Color="#757575"/>
+    <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#CCC"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#292929"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Border" Color="#383838"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Foreground" Color="#666"/>
@@ -39,7 +40,6 @@
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-48%}"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="StswButton.Defaulted.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=-8%}"/>
-    <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#CCC"/>
 
     <!-- Charts -->
     <SolidColorBrush x:Key="StswChart.Static.Background" Color="#1a1a1a"/>

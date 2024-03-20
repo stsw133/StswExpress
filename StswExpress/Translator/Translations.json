@@ -3,6 +3,14 @@
     "en": "Today",
     "pl": "Dzisiaj"
   },
+  "StswChartTooltip.Percentage": {
+    "en": "➤ PERCENTAGE ",
+    "pl": "➤ PROCENT "
+  },
+  "StswChartTooltip.Value": {
+    "en": "➤ VALUE ",
+    "pl": "➤ WARTOŚĆ "
+  },
   "StswColorSelector.Auto": {
     "en": "Automatic",
     "pl": "Automatyczny"

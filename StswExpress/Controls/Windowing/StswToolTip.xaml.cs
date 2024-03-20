@@ -35,8 +35,8 @@ public class StswToolTip : ToolTip, IStswCornerControl
     private void SetOffset()
     {
         var currentPos = Window.GetWindow(this).PointToScreen(Mouse.GetPosition(Window.GetWindow(this)));
-        HorizontalOffset = currentPos.X - StswSettings.Default.iSize * 4;
-        VerticalOffset = currentPos.Y + ActualHeight + 20 - StswSettings.Default.iSize * 40;
+        HorizontalOffset = currentPos.X + BorderThickness.Left;
+        VerticalOffset = currentPos.Y + BorderThickness.Top + SystemParameters.CursorHeight / 2;
     }
     #endregion
 

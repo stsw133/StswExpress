@@ -5,6 +5,11 @@ namespace TestApp;
 
 public class StswChartLegendContext : ControlsContext
 {
+    public StswCommand AddValueCommand => new(() => {
+        Items.First(x => x.Name == "Option 9").Value += 20;
+        Items = Items.OrderByDescending(x => x.Value).ToObservableCollection();
+    });
+
     public override void SetDefaults()
     {
         base.SetDefaults();
@@ -23,20 +28,20 @@ public class StswChartLegendContext : ControlsContext
     }
     
     /// Items
-    private ObservableCollection<StswChartLegendModel> items = new()
+    private ObservableCollection<StswChartElementModel> items = new()
     {
-        new() { Name = "Option 1", Value = 100 },
-        new() { Name = "Option 2", Value = 81 },
-        new() { Name = "Option 3", Value = 64 },
-        new() { Name = "Option 4", Value = 49 },
-        new() { Name = "Option 5", Value = 36 },
-        new() { Name = "Option 6", Value = 25 },
-        new() { Name = "Option 7", Value = 16 },
-        new() { Name = "Option 8", Value = 9 },
-        new() { Name = "Option 9", Value = 4 },
-        new() { Name = "Option 10", Value = 1 }
+        new() { Name = "Option 1", Value = 1000, Description = "The biggest (by default) source of value" },
+        new() { Name = "Option 2", Value = 810 },
+        new() { Name = "Option 3", Value = 640 },
+        new() { Name = "Option 4", Value = 490 },
+        new() { Name = "Option 5", Value = 360 },
+        new() { Name = "Option 6", Value = 250 },
+        new() { Name = "Option 7", Value = 160 },
+        new() { Name = "Option 8", Value = 90 },
+        new() { Name = "Option 9", Value = 40, Description = "Value of this source can be increased through button" },
+        new() { Name = "Option 10", Value = 10, Description = "The smallest (by default) source of value" }
     };
-    public ObservableCollection<StswChartLegendModel> Items
+    public ObservableCollection<StswChartElementModel> Items
     {
         get => items;
         set => SetProperty(ref items, value);

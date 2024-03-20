@@ -86,7 +86,7 @@
                         </StackPanel>
                     </StackPanel>
                 </se:StswScrollViewer>
-                <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}" Width="1"/>
+                <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}" Width="2" Margin="-1 0"/>
                 <!-- control -->
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -94,7 +94,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <ContentPresenter Margin="5 0 0 0"/>
-                    <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}" Height="1" Margin="0 -1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                    <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}" Height="2" Margin="0 -1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
                     <ContentControl Grid.Row="1" Content="{Binding StatusPanel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Focusable="False"/>
                 </Grid>
             </Grid>

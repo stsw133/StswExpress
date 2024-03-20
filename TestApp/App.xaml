@@ -51,6 +51,9 @@
             </DataTemplate>
             
             <!-- Charts -->
+            <DataTemplate DataType="{x:Type local:StswChartColumnsContext}">
+                <local:StswChartColumnsView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswChartLegendContext}">
                 <local:StswChartLegendView/>
             </DataTemplate>
@@ -90,6 +93,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSpinnerContext}">
+                <local:StswSpinnerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTreeViewContext}">
                 <local:StswTreeViewView/>
