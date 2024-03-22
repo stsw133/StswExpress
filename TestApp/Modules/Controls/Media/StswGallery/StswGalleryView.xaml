@@ -23,8 +23,7 @@
             </se:StswButton>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswGallery}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Orientation}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswGallery IsEnabled="{Binding IsEnabled}"

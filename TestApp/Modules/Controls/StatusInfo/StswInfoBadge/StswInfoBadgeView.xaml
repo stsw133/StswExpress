@@ -18,15 +18,13 @@
         <local:ControlsBase.Properties>
             <!-- Format -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Format, Type={x:Type se:StswInfoBadge}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoFormat}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Format}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoFormat}}" Margin="0 0 0 3" SelectedValue="{Binding Format}"/>
             <!-- Limit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Limit, Type={x:Type se:StswInfoBadge}}"/>
             <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswInfoBadge}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoType}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Type}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoType}}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
             <!-- Value -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
             <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>

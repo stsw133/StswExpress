@@ -6,7 +6,7 @@
 
     <Style TargetType="{x:Type se:StswDropArrow}">
         <Setter Property="Visibility" Value="{DynamicResource StswDropArrow.Visibility}"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropArrow}">

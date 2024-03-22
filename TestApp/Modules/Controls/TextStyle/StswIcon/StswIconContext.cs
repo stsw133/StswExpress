@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -9,6 +10,14 @@ public class StswIconContext : ControlsContext
 {
     public StswCommand SetGridLengthAutoCommand => new(() => Scale = GridLength.Auto);
     public StswCommand SetGridLengthFillCommand => new(() => Scale = new GridLength(1, GridUnitType.Star));
+
+    public StswIconContext()
+    {
+        Task.Run(() => Icons = typeof(StswIcons).GetProperties()
+                                                .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
+                                                .OrderBy(x => x.Display)
+                                                .ToList());
+    }
 
     public override void SetDefaults()
     {
@@ -26,10 +35,12 @@ public class StswIconContext : ControlsContext
     }
 
     /// Icons
-    public List<StswComboItem> Icons => typeof(StswIcons).GetProperties()
-                                                         .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
-                                                         .OrderBy(x => x.Display)
-                                                         .ToList();
+    private List<StswComboItem> icons = new();
+    public List<StswComboItem> Icons
+    {
+        get => icons;
+        set => SetProperty(ref icons, value);
+    }
 
     /// Scale
     private GridLength scale;

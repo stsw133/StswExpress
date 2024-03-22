@@ -58,6 +58,9 @@
             <Setter.Value>
                 <DataTemplate>
                     <Grid>
+                        <Grid.Resources>
+                            <se:StswBindingProxy x:Key="proxy" Proxy="{Binding}"/>
+                        </Grid.Resources>
                         <!-- pie element -->
                         <Ellipse RenderTransformOrigin="0.5 0.5"
                                  Stroke="{Binding Brush}"
@@ -66,7 +69,7 @@
                                  ToolTipService.InitialShowDelay="0"
                                  Height="1000" Width="1000">
                             <Ellipse.RenderTransform>
-                                <RotateTransform Angle="{Binding Internal.Angle}"/>
+                                <RotateTransform Angle="{Binding Proxy.Internal.Angle, Source={StaticResource proxy}}"/>
                             </Ellipse.RenderTransform>
                             <Ellipse.ToolTip>
                                 <se:StswChartTip ShowDescription="True" ShowName="True"/>
@@ -79,7 +82,8 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
                             <StackPanel.RenderTransform>
-                                <TranslateTransform X="{Binding Internal.Center.X}" Y="{Binding Internal.Center.Y}"/>
+                                <TranslateTransform X="{Binding Proxy.Internal.Center.X, Source={StaticResource proxy}}"
+                                                    Y="{Binding Proxy.Internal.Center.Y, Source={StaticResource proxy}}"/>
                             </StackPanel.RenderTransform>
                             
                             <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"

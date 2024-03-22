@@ -43,8 +43,8 @@
                         <DockPanel>
                             <!-- buttons -->
                             <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
-                                               Focusable="False"
-                                               se:StswBorder.IsBorderless="True" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
+                                               Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
@@ -57,11 +57,6 @@
                                                        CornerRadius="0"
                                                        Padding="0"/>
                                 </se:StswDropButton.Popup>
-                                <se:StswDropButton.Resources>
-                                    <Style TargetType="{x:Type se:StswDropArrow}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </Style>
-                                </se:StswDropButton.Resources>
                                 <se:StswTabControl>
                                     <se:StswTabItem Header="{se:Tr StswTextEditor.Font.ColorStandard}">
                                         <se:StswColorSelector SelectedColor="{Binding SelectedColor, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>

@@ -17,21 +17,24 @@
         <!-- properties -->
         
         <!-- content -->
-        <UniformGrid Rows="1" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+        <Grid HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <se:StswChartPie IsEnabled="{Binding IsEnabled}"
                              ItemsSource="{Binding Items}"
                              Margin="5"
                              MaxHeight="400"
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-            <se:StswChartLegend Columns="1"
+            <se:StswChartLegend Grid.Column="1" Columns="1"
                                 Header="Some random elements:"
                                 IsEnabled="{Binding IsEnabled}"
                                 ItemsSource="{Binding Items}"
                                 Margin="5"
-                                HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
-        </UniformGrid>
+                                VerticalContentAlignment="Top"/>
+        </Grid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" HorizontalAlignment="Left" Margin="5" Padding="10 5"/>

@@ -81,31 +81,5 @@ public class StswBorder : Border, IStswCornerControl
             typeof(bool),
             typeof(StswBorder)
         );
-
-    /// <summary>
-    /// Attached property to control the borderless appearance of controls implementing the <see cref="IStswCornerControl"/> interface.
-    /// When set to <see langword="true"/>, it hides the border by setting BorderThickness to 0, CornerClipping to <see langword="false"/>, and CornerRadius to 0.
-    /// </summary>
-    public static readonly DependencyProperty IsBorderlessProperty
-        = DependencyProperty.RegisterAttached(
-            "IsBorderless",
-            typeof(bool),
-            typeof(StswBorder),
-            new PropertyMetadata(false, OnIsBorderlessChanged)
-        );
-    //public static bool GetIsBorderless(DependencyObject obj) => (bool)obj.GetValue(IsBorderlessProperty);
-    public static void SetIsBorderless(DependencyObject obj, bool value) => obj.SetValue(IsBorderlessProperty, value);
-    private static void OnIsBorderlessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswCornerControl stsw)
-        {
-            if ((bool)e.NewValue)
-            {
-                stsw.BorderThickness = new(0);
-                stsw.CornerClipping = false;
-                stsw.CornerRadius = new(0);
-            }
-        }
-    }
     #endregion
 }

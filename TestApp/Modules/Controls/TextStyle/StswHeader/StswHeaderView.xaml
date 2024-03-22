@@ -35,10 +35,9 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsHighlighted}"/>
             <!-- Orientation -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswHeader}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Orientation}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
             <!-- ShowDescription -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ShowDescription, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDescription"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDescription}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

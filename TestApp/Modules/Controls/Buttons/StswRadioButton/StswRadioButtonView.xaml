@@ -35,8 +35,8 @@
             </se:StswRadioButton>
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type se:StswRadioButton}">
-                    <Setter Property="Margin" Value="0 0 0 5"/>
                     <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <Setter Property="Margin" Value="0 0 0 5"/>
                     <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>
                     <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>
                     <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}"/>

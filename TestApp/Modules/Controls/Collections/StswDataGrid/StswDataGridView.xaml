@@ -21,8 +21,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SpecialColumnVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SpecialColumnVisibility, Type={x:Type se:StswDataGrid}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpecialColumnVisibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpecialColumnVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDataGrid FrozenColumnCount="1"

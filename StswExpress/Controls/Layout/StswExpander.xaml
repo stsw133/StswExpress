@@ -33,7 +33,7 @@
                         <DockPanel>
                             <!-- header -->
                             <se:StswToggleButton x:Name="PART_Header"
-                                                 se:StswBorder.IsBorderless="True"
+                                                 se:StswControl.IsBorderless="True"
                                                  Background="{DynamicResource StswExpander.Static.Header}"
                                                  FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
                                                  FontFamily="{TemplateBinding FontFamily}"
@@ -47,10 +47,7 @@
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow"
-                                                      Focusable="False"
-                                                      IsDropDownOpen="{TemplateBinding IsExpanded}"
-                                                      Width="24"/>
+                                    <se:StswDropArrow x:Name="PART_Arrow" Focusable="False" IsDropDownOpen="{TemplateBinding IsExpanded}" Width="24"/>
                                     <ContentPresenter Content="{TemplateBinding Header}"
                                                       ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                                       ContentTemplate="{TemplateBinding HeaderTemplate}"

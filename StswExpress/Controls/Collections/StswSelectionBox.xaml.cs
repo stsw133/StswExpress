@@ -15,7 +15,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
+public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
 {
     public StswSelectionBox()
     {
@@ -42,6 +42,43 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
         /// SetTextCommand
         SetTextCommand ??= new StswCommand(SetText);
     }
+    
+    /// <summary>
+    /// Occurs when the ItemsSource property value changes.
+    /// </summary>
+    /// <param name="oldValue">The old value of the ItemsSource property.</param>
+    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        if (newValue?.GetType()?.IsListType(out var innerType) == true)
+        {
+            if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswSelectionBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            {
+                if (string.IsNullOrEmpty(DisplayMemberPath))
+                    DisplayMemberPath = nameof(StswComboItem.Display);
+                if (string.IsNullOrEmpty(SelectedValuePath))
+                    SelectedValuePath = nameof(StswComboItem.Value);
+            }
+        }
+        base.OnItemsSourceChanged(oldValue, newValue);
+
+        SetText();
+    }
+
+    /// <summary>
+    /// Occurs when the ItemTemplate property value changes.
+    /// </summary>
+    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
+    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+    {
+        if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
+            DisplayMemberPath = string.Empty;
+        base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+    }
 
     /// <summary>
     /// Sets the text for the control based on the selected items.
@@ -49,10 +86,10 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
     internal void SetText()
     {
         if (ItemsSource == null)
+        {
+            Text = string.Empty;
             return;
-
-        if (ItemsSource?.GetType()?.IsListType(out var innerType) != true || innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
-            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswSelectionBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+        }
 
         var itemsSource = ItemsSource.OfType<IStswSelectionItem>().ToList();
         var listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator + " ";
@@ -86,21 +123,6 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
     #endregion
 
     #region Main properties
-    /// <summary>
-    /// Gets or sets the path to the display string property of the items in the ItemsSource.
-    /// </summary>
-    public string? DisplayMemberPath
-    {
-        get => (string?)GetValue(DisplayMemberPathProperty);
-        set => SetValue(DisplayMemberPathProperty, value);
-    }
-    public static readonly DependencyProperty DisplayMemberPathProperty
-        = DependencyProperty.Register(
-            nameof(DisplayMemberPath),
-            typeof(string),
-            typeof(StswSelectionBox)
-        );
-
     /// <summary>
     /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>
@@ -175,31 +197,6 @@ public class StswSelectionBox : ContentControl, IStswBoxControl, IStswCornerCont
             typeof(bool),
             typeof(StswSelectionBox)
         );
-
-    /// <summary>
-    /// Gets or sets the collection that is used to generate the content of the control.
-    /// </summary>
-    public IList ItemsSource
-    {
-        get => (IList)GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
-    public static readonly DependencyProperty ItemsSourceProperty
-        = DependencyProperty.Register(
-            nameof(ItemsSource),
-            typeof(IList),
-            typeof(StswSelectionBox),
-            new FrameworkPropertyMetadata(default(IList),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
-        );
-    private static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is StswSelectionBox stsw)
-        {
-            stsw.SetText();
-        }
-    }
 
     /// <summary>
     /// Gets or sets the placeholder text displayed in the control when no item is selected.

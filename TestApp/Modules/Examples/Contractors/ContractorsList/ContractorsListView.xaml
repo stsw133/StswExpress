@@ -81,12 +81,9 @@
                 </DataGridTextColumn>
 
                 <!-- Type -->
-                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource proxy}, Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}"
-                                        TextBinding="{Binding Type}" DisplayMemberPath="Display" SelectedValuePath="Value">
+                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource proxy}, Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}" TextBinding="{Binding Type}">
                     <DataGridComboBoxColumn.Header>
-                        <se:StswFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="a.Type"
-                                          ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}"
-                                          DisplayMemberPath="Display" SelectedValuePath="Value"/>
+                        <se:StswFilterBox Header="Type" FilterType="List" FilterMode="In" FilterValuePath="a.Type" ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type local:ContractorType}}"/>
                     </DataGridComboBoxColumn.Header>
                 </DataGridComboBoxColumn>
 

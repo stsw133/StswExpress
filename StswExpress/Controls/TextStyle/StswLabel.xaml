@@ -29,7 +29,7 @@
                         <DockPanel>
                             <!-- button -->
                             <se:StswToggleButton x:Name="PART_TruncationButton" DockPanel.Dock="Right"
-                                                 se:StswBorder.IsBorderless="True"
+                                                 se:StswControl.IsBorderless="True"
                                                  ClickMode="Hover"
                                                  Content="..."
                                                  Focusable="False"
@@ -40,7 +40,7 @@
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                             <!-- popup -->
-                            <se:StswPopup se:StswBorder.IsBorderless="True"
+                            <se:StswPopup se:StswControl.IsBorderless="True"
                                           IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
                                           Padding="0"
                                           Placement="Relative"

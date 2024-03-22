@@ -18,8 +18,7 @@
         <local:ControlsBase.Properties>
             <!-- Direction -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Direction, Type={x:Type se:StswRatingControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding Direction}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}" Margin="0 0 0 3" SelectedValue="{Binding Direction}"/>
             <!-- IsResetEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsResetEnabled, Type={x:Type se:StswRatingControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsResetEnabled}"/>
@@ -28,8 +27,7 @@
             <se:StswNumericBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
             <!-- ItemsNumberVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsNumberVisibility, Type={x:Type se:StswRatingControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswRatingControl Direction="{Binding Direction}"

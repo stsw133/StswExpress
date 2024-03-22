@@ -418,6 +418,7 @@
                                                 </se:StswButton>
 
                                                 <se:StswDropButton x:Name="PART_SectionList"
+                                                                   se:StswControl.IsArrowless="True"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -427,21 +428,17 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.FormatListText}"/>
                                                     </se:StswDropButton.Header>
-                                                    <se:StswDropButton.Resources>
-                                                        <Style TargetType="{x:Type se:StswDropArrow}">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </Style>
-                                                    </se:StswDropButton.Resources>
 
-                                                    <se:StswButton se:StswBorder.IsBorderless="True" Command="EditingCommands.ToggleBullets" Focusable="False" HorizontalContentAlignment="Left">
+                                                    <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleBullets" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.BulletedList}" IconData="{x:Static se:StswIcons.FormatListBulleted}"/>
                                                     </se:StswButton>
-                                                    <se:StswButton se:StswBorder.IsBorderless="True" Command="EditingCommands.ToggleNumbering" Focusable="False" HorizontalContentAlignment="Left">
+                                                    <se:StswButton se:StswControl.IsBorderless="True" Command="EditingCommands.ToggleNumbering" Focusable="False" HorizontalContentAlignment="Left">
                                                         <se:StswHeader Content="{se:Tr StswTextEditor.Paragraph.NumberedList}" IconData="{x:Static se:StswIcons.FormatListNumbered}"/>
                                                     </se:StswButton>
                                                 </se:StswDropButton>
                                                 
                                                 <se:StswDropButton x:Name="PART_SectionInterline"
+                                                                   se:StswControl.IsArrowless="True"
                                                                    BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                    CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                    Focusable="False"
@@ -451,17 +448,12 @@
                                                     <se:StswDropButton.Header>
                                                         <se:StswIcon Data="{x:Static se:StswIcons.ArrowExpandVertical}"/>
                                                     </se:StswDropButton.Header>
-                                                    <se:StswDropButton.Resources>
-                                                        <Style TargetType="{x:Type se:StswDropArrow}">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </Style>
-                                                    </se:StswDropButton.Resources>
 
-                                                    <se:StswButton Content="auto" se:StswBorder.IsBorderless="True" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                                    <se:StswButton Content="1" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
-                                                    <se:StswButton Content="1.15" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
-                                                    <se:StswButton Content="1.5" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
-                                                    <se:StswButton Content="2" se:StswBorder.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="20"/>
+                                                    <se:StswButton Content="auto" se:StswControl.IsBorderless="True" FontStyle="Italic" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <se:StswButton Content="1" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="0"/>
+                                                    <se:StswButton Content="1.15" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="3"/>
+                                                    <se:StswButton Content="1.5" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="10"/>
+                                                    <se:StswButton Content="2" se:StswControl.IsBorderless="True" Command="{Binding SectionInterlineCommand, RelativeSource={RelativeSource TemplatedParent}}" CommandParameter="20"/>
                                                 </se:StswDropButton>
                                             </DockPanel>
 

@@ -18,12 +18,10 @@
         <local:ControlsBase.Properties>
             <!-- HorizontalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf HorizontalScrollBarVisibility, Type={x:Type se:StswDirectionViewer}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
             <!-- VerticalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf VerticalScrollBarVisibility, Type={x:Type se:StswDirectionViewer}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDirectionViewer IsEnabled="{Binding IsEnabled}"

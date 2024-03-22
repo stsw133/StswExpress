@@ -18,8 +18,7 @@
         <local:ControlsBase.Properties>
             <!-- ExpandDirection -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ExpandDirection, Type={x:Type se:StswExpander}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding ExpandDirection}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}" Margin="0 0 0 3" SelectedValue="{Binding ExpandDirection}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswExpander ExpandDirection="{Binding ExpandDirection}"

@@ -36,7 +36,7 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
     /// Generates chart data based on the provided items source.
     /// </summary>
     /// <param name="itemsSource">The items source to generate the chart data from.</param>
-    public void MakeChart(IEnumerable itemsSource)
+    public virtual void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
             return;

@@ -45,7 +45,7 @@
                         <DockPanel>
                             <!-- drop button -->
                             <se:StswToggleButton x:Name="PART_MainButton" DockPanel.Dock="Right"
-                                                 se:StswBorder.IsBorderless="True"
+                                                 se:StswControl.IsBorderless="True"
                                                  Background="{TemplateBinding Background}"
                                                  BorderBrush="{TemplateBinding BorderBrush}"
                                                  ClickMode="Press"
@@ -80,7 +80,7 @@
                             </se:StswPopup>
                             <!-- content -->
                             <se:StswButton x:Name="PART_HeaderButton"
-                                           se:StswBorder.IsBorderless="True"
+                                           se:StswControl.IsBorderless="True"
                                            Command="{TemplateBinding Command}"
                                            CommandParameter="{TemplateBinding CommandParameter}"
                                            CommandTarget="{TemplateBinding CommandTarget}"

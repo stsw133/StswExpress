@@ -27,12 +27,10 @@
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
             <!-- State -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf State, Type={x:Type se:StswProgressBar}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding State}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressState}}" Margin="0 0 0 3" SelectedValue="{Binding State}"/>
             <!-- TextMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf TextMode, Type={x:Type se:StswProgressBar}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding TextMode}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswProgressTextMode}}" Margin="0 0 0 3" SelectedValue="{Binding TextMode}"/>
             <!-- Value -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Value, Type={x:Type se:StswProgressBar}}"/>
             <se:StswNumericBox Margin="0 0 0 3" Format="N2" Value="{Binding SelectedValue}"/>

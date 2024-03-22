@@ -19,12 +19,10 @@
             <local:ControlsBase.Properties>
                 <!-- Buttons -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Buttons, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogButtons}}"
-                                 DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogButtons}" SelectedValuePath="Value"/>
+                <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogButtons}}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogButtons}"/>
                 <!-- Image -->
                 <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Image, Type={x:Type se:StswMessageDialog}}"/>
-                <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogImage}}"
-                                 DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogImage}" SelectedValuePath="Value"/>
+                <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDialogImage}}" Margin="0 0 0 3" SelectedValue="{Binding MessageDialogImage}"/>
             </local:ControlsBase.Properties>
             <!-- content -->
             <se:StswButton Command="{Binding OpenMessageDialogCommand}" Content="Open content dialog" Margin="5"/>

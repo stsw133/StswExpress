@@ -17,7 +17,7 @@
     <SolidColorBrush x:Key="StswColor.Neutral" Color="#33a0ff"/>
     <SolidColorBrush x:Key="StswColor.Modify" Color="#b666cc"/>
     <SolidColorBrush x:Key="StswColor.Structure" Color="#e7c24b"/>
-    <SolidColorBrush x:Key="StswColor.Designer" Color="#37d4fb"/>
+    <SolidColorBrush x:Key="StswColor.Designer" Color="#47ebe0"/>
 
     <!-- Buttons -->
     <SolidColorBrush x:Key="StswButton.Static.Background" Color="#383838"/>

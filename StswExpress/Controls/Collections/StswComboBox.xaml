@@ -130,7 +130,7 @@
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                       Visibility="Collapsed"/>
                                     <se:StswTextBox x:Name="PART_EditableTextBox"
-                                                    se:StswBorder.IsBorderless="True"
+                                                    se:StswControl.IsBorderless="True"
                                                     AllowDrop="True"
                                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                                     Padding="{TemplateBinding Padding}"
@@ -147,7 +147,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Separator"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="IsEditable" Value="True">

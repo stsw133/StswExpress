@@ -18,8 +18,7 @@
         <local:ControlsBase.Properties>
             <!-- SelectionMode -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SelectionMode, Type={x:Type se:StswListView}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswListView DisplayMemberPath="Name"

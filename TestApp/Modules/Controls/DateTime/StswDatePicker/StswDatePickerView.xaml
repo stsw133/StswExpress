@@ -21,8 +21,7 @@
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
             <!-- IncrementType -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IncrementType, Type={x:Type se:StswDatePicker}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDateTimeIncrementType}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswDateTimeIncrementType}}" Margin="0 0 0 3" SelectedValue="{Binding IncrementType}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswDatePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>

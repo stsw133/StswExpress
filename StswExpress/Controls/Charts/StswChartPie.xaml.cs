@@ -38,7 +38,7 @@ public class StswChartPie : ItemsControl
     /// Generates chart data based on the provided items source.
     /// </summary>
     /// <param name="itemsSource">The items source to generate the chart data from.</param>
-    public void MakeChart(IEnumerable itemsSource)
+    public virtual void MakeChart(IEnumerable itemsSource)
     {
         if (itemsSource == null)
             return;
@@ -50,7 +50,7 @@ public class StswChartPie : ItemsControl
 
         /// calculate values
         var totalPercent = 0d;
-        foreach (var item in items!)
+        foreach (var item in items)
         {
             item.Percentage = Convert.ToDouble(item.Value / items.Sum(x => x.Value) * 100);
 

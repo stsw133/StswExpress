@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswChartColumns}">
@@ -24,43 +25,9 @@
                     <Grid x:Name="PART_MainPanel"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <ItemsControl ItemsSource="{TemplateBinding ItemsSource}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Rows="1"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding Elements}" Margin="5 0">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <DockPanel>
-                                                    <Rectangle DockPanel.Dock="Bottom"
-                                                               Fill="{Binding Brush}"
-                                                               Height="10"
-                                                               Width="20"
-                                                               VerticalAlignment="Bottom">
-                                                        <Rectangle.LayoutTransform>
-                                                            <ScaleTransform ScaleY="{Binding Percentage}"/>
-                                                        </Rectangle.LayoutTransform>
-                                                    </Rectangle>
-                                                    <se:StswText DockPanel.Dock="Top"
-                                                                 Text="{Binding Value}"
-                                                                 HorizontalAlignment="Center"
-                                                                 VerticalAlignment="Bottom"/>
-                                                </DockPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <Viewbox Margin="{TemplateBinding BorderThickness}" VerticalAlignment="Bottom">
+                            <ItemsPresenter/>
+                        </Viewbox>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -74,7 +41,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <Grid/>
+                    <UniformGrid Rows="1"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -82,55 +49,30 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <!--
-                    <Grid>
-                        <Ellipse RenderTransformOrigin="0.5 0.5"
-                                 Stroke="{Binding Brush}"
-                                 StrokeDashArray="{Binding StrokeDashArray}"
-                                 StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswChartPie}}}"
-                                 ToolTipService.InitialShowDelay="0"
-                                 Height="1000" Width="1000">
-                            <Ellipse.RenderTransform>
-                                <RotateTransform Angle="{Binding Angle}"/>
-                            </Ellipse.RenderTransform>
-                            <Ellipse.ToolTip>
-                                <se:StswToolTip IsMoveable="True">
-                                    <se:StswText>
-                                        <Run Text="{Binding Name, Mode=OneWay}" FontSize="12" FontWeight="Bold"/>
-                                        <LineBreak/>
-                                        <Run Text="{Binding Description, Mode=OneWay}" FontSize="11"/>
-                                    </se:StswText>
-                                </se:StswToolTip>
-                            </Ellipse.ToolTip>
-                        </Ellipse>
-                        <StackPanel x:Name="PART_Percentage"
-                                    IsHitTestVisible="False"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                            <StackPanel.RenderTransform>
-                                <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
-                            </StackPanel.RenderTransform>
-                            <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
-                                                 FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}"
-                                                 FontWeight="Bold"
-                                                 Stroke="{DynamicResource StswBox.Static.Background}"
-                                                 StrokeThickness="4"
-                                                 Text="{Binding Percentage, Mode=OneWay, StringFormat=N0}"/>
-                            <se:StswOutlinedText Fill="{DynamicResource StswText.Static.Foreground}"
-                                                 FontSize="{Binding Percentage, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=25}"
-                                                 FontWeight="Bold"
-                                                 Stroke="{DynamicResource StswBox.Static.Background}"
-                                                 StrokeThickness="4"
-                                                 Text="%"/>
-                        </StackPanel>
-                    </Grid>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPercentageVisible}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Percentage"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                    -->
+                    <DockPanel>
+                        <!-- name text -->
+                        <se:StswText DockPanel.Dock="Bottom"
+                                     FontWeight="Medium"
+                                     Text="{Binding Name}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Bottom"/>
+                        <se:StswSeparator DockPanel.Dock="Bottom" Margin="0 0 0 5"/>
+                        <!-- column element -->
+                        <Rectangle DockPanel.Dock="Bottom"
+                                   Fill="{Binding Brush}"
+                                   Margin="5 0"
+                                   Height="{Binding Internal.Height, Mode=OneWay}"
+                                   Width="{Binding Internal.Width, Mode=OneWay}">
+                            <Rectangle.ToolTip>
+                                <se:StswChartTip ShowDescription="True" ShowName="True"/>
+                            </Rectangle.ToolTip>
+                        </Rectangle>
+                        <!-- value text -->
+                        <se:StswText DockPanel.Dock="Top"
+                                     Text="{Binding Value, StringFormat=N, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Bottom"/>
+                    </DockPanel>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

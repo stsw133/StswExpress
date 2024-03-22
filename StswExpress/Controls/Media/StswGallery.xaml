@@ -47,13 +47,13 @@
                             </se:StswZoomControl>
                             <!-- buttons -->
                             <se:StswRepeatButton x:Name="PART_ButtonPrevious"
-                                                 se:StswBorder.IsBorderless="True" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                 se:StswControl.IsBorderless="True" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"
                                                  Command="{Binding PreviousCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswBoolConverter.Instance}}">
                                 <se:StswIcon x:Name="PART_IconPrevious"/>
                             </se:StswRepeatButton>
                             <se:StswRepeatButton x:Name="PART_ButtonNext"
-                                                 se:StswBorder.IsBorderless="True" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                 se:StswControl.IsBorderless="True" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"
                                                  Command="{Binding NextCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                  Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswBoolConverter.Instance}}">
                                 <se:StswIcon x:Name="PART_IconNext"/>

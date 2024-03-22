@@ -41,8 +41,8 @@
                         <DockPanel>
                             <!-- buttons -->
                             <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
-                                               Focusable="False"
-                                               se:StswBorder.IsBorderless="True" MaxDropDownHeight="NaN" Padding="0" Width="24"
+                                               se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
+                                               Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.ClockOutline}"/>
@@ -55,11 +55,6 @@
                                                        CornerRadius="0"
                                                        Padding="0"/>
                                 </se:StswDropButton.Popup>
-                                <se:StswDropButton.Resources>
-                                    <Style TargetType="{x:Type se:StswDropArrow}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </Style>
-                                </se:StswDropButton.Resources>
                                 <Grid MaxHeight="500">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
@@ -82,7 +77,7 @@
                                     </se:StswBorder>
                                     <!-- hours -->
                                     <se:StswListBox Grid.Column="0" Grid.Row="1"
-                                                    se:StswBorder.IsBorderless="True"
+                                                    se:StswControl.IsBorderless="True"
                                                     HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=24}"
                                                     ScrollViewer.CanContentScroll="False"
@@ -92,7 +87,7 @@
                                     <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- minutes -->
                                     <se:StswListBox Grid.Column="2" Grid.Row="1"
-                                                    se:StswBorder.IsBorderless="True"
+                                                    se:StswControl.IsBorderless="True"
                                                     HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
                                                     ScrollViewer.CanContentScroll="False"
@@ -102,7 +97,7 @@
                                     <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- seconds -->
                                     <se:StswListBox Grid.Column="4" Grid.Row="1"
-                                                    se:StswBorder.IsBorderless="True"
+                                                    se:StswControl.IsBorderless="True"
                                                     HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
                                                     ScrollViewer.CanContentScroll="False"

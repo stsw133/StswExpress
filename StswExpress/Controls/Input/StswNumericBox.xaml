@@ -40,10 +40,10 @@
                         <DockPanel>
                             <!-- buttons -->
                             <UniformGrid DockPanel.Dock="Right" Columns="1" Width="24">
-                                <se:StswRepeatButton x:Name="PART_ButtonUp" se:StswBorder.IsBorderless="True" Focusable="False" Padding="0">
+                                <se:StswRepeatButton x:Name="PART_ButtonUp" se:StswControl.IsBorderless="True" Focusable="False" Padding="0">
                                     <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}" Margin="-4"/>
                                 </se:StswRepeatButton>
-                                <se:StswRepeatButton x:Name="PART_ButtonDown" se:StswBorder.IsBorderless="True" Focusable="False" Padding="0">
+                                <se:StswRepeatButton x:Name="PART_ButtonDown" se:StswControl.IsBorderless="True" Focusable="False" Padding="0">
                                     <se:StswIcon Data="{x:Static se:StswIcons.MenuDown}" Margin="-4"/>
                                 </se:StswRepeatButton>
                             </UniformGrid>

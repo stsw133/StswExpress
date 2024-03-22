@@ -50,15 +50,15 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
     }
 
     /// <summary>
-    /// Handles the event triggered when the ItemsSource property changes in the control.
-    /// Checks if the ItemsSource collection contains items implementing the <see cref="IStswSelectionItem"/> interface
-    /// to enable advanced selection features.
+    /// Occurs when the ItemsSource property value changes.
     /// </summary>
+    /// <param name="oldValue">The old value of the ItemsSource property.</param>
+    /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
-        base.OnItemsSourceChanged(oldValue, newValue);
-        if (ItemsSource?.GetType()?.IsListType(out var innerType) == true)
+        if (newValue?.GetType()?.IsListType(out var innerType) == true)
             UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
+        base.OnItemsSourceChanged(oldValue, newValue);
     }
 
     protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)

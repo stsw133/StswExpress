@@ -90,9 +90,24 @@ public class StswChartElementModel : StswObservableObject
 internal class StswChartElementColumnModel : StswObservableObject
 {
     /// <summary>
-    /// 
+    /// Gets or sets the column height of the chart item.
     /// </summary>
-    public List<StswChartElementModel>? Elements { get; set; }
+    public double Height
+    {
+        get => _height;
+        set => SetProperty(ref _height, value);
+    }
+    private double _height;
+
+    /// <summary>
+    /// Gets or sets the column width of the chart item.
+    /// </summary>
+    public double Width
+    {
+        get => _width;
+        set => SetProperty(ref _width, value);
+    }
+    private double _width;
 }
 
 /// <summary>

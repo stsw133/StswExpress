@@ -38,7 +38,7 @@
                             <DockPanel>
                                 <!-- filter mode -->
                                 <se:StswToggleButton x:Name="PART_FilterMode"
-                                                     se:StswBorder.IsBorderless="True" FontFamily="Segoe UI" FontSize="15" Padding="0" Width="24"
+                                                     se:StswControl.IsBorderless="True" FontFamily="Segoe UI" FontSize="15" Padding="0" Width="24"
                                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswOutlinedText Stroke="Black" StrokeThickness="2"/>
                                     <se:StswToggleButton.ContextMenu>
@@ -176,7 +176,7 @@
                                 <!-- controls -->
                                 <UniformGrid x:Name="PART_Controls" Columns="1" Background="{DynamicResource StswBox.Static.Background}">
                                     <!-- first control -->
-                                    <se:StswAdaptiveBox se:StswBorder.IsBorderless="True"
+                                    <se:StswAdaptiveBox se:StswControl.IsBorderless="True"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"
@@ -199,7 +199,7 @@
                                     </se:StswAdaptiveBox>
                                     <!-- second control -->
                                     <se:StswAdaptiveBox x:Name="PART_SecondControl"
-                                                        se:StswBorder.IsBorderless="True"
+                                                        se:StswControl.IsBorderless="True"
                                                         BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                         IsThreeState="True"

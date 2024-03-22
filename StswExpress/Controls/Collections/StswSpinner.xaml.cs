@@ -17,8 +17,10 @@ public class StswSpinner : ListBox, IStswCornerControl
 
     #region Events & methods
     /// <summary>
-    /// Handles the event triggered when the ItemsSource property changes in the control.
+    /// Occurs when the ItemsSource property value changes.
     /// </summary>
+    /// <param name="oldValue">The old value of the ItemsSource property.</param>
+    /// <param name="newValue">The new value of the ItemsSource property.</param>
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
     {
         base.OnItemsSourceChanged(oldValue, newValue);

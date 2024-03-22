@@ -28,12 +28,4 @@ public class StswButtonContext : ControlsContext
         get => isDefault;
         set => SetProperty(ref isDefault, value);
     }
-
-    /// Type
-    private int type = 0;
-    public int Type
-    {
-        get => type;
-        set => SetProperty(ref type, value);
-    }
 }

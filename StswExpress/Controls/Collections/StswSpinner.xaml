@@ -31,7 +31,7 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswListBox se:StswBorder.IsBorderless="True"
+                        <se:StswListBox se:StswControl.IsBorderless="True"
                                         DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                         ItemsSource="{TemplateBinding ItemsVisible}"
                                         SelectedIndex="{TemplateBinding SelectedIndex}"

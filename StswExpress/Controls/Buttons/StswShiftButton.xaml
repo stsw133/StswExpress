@@ -32,7 +32,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- button: previous -->
-                            <se:StswRepeatButton x:Name="PART_ButtonPrevious" DockPanel.Dock="Left" se:StswBorder.IsBorderless="True" IsTabStop="False" Padding="0" Width="24">
+                            <se:StswRepeatButton x:Name="PART_ButtonPrevious" DockPanel.Dock="Left" se:StswControl.IsBorderless="True" IsTabStop="False" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.ChevronLeft}"/>
                             </se:StswRepeatButton>
                             <se:StswSeparator DockPanel.Dock="Left"
@@ -40,7 +40,7 @@
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"/>
                             <!-- button: next -->
-                            <se:StswRepeatButton x:Name="PART_ButtonNext" DockPanel.Dock="Right" se:StswBorder.IsBorderless="True" IsTabStop="False" Padding="0" Width="24">
+                            <se:StswRepeatButton x:Name="PART_ButtonNext" DockPanel.Dock="Right" se:StswControl.IsBorderless="True" IsTabStop="False" Padding="0" Width="24">
                                 <se:StswIcon Data="{x:Static se:StswIcons.ChevronRight}"/>
                             </se:StswRepeatButton>
                             <se:StswSeparator DockPanel.Dock="Right"
@@ -59,7 +59,7 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <se:StswTextBox x:Name="PART_EditableTextBox"
-                                                se:StswBorder.IsBorderless="True"
+                                                se:StswControl.IsBorderless="True"
                                                 AllowDrop="True"
                                                 IsReadOnly="{TemplateBinding IsReadOnly}"
                                                 Padding="{TemplateBinding Padding}"

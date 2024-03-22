@@ -24,8 +24,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
             <!-- PathType -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf PathType, Type={x:Type se:StswFilePicker}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswPathType}}"
-                             DisplayMemberPath="Display" Margin="0 0 0 3" SelectedValue="{Binding PathType}" SelectedValuePath="Value"/>
+            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswPathType}}" Margin="0 0 0 3" SelectedValue="{Binding PathType}"/>
             <!-- SubControls -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
