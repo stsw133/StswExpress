@@ -10,6 +10,8 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        
+        <Setter Property="CanRearrange" Value="True"/>
 
         <Setter Property="ScrollViewer">
             <Setter.Value>
@@ -71,7 +73,7 @@
 
                     <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
-
+                    
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -119,6 +121,9 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
+                        <DataTrigger Binding="{Binding CanRearrange, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}" Value="True">
+                            <Setter Property="AllowDrop" Value="True"/>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                         </DataTrigger>
