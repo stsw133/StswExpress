@@ -14,7 +14,7 @@ public class StswSubButton : StswButton, IStswSubControl, IStswCornerControl, IS
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubButton), new FrameworkPropertyMetadata(typeof(StswSubButton)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>

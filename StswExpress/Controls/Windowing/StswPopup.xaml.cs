@@ -24,7 +24,7 @@ public class StswPopup : Popup, IStswCornerControl, IStswScrollableControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPopup), new FrameworkPropertyMetadata(typeof(StswPopup)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the data used to generate the child elements of this control.
     /// </summary>

@@ -47,7 +47,7 @@ public class StswProgressBar : ProgressBar, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the current state of the progress bar.
     /// </summary>

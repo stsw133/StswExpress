@@ -52,7 +52,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the namespace of the context associated with this navigation element.
     /// </summary>

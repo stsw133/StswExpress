@@ -165,7 +165,7 @@ public class StswWindow : Window, IStswCornerControl
     internal void PART_MenuClose_Click(object? sender, RoutedEventArgs e) => Close();
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the collection of UI elements used in the custom window's title bar.
     /// </summary>

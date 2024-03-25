@@ -26,7 +26,7 @@ public class StswInfoBadge : Control, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Represents the displayed value in the control, dynamically updated to show the actual value
     /// or a truncated version followed by a '+' if it exceeds the specified limit.

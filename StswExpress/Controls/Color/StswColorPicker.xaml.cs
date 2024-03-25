@@ -128,7 +128,7 @@ public class StswColorPicker : Control
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
     /// </summary>

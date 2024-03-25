@@ -135,7 +135,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     };
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the scale of the icon in the box.
     /// </summary>

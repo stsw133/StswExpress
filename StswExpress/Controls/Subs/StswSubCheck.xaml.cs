@@ -14,7 +14,7 @@ public class StswSubCheck : StswCheckBox, IStswSubControl, IStswCornerControl//,
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubCheck), new FrameworkPropertyMetadata(typeof(StswSubCheck)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the control is in a busy/loading state.
     /// </summary>

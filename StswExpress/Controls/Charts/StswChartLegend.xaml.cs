@@ -54,7 +54,7 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the number of columns in the chart legend.
     /// </summary>

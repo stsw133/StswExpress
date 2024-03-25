@@ -42,7 +42,7 @@ public class StswSidePanel : ContentControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets whether the control is always visible.
     /// </summary>

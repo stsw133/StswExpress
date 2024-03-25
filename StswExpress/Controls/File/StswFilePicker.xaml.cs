@@ -134,7 +134,7 @@ public class StswFilePicker : StswBoxBase
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the filter string for file dialog filters.
     /// </summary>

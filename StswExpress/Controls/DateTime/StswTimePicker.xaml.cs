@@ -126,7 +126,7 @@ public class StswTimePicker : StswBoxBase
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the custom time and time format string used to display the selected time in the control.
     /// When set, the time is formatted according to the provided format string.

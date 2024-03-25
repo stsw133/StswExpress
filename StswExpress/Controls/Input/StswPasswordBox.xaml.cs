@@ -59,7 +59,7 @@ public class StswPasswordBox : Control, IStswBoxControl, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>

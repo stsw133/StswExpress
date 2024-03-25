@@ -57,7 +57,7 @@ public class StswColorBox : StswBoxBase
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the alpha channel is enabled for color selection.
     /// </summary>

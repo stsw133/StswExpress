@@ -40,7 +40,7 @@ public class StswToolTip : ToolTip, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the tooltip is moveable.
     /// </summary>

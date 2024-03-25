@@ -16,7 +16,7 @@ public class StswLoadingCircle : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswLoadingCircle), new FrameworkPropertyMetadata(typeof(StswLoadingCircle)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the scale of the loading circle.
     /// </summary>

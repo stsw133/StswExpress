@@ -28,7 +28,7 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the command associated with the control.
     /// </summary>

@@ -147,7 +147,7 @@ public class StswMediaPlayer : ItemsControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

@@ -25,7 +25,7 @@ public class StswSeparator : Separator
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the orientation of the control.
     /// </summary>

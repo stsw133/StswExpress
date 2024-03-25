@@ -64,7 +64,7 @@ public class StswSpinner : ListBox, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

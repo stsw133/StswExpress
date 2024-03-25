@@ -151,7 +151,7 @@ public class StswShiftButton : ComboBox, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether looping through items is enabled when reaching the beginning or end.
     /// </summary>

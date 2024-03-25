@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -23,12 +25,76 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
 
     #region Events & methods
     /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        OnCloseAfterClickChanged(this, new DependencyPropertyChangedEventArgs());
+    }
+
+    /// <summary>
+    /// Occurs when the ItemsSource property value changes.
+    /// </summary>
+    /// <param name="oldValue">The old value of the ItemsSource property.</param>
+    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+
+        if (CloseAfterClick)
+        {
+            if (oldValue != null)
+                foreach (var item in oldValue)
+                    if (item is ButtonBase btn)
+                        btn.Click -= (s, e) => IsDropDownOpen = false;
+            if (newValue != null)
+                foreach (var item in newValue)
+                    if (item is ButtonBase btn)
+                        btn.Click += (s, e) => IsDropDownOpen = false;
+        }
+    }
+
+    /// <summary>
     /// Gets a <see cref="StswPopup"/> of the control.
     /// </summary>
     public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
-    #region Main properties
+    #region Logic properties
+    /// <summary>
+    /// Gets or sets whether to close popup after clicking anything inside it.
+    /// </summary>
+    public bool CloseAfterClick
+    {
+        get => (bool)GetValue(CloseAfterClickProperty);
+        set => SetValue(CloseAfterClickProperty, value);
+    }
+    public static readonly DependencyProperty CloseAfterClickProperty
+        = DependencyProperty.Register(
+            nameof(CloseAfterClick),
+            typeof(bool),
+            typeof(StswDropButton),
+            new FrameworkPropertyMetadata(default(bool),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnCloseAfterClickChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    private static void OnCloseAfterClickChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswDropButton stsw)
+        {
+            foreach (var item in stsw.Items)
+                if (item is ButtonBase btn)
+                {
+                    if (stsw.CloseAfterClick)
+                        btn.Click += (s, e) => stsw.IsDropDownOpen = false;
+                    else if ((bool?)e.OldValue == true && stsw.Items != null)
+                        btn.Click -= (s, e) => stsw.IsDropDownOpen = false;
+                }
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>

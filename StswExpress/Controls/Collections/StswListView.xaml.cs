@@ -50,7 +50,7 @@ public class StswListView : ListView, IStswCornerControl, IStswScrollableControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the control uses selection items that implement
     /// the <see cref="IStswSelectionItem"/> interface to enable advanced selection features.

@@ -42,7 +42,7 @@ public class StswColorSelector : Control
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the auto color used in the color selector.
     /// </summary>

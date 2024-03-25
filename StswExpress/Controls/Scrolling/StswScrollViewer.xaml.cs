@@ -53,7 +53,7 @@ public class StswScrollViewer : ScrollViewer
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when are not used).
     /// </summary>

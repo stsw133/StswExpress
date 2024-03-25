@@ -148,7 +148,7 @@ public class StswImage : Control, IStswCornerControl
     }
     #endregion
     
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the menu mode for the control.
     /// </summary>

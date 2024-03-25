@@ -16,7 +16,7 @@ public class StswIcon : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIcon), new FrameworkPropertyMetadata(typeof(StswIcon)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the canvas size of the icon.
     /// </summary>

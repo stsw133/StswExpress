@@ -41,7 +41,7 @@ public abstract class StswBoxBase : TextBox, IStswBoxControl, IStswCornerControl
     protected abstract void UpdateMainProperty(bool alwaysUpdate);
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>

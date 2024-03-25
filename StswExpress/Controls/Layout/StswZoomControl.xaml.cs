@@ -158,7 +158,7 @@ public class StswZoomControl : Border
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

@@ -25,7 +25,7 @@ public class StswCheckBox : CheckBox, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the scale of the icon in the box.
     /// </summary>

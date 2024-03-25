@@ -154,7 +154,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the filters are visible.
     /// </summary>

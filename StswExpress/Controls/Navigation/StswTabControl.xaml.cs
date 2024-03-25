@@ -61,7 +61,7 @@ public class StswTabControl : TabControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the tabs are visible in the tab control.
     /// </summary>

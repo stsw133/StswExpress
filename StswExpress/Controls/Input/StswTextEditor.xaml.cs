@@ -335,7 +335,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the file path associated with the content of the editor.
     /// </summary>

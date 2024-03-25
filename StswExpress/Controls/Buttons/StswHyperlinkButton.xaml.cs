@@ -28,7 +28,7 @@ public class StswHyperlinkButton : ButtonBase, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the URI source that the hyperlink button navigates to when clicked.
     /// </summary>

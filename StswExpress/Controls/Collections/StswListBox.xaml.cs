@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Vml.Office;
-using System;
+﻿using System;
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
@@ -166,11 +165,11 @@ public class StswListBox : ListBox, IStswCornerControl, IStswScrollableControl
     
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the items in control can be rearranged by drag and drop.
     /// </summary>
-    internal bool CanRearrange
+    public bool CanRearrange
     {
         get => (bool)GetValue(CanRearrangeProperty);
         set => SetValue(CanRearrangeProperty, value);

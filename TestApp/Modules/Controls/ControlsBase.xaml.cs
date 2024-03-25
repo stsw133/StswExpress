@@ -14,7 +14,7 @@ public partial class ControlsBase : UserControl
         SetValue(PropertiesProperty, new ObservableCollection<UIElement>());
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

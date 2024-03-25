@@ -122,7 +122,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a collection of errors to display in <see cref="StswSubError"/>'s tooltip.
     /// </summary>

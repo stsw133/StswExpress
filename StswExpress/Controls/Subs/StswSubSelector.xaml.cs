@@ -53,7 +53,7 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>

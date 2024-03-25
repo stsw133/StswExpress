@@ -14,7 +14,7 @@ public class StswChartTip : StswToolTip
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswChartTip), new FrameworkPropertyMetadata(typeof(StswChartTip)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets whether the <see cref="StswChartElementModel.Description"/> property will be shown.
     /// </summary>

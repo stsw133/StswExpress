@@ -58,7 +58,7 @@ public class StswProgressRing : ProgressBar
     private void OnValueChanged(object? sender, EventArgs e) => StrokeDashArray = new DoubleCollection() { (Value - Minimum) / (Maximum - Minimum) * 34.4589, 34.4589 };
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the current state of the progress bar.
     /// </summary>

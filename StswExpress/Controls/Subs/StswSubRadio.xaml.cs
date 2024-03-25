@@ -14,7 +14,7 @@ public class StswSubRadio : StswRadioButton, IStswSubControl, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRadio), new FrameworkPropertyMetadata(typeof(StswSubRadio)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>

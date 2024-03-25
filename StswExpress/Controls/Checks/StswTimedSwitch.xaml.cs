@@ -68,7 +68,7 @@ public class StswTimedSwitch : CheckBox
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the duration for how long the content is switched from default content to timed content.
     /// </summary>

@@ -16,7 +16,7 @@ public class StswSubDrop : StswDropButton, IStswSubControl, IStswCornerControl, 
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubDrop), new FrameworkPropertyMetadata(typeof(StswSubDrop)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the header content of the control.
     /// </summary>

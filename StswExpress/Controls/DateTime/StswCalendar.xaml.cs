@@ -151,7 +151,7 @@ public class StswCalendar : Control, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the collection of days displayed in the control.
     /// </summary>

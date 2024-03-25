@@ -235,7 +235,7 @@ public class StswContentDialog : ContentControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

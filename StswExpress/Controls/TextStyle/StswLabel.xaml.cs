@@ -84,7 +84,7 @@ public class StswLabel : Label, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets a value indicating whether the content is truncated.
     /// </summary>

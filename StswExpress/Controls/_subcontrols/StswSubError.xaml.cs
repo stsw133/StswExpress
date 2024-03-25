@@ -16,7 +16,7 @@ public class StswSubError : StswSubHeader
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubError), new FrameworkPropertyMetadata(typeof(StswSubError)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

@@ -14,7 +14,7 @@ public class StswSubRepeater : StswRepeatButton, IStswSubControl, IStswCornerCon
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSubRepeater), new FrameworkPropertyMetadata(typeof(StswSubRepeater)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the geometry used for the icon.
     /// </summary>

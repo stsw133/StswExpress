@@ -46,7 +46,7 @@ public class StswInfoBar : Control, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the description displayed within the control.
     /// </summary>

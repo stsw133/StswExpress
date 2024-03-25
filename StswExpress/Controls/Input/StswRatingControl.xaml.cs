@@ -140,7 +140,7 @@ public class StswRatingControl : Control, IStswIconControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the direction of the control.
     /// </summary>

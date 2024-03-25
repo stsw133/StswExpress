@@ -36,7 +36,7 @@ public class StswAdaptiveBox : Control, IStswBoxControl, IStswCornerControl
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the path to the display string property of the items in the ItemsSource (for <see cref="StswSelectionBox"/>).
     /// </summary>

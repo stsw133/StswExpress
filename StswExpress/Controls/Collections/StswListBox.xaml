@@ -11,8 +11,6 @@
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
         
-        <Setter Property="CanRearrange" Value="True"/>
-
         <Setter Property="ScrollViewer">
             <Setter.Value>
                 <se:StswScrollViewerModel IsDynamic="True"/>

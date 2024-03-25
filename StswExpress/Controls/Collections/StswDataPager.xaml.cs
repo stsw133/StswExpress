@@ -22,7 +22,7 @@ public class StswDataPager : ContentControl, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDataPager), new FrameworkPropertyMetadata(typeof(StswDataPager)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the list of items displayed on the current page.
     /// </summary>

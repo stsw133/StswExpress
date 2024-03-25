@@ -107,7 +107,7 @@ public class StswGallery : Control
     private bool NextCondition() => SelectedIndex < (ItemsSource?.Count - 1);
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// 
     /// </summary>

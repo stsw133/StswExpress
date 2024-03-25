@@ -136,7 +136,7 @@ public class StswNumericBox : StswBoxBase
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the custom number format string used to display the value in the control.
     /// When set, the value is formatted according to the provided format string.

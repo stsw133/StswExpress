@@ -14,7 +14,7 @@ public class StswHeader : Label, IStswCornerControl, IStswIconControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswHeader), new FrameworkPropertyMetadata(typeof(StswHeader)));
     }
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the geometry data for the icon.
     /// </summary>

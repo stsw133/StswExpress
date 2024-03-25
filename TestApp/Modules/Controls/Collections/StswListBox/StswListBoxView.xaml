@@ -21,7 +21,8 @@
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswListBox DisplayMemberPath="Name"
+        <se:StswListBox CanRearrange="True"
+                        DisplayMemberPath="Name"
                         IsEnabled="{Binding IsEnabled}"
                         ItemsSource="{Binding Items}"
                         Margin="5"

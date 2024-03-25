@@ -147,7 +147,7 @@ public class StswNotifyIcon : FrameworkElement
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets the parent UI element of the <see cref="NotifyIcon"/> control which will serve as data context source.
     /// </summary>

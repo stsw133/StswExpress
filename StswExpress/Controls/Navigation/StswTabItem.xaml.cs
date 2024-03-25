@@ -47,7 +47,7 @@ public class StswTabItem : TabItem
     }
     #endregion
 
-    #region Main properties
+    #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the tab item is closable and has a close button.
     /// </summary>
