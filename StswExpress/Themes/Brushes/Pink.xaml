@@ -124,6 +124,8 @@
     <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Toggle" Color="#FDE"/>
 
     <!-- Collections -->
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Background" Color="#FFF5FA"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Border" Color="#FFF5FA"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#201"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="#f688ad"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="#f4b3b3"/>

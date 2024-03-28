@@ -84,6 +84,8 @@
     <SolidColorBrush x:Key="StswCheck.Checked.Disabled.Toggle" Color="#EEE"/>
 
     <!-- Collections -->
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Background" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswDataGrid.Cell.Static.Border" Color="#FFF"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Focused.Border" Color="#111"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Background" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=50%}"/>
     <SolidColorBrush x:Key="StswDataGrid.Cell.Checked.Border" Color="{Binding Mode=OneTime, Source={x:Static SystemParameters.WindowGlassColor}, Converter={x:Static se:StswColorBrightnessConverter.Instance}, ConverterParameter=65%}"/>

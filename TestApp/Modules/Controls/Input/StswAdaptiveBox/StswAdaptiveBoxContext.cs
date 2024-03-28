@@ -5,6 +5,7 @@ namespace TestApp;
 
 public class StswAdaptiveBoxContext : ControlsContext
 {
+    public StswCommand ClearCommand => new(() => SelectedValue = default);
     public StswCommand ClearTypeCommand => new(() => Type = null);
 
     public override void SetDefaults()
@@ -37,6 +38,14 @@ public class StswAdaptiveBoxContext : ControlsContext
     {
         get => selectedValue;
         set => SetProperty(ref selectedValue, value);
+    }
+
+    /// SubControls
+    private bool subControls = false;
+    public bool SubControls
+    {
+        get => subControls;
+        set => SetProperty(ref subControls, value);
     }
 
     /// Type

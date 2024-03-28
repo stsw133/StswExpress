@@ -19,6 +19,9 @@
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
+            <!-- SubControls -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswAdaptiveBox}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}" Margin="0 0 0 3" SelectedValue="{Binding Type}">
@@ -39,7 +42,13 @@
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}"
-                            VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
+            <se:StswAdaptiveBox.SubControls>
+                <se:StswSubButton Command="{Binding ClearCommand}"
+                                  IconData="{x:Static se:StswIcons.Close}"
+                                  Visibility="{Binding SubControls, Converter={x:Static se:StswBoolConverter.Instance}}"/>
+            </se:StswAdaptiveBox.SubControls>
+        </se:StswAdaptiveBox>
         <!-- status panel -->
         
     </local:ControlsBase>
