@@ -8,11 +8,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a collection of items in a vertical list.
 /// </summary>
-public class StswSpinner : ListBox, IStswCornerControl
+public class StswPicker : ListBox, IStswCornerControl
 {
-    static StswSpinner()
+    static StswPicker()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswSpinner), new FrameworkPropertyMetadata(typeof(StswSpinner)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPicker), new FrameworkPropertyMetadata(typeof(StswPicker)));
     }
 
     #region Events & methods
@@ -77,7 +77,7 @@ public class StswSpinner : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsNumber),
             typeof(int),
-            typeof(StswSpinner)
+            typeof(StswPicker)
         );
 
     /// <summary>
@@ -92,7 +92,7 @@ public class StswSpinner : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsVisible),
             typeof(List<object>),
-            typeof(StswSpinner)
+            typeof(StswPicker)
         );
     #endregion
 
@@ -111,7 +111,7 @@ public class StswSpinner : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerClipping),
             typeof(bool),
-            typeof(StswSpinner)
+            typeof(StswPicker)
         );
 
     /// <summary>
@@ -128,7 +128,7 @@ public class StswSpinner : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswSpinner)
+            typeof(StswPicker)
         );
     #endregion
 }

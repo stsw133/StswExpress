@@ -27,16 +27,16 @@
         <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="#DBC"/>
-    <LinearGradientBrush x:Key="StswButton.MouseOver.Border" StartPoint="0 0" EndPoint="1 1">
-        <GradientStop Color="#C44" Offset="0"/>
-        <GradientStop Color="#B58" Offset="0.5"/>
-        <GradientStop Color="#C44" Offset="1"/>
+    <LinearGradientBrush x:Key="StswButton.Static.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#D55" Offset="0"/>
+        <GradientStop Color="#C69" Offset="0.5"/>
+        <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="#CAB"/>
-    <LinearGradientBrush x:Key="StswButton.Pressed.Border" StartPoint="0 0" EndPoint="1 1">
-        <GradientStop Color="#B33" Offset="0"/>
-        <GradientStop Color="#A47" Offset="0.5"/>
-        <GradientStop Color="#B33" Offset="1"/>
+    <LinearGradientBrush x:Key="StswButton.Static.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#D55" Offset="0"/>
+        <GradientStop Color="#C69" Offset="0.5"/>
+        <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswButton.ReadOnly.Foreground" Color="#423"/>
     <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="#FDE"/>
@@ -45,9 +45,9 @@
     <SolidColorBrush x:Key="StswButton.Checked.Static.Background" Color="#f688ad"/>
     <SolidColorBrush x:Key="StswButton.Checked.Static.Border" Color="#D55"/>
     <SolidColorBrush x:Key="StswButton.Checked.MouseOver.Background" Color="#f4719d"/>
-    <SolidColorBrush x:Key="StswButton.Checked.MouseOver.Border" Color="#C44"/>
+    <SolidColorBrush x:Key="StswButton.Checked.MouseOver.Border" Color="#D55"/>
     <SolidColorBrush x:Key="StswButton.Checked.Pressed.Background" Color="#f3598c"/>
-    <SolidColorBrush x:Key="StswButton.Checked.Pressed.Border" Color="#B33"/>
+    <SolidColorBrush x:Key="StswButton.Checked.Pressed.Border" Color="#D55"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Background" Color="#fbc6d8"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Border" Color="#fddee8"/>
     <SolidColorBrush x:Key="StswButton.Checked.Disabled.Foreground" Color="#756"/>

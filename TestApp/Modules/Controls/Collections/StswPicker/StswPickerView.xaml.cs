@@ -2,11 +2,11 @@
 
 namespace TestApp;
 /// <summary>
-/// Interaction logic for StswSpinnerView.xaml
+/// Interaction logic for StswPickerView.xaml
 /// </summary>
-public partial class StswSpinnerView : UserControl
+public partial class StswPickerView : UserControl
 {
-    public StswSpinnerView()
+    public StswPickerView()
     {
         InitializeComponent();
     }

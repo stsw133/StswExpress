@@ -86,7 +86,7 @@
     <Page Update="Controls\Collections\StswDataPager.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Collections\StswSpinner.xaml">
+    <Page Update="Controls\Collections\StswPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\Collections\StswTreeView.xaml">

@@ -66,13 +66,16 @@
     <Compile Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Collections\StswSpinner\StswSpinnerView.xaml.cs">
+    <Compile Update="Modules\Controls\Collections\StswPicker\StswPickerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Controls\Layout\StswLoadingMask\StswLoadingMaskView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml.cs">
@@ -291,13 +294,16 @@
     <Page Update="Modules\Controls\Collections\StswDataPager\StswDataPagerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Collections\StswSpinner\StswSpinnerView.xaml">
+    <Page Update="Modules\Controls\Collections\StswPicker\StswPickerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Collections\StswTreeView\StswTreeViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\DateTime\StswTimePicker\StswTimePickerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Layout\StswLoadingMask\StswLoadingMaskView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml">

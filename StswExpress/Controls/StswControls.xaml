@@ -31,7 +31,7 @@
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswSpinner.xaml"/>
+        <ResourceDictionary Source="Collections/StswPicker.xaml"/>
         <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
 
         <ResourceDictionary Source="Color/StswColorBox.xaml"/>
@@ -60,6 +60,7 @@
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
+        <ResourceDictionary Source="Layout/StswLoadingMask.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
         <ResourceDictionary Source="Layout/StswSidePanel.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>

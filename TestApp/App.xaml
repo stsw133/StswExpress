@@ -91,11 +91,11 @@
             <DataTemplate DataType="{x:Type local:StswListViewContext}">
                 <local:StswListViewView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswPickerContext}">
+                <local:StswPickerView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswSpinnerContext}">
-                <local:StswSpinnerView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswTreeViewContext}">
                 <local:StswTreeViewView/>
@@ -173,6 +173,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
                 <local:StswGroupBoxView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLoadingMaskContext}">
+                <local:StswLoadingMaskView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>

@@ -46,8 +46,8 @@
                 <se:StswNavigationElement Header="StswDataPager" ContextNamespace="TestApp.StswDataPagerContext"/>
                 <se:StswNavigationElement Header="StswListBox" ContextNamespace="TestApp.StswListBoxContext"/>
                 <se:StswNavigationElement Header="StswListView" ContextNamespace="TestApp.StswListViewContext"/>
+                <se:StswNavigationElement Header="StswPicker" ContextNamespace="TestApp.StswPickerContext"/>
                 <se:StswNavigationElement Header="StswSelectionBox" ContextNamespace="TestApp.StswSelectionBoxContext"/>
-                <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
                 <se:StswNavigationElement Header="StswTreeView" ContextNamespace="TestApp.StswTreeViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Color" IconData="{x:Static se:StswIcons.PaletteOutline}">
@@ -83,6 +83,7 @@
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
+                <se:StswNavigationElement Header="StswLoadingMask" ContextNamespace="TestApp.StswLoadingMaskContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
                 <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>
