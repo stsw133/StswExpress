@@ -3,6 +3,9 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswScrollViewer}">
+        <Setter Property="AutoScroll" Value="False"/>
+        <Setter Property="IsDynamic" Value="False"/>
+        
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>

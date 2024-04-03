@@ -43,18 +43,16 @@
                             <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
-                                               IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                               IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               se:StswPopupControl.Background="Transparent"
+                                               se:StswPopupControl.BorderBrush="Transparent"
+                                               se:StswPopupControl.BorderThickness="0"
+                                               se:StswPopupControl.CornerClipping="False"
+                                               se:StswPopupControl.CornerRadius="0"
+                                               se:StswPopupControl.Padding="0">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.Calendar}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswDropButton.Popup>
-                                    <se:StswPopupModel Background="Transparent"
-                                                       BorderBrush="Transparent"
-                                                       BorderThickness="0"
-                                                       CornerClipping="False"
-                                                       CornerRadius="0"
-                                                       Padding="0"/>
-                                </se:StswDropButton.Popup>
                                 <se:StswCalendar Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
                                                  SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </se:StswDropButton>

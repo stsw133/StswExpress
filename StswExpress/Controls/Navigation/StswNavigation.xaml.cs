@@ -31,13 +31,20 @@ public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollabl
 
     #region Events & methods
     internal StswNavigationElement? CompactedExpander;
-    
+
+    /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_Items");
+
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        GetScrollViewer()?.InitAttachedProperties(this);
 
         if (GetTemplateChild("PART_TabStripModeButton") is ToggleButton tabStripModeButton)
             tabStripModeButton.Click += PART_TabStripModeButton_Click;
@@ -296,23 +303,7 @@ public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollabl
             typeof(CornerRadius),
             typeof(StswNavigation)
         );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
-    /// </summary>
-    public StswScrollViewerModel ScrollViewer
-    {
-        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
-    public static readonly DependencyProperty ScrollViewerProperty
-        = DependencyProperty.Register(
-            nameof(ScrollViewer),
-            typeof(StswScrollViewerModel),
-            typeof(StswNavigation)
-        );
-
+    
     /// <summary>
     /// Gets or sets the thickness of the separator between items and content.
     /// </summary>

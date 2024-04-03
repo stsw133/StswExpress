@@ -82,8 +82,8 @@
             <se:StswNavigationElement Header="Layout" IconData="{x:Static se:StswIcons.ViewGridPlusOutline}">
                 <se:StswNavigationElement Header="StswBorder" ContextNamespace="TestApp.StswBorderContext"/>
                 <se:StswNavigationElement Header="StswExpander" ContextNamespace="TestApp.StswExpanderContext"/>
+                <se:StswNavigationElement Header="StswGrid" ContextNamespace="TestApp.StswGridContext"/>
                 <se:StswNavigationElement Header="StswGroupBox" ContextNamespace="TestApp.StswGroupBoxContext"/>
-                <se:StswNavigationElement Header="StswLoadingMask" ContextNamespace="TestApp.StswLoadingMaskContext"/>
                 <se:StswNavigationElement Header="StswSeparator" ContextNamespace="TestApp.StswSeparatorContext"/>
                 <se:StswNavigationElement Header="StswSidePanel" ContextNamespace="TestApp.StswSidePanelContext"/>
                 <se:StswNavigationElement Header="StswZoomControl" ContextNamespace="TestApp.StswZoomControlContext"/>

@@ -5,7 +5,7 @@ namespace TestApp;
 
 public class StswSplitButtonContext : ControlsContext
 {
-    public StswCommand<string?> OnClickCommand => new((x) => { ClickOption = Convert.ToInt32(x); IsDropDownOpen = false; });
+    public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
     public override void SetDefaults()
     {
@@ -20,14 +20,6 @@ public class StswSplitButtonContext : ControlsContext
     {
         get => clickOption;
         set => SetProperty(ref clickOption, value);
-    }
-
-    /// IsDropDownOpen
-    private bool isDropDownOpen = false;
-    public bool IsDropDownOpen
-    {
-        get => isDropDownOpen;
-        set => SetProperty(ref isDropDownOpen, value);
     }
 
     /// IsReadOnly

@@ -26,11 +26,18 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
 
     #region Events & methods
     /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
+
+    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        GetPopup()?.InitAttachedProperties(this);
 
         /// StswPopup: popup
         if (GetTemplateChild("PART_Popup") is Popup popup)
@@ -46,11 +53,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
         base.OnMouseEnter(e);
         IsDropDownOpen = true;
     }
-
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Logic properties
@@ -254,22 +256,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
             typeof(double),
             typeof(StswSubSelector),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup
-    {
-        get => (StswPopupModel)GetValue(PopupProperty);
-        set => SetValue(PopupProperty, value);
-    }
-    public static readonly DependencyProperty PopupProperty
-        = DependencyProperty.Register(
-            nameof(Popup),
-            typeof(StswPopupModel),
-            typeof(StswSubSelector)
         );
     #endregion
 }

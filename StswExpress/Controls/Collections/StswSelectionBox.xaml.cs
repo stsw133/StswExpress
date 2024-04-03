@@ -29,11 +29,24 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
     #region Events & methods
     /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
+
+    /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
+
+    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        GetPopup()?.InitAttachedProperties(this);
+        GetScrollViewer()?.InitAttachedProperties(this);
 
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
@@ -115,11 +128,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         Text = selectedText.ToString();
     }
-
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Logic properties
@@ -341,38 +349,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             typeof(double),
             typeof(StswSelectionBox),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup
-    {
-        get => (StswPopupModel)GetValue(PopupProperty);
-        set => SetValue(PopupProperty, value);
-    }
-    public static readonly DependencyProperty PopupProperty
-        = DependencyProperty.Register(
-            nameof(Popup),
-            typeof(StswPopupModel),
-            typeof(StswSelectionBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
-    /// </summary>
-    public StswScrollViewerModel ScrollViewer
-    {
-        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
-    public static readonly DependencyProperty ScrollViewerProperty
-        = DependencyProperty.Register(
-            nameof(ScrollViewer),
-            typeof(StswScrollViewerModel),
-            typeof(StswSelectionBox)
         );
 
     /// <summary>

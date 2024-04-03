@@ -14,17 +14,6 @@
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
-        
-        <Setter Property="Popup">
-            <Setter.Value>
-                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -34,6 +23,15 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollControl.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollControl.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -79,8 +77,7 @@
                                                   Orientation="Vertical"
                                                   Visibility="{DynamicResource StswDropArrow.Visibility}"/>
                                 <!-- popup -->
-                                <Popup x:Name="PART_Popup"
-                                       Grid.ColumnSpan="2"
+                                <Popup x:Name="PART_Popup" Grid.ColumnSpan="2"
                                        AllowsTransparency="True"
                                        IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                        Placement="Bottom"
@@ -88,15 +85,15 @@
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
                                     <se:StswBorder x:Name="DropDownBorder"
-                                                   Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   BorderBrush="{Binding Popup.BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   BorderThickness="{Binding Popup.BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CornerClipping="{Binding Popup.CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CornerRadius="{Binding Popup.CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Background="{Binding (se:StswPopupControl.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderBrush="{Binding (se:StswPopupControl.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderThickness="{Binding (se:StswPopupControl.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerClipping="{Binding (se:StswPopupControl.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerRadius="{Binding (se:StswPopupControl.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                    MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}"
-                                                   Padding="{Binding Popup.Padding, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False" IsDynamic="True">
+                                                   Padding="{Binding (se:StswPopupControl.Padding), RelativeSource={RelativeSource TemplatedParent}}">
+                                        <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <Rectangle x:Name="OpaqueRect"

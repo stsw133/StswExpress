@@ -27,13 +27,13 @@
         <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswButton.MouseOver.Background" Color="#DBC"/>
-    <LinearGradientBrush x:Key="StswButton.Static.Border" StartPoint="0 0" EndPoint="1 1">
+    <LinearGradientBrush x:Key="StswButton.MouseOver.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>
         <GradientStop Color="#C69" Offset="0.5"/>
         <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswButton.Pressed.Background" Color="#CAB"/>
-    <LinearGradientBrush x:Key="StswButton.Static.Border" StartPoint="0 0" EndPoint="1 1">
+    <LinearGradientBrush x:Key="StswButton.Pressed.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>
         <GradientStop Color="#C69" Offset="0.5"/>
         <GradientStop Color="#D55" Offset="1"/>

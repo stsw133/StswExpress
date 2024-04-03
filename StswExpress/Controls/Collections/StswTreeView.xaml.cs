@@ -8,7 +8,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a hierarchical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswTreeView : TreeView, IStswCornerControl
+public class StswTreeView : TreeView, IStswCornerControl, IStswScrollableControl
 {
     static StswTreeView()
     {
@@ -16,6 +16,21 @@ public class StswTreeView : TreeView, IStswCornerControl
     }
 
     #region Events & methods
+    /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        GetScrollViewer()?.InitAttachedProperties(this);
+    }
+
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
@@ -108,22 +123,6 @@ public class StswTreeView : TreeView, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswTreeView)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
-    /// </summary>
-    public StswScrollViewerModel ScrollViewer
-    {
-        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
-    public static readonly DependencyProperty ScrollViewerProperty
-        = DependencyProperty.Register(
-            nameof(ScrollViewer),
-            typeof(StswScrollViewerModel),
             typeof(StswTreeView)
         );
     #endregion

@@ -16,6 +16,11 @@ public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
 
     #region Events & methods
     /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
+
+    /// <summary>
     /// Handles changes in the items collection and scrolls to the end if new items are added.
     /// </summary>
     /// <param name="e">The event arguments</param>
@@ -23,8 +28,11 @@ public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
     {
         base.OnItemsChanged(e);
 
-        if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
-            scrollViewer?.ScrollToEnd();
+        GetScrollViewer()?.InitAttachedProperties(this);
+
+        /// code below no longer needed since StswScrollViewer has this functionality now
+        //if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
+        //    scrollViewer?.ScrollToEnd();
     }
     #endregion
 
@@ -77,22 +85,6 @@ public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswInfoPanel)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
-    /// </summary>
-    public StswScrollViewerModel ScrollViewer
-    {
-        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
-    public static readonly DependencyProperty ScrollViewerProperty
-        = DependencyProperty.Register(
-            nameof(ScrollViewer),
-            typeof(StswScrollViewerModel),
             typeof(StswInfoPanel)
         );
     #endregion

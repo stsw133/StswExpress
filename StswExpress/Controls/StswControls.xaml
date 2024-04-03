@@ -60,7 +60,6 @@
         <ResourceDictionary Source="Layout/StswBorder.xaml"/>
         <ResourceDictionary Source="Layout/StswExpander.xaml"/>
         <ResourceDictionary Source="Layout/StswGroupBox.xaml"/>
-        <ResourceDictionary Source="Layout/StswLoadingMask.xaml"/>
         <ResourceDictionary Source="Layout/StswSeparator.xaml"/>
         <ResourceDictionary Source="Layout/StswSidePanel.xaml"/>
         <ResourceDictionary Source="Layout/StswZoomControl.xaml"/>

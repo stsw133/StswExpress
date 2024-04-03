@@ -10,7 +10,7 @@ public interface IStswDropControl
     /// <summary>
     /// Gets a <see cref="StswPopup"/> of the control.
     /// </summary>
-    public StswPopup GetPopup();
+    public StswPopup? GetPopup();
 
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
@@ -23,11 +23,4 @@ public interface IStswDropControl
     /// </summary>
     public double MaxDropDownHeight { get; set; }
     public static readonly DependencyProperty? MaxDropDownHeightProperty;
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup { get; set; }
-    public static readonly DependencyProperty? PopupProperty;
 }

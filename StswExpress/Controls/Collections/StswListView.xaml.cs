@@ -17,6 +17,21 @@ public class StswListView : ListView, IStswCornerControl, IStswScrollableControl
 
     #region Events & methods
     /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        GetScrollViewer()?.InitAttachedProperties(this);
+    }
+
+    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>
@@ -100,22 +115,6 @@ public class StswListView : ListView, IStswCornerControl, IStswScrollableControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswListView)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
-    /// </summary>
-    public StswScrollViewerModel ScrollViewer
-    {
-        get => (StswScrollViewerModel)GetValue(ScrollViewerProperty);
-        set => SetValue(ScrollViewerProperty, value);
-    }
-    public static readonly DependencyProperty ScrollViewerProperty
-        = DependencyProperty.Register(
-            nameof(ScrollViewer),
-            typeof(StswScrollViewerModel),
             typeof(StswListView)
         );
     #endregion

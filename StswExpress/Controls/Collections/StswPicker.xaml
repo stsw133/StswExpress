@@ -22,6 +22,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswPicker}">
@@ -37,11 +39,10 @@
                                         SelectedIndex="{TemplateBinding SelectedIndex}"
                                         SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
                                         SelectedValue="{TemplateBinding SelectedValue}"
-                                        SelectedValuePath="{TemplateBinding SelectedValuePath}">
-                            <se:StswListBox.ScrollViewer>
-                                <se:StswScrollViewerModel HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                            </se:StswListBox.ScrollViewer>
-                        </se:StswListBox>
+                                        SelectedValuePath="{TemplateBinding SelectedValuePath}"
+                                        se:StswScrollControl.CanContentScroll="True"
+                                        se:StswScrollControl.HorizontalScrollBarVisibility="Hidden"
+                                        se:StswScrollControl.VerticalScrollBarVisibility="Hidden"/>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

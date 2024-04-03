@@ -52,7 +52,7 @@ public class StswTabControlContext : ControlsContext
                 IconData = StswIcons.Dice3,
                 Content = nameof(StswGroupBox)
             },
-            Content = new StswLoadingMaskContext(),
+            Content = new StswGroupBoxContext(),
             IsClosable = true
         }
     };

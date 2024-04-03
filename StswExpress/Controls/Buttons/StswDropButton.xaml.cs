@@ -25,11 +25,18 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
 
     #region Events & methods
     /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup GetPopup() => (StswPopup)GetTemplateChild("PART_Popup");
+
+    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        GetPopup()?.InitAttachedProperties(this);
 
         OnCloseAfterClickChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -55,11 +62,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                         btn.Click += (s, e) => IsDropDownOpen = false;
         }
     }
-
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Logic properties
@@ -190,22 +192,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             typeof(double),
             typeof(StswDropButton),
             new PropertyMetadata(SystemParameters.PrimaryScreenHeight / 3)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup
-    {
-        get => (StswPopupModel)GetValue(PopupProperty);
-        set => SetValue(PopupProperty, value);
-    }
-    public static readonly DependencyProperty PopupProperty
-        = DependencyProperty.Register(
-            nameof(Popup),
-            typeof(StswPopupModel),
-            typeof(StswDropButton)
         );
 
     /// <summary>

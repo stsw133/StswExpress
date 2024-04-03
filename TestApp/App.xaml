@@ -171,11 +171,11 @@
             <DataTemplate DataType="{x:Type local:StswExpanderContext}">
                 <local:StswExpanderView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswGridContext}">
+                <local:StswGridView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswGroupBoxContext}">
                 <local:StswGroupBoxView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswLoadingMaskContext}">
-                <local:StswLoadingMaskView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSeparatorContext}">
                 <local:StswSeparatorView/>

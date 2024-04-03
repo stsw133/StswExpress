@@ -11,8 +11,12 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-
-        <Setter Property="ScrollViewer" Value="{se:New se:StswScrollViewerModel}"/>
+        
+        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollControl.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollControl.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
     </Style>
     
     
@@ -25,12 +29,15 @@
                        BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerClipping="{Binding CornerClipping, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
-            <se:StswScrollViewer CanContentScroll="{Binding ScrollViewer.CanContentScroll, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+            <se:StswScrollViewer x:Name="PART_ScrollViewer"
                                  Focusable="False"
-                                 IsDynamic="{Binding ScrollViewer.IsDynamic, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                 PanningMode="{Binding ScrollViewer.PanningMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                 HorizontalScrollBarVisibility="{Binding ScrollViewer.HorizontalScrollBarVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                 VerticalScrollBarVisibility="{Binding ScrollViewer.VerticalScrollBarVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
+                                 se:StswScrollControl.AutoScroll="{Binding (se:StswScrollControl.AutoScroll), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.CanContentScroll="{Binding (se:StswScrollControl.CanContentScroll), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.IsBusy="{Binding (se:StswScrollControl.IsBusy), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.IsDynamic="{Binding (se:StswScrollControl.IsDynamic), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.PanningMode="{Binding (se:StswScrollControl.PanningMode), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.HorizontalScrollBarVisibility="{Binding (se:StswScrollControl.HorizontalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
+                                 se:StswScrollControl.VerticalScrollBarVisibility="{Binding (se:StswScrollControl.VerticalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"

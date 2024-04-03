@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace StswExpress;
+﻿namespace StswExpress;
 
 /// <summary>
 /// Defines a contract for scrollable controls.
@@ -8,9 +6,7 @@ namespace StswExpress;
 public interface IStswScrollableControl
 {
     /// <summary>
-    /// Gets or sets the data model for properties of the scroll viewer associated with the control.
-    /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
     /// </summary>
-    public StswScrollViewerModel ScrollViewer { get; set; }
-    public static readonly DependencyProperty? ScrollViewerProperty;
+    public StswScrollViewer GetScrollViewer();
 }

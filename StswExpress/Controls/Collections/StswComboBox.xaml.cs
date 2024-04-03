@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl
+public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
 {
     public StswComboBox()
     {
@@ -20,6 +20,27 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     #region Events & methods
+    /// <summary>
+    /// Gets a <see cref="StswPopup"/> of the control.
+    /// </summary>
+    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
+
+    /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("DropDownScrollViewer");
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        GetPopup()?.InitAttachedProperties(this);
+        GetScrollViewer()?.InitAttachedProperties(this);
+    }
+
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
@@ -52,11 +73,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
             DisplayMemberPath = string.Empty;
         base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
     }
-
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup GetPopup() => (StswPopup)Template.FindName("PART_Popup", this);
     #endregion
 
     #region Logic properties
@@ -153,22 +169,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswComboBox)
-        );
-
-    /// <summary>
-    /// Gets or sets the data model for properties of the dropdown popup associated with the control.
-    /// The <see cref="StswPopupModel"/> class provides customization options for the appearance and behavior of the popup.
-    /// </summary>
-    public StswPopupModel Popup
-    {
-        get => (StswPopupModel)GetValue(PopupProperty);
-        set => SetValue(PopupProperty, value);
-    }
-    public static readonly DependencyProperty PopupProperty
-        = DependencyProperty.Register(
-            nameof(Popup),
-            typeof(StswPopupModel),
             typeof(StswComboBox)
         );
 

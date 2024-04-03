@@ -58,11 +58,18 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     private StswNumericBox? _fontSize;
 
     /// <summary>
+    /// Gets a <see cref="StswScrollViewer"/> of the control.
+    /// </summary>
+    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ContentHost");
+
+    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        GetScrollViewer()?.InitAttachedProperties(this);
 
         /// Box: font families
         if (GetTemplateChild("PART_FontFamily") is StswComboBox fontFamily)
@@ -494,7 +501,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             typeof(CornerRadius),
             typeof(StswTextEditor)
         );
-
+    /*
     /// <summary>
     /// Gets or sets the data model for properties of the scroll viewer associated with the control.
     /// The <see cref="StswScrollViewerModel"/> class provides customization options for the appearance and behavior of the scroll viewer.
@@ -510,7 +517,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             typeof(StswScrollViewerModel),
             typeof(StswTextEditor)
         );
-
+    */
     /// <summary>
     /// Gets or sets the thickness of the separator between box and subs.
     /// </summary>

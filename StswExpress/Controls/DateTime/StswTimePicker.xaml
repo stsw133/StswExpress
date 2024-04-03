@@ -43,18 +43,13 @@
                             <se:StswDropButton x:Name="PART_DropButton" DockPanel.Dock="Right"
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
-                                               IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                               IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                               se:StswPopupControl.CornerClipping="False"
+                                               se:StswPopupControl.CornerRadius="0"
+                                               se:StswPopupControl.Padding="0">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.ClockOutline}"/>
                                 </se:StswDropButton.Header>
-                                <se:StswDropButton.Popup>
-                                    <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}"
-                                                       BorderBrush="{DynamicResource StswPopup.Static.Border}"
-                                                       BorderThickness="2"
-                                                       CornerClipping="False"
-                                                       CornerRadius="0"
-                                                       Padding="0"/>
-                                </se:StswDropButton.Popup>
                                 <Grid MaxHeight="500">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>

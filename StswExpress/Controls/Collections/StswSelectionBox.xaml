@@ -15,18 +15,6 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         
-        <Setter Property="Popup">
-            <Setter.Value>
-                <se:StswPopupModel Background="{DynamicResource StswPopup.Static.Background}" BorderBrush="{DynamicResource StswPopup.Static.Border}"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ScrollViewer">
-            <Setter.Value>
-                <se:StswScrollViewerModel CanContentScroll="False" IsDynamic="True"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -35,6 +23,15 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswScrollControl.CanContentScroll" Value="False"/>
+        <Setter Property="se:StswScrollControl.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollControl.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -76,21 +73,27 @@
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
                                 <se:StswListBox x:Name="PART_ListBox"
-                                                Background="{Binding Popup.Background, RelativeSource={RelativeSource TemplatedParent}}"
-                                                BorderBrush="{Binding Popup.BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
-                                                BorderThickness="{Binding Popup.BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                                CornerClipping="{Binding Popup.CornerClipping, RelativeSource={RelativeSource TemplatedParent}}"
-                                                CornerRadius="{Binding Popup.CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Background="{Binding (se:StswPopupControl.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                                BorderBrush="{Binding (se:StswPopupControl.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                                BorderThickness="{Binding (se:StswPopupControl.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                                CornerClipping="{Binding (se:StswPopupControl.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                                CornerRadius="{Binding (se:StswPopupControl.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                 Focusable="False"
                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                 MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                                Padding="{Binding Popup.Padding, RelativeSource={RelativeSource TemplatedParent}}"
-                                                ScrollViewer="{TemplateBinding ScrollViewer}"
+                                                Padding="{Binding (se:StswPopupControl.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                                SelectionMode="Multiple"/>
+                                                SelectionMode="Multiple"
+                                                se:StswScrollControl.AutoScroll="{Binding (se:StswScrollControl.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.CanContentScroll="{Binding (se:StswScrollControl.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.IsBusy="{Binding (se:StswScrollControl.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.IsDynamic="{Binding (se:StswScrollControl.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.PanningMode="{Binding (se:StswScrollControl.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.HorizontalScrollBarVisibility="{Binding (se:StswScrollControl.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollControl.VerticalScrollBarVisibility="{Binding (se:StswScrollControl.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Popup>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
