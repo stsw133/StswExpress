@@ -36,8 +36,6 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
     {
         base.OnApplyTemplate();
 
-        GetPopup()?.InitAttachedProperties(this);
-
         OnCloseAfterClickChanged(this, new DependencyPropertyChangedEventArgs());
     }
 

@@ -21,12 +21,12 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="se:StswScrollControl.AutoScroll" Value="True"/>
-        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollControl.IsDynamic" Value="False"/>
-        <Setter Property="se:StswScrollControl.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.AutoScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">

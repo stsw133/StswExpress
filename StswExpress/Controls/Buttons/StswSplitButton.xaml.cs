@@ -36,8 +36,6 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     {
         base.OnApplyTemplate();
 
-        GetPopup()?.InitAttachedProperties(this);
-
         OnCloseAfterClickChanged(this, new DependencyPropertyChangedEventArgs());
     }
 

@@ -40,8 +40,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
     {
         base.OnApplyTemplate();
 
-        GetScrollViewer()?.InitAttachedProperties(this);
-
         CellStyle = CellStyle;
         ColumnHeaderStyle = ColumnHeaderStyle;
         RowHeaderStyle = RowHeaderStyle;

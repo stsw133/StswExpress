@@ -7,7 +7,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswScrollViewer : ScrollViewer, ICommandSource
+public class StswScrollViewer : ScrollViewer
 {
     static StswScrollViewer()
     {
@@ -59,7 +59,7 @@ public class StswScrollViewer : ScrollViewer, ICommandSource
     {
         base.OnScrollChanged(e);
         
-        if (AutoScroll && !IsBusy)
+        if (GetAutoScroll(this) && !GetIsBusy(this))
         {
             if (e.ExtentHeightChange == 0)
                 _autoScrolled = VerticalOffset == ScrollableHeight;
@@ -69,119 +69,221 @@ public class StswScrollViewer : ScrollViewer, ICommandSource
 
         if (e.VerticalChange > 0)
             if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
-                if (!IsBusy)
-                    Command?.Execute(CommandParameter);
+                if (!GetIsBusy(this))
+                    GetCommand(this)?.Execute(GetCommandParameter(this));
     }
     private bool _autoScrolled;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="obj"></param>
-    public void InitAttachedProperties(DependencyObject obj)
-    {
-        AutoScroll = StswScrollControl.GetAutoScroll(obj);
-        CanContentScroll = StswScrollControl.GetCanContentScroll(obj);
-        Command = StswScrollControl.GetCommand(obj);
-        CommandParameter = StswScrollControl.GetCommandParameter(obj);
-        CommandTarget = StswScrollControl.GetCommandTarget(obj);
-        IsBusy = StswScrollControl.GetIsBusy(obj);
-        IsDynamic = StswScrollControl.GetIsDynamic(obj);
-        PanningMode = StswScrollControl.GetPanningMode(obj);
-        HorizontalScrollBarVisibility = StswScrollControl.GetHorizontalScrollBarVisibility(obj);
-        VerticalScrollBarVisibility = StswScrollControl.GetVerticalScrollBarVisibility(obj);
-    }
     #endregion
 
     #region Logic properties
     /// <summary>
     /// 
     /// </summary>
-    public bool AutoScroll
-    {
-        get => (bool)GetValue(AutoScrollProperty);
-        set => SetValue(AutoScrollProperty, value);
-    }
     public static readonly DependencyProperty AutoScrollProperty
-        = DependencyProperty.Register(
-            nameof(AutoScroll),
+        = DependencyProperty.RegisterAttached(
+            "AutoScroll",
             typeof(bool),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(false, OnAutoScrollChanged)
         );
+    public static bool GetAutoScroll(DependencyObject obj) => (bool)obj.GetValue(AutoScrollProperty);
+    public static void SetAutoScroll(DependencyObject obj, bool value) => obj.SetValue(AutoScrollProperty, value);
+    private static void OnAutoScrollChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetAutoScroll(scrollViewer, (bool)e.NewValue);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the content can be scrolled.
+    /// </summary>
+    public new static readonly DependencyProperty CanContentScrollProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(CanContentScroll),
+            typeof(bool),
+            typeof(StswScrollViewer),
+            new PropertyMetadata(false, OnCanContentScrollChanged)
+        );
+    public new static bool GetCanContentScroll(DependencyObject obj) => (bool)obj.GetValue(CanContentScrollProperty);
+    public new static void SetCanContentScroll(DependencyObject obj, bool value) => obj.SetValue(CanContentScrollProperty, value);
+    private static void OnCanContentScrollChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetCanContentScroll(scrollViewer, (bool)e.NewValue);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the command associated with the control.
     /// </summary>
-    public ICommand? Command
-    {
-        get => (ICommand?)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
     public static readonly DependencyProperty CommandProperty
-        = DependencyProperty.Register(
-            nameof(Command),
+        = DependencyProperty.RegisterAttached(
+            nameof(ICommandSource.Command),
             typeof(ICommand),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(null, OnCommandChanged)
         );
+    public static ICommand? GetCommand(DependencyObject obj) => (ICommand?)obj.GetValue(CommandProperty);
+    public static void SetCommand(DependencyObject obj, ICommand? value) => obj.SetValue(CommandProperty, value);
+    private static void OnCommandChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetCommand(scrollViewer, (ICommand?)e.NewValue);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the parameter to pass to the command associated with the control.
     /// </summary>
-    public object? CommandParameter
-    {
-        get => (object?)GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
-    }
     public static readonly DependencyProperty CommandParameterProperty
-        = DependencyProperty.Register(
-            nameof(CommandParameter),
+        = DependencyProperty.RegisterAttached(
+            nameof(ICommandSource.CommandParameter),
             typeof(object),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(null, OnCommandParameterChanged)
         );
+    public static object? GetCommandParameter(DependencyObject obj) => (object?)obj.GetValue(CommandParameterProperty);
+    public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
+    private static void OnCommandParameterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetCommandParameter(scrollViewer, (object?)e.NewValue);
+        }
+    }
 
     /// <summary>
     /// Gets or sets the target element on which to execute the command associated with the control.
     /// </summary>
-    public IInputElement? CommandTarget
-    {
-        get => (IInputElement?)GetValue(CommandTargetProperty);
-        set => SetValue(CommandTargetProperty, value);
-    }
     public static readonly DependencyProperty CommandTargetProperty
-        = DependencyProperty.Register(
-            nameof(CommandTarget),
+        = DependencyProperty.RegisterAttached(
+            nameof(ICommandSource.CommandTarget),
             typeof(IInputElement),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(null, OnCommandTargetChanged)
         );
+    public static IInputElement? GetCommandTarget(DependencyObject obj) => (IInputElement?)obj.GetValue(CommandTargetProperty);
+    public static void SetCommandTarget(DependencyObject obj, IInputElement? value) => obj.SetValue(CommandTargetProperty, value);
+    private static void OnCommandTargetChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetCommandTarget(scrollViewer, (IInputElement?)e.NewValue);
+        }
+    }
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether the scroll viewer is in a busy state.
     /// </summary>
-    public bool IsBusy
-    {
-        get => (bool)GetValue(IsBusyProperty);
-        set => SetValue(IsBusyProperty, value);
-    }
     public static readonly DependencyProperty IsBusyProperty
-        = DependencyProperty.Register(
-            nameof(IsBusy),
+        = DependencyProperty.RegisterAttached(
+            nameof(StswHeader.IsBusy),
             typeof(bool),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(false, OnIsBusyChanged)
         );
+    public static bool GetIsBusy(DependencyObject obj) => (bool)obj.GetValue(IsBusyProperty);
+    public static void SetIsBusy(DependencyObject obj, bool value) => obj.SetValue(IsBusyProperty, value);
+    private static void OnIsBusyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetIsBusy(scrollViewer, (bool)e.NewValue);
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the scroll bars are dynamic (automatically hide when are not used).
     /// </summary>
-    public bool IsDynamic
-    {
-        get => (bool)GetValue(IsDynamicProperty);
-        set => SetValue(IsDynamicProperty, value);
-    }
     public static readonly DependencyProperty IsDynamicProperty
-        = DependencyProperty.Register(
-            nameof(IsDynamic),
+        = DependencyProperty.RegisterAttached(
+            nameof(StswScrollBar.IsDynamic),
             typeof(bool),
-            typeof(StswScrollViewer)
+            typeof(StswScrollViewer),
+            new PropertyMetadata(false, OnIsDynamicChanged)
         );
+    public static bool GetIsDynamic(DependencyObject obj) => (bool)obj.GetValue(IsDynamicProperty);
+    public static void SetIsDynamic(DependencyObject obj, bool value) => obj.SetValue(IsDynamicProperty, value);
+    private static void OnIsDynamicChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetIsDynamic(scrollViewer, (bool)e.NewValue);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the panning mode, determining the allowed direction(s) for panning.
+    /// </summary>
+    public new static readonly DependencyProperty PanningModeProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(PanningMode),
+            typeof(PanningMode),
+            typeof(StswScrollViewer),
+            new PropertyMetadata(PanningMode.Both, OnPanningModeChanged)
+        );
+    public new static PanningMode GetPanningMode(DependencyObject obj) => (PanningMode)obj.GetValue(PanningModeProperty);
+    public new static void SetPanningMode(DependencyObject obj, PanningMode value) => obj.SetValue(PanningModeProperty, value);
+    private static void OnPanningModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                SetPanningMode(scrollViewer, (PanningMode)e.NewValue);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the visibility of the horizontal scroll bar.
+    /// </summary>
+    public new static readonly DependencyProperty HorizontalScrollBarVisibilityProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(HorizontalScrollBarVisibility),
+            typeof(ScrollBarVisibility),
+            typeof(StswScrollViewer),
+            new PropertyMetadata(ScrollBarVisibility.Auto, OnHorizontalScrollBarVisibilityChanged)
+        );
+    public new static ScrollBarVisibility GetHorizontalScrollBarVisibility(DependencyObject obj) => (ScrollBarVisibility)obj.GetValue(HorizontalScrollBarVisibilityProperty);
+    public new static void SetHorizontalScrollBarVisibility(DependencyObject obj, ScrollBarVisibility value) => obj.SetValue(HorizontalScrollBarVisibilityProperty, value);
+    private static void OnHorizontalScrollBarVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                scrollViewer.HorizontalScrollBarVisibility = (ScrollBarVisibility)e.NewValue;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the visibility of the vertical scroll bar.
+    /// </summary>
+    public new static readonly DependencyProperty VerticalScrollBarVisibilityProperty
+        = DependencyProperty.RegisterAttached(
+            nameof(VerticalScrollBarVisibility),
+            typeof(ScrollBarVisibility),
+            typeof(StswScrollViewer),
+            new PropertyMetadata(ScrollBarVisibility.Auto, OnVerticalScrollBarVisibilityChanged)
+        );
+    public new static ScrollBarVisibility GetVerticalScrollBarVisibility(DependencyObject obj) => (ScrollBarVisibility)obj.GetValue(VerticalScrollBarVisibilityProperty);
+    public new static void SetVerticalScrollBarVisibility(DependencyObject obj, ScrollBarVisibility value) => obj.SetValue(VerticalScrollBarVisibilityProperty, value);
+    private static void OnVerticalScrollBarVisibilityChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is IStswScrollableControl stsw)
+        {
+            if (stsw.GetScrollViewer() is StswScrollViewer scrollViewer)
+                scrollViewer.VerticalScrollBarVisibility = (ScrollBarVisibility)e.NewValue;
+        }
+    }
     #endregion
 }

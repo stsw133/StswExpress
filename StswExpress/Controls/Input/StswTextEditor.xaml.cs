@@ -69,8 +69,6 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     {
         base.OnApplyTemplate();
 
-        GetScrollViewer()?.InitAttachedProperties(this);
-
         /// Box: font families
         if (GetTemplateChild("PART_FontFamily") is StswComboBox fontFamily)
         {

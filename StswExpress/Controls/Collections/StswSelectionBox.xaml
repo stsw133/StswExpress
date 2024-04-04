@@ -24,13 +24,13 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswScrollControl.CanContentScroll" Value="False"/>
-        <Setter Property="se:StswScrollControl.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollControl.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="False"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
@@ -73,27 +73,27 @@
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    StaysOpen="False">
                                 <se:StswListBox x:Name="PART_ListBox"
-                                                Background="{Binding (se:StswPopupControl.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                                                BorderBrush="{Binding (se:StswPopupControl.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                                                BorderThickness="{Binding (se:StswPopupControl.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                                                CornerClipping="{Binding (se:StswPopupControl.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                                                CornerRadius="{Binding (se:StswPopupControl.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                                BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                                BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                                CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                                CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                 DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                                 Focusable="False"
                                                 ItemsSource="{TemplateBinding ItemsSource}"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                 MinWidth="{Binding ActualWidth, ElementName=PART_MainButton}"
-                                                Padding="{Binding (se:StswPopupControl.Padding), RelativeSource={RelativeSource TemplatedParent}}"
+                                                Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"
-                                                se:StswScrollControl.AutoScroll="{Binding (se:StswScrollControl.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.CanContentScroll="{Binding (se:StswScrollControl.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.IsBusy="{Binding (se:StswScrollControl.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.IsDynamic="{Binding (se:StswScrollControl.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.PanningMode="{Binding (se:StswScrollControl.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.HorizontalScrollBarVisibility="{Binding (se:StswScrollControl.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollControl.VerticalScrollBarVisibility="{Binding (se:StswScrollControl.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                se:StswScrollViewer.AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Popup>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"

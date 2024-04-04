@@ -24,13 +24,13 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollControl.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollControl.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
@@ -85,14 +85,14 @@
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                        StaysOpen="False">
                                     <se:StswBorder x:Name="DropDownBorder"
-                                                   Background="{Binding (se:StswPopupControl.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   BorderBrush="{Binding (se:StswPopupControl.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   BorderThickness="{Binding (se:StswPopupControl.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CornerClipping="{Binding (se:StswPopupControl.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                                                   CornerRadius="{Binding (se:StswPopupControl.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                    MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}"
-                                                   Padding="{Binding (se:StswPopupControl.Padding), RelativeSource={RelativeSource TemplatedParent}}">
+                                                   Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                                         <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">

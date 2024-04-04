@@ -31,17 +31,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("DropDownScrollViewer");
 
     /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        GetPopup()?.InitAttachedProperties(this);
-        GetScrollViewer()?.InitAttachedProperties(this);
-    }
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>

@@ -16,7 +16,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswLabel}">
@@ -40,12 +40,18 @@
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
                             <!-- popup -->
-                            <se:StswPopup se:StswControl.IsBorderless="True"
+                            <se:StswPopup x:Name="PART_Popup"
+                                          se:StswControl.IsBorderless="True"
                                           IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
-                                          Padding="0"
                                           Placement="Relative"
                                           PlacementTarget="{Binding ElementName=PART_Content}"
-                                          StaysOpen="False">
+                                          StaysOpen="False"
+                                          se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                          se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                          se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                          se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                          se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                          se:StswPopup.Padding="0">
                                 <ContentPresenter x:Name="PART_PopupContent"
                                                   Focusable="False"
                                                   Margin="{TemplateBinding Padding}"

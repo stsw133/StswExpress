@@ -44,8 +44,6 @@ public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollabl
     {
         base.OnApplyTemplate();
 
-        GetScrollViewer()?.InitAttachedProperties(this);
-
         if (GetTemplateChild("PART_TabStripModeButton") is ToggleButton tabStripModeButton)
             tabStripModeButton.Click += PART_TabStripModeButton_Click;
     }

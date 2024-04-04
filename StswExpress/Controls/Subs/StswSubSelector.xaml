@@ -25,10 +25,10 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswPopupControl.CornerClipping" Value="False"/>
-        <Setter Property="se:StswPopupControl.CornerRadius" Value="0"/>
+        <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswPopup.CornerClipping" Value="False"/>
+        <Setter Property="se:StswPopup.CornerRadius" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -62,13 +62,13 @@
                                Placement="Center"
                                PlacementTarget="{Binding ElementName=PART_MainBorder}"
                                StaysOpen="False">
-                            <se:StswBorder Background="{Binding (se:StswPopupControl.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                                           BorderBrush="{Binding (se:StswPopupControl.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                                           BorderThickness="{Binding (se:StswPopupControl.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CornerClipping="{Binding (se:StswPopupControl.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CornerRadius="{Binding (se:StswPopupControl.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                            <se:StswBorder Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                           BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                           BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                           CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                           CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                           Padding="{Binding (se:StswPopupControl.Padding), RelativeSource={RelativeSource TemplatedParent}}">
+                                           Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                                 <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
                                 </se:StswDirectionViewer>

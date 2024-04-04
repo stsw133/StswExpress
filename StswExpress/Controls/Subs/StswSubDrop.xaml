@@ -25,10 +25,10 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
-        <Setter Property="se:StswPopupControl.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
-        <Setter Property="se:StswPopupControl.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswPopupControl.CornerClipping" Value="False"/>
-        <Setter Property="se:StswPopupControl.CornerRadius" Value="0"/>
+        <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
+        <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
+        <Setter Property="se:StswPopup.CornerClipping" Value="False"/>
+        <Setter Property="se:StswPopup.CornerRadius" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -67,7 +67,13 @@
                                       Placement="Bottom"
                                       PlacementTarget="{Binding ElementName=PART_MainButton}"
                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                                      StaysOpen="False">
+                                      StaysOpen="False"
+                                      se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                      se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                      se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                      se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                      se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                      se:StswPopup.Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter x:Name="PART_Items" Focusable="False"/>
                         </se:StswPopup>
                     </Grid>

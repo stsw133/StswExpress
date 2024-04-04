@@ -45,9 +45,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     {
         base.OnApplyTemplate();
 
-        GetPopup()?.InitAttachedProperties(this);
-        GetScrollViewer()?.InitAttachedProperties(this);
-
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
             listBox.SelectionChanged += (s, e) => SetText();

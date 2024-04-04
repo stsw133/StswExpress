@@ -22,16 +22,6 @@ public class StswListView : ListView, IStswCornerControl, IStswScrollableControl
     public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
 
     /// <summary>
-    /// Occurs when the template is applied to the control.
-    /// </summary>
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        GetScrollViewer()?.InitAttachedProperties(this);
-    }
-
-    /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>
     /// <param name="oldValue">The old value of the ItemsSource property.</param>

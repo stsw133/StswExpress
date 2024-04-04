@@ -40,9 +40,9 @@
                                         SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
                                         SelectedValue="{TemplateBinding SelectedValue}"
                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                        se:StswScrollControl.CanContentScroll="True"
-                                        se:StswScrollControl.HorizontalScrollBarVisibility="Hidden"
-                                        se:StswScrollControl.VerticalScrollBarVisibility="Hidden"/>
+                                        se:StswScrollViewer.CanContentScroll="True"
+                                        se:StswScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                        se:StswScrollViewer.VerticalScrollBarVisibility="Hidden"/>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

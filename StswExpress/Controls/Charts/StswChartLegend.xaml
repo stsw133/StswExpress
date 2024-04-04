@@ -19,12 +19,12 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        
-        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollControl.IsDynamic" Value="False"/>
-        <Setter Property="se:StswScrollControl.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         
         <Setter Property="Template">
             <Setter.Value>

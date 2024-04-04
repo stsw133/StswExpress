@@ -46,12 +46,12 @@
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                               se:StswPopupControl.Background="Transparent"
-                                               se:StswPopupControl.BorderBrush="Transparent"
-                                               se:StswPopupControl.BorderThickness="0"
-                                               se:StswPopupControl.CornerClipping="False"
-                                               se:StswPopupControl.CornerRadius="0"
-                                               se:StswPopupControl.Padding="0">
+                                               se:StswPopup.Background="Transparent"
+                                               se:StswPopup.BorderBrush="Transparent"
+                                               se:StswPopup.BorderThickness="0"
+                                               se:StswPopup.CornerClipping="False"
+                                               se:StswPopup.CornerRadius="0"
+                                               se:StswPopup.Padding="0">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.SelectColor}"/>
                                 </se:StswDropButton.Header>

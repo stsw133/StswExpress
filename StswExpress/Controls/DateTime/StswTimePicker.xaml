@@ -44,9 +44,9 @@
                                                se:StswControl.IsArrowless="True" se:StswControl.IsBorderless="True"
                                                Focusable="False" MaxDropDownHeight="NaN" Padding="0" Width="24"
                                                IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                               se:StswPopupControl.CornerClipping="False"
-                                               se:StswPopupControl.CornerRadius="0"
-                                               se:StswPopupControl.Padding="0">
+                                               se:StswPopup.CornerClipping="False"
+                                               se:StswPopup.CornerRadius="0"
+                                               se:StswPopup.Padding="0">
                                 <se:StswDropButton.Header>
                                     <se:StswIcon Data="{x:Static se:StswIcons.ClockOutline}"/>
                                 </se:StswDropButton.Header>

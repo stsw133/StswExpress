@@ -37,8 +37,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
     {
         base.OnApplyTemplate();
 
-        GetPopup()?.InitAttachedProperties(this);
-
         /// StswPopup: popup
         if (GetTemplateChild("PART_Popup") is Popup popup)
             popup.Child.MouseLeave += (s, e) => IsDropDownOpen = false;

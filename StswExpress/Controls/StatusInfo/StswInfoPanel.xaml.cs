@@ -19,7 +19,7 @@ public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
     /// Gets a <see cref="StswScrollViewer"/> of the control.
     /// </summary>
     public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
-
+    /*
     /// <summary>
     /// Handles changes in the items collection and scrolls to the end if new items are added.
     /// </summary>
@@ -28,12 +28,11 @@ public class StswInfoPanel : ListBox, IStswCornerControl, IStswScrollableControl
     {
         base.OnItemsChanged(e);
 
-        GetScrollViewer()?.InitAttachedProperties(this);
-
         /// code below no longer needed since StswScrollViewer has this functionality now
         //if (e.NewItems?.Count > 0 && GetTemplateChild("PART_ScrollViewer") is ScrollViewer scrollViewer)
         //    scrollViewer?.ScrollToEnd();
     }
+    */
     #endregion
 
     #region Logic properties

@@ -3,8 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswScrollViewer}">
-        <Setter Property="AutoScroll" Value="False"/>
-        <Setter Property="IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollViewer.AutoScroll" Value="False"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
         
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -14,8 +14,8 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -32,7 +32,7 @@
                         <!-- content -->
                         <Rectangle x:Name="Corner" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource StswScroll.Static.Background}"/>
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="0" Grid.Row="0"
-                                                CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                 CanVerticallyScroll="False"
                                                 Content="{TemplateBinding Content}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -41,7 +41,7 @@
                         <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0"
                                           AutomationProperties.AutomationId="VerticalScrollBar"
                                           Cursor="Arrow"
-                                          IsDynamic="{TemplateBinding IsDynamic}"
+                                          IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                           Maximum="{TemplateBinding ScrollableHeight}"
                                           Value="{TemplateBinding VerticalOffset}"
                                           ViewportSize="{TemplateBinding ViewportHeight}"
@@ -49,7 +49,7 @@
                         <se:StswScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1"
                                           AutomationProperties.AutomationId="HorizontalScrollBar"
                                           Cursor="Arrow"
-                                          IsDynamic="{TemplateBinding IsDynamic}"
+                                          IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                           Maximum="{TemplateBinding ScrollableWidth}"
                                           Orientation="Horizontal"
                                           Value="{TemplateBinding HorizontalOffset}"
@@ -57,7 +57,7 @@
                                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsDynamic" Value="True">
+                        <Trigger Property="se:StswScrollViewer.IsDynamic" Value="True">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_ScrollContentPresenter"/>
                             <Setter Property="Grid.RowSpan" Value="2" TargetName="PART_ScrollContentPresenter"/>
                         </Trigger>

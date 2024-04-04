@@ -36,11 +36,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
-        <Setter Property="se:StswScrollControl.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollControl.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollControl.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="se:StswScrollControl.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollControl.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
 
         <Setter Property="Template">
@@ -333,12 +333,12 @@
                                                                     MaxDropDownHeight="NaN"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorText}"
-                                                                    se:StswPopupControl.Background="Transparent"
-                                                                    se:StswPopupControl.BorderBrush="Transparent"
-                                                                    se:StswPopupControl.BorderThickness="0"
-                                                                    se:StswPopupControl.CornerClipping="False"
-                                                                    se:StswPopupControl.CornerRadius="0"
-                                                                    se:StswPopupControl.Padding="0">
+                                                                    se:StswPopup.Background="Transparent"
+                                                                    se:StswPopup.BorderBrush="Transparent"
+                                                                    se:StswPopup.BorderThickness="0"
+                                                                    se:StswPopup.CornerClipping="False"
+                                                                    se:StswPopup.CornerRadius="0"
+                                                                    se:StswPopup.Padding="0">
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorText}" Scale="1.25"/>
@@ -364,12 +364,12 @@
                                                                     MaxDropDownHeight="NaN"
                                                                     SeparatorThickness="0"
                                                                     ToolTip="{se:Tr StswTextEditor.Font.ColorHighlight}"
-                                                                    se:StswPopupControl.Background="Transparent"
-                                                                    se:StswPopupControl.BorderBrush="Transparent"
-                                                                    se:StswPopupControl.BorderThickness="0"
-                                                                    se:StswPopupControl.CornerClipping="False"
-                                                                    se:StswPopupControl.CornerRadius="0"
-                                                                    se:StswPopupControl.Padding="0">
+                                                                    se:StswPopup.Background="Transparent"
+                                                                    se:StswPopup.BorderBrush="Transparent"
+                                                                    se:StswPopup.BorderThickness="0"
+                                                                    se:StswPopup.CornerClipping="False"
+                                                                    se:StswPopup.CornerRadius="0"
+                                                                    se:StswPopup.Padding="0">
                                                     <se:StswSplitButton.Header>
                                                         <StackPanel>
                                                             <se:StswIcon Data="{x:Static se:StswIcons.FormatColorHighlight}" Scale="1.25"/>
