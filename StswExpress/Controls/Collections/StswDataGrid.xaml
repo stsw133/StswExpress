@@ -52,7 +52,18 @@
                                    CornerRadius="{TemplateBinding CornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    SnapsToDevicePixels="True">
-                        <se:StswScrollViewer x:Name="DG_ScrollViewer" Focusable="False">
+                        <se:StswScrollViewer x:Name="DG_ScrollViewer"
+                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Focusable="False"
+                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                             <se:StswScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type se:StswScrollViewer}">
                                     <Grid>
@@ -70,8 +81,8 @@
                                         <se:StswButton Command="{x:Static DataGrid.SelectAllCommand}"
                                                        Focusable="False"
                                                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type se:StswDataGrid}, ResourceId=StswDataGridSelectAllButtonStyle}}"
-                                                       Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"
-                                                       Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}"/>
+                                                       Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}"
+                                                       Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
                                         <!-- Column Headers-->
                                         <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1"
                                                                         Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>

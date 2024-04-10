@@ -18,9 +18,9 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-        
+
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -89,6 +89,9 @@
                                                 SelectionMode="Multiple"
                                                 se:StswScrollViewer.AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollViewer.CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"

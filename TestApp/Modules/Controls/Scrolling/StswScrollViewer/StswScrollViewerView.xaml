@@ -16,18 +16,22 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsBusy -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
+            <!-- IsDynamic -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsDynamic"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
             <!-- HorizontalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
             <!-- VerticalScrollBarVisibility -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf VerticalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
             <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
-            <!-- IsDynamic -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsDynamic"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswScrollViewer IsDynamic="{Binding IsDynamic}"
+        <se:StswScrollViewer IsBusy="{Binding IsBusy}"
+                             IsDynamic="{Binding IsDynamic}"
                              IsEnabled="{Binding IsEnabled}"
                              Margin="5"
                              HorizontalAlignment="{Binding HorizontalAlignment}"

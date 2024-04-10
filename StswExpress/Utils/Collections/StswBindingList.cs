@@ -39,18 +39,19 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
 
             if (e.ListChangedType == ListChangedType.ItemChanged)
             {
-                _itemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
-                OnPropertyChanged(nameof(Modified));
+                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
+                OnPropertyChanged(nameof(CountModified));
             }
             else if (e.ListChangedType == ListChangedType.ItemAdded)
             {
-                _itemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Added;
-                OnPropertyChanged(nameof(Added));
+                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Added;
+                OnPropertyChanged(nameof(CountAdded));
                 OnPropertyChanged(nameof(Count));
             }
         }
     }
 
+    #region Base methods
     /// <summary>
     /// Clears the collection and marks all items as "Deleted" if it was not previously "Added".
     /// </summary>
@@ -59,9 +60,9 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         foreach (var item in this)
         {
             if (item.ItemState != StswItemState.Added)
-                _itemStates[item] = item.ItemState = StswItemState.Deleted;
+                ItemStates[item] = item.ItemState = StswItemState.Deleted;
             else
-                _itemStates.Remove(item);
+                ItemStates.Remove(item);
         }
 
         base.ClearItems();
@@ -76,34 +77,91 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         var item = this[index];
 
         if (item.ItemState != StswItemState.Added)
-            _itemStates[item] = item.ItemState = StswItemState.Deleted;
+            ItemStates[item] = item.ItemState = StswItemState.Deleted;
         else
-            _itemStates.Remove(item);
+            ItemStates.Remove(item);
 
         base.RemoveItem(index);
         NotifyStateChanges();
     }
 
-    #region ItemState
+    /// <summary>
+    /// Adds the item to the collection and sets its state to the specific one.
+    /// </summary>
+    public void Add(T item, StswItemState itemState)
+    {
+        Add(item);
+        ItemStates[item] = item.ItemState = itemState;
+
+        NotifyStateChanges();
+    }
+
+    /// <summary>
+    /// Adds multiple items to the collection.
+    /// </summary>
+    public void AddRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            Add(item);
+    }
+
+    /// <summary>
+    /// Adds the item to the collection and sets its state to the specific one.
+    /// </summary>
+    public void AddRange(IEnumerable<T> items, StswItemState itemState)
+    {
+        foreach (var item in items)
+        {
+            Add(item);
+            ItemStates[item] = item.ItemState = itemState;
+        }
+        NotifyStateChanges();
+    }
+
+    /// <summary>
+    /// Adds multiple items to the collection.
+    /// </summary>
+    public void AddRange(IList<T> items)
+    {
+        foreach (var item in items)
+            Add(item);
+    }
+
+    /// <summary>
+    /// Adds the item to the collection and sets its state to the specific one.
+    /// </summary>
+    public void AddRange(IList<T> items, StswItemState itemState)
+    {
+        foreach (var item in items)
+        {
+            Add(item);
+            ItemStates[item] = item.ItemState = itemState;
+        }
+        NotifyStateChanges();
+    }
+    #endregion
+
+    #region Item state management
     /// <summary>
     /// Gets the state of a specific collection item.
     /// </summary>
     public StswItemState GetStateOfItem(T item)
     {
-        if (_itemStates.TryGetValue(item, out var state))
+        if (ItemStates.TryGetValue(item, out var state))
             return state;
 
         return StswItemState.Unchanged;
     }
-    private readonly Dictionary<T, StswItemState> _itemStates = new();
+    public Dictionary<T, StswItemState> ItemStates { get; private set; } = new();
 
     /// <summary>
     /// Gets a list of collection items that match the specified DataRowState.
     /// </summary>
-    public IEnumerable<T> GetItemsByState(StswItemState state) => _itemStates.Where(x => x.Value == state).Select(x => x.Key);
-    public int Added => GetItemsByState(StswItemState.Added).Count();
-    public int Modified => GetItemsByState(StswItemState.Modified).Count();
-    public int Deleted => GetItemsByState(StswItemState.Deleted).Count();
+    public IEnumerable<T> GetItemsByState(StswItemState state) => ItemStates.Where(x => x.Value == state).Select(x => x.Key);
+    public int CountUnchanged => GetItemsByState(StswItemState.Unchanged).Count();
+    public int CountModified => GetItemsByState(StswItemState.Modified).Count();
+    public int CountAdded => GetItemsByState(StswItemState.Added).Count();
+    public int CountDeleted => GetItemsByState(StswItemState.Deleted).Count();
 
     /// <summary>
     /// Gets or sets a list of property names to be ignored during state tracking.
@@ -125,9 +183,10 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// </summary>
     private void NotifyStateChanges()
     {
-        OnPropertyChanged(nameof(Added));
-        OnPropertyChanged(nameof(Modified));
-        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(CountUnchanged));
+        OnPropertyChanged(nameof(CountAdded));
+        OnPropertyChanged(nameof(CountDeleted));
+        OnPropertyChanged(nameof(CountModified));
         OnPropertyChanged(nameof(Count));
     }
     #endregion
@@ -170,42 +229,42 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         _isSorted = false;
         _sortProperty = null;
     }
-    #endregion
-}
-
-/// <summary>
-/// Provides a custom comparer for sorting elements based on a specified property.
-/// </summary>
-/// <typeparam name="T">The type of elements to compare.</typeparam>
-internal class PropertyComparer<T> : IComparer<T>
-{
-    private readonly PropertyDescriptor _property;
-    private readonly ListSortDirection _direction;
-
-    public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
-    {
-        _property = property;
-        _direction = direction;
-    }
 
     /// <summary>
-    /// Compares two elements based on the specified property and sort direction.
+    /// Provides a custom comparer for sorting elements based on a specified property.
     /// </summary>
-    /// <param name="x">The first element to compare.</param>
-    /// <param name="y">The second element to compare.</param>
-    /// <returns>
-    /// A negative value if <paramref name="x"/> is less than <paramref name="y"/>;
-    /// zero if <paramref name="x"/> equals <paramref name="y"/>;
-    /// a positive value if <paramref name="x"/> is greater than <paramref name="y"/>.
-    /// </returns>
-    public int Compare(T? x, T? y)
+    /// <typeparam name="T2">The type of elements to compare.</typeparam>
+    private class PropertyComparer<T2> : IComparer<T2>
     {
-        if (_property.GetValue(x) is not IComparable xValue || _property.GetValue(y) is not IComparable yValue)
-            return 0;
+        private readonly PropertyDescriptor _property;
+        private readonly ListSortDirection _direction;
 
-        if (_direction == ListSortDirection.Ascending)
-            return xValue.CompareTo(yValue);
-        else
-            return yValue.CompareTo(xValue);
+        public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
+        {
+            _property = property;
+            _direction = direction;
+        }
+
+        /// <summary>
+        /// Compares two elements based on the specified property and sort direction.
+        /// </summary>
+        /// <param name="x">The first element to compare.</param>
+        /// <param name="y">The second element to compare.</param>
+        /// <returns>
+        /// A negative value if <paramref name="x"/> is less than <paramref name="y"/>;
+        /// zero if <paramref name="x"/> equals <paramref name="y"/>;
+        /// a positive value if <paramref name="x"/> is greater than <paramref name="y"/>.
+        /// </returns>
+        public int Compare(T2? x, T2? y)
+        {
+            if (_property.GetValue(x) is not IComparable xValue || _property.GetValue(y) is not IComparable yValue)
+                return 0;
+
+            if (_direction == ListSortDirection.Ascending)
+                return xValue.CompareTo(yValue);
+            else
+                return yValue.CompareTo(xValue);
+        }
     }
+    #endregion
 }

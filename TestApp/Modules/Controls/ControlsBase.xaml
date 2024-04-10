@@ -93,7 +93,7 @@
                 <!-- control -->
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition MinHeight="100" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter=-200}"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <ContentPresenter Margin="5 0 0 0"/>

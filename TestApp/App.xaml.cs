@@ -17,7 +17,7 @@ public partial class App : StswApp
     {
         base.OnStartup(e);
 
-        StswSecurity.Key = "myOwnStswHashKey";
+        //StswSecurity.Key = "myOwnStswHashKey";
 
         StswDatabases.ImportList();
         StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();

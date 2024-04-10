@@ -11,7 +11,7 @@ namespace StswExpress;
 /// </summary>
 public static class StswSecurity
 {
-    private static string? key = null;
+    private static string? key = "".PadRight(16, StswFn.AppName() ?? " ");
     /// <summary>
     /// Property to set the encryption key, which must be at least 16 characters long.
     /// </summary>

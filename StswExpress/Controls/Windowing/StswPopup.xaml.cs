@@ -52,127 +52,109 @@ public class StswPopup : Popup, /*IStswCornerControl,*/ IStswScrollableControl
     /// <summary>
     /// Gets or sets the background brush for the popup.
     /// </summary>
+    public Brush Background
+    {
+        get => (Brush)GetValue(BackgroundProperty);
+        set => SetValue(BackgroundProperty, value);
+    }
     public static readonly DependencyProperty BackgroundProperty
         = DependencyProperty.RegisterAttached(
-            nameof(Control.Background),
+            nameof(Background),
             typeof(Brush),
             typeof(StswPopup),
-            new PropertyMetadata(default, OnBackgroundChanged)
+            new PropertyMetadata(default)
         );
     public static Brush GetBackground(DependencyObject obj) => (Brush)obj.GetValue(BackgroundProperty);
     public static void SetBackground(DependencyObject obj, Brush value) => obj.SetValue(BackgroundProperty, value);
-    private static void OnBackgroundChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetBackground(popup, (Brush)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Gets or sets the border brush for the popup.
     /// </summary>
+    public Brush BorderBrush
+    {
+        get => (Brush)GetValue(BorderBrushProperty);
+        set => SetValue(BorderBrushProperty, value);
+    }
     public static readonly DependencyProperty BorderBrushProperty
         = DependencyProperty.RegisterAttached(
-            nameof(Control.BorderBrush),
+            nameof(BorderBrush),
             typeof(Brush),
             typeof(StswPopup),
-            new PropertyMetadata(default, OnBorderBrushChanged)
+            new PropertyMetadata(default)
         );
     public static Brush GetBorderBrush(DependencyObject obj) => (Brush)obj.GetValue(BorderBrushProperty);
     public static void SetBorderBrush(DependencyObject obj, Brush value) => obj.SetValue(BorderBrushProperty, value);
-    private static void OnBorderBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetBorderBrush(popup, (Brush)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Gets or sets the thickness of the border for the popup.
     /// </summary>
+    public Thickness BorderThickness
+    {
+        get => (Thickness)GetValue(BorderThicknessProperty);
+        set => SetValue(BorderThicknessProperty, value);
+    }
     public static readonly DependencyProperty BorderThicknessProperty
         = DependencyProperty.RegisterAttached(
-            nameof(Control.BorderThickness),
+            nameof(BorderThickness),
             typeof(Thickness),
             typeof(StswPopup),
-            new PropertyMetadata(new Thickness(2), OnBorderThicknessChanged)
+            new PropertyMetadata(new Thickness(2))
         );
     public static Thickness GetBorderThickness(DependencyObject obj) => (Thickness)obj.GetValue(BorderThicknessProperty);
     public static void SetBorderThickness(DependencyObject obj, Thickness value) => obj.SetValue(BorderThicknessProperty, value);
-    private static void OnBorderThicknessChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetBorderThickness(popup, (Thickness)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether corner clipping is enabled for the popup.
     /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
     public static readonly DependencyProperty CornerClippingProperty
         = DependencyProperty.RegisterAttached(
-            nameof(IStswCornerControl.CornerClipping),
+            nameof(CornerClipping),
             typeof(bool),
             typeof(StswPopup),
-            new PropertyMetadata(true, OnCornerClippingChanged)
+            new PropertyMetadata(true)
         );
     public static bool GetCornerClipping(DependencyObject obj) => (bool)obj.GetValue(CornerClippingProperty);
     public static void SetCornerClipping(DependencyObject obj, bool value) => obj.SetValue(CornerClippingProperty, value);
-    private static void OnCornerClippingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetCornerClipping(popup, (bool)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Gets or sets the corner radius for the popup.
     /// </summary>
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
     public static readonly DependencyProperty CornerRadiusProperty
         = DependencyProperty.RegisterAttached(
-            nameof(IStswCornerControl.CornerRadius),
+            nameof(CornerRadius),
             typeof(CornerRadius),
             typeof(StswPopup),
-            new PropertyMetadata(new CornerRadius(10), OnCornerRadiusChanged)
+            new PropertyMetadata(new CornerRadius(10))
         );
     public static CornerRadius GetCornerRadius(DependencyObject obj) => (CornerRadius)obj.GetValue(CornerRadiusProperty);
     public static void SetCornerRadius(DependencyObject obj, CornerRadius value) => obj.SetValue(CornerRadiusProperty, value);
-    private static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetCornerRadius(popup, (CornerRadius)e.NewValue);
-        }
-    }
 
     /// <summary>
     /// Gets or sets the padding for the popup.
     /// </summary>
+    public Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
     public static readonly DependencyProperty PaddingProperty
         = DependencyProperty.RegisterAttached(
-            nameof(Control.Padding),
+            nameof(Padding),
             typeof(Thickness),
             typeof(StswPopup),
-            new PropertyMetadata(new Thickness(0), OnPaddingChanged)
+            new PropertyMetadata(new Thickness(0))
         );
     public static Thickness GetPadding(DependencyObject obj) => (Thickness)obj.GetValue(PaddingProperty);
     public static void SetPadding(DependencyObject obj, Thickness value) => obj.SetValue(PaddingProperty, value);
-    private static void OnPaddingChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-    {
-        if (obj is IStswDropControl stsw)
-        {
-            if (stsw.GetPopup() is StswPopup popup)
-                SetPadding(popup, (Thickness)e.NewValue);
-        }
-    }
     #endregion
 }

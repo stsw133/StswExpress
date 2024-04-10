@@ -52,11 +52,11 @@
                 <Run Text="Displayed: "/>
                 <Run Text="{Binding ListContractors.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" (added: "/>
-                <Run Text="{Binding ListContractors.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                <Run Text="{Binding ListContractors.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=", modified: "/>
-                <Run Text="{Binding ListContractors.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                <Run Text="{Binding ListContractors.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                 <Run Text=", deleted: "/>
-                <Run Text="{Binding ListContractors.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                <Run Text="{Binding ListContractors.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                 <Run Text=")"/>
             </TextBlock>
         </DockPanel>

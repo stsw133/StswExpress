@@ -38,7 +38,18 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollViewer x:Name="PART_ScrollViewer" Focusable="False">
+                        <se:StswScrollViewer x:Name="PART_ScrollViewer"
+                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Focusable="False"
+                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter Focusable="False" Margin="3"/>
                         </se:StswScrollViewer>
                     </se:StswBorder>

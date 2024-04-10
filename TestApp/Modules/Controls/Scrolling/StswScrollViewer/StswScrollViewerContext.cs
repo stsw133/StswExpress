@@ -9,9 +9,26 @@ public class StswScrollViewerContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsBusy = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsBusy)))?.Value ?? default;
+        IsDynamic = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDynamic)))?.Value ?? default;
         HorizontalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalScrollBarVisibility)))?.Value ?? default;
         VerticalScrollBarVisibility = (ScrollBarVisibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(VerticalScrollBarVisibility)))?.Value ?? default;
-        isDynamic = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsDynamic)))?.Value ?? default;
+    }
+
+    /// IsBusy
+    private bool isBusy;
+    public bool IsBusy
+    {
+        get => isBusy;
+        set => SetProperty(ref isBusy, value);
+    }
+    
+    /// IsDynamic
+    private bool isDynamic;
+    public bool IsDynamic
+    {
+        get => isDynamic;
+        set => SetProperty(ref isDynamic, value);
     }
 
     /// HorizontalScrollBarVisibility
@@ -28,13 +45,5 @@ public class StswScrollViewerContext : ControlsContext
     {
         get => verticalScrollBarVisibility;
         set => SetProperty(ref verticalScrollBarVisibility, value);
-    }
-
-    /// IsDynamic
-    private bool isDynamic;
-    public bool IsDynamic
-    {
-        get => isDynamic;
-        set => SetProperty(ref isDynamic, value);
     }
 }

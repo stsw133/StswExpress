@@ -41,7 +41,19 @@
                                           Focusable="False"
                                           Margin="{TemplateBinding Padding}"/>
                         <!-- items -->
-                        <se:StswScrollViewer x:Name="PART_ScrollViewer" DockPanel.Dock="Top" Focusable="False" Padding="{TemplateBinding Padding}">
+                        <se:StswScrollViewer x:Name="PART_ScrollViewer" DockPanel.Dock="Top"
+                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Focusable="False"
+                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Padding="{TemplateBinding Padding}"
+                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter/>
                         </se:StswScrollViewer>
                     </DockPanel>

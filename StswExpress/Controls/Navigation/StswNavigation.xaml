@@ -26,9 +26,10 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="se:StswScrollViewer.AutoScroll" Value="False"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
         <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         
         <Setter Property="Template">
@@ -89,7 +90,18 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollViewer x:Name="PART_Items" Focusable="False">
+                                <se:StswScrollViewer x:Name="PART_Items"
+                                                     AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Focusable="False"
+                                                     IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                     VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                                     <se:StswScrollViewer.Resources>
                                         <Style TargetType="{x:Type se:StswScrollBar}">
                                             <Setter Property="ExpandedWidth" Value="12"/>

@@ -20,7 +20,7 @@
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 
@@ -93,7 +93,18 @@
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                    MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}"
                                                    Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
-                                        <se:StswScrollViewer x:Name="DropDownScrollViewer" Focusable="False">
+                                        <se:StswScrollViewer x:Name="DropDownScrollViewer"
+                                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             Focusable="False"
+                                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <Rectangle x:Name="OpaqueRect"

@@ -634,7 +634,7 @@ public static class StswExtensions
     /// </summary>
     public static string? PadLeft(this string text, int totalWidth, string paddingString)
     {
-        if (paddingString == null)
+        if (string.IsNullOrEmpty(paddingString))
             throw new ArgumentNullException(nameof(paddingString));
 
         if (totalWidth < 0)
@@ -643,8 +643,10 @@ public static class StswExtensions
         if (text == null || text.Length >= totalWidth)
             return text;
 
-        int paddingCount = (totalWidth - text.Length + paddingString.Length - 1) / paddingString.Length;
-        return paddingString[..paddingCount] + text;
+        while (text.Length < totalWidth)
+            text = paddingString + text;
+
+        return text[..totalWidth];
     }
 
     /// <summary>
@@ -652,7 +654,7 @@ public static class StswExtensions
     /// </summary>
     public static string? PadRight(this string text, int totalWidth, string paddingString)
     {
-        if (paddingString == null)
+        if (string.IsNullOrEmpty(paddingString))
             throw new ArgumentNullException(nameof(paddingString));
 
         if (totalWidth < 0)
@@ -661,8 +663,10 @@ public static class StswExtensions
         if (text == null || text.Length >= totalWidth)
             return text;
 
-        int paddingCount = (totalWidth - text.Length + paddingString.Length - 1) / paddingString.Length;
-        return text + paddingString[..paddingCount];
+        while (text.Length < totalWidth)
+            text += paddingString;
+
+        return text[0..totalWidth];
     }
 
     /// <summary>
