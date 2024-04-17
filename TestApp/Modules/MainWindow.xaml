@@ -115,6 +115,7 @@
                 <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
+                <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Subs" IconData="{x:Static se:StswIcons.WidgetsOutline}">
                 <se:StswNavigationElement Header="StswSubButton" ContextNamespace="TestApp.StswSubButtonContext"/>

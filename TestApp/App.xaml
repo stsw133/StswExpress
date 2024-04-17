@@ -230,6 +230,9 @@
             <DataTemplate DataType="{x:Type local:StswProgressRingContext}">
                 <local:StswProgressRingView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSpinnerContext}">
+                <local:StswSpinnerView/>
+            </DataTemplate>
 
             <!-- Subs -->
             <DataTemplate DataType="{x:Type local:StswSubButtonContext}">
