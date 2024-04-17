@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a navigation control that allows managing multiple contexts and navigation elements.
 /// </summary>
 [ContentProperty(nameof(Items))]
-public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollableControl
+public class StswNavigation : ContentControl, IStswCornerControl
 {
     public StswNavigation()
     {
@@ -31,11 +31,6 @@ public class StswNavigation : ContentControl, IStswCornerControl, IStswScrollabl
 
     #region Events & methods
     internal StswNavigationElement? CompactedExpander;
-
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_Items");
 
     /// <summary>
     /// Occurs when the template is applied to the control.

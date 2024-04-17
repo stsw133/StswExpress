@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows selection from a drop-down list of items.
 /// </summary>
-public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
+public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     public StswComboBox()
     {
@@ -20,16 +20,6 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     }
 
     #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
-
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("DropDownScrollViewer");
-
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>

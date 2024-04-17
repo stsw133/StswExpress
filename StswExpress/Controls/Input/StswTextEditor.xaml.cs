@@ -16,7 +16,7 @@ namespace StswExpress;
 /// <summary>
 /// A custom rich text editor control that extends the functionality of the built-in <see cref="RichTextBox"/>.
 /// </summary>
-public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl, IStswScrollableControl
+public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerControl
 {
     public ICommand FileNewCommand { get; set; }
     public ICommand FileOpenCommand { get; set; }
@@ -56,11 +56,6 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
     #region Events & methods
     private StswComboBox? _fontFamily;
     private StswNumericBox? _fontSize;
-
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ContentHost");
 
     /// <summary>
     /// Occurs when the template is applied to the control.

@@ -21,6 +21,7 @@ public class StswDataGridContext : ControlsContext
     /// OnScrollBottom
     public async Task OnScrollBottom()
     {
+        IsBusy = true;
         await Task.Run(() =>
         {
             Thread.Sleep(1000);
@@ -28,8 +29,17 @@ public class StswDataGridContext : ControlsContext
                 Items.AddRange(Enumerable.Range((Items.LastOrDefault()?.ID ?? 0) + 1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }), StswItemState.Unchanged);
             });
         });
+        IsBusy = false;
     }
     #endregion
+
+    /// IsBusy
+    private bool isBusy;
+    public bool IsBusy
+    {
+        get => isBusy;
+        set => SetProperty(ref isBusy, value);
+    }
 
     /// IsReadOnly
     private bool isReadOnly;

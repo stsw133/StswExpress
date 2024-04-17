@@ -92,7 +92,7 @@ public class StswDirectionViewer : ScrollViewer
     }
 
     /// <summary>
-    /// 
+    /// Handles the ScrollChanged event to provide additional functionality on scroll change.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
@@ -114,7 +114,8 @@ public class StswDirectionViewer : ScrollViewer
     }
 
     /// <summary>
-    /// 
+    /// Handles changes in horizontal offset.
+    /// Updates the state of directional buttons based on horizontal offset.
     /// </summary>
     private void OnHorizontalOffsetChanged()
     {
@@ -133,7 +134,8 @@ public class StswDirectionViewer : ScrollViewer
     }
 
     /// <summary>
-    /// 
+    /// Handles changes in vertical offset.
+    /// Updates the state of directional buttons based on vertical offset.
     /// </summary>
     private void OnVerticalOffsetChanged()
     {

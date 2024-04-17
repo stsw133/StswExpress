@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control designed for displaying chart's legend.
 /// </summary>
-public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
+public class StswChartLegend : HeaderedItemsControl
 {
     static StswChartLegend()
     {
@@ -17,11 +17,6 @@ public class StswChartLegend : HeaderedItemsControl, IStswScrollableControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
-
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>

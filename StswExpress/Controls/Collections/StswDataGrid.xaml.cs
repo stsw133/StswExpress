@@ -14,7 +14,7 @@ namespace StswExpress;
 /// Represents a control that provides a flexible and powerful way to display and edit data in a tabular format.
 /// To work properly it has to be used with <see cref="StswBindingList{T}"/> as its ItemsSource.
 /// </summary>
-public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
+public class StswDataGrid : DataGrid, IStswCornerControl
 {
     public ICommand ClearFiltersCommand { get; set; }
 
@@ -28,11 +28,6 @@ public class StswDataGrid : DataGrid, IStswCornerControl, IStswScrollableControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("DG_ScrollViewer");
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

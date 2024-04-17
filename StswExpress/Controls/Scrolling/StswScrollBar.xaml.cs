@@ -8,7 +8,7 @@ using System.Windows.Media.Animation;
 namespace StswExpress;
 
 /// <summary>
-/// 
+/// Represents a control that extends the <see cref="ScrollBar"/> class with additional functionality.
 /// </summary>
 public class StswScrollBar : ScrollBar
 {
@@ -53,7 +53,7 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// 
+    /// Handles the MouseEnter event for dynamic behavior.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseEnter(MouseEventArgs e)
@@ -64,7 +64,7 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// 
+    /// Handles the MouseLeave event for dynamic behavior.
     /// </summary>
     /// <param name="e">The event arguments</param>
     protected override void OnMouseLeave(MouseEventArgs e)
@@ -75,8 +75,10 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// 
+    /// Handles the ValueChanged event for dynamic behavior.
     /// </summary>
+    /// <param name="oldValue">The old value</param>
+    /// <param name="newValue">The new value</param>
     protected override void OnValueChanged(double oldValue, double newValue)
     {
         base.OnValueChanged(oldValue, newValue);
@@ -87,7 +89,7 @@ public class StswScrollBar : ScrollBar
 
     #region Style properties
     /// <summary>
-    /// 
+    /// Gets or sets the width of the scroll bar when collapsed.
     /// </summary>
     public double CollapsedWidth
     {
@@ -102,7 +104,7 @@ public class StswScrollBar : ScrollBar
         );
 
     /// <summary>
-    /// 
+    /// Gets or sets the width of the scroll bar when expanded.
     /// </summary>
     public double ExpandedWidth
     {
@@ -158,7 +160,7 @@ public class StswScrollBar : ScrollBar
 
     #region Animations
     /// <summary>
-    /// 
+    /// Animates the control when mouse enters.
     /// </summary>
     private void MouseEnterAnimation()
     {
@@ -220,7 +222,7 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// 
+    /// Animates the control when mouse leaves.
     /// </summary>
     private void MouseLeaveAnimation()
     {
@@ -283,7 +285,7 @@ public class StswScrollBar : ScrollBar
     }
 
     /// <summary>
-    /// 
+    /// Animates the control when value changes.
     /// </summary>
     private void ValueChangedAnimation()
     {

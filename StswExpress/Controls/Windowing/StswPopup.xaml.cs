@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Represents a custom popup control with additional functionality and customization options.
 /// </summary>
 [ContentProperty(nameof(Content))]
-public class StswPopup : Popup, /*IStswCornerControl,*/ IStswScrollableControl
+public class StswPopup : Popup /*, IStswCornerControl*/
 {
     public StswPopup()
     {
@@ -23,13 +23,6 @@ public class StswPopup : Popup, /*IStswCornerControl,*/ IStswScrollableControl
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswPopup), new FrameworkPropertyMetadata(typeof(StswPopup)));
     }
-
-    #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
-    #endregion
 
     #region Logic properties
     /// <summary>

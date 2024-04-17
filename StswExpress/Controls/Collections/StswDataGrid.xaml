@@ -62,55 +62,9 @@
                                              IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
                                              IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
                                              PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                             Template="{DynamicResource StswDataGridScrollTemplate}"
                                              HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                              VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                            <se:StswScrollViewer.Template>
-                                <ControlTemplate TargetType="{x:Type se:StswScrollViewer}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <!-- Left Column Header Corner -->
-                                        <se:StswButton Command="{x:Static DataGrid.SelectAllCommand}"
-                                                       Focusable="False"
-                                                       Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type se:StswDataGrid}, ResourceId=StswDataGridSelectAllButtonStyle}}"
-                                                       Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}"
-                                                       Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-                                        <!-- Column Headers-->
-                                        <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1"
-                                                                        Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
-                                        <!-- DataGrid content-->
-                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}"/>
-                                        <se:StswScrollBar x:Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="2"
-                                                          IsDynamic="{TemplateBinding IsDynamic}"
-                                                          Maximum="{TemplateBinding ScrollableHeight}"
-                                                          Orientation="Vertical"
-                                                          Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          ViewportSize="{TemplateBinding ViewportHeight}"
-                                                          Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                                        <Grid Grid.Row="2" Grid.Column="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type se:StswDataGrid}}}"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <se:StswScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1"
-                                                              IsDynamic="{TemplateBinding IsDynamic}"
-                                                              Maximum="{TemplateBinding ScrollableWidth}"
-                                                              Orientation="Horizontal"
-                                                              Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ViewportSize="{TemplateBinding ViewportWidth}"
-                                                              Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
-                                        </Grid>
-                                    </Grid>
-                                </ControlTemplate>
-                            </se:StswScrollViewer.Template>
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </se:StswScrollViewer>
                     </se:StswBorder>

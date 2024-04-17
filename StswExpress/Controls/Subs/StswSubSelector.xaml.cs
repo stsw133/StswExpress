@@ -26,11 +26,6 @@ public class StswSubSelector : ContentControl, IStswSubControl, IStswCornerContr
 
     #region Events & methods
     /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
-
-    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()

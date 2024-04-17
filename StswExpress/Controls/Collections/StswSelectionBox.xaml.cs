@@ -15,7 +15,7 @@ namespace StswExpress;
 /// Represents a control that combines the functionality of a <see cref="ComboBox"/> and <see cref="ListBox"/> to allow multiple selection.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically binds selected items.
 /// </summary>
-public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl, IStswScrollableControl
+public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerControl, IStswDropControl
 {
     public StswSelectionBox()
     {
@@ -28,16 +28,6 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
     }
 
     #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup? GetPopup() => GetTemplateChild("PART_Popup") as StswPopup;
-
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
-
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>

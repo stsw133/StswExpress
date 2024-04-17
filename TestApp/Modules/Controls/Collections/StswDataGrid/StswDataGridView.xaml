@@ -33,7 +33,9 @@
                          HorizontalAlignment="{Binding HorizontalAlignment}"
                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                          VerticalAlignment="{Binding VerticalAlignment}"
-                         VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                         VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                         se:StswScrollViewer.Command="{Binding OnScrollBottomCommand}"
+                         se:StswScrollViewer.IsBusy="{Binding IsBusy}">
             <se:StswDataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ID}" Width="100">
                     <DataGridTextColumn.Header>

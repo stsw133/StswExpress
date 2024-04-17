@@ -11,7 +11,7 @@ namespace StswExpress;
 /// Represents a control that displays a collection of items in a vertical list.
 /// ItemsSource with items of <see cref="IStswSelectionItem"/> type automatically bind selected items.
 /// </summary>
-public class StswListBox : ListBox, IStswCornerControl, IStswScrollableControl
+public class StswListBox : ListBox, IStswCornerControl
 {
     static StswListBox()
     {
@@ -19,11 +19,6 @@ public class StswListBox : ListBox, IStswCornerControl, IStswScrollableControl
     }
 
     #region Events & methods
-    /// <summary>
-    /// Gets a <see cref="StswScrollViewer"/> of the control.
-    /// </summary>
-    public StswScrollViewer GetScrollViewer() => (StswScrollViewer)GetTemplateChild("PART_ScrollViewer");
-
     /// <summary>
     /// Occurs when the ItemsSource property value changes.
     /// </summary>

@@ -51,11 +51,11 @@ public class StswScrollViewer : ScrollViewer
         //    }
         //}
     }
-    
+
     /// <summary>
-    /// 
+    /// Handles the ScrollChanged event to provide additional functionality on scroll change.
     /// </summary>
-    /// <param name="e"></param>
+    /// <param name="e">The event arguments</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         base.OnScrollChanged(e);
@@ -78,7 +78,7 @@ public class StswScrollViewer : ScrollViewer
 
     #region Logic properties
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether auto-scrolling is enabled.
     /// </summary>
     public bool AutoScroll
     {

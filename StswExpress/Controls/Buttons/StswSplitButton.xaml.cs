@@ -25,11 +25,6 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
 
     #region Events & methods
     /// <summary>
-    /// Gets a <see cref="StswPopup"/> of the control.
-    /// </summary>
-    public StswPopup GetPopup() => (StswPopup)GetTemplateChild("PART_Popup");
-
-    /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
     public override void OnApplyTemplate()
