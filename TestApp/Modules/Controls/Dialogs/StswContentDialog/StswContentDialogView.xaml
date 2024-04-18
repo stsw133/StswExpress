@@ -10,10 +10,10 @@
         <local:StswContentDialogContext/>
     </d:UserControl.DataContext>
 
-    <se:StswContentDialog Identifier="TEST" IsOpen="{Binding IsOpen}">
+    <se:StswContentDialog Identifier="StswContentDialogView" IsOpen="{Binding IsOpen}">
         <local:ControlsBase ContentAlignmentVisibility="Collapsed">
             <local:ControlsBase.Description>
-                Represents a control behaving like content dialog with various properties for customization.
+                Represents a customizable content dialog control for displaying various types of content.
             </local:ControlsBase.Description>
             <!-- properties -->
 
@@ -24,10 +24,36 @@
         </local:ControlsBase>
         <!-- content -->
         <se:StswContentDialog.DialogContent>
-            <se:StswGroupBox Header="TEST">
+            <se:StswGroupBox>
+                <se:StswGroupBox.Header>
+                    <se:StswHeader Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
+                </se:StswGroupBox.Header>
                 <DockPanel>
-                    <se:StswToggleButton DockPanel.Dock="Bottom" Content="Close" IsChecked="{Binding IsOpen}"/>
-                    <Label Content="There is some test text..."/>
+                    <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center">
+                        <se:StswHeader Content="Close " IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
+                    </se:StswButton>
+                    <se:StswText Margin="3" TextWrapping="Wrap">
+                        <Run Text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."/>
+                        <Run Text="Aenean commodo ligula eget dolor. Aenean massa."/>
+                        <Run Text="Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." FontWeight="Medium" Foreground="{DynamicResource StswColor.Positive}"/>
+                        <Run Text="Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."/>
+                        <Run Text="Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."/>
+                        <Run Text="In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Negative}"/>
+                        <Run Text="Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus."/>
+                        <Run Text="Vivamus elementum semper nisi. Aenean vulputate eleifend tellus."/>
+                        <Run Text="Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim." FontWeight="Medium" Foreground="{DynamicResource StswColor.Neutral}"/>
+                        <Run Text="Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus."/>
+                        <Run Text="Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum."/>
+                        <Run Text="Aenean imperdiet. Etiam ultricies nisi vel augue." FontWeight="Medium" Foreground="{DynamicResource StswColor.Modify}"/>
+                        <Run Text="Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus."/>
+                        <Run Text="Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."/>
+                        <Run Text="Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem." FontWeight="Medium" Foreground="{DynamicResource StswColor.Structure}"/>
+                        <Run Text="Maecenas nec odio et ante tincidunt tempus."/>
+                        <Run Text="Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante."/>
+                        <Run Text="Etiam sit amet orci eget eros faucibus tincidunt. Duis leo." FontWeight="Medium" Foreground="{DynamicResource StswColor.Designer}"/>
+                        <Run Text="Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna."/>
+                        <Run Text="Sed consequat, leo eget bibendum sodales, augue velit cursus nunc..."/>
+                    </se:StswText>
                 </DockPanel>
             </se:StswGroupBox>
         </se:StswContentDialog.DialogContent>

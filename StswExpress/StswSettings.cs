@@ -43,10 +43,10 @@ public sealed partial class StswSettings
             if (Default.UpdateRequired)
             {
                 Default.Upgrade();
+                Default.UpdateRequired = false;
                 Default.iSize = (double)(Default.GetPreviousVersion(nameof(Default.iSize)) ?? Default.iSize);
                 Default.Language = (string)(Default.GetPreviousVersion(nameof(Default.Language)) ?? Default.Language);
                 Default.Theme = (int)(Default.GetPreviousVersion(nameof(Default.Theme)) ?? Default.Theme);
-                Default.UpdateRequired = false;
                 Default.Save();
             }
         }

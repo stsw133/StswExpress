@@ -3,8 +3,6 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswInfoBadge}">
-        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Static.Background}"/>
-
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -62,28 +60,34 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="Type" Value="None">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Debug">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Error">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Information">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Success">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                         <Trigger Property="Type" Value="Warning">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

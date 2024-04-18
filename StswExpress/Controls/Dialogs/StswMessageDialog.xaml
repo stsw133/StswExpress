@@ -3,10 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswMessageDialog}">
-        <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
-        
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="4"/>
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
@@ -23,6 +20,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswMessageDialog}">
+                    <ControlTemplate.Resources>
+                        <SolidColorBrush x:Key="StswExpander.Static.Header" Color="Transparent"/>
+                    </ControlTemplate.Resources>
                     <se:StswGroupBox x:Name="PART_MainBorder"
                                      Background="{TemplateBinding Background}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
@@ -38,11 +38,17 @@
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswGroupBox.Header>
-                            <se:StswHeader x:Name="PART_Header" Content="{TemplateBinding Title}" FontWeight="Medium"/>
+                            <se:StswHeader x:Name="PART_Header"
+                                           Content="{TemplateBinding Title}"
+                                           FontSize="{se:StswDynamicResource StswWindow.Font.Size, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.2}"
+                                           FontWeight="Medium"/>
                         </se:StswGroupBox.Header>
-                        <DockPanel>
+                        <DockPanel Background="{DynamicResource StswPanel.Static.Background}">
                             <!-- buttons -->
-                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}">
+                            <UniformGrid DockPanel.Dock="Bottom"
+                                         HorizontalAlignment="Center"
+                                         Margin="{TemplateBinding Padding}"
+                                         Rows="1">
                                 <se:StswButton x:Name="PART_ButtonYes"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="True"
@@ -100,45 +106,45 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>
                         <Trigger Property="Image" Value="None">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.None.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Debug">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>
-                            <Setter Property="IconData" Value="{x:Static se:StswIcons.EyeCircle}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Debug.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Bug}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Error">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Error.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Information">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.Information}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Information.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Question">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Question.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Question.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.HelpCircle}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Question.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Success">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Success.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Success.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CheckCircle}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Success.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                         <Trigger Property="Image" Value="Warning">
-                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_Header"/>
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertCircle}" TargetName="PART_Header"/>
-                            <Setter Property="IconFill" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

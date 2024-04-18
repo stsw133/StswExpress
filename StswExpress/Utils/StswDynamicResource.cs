@@ -10,7 +10,6 @@ namespace StswExpress;
 /// <summary>
 /// 
 /// </summary>
-[Obsolete($"{nameof(StswDynamicResourceExtension)} seems not to work properly. Please do not use it.", true)]
 public class StswDynamicResourceExtension : MarkupExtension
 {
     private StswBindingProxy? bindingProxy;

@@ -105,6 +105,7 @@
                                                              PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
                                                              HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
                                                              VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                            <!--
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                     <Rectangle x:Name="OpaqueRect"
@@ -114,6 +115,8 @@
                                                 </Canvas>
                                                 <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained"/>
                                             </Grid>
+                                            -->
+                                            <VirtualizingStackPanel x:Name="PART_Items" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
                                         </se:StswScrollViewer>
                                     </se:StswBorder>
                                 </Popup>
@@ -176,10 +179,12 @@
                         <Trigger Property="SelectedIndex" Value="-1">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
+                        <!--
                         <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="False">
                             <Setter Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}" TargetName="OpaqueRect"/>
                             <Setter Property="Canvas.Left" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}" TargetName="OpaqueRect"/>
                         </Trigger>
+                        -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainButton"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswButton.MouseOver.Border}" TargetName="PART_MainButton"/>

@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswContentDialog}">
-                    <Grid x:Name="DialogHostRoot" Focusable="False">
+                    <Grid x:Name="PART_DialogHostRoot" Focusable="False">
                         <!-- animation -->
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="PopupStates">
@@ -18,7 +18,7 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                             </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentCoverBorder" Storyboard.TargetProperty="Opacity">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentCoverBorder" Storyboard.TargetProperty="Opacity">
                                                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8">
                                                     <EasingDoubleKeyFrame.EasingFunction>
@@ -41,7 +41,7 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}"/>
                                             </ObjectAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentCoverBorder" Storyboard.TargetProperty="Opacity">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentCoverBorder" Storyboard.TargetProperty="Opacity">
                                                 <EasingDoubleKeyFrame KeyTime="0" Value="0.8"/>
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
                                                     <EasingDoubleKeyFrame.EasingFunction>
@@ -63,39 +63,25 @@
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="Open">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup"
-                                                                       Storyboard.TargetProperty="Visibility"
-                                                                       Duration="0">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility" Duration="0">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="ContentCoverBorder"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0.8"
-                                                         Duration="0"/>
-                                        <DoubleAnimation Storyboard.TargetName="PART_PopupContentElement"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="1"
-                                                         Duration="0"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_ContentCoverBorder" Storyboard.TargetProperty="Opacity" To="0.8" Duration="0"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_PopupContentElement" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Closed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup"
-                                                                       Storyboard.TargetProperty="Visibility"
-                                                                       Duration="0">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility" Duration="0">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="ContentCoverBorder"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_ContentCoverBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <!-- content -->
-                        <ContentPresenter x:Name="ContentPresenter"
-                                          Content="{TemplateBinding ContentControl.Content}"
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
                                           ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
                                           ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
                                           Opacity="1"/>
@@ -104,11 +90,11 @@
                               Background="Transparent"
                               Focusable="False"
                               IsHitTestVisible="False"
-                              Visibility="{Binding Visibility, ElementName=ContentCoverBorder}">
+                              Visibility="{Binding Visibility, ElementName=PART_ContentCoverBorder}">
                             <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=ContentCoverBorder}"/>
+                                <VisualBrush Visual="{Binding ElementName=PART_ContentCoverBorder}"/>
                             </Grid.OpacityMask>
-                            <Border x:Name="ContentCoverBorder"
+                            <Border x:Name="PART_ContentCoverBorder"
                                     Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
                                     IsHitTestVisible="False"
                                     Opacity="0">
