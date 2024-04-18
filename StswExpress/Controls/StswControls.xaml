@@ -84,6 +84,7 @@
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
+        <ResourceDictionary Source="StatusInfo/StswSpinner.xaml"/>
 
         <ResourceDictionary Source="Subs/StswSubButton.xaml"/>
         <ResourceDictionary Source="Subs/StswSubCheck.xaml"/>
