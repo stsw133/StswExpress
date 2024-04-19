@@ -28,6 +28,7 @@
         <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
         <Setter Property="Template">
             <Setter.Value>

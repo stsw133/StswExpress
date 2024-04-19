@@ -3,11 +3,16 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSpinner}">
+        <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
+        <Setter Property="Scale" Value="1.5"/>
+
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswSpinner}">
-
                     <ControlTemplate.Resources>
                         <DataTemplate x:Key="SpinnerStyle1">
                             <Viewbox>
@@ -15,7 +20,7 @@
                                     <Ellipse x:Name="PART_Dot1"
                                              Width="20"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
@@ -26,18 +31,15 @@
                                                                 <!-- Opacity dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="0.3"
-                                                                                                KeyTime="0:0:0"/>
-                                                                        <EasingDoubleKeyFrame Value="1"
-                                                                                              KeyTime="0:0:0.4">
+                                                                        <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.4">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseIn" />
+                                                                                <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="0.3"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="0.3" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseOut" />
+                                                                                <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -45,15 +47,13 @@
                                                                 <!-- Size dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0" />
-                                                                        <EasingDoubleKeyFrame Value="20"
-                                                                                              KeyTime="0:0:0.4">
+                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="20" KeyTime="0:0:0.4">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="5"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="5" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
@@ -70,30 +70,25 @@
                                     <Ellipse x:Name="PART_Dot2"
                                              Width="20"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
                                                     <EventTrigger RoutedEvent="Loaded">
                                                         <BeginStoryboard>
-                                                            <Storyboard Duration="0:0:0.9"
-                                                                        RepeatBehavior="Forever"
-                                                                        BeginTime="0:0:0.2">
+                                                            <Storyboard Duration="0:0:0.9" RepeatBehavior="Forever" BeginTime="0:0:0.2">
                                                                 <!-- Opacity dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="0.3"
-                                                                                                KeyTime="0:0:0"/>
-                                                                        <EasingDoubleKeyFrame Value="1"
-                                                                                              KeyTime="0:0:0.40">
+                                                                        <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.40">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseIn" />
+                                                                                <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="0.3"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="0.3" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseOut" />
+                                                                                <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -101,15 +96,13 @@
                                                                 <!-- Size dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0" />
-                                                                        <EasingDoubleKeyFrame Value="20"
-                                                                                              KeyTime="0:0:0.40">
+                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="20" KeyTime="0:0:0.40">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="5"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="5" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
@@ -126,30 +119,25 @@
                                     <Ellipse x:Name="PART_Dot3"
                                              Width="20"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
                                                     <EventTrigger RoutedEvent="Loaded">
                                                         <BeginStoryboard>
-                                                            <Storyboard Duration="0:0:0.9"
-                                                                        RepeatBehavior="Forever"
-                                                                        BeginTime="0:0:0.4">
+                                                            <Storyboard Duration="0:0:0.9" RepeatBehavior="Forever" BeginTime="0:0:0.4">
                                                                 <!-- Opacity dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="0.3"
-                                                                                                KeyTime="0:0:0"/>
-                                                                        <EasingDoubleKeyFrame Value="1"
-                                                                                              KeyTime="0:0:0.40">
+                                                                        <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.40">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseIn" />
+                                                                                <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="0.3"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="0.3" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase EasingMode="EaseOut" />
+                                                                                <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -157,15 +145,13 @@
                                                                 <!-- Size dot 1-->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
-                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0" />
-                                                                        <EasingDoubleKeyFrame Value="20"
-                                                                                              KeyTime="0:0:0.40">
+                                                                        <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
+                                                                        <EasingDoubleKeyFrame Value="20" KeyTime="0:0:0.40">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
-                                                                        <EasingDoubleKeyFrame Value="5"
-                                                                                              KeyTime="0:0:0.8">
+                                                                        <EasingDoubleKeyFrame Value="5" KeyTime="0:0:0.8">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
                                                                                 <PowerEase EasingMode="EaseOut"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
@@ -186,7 +172,7 @@
                             <DataTemplate.Resources>
                                 <Style TargetType="{x:Type Path}" x:Key="BasePath">
                                     <Setter Property="StrokeThickness" Value="2"/>
-                                    <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
                                     <Setter Property="Fill" Value="Transparent"/>
                                     <Setter Property="Data" Value="M 12 6 L 12 0"/>
                                     <Setter Property="StrokeDashCap" Value="Round"/>
@@ -201,7 +187,7 @@
                                 <Grid Margin="1">
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="0" />
+                                            <RotateTransform Angle="0"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -217,7 +203,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -231,7 +217,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="45" />
+                                            <RotateTransform Angle="45"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -247,7 +233,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -261,7 +247,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="90" />
+                                            <RotateTransform Angle="90"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -277,7 +263,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -291,7 +277,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="135" />
+                                            <RotateTransform Angle="135"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -307,7 +293,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -321,7 +307,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="180" />
+                                            <RotateTransform Angle="180"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -337,7 +323,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -351,7 +337,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="225" />
+                                            <RotateTransform Angle="225"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -367,7 +353,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -381,7 +367,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="270" />
+                                            <RotateTransform Angle="270"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -397,7 +383,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -411,7 +397,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="315" />
+                                            <RotateTransform Angle="315"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -427,7 +413,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -446,8 +432,8 @@
                             <DataTemplate.Resources>
                                 <Style TargetType="{x:Type Path}" x:Key="BasePath">
                                     <Setter Property="StrokeThickness" Value="0"/>
-                                    <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
-                                    <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="Fill" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
                                     <Setter Property="Data" Value="M 12 6 a 3 3 0 1 1 0.01 0 z"/>
                                     <Setter Property="StrokeDashCap" Value="Round"/>
                                     <Setter Property="StrokeDashArray" Value="0"/>
@@ -461,7 +447,7 @@
                                 <Grid Margin="1">
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="0" />
+                                            <RotateTransform Angle="0"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -477,7 +463,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -491,7 +477,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="45" />
+                                            <RotateTransform Angle="45"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -507,7 +493,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -521,7 +507,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="90" />
+                                            <RotateTransform Angle="90"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -537,7 +523,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -551,7 +537,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="135" />
+                                            <RotateTransform Angle="135"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -567,7 +553,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -581,7 +567,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="180" />
+                                            <RotateTransform Angle="180"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -597,7 +583,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -611,7 +597,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="225" />
+                                            <RotateTransform Angle="225"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -627,7 +613,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -641,7 +627,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="270" />
+                                            <RotateTransform Angle="270"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -657,7 +643,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -671,7 +657,7 @@
                                     </Path>
                                     <Path>
                                         <Path.RenderTransform>
-                                            <RotateTransform Angle="315" />
+                                            <RotateTransform Angle="315"/>
                                         </Path.RenderTransform>
                                         <Path.Style>
                                             <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BasePath}">
@@ -687,7 +673,7 @@
                                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                                                         <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0">
                                                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                                                <PowerEase Power="2" EasingMode="EaseIn" />
+                                                                                <PowerEase Power="2" EasingMode="EaseIn"/>
                                                                             </EasingDoubleKeyFrame.EasingFunction>
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
@@ -709,13 +695,13 @@
                             <Style TargetType="{x:Type ContentControl}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Type, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Static se:SpinnerType.Dots}">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle1}" />
+                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle1}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Type, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Static se:SpinnerType.Circle1}">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle2}" />
+                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle2}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Type, RelativeSource={RelativeSource TemplatedParent}}" Value="{x:Static se:SpinnerType.Circle2}">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle3}" />
+                                        <Setter Property="ContentTemplate" Value="{StaticResource SpinnerStyle3}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -724,7 +710,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
     </Style>
     
 </ResourceDictionary>

@@ -79,6 +79,16 @@ public class StswApp : Application
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public virtual void OnThemeChanged(object? sender, StswTheme e)
+    {
+        //;
+    }
+
+    /// <summary>
     /// Current application's main StswWindow.
     /// </summary>
     public static StswWindow StswWindow => (StswWindow)Current.MainWindow;

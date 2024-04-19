@@ -32,6 +32,7 @@
         <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -87,6 +88,7 @@
                                                 Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"
+                                                VirtualizingPanel.ScrollUnit="{Binding (VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
                                                 se:StswScrollViewer.Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"

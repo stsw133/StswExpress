@@ -53,7 +53,6 @@ public partial class StswResources
 
             theme = newTheme;
             SetTheme(newTheme);
-            ThemeChanged?.Invoke(this, newTheme);
         }
     }
     private StswTheme theme = StswTheme.Auto;
@@ -61,10 +60,9 @@ public partial class StswResources
     /// <summary>
     /// Method for selecting Theme.
     /// </summary>
-    private void SetTheme(StswTheme theme) => MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
-
-    /// <summary>
-    /// Occurs when the Theme changes.
-    /// </summary>
-    public event EventHandler<StswTheme>? ThemeChanged;
+    private void SetTheme(StswTheme theme)
+    {
+        MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/StswExpress;component/Themes/Brushes/{theme}.xaml", UriKind.Relative) };
+        (Application.Current as StswApp)?.OnThemeChanged(this, theme);
+    }
 }
