@@ -19,15 +19,15 @@ public class StswDropArrow : Control
     /// <summary>
     /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
     /// </summary>
-    public bool IsDropDownOpen
+    public bool? IsDropDownOpen
     {
-        get => (bool)GetValue(IsDropDownOpenProperty);
+        get => (bool?)GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
     public static readonly DependencyProperty IsDropDownOpenProperty
         = DependencyProperty.Register(
             nameof(IsDropDownOpen),
-            typeof(bool),
+            typeof(bool?),
             typeof(StswDropArrow)
         );
     #endregion

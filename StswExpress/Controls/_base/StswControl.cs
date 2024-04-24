@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace StswExpress;
 public static class StswControl
@@ -49,4 +50,17 @@ public static class StswControl
             }
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly DependencyProperty SubControlsDockProperty
+        = DependencyProperty.RegisterAttached(
+            "SubControlsDock",
+            typeof(Dock),
+            typeof(StswControl),
+            new PropertyMetadata(Dock.Right)
+        );
+    public static Dock GetSubControlsDock(DependencyObject obj) => (Dock)obj.GetValue(SubControlsDockProperty);
+    public static void SetSubControlsDock(DependencyObject obj, Dock value) => obj.SetValue(SubControlsDockProperty, value);
 }

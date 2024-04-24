@@ -174,9 +174,13 @@
         <GradientStop Color="#C69" Offset="0.5"/>
         <GradientStop Color="#D55" Offset="1"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Fill" Color="#209fdf"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Fill" Color="#df2020"/>
-    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#df8f20"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Border" Color="#4d6e80"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Added.Fill" Color="#4cb2e6"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Border" Color="#804d4d"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Deleted.Fill" Color="#e64c4c"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Border" Color="#806a4d"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Modified.Fill" Color="#e6a64c"/>
+    <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Border" Color="Transparent"/>
     <SolidColorBrush x:Key="StswDataGrid.SpecialColumn.Unchanged.Fill" Color="Transparent"/>
     
     <Thickness x:Key="StswItem.Thickness.Border">0</Thickness>
@@ -222,6 +226,10 @@
     <SolidColorBrush x:Key="StswDialog.None.Border" Color="#bbbbbb"/>
     <SolidColorBrush x:Key="StswDialog.None.Foreground" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswDialog.None.Subground" Color="#e6e6e6"/>
+    <SolidColorBrush x:Key="StswDialog.Blockade.Background" Color="#df5020"/>
+    <SolidColorBrush x:Key="StswDialog.Blockade.Border" Color="#e98463"/>
+    <SolidColorBrush x:Key="StswDialog.Blockade.Foreground" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswDialog.Blockade.Subground" Color="#f9dcd2"/>
     <SolidColorBrush x:Key="StswDialog.Debug.Background" Color="#9f20df"/>
     <SolidColorBrush x:Key="StswDialog.Debug.Border" Color="#bc63e9"/>
     <SolidColorBrush x:Key="StswDialog.Debug.Foreground" Color="#EFE5EA"/>
@@ -234,10 +242,10 @@
     <SolidColorBrush x:Key="StswDialog.Information.Border" Color="#63bce9"/>
     <SolidColorBrush x:Key="StswDialog.Information.Foreground" Color="#EFE5EA"/>
     <SolidColorBrush x:Key="StswDialog.Information.Subground" Color="#d2ecf9"/>
-    <SolidColorBrush x:Key="StswDialog.Question.Background" Color="#209fdf"/>
-    <SolidColorBrush x:Key="StswDialog.Question.Border" Color="#63bce9"/>
-    <SolidColorBrush x:Key="StswDialog.Question.Foreground" Color="#EFE5EA"/>
-    <SolidColorBrush x:Key="StswDialog.Question.Subground" Color="#d2ecf9"/>
+    <SolidColorBrush x:Key="StswDialog.Question.Background" Color="#40b4bf"/>
+    <SolidColorBrush x:Key="StswDialog.Question.Border" Color="#79cbd2"/>
+    <SolidColorBrush x:Key="StswDialog.Question.Foreground" Color="#FFF"/>
+    <SolidColorBrush x:Key="StswDialog.Question.Subground" Color="#d9f0f2"/>
     <SolidColorBrush x:Key="StswDialog.Success.Background" Color="#40bf40"/>
     <SolidColorBrush x:Key="StswDialog.Success.Border" Color="#79d279"/>
     <SolidColorBrush x:Key="StswDialog.Success.Foreground" Color="#EFE5EA"/>

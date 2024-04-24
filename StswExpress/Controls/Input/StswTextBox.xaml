@@ -34,7 +34,9 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
+                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsTabStop="False"
+                                          ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>

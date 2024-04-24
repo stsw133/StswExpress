@@ -18,7 +18,7 @@
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         
-        <Setter Property="IsShiftingEnabled" Value="True"/>
+        <Setter Property="IsShiftingEnabled" Value="False"/>
         <Setter Property="PathType" Value="File"/>
         <Setter Property="Text" Value="{Binding SelectedPath, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus}"/>
 
@@ -48,13 +48,15 @@
                                 <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}"/>
                             </se:StswButton>
                             <!-- separator -->
-                            <se:StswSeparator DockPanel.Dock="Right"
+                            <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
-                            <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
+                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsTabStop="False"
+                                          ItemsSource="{TemplateBinding SubControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -65,11 +67,27 @@
                             <se:StswSubError x:Name="PART_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
                             <!-- content -->
                             <DockPanel>
-                                <Image x:Name="PART_Icon"
-                                       Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
-                                       Source="{TemplateBinding IconSource}"
-                                       Height="{DynamicResource StswFilePicker.Size.Icon}"
-                                       Width="{DynamicResource StswFilePicker.Size.Icon}"/>
+                                <se:StswImage x:Name="PART_Icon"
+                                              Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                              MenuMode="Disabled"
+                                              Source="{TemplateBinding IconSource}"
+                                              Height="{DynamicResource StswFilePicker.Size.Icon}"
+                                              Width="{DynamicResource StswFilePicker.Size.Icon}"/>
+                                <se:StswLabel x:Name="PART_FileSize"
+                                              Content="{TemplateBinding FileSize}"
+                                              FontSize="9"
+                                              FontWeight="Bold"
+                                              Opacity="0.6"
+                                              Padding="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                              HorizontalContentAlignment="Center"
+                                              VerticalContentAlignment="Center"
+                                              Width="36"/>
+                                <se:StswSeparator x:Name="PART_IconSeparator"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
+                                                  Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                                  Orientation="Vertical"
+                                                  Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                                 <Grid>
                                     <se:StswText x:Name="PART_Placeholder"
                                                  Foreground="{DynamicResource StswBox.Placeholder.Foreground}"
@@ -90,8 +108,16 @@
                         </DockPanel>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="FileSize" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_IconSeparator"/>
+                        </Trigger>
                         <Trigger Property="IconSource" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Icon"/>
+                        </Trigger>
+                        <Trigger Property="IsFileSizeVisible" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_FileSize"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_IconSeparator"/>
                         </Trigger>
                         <Trigger Property="Text" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>

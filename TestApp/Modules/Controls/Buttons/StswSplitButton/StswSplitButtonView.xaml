@@ -21,7 +21,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswSplitButton CloseAfterClick="True"
+        <se:StswSplitButton AutoClose="True"
                             Command="{Binding OnClickCommand}"
                             CommandParameter="6"
                             IsEnabled="{Binding IsEnabled}"

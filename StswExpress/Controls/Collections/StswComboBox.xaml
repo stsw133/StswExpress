@@ -62,7 +62,9 @@
                                 <!-- arrow -->
                                 <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
                                 <!-- sub controls -->
-                                <ItemsControl DockPanel.Dock="Right" IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
+                                <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsTabStop="False"
+                                              ItemsSource="{TemplateBinding SubControls}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"/>
@@ -94,31 +96,49 @@
                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                                    MinWidth="{Binding ActualWidth, ElementName=PART_TemplateRoot}"
                                                    Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
-                                        <se:StswScrollViewer x:Name="DropDownScrollViewer"
-                                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             Focusable="False"
-                                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                                            <!--
-                                            <Grid RenderOptions.ClearTypeHint="Enabled">
-                                                <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                    <Rectangle x:Name="OpaqueRect"
-                                                               Fill="{Binding Background, ElementName=DropDownBorder}"
-                                                               Height="{Binding ActualHeight, ElementName=DropDownBorder}"
-                                                               Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
-                                                </Canvas>
-                                                <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                            </Grid>
-                                            -->
-                                            <VirtualizingStackPanel x:Name="PART_Items" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                        </se:StswScrollViewer>
+                                        <DockPanel>
+                                            <!-- filter -->
+                                            <se:StswTextBox x:Name="PART_Filter" DockPanel.Dock="Top"
+                                                            se:StswControl.IsBorderless="True"
+                                                            se:StswControl.SubControlsDock="Left"
+                                                            Text="{Binding FilterText, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                                            Visibility="Collapsed">
+                                                <se:StswTextBox.SubControls>
+                                                    <se:StswSubHeader IconData="{x:Static se:StswIcons.Magnify}" Opacity="0.6"/>
+                                                </se:StswTextBox.SubControls>
+                                            </se:StswTextBox>
+                                            <se:StswSeparator x:Name="PART_FilterSeparator" DockPanel.Dock="Top"
+                                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                                              Orientation="Horizontal"
+                                                              Visibility="Collapsed"/>
+                                            <!-- items -->
+                                            <se:StswScrollViewer x:Name="DropDownScrollViewer"
+                                                                 AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 Focusable="False"
+                                                                 IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                                <!--
+                                                <Grid RenderOptions.ClearTypeHint="Enabled">
+                                                    <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                        <Rectangle x:Name="OpaqueRect"
+                                                                   Fill="{Binding Background, ElementName=DropDownBorder}"
+                                                                   Height="{Binding ActualHeight, ElementName=DropDownBorder}"
+                                                                   Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
+                                                    </Canvas>
+                                                    <ItemsPresenter x:Name="PART_Items" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                </Grid>
+                                                -->
+                                                <VirtualizingStackPanel x:Name="PART_Items" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                            </se:StswScrollViewer>
+                                        </DockPanel>
                                     </se:StswBorder>
                                 </Popup>
                                 <!-- content -->
@@ -170,6 +190,10 @@
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Height" Value="95" TargetName="DropDownBorder"/>
                         </Trigger>
+                        <Trigger Property="IsFilterEnabled" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Filter"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_FilterSeparator"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsGrouping" Value="True"/>
@@ -177,7 +201,10 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
-                        <Trigger Property="SelectedIndex" Value="-1">
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_Placeholder"/>
                         </Trigger>
                         <!--

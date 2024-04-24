@@ -28,7 +28,7 @@ public class StswSelectionBoxContext : ControlsContext
     /// Command: randomize
     private void Randomize()
     {
-        foreach (var item in Items.Where(x => new Random().NextDouble() > 0.5))
+        foreach (var item in Items.Where(x => new Random().NextDouble() > 0.6))
             item.IsSelected = !item.IsSelected;
         SetTextCommand?.Execute(null);
     }

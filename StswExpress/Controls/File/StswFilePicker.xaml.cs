@@ -132,9 +132,46 @@ public class StswFilePicker : StswBoxBase
                 SelectedPath = dialog.FileName;
         }
     }
+
+    /// <summary>
+    /// Converts file size in bytes to display it as string.
+    /// </summary>
+    /// <param name="length">Number of bytes</param>
+    /// <returns>Calculated file size in one of formats: B, KB, MB, GB.</returns>
+    private static string DisplayFileSize(long length)
+    {
+        if (length.Between(0, 1000))
+            return $"{length} B";
+
+        length /= 1000;
+        if (length.Between(0, 1000))
+            return $"{length} KB";
+
+        length /= 1000;
+        if (length.Between(0, 1000))
+            return $"{length} MB";
+
+        length /= 1000;
+        return $"{length} GB";
+    }
     #endregion
 
     #region Logic properties
+    /// <summary>
+    /// Gets or sets the info about file's length.
+    /// </summary>
+    internal string? FileSize
+    {
+        get => (string?)GetValue(FileDescriptionProperty);
+        private set => SetValue(FileDescriptionProperty, value);
+    }
+    internal static readonly DependencyProperty FileDescriptionProperty
+        = DependencyProperty.Register(
+            nameof(FileSize),
+            typeof(string),
+            typeof(StswFilePicker)
+        );
+
     /// <summary>
     /// Gets or sets the filter string for file dialog filters.
     /// </summary>
@@ -227,6 +264,7 @@ public class StswFilePicker : StswBoxBase
     {
         if (obj is StswFilePicker stsw)
         {
+            stsw.FileSize = null;
             stsw.IconSource = null;
 
             if (stsw.PathType == StswPathType.Directory ? Directory.Exists(stsw.SelectedPath) : File.Exists(stsw.SelectedPath))
@@ -242,6 +280,7 @@ public class StswFilePicker : StswBoxBase
                 {
                     if (Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
                         stsw.IconSource = icon.ToBitmap().ToImageSource();
+                    stsw.FileSize = DisplayFileSize(new FileInfo(stsw.SelectedPath).Length);
                 }
 
                 /// load adjacent paths
@@ -259,6 +298,21 @@ public class StswFilePicker : StswBoxBase
     #endregion
 
     #region Style properties
+    /// <summary>
+    /// Gets or sets whether to show or not file size.
+    /// </summary>
+    public bool IsFileSizeVisible
+    {
+        get => (bool)GetValue(IsFileSizeVisibleProperty);
+        set => SetValue(IsFileSizeVisibleProperty, value);
+    }
+    public static readonly DependencyProperty IsFileSizeVisibleProperty
+        = DependencyProperty.Register(
+            nameof(IsFileSizeVisible),
+            typeof(bool),
+            typeof(StswFilePicker)
+        );
+
     /// <summary>
     /// Gets or sets the thickness of the separator between box and drop-down button.
     /// </summary>

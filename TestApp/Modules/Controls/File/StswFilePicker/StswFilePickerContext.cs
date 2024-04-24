@@ -10,9 +10,18 @@ public class StswFilePickerContext : ControlsContext
     {
         base.SetDefaults();
 
+        IsFileSizeVisible = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsFileSizeVisible)))?.Value ?? default;
         IsReadOnly = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsReadOnly)))?.Value ?? default;
         IsShiftingEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsShiftingEnabled)))?.Value ?? default;
         PathType = (StswPathType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(PathType)))?.Value ?? default;
+    }
+
+    /// IsFileSizeVisible
+    private bool isFileSizeVisible;
+    public bool IsFileSizeVisible
+    {
+        get => isFileSizeVisible;
+        set => SetProperty(ref isFileSizeVisible, value);
     }
 
     /// IsReadOnly

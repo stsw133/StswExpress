@@ -110,6 +110,12 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.None.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.None.Foreground}" TargetName="PART_Header"/>
                         </Trigger>
+                        <Trigger Property="Image" Value="Blockade">
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Blockade.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Blockade.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Blockade.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="PART_Header"/>
+                        </Trigger>
                         <Trigger Property="Image" Value="Debug">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Debug.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Debug.Border}" TargetName="PART_MainBorder"/>

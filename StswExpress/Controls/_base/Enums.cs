@@ -82,6 +82,7 @@ public enum StswDialogButtons
 public enum StswDialogImage
 {
     None,
+    Blockade,
     Debug,
     Error,
     Information,

@@ -16,6 +16,9 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
+            <!-- IsFileSizeVisible -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsFileSizeVisible, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFileSizeVisible}"/>
             <!-- IsReadOnly -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
@@ -31,6 +34,7 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswFilePicker IsEnabled="{Binding IsEnabled}"
+                           IsFileSizeVisible="{Binding IsFileSizeVisible}"
                            IsReadOnly="{Binding IsReadOnly}"
                            IsShiftingEnabled="{Binding IsShiftingEnabled}"
                            Margin="5"

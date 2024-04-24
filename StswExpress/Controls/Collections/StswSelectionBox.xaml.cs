@@ -98,7 +98,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
         SelectedItems = itemsSource.Where(x => x.IsSelected).ToList();
         foreach (var selectedItem in SelectedItems)
         {
-            if (DisplayMemberPath != null && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
+            if (!string.IsNullOrEmpty(DisplayMemberPath) && selectedItem.GetType().GetProperty(DisplayMemberPath) is PropertyInfo propertyInfo)
             {
                 var value = propertyInfo.GetValue(selectedItem);
                 selectedText.Append(value?.ToString());

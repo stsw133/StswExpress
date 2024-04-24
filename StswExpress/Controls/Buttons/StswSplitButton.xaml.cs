@@ -31,7 +31,7 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     {
         base.OnApplyTemplate();
 
-        OnCloseAfterClickChanged(this, new DependencyPropertyChangedEventArgs());
+        OnAutoCloseChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     {
         base.OnItemsSourceChanged(oldValue, newValue);
 
-        if (CloseAfterClick)
+        if (AutoClose)
         {
             if (oldValue != null)
                 foreach (var item in oldValue)
@@ -61,28 +61,28 @@ public class StswSplitButton : HeaderedItemsControl, ICommandSource, IStswCorner
     /// <summary>
     /// Gets or sets whether to close popup after clicking anything inside it.
     /// </summary>
-    public bool CloseAfterClick
+    public bool AutoClose
     {
-        get => (bool)GetValue(CloseAfterClickProperty);
-        set => SetValue(CloseAfterClickProperty, value);
+        get => (bool)GetValue(AutoCloseProperty);
+        set => SetValue(AutoCloseProperty, value);
     }
-    public static readonly DependencyProperty CloseAfterClickProperty
+    public static readonly DependencyProperty AutoCloseProperty
         = DependencyProperty.Register(
-            nameof(CloseAfterClick),
+            nameof(AutoClose),
             typeof(bool),
             typeof(StswSplitButton),
             new FrameworkPropertyMetadata(default(bool),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnCloseAfterClickChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+                OnAutoCloseChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
-    private static void OnCloseAfterClickChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void OnAutoCloseChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
         if (obj is StswSplitButton stsw)
         {
             foreach (var item in stsw.Items)
                 if (item is ButtonBase btn)
                 {
-                    if (stsw.CloseAfterClick)
+                    if (stsw.AutoClose)
                         btn.Click += (s, e) => stsw.IsDropDownOpen = false;
                     else if ((bool?)e.OldValue == true && stsw.Items != null)
                         btn.Click -= (s, e) => stsw.IsDropDownOpen = false;
