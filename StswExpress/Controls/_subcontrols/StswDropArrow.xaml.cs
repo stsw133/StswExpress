@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace StswExpress;
@@ -7,7 +6,6 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control displaying rotatable arrow icon.
 /// </summary>
-[EditorBrowsable(EditorBrowsableState.Never)]
 public class StswDropArrow : Control
 {
     static StswDropArrow()
@@ -17,16 +15,16 @@ public class StswDropArrow : Control
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets a value indicating whether or not the drop-down portion of the control is currently open.
+    /// Gets or sets a value indicating whether or not the content of the control is currently expanded.
     /// </summary>
-    public bool? IsDropDownOpen
+    public bool? IsExpanded
     {
-        get => (bool?)GetValue(IsDropDownOpenProperty);
-        set => SetValue(IsDropDownOpenProperty, value);
+        get => (bool?)GetValue(IsExpandedProperty);
+        set => SetValue(IsExpandedProperty, value);
     }
-    public static readonly DependencyProperty IsDropDownOpenProperty
+    public static readonly DependencyProperty IsExpandedProperty
         = DependencyProperty.Register(
-            nameof(IsDropDownOpen),
+            nameof(IsExpanded),
             typeof(bool?),
             typeof(StswDropArrow)
         );

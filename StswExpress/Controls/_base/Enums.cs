@@ -216,6 +216,17 @@ public enum StswSpecialColumnVisibility
 }
 
 /// <summary>
+/// Enumerator for <see cref="StswSpinner.Type"/>.
+/// </summary>
+public enum StswSpinnerType
+{
+    Circles,
+    Crescent,
+    Dots,
+    Lines
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswResources.Theme"/>.
 /// </summary>
 public enum StswTheme

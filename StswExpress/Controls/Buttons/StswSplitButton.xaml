@@ -51,7 +51,7 @@
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <se:StswDropArrow Focusable="False" IsDropDownOpen="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                                <se:StswDropArrow Focusable="False" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             </se:StswToggleButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"

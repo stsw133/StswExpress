@@ -462,7 +462,7 @@
         <Grid Background="{DynamicResource StswDataGrid.Cell.Static.Background}" Margin="-1" ToolTip="{Binding ItemMessage}">
             <se:StswToggleButton x:Name="PART_ShowDetails" se:StswControl.IsBorderless="True" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
             <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <se:StswDropArrow x:Name="PART_SymbolIcon" IsDropDownOpen="{Binding ShowDetails}" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <se:StswDropArrow x:Name="PART_SymbolIcon" IsExpanded="{Binding ShowDetails}" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <DataTemplate.Triggers>
             <MultiDataTrigger>

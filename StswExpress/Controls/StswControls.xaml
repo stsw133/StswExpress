@@ -4,7 +4,6 @@
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswChartTip.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswDropArrow.xaml"/>
-        <ResourceDictionary Source="_subcontrols/StswLoadingCircle.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswSubError.xaml"/>
 
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
@@ -84,7 +83,6 @@
         <ResourceDictionary Source="StatusInfo/StswInfoPanel.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressBar.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswProgressRing.xaml"/>
-        <ResourceDictionary Source="StatusInfo/StswSpinner.xaml"/>
 
         <ResourceDictionary Source="Subs/StswSubButton.xaml"/>
         <ResourceDictionary Source="Subs/StswSubCheck.xaml"/>
@@ -98,6 +96,7 @@
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
         <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>
         <ResourceDictionary Source="TextStyle/StswOutlinedText.xaml"/>
+        <ResourceDictionary Source="TextStyle/StswSpinner.xaml"/>
         <ResourceDictionary Source="TextStyle/StswText.xaml"/>
 
         <ResourceDictionary Source="Windowing/StswPopup.xaml"/>

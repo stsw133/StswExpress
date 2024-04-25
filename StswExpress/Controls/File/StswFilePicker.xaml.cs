@@ -134,12 +134,13 @@ public class StswFilePicker : StswBoxBase
     }
 
     /// <summary>
-    /// Converts file size in bytes to display it as string.
+    /// Generates a textual representation of the file size to display it as a string.
     /// </summary>
-    /// <param name="length">Number of bytes</param>
-    /// <returns>Calculated file size in one of formats: B, KB, MB, GB.</returns>
-    private static string DisplayFileSize(long length)
+    /// <param name="filePath">Path to file</param>
+    /// <returns>A textual representation of the file size in one of the following units: B, KB, MB, GB.</returns>
+    public static string DisplayFileSize(string filePath)
     {
+        var length = new FileInfo(filePath).Length;
         if (length.Between(0, 1000))
             return $"{length} B";
 
@@ -162,10 +163,10 @@ public class StswFilePicker : StswBoxBase
     /// </summary>
     internal string? FileSize
     {
-        get => (string?)GetValue(FileDescriptionProperty);
-        private set => SetValue(FileDescriptionProperty, value);
+        get => (string?)GetValue(FileSizeProperty);
+        private set => SetValue(FileSizeProperty, value);
     }
-    internal static readonly DependencyProperty FileDescriptionProperty
+    internal static readonly DependencyProperty FileSizeProperty
         = DependencyProperty.Register(
             nameof(FileSize),
             typeof(string),
@@ -280,7 +281,7 @@ public class StswFilePicker : StswBoxBase
                 {
                     if (Icon.ExtractAssociatedIcon(stsw.SelectedPath) is Icon icon)
                         stsw.IconSource = icon.ToBitmap().ToImageSource();
-                    stsw.FileSize = DisplayFileSize(new FileInfo(stsw.SelectedPath).Length);
+                    stsw.FileSize = DisplayFileSize(stsw.SelectedPath);
                 }
 
                 /// load adjacent paths

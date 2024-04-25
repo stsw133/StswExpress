@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -7,12 +10,12 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Used for type conversion between different types.
+/// Used for color manipulation and conversion based on the provided parameters.
 /// </summary>
-public class StswColorConverter : MarkupExtension, IValueConverter
+public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
 {
-    private static StswColorConverter? instance;
-    public static StswColorConverter Instance => instance ??= new StswColorConverter();
+    private static StswColorAdvancedConverter? instance;
+    public static StswColorAdvancedConverter Instance => instance ??= new StswColorAdvancedConverter();
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
@@ -29,6 +32,26 @@ public class StswColorConverter : MarkupExtension, IValueConverter
             color = br.ToColor();
         else
             color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
+
+        /// conversion
+        var dictionary = new Dictionary<char, string>();
+
+        var regex = new Regex(@"([A-Za-z])([^A-Za-z]*)");
+        var matches = regex.Matches(parameter?.ToString() ?? string.Empty);
+        foreach (var match in matches.Cast<Match>())
+        {
+            var key = match.Groups[1].Value[0];
+            var val = match.Groups[2].Value.Trim();
+
+            dictionary[key] = val;
+        }
+
+        if (dictionary.ContainsKey('A'))
+            color = (Color)StswColorAlphaConverter.Instance.Convert(color, typeof(Color), dictionary['A'], culture);
+        if (dictionary.ContainsKey('B'))
+            color = (Color)StswColorBrightnessConverter.Instance.Convert(color, typeof(Color), dictionary['B'], culture);
+        if (dictionary.ContainsKey('S'))
+            color = (Color)StswColorSaturationConverter.Instance.Convert(color, typeof(Color), dictionary['S'], culture);
 
         /// output
         if (targetType == typeof(Color))

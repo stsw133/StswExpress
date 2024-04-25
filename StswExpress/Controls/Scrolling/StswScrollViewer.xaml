@@ -35,9 +35,10 @@
                                               CommandTarget="{TemplateBinding CommandTarget}"
                                               IconData="{x:Static se:StswIcons.ArrowDown}"
                                               Margin="0 0 0 3"/>
-                            <se:StswLoadingCircle x:Name="PART_Spinner" DockPanel.Dock="Bottom"
-                                                  Margin="0 0 0 3"
-                                                  Visibility="Collapsed"/>
+                            <se:StswSpinner x:Name="PART_Spinner" DockPanel.Dock="Bottom"
+                                            Margin="0 0 0 3"
+                                            Type="Dots"
+                                            Visibility="Collapsed"/>
                             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                                     CanContentScroll="{TemplateBinding CanContentScroll}"
                                                     CanVerticallyScroll="False"
@@ -123,9 +124,10 @@
                                   CommandTarget="{TemplateBinding CommandTarget}"
                                   IconData="{x:Static se:StswIcons.ArrowDown}"
                                   Margin="0 0 0 3"/>
-                <se:StswLoadingCircle x:Name="PART_Spinner" DockPanel.Dock="Bottom"
-                                      Margin="0 0 0 3"
-                                      Visibility="Collapsed"/>
+                <se:StswSpinner x:Name="PART_Spinner" DockPanel.Dock="Bottom"
+                                Margin="0 0 0 3"
+                                Type="Dots"
+                                Visibility="Collapsed"/>
                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                         CanContentScroll="{TemplateBinding CanContentScroll}"/>
             </DockPanel>

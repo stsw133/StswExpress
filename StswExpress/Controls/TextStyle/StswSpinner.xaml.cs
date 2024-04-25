@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Represents a control displaying loading circle.
+/// Represents a control representing that the app is loading content or performing another process that the user needs to wait on.
 /// </summary>
 public class StswSpinner : Control
 {
@@ -41,17 +41,17 @@ public class StswSpinner : Control
     }
 
     /// <summary>
-    /// Type of spinner icon
+    /// Gets or sets type of spinner icon.
     /// </summary>
-    public SpinnerType Type
+    public StswSpinnerType Type
     {
-        get => (SpinnerType)GetValue(TypeProperty);
+        get => (StswSpinnerType)GetValue(TypeProperty);
         set => SetValue(TypeProperty, value);
     }
     public static readonly DependencyProperty TypeProperty
         = DependencyProperty.Register(
             nameof(Type),
-            typeof(SpinnerType),
+            typeof(StswSpinnerType),
             typeof(StswSpinner)
         );
     #endregion
@@ -142,11 +142,4 @@ public class StswSpinner : Control
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new VerticalAlignment VerticalContentAlignment { get; private set; }
     #endregion
-}
-
-public enum SpinnerType
-{
-    Circle1,
-    Circle2,
-    Dots,
 }

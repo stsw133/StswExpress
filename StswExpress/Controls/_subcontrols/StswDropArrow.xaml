@@ -16,7 +16,7 @@
                         </se:StswIcon.RenderTransform>
                     </se:StswIcon>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsDropDownOpen" Value="True">
+                        <Trigger Property="IsExpanded" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>

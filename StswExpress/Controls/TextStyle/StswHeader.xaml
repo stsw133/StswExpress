@@ -73,8 +73,9 @@
                             <Setter Property="ContentTemplate" TargetName="PART_Icon">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <se:StswLoadingCircle Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
-                                                              Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"/>
+                                        <se:StswSpinner Fill="{Binding IconFill, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                        Scale="{Binding IconScale, RelativeSource={RelativeSource AncestorType={x:Type se:StswHeader}}}"
+                                                        Type="Crescent"/>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>

@@ -115,7 +115,6 @@
                 <se:StswNavigationElement Header="StswInfoPanel" ContextNamespace="TestApp.StswInfoPanelContext"/>
                 <se:StswNavigationElement Header="StswProgressBar" ContextNamespace="TestApp.StswProgressBarContext"/>
                 <se:StswNavigationElement Header="StswProgressRing" ContextNamespace="TestApp.StswProgressRingContext"/>
-                <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Subs" IconData="{x:Static se:StswIcons.WidgetsOutline}">
                 <se:StswNavigationElement Header="StswSubButton" ContextNamespace="TestApp.StswSubButtonContext"/>
@@ -131,6 +130,7 @@
                 <se:StswNavigationElement Header="StswIcon" ContextNamespace="TestApp.StswIconContext"/>
                 <se:StswNavigationElement Header="StswLabel" ContextNamespace="TestApp.StswLabelContext"/>
                 <se:StswNavigationElement Header="StswOutlinedText" ContextNamespace="TestApp.StswOutlinedTextContext"/>
+                <se:StswNavigationElement Header="StswSpinner" ContextNamespace="TestApp.StswSpinnerContext"/>
                 <se:StswNavigationElement Header="StswText" ContextNamespace="TestApp.StswTextContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Windowing" IconData="{x:Static se:StswIcons.WindowMaximize}">

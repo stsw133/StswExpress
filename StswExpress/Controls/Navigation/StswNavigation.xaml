@@ -25,7 +25,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
-        <Setter Property="se:StswScrollViewer.AutoScroll" Value="False"/>
         <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
         <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
