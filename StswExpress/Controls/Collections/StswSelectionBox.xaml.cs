@@ -55,6 +55,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
             if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
                 throw new Exception($"{nameof(ItemsSource)} of {nameof(StswSelectionBox)} has to implement {nameof(IStswSelectionItem)} interface!");
 
+            /// StswComboItem short usage
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
                 if (string.IsNullOrEmpty(DisplayMemberPath))
@@ -63,6 +64,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
                     SelectedValuePath = nameof(StswComboItem.Value);
             }
         }
+
         base.OnItemsSourceChanged(oldValue, newValue);
 
         SetText();

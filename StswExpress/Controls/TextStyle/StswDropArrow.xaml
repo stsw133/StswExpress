@@ -5,12 +5,24 @@
     <Visibility x:Key="StswDropArrow.Visibility">Visible</Visibility>
 
     <Style TargetType="{x:Type se:StswDropArrow}">
+        <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
+        <Setter Property="Scale" Value="1.5"/>
+
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Visibility" Value="{DynamicResource StswDropArrow.Visibility}"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropArrow}">
-                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDown}" RenderTransformOrigin=".5 .5">
+                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDown}"
+                                 Fill="{TemplateBinding Fill}"
+                                 RenderTransformOrigin=".5 .5"
+                                 Scale="{TemplateBinding Scale}">
                         <se:StswIcon.RenderTransform>
                             <RotateTransform x:Name="PART_Rotate" Angle="0"/>
                         </se:StswIcon.RenderTransform>

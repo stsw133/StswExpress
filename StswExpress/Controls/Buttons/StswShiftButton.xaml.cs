@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,7 +49,43 @@ public class StswShiftButton : ComboBox, IStswCornerControl
             _buttonNext = buttonNext;
         }
     }
-    
+
+    /// <summary>
+    /// Occurs when the ItemsSource property value changes.
+    /// </summary>
+    /// <param name="oldValue">The old value of the ItemsSource property.</param>
+    /// <param name="newValue">The new value of the ItemsSource property.</param>
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        if (newValue?.GetType()?.IsListType(out var innerType) == true)
+        {
+            //UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
+
+            /// StswComboItem short usage
+            if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+            {
+                if (string.IsNullOrEmpty(DisplayMemberPath))
+                    DisplayMemberPath = nameof(StswComboItem.Display);
+                if (string.IsNullOrEmpty(SelectedValuePath))
+                    SelectedValuePath = nameof(StswComboItem.Value);
+            }
+        }
+
+        base.OnItemsSourceChanged(oldValue, newValue);
+    }
+
+    /// <summary>
+    /// Occurs when the ItemTemplate property value changes.
+    /// </summary>
+    /// <param name="oldItemTemplate">The old value of the ItemTemplate property.</param>
+    /// <param name="newItemTemplate">The new value of the ItemTemplate property.</param>
+    protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+    {
+        if (newItemTemplate != null && !string.IsNullOrEmpty(DisplayMemberPath))
+            DisplayMemberPath = string.Empty;
+        base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+    }
+
     /// <summary>
     /// Overrides the behavior for mouse wheel input to shift through items if the control has focus and is not read-only.
     /// </summary>

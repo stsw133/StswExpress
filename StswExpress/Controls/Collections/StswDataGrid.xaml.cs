@@ -58,6 +58,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
     {
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
             UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
+
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 

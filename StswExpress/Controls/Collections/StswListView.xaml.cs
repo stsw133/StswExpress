@@ -26,6 +26,8 @@ public class StswListView : ListView, IStswCornerControl
         if (newValue?.GetType()?.IsListType(out var innerType) == true)
         {
             UsesSelectionItems = innerType?.IsAssignableTo(typeof(IStswSelectionItem)) == true;
+
+            /// StswComboItem short usage
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
                 if (string.IsNullOrEmpty(DisplayMemberPath))
@@ -34,6 +36,7 @@ public class StswListView : ListView, IStswCornerControl
                     SelectedValuePath = nameof(StswComboItem.Value);
             }
         }
+
         base.OnItemsSourceChanged(oldValue, newValue);
     }
 

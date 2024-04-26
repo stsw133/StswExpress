@@ -3,7 +3,6 @@
 
         <ResourceDictionary Source="_internal/StswConfig.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswChartTip.xaml"/>
-        <ResourceDictionary Source="_subcontrols/StswDropArrow.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswSubError.xaml"/>
 
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
@@ -92,6 +91,7 @@
         <ResourceDictionary Source="Subs/StswSubRepeater.xaml"/>
         <ResourceDictionary Source="Subs/StswSubSelector.xaml"/>
 
+        <ResourceDictionary Source="TextStyle/StswDropArrow.xaml"/>
         <ResourceDictionary Source="TextStyle/StswHeader.xaml"/>
         <ResourceDictionary Source="TextStyle/StswIcon.xaml"/>
         <ResourceDictionary Source="TextStyle/StswLabel.xaml"/>

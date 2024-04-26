@@ -255,6 +255,9 @@
             </DataTemplate>
 
             <!-- TextStyle -->
+            <DataTemplate DataType="{x:Type local:StswDropArrowContext}">
+                <local:StswDropArrowView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswHeaderContext}">
                 <local:StswHeaderView/>
             </DataTemplate>
