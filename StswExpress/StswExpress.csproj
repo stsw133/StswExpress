@@ -22,6 +22,7 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
+    <Copyright>© 2024 Karol Staszewski. All rights reserved.</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
