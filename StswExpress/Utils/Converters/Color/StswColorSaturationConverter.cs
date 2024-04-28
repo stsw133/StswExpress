@@ -41,6 +41,7 @@ public class StswColorSaturationConverter : MarkupExtension, IValueConverter
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 0;
+        pmrVal = 100 - pmrVal;
 
         /// calculate new color
         double r = color.R, g = color.G, b = color.B;

@@ -1,12 +1,53 @@
-# **0.6.2**  
+# **0.7.0**
+2024-04-28
+
+### New functionality:
+
+* New controls: **StswChartColumns**, **StswGrid** (auto column and row definitions), **StswSpinner** (replaces **StswLoadingCircle** and allows to choose different animations).
+* **StswScrollViewer** has some new functions. First is new property "AutoScroll" that allows to automatically scroll content to bottom if scroll was at bottom and new items were added. Second is possibility to prepare a command that will trigger when scroll move to bottom that can be used for example to make infinite scroll for data grid starting with small number of rows.
+* **StswNotifyIcon** has new static method to display system notifications.
+* **StswToolTip** has new property named "IsMoveable" that allows it to move together with mouse cursor.
+* New converter: **StswColorAdvancedConverter** that merges 3 other converters for alpha, brightness and saturation of color.
+* New function: **GenerateColor** (allows to generate color from any text).
+
+### Changed functionality:
+
+* **StswScrollViewer**'s and **StswPopup**'s config in other controls can be controlled by attached properties now.
+* **StswComboBox** uses VirtualizingStackPanel now and also can contain filter inside popup when "IsFilterEnabled" property is set to true.
+* **StswMessageDialog** template has been improved. One new message type has been added named "Blockade". Message type "Question" has slightly different color now.
+* **StswDropArrow** is no longer hidden from designer and has additional properties similar to **StswIcon**. Property "IsDropDownOpen" renamed into "IsExpanded".
+* **StswDropButton** and **StswSplitButton** both have new property named "AutoClose" that allows to close popup after clicking any button inside.
+* **StswFilePicker** has new property named "IsFileSizeVisible" that allows it to display file size.
+* Stsw chart controls have been improved.
+* **StswHyperlinkButton** has been improved.
+* **StswRatingControl** has been improved and now supports key shortcuts.
+* **StswDataGrid**'s special column template has been improved.
+* Stsw collection controls no longer need to have specified "DisplayMemberPath" and "SelectedValuePath" properties as long as ItemsSource uses **StswComboItem** as its item class.
+* **StswSidePanel**'s property "ExpandMode" has been divided into two properties: "IsAlwaysVisible" and "IsCollapsed".
+* **StswNotifyIcon** has new property "IsAlwaysVisible" that allows to keep icon even if window is not hidden.
+* **StswImage** uses **StswBorder** so it can be clipped now.
+* Stsw subcontrols inside box controls can be now docked to any side, not only to right.
+* Stsw box controls have default vertical alignment "Top" instead of "Stretch". **StswGroupBox** has default vertical alignment "Stretch" instead of "Top".
+* **StswApp** has overridable method named "OnThemeChanged" to simplify a little setting custom theme brushes.
+* Attached properties named "IsBorderless" and "IsArrowless" have been moved to **StswControl** class.
+* Dark theme is a little lighter again. Brush colors for Stsw navigation controls have been a little desaturated.
+
+### Bugfixes:
+
+* Settings like **interface size**, **language**, **theme** will be remembered by library.
+* **StswRatingControl** properly supports directions other than "Right".
+* **StswInfoPanel** has pixel scroll unit virtualization by default now.
+* **RadioConverter** renamed into **StswRadioConverter**.
+* Extensions **PadLeft** and **PadRight** work properly now.
+
+# **0.6.2**
 2024-03-14
 
 ### Bugfixes:
 
 * **ConvertTo** extension now will work with nullable enums.
 
-
-# **0.6.1**  
+# **0.6.1**
 2024-03-05
 
 ### New functionality:
@@ -24,7 +65,7 @@
 
 * **StswBindingList** can be sorted now (for example in **StswDataGrid** when clicked on column).
 
-# **0.6.0**  
+# **0.6.0**
 2024-03-02
 
 ### New functionality:
