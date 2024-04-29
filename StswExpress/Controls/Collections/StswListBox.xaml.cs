@@ -33,7 +33,7 @@ public class StswListBox : ListBox, IStswCornerControl
             /// StswComboItem short usage
             if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
             {
-                if (string.IsNullOrEmpty(DisplayMemberPath))
+                if (string.IsNullOrEmpty(DisplayMemberPath) && ItemTemplate == null)
                     DisplayMemberPath = nameof(StswComboItem.Display);
                 if (string.IsNullOrEmpty(SelectedValuePath))
                     SelectedValuePath = nameof(StswComboItem.Value);

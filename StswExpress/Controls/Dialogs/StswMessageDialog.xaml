@@ -83,6 +83,9 @@
                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                                             Text="{TemplateBinding Content}"
                                             TextWrapping="Wrap"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
                                             VerticalContentAlignment="Top"/>
                         </DockPanel>
                     </se:StswGroupBox>

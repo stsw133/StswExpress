@@ -1,3 +1,10 @@
+# **0.7.1**
+2024-04-29
+
+### Bugfixes:
+* Stsw collection items no longer set "DisplayMemberPath" if items source type is assignable to **StswComboItem** but item template is not null.
+* **StswMessageDialog** has properly stretched text box.
+
 # **0.7.0**
 2024-04-28
 
