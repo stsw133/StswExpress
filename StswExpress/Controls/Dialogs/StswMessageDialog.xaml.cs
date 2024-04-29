@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -21,6 +22,35 @@ public class StswMessageDialog : Control, IStswCornerControl
     }
 
     #region Events & methods
+    private ButtonBase? _buttonCopyToClipboard;
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        /// Button: copy to clipboard
+        if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase buttonCopyToClipboard)
+        {
+            _buttonCopyToClipboard = buttonCopyToClipboard;
+            _buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText(Content);
+        if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
+            stsw.IsChecked = true;
+    }
+
     /// <summary>
     /// 
     /// </summary>

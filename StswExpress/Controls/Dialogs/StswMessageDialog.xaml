@@ -38,10 +38,20 @@
                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <se:StswGroupBox.Header>
-                            <se:StswHeader x:Name="PART_Header"
-                                           Content="{TemplateBinding Title}"
-                                           FontSize="{se:StswDynamicResource StswWindow.Font.Size, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.2}"
-                                           FontWeight="Medium"/>
+                            <DockPanel>
+                                <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" DockPanel.Dock="Right" Margin="3">
+                                    <se:StswTimedSwitch>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=PART_Header}" Scale="1.25"/>
+                                        <se:StswTimedSwitch.TimedContent>
+                                            <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=PART_Header}" Scale="1.25"/>
+                                        </se:StswTimedSwitch.TimedContent>
+                                    </se:StswTimedSwitch>
+                                </se:StswSubButton>
+                                <se:StswHeader x:Name="PART_Header"
+                                               Content="{TemplateBinding Title}"
+                                               FontSize="{se:StswDynamicResource StswWindow.Font.Size, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.2}"
+                                               FontWeight="Medium"/>
+                            </DockPanel>
                         </se:StswGroupBox.Header>
                         <DockPanel Background="{DynamicResource StswPanel.Static.Background}">
                             <!-- buttons -->

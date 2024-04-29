@@ -7,7 +7,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
     <Company></Company>
     <Authors>Karol Staszewski, Hubert Rogowski</Authors>
-    <Version>0.7.1</Version>
+    <Version>0.8.0</Version>
     <RepositoryUrl>https://github.com/stsw133/StswExpress</RepositoryUrl>
     <RepositoryType></RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -22,7 +22,7 @@
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
-    <Copyright>© 2024 Karol Staszewski. All rights reserved.</Copyright>
+    <Copyright>© 2024 Karol Staszewski</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
