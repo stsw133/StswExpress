@@ -17,50 +17,50 @@ public class StswFilePickerContext : ControlsContext
     }
 
     /// IsFileSizeVisible
-    private bool isFileSizeVisible;
     public bool IsFileSizeVisible
     {
-        get => isFileSizeVisible;
-        set => SetProperty(ref isFileSizeVisible, value);
+        get => _isFileSizeVisible;
+        set => SetProperty(ref _isFileSizeVisible, value);
     }
+    private bool _isFileSizeVisible;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
     
     /// IsShiftingEnabled
-    private bool isShiftingEnabled;
     public bool IsShiftingEnabled
     {
-        get => isShiftingEnabled;
-        set => SetProperty(ref isShiftingEnabled, value);
+        get => _isShiftingEnabled;
+        set => SetProperty(ref _isShiftingEnabled, value);
     }
+    private bool _isShiftingEnabled;
 
     /// PathType
-    private StswPathType? pathType;
     public StswPathType? PathType
     {
-        get => pathType;
-        set => SetProperty(ref pathType, value);
+        get => _pathType;
+        set => SetProperty(ref _pathType, value);
     }
+    private StswPathType? _pathType;
 
     /// SelectedPath
-    private string? selectedPath;
     public string? SelectedPath
     {
-        get => selectedPath;
-        set => SetProperty(ref selectedPath, value);
+        get => _selectedPath;
+        set => SetProperty(ref _selectedPath, value);
     }
+    private string? _selectedPath;
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 }

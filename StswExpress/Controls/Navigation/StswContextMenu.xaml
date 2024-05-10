@@ -2,14 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <CornerRadius x:Key="StswMenu.CornerRadius.Border">5</CornerRadius>
-
-    <Style x:Key="StswContextMenu" TargetType="{x:Type ContextMenu}">
+    <Style x:Key="StswContextMenuStyle" TargetType="{x:Type ContextMenu}">
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
@@ -19,7 +17,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
@@ -29,14 +27,17 @@
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </Grid.LayoutTransform>
 
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{DynamicResource StswMenu.CornerRadius.Border}"
-                                Padding="{TemplateBinding Padding}">
-                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                        </Border>
+                        <se:StswBorder x:Name="Border"
+                                       Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerClipping="True"
+                                       CornerRadius="5"
+                                       Padding="{TemplateBinding Padding}">
+                            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                            </se:StswDirectionViewer>
+                        </se:StswBorder>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

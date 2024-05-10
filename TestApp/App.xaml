@@ -199,6 +199,9 @@
             </DataTemplate>
             
             <!-- Navigation -->
+            <DataTemplate DataType="{x:Type local:StswMenuContext}">
+                <local:StswMenuView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswNavigationContext}">
                 <local:StswNavigationView/>
             </DataTemplate>

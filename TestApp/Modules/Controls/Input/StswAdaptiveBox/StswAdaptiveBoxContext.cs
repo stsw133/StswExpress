@@ -17,42 +17,42 @@ public class StswAdaptiveBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// ItemsSource
-    private List<StswSelectionItem> itemsSource = new() { new() { Value = "test1" }, new() { Value = "test2" } };
     public List<StswSelectionItem> ItemsSource
     {
-        get => itemsSource;
-        set => SetProperty(ref itemsSource, value);
+        get => _itemsSource;
+        set => SetProperty(ref _itemsSource, value);
     }
+    private List<StswSelectionItem> _itemsSource = new() { new() { Value = "test1" }, new() { Value = "test2" } };
 
     /// SelectedValue
-    private object? selectedValue = string.Empty;
     public object? SelectedValue
     {
-        get => selectedValue;
-        set => SetProperty(ref selectedValue, value);
+        get => _selectedValue;
+        set => SetProperty(ref _selectedValue, value);
     }
+    private object? _selectedValue = string.Empty;
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 
     /// Type
-    private StswAdaptiveType? type;
     public StswAdaptiveType? Type
     {
-        get => type;
-        set => SetProperty(ref type, value);
+        get => _type;
+        set => SetProperty(ref _type, value);
     }
+    private StswAdaptiveType? _type;
 }

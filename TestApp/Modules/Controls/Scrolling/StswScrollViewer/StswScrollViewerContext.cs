@@ -16,34 +16,34 @@ public class StswScrollViewerContext : ControlsContext
     }
 
     /// IsBusy
-    private bool isBusy;
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
+    private bool _isBusy;
     
     /// IsDynamic
-    private bool isDynamic;
     public bool IsDynamic
     {
-        get => isDynamic;
-        set => SetProperty(ref isDynamic, value);
+        get => _isDynamic;
+        set => SetProperty(ref _isDynamic, value);
     }
+    private bool _isDynamic;
 
     /// HorizontalScrollBarVisibility
-    private ScrollBarVisibility horizontalScrollBarVisibility;
     public ScrollBarVisibility HorizontalScrollBarVisibility
     {
-        get => horizontalScrollBarVisibility;
-        set => SetProperty(ref horizontalScrollBarVisibility, value);
+        get => _horizontalScrollBarVisibility;
+        set => SetProperty(ref _horizontalScrollBarVisibility, value);
     }
+    private ScrollBarVisibility _horizontalScrollBarVisibility;
 
     /// VerticalScrollBarVisibility
-    private ScrollBarVisibility verticalScrollBarVisibility;
     public ScrollBarVisibility VerticalScrollBarVisibility
     {
-        get => verticalScrollBarVisibility;
-        set => SetProperty(ref verticalScrollBarVisibility, value);
+        get => _verticalScrollBarVisibility;
+        set => SetProperty(ref _verticalScrollBarVisibility, value);
     }
+    private ScrollBarVisibility _verticalScrollBarVisibility;
 }

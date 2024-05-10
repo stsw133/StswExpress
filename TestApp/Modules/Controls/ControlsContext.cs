@@ -60,10 +60,10 @@ public class ControlsContext : StswObservableObject
     };
     public HorizontalAlignment HorizontalAlignment
     {
-        get => horizontalAlignment;
-        set => SetProperty(ref horizontalAlignment, value);
+        get => _horizontalAlignment;
+        set => SetProperty(ref _horizontalAlignment, value);
     }
-    private HorizontalAlignment horizontalAlignment;
+    private HorizontalAlignment _horizontalAlignment;
 
     /// HorizontalContentAlignment
     public ObservableCollection<StswComboItem> HorizontalContentAlignmentSelector { get; set; } = new()
@@ -75,10 +75,10 @@ public class ControlsContext : StswObservableObject
     };
     public HorizontalAlignment HorizontalContentAlignment
     {
-        get => horizontalContentAlignment;
-        set => SetProperty(ref horizontalContentAlignment, value);
+        get => _horizontalContentAlignment;
+        set => SetProperty(ref _horizontalContentAlignment, value);
     }
-    private HorizontalAlignment horizontalContentAlignment;
+    private HorizontalAlignment _horizontalContentAlignment;
 
     /// VerticalAlignment
     public ObservableCollection<StswComboItem> VerticalAlignmentSelector { get; set; } = new()
@@ -90,10 +90,10 @@ public class ControlsContext : StswObservableObject
     };
     public VerticalAlignment VerticalAlignment
     {
-        get => verticalAlignment;
-        set => SetProperty(ref verticalAlignment, value);
+        get => _verticalAlignment;
+        set => SetProperty(ref _verticalAlignment, value);
     }
-    private VerticalAlignment verticalAlignment;
+    private VerticalAlignment _verticalAlignment;
 
     /// VerticalContentAlignment
     public ObservableCollection<StswComboItem> VerticalContentAlignmentSelector { get; set; } = new()
@@ -105,17 +105,17 @@ public class ControlsContext : StswObservableObject
     };
     public VerticalAlignment VerticalContentAlignment
     {
-        get => verticalContentAlignment;
-        set => SetProperty(ref verticalContentAlignment, value);
+        get => _verticalContentAlignment;
+        set => SetProperty(ref _verticalContentAlignment, value);
     }
-    private VerticalAlignment verticalContentAlignment;
+    private VerticalAlignment _verticalContentAlignment;
 
     /// IsEnabled
-    private bool isEnabled = true;
     public bool IsEnabled
     {
-        get => isEnabled;
-        set => SetProperty(ref isEnabled, value);
+        get => _isEnabled;
+        set => SetProperty(ref _isEnabled, value);
     }
+    private bool _isEnabled = true;
     #endregion
 }

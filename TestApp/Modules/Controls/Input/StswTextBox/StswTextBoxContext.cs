@@ -16,26 +16,26 @@ public class StswTextBoxContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 
     /// Text
-    private string text = string.Empty;
     public string Text
     {
-        get => text;
-        set => SetProperty(ref text, value);
+        get => _text;
+        set => SetProperty(ref _text, value);
     }
+    private string _text = string.Empty;
 }

@@ -8,21 +8,20 @@ namespace TestApp;
 public class StswMediaPlayerContext : ControlsContext
 {
     /// ItemsSource
-    private List<string> itemsSource = new();
     public List<string> ItemsSource
     {
-        get => itemsSource;
-        set => SetProperty(ref itemsSource, value);
+        get => _itemsSource;
+        set => SetProperty(ref _itemsSource, value);
     }
+    private List<string> _itemsSource = new();
 
     /// SelectedPath
-    private string? selectedPath;
     public string? SelectedPath
     {
-        get => selectedPath;
+        get => _selectedPath;
         set
         {
-            SetProperty(ref selectedPath, value);
+            SetProperty(ref _selectedPath, value);
             if (value != null)
             {
                 ItemsSource = Directory.GetFiles(Directory.GetParent(value)!.FullName).ToList();
@@ -30,12 +29,13 @@ public class StswMediaPlayerContext : ControlsContext
             }
         }
     }
+    private string? _selectedPath;
 
     /// Source
-    private Uri? source;
     public Uri? Source
     {
-        get => source;
-        set => SetProperty(ref source, value);
+        get => _source;
+        set => SetProperty(ref _source, value);
     }
+    private Uri? _source;
 }

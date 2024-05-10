@@ -20,48 +20,48 @@ public class StswListBoxContext : ControlsContext
     }
 
     /// Items
-    private BindingList<StswListBoxTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
     public BindingList<StswListBoxTestModel> Items
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => _items;
+        set => SetProperty(ref _items, value);
     }
+    private BindingList<StswListBoxTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
 
     /// SelectionMode
-    private SelectionMode selectionMode;
     public SelectionMode SelectionMode
     {
-        get => selectionMode;
-        set => SetProperty(ref selectionMode, value);
+        get => _selectionMode;
+        set => SetProperty(ref _selectionMode, value);
     }
+    private SelectionMode _selectionMode;
 }
 
 public class StswListBoxTestModel : StswObservableObject, IStswSelectionItem
 {
     /// ID
-    private int id;
     public int ID
     {
-        get => id;
-        set => SetProperty(ref id, value);
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+    private int _id;
 
     /// Name
-    private string? name;
     public string? Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
+    private string? _name;
 
     /// IsSelected
-    private bool isSelected;
     public bool IsSelected
     {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
     }
+    private bool _isSelected;
 }

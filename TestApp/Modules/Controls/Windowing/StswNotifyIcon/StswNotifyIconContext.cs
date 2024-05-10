@@ -39,18 +39,18 @@ public class StswNotifyIconContext : ControlsContext
     #endregion
 
     /// IsAlwaysVisible
-    private bool isAlwaysVisible;
     public bool IsAlwaysVisible
     {
-        get => isAlwaysVisible;
-        set => SetProperty(ref isAlwaysVisible, value);
+        get => _isAlwaysVisible;
+        set => SetProperty(ref _isAlwaysVisible, value);
     }
+    private bool _isAlwaysVisible;
 
     /// Tip
-    private StswNotifyIconTipModel? tip;
     public StswNotifyIconTipModel? Tip
     {
-        get => tip;
-        set => SetProperty(ref tip, value);
+        get => _tip;
+        set => SetProperty(ref _tip, value);
     }
+    private StswNotifyIconTipModel? _tip;
 }

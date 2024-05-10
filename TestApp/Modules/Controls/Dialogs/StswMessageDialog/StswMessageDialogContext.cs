@@ -30,26 +30,26 @@ public class StswMessageDialogContext : ControlsContext
     #endregion
 
     /// MessageDialogButtons
-    private StswDialogButtons messageDialogButtons;
     public StswDialogButtons MessageDialogButtons
     {
-        get => messageDialogButtons;
-        set => SetProperty(ref messageDialogButtons, value);
+        get => _messageDialogButtons;
+        set => SetProperty(ref _messageDialogButtons, value);
     }
+    private StswDialogButtons _messageDialogButtons;
 
     /// MessageDialogImage
-    private StswDialogImage messageDialogImage;
     public StswDialogImage MessageDialogImage
     {
-        get => messageDialogImage;
-        set => SetProperty(ref messageDialogImage, value);
+        get => _messageDialogImage;
+        set => SetProperty(ref _messageDialogImage, value);
     }
+    private StswDialogImage _messageDialogImage;
 
     /// MessageDialogResult
-    private string? messageDialogResult;
     public string? MessageDialogResult
     {
-        get => messageDialogResult;
-        set => SetProperty(ref messageDialogResult, value);
+        get => _messageDialogResult;
+        set => SetProperty(ref _messageDialogResult, value);
     }
+    private string? _messageDialogResult;
 }

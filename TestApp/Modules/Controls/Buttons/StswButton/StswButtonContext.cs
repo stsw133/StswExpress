@@ -14,18 +14,18 @@ public class StswButtonContext : ControlsContext
     }
 
     /// ClickCounter
-    private int clickCounter;
     public int ClickCounter
     {
-        get => clickCounter;
-        set => SetProperty(ref clickCounter, value);
+        get => _clickCounter;
+        set => SetProperty(ref _clickCounter, value);
     }
+    private int _clickCounter;
 
     /// IsDefault
-    private bool isDefault;
     public bool IsDefault
     {
-        get => isDefault;
-        set => SetProperty(ref isDefault, value);
+        get => _isDefault;
+        set => SetProperty(ref _isDefault, value);
     }
+    private bool _isDefault;
 }

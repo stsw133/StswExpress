@@ -12,16 +12,16 @@ public class StswTreeViewContext : ControlsContext
     }
 
     /// Items
-    private BindingList<StswTreeViewTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswTreeViewTestModel
+    public BindingList<StswTreeViewTestModel> Items
+    {
+        get => _items;
+        set => SetProperty(ref _items, value);
+    }
+    private BindingList<StswTreeViewTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswTreeViewTestModel
     {
         Name = "Option " + i,
         SubItems = new(Enumerable.Range(97, 5).Select(j => new StswTreeViewTestModel { Name = "Option " + i + (char)j, IsSelected = new Random().Next(2) == 0 } ).ToList())
     }).ToList());
-    public BindingList<StswTreeViewTestModel> Items
-    {
-        get => items;
-        set => SetProperty(ref items, value);
-    }
 
     /// SelectedItem
     public object? SelectedItem => Items.AsEnumerable().FirstOrDefault(x => x.IsSelected)?.Name ?? "none or one of sub-items";
@@ -31,34 +31,34 @@ public class StswTreeViewContext : ControlsContext
 public class StswTreeViewTestModel : StswObservableObject, IStswSelectionItem
 {
     /// ID
-    private int id;
     public int ID
     {
-        get => id;
-        set => SetProperty(ref id, value);
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+    private int _id;
 
     /// Name
-    private string? name;
     public string? Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
+    private string? _name;
 
     /// SubItems
-    private BindingList<StswTreeViewTestModel>? subItems;
     public BindingList<StswTreeViewTestModel>? SubItems
     {
-        get => subItems;
-        set => SetProperty(ref subItems, value);
+        get => _subItems;
+        set => SetProperty(ref _subItems, value);
     }
+    private BindingList<StswTreeViewTestModel>? _subItems;
 
     /// IsSelected
-    private bool isSelected;
     public bool IsSelected
     {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
     }
+    private bool _isSelected;
 }

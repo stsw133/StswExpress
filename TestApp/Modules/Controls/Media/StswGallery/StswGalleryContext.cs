@@ -27,13 +27,12 @@ public class StswGalleryContext : ControlsContext
     #endregion
 
     /// DirectoryPath
-    private string? directoryPath;
     public string? DirectoryPath
     {
-        get => directoryPath;
+        get => _directoryPath;
         set
         {
-            SetProperty(ref directoryPath, value);
+            SetProperty(ref _directoryPath, value);
 
             if (value != null)
                 ItemsSource = Directory.GetFiles(value).ToList();
@@ -41,20 +40,21 @@ public class StswGalleryContext : ControlsContext
                 ItemsSource = new();
         }
     }
+    private string? _directoryPath;
 
     /// ItemsSource
-    private List<string> itemsSource = new();
     public List<string> ItemsSource
     {
-        get => itemsSource;
-        set => SetProperty(ref itemsSource, value);
+        get => _itemsSource;
+        set => SetProperty(ref _itemsSource, value);
     }
+    private List<string> _itemsSource = new();
 
     /// Orientation
-    private Orientation orientation;
     public Orientation Orientation
     {
-        get => orientation;
-        set => SetProperty(ref orientation, value);
+        get => _orientation;
+        set => SetProperty(ref _orientation, value);
     }
+    private Orientation _orientation;
 }

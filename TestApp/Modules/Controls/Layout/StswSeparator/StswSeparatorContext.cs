@@ -13,10 +13,10 @@ public class StswSeparatorContext : ControlsContext
     }
 
     /// Orientation
-    private Orientation orientation;
     public Orientation Orientation
     {
-        get => orientation;
-        set => SetProperty(ref orientation, value);
+        get => _orientation;
+        set => SetProperty(ref _orientation, value);
     }
+    private Orientation _orientation;
 }

@@ -14,18 +14,18 @@ public class StswDirectionViewerContext : ControlsContext
     }
 
     /// HorizontalScrollBarVisibility
-    private ScrollBarVisibility horizontalScrollBarVisibility;
     public ScrollBarVisibility HorizontalScrollBarVisibility
     {
-        get => horizontalScrollBarVisibility;
-        set => SetProperty(ref horizontalScrollBarVisibility, value);
+        get => _horizontalScrollBarVisibility;
+        set => SetProperty(ref _horizontalScrollBarVisibility, value);
     }
+    private ScrollBarVisibility _horizontalScrollBarVisibility;
 
     /// VerticalScrollBarVisibility
-    private ScrollBarVisibility verticalScrollBarVisibility;
     public ScrollBarVisibility VerticalScrollBarVisibility
     {
-        get => verticalScrollBarVisibility;
-        set => SetProperty(ref verticalScrollBarVisibility, value);
+        get => _verticalScrollBarVisibility;
+        set => SetProperty(ref _verticalScrollBarVisibility, value);
     }
+    private ScrollBarVisibility _verticalScrollBarVisibility;
 }

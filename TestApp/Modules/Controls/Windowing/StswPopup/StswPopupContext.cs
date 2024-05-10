@@ -3,10 +3,10 @@
 public class StswPopupContext : ControlsContext
 {
     /// IsOpen
-    private bool isOpen = false;
     public bool IsOpen
     {
-        get => isOpen;
-        set => SetProperty(ref isOpen, value);
+        get => _isOpen;
+        set => SetProperty(ref _isOpen, value);
     }
+    private bool _isOpen = false;
 }

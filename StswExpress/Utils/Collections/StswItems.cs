@@ -12,20 +12,20 @@ public class StswComboItem : StswObservableObject
     /// </summary>
     public object? Display
     {
-        get => display;
-        set => SetProperty(ref display, value);
+        get => _display;
+        set => SetProperty(ref _display, value);
     }
-    private object? display;
+    private object? _display;
 
     /// <summary>
     /// Gets or sets the value associated with the item.
     /// </summary>
     public object? Value
     {
-        get => value;
-        set => SetProperty(ref this.value, value);
+        get => _value;
+        set => SetProperty(ref _value, value);
     }
-    private object? value;
+    private object? _value;
 }
 
 /// <summary>
@@ -49,10 +49,10 @@ public class StswSelectionItem : StswComboItem, IStswSelectionItem
     /// </summary>
     public bool IsSelected
     {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
     }
-    private bool isSelected;
+    private bool _isSelected;
 }
 
 /// <summary>

@@ -3,18 +3,18 @@
 public class ContractorsSingleContext : StswObservableObject
 {
     /// ID
-    private int? id = new();
     public int? ID
     {
-        get => id;
-        set => SetProperty(ref id, value);
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+    private int? _id = new();
 
     /// IsCloned
-    private bool isCloned = new();
     public bool IsCloned
     {
-        get => isCloned;
-        set => SetProperty(ref isCloned, value);
+        get => _isCloned;
+        set => SetProperty(ref _isCloned, value);
     }
+    private bool _isCloned = new();
 }

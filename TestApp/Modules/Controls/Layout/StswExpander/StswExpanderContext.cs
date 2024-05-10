@@ -13,10 +13,10 @@ public class StswExpanderContext : ControlsContext
     }
 
     /// ExpandDirection
-    private ExpandDirection expandDirection;
     public ExpandDirection ExpandDirection
     {
-        get => expandDirection;
-        set => SetProperty(ref expandDirection, value);
+        get => _expandDirection;
+        set => SetProperty(ref _expandDirection, value);
     }
+    private ExpandDirection _expandDirection;
 }

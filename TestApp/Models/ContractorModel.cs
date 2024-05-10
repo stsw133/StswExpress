@@ -10,125 +10,125 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     [StswExport(nameof(ID))]
     public int ID
     {
-        get => id;
-        set => SetProperty(ref id, value);
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
-    private int id;
+    private int _id;
 
     /// Type
     [StswExport(nameof(Type))]
     public ContractorType Type
     {
-        get => type;
-        set => SetProperty(ref type, value);
+        get => _type;
+        set => SetProperty(ref _type, value);
     }
-    private ContractorType type;
+    private ContractorType _type;
 
     /// Icon
     public byte[]? Icon
     {
-        get => icon;
+        get => _icon;
         set
         {
-            SetProperty(ref icon, value);
+            SetProperty(ref _icon, value);
             if (value != null)
                 IconSource = value.ToBitmapImage();
         }
     }
-    private byte[]? icon;
+    private byte[]? _icon;
 
     /// IconSource
     public ImageSource? IconSource
     {
-        get => iconSource;
-        set => SetProperty(ref iconSource, value);
+        get => _iconSource;
+        set => SetProperty(ref _iconSource, value);
     }
-    private ImageSource? iconSource;
+    private ImageSource? _iconSource;
 
     /// Name
     [StswExport(nameof(Name))]
     public string? Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
-    private string? name;
+    private string? _name;
 
     /// Country
     [StswExport(nameof(Country))]
     public string? Country
     {
-        get => country;
-        set => SetProperty(ref country, value);
+        get => _country;
+        set => SetProperty(ref _country, value);
     }
-    private string? country;
+    private string? _country;
 
     /// PostCode
     [StswExport("Post code")]
     public string? PostCode
     {
-        get => postCode;
-        set => SetProperty(ref postCode, value);
+        get => _postCode;
+        set => SetProperty(ref _postCode, value);
     }
-    private string? postCode;
+    private string? _postCode;
 
     /// City
     [StswExport(nameof(City))]
     public string? City
     {
-        get => city;
-        set => SetProperty(ref city, value);
+        get => _city;
+        set => SetProperty(ref _city, value);
     }
-    private string? city;
+    private string? _city;
 
     /// Street
     [StswExport(nameof(Street))]
     public string? Street
     {
-        get => street;
-        set => SetProperty(ref street, value);
+        get => _street;
+        set => SetProperty(ref _street, value);
     }
-    private string? street;
+    private string? _street;
 
     /// IsArchival
     [StswExport("Is archival")]
     public bool IsArchival
     {
-        get => isArchival;
-        set => SetProperty(ref isArchival, value);
+        get => _isArchival;
+        set => SetProperty(ref _isArchival, value);
     }
-    private bool isArchival;
+    private bool _isArchival;
 
     /// CreateDT
     [StswExport("Date of creation", "yyyy-MM-dd")]
     public DateTime CreateDT
     {
-        get => createDT;
-        set => SetProperty(ref createDT, value);
+        get => _createDT;
+        set => SetProperty(ref _createDT, value);
     }
-    private DateTime createDT = DateTime.Now;
+    private DateTime _createDT = DateTime.Now;
 
     /// ItemMessage
     public string? ItemMessage
     {
-        get => itemMessage;
-        set => SetProperty(ref itemMessage, value);
+        get => _itemMessage;
+        set => SetProperty(ref _itemMessage, value);
     }
-    private string? itemMessage;
+    private string? _itemMessage;
 
     /// ItemState
     public StswItemState ItemState
     {
-        get => itemState;
-        set => SetProperty(ref itemState, value);
+        get => _itemState;
+        set => SetProperty(ref _itemState, value);
     }
-    private StswItemState itemState;
+    private StswItemState _itemState;
 
     /// ShowDetails
     public bool? ShowDetails
     {
-        get => showDetails;
-        set => SetProperty(ref showDetails, value);
+        get => _showDetails;
+        set => SetProperty(ref _showDetails, value);
     }
-    private bool? showDetails = false;
+    private bool? _showDetails = false;
 }

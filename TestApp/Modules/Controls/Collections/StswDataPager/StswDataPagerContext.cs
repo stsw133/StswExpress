@@ -13,26 +13,26 @@ public class StswDataPagerContext : ControlsContext
     }
 
     /// Items
-    private StswBindingList<StswDataGridTestModel> items = new(Enumerable.Range(1, 1000).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }).ToList());
     public StswBindingList<StswDataGridTestModel> Items
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => _items;
+        set => SetProperty(ref _items, value);
     }
+    private StswBindingList<StswDataGridTestModel> _items = new(Enumerable.Range(1, 1000).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }).ToList());
 
     /// ItemsOnPage
-    private IList? itemsOnPage;
     public IList? ItemsOnPage
     {
-        get => itemsOnPage;
-        set => SetProperty(ref itemsOnPage, value);
+        get => _itemsOnPage;
+        set => SetProperty(ref _itemsOnPage, value);
     }
+    private IList? _itemsOnPage;
 
     /// ItemsPerPage
-    private int itemsPerPage;
     public int ItemsPerPage
     {
-        get => itemsPerPage;
-        set => SetProperty(ref itemsPerPage, value);
+        get => _itemsPerPage;
+        set => SetProperty(ref _itemsPerPage, value);
     }
+    private int _itemsPerPage;
 }

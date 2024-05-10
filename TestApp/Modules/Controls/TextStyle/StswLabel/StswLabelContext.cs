@@ -12,10 +12,10 @@ public class StswLabelContext : ControlsContext
     }
 
     /// IsTruncationAllowed
-    private bool isTruncationAllowed;
     public bool IsTruncationAllowed
     {
-        get => isTruncationAllowed;
-        set => SetProperty(ref isTruncationAllowed, value);
+        get => _isTruncationAllowed;
+        set => SetProperty(ref _isTruncationAllowed, value);
     }
+    private bool _isTruncationAllowed;
 }

@@ -32,70 +32,72 @@ public class StswFilterBoxContext : ControlsContext
     #endregion
 
     /// FilterMenuMode
-    private StswMenuMode filterMenuMode;
     public StswMenuMode FilterMenuMode
     {
-        get => filterMenuMode;
-        set => SetProperty(ref filterMenuMode, value);
+        get => _filterMenuMode;
+        set => SetProperty(ref _filterMenuMode, value);
     }
+    private StswMenuMode _filterMenuMode;
 
     /// FilterType
-    private StswAdaptiveType filterType;
     public StswAdaptiveType FilterType
     {
-        get => filterType;
-        set => SetProperty(ref filterType, value);
+        get => _filterType;
+        set => SetProperty(ref _filterType, value);
     }
+    private StswAdaptiveType _filterType;
 
     /// IsFilterCaseSensitive
-    private bool isFilterCaseSensitive;
     public bool IsFilterCaseSensitive
     {
-        get => isFilterCaseSensitive;
-        set => SetProperty(ref isFilterCaseSensitive, value);
+        get => _isFilterCaseSensitive;
+        set => SetProperty(ref _isFilterCaseSensitive, value);
     }
+    private bool _isFilterCaseSensitive;
 
     /// IsFilterNullSensitive
-    private bool isFilterNullSensitive;
     public bool IsFilterNullSensitive
     {
-        get => isFilterNullSensitive;
-        set => SetProperty(ref isFilterNullSensitive, value);
+        get => _isFilterNullSensitive;
+        set => SetProperty(ref _isFilterNullSensitive, value);
     }
+    private bool _isFilterNullSensitive;
 
     /// SqlParam
-    private string sqlParam1 = string.Empty;
     public string SqlParam1
     {
-        get => sqlParam1;
-        set => SetProperty(ref sqlParam1, value);
+        get => _sqlParam1;
+        set => SetProperty(ref _sqlParam1, value);
     }
-    private string sqlParam2 = string.Empty;
+    private string _sqlParam1 = string.Empty;
+
     public string SqlParam2
     {
-        get => sqlParam2;
-        set => SetProperty(ref sqlParam2, value);
+        get => _sqlParam2;
+        set => SetProperty(ref _sqlParam2, value);
     }
+    private string _sqlParam2 = string.Empty;
 
     /// SqlString
-    private string? sqlString = string.Empty;
     public string? SqlString
     {
-        get => sqlString;
-        set => SetProperty(ref sqlString, value);
+        get => _sqlString;
+        set => SetProperty(ref _sqlString, value);
     }
+    private string? _sqlString = string.Empty;
 
     /// Value
-    private object? value1;
     public object? Value1
     {
-        get => value1;
-        set => SetProperty(ref value1, value);
+        get => _value1;
+        set => SetProperty(ref _value1, value);
     }
-    private object? value2;
+    private object? _value1;
+
     public object? Value2
     {
-        get => value2;
-        set => SetProperty(ref value2, value);
+        get => _value2;
+        set => SetProperty(ref _value2, value);
     }
+    private object? _value2;
 }

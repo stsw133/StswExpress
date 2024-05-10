@@ -13,6 +13,17 @@ public enum StswAdaptiveType
 }
 
 /// <summary>
+/// Enumeration for <see cref="StswGrid.AutoLayoutMode"/>.
+/// </summary>
+public enum StswAutoLayoutMode
+{
+    None,
+    AutoDefinitions,
+    IncrementColumns,
+    IncrementRows
+}
+
+/// <summary>
 /// Enumeration for <see cref="StswCalendar.SelectionMode"/>.
 /// </summary>
 public enum StswCalendarMode
@@ -203,6 +214,15 @@ public enum StswProgressTextMode
     Percentage,
     Progress,
     Value
+}
+
+/// <summary>
+/// Enumerator for <see cref="StswPopup.ScrollType"/>.
+/// </summary>
+public enum StswScrollType
+{
+    DirectionViewer,
+    ScrollViewer
 }
 
 /// <summary>

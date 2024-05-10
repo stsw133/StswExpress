@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
-public class StswWindow : Window, IStswCornerControl
+public class StswWindow : Window, IStswCornerControl, INotifyPropertyChanged
 {
     public StswWindow()
     {
@@ -71,6 +72,8 @@ public class StswWindow : Window, IStswCornerControl
             _windowBar = windowBar;
         }
         StateChanged += (s, e) => UpdateChrome();
+
+        OnComponentsChanged(this, new DependencyPropertyChangedEventArgs());
     }
 
     /// <summary>
@@ -178,8 +181,26 @@ public class StswWindow : Window, IStswCornerControl
         = DependencyProperty.Register(
             nameof(Components),
             typeof(ObservableCollection<UIElement>),
-            typeof(StswWindow)
+            typeof(StswWindow),
+            new FrameworkPropertyMetadata(default(ObservableCollection<UIElement>),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnComponentsChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    public static void OnComponentsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswWindow stsw)
+        {
+            /// jury-rig for StswWindow -> StswWindowBar binding
+            if (stsw._windowBar != null)
+            {
+                var binding = new Binding(nameof(Components));
+                binding.Source = stsw;
+                stsw._windowBar.SetBinding(StswWindowBar.ComponentsProperty, binding);
+            }
+        }
+    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected virtual void NotifyPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.

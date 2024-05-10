@@ -34,8 +34,8 @@ public class StswMessageDialog : Control, IStswCornerControl
         /// Button: copy to clipboard
         if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase buttonCopyToClipboard)
         {
+            buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
             _buttonCopyToClipboard = buttonCopyToClipboard;
-            _buttonCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
         }
     }
 

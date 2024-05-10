@@ -51,10 +51,10 @@ public class StswAsyncCommand<T> : StswObservableObject, ICommand
     /// </summary>
     public bool IsBusy
     {
-        get => isBusy;
-        private set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        private set => SetProperty(ref _isBusy, value);
     }
-    private bool isBusy;
+    private bool _isBusy;
 
     /// <summary>
     /// 

@@ -159,13 +159,21 @@
     "en": "Cancel",
     "pl": "Anuluj"
   },
-  "StswMessageDialog.OK": {
-    "en": "OK",
-    "pl": "OK"
+  "StswMessageDialog.Copied": {
+    "en": "Copied",
+    "pl": "Skopiowano"
+  },
+  "StswMessageDialog.CopyToClipboard": {
+    "en": "Copy to clipboard",
+    "pl": "Kopiuj do schowka"
   },
   "StswMessageDialog.No": {
     "en": "No",
     "pl": "Nie"
+  },
+  "StswMessageDialog.OK": {
+    "en": "OK",
+    "pl": "OK"
   },
   "StswMessageDialog.Yes": {
     "en": "Yes",

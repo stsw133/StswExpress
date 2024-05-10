@@ -35,7 +35,7 @@
                         <Border.ContextMenu>
                             <ContextMenu x:Name="PART_Menu"
                                          DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                         Style="{DynamicResource StswContextMenu}">
+                                         Style="{DynamicResource StswContextMenuStyle}">
                                 <!-- cut -->
                                 <MenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}">
                                     <MenuItem.Icon>

@@ -16,15 +16,20 @@ public class StswTabControlContext : ControlsContext
     }
 
     /// AreTabsVisible
-    private bool areTabsVisible = true;
     public bool AreTabsVisible
     {
-        get => areTabsVisible;
-        set => SetProperty(ref areTabsVisible, value);
+        get => _areTabsVisible;
+        set => SetProperty(ref _areTabsVisible, value);
     }
+    private bool _areTabsVisible = true;
 
     /// Items
-    private ObservableCollection<StswTabItem> items = new()
+    public ObservableCollection<StswTabItem> Items
+    {
+        get => _items;
+        set => SetProperty(ref _items, value);
+    }
+    private ObservableCollection<StswTabItem> _items = new()
     {
         new()
         {
@@ -56,25 +61,20 @@ public class StswTabControlContext : ControlsContext
             IsClosable = true
         }
     };
-    public ObservableCollection<StswTabItem> Items
-    {
-        get => items;
-        set => SetProperty(ref items, value);
-    }
 
     /// NewTabButtonVisibility
-    private Visibility newTabButtonVisibility;
     public Visibility NewTabButtonVisibility
     {
-        get => newTabButtonVisibility;
-        set => SetProperty(ref newTabButtonVisibility, value);
+        get => _newTabButtonVisibility;
+        set => SetProperty(ref _newTabButtonVisibility, value);
     }
+    private Visibility _newTabButtonVisibility;
 
     /// TabStripPlacement
-    private Dock tabStripPlacement;
     public Dock TabStripPlacement
     {
-        get => tabStripPlacement;
-        set => SetProperty(ref tabStripPlacement, value);
+        get => _tabStripPlacement;
+        set => SetProperty(ref _tabStripPlacement, value);
     }
+    private Dock _tabStripPlacement;
 }

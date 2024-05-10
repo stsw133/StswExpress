@@ -714,7 +714,7 @@
                         </DataTemplate>
                     </ControlTemplate.Resources>
 
-                    <ContentControl x:Name="PART_ContentControl"/>
+                    <ContentControl x:Name="PART_ContentControl" Background="Transparent"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Type" Value="Circles">
                             <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="PART_ContentControl"/>

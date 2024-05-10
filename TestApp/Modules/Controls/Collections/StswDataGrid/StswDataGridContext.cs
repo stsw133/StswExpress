@@ -34,85 +34,85 @@ public class StswDataGridContext : ControlsContext
     #endregion
 
     /// IsBusy
-    private bool isBusy;
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
+    private bool _isBusy;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// Items
-    private StswBindingList<StswDataGridTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
     public StswBindingList<StswDataGridTestModel> Items
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => _items;
+        set => SetProperty(ref _items, value);
     }
+    private StswBindingList<StswDataGridTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswDataGridTestModel { ID = i, Name = "Row " + i, ShowDetails = i % 3 == 0 ? null : false }));
 
     /// SpecialColumnVisibility
-    private StswSpecialColumnVisibility specialColumnVisibility;
     public StswSpecialColumnVisibility SpecialColumnVisibility
     {
-        get => specialColumnVisibility;
-        set => SetProperty(ref specialColumnVisibility, value);
+        get => _specialColumnVisibility;
+        set => SetProperty(ref _specialColumnVisibility, value);
     }
+    private StswSpecialColumnVisibility _specialColumnVisibility;
 }
 
 public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, IStswSelectionItem
 {
     /// ID
-    private int id;
     public int ID
     {
-        get => id;
-        set => SetProperty(ref id, value);
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+    private int _id;
 
     /// Name
-    private string? name;
     public string? Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
+    private string? _name;
 
     /// ItemMessage
-    private string? itemMessage;
     public string? ItemMessage
     {
-        get => itemMessage;
-        set => SetProperty(ref itemMessage, value);
+        get => _itemMessage;
+        set => SetProperty(ref _itemMessage, value);
     }
+    private string? _itemMessage;
 
     /// ItemState
-    private StswItemState itemState;
     public StswItemState ItemState
     {
-        get => itemState;
-        set => SetProperty(ref itemState, value);
+        get => _itemState;
+        set => SetProperty(ref _itemState, value);
     }
+    private StswItemState _itemState;
 
     /// ShowDetails
-    private bool? showDetails;
     public bool? ShowDetails
     {
-        get => showDetails;
-        set => SetProperty(ref showDetails, value);
+        get => _showDetails;
+        set => SetProperty(ref _showDetails, value);
     }
+    private bool? _showDetails;
 
     /// IsSelected
-    private bool isSelected;
     public bool IsSelected
     {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
     }
+    private bool _isSelected;
 }

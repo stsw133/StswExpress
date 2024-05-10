@@ -22,6 +22,7 @@
                           IsOpen="{Binding IsOpen}"
                           MaxHeight="180"
                           Placement="MousePoint"
+                          ScrollType="ScrollViewer"
                           StaysOpen="False"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}">

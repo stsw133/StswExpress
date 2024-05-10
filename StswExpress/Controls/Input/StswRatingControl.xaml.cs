@@ -455,28 +455,28 @@ internal class StswRatingItem : StswObservableObject
     /// </summary>
     public bool IsChecked
     {
-        get => isChecked;
-        internal set => SetProperty(ref isChecked, value);
+        get => _isChecked;
+        internal set => SetProperty(ref _isChecked, value);
     }
-    private bool isChecked;
+    private bool _isChecked;
 
     /// <summary>
     /// Gets or sets a value indicating whether the mouse is over the item.
     /// </summary>
     public bool IsMouseOver
     {
-        get => isMouseOver;
-        internal set => SetProperty(ref isMouseOver, value);
+        get => _isMouseOver;
+        internal set => SetProperty(ref _isMouseOver, value);
     }
-    private bool isMouseOver;
+    private bool _isMouseOver;
 
     /// <summary>
     /// Gets or sets the value associated with the item.
     /// </summary>
     public int Value
     {
-        get => value;
-        internal set => SetProperty(ref this.value, value);
+        get => _value;
+        internal set => SetProperty(ref _value, value);
     }
-    private int value;
+    private int _value;
 }

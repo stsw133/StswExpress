@@ -56,24 +56,22 @@
                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <!-- popup -->
-                        <Popup x:Name="PART_Popup"
-                               AllowsTransparency="True"
-                               IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                               Placement="Center"
-                               PlacementTarget="{Binding ElementName=PART_MainBorder}"
-                               StaysOpen="False">
-                            <se:StswBorder Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                                           BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                                           BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                           Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}">
-                                <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
-                                    <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
-                                </se:StswDirectionViewer>
-                            </se:StswBorder>
-                        </Popup>
+                        <se:StswPopup x:Name="PART_Popup"
+                                      Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
+                                      BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                      BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
+                                      CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
+                                      CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                      IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                      Padding="{Binding (se:StswPopup.Padding), RelativeSource={RelativeSource TemplatedParent}}"
+                                      Placement="Center"
+                                      PlacementTarget="{Binding ElementName=PART_MainBorder}"
+                                      ScrollType="DirectionViewer"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      StaysOpen="False">
+                            <ItemsControl Focusable="False" ItemsSource="{TemplateBinding Items}" Margin="{TemplateBinding Padding}"/>
+                        </se:StswPopup>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

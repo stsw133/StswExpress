@@ -141,7 +141,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <se:StswCheckBox BorderThickness="0" CornerRadius="0" Padding="0" IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}"/>
+                            <se:StswCheckBox se:StswControl.IsBorderless="True" Padding="0" IsChecked="{Binding IsArchival, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

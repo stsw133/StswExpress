@@ -78,6 +78,9 @@
     <Compile Update="Modules\Controls\Layout\StswGrid\StswGridView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -307,6 +310,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Layout\StswGrid\StswGridView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Controls\Navigation\StswMenu\StswMenuView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Subs\StswSubRadio\StswSubRadioView.xaml">

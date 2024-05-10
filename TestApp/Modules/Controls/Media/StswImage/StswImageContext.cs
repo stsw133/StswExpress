@@ -14,18 +14,18 @@ public class StswImageContext : ControlsContext
     }
 
     /// MenuMode
-    private StswMenuMode menuMode;
     public StswMenuMode MenuMode
     {
-        get => menuMode;
-        set => SetProperty(ref menuMode, value);
+        get => _menuMode;
+        set => SetProperty(ref _menuMode, value);
     }
+    private StswMenuMode _menuMode;
 
     /// Stretch
-    private Stretch stretch;
     public Stretch Stretch
     {
-        get => stretch;
-        set => SetProperty(ref stretch, value);
+        get => _stretch;
+        set => SetProperty(ref _stretch, value);
     }
+    private Stretch _stretch;
 }

@@ -20,21 +20,21 @@ public class StswListViewContext : ControlsContext
     }
 
     /// Items
-    private BindingList<StswListBoxTestModel> items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
     public BindingList<StswListBoxTestModel> Items
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => _items;
+        set => SetProperty(ref _items, value);
     }
+    private BindingList<StswListBoxTestModel> _items = new(Enumerable.Range(1, 15).Select(i => new StswListBoxTestModel { Name = "Option " + i, IsSelected = new Random().Next(2) == 0 }).ToList());
 
     /// SelectionCounter
     public int SelectionCounter => Items.AsEnumerable().Count(x => x.IsSelected);
 
     /// SelectionMode
-    private SelectionMode selectionMode;
     public SelectionMode SelectionMode
     {
-        get => selectionMode;
-        set => SetProperty(ref selectionMode, value);
+        get => _selectionMode;
+        set => SetProperty(ref _selectionMode, value);
     }
+    private SelectionMode _selectionMode;
 }

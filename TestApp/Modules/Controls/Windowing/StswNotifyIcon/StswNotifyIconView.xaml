@@ -29,7 +29,7 @@
                                Text="{x:Static se:StswFn.AppNameAndVersion}"
                                Tip="{Binding Tip}">
                 <se:StswNotifyIcon.ContextMenu>
-                    <ContextMenu Style="{DynamicResource StswContextMenu}">
+                    <ContextMenu Style="{DynamicResource StswContextMenuStyle}">
                         <MenuItem Header="Show random tip" Command="{Binding ShowTipMinimizedCommand}"/>
                     </ContextMenu>
                 </se:StswNotifyIcon.ContextMenu>

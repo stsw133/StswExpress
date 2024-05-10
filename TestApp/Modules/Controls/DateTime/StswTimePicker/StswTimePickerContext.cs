@@ -18,57 +18,58 @@ public class StswTimePickerContext : ControlsContext
     }
 
     /// Format
-    private string? format;
     public string? Format
     {
-        get => format;
-        set => SetProperty(ref format, value);
+        get => _format;
+        set => SetProperty(ref _format, value);
     }
+    private string? _format;
 
     /// IncrementType
-    private StswTimeSpanIncrementType incrementType;
     public StswTimeSpanIncrementType IncrementType
     {
-        get => incrementType;
-        set => SetProperty(ref incrementType, value);
+        get => _incrementType;
+        set => SetProperty(ref _incrementType, value);
     }
+    private StswTimeSpanIncrementType _incrementType;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// Maximum
-    private TimeSpan? maximum;
     public TimeSpan? Maximum
     {
-        get => maximum;
-        set => SetProperty(ref maximum, value);
+        get => _maximum;
+        set => SetProperty(ref _maximum, value);
     }
+    private TimeSpan? _maximum;
+
     /// Minimum
-    private TimeSpan? minimum;
     public TimeSpan? Minimum
     {
-        get => minimum;
-        set => SetProperty(ref minimum, value);
+        get => _minimum;
+        set => SetProperty(ref _minimum, value);
     }
+    private TimeSpan? _minimum;
 
     /// SelectedTime
-    private TimeSpan? selectedTime = new();
     public TimeSpan? SelectedTime
     {
-        get => selectedTime;
-        set => SetProperty(ref selectedTime, value);
+        get => _selectedTime;
+        set => SetProperty(ref _selectedTime, value);
     }
+    private TimeSpan? _selectedTime = new();
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 }

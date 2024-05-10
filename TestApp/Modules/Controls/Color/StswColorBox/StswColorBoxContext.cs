@@ -18,34 +18,34 @@ public class StswColorBoxContext : ControlsContext
     }
 
     /// IsAlphaEnabled
-    private bool isAlphaEnabled;
     public bool IsAlphaEnabled
     {
-        get => isAlphaEnabled;
-        set => SetProperty(ref isAlphaEnabled, value);
+        get => _isAlphaEnabled;
+        set => SetProperty(ref _isAlphaEnabled, value);
     }
+    private bool _isAlphaEnabled;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// SelectedColor
-    private Color selectedColor = Color.FromRgb(24, 240, 24);
     public Color SelectedColor
     {
-        get => selectedColor;
-        set => SetProperty(ref selectedColor, value);
+        get => _selectedColor;
+        set => SetProperty(ref _selectedColor, value);
     }
+    private Color _selectedColor = Color.FromRgb(24, 240, 24);
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 }

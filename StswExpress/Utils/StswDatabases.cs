@@ -82,66 +82,66 @@ public class StswDatabaseModel : StswObservableObject
     /// Name
     public string Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
-    private string name = string.Empty;
+    private string _name = string.Empty;
 
     /// Type
     public StswDatabaseType Type
     {
-        get => type;
-        set => SetProperty(ref type, value);
+        get => _type;
+        set => SetProperty(ref _type, value);
     }
-    private StswDatabaseType type = default;
+    private StswDatabaseType _type = default;
 
     /// Server
     public string Server
     {
-        get => server;
-        set => SetProperty(ref server, value);
+        get => _server;
+        set => SetProperty(ref _server, value);
     }
-    private string server = string.Empty;
+    private string _server = string.Empty;
 
     /// Port
     public int? Port
     {
-        get => port;
-        set => SetProperty(ref port, value);
+        get => _port;
+        set => SetProperty(ref _port, value);
     }
-    private int? port;
+    private int? _port;
 
     /// Database
     public string Database
     {
-        get => database;
-        set => SetProperty(ref database, value);
+        get => _database;
+        set => SetProperty(ref _database, value);
     }
-    private string database = string.Empty;
+    private string _database = string.Empty;
 
     /// Login
     public string Login
     {
-        get => login;
-        set => SetProperty(ref login, value);
+        get => _login;
+        set => SetProperty(ref _login, value);
     }
-    private string login = string.Empty;
+    private string _login = string.Empty;
 
     /// Password
     public string Password
     {
-        get => password;
-        set => SetProperty(ref password, value);
+        get => _password;
+        set => SetProperty(ref _password, value);
     }
-    private string password = string.Empty;
+    private string _password = string.Empty;
 
     /// Version
     public string Version
     {
-        get => version;
-        set => SetProperty(ref version, value);
+        get => _version;
+        set => SetProperty(ref _version, value);
     }
-    private string version = string.Empty;
+    private string _version = string.Empty;
     
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.

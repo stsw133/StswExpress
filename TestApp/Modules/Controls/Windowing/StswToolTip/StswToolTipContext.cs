@@ -13,18 +13,18 @@ public class StswToolTipContext : ControlsContext
     }
 
     /// IsMoveable
-    private bool isMoveable;
     public bool IsMoveable
     {
-        get => isMoveable;
-        set => SetProperty(ref isMoveable, value);
+        get => _isMoveable;
+        set => SetProperty(ref _isMoveable, value);
     }
+    private bool _isMoveable;
 
     /// ShowDuration
-    private int showDuration = ToolTipService.GetShowDuration(StswApp.StswWindow);
     public int ShowDuration
     {
-        get => showDuration;
-        set => SetProperty(ref showDuration, value);
+        get => _showDuration;
+        set => SetProperty(ref _showDuration, value);
     }
+    private int _showDuration = ToolTipService.GetShowDuration(StswApp.StswWindow);
 }
