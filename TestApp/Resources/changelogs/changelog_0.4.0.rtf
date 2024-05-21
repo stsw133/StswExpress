@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1250\deff0\nouicompat\deflang1045{\fonttbl{\f0\fnil\fcharset238 Cascadia Mono;}{\f1\fnil Arial;}{\f2\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs32 0.4.0\line\b0\fs16 2023-12-13\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 New functionality:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\fs20 There is new category for Stsw controls named "Charts" that includes 2 new controls: \b StswChartLegend \b0 and \b StswChartPie \b0 used to present analytics data and statistics.\par
+{\pntext\f2\'B7\tab}New component controls: \b StswComponentDrop \b0 (almost the same functionality as \b StswDropButton\b0 ), \b StswComponentHeader \b0 (almost the same functionality as \b StswHeader\b0 ).\par
+{\pntext\f2\'B7\tab}New controls: \b StswProgressRing \b0 (almost the same functionality as \b StswProgressBar\b0 ), \b StswToolTip \b0 (just a tooltip with layout scaling and with style that fits other Stsw controls).\par
+{\pntext\f2\'B7\tab}New extension to clone binding and new extension for getting attribute of T type from enum.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Changed functionality:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswClippingBorder \b0 has been renamed into \b StswBorder \b0 and no longer clips its child by default. \b StswFilter \b0 has been renamed into \b StswFilterBox\b0 . \b IStswComponent \b0 has been renamed into \b IStswComponentControl\b0 . \b IStswSelection \b0 has been renamed into \b IStswSelectionItem\b0 . Added 3 new control interfaces: \b IStswCornerControl\b0 , \b IStswDropControl \b0 and \b IStswIconControl\b0 .\par
+{\pntext\f2\'B7\tab}All Stsw controls that have \b StswBorder \b0 inside their template implement \b IStswCornerControl \b0 interface that allows them to use two properties: "CornerClipping" and "CornerRadius". Latter is used to set radius of border's corners, former is used to clip all elements inside border that stick out of border when border has corner radius greater than 0.\par
+{\pntext\f2\'B7\tab}All Stsw controls that had arrow icon in their templates are now using separated internal control named \b StswDropArrow\b0 . Those controls no longer have "ArrowVisibility" property - instead arrow's visibility can be changed through dynamic visibility with key: "StswDropArrow.Visibility".\par
+{\pntext\f2\'B7\tab}All Stsw component controls changes their opacity on IsMouseOver and IsPressed instead of changing foreground brush. Additionally they have new properties for icon: "IconFill", "IconStroke" and "IconStrokeThickness".\par
+{\pntext\f2\'B7\tab}All Stsw controls that have "MaxDropDownHeight" property, have its default value equal to \f1\u8531?\f0  of primary screen's height.\par
+{\pntext\f2\'B7\tab}Changed the way scale worked for icons and images:\line\b Before: \b0\i null \i0 fits content, \i auto \i0 fits whole space, \i star \i0 do nothing, \i value \i0 multiply by 12 pixels.\line\b After: \b0\i null \i0 is not possible, \i auto \i0 fits content, \i star \i0 fits whole space, \i value \i0 multiply by 12 pixels.\par
+{\pntext\f2\'B7\tab}Changed the way some text modes worked for progress controls:\line\b Before: \b0\i value \i0 shows current value based on minimum and maximum.\line\b After: \b0\i value \i0 shows exact value from property, \i progress \i0 shows what \i value \i0 was showing before.\par
+{\pntext\f2\'B7\tab}\b StswLogPanel \b0 derives from ListBox class now (simply to enable virtualization) and its templates have been improved.\par
+{\pntext\f2\'B7\tab}\b StswComponentPanel \b0 has been reworked and renamed into \b StswComponentSelector\b0 .\par
+{\pntext\f2\'B7\tab}\b StswTruncateLabel \b0 has been renamed into \b StswLabel \b0 and no longer truncates content by default.\par
+{\pntext\f2\'B7\tab}\b StswPager \b0 has been renamed into \b StswGallery\b0  and its goal now is presenting images. Also uses \b StswZoomPanel \b0 inside its template and can properly slide images with arrow keys.\par
+{\pntext\f2\'B7\tab}\b StswRatingControl \b0 instead of "Orientation" property with 2 options, has new "Direction" property that allows for all 4 direction modes for selecting value. Additionally it implements \b IStswIconControl \b0 interface now so its icon properties have "Icon" word prefix now.\par
+{\pntext\f2\'B7\tab}\b StswDropButton\b0  and \b StswSplitButton \b0 controls are derived from HeaderedItemsControl class now so they can use advanced header properties.\par
+{\pntext\f2\'B7\tab}\b StswToggleButton\b0 's "Icon" property has been removed and some properties have been renamed: "CheckedGlyphBrush" into "GlyphBrushChecked" and "UncheckedGlyphBrush" into "GlyphBrushUnchecked".\par
+{\pntext\f2\'B7\tab}\b StswColorPicker\b0 's and \b StswColorSelector\b0 's templates have been improved a little, no longer have outer border and additionally can have stretched content.\par
+{\pntext\f2\'B7\tab}\b StswGroupBox\b0 's and \b StswEpander\b0 's templates have been simplified.\par
+{\pntext\f2\'B7\tab}\b StswPopup\b0 's border thickness, corner radius and padding are now controlled by dynamic resource values.\par
+{\pntext\f2\'B7\tab}\b StswShifter \b0 has 4 new properties for border thickness, one for each of its buttons.\par
+{\pntext\f2\'B7\tab}\b StswAdaptiveBox \b0 can now pass "Components" and "IsThreeState" property values to box that is in use at the moment.\par
+{\pntext\f2\'B7\tab}\b StswFilterBox\b0 's "FilterSqlColumn" property has been renamed into "FilterValuePath".\par
+{\pntext\f2\'B7\tab}All Stsw controls no longer use "RecognizesAccessKey" property in their templates and no longer use "ComponentAlignment" and "PopupThickness" properties at all.\par
+{\pntext\f2\'B7\tab}Some changes in usage of theme brushes in Stsw controls - for example \b StswDropButton \b0 uses "StswButton.Pressed.Background" as its background brush when drop-down is open instead of "StswDropButton.Checked.Background".\par
+{\pntext\f2\'B7\tab}\b StswLog\b0 's import is improved.\par
+{\pntext\f2\'B7\tab}\b StswDatabase \b0 renamed to \b StswDatabases\b0 . Some methods are renamed and the way of importing and exporting "Port" is improved.\par
+{\pntext\f2\'B7\tab}Automatic language can be removed from confgiuration dialog now.\par
+
+\pard\sa200\sl276\slmult1\qj\fs24 Bugfixes:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\qj\b\fs20 StswToggleSwitch \b0 no longer have different size when is checked at start.\par
+{\pntext\f2\'B7\tab}\b StswListBox\b0 , \b StswListView \b0 and \b StswTreeView \b0 will properly determine if they are using ItemsSource of \b IStswSelectionItem \b0 type.\par
+{\pntext\f2\'B7\tab}\b StswSelectionBox\b0 's list box do not content scroll by default to elimiate bug with last empty item.\par
+{\pntext\f2\'B7\tab}\b StswColorBox\b0 , \b StswDatePicker\b0  and \b StswNumericBox \b0 no longer update their main property twice in certain situations.\par
+{\pntext\f2\'B7\tab}\b StswProgressBar\b0 's background and border can be changed in custom state mode.\par
+{\pntext\f2\'B7\tab}\b StswTabControl \b0 properly shows border when last tab is selected.\par
+{\pntext\f2\'B7\tab}\b StswImage\b0 's, \b StswFilterBox\b0 's and \b StswWindow\b0 's context menus are scaling with interface size from configuration dialog now.\par
+{\pntext\f2\'B7\tab}Bugfix for double date selections in \b StswCalendar \b0 when starting date had specified time.\par
+{\pntext\f2\'B7\tab}Bugfix for \b StswBindingList \b0 if list has been reseted.\par
+{\pntext\f2\'B7\tab}Bugfix for \b StswDataGrid\b0 's special column dynamic brushes for Dark and Pink themes.\par
+{\pntext\f2\'B7\tab}Stsw button controls no longer have additional grid in their template to fix clipping border since there exists "CornerClipping" property now.\par
+{\pntext\f2\'B7\tab}\b StswContentDialog \b0 will no longer throw exception if someone will try to close it multiple times in a moment.\b\par
+}
+ 

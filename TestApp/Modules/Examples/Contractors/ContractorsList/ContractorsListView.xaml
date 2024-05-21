@@ -32,7 +32,7 @@
             </UniformGrid>
         </se:StswDirectionViewer>
         <!-- progress panel -->
-        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswCompareConverter.Instance}, ConverterParameter=!Ready}"/>
+        <se:StswProgressBar DockPanel.Dock="Bottom" Margin="3" IsIndeterminate="True" State="{Binding LoadingState}" Visibility="{Binding LoadingState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter='Ready~Collapsed~Visible'}"/>
         <DockPanel DockPanel.Dock="Bottom">
             <UniformGrid DockPanel.Dock="Right" Rows="1" VerticalAlignment="Top">
                 <se:StswButton CornerRadius="0" Margin="3" Padding="0" Command="{Binding AddCommand}">

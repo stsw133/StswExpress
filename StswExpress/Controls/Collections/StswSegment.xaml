@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswListBox}">
+    <Style TargetType="{x:Type se:StswSegment}">
         <Setter Property="Background" Value="{DynamicResource StswPanel.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
 
@@ -15,10 +15,11 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
 
+        <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
 
         <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
@@ -30,28 +31,16 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswListBox}">
+                <ControlTemplate TargetType="{x:Type se:StswSegment}">
                     <se:StswBorder x:Name="PART_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollViewer x:Name="PART_ScrollViewer"
-                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Focusable="False"
-                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Padding="{TemplateBinding Padding}"
-                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                        <se:StswDirectionViewer x:Name="PART_DirectionViewer" Focusable="False" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter/>
-                        </se:StswScrollViewer>
+                        </se:StswDirectionViewer>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -61,12 +50,45 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </MultiTrigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="BBtnThickness" Value="0 0 1 0" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="1 0 0 0" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Auto" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionViewer"/>
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="BBtnThickness" Value="0 0 0 1" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="FBtnThickness" Value="0 1 0 0" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" TargetName="PART_DirectionViewer"/>
+                            <Setter Property="VerticalScrollBarVisibility" Value="Auto" TargetName="PART_DirectionViewer"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <UniformGrid>
+                        <UniformGrid.Style>
+                            <Style TargetType="{x:Type UniformGrid}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswSegment}}}" Value="Horizontal">
+                                        <Setter Property="Rows" Value="1"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType={x:Type se:StswSegment}}}" Value="Vertical">
+                                        <Setter Property="Columns" Value="1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </UniformGrid.Style>
+                    </UniformGrid>
+                </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
 
@@ -79,8 +101,8 @@
                     <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
 
-                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}"/>
-                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswSegment}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswSegment}}}"/>
 
                     <Setter Property="Template">
                         <Setter.Value>
@@ -129,10 +151,7 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding CanRearrange, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}" Value="True">
-                            <Setter Property="AllowDrop" Value="True"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}" Value="True">
+                        <DataTrigger Binding="{Binding UsesSelectionItems, RelativeSource={RelativeSource AncestorType={x:Type se:StswSegment}}}" Value="True">
                             <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -140,4 +159,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

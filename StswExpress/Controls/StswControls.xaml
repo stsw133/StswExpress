@@ -24,10 +24,9 @@
         <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswDataGrid.xaml"/>
-        <ResourceDictionary Source="Collections/StswDataPager.xaml"/>
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
+        <ResourceDictionary Source="Collections/StswSegment.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Collections/StswPicker.xaml"/>
         <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
@@ -36,6 +35,9 @@
         <ResourceDictionary Source="Color/StswColorPicker.xaml"/>
         <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
 
+        <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
+        
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
         <ResourceDictionary Source="DateTime/StswTimePicker.xaml"/>
@@ -45,8 +47,8 @@
 
         <ResourceDictionary Source="File/StswFilePicker.xaml"/>
         
-        <ResourceDictionary Source="Filtering/StswFilterBox.xaml"/>
-
+        <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
+        
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumericBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>

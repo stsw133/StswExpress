@@ -23,14 +23,11 @@ public partial class StswResources
     /// <summary>
     /// 
     /// </summary>
-    public static StswResources GetInstance()
+    public static StswResources? GetInstance()
     {
-        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is not StswResources dict)
-        {
-            dict = new StswResources((StswTheme)StswSettings.Default.Theme);
-            Application.Current.Resources.MergedDictionaries.Add(dict);
-        }
-        return dict;
+        if (Application.Current.Resources.MergedDictionaries.FirstOrDefault(x => x is StswResources) is StswResources dict)
+            return dict;
+        return null;
     }
 
     /// <summary>

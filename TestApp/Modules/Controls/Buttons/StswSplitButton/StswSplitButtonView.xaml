@@ -32,7 +32,7 @@
                             VerticalAlignment="{Binding VerticalAlignment}"
                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswSplitButton.Header>
-                <se:StswHeader Content="Here is a text for the header" IconData="{x:Static se:StswIcons.Dice6}"/>
+                <se:StswHeader Content="Option 6" IconData="{x:Static se:StswIcons.Dice6}"/>
             </se:StswSplitButton.Header>
 
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">

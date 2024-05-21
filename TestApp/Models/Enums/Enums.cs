@@ -9,3 +9,13 @@ public enum ContractorType
     [Description("Recipient")]
     Recipient
 }
+
+public enum ChangelogType
+{
+    [Description("Major")]
+    Major,
+    [Description("Minor")]
+    Minor,
+    [Description("Patch")]
+    Patch
+}

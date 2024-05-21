@@ -7,10 +7,12 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// Compares value parameter to converter parameter.<br/>
-/// Use '<c>!</c>' at the beginning of converter parameter to invert output value.<br/>
+/// A converter that compares a numeric value to a specified threshold and determines
+/// if it is greater than, less than, greater than or equal to, or less than or equal to
+/// the threshold.<br/>
+/// Use one of these: '<c>&gt;</c>', '<c>&gt;=</c>', '<c>&lt;</c>', '<c>&lt;=</c>' at the beginning of converter parameter and number after.<br/>
 /// <br/>
-/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
 public class StswCompareConverter : MarkupExtension, IValueConverter
@@ -22,19 +24,25 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var val = value?.ToString() ?? string.Empty;
+        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
         var pmr = parameter?.ToString() ?? string.Empty;
+        var result = false;
 
         /// parameters
-        bool isReversed = pmr.Contains('!');
-
-        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+        if (pmr.StartsWith(">=") && double.TryParse(pmr[2..], out var num))
+            result = val >= num;
+        else if (pmr.StartsWith("<=") && double.TryParse(pmr[2..], out num))
+            result = val <= num;
+        else if (pmr.StartsWith(">") && double.TryParse(pmr[1..], out num))
+            result = val > num;
+        else if (pmr.StartsWith("<") && double.TryParse(pmr[1..], out num))
+            result = val < num;
 
         /// result
         if (targetType == typeof(Visibility))
-            return ((val == pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
+            return result ? Visibility.Visible : Visibility.Collapsed;
         else
-            return ((val == pmr) ^ isReversed);
+            return result;
     }
 
     /// ConvertBack

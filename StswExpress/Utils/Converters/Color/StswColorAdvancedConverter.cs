@@ -12,6 +12,9 @@ namespace StswExpress;
 /// <summary>
 /// Used for color manipulation and conversion based on the provided parameters.
 /// </summary>
+/// <remarks>
+/// EXAMPLES:  'B-70% S50%'  'A50% B50% S0%'
+/// </remarks>
 public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
 {
     private static StswColorAdvancedConverter? instance;

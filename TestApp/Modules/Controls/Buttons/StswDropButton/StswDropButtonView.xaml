@@ -30,7 +30,7 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswDropButton.Header>
-                <se:StswHeader Content="Here is a text for the header" IconData="{x:Static se:StswIcons.Dice6}"/>
+                <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.Dice6}"/>
             </se:StswDropButton.Header>
 
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">
