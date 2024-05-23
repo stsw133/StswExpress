@@ -17,11 +17,11 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Orientation -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswSegment}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSegment}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
             <!-- SelectionMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SelectionMode, Type={x:Type se:StswListBox}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type SelectionMode}}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswListBox}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList SelectionMode}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSegment DisplayMemberPath="Name"

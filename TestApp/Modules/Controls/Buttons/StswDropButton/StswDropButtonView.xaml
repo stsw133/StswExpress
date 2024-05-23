@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswDropButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDropButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -30,7 +30,7 @@
                            VerticalAlignment="{Binding VerticalAlignment}"
                            VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswDropButton.Header>
-                <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.Dice6}"/>
+                <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
             </se:StswDropButton.Header>
 
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">

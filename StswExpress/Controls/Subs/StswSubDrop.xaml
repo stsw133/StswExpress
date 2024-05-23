@@ -29,6 +29,11 @@
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
         <Setter Property="se:StswPopup.CornerClipping" Value="False"/>
         <Setter Property="se:StswPopup.CornerRadius" Value="0"/>
+        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
 
         <Setter Property="Template">
             <Setter.Value>

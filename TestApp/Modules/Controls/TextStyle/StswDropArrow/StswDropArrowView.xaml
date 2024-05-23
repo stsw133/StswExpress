@@ -17,10 +17,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsExpanded -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsExpanded, Type={x:Type se:StswDropArrow}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsExpanded, Type={x:Type se:StswDropArrow}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsExpanded}"/>
             <!-- Scale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Scale, Type={x:Type se:StswDropArrow}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Scale, Type={x:Type se:StswDropArrow}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Scale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>

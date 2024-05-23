@@ -182,9 +182,6 @@
     <Compile Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -417,9 +414,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswDropArrow\StswDropArrowView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Modules\Controls\TextStyle\StswLabel\StswLabelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\Windowing\StswToolTip\StswToolTipView.xaml">

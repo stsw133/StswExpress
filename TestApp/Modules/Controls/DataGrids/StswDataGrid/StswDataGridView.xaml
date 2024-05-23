@@ -17,11 +17,11 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswDataGrid}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SpecialColumnVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SpecialColumnVisibility, Type={x:Type se:StswDataGrid}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpecialColumnVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SpecialColumnVisibility, Type={x:Type se:StswDataGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswSpecialColumnVisibility}" Margin="0 0 0 3" SelectedValue="{Binding SpecialColumnVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswDataGrid FrozenColumnCount="1"
@@ -59,11 +59,13 @@
             <se:StswText Margin="5" Padding="5">
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
-                <Run Text="{Binding Items.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                <Run Text="{Binding Items.Unchanged, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" unchanged rows, "/>
+                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=" added rows, "/>
-                <Run Text="{Binding Items.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                 <Run Text=" modified rows, "/>
-                <Run Text="{Binding Items.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                 <Run Text=" deleted rows"/>
             </se:StswText>
         </local:ControlsBase.StatusPanel>

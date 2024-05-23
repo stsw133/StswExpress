@@ -5,6 +5,8 @@
     <Visibility x:Key="StswDropArrow.Visibility">Visible</Visibility>
 
     <Style TargetType="{x:Type se:StswDropArrow}">
+        <Setter Property="Background" Value="Transparent"/>
+        
         <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
@@ -19,7 +21,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDropArrow}">
-                    <se:StswIcon Data="{x:Static se:StswIcons.ChevronDown}"
+                    <se:StswIcon Background="{TemplateBinding Background}"
+                                 Data="{x:Static se:StswIcons.ChevronDown}"
                                  Fill="{TemplateBinding Fill}"
                                  RenderTransformOrigin=".5 .5"
                                  Scale="{TemplateBinding Scale}">
@@ -27,6 +30,7 @@
                             <RotateTransform x:Name="PART_Rotate" Angle="0"/>
                         </se:StswIcon.RenderTransform>
                     </se:StswIcon>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
                             <Trigger.EnterActions>

@@ -17,19 +17,19 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsFileSizeVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsFileSizeVisible, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFileSizeVisible, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFileSizeVisible}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- IsShiftingEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsShiftingEnabled, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsShiftingEnabled, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsShiftingEnabled}"/>
             <!-- PathType -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf PathType, Type={x:Type se:StswFilePicker}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswPathType}}" Margin="0 0 0 3" SelectedValue="{Binding PathType}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf PathType, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswPathType}" Margin="0 0 0 3" SelectedValue="{Binding PathType}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswFilePicker}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

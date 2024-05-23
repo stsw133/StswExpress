@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsAlwaysVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsAlwaysVisible, Type={x:Type se:StswNotifyIcon}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsAlwaysVisible, Type={x:Type se:StswNotifyIcon}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsAlwaysVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -30,7 +30,7 @@
                                Tip="{Binding Tip}">
                 <se:StswNotifyIcon.ContextMenu>
                     <ContextMenu Style="{DynamicResource StswContextMenuStyle}">
-                        <MenuItem Header="Show random tip" Command="{Binding ShowTipMinimizedCommand}"/>
+                        <se:StswMenuItem Command="{Binding ShowTipMinimizedCommand}" Header="Show random tip"/>
                     </ContextMenu>
                 </se:StswNotifyIcon.ContextMenu>
             </se:StswNotifyIcon>

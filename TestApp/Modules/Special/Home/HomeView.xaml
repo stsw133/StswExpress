@@ -9,20 +9,21 @@
     <d:UserControl.DataContext>
         <local:HomeContext/>
     </d:UserControl.DataContext>
+    
     <se:StswScrollViewer IsDynamic="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <DockPanel Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <se:StswOutlinedText DockPanel.Dock="Top" Fill="#26bfe6" FontSize="60" Stroke="#2673e5" StrokeThickness="6" Text="stsw" HorizontalAlignment="Center"/>
             <StackPanel Margin="0 10 0 40">
                 <DockPanel DockPanel.Dock="Top">
-                    <se:StswLabel Content="Authors:" HorizontalContentAlignment="Right" Width="75"/>
-                    <se:StswLabel Content="{Binding Author}" FontWeight="Medium"/>
+                    <se:StswHeader Content="Authors:" IconData="{x:Static se:StswIcons.AccountMultiple}" HorizontalContentAlignment="Right" Width="100"/>
+                    <se:StswLabel Content="{Binding Authors}" FontWeight="Medium"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
-                    <se:StswLabel Content="App name:" HorizontalContentAlignment="Right" Width="75"/>
+                    <se:StswHeader Content="App name:" IconData="{x:Static se:StswIcons.ApplicationOutline}" HorizontalContentAlignment="Right" Width="100"/>
                     <se:StswLabel Content="{Binding Name}" FontWeight="Medium"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
-                    <se:StswLabel Content="Version:" HorizontalContentAlignment="Right" Width="75"/>
+                    <se:StswHeader Content="Version:" IconData="{x:Static se:StswIcons.Update}" HorizontalContentAlignment="Right" Width="100"/>
                     <se:StswLabel Content="{Binding Version}" FontWeight="Medium"/>
                 </DockPanel>
             </StackPanel>

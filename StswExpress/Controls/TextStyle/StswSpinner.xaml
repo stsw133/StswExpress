@@ -3,6 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswSpinner}">
+        <Setter Property="Background" Value="Transparent"/>
+        
         <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
@@ -29,7 +31,7 @@
                                     <Setter Property="Opacity" Value="0"/>
                                 </Style>
                             </DataTemplate.Resources>
-                            <Viewbox>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <Grid Margin="1">
                                     <Path>
                                         <Path.RenderTransform>
@@ -275,7 +277,7 @@
                             </Viewbox>
                         </DataTemplate>
                         <DataTemplate x:Key="StswSpinnerCrescentTemplate">
-                            <Viewbox>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <Ellipse x:Name="PART_Ellipse"
                                          RenderTransformOrigin=".5 .5"
                                          Stroke="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
@@ -299,7 +301,7 @@
                             </Viewbox>
                         </DataTemplate>
                         <DataTemplate x:Key="StswSpinnerDotsTemplate">
-                            <Viewbox>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <UniformGrid Rows="1" Columns="3" HorizontalAlignment="Center" Height="24" Width="72">
                                     <Ellipse x:Name="PART_Dot1"
                                              Width="20"
@@ -467,7 +469,7 @@
                                     <Setter Property="Opacity" Value="0"/>
                                 </Style>
                             </DataTemplate.Resources>
-                            <Viewbox>
+                            <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <Grid Margin="1">
                                     <Path>
                                         <Path.RenderTransform>
@@ -713,8 +715,9 @@
                             </Viewbox>
                         </DataTemplate>
                     </ControlTemplate.Resources>
-
-                    <ContentControl x:Name="PART_ContentControl" Background="Transparent"/>
+                    
+                    <ContentControl x:Name="PART_ContentControl" Background="{TemplateBinding Background}"/>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Type" Value="Circles">
                             <Setter Property="ContentTemplate" Value="{StaticResource StswSpinnerCirclesTemplate}" TargetName="PART_ContentControl"/>

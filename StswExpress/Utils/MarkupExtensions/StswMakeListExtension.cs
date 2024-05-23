@@ -11,15 +11,15 @@ namespace StswExpress;
 /// <remarks>
 /// 
 /// </remarks>
-public class ListExtension : MarkupExtension
+public class StswMakeListExtension : MarkupExtension
 {
     private readonly string _values;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ListExtension"/> class.
+    /// Initializes a new instance of the <see cref="StswMakeListExtension"/> class.
     /// </summary>
     /// <param name="type">The type of the class to instantiate.</param>
-    public ListExtension(string values) => _values = values;
+    public StswMakeListExtension(string values) => _values = values ?? throw new ArgumentNullException(nameof(values));
 
     /// <summary>
     /// Provides the value for the XAML markup extension.

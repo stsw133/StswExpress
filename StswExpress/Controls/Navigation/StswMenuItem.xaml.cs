@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -141,15 +140,5 @@ public class StswMenuItem : MenuItem, IStswCornerControl, IStswIconControl
             typeof(double),
             typeof(StswMenuItem)
         );
-    #endregion
-
-    #region Excluded properties
-    /// The following properties are hidden from the designer and serialization:
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new object? Icon { get; private set; }
     #endregion
 }

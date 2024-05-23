@@ -35,7 +35,11 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- page buttons -->
-                            <se:StswDirectionViewer DockPanel.Dock="Bottom" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" Focusable="False" VerticalScrollBarVisibility="Disabled">
+                            <se:StswDirectionViewer DockPanel.Dock="Bottom"
+                                                    BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                    Focusable="False"
+                                                    HorizontalScrollBarVisibility="Auto"
+                                                    VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl Focusable="False" ItemsSource="{Binding PageButtons, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>

@@ -459,24 +459,15 @@
     <!-- StswDataGridSpecialColumn -->
     <!-- StswDataGridSpecialColumnCellTemplate -->
     <DataTemplate x:Key="StswDataGridSpecialColumnCellTemplate">
-        <Grid Background="{DynamicResource StswDataGrid.Cell.Static.Background}" Margin="-1" ToolTip="{Binding ItemMessage}">
+        <Grid Background="{DynamicResource StswDataGrid.Cell.Static.Background}" Margin="-1">
             <se:StswToggleButton x:Name="PART_ShowDetails" se:StswControl.IsBorderless="True" Padding="0" IsChecked="{Binding ShowDetails, UpdateSourceTrigger=PropertyChanged}"/>
             <se:StswIcon x:Name="PART_StateIcon" Data="{x:Static se:StswIcons.Circle}" IsHitTestVisible="False" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <se:StswDropArrow x:Name="PART_SymbolIcon" IsExpanded="{Binding ShowDetails}" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <DataTemplate.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ItemMessage}" Value="{x:Null}"/>
-                    <Condition Binding="{Binding ShowDetails}" Value="{x:Null}"/>
-                </MultiDataTrigger.Conditions>
+            <DataTrigger Binding="{Binding ShowDetails}" Value="{x:Null}">
                 <Setter Property="Visibility" Value="Hidden" TargetName="PART_SymbolIcon"/>
-            </MultiDataTrigger>
-            <!--
-            <DataTrigger Binding="{Binding ItemMessage, Converter={x:Static se:StswNotNullConverter.Instance}}" Value="True">
-                <Setter Property="Data" Value="{x:Static se:StswIcons.InformationVariant}" TargetName="PART_SymbolIcon"/>
             </DataTrigger>
-            -->
             <DataTrigger Binding="{Binding ItemState}" Value="{x:Null}">
                 <Setter Property="Fill" Value="Transparent" TargetName="PART_StateIcon"/>
                 <Setter Property="Stroke" Value="Transparent" TargetName="PART_StateIcon"/>

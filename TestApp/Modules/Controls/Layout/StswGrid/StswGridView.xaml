@@ -17,8 +17,8 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- AutoLayoutMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf AutoLayoutMode, Type={x:Type se:StswGrid}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAutoLayoutMode}}" Margin="0 0 0 3" SelectedValue="{Binding AutoLayoutMode}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AutoLayoutMode, Type={x:Type se:StswGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAutoLayoutMode}" Margin="0 0 0 3" SelectedValue="{Binding AutoLayoutMode}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswGrid AutoLayoutMode="{Binding AutoLayoutMode}"

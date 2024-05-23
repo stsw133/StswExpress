@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- ItemsPerPage -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsPerPage, Type={x:Type se:StswDataPager}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsPerPage, Type={x:Type se:StswDataPager}}"/>
             <se:StswNumericBox Format="0" Margin="0 0 0 3" Value="{Binding ItemsPerPage}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -64,11 +64,13 @@
                 -->
                 <Run Text="{Binding Items.Count, Mode=OneWay}" FontWeight="Bold"/>
                 <Run Text=" total rows, "/>
-                <Run Text="{Binding Items.CountAdded, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
+                <Run Text="{Binding Items.Unchanged, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" unchanged rows, "/>
+                <Run Text="{Binding Items.Added, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Added.Fill}"/>
                 <Run Text=" added rows, "/>
-                <Run Text="{Binding Items.CountModified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
+                <Run Text="{Binding Items.Modified, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Modified.Fill}"/>
                 <Run Text=" modified rows, "/>
-                <Run Text="{Binding Items.CountDeleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
+                <Run Text="{Binding Items.Deleted, Mode=OneWay}" FontWeight="Bold" Foreground="{DynamicResource StswDataGrid.SpecialColumn.Deleted.Fill}"/>
                 <Run Text=" deleted rows"/>
             </se:StswText>
         </local:ControlsBase.StatusPanel>

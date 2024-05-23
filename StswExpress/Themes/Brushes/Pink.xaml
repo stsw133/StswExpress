@@ -365,8 +365,32 @@
     </LinearGradientBrush>
     <SolidColorBrush x:Key="StswPanel.Disabled.Background" Color="#FDE"/>
     <SolidColorBrush x:Key="StswPanel.Disabled.Border" Color="#ECD"/>
-    
+
     <!-- Navigation -->
+    <SolidColorBrush x:Key="StswMenuItem.Static.Background" Color="#FFF5FA"/>
+    <LinearGradientBrush x:Key="StswMenuItem.Static.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#D55" Offset="0"/>
+        <GradientStop Color="#C69" Offset="0.5"/>
+        <GradientStop Color="#D55" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="StswMenuItem.MouseOver.Background" Color="#FDE"/>
+    <LinearGradientBrush x:Key="StswMenuItem.MouseOver.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#C44" Offset="0"/>
+        <GradientStop Color="#B58" Offset="0.5"/>
+        <GradientStop Color="#C44" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="StswMenuItem.Pressed.Background" Color="#ECD"/>
+    <LinearGradientBrush x:Key="StswMenuItem.Pressed.Border" StartPoint="0 0" EndPoint="1 1">
+        <GradientStop Color="#B33" Offset="0"/>
+        <GradientStop Color="#A47" Offset="0.5"/>
+        <GradientStop Color="#B33" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="StswMenuItem.Disabled.Background" Color="#FDE"/>
+    <SolidColorBrush x:Key="StswMenuItem.Disabled.Border" Color="#ECD"/>
+    <SolidColorBrush x:Key="StswMenuItem.Disabled.Foreground" Color="#A89"/>
+    <SolidColorBrush x:Key="StswMenuItem.Checked.Background" Color="#f688ad"/>
+    <SolidColorBrush x:Key="StswMenuItem.Checked.Border" Color="#D55"/>
+
     <SolidColorBrush x:Key="StswNavigation.Static.Background" Color="#fef6f6"/>
     <LinearGradientBrush x:Key="StswNavigation.Static.Border" StartPoint="0 0" EndPoint="1 1">
         <GradientStop Color="#D55" Offset="0"/>

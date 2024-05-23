@@ -34,9 +34,7 @@
                                      MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                      MinHeight="150"
                                      MinWidth="250"
-                                     Padding="0"
-                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                     Padding="0">
                         <se:StswGroupBox.Header>
                             <DockPanel>
                                 <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" DockPanel.Dock="Right" Margin="3">
@@ -95,8 +93,8 @@
                                             TextWrapping="Wrap"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Top"/>
+                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswGroupBox>
                     <ControlTemplate.Triggers>

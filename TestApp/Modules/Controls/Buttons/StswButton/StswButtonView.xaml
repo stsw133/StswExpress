@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsDefault -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsDefault, Type={x:Type se:StswButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsDefault, Type={x:Type se:StswButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDefault}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

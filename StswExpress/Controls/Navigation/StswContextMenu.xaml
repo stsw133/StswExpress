@@ -27,14 +27,17 @@
                                             ScaleY="{Binding iSize, Source={x:Static se:StswSettings.Default}}"/>
                         </Grid.LayoutTransform>
 
-                        <se:StswBorder x:Name="Border"
+                        <se:StswBorder x:Name="PART_MainBorder"
                                        Background="{TemplateBinding Background}"
                                        BorderBrush="{TemplateBinding BorderBrush}"
                                        BorderThickness="{TemplateBinding BorderThickness}"
                                        CornerClipping="True"
                                        CornerRadius="5"
                                        Padding="{TemplateBinding Padding}">
-                            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" Focusable="False" HorizontalScrollBarVisibility="Disabled">
+                            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
+                                                    Focusable="False"
+                                                    HorizontalScrollBarVisibility="Disabled"
+                                                    VerticalScrollBarVisibility="Auto">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                             </se:StswDirectionViewer>
                         </se:StswBorder>

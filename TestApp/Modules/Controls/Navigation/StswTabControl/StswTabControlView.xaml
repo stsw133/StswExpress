@@ -17,14 +17,14 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- AreTabsVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf AreTabsVisible, Type={x:Type se:StswTabControl}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AreTabsVisible, Type={x:Type se:StswTabControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding AreTabsVisible}"/>
             <!-- NewTabButtonVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf NewTabButtonVisibility, Type={x:Type se:StswTabControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}" Margin="0 0 0 3" SelectedValue="{Binding NewTabButtonVisibility}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NewTabButtonVisibility, Type={x:Type se:StswTabControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding NewTabButtonVisibility}"/>
             <!-- TabStripPlacement -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf TabStripPlacement, Type={x:Type se:StswTabControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Dock}}" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TabStripPlacement, Type={x:Type se:StswTabControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Dock}" Margin="0 0 0 3" SelectedValue="{Binding TabStripPlacement}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswTabControl AreTabsVisible="{Binding AreTabsVisible}"

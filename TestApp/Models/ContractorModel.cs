@@ -107,14 +107,6 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     }
     private DateTime _createDT = DateTime.Now;
 
-    /// ItemMessage
-    public string? ItemMessage
-    {
-        get => _itemMessage;
-        set => SetProperty(ref _itemMessage, value);
-    }
-    private string? _itemMessage;
-
     /// ItemState
     public StswItemState ItemState
     {

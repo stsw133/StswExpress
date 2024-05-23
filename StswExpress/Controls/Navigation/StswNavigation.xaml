@@ -25,7 +25,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
-        <Setter Property="se:StswScrollViewer.AutoScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
         <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
@@ -52,7 +51,11 @@
                                     <se:StswToggleButton x:Name="PART_TabStripModeButton" se:StswControl.IsBorderless="True">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswDirectionViewer x:Name="PART_CustomComponents" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
+                                    <se:StswDirectionViewer x:Name="PART_CustomComponents"
+                                                            BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                            Focusable="False"
+                                                            HorizontalScrollBarVisibility="Auto"
+                                                            VerticalScrollBarVisibility="Disabled">
                                         <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -154,10 +157,10 @@
                                 <!-- compact panel -->
                                 <se:StswDirectionViewer x:Name="PART_CompactPanel"
                                                         Background="{TemplateBinding Background}"
-                                                        BBtnThickness="0 0 0 1"
-                                                        FBtnThickness="0 1 0 0"
+                                                        BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                                         HorizontalAlignment="Left"
                                                         HorizontalScrollBarVisibility="Disabled"
+                                                        VerticalScrollBarVisibility="Auto"
                                                         Visibility="Collapsed">
                                     <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 1">
                                         <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>

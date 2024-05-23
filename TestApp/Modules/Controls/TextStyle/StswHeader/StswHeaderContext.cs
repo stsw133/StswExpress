@@ -59,12 +59,4 @@ public class StswHeaderContext : ControlsContext
         set => SetProperty(ref _orientation, value);
     }
     private Orientation _orientation;
-
-    /// ShowDescription
-    public bool ShowDescription
-    {
-        get => _showDescription;
-        set => SetProperty(ref _showDescription, value);
-    }
-    private bool _showDescription = false;
 }

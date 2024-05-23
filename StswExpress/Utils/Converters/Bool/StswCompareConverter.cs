@@ -33,10 +33,16 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
             result = val >= num;
         else if (pmr.StartsWith("<=") && double.TryParse(pmr[2..], out num))
             result = val <= num;
-        else if (pmr.StartsWith(">") && double.TryParse(pmr[1..], out num))
+        else if (pmr.StartsWith('>') && double.TryParse(pmr[1..], out num))
             result = val > num;
-        else if (pmr.StartsWith("<") && double.TryParse(pmr[1..], out num))
+        else if (pmr.StartsWith('<') && double.TryParse(pmr[1..], out num))
             result = val < num;
+        else if (pmr.StartsWith('?') && double.TryParse(pmr[1..], out num))
+            result = val == num;
+        else if (pmr.StartsWith('!') && double.TryParse(pmr[1..], out num))
+            result = val != num;
+        else if (pmr.StartsWith('&') && double.TryParse(pmr[1..], out num))
+            result = ((int)val & (int)num) > 0;
 
         /// result
         if (targetType == typeof(Visibility))

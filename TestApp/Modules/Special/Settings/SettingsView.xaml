@@ -11,6 +11,7 @@
     <d:Window.DataContext>
         <local:SettingsContext/>
     </d:Window.DataContext>
+    
     <Grid>
         <TextBlock Text="Not implemented yet"/>
     </Grid>

@@ -18,7 +18,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IconScale, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswSubSelector}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -26,10 +26,10 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsBusy, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswSubSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsContentVisible, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswSubSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

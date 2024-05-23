@@ -17,22 +17,22 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Format -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Format, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Format, Type={x:Type se:StswNumericBox}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Format}"/>
             <!-- Increment -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Increment, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Increment, Type={x:Type se:StswNumericBox}}"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Increment}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswNumericBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- Minimum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Minimum, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswNumericBox}}"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
             <!-- Maximum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Maximum, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswNumericBox}}"/>
             <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswNumericBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswNumericBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

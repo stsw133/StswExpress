@@ -84,14 +84,6 @@ public class StswDataGridTestModel : StswObservableObject, IStswCollectionItem, 
     }
     private string? _name;
 
-    /// ItemMessage
-    public string? ItemMessage
-    {
-        get => _itemMessage;
-        set => SetProperty(ref _itemMessage, value);
-    }
-    private string? _itemMessage;
-
     /// ItemState
     public StswItemState ItemState
     {

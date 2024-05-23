@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- NavigateUri -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf NavigateUri, Type={x:Type se:StswHyperlinkButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf NavigateUri, Type={x:Type se:StswHyperlinkButton}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding NavigateUri}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

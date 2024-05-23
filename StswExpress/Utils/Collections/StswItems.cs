@@ -61,11 +61,6 @@ public class StswSelectionItem : StswComboItem, IStswSelectionItem
 public interface IStswCollectionItem : INotifyPropertyChanged
 {
     /// <summary>
-    /// Gets or sets the error message associated with the collection item.
-    /// </summary>
-    public string? ItemMessage { get; set; }
-
-    /// <summary>
     /// Gets or sets the state of the collection item.
     /// </summary>
     public StswItemState ItemState { get; set; }

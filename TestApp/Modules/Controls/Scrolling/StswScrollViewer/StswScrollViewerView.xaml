@@ -23,11 +23,11 @@
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsDynamic"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
             <!-- HorizontalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
             <!-- VerticalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf VerticalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ScrollBarVisibility}}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf VerticalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswScrollViewer IsBusy="{Binding IsBusy}"

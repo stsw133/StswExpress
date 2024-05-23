@@ -119,8 +119,8 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                            <se:StswLabel Content="A"/>
-                            <se:StswLabel Content="{TemplateBinding SelectedColorA}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                            <se:StswHeader Content="A"/>
+                            <se:StswHeader Content="{TemplateBinding SelectedColorA}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
                             <se:StswSlider IsSnapToTickEnabled="True"
                                            Maximum="255"
                                            Value="{Binding SelectedColorA, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -134,8 +134,8 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                            <se:StswLabel Content="R"/>
-                            <se:StswLabel Content="{TemplateBinding SelectedColorR}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                            <se:StswHeader Content="R"/>
+                            <se:StswHeader Content="{TemplateBinding SelectedColorR}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
                             <se:StswSlider IsSnapToTickEnabled="True"
                                            Maximum="255"
                                            Value="{Binding SelectedColorR, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -149,8 +149,8 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                            <se:StswLabel Content="G"/>
-                            <se:StswLabel Content="{TemplateBinding SelectedColorG}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                            <se:StswHeader Content="G"/>
+                            <se:StswHeader Content="{TemplateBinding SelectedColorG}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
                             <se:StswSlider IsSnapToTickEnabled="True"
                                            Maximum="255"
                                            Value="{Binding SelectedColorG, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -164,8 +164,8 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     Margin="{TemplateBinding Padding}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
-                            <se:StswLabel Content="B"/>
-                            <se:StswLabel Content="{TemplateBinding SelectedColorB}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
+                            <se:StswHeader Content="B"/>
+                            <se:StswHeader Content="{TemplateBinding SelectedColorB}" DockPanel.Dock="Right" HorizontalContentAlignment="Right" Width="30"/>
                             <se:StswSlider IsSnapToTickEnabled="True"
                                            Maximum="255"
                                            Value="{Binding SelectedColorB, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"

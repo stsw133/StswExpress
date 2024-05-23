@@ -307,7 +307,7 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
             /// visual change for mode box
             if (stsw.FilterMode != null
              && stsw._filterMode?.Content is StswOutlinedText symbolBlock
-             && stsw._filterMode?.ContextMenu?.Items?.OfType<MenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
+             && stsw._filterMode?.ContextMenu?.Items?.OfType<StswMenuItem>()?.First(x => (StswFilterMode?)x.CommandParameter == stsw.FilterMode)?.Icon is StswOutlinedText newSymbolBlock)
             {
                 symbolBlock.Fill = newSymbolBlock.Fill;
                 symbolBlock.Text = newSymbolBlock.Text;

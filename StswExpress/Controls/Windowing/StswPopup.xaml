@@ -14,11 +14,11 @@
         
         <Setter Property="ScrollType" Value="ScrollViewer"/>
         
-        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
-        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
     </Style>
     
     
@@ -34,11 +34,9 @@
                        DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
             <se:StswDirectionViewer x:Name="PART_ScrollViewer"
                                     BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
-                                    CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                     Focusable="False"
-                                    PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                    HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
-                                    VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}">
+                                    HorizontalScrollBarVisibility="Disabled"
+                                    VerticalScrollBarVisibility="Auto">
                 <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"
                                   Focusable="False"
                                   Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswPopup}}}"/>

@@ -17,14 +17,14 @@
         <!-- properties -->
         
         <!-- content -->
-        <se:StswGrid AutoLayoutMode="IncrementColumns" ColumnWidths="{se:List '2*,1*'}" Margin="5">
-            <DockPanel>
-                <se:StswLabel DockPanel.Dock="Top" Content="Bar menu:"/>
-                <Menu IsEnabled="{Binding IsEnabled}"
-                      HorizontalAlignment="{Binding HorizontalAlignment}"
-                      HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                      VerticalAlignment="{Binding VerticalAlignment}"
-                      VerticalContentAlignment="{Binding VerticalContentAlignment}">
+        <se:StswGrid AutoLayoutMode="IncrementColumns" ColumnWidths="{se:StswMakeList '*,auto'}">
+            <DockPanel Margin="5">
+                <se:StswHeader DockPanel.Dock="Top" Content="Bar menu:"/>
+                <se:StswMenu IsEnabled="{Binding IsEnabled}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
                     <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
                     <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
                         <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
@@ -52,17 +52,14 @@
                     <se:StswMenuItem Header="Option 18"/>
                     <se:StswMenuItem Header="Option 19"/>
                     <se:StswMenuItem Header="Option 20"/>
-                </Menu>
+                </se:StswMenu>
             </DockPanel>
-            <DockPanel>
-                <se:StswLabel DockPanel.Dock="Top" Content="Context menu:"/>
+            <DockPanel Margin="5">
+                <se:StswHeader DockPanel.Dock="Top" Content="Context menu:"/>
                 <se:StswButton Command="{Binding OnClickCommand}"
                                CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                IsEnabled="{Binding IsEnabled}"
-                               HorizontalAlignment="{Binding HorizontalAlignment}"
-                               HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                               VerticalAlignment="{Binding VerticalAlignment}"
-                               VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                               VerticalAlignment="Top">
                     <se:StswHeader Content="Sample button with context menu" IconData="{x:Static se:StswIcons.Menu}"/>
                     <se:StswButton.ContextMenu>
                         <ContextMenu Style="{DynamicResource StswContextMenuStyle}">

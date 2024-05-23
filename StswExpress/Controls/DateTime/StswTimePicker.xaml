@@ -52,11 +52,11 @@
                                 </se:StswDropButton.Header>
                                 <Grid MaxHeight="500">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -65,9 +65,9 @@
                                     <!-- labels -->
                                     <se:StswBorder Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" BorderThickness="0 0 0 1">
                                         <UniformGrid Rows="1">
-                                            <se:StswLabel Content="Hours:"/>
-                                            <se:StswLabel Content="Minutes:"/>
-                                            <se:StswLabel Content="Seconds:"/>
+                                            <se:StswHeader Content="Hours:"/>
+                                            <se:StswHeader Content="Minutes:"/>
+                                            <se:StswHeader Content="Seconds:"/>
                                         </UniformGrid>
                                     </se:StswBorder>
                                     <!-- hours -->

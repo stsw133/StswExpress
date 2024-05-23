@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsTruncationAllowed -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsTruncationAllowed, Type={x:Type se:StswLabel}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsTruncationAllowed, Type={x:Type se:StswLabel}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsTruncationAllowed}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

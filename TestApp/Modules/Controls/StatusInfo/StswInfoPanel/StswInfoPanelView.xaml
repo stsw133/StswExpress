@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsClosable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsClosable, Type={x:Type se:StswInfoPanel}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswInfoPanel}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
             <!-- Add random item -->
             <se:StswButton Command="{Binding AddRandomItemCommand}" Margin="0 3">

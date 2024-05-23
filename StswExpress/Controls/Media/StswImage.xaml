@@ -36,44 +36,13 @@
                             <ContextMenu x:Name="PART_Menu"
                                          DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}"
                                          Style="{DynamicResource StswContextMenuStyle}">
-                                <!-- cut -->
-                                <MenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCut}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <!-- copy -->
-                                <MenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <!-- paste -->
-                                <MenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentPaste}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <!-- delete -->
-                                <MenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.CloseThick}" Fill="{DynamicResource StswColor.Negative}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <!-- ... -->
+                                <se:StswMenuItem x:Name="PART_Cut" Header="{se:Tr StswImage.Cut}" IconData="{x:Static se:StswIcons.ContentCut}"/>
+                                <se:StswMenuItem x:Name="PART_Copy" Header="{se:Tr StswImage.Copy}" IconData="{x:Static se:StswIcons.ContentCopy}"/>
+                                <se:StswMenuItem x:Name="PART_Paste" Header="{se:Tr StswImage.Paste}" IconData="{x:Static se:StswIcons.ContentPaste}"/>
+                                <se:StswMenuItem x:Name="PART_Delete" Header="{se:Tr StswImage.Remove}" IconData="{x:Static se:StswIcons.CloseThick}" IconFill="{DynamicResource StswColor.Negative}"/>
                                 <se:StswSeparator/>
-                                <!-- load -->
-                                <MenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FolderOpen}" Fill="{DynamicResource StswColor.Structure}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <!-- save -->
-                                <MenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}">
-                                    <MenuItem.Icon>
-                                        <se:StswIcon Data="{x:Static se:StswIcons.FileExport}" Fill="{DynamicResource StswColor.Positive}"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                <se:StswMenuItem x:Name="PART_Load" Header="{se:Tr StswImage.Load}" IconData="{x:Static se:StswIcons.FolderOpen}" IconFill="{DynamicResource StswColor.Structure}"/>
+                                <se:StswMenuItem x:Name="PART_Save" Header="{se:Tr StswImage.Save}" IconData="{x:Static se:StswIcons.FileExport}" IconFill="{DynamicResource StswColor.Positive}"/>
                             </ContextMenu>
                         </Border.ContextMenu>
                     </se:StswBorder>

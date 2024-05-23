@@ -69,6 +69,7 @@
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
         <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
+        <ResourceDictionary Source="Navigation/StswMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
