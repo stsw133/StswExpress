@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,6 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that displays a collection of items in a vertical list.
 /// </summary>
+[Obsolete("Not fully implemented and heavily bugged. Please do not use!", true)]
 public class StswPicker : ListBox, IStswCornerControl
 {
     static StswPicker()

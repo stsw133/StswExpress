@@ -7,11 +7,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswScrollViewer : ScrollViewer
+public class StswScrollView : ScrollViewer
 {
-    static StswScrollViewer()
+    static StswScrollView()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollViewer), new FrameworkPropertyMetadata(typeof(StswScrollViewer)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswScrollView), new FrameworkPropertyMetadata(typeof(StswScrollView)));
     }
 
     #region Events & methods
@@ -89,7 +89,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(AutoScroll),
             typeof(bool),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(false)
         );
     public static bool GetAutoScroll(DependencyObject obj) => (bool)obj.GetValue(AutoScrollProperty);
@@ -107,7 +107,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(ICommandSource.Command),
             typeof(ICommand),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(default)
         );
     public static ICommand? GetCommand(DependencyObject obj) => (ICommand?)obj.GetValue(CommandProperty);
@@ -125,7 +125,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(ICommandSource.CommandParameter),
             typeof(object),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(default)
         );
     public static object? GetCommandParameter(DependencyObject obj) => (object?)obj.GetValue(CommandParameterProperty);
@@ -143,7 +143,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(ICommandSource.CommandTarget),
             typeof(IInputElement),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(default)
         );
     public static IInputElement? GetCommandTarget(DependencyObject obj) => (IInputElement?)obj.GetValue(CommandTargetProperty);
@@ -161,7 +161,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(StswHeader.IsBusy),
             typeof(bool),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(false)
         );
     public static bool GetIsBusy(DependencyObject obj) => (bool)obj.GetValue(IsBusyProperty);
@@ -179,7 +179,7 @@ public class StswScrollViewer : ScrollViewer
         = DependencyProperty.RegisterAttached(
             nameof(IsDynamic),
             typeof(bool),
-            typeof(StswScrollViewer),
+            typeof(StswScrollView),
             new PropertyMetadata(false)
         );
     public static bool GetIsDynamic(DependencyObject obj) => (bool)obj.GetValue(IsDynamicProperty);

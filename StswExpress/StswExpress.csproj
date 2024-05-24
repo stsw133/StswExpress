@@ -158,7 +158,7 @@
     <Page Update="Controls\Navigation\StswContextMenu.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Scrolling\StswDirectionViewer.xaml">
+    <Page Update="Controls\Scrolling\StswDirectionView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Controls\StatusInfo\StswInfoBar.xaml">
@@ -243,7 +243,7 @@
     <Page Update="Controls\Navigation\StswNavigationElement.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Controls\Scrolling\StswScrollViewer.xaml">
+    <Page Update="Controls\Scrolling\StswScrollView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

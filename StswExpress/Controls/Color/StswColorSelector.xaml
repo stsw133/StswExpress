@@ -61,7 +61,7 @@
                             <se:StswGroupBox.Header>
                                 <se:StswHeader Content="{se:Tr StswColorSelector.ThemeColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                            <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                     Focusable="False"
                                                     Padding="{TemplateBinding Padding}"
                                                     HorizontalScrollBarVisibility="Auto"
@@ -96,7 +96,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </se:StswDirectionViewer>
+                            </se:StswDirectionView>
                         </se:StswGroupBox>
                         <!-- standard colors -->
                         <se:StswGroupBox x:Name="PART_StandardColors" Grid.Row="2"
@@ -107,7 +107,7 @@
                             <se:StswGroupBox.Header>
                                 <se:StswHeader Content="{se:Tr StswColorSelector.StandardColors}"/>
                             </se:StswGroupBox.Header>
-                            <se:StswDirectionViewer BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                            <se:StswDirectionView BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                     Focusable="False"
                                                     Padding="{TemplateBinding Padding}"
                                                     HorizontalScrollBarVisibility="Auto"
@@ -139,7 +139,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </se:StswDirectionViewer>
+                            </se:StswDirectionView>
                         </se:StswGroupBox>
                     </Grid>
                     <ControlTemplate.Triggers>

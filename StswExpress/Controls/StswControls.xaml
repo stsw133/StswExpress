@@ -76,9 +76,9 @@
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabItem.xaml"/>
 
-        <ResourceDictionary Source="Scrolling/StswDirectionViewer.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswDirectionView.xaml"/>
         <ResourceDictionary Source="Scrolling/StswScrollBar.xaml"/>
-        <ResourceDictionary Source="Scrolling/StswScrollViewer.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswScrollView.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>

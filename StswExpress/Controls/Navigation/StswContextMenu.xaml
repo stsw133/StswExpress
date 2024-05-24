@@ -34,12 +34,12 @@
                                        CornerClipping="True"
                                        CornerRadius="5"
                                        Padding="{TemplateBinding Padding}">
-                            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
-                                                    Focusable="False"
-                                                    HorizontalScrollBarVisibility="Disabled"
-                                                    VerticalScrollBarVisibility="Auto">
+                            <se:StswDirectionView BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
+                                                  Focusable="False"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Auto">
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                            </se:StswDirectionViewer>
+                            </se:StswDirectionView>
                         </se:StswBorder>
                     </Grid>
                 </ControlTemplate>

@@ -33,9 +33,9 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswDirectionViewer x:Name="PART_DirectionViewer" Focusable="False" Padding="{TemplateBinding Padding}">
+                        <se:StswDirectionView x:Name="PART_DirectionViewer" Focusable="False" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter/>
-                        </se:StswDirectionViewer>
+                        </se:StswDirectionView>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

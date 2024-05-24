@@ -15,7 +15,7 @@ WPF .NET 6.0 library containing:
   - **Layout:** StswBorder, StswExpander, StswGrid, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaPlayer
   - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Scrolling:** StswDirectionViewer, StswScrollBar, StswScrollViewer
+  - **Scrolling:** StswDirectionView, StswScrollBar, StswScrollView
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector
   - **TextStyle:** StswDropArrow, StswHeader, StswIcon, StswLabel, StswOutlinedText, StswSpinner, StswText

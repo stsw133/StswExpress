@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,11 +10,12 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control functioning as label.
 /// </summary>
+[Obsolete("Heavily bugged. Please do not use!", true)]
 public class StswLabel : Label, IStswCornerControl
 {
     public StswLabel()
     {
-        DependencyPropertyDescriptor.FromProperty(IsTruncationAllowedProperty, typeof(StswLabel)).AddValueChanged(this, (s, e) => UpdateContentTruncation());
+        DependencyPropertyDescriptor.FromProperty(AutoTruncationProperty, typeof(StswLabel)).AddValueChanged(this, (s, e) => UpdateContentTruncation());
     }
     static StswLabel()
     {
@@ -53,11 +55,8 @@ public class StswLabel : Label, IStswCornerControl
     /// </summary>
     private void UpdateContentTruncation()
     {
-        if (!IsTruncationAllowed)
-        {
-            IsContentTruncated = false;
+        if (!AutoTruncation)
             return;
-        }
 
         var desiredSize = MeasureContentDesiredSize(Content);
         var availableSize = new Size(ActualWidth, ActualHeight);
@@ -86,33 +85,31 @@ public class StswLabel : Label, IStswCornerControl
 
     #region Logic properties
     /// <summary>
+    /// Gets or sets a value indicating whether the truncation is calculated automatically.
+    /// </summary>
+    public bool AutoTruncation
+    {
+        get => (bool)GetValue(AutoTruncationProperty);
+        set => SetValue(AutoTruncationProperty, value);
+    }
+    public static readonly DependencyProperty AutoTruncationProperty
+        = DependencyProperty.Register(
+            nameof(AutoTruncation),
+            typeof(bool),
+            typeof(StswLabel)
+        );
+
+    /// <summary>
     /// Gets a value indicating whether the content is truncated.
     /// </summary>
     public bool IsContentTruncated
     {
         get => (bool)GetValue(IsContentTruncatedProperty);
-        internal set => SetValue(IsContentTruncatedPropertyKey, value);
+        set => SetValue(IsContentTruncatedProperty, value);
     }
-    public static readonly DependencyProperty? IsContentTruncatedProperty = IsContentTruncatedPropertyKey?.DependencyProperty;
-    internal static readonly DependencyPropertyKey IsContentTruncatedPropertyKey
-        = DependencyProperty.RegisterReadOnly(
-            nameof(IsContentTruncated),
-            typeof(bool),
-            typeof(StswLabel),
-            new PropertyMetadata(false)
-        );
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the truncation button is visible.
-    /// </summary>
-    public bool IsTruncationAllowed
-    {
-        get => (bool)GetValue(IsTruncationAllowedProperty);
-        set => SetValue(IsTruncationAllowedProperty, value);
-    }
-    public static readonly DependencyProperty IsTruncationAllowedProperty
+    public static readonly DependencyProperty IsContentTruncatedProperty
         = DependencyProperty.Register(
-            nameof(IsTruncationAllowed),
+            nameof(IsContentTruncated),
             typeof(bool),
             typeof(StswLabel)
         );

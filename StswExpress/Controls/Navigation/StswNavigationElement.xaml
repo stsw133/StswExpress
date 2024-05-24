@@ -15,7 +15,7 @@
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-        <Setter Property="ItemsIndentation" Value="22"/>
+        <Setter Property="ItemsIndentation" Value="23"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>

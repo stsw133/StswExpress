@@ -99,7 +99,7 @@
                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
-                                    <se:StswScrollViewer x:Name="PART_ContentHost"
+                                    <se:StswScrollView x:Name="PART_ContentHost"
                                                          Focusable="False"
                                                          IsDynamic="True"
                                                          HorizontalScrollBarVisibility="Hidden"

@@ -108,8 +108,8 @@
                 <se:StswNavigationElement Header="StswTabControl" ContextNamespace="TestApp.StswTabControlContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Scrolling" IconData="{x:Static se:StswIcons.SwapVertical}">
-                <se:StswNavigationElement Header="StswDirectionViewer" ContextNamespace="TestApp.StswDirectionViewerContext"/>
-                <se:StswNavigationElement Header="StswScrollViewer" ContextNamespace="TestApp.StswScrollViewerContext"/>
+                <se:StswNavigationElement Header="StswDirectionView" ContextNamespace="TestApp.StswDirectionViewContext"/>
+                <se:StswNavigationElement Header="StswScrollView" ContextNamespace="TestApp.StswScrollViewContext"/>
             </se:StswNavigationElement>
             <se:StswNavigationElement Header="Status &amp; info" IconData="{x:Static se:StswIcons.ProgressHelper}">
                 <se:StswNavigationElement ContextNamespace="TestApp.StswInfoBadgeContext">

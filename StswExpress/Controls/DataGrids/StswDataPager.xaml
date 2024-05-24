@@ -35,7 +35,7 @@
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel>
                             <!-- page buttons -->
-                            <se:StswDirectionViewer DockPanel.Dock="Bottom"
+                            <se:StswDirectionView DockPanel.Dock="Bottom"
                                                     BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
                                                     Focusable="False"
                                                     HorizontalScrollBarVisibility="Auto"
@@ -63,7 +63,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </se:StswDirectionViewer>
+                            </se:StswDirectionView>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"

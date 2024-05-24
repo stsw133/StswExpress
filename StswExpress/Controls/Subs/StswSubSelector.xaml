@@ -13,7 +13,7 @@
         <Setter Property="Padding" Value="1"/>
 
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
-        <Setter Property="IconScale" Value="1.33"/>
+        <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="IsContentVisible" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>

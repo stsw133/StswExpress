@@ -34,10 +34,13 @@
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
                         <DockPanel Margin="{TemplateBinding Padding}">
+                            <!-- icon -->
                             <ContentControl x:Name="PART_Icon"
                                             Focusable="False"
+                                            Margin="0 -1"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!-- content -->
                             <ContentPresenter x:Name="PART_Content"
                                               Focusable="False"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -97,19 +100,19 @@
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Icon"/>
                             <Setter Property="VerticalAlignment" Value="Center" TargetName="PART_Content"/>
-                            <Setter Property="Margin" Value="4 1 1 1" TargetName="PART_Content"/>
+                            <Setter Property="Margin" Value="5 0 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Vertical">
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Icon"/>
                             <Setter Property="HorizontalAlignment" Value="Center" TargetName="PART_Content"/>
-                            <Setter Property="Margin" Value="1" TargetName="PART_Content"/>
+                            <Setter Property="Margin" Value="0 2 0 0" TargetName="PART_Content"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IconData" Value="{x:Null}"/>
                                 <Condition Property="IconSource" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Margin" Value="1" TargetName="PART_Content"/>
+                            <Setter Property="Margin" Value="0" TargetName="PART_Content"/>
                         </MultiTrigger>
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource StswText.Highlighted.Static.Foreground}"/>

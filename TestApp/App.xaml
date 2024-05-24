@@ -215,11 +215,11 @@
             </DataTemplate>
             
             <!-- Scrolling -->
-            <DataTemplate DataType="{x:Type local:StswDirectionViewerContext}">
-                <local:StswDirectionViewerView/>
+            <DataTemplate DataType="{x:Type local:StswDirectionViewContext}">
+                <local:StswDirectionViewView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
-                <local:StswScrollViewerView/>
+            <DataTemplate DataType="{x:Type local:StswScrollViewContext}">
+                <local:StswScrollViewView/>
             </DataTemplate>
 
             <!-- StatusInfo -->

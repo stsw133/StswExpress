@@ -26,11 +26,11 @@
 
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollView.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
@@ -113,18 +113,18 @@
                                                               Orientation="Horizontal"
                                                               Visibility="Collapsed"/>
                                             <!-- items -->
-                                            <se:StswScrollViewer x:Name="DropDownScrollViewer"
-                                                                 AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 Focusable="False"
-                                                                 IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                                 VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                            <se:StswScrollView x:Name="DropDownScrollViewer"
+                                                               AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               Focusable="False"
+                                                               IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                               VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                                                 <!--
                                                 <Grid RenderOptions.ClearTypeHint="Enabled">
                                                     <Canvas Height="0" Width="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -137,7 +137,7 @@
                                                 </Grid>
                                                 -->
                                                 <VirtualizingStackPanel x:Name="PART_Items" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                            </se:StswScrollViewer>
+                                            </se:StswScrollView>
                                         </DockPanel>
                                     </se:StswBorder>
                                 </Popup>

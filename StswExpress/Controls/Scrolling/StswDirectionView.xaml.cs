@@ -8,11 +8,11 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswDirectionViewer : ScrollViewer
+public class StswDirectionView : ScrollViewer
 {
-    static StswDirectionViewer()
+    static StswDirectionView()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionViewer), new FrameworkPropertyMetadata(typeof(StswDirectionViewer)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDirectionView), new FrameworkPropertyMetadata(typeof(StswDirectionView)));
     }
 
     #region Events & methods
@@ -167,7 +167,7 @@ public class StswDirectionViewer : ScrollViewer
         = DependencyProperty.Register(
             nameof(BBtnThickness),
             typeof(Thickness),
-            typeof(StswDirectionViewer)
+            typeof(StswDirectionView)
         );
 
     /// <summary>
@@ -182,7 +182,7 @@ public class StswDirectionViewer : ScrollViewer
         = DependencyProperty.Register(
             nameof(FBtnThickness),
             typeof(Thickness),
-            typeof(StswDirectionViewer)
+            typeof(StswDirectionView)
         );
     
     /// <summary>
@@ -199,7 +199,7 @@ public class StswDirectionViewer : ScrollViewer
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
-            typeof(StswDirectionViewer)
+            typeof(StswDirectionView)
         );
     #endregion
 }

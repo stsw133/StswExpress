@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TestApp.StswScrollViewerView"
+﻿<UserControl x:Class="TestApp.StswDirectionViewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:TestApp"
              mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
     <d:UserControl.DataContext>
-        <local:StswScrollViewerContext/>
+        <local:StswDirectionViewContext/>
     </d:UserControl.DataContext>
 
     <local:ControlsBase ContentAlignmentVisibility="Visible">
@@ -16,30 +16,22 @@
         </local:ControlsBase.Description>
         <!-- properties -->
         <local:ControlsBase.Properties>
-            <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsBusy"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
-            <!-- IsDynamic -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="IsDynamic"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsDynamic}"/>
             <!-- HorizontalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf HorizontalScrollBarVisibility, Type={x:Type se:StswDirectionView}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding HorizontalScrollBarVisibility}"/>
             <!-- VerticalScrollBarVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf VerticalScrollBarVisibility, Type={x:Type se:StswScrollViewer}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf VerticalScrollBarVisibility, Type={x:Type se:StswDirectionView}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList ScrollBarVisibility}" Margin="0 0 0 3" SelectedValue="{Binding VerticalScrollBarVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswScrollViewer IsBusy="{Binding IsBusy}"
-                             IsDynamic="{Binding IsDynamic}"
-                             IsEnabled="{Binding IsEnabled}"
-                             Margin="5"
-                             HorizontalAlignment="{Binding HorizontalAlignment}"
-                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                             HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
-                             VerticalAlignment="{Binding VerticalAlignment}"
-                             VerticalContentAlignment="{Binding VerticalContentAlignment}"
-                             VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}">
+        <se:StswDirectionView IsEnabled="{Binding IsEnabled}"
+                              Margin="5"
+                              HorizontalAlignment="{Binding HorizontalAlignment}"
+                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                              HorizontalScrollBarVisibility="{Binding HorizontalScrollBarVisibility}"
+                              VerticalAlignment="{Binding VerticalAlignment}"
+                              VerticalContentAlignment="{Binding VerticalContentAlignment}"
+                              VerticalScrollBarVisibility="{Binding VerticalScrollBarVisibility}">
             <Rectangle Height="480" Width="960">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
@@ -53,7 +45,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-        </se:StswScrollViewer>
+        </se:StswDirectionView>
         <!-- status panel -->
         
     </local:ControlsBase>

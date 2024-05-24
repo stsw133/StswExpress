@@ -13,7 +13,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
-                <se:StswScrollViewer IsDynamic="True">
+                <se:StswScrollView IsDynamic="True">
                     <StackPanel Margin="3">
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                             <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
@@ -65,7 +65,7 @@
                             <ItemsControl Focusable="False" ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </StackPanel>
                     </StackPanel>
-                </se:StswScrollViewer>
+                </se:StswScrollView>
                 <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}"
                               Focusable="False"
                               Width="2"

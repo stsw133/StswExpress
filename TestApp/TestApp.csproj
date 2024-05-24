@@ -236,10 +236,10 @@
     <Compile Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswDirectionViewer\StswDirectionViewerView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrolling\StswDirectionView\StswDirectionViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml.cs">
+    <Compile Update="Modules\Controls\Scrolling\StswScrollView\StswScrollViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml.cs">
@@ -473,10 +473,10 @@
     <Page Update="Modules\Controls\Scrolling\StswGallery\StswGalleryView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswDirectionViewer\StswDirectionViewerView.xaml">
+    <Page Update="Modules\Controls\Scrolling\StswDirectionView\StswDirectionViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Modules\Controls\Scrolling\StswScrollViewer\StswScrollViewerView.xaml">
+    <Page Update="Modules\Controls\Scrolling\StswScrollView\StswScrollViewView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Modules\Controls\TextStyle\StswText\StswTextView.xaml">
