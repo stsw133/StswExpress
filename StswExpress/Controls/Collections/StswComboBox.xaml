@@ -60,7 +60,7 @@
                                              Template="{DynamicResource StswDropToggleButtonTemplate}">
                             <DockPanel>
                                 <!-- arrow -->
-                                <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                                <se:StswDropArrow DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
                                 <!-- sub controls -->
                                 <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                               IsTabStop="False"

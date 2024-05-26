@@ -55,6 +55,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="False">
                             <Setter Property="Grid.ColumnSpan" Value="2" TargetName="PART_MainBorder"/>

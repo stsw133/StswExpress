@@ -34,6 +34,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.Checked.Static.Background}" TargetName="PART_MainBorder"/>
@@ -92,13 +93,13 @@
                        BorderBrush="{TemplateBinding BorderBrush}"
                        BorderThickness="{TemplateBinding BorderThickness}"
                        CornerClipping="{TemplateBinding CornerClipping}"
-                       CornerRadius="{TemplateBinding CornerRadius}"
-                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                       CornerRadius="{TemplateBinding CornerRadius}">
             <ContentPresenter Focusable="False"
                               Margin="{TemplateBinding Padding}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
@@ -127,13 +128,13 @@
                        BorderBrush="{TemplateBinding BorderBrush}"
                        BorderThickness="{TemplateBinding BorderThickness}"
                        CornerClipping="{TemplateBinding CornerClipping}"
-                       CornerRadius="{TemplateBinding CornerRadius}"
-                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                       CornerRadius="{TemplateBinding CornerRadius}">
             <ContentPresenter Focusable="False"
                               Margin="{TemplateBinding Padding}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         </se:StswBorder>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource StswNavigationElement.MouseOver.Background}" TargetName="PART_MainBorder"/>

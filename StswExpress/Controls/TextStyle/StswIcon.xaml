@@ -8,7 +8,7 @@
         <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
-        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
         

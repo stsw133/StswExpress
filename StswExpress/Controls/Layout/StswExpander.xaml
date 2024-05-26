@@ -47,7 +47,7 @@
                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow" Focusable="False" IsExpanded="{TemplateBinding IsExpanded}" Width="24"/>
+                                    <se:StswDropArrow x:Name="PART_Arrow" IsExpanded="{TemplateBinding IsExpanded}" Width="24"/>
                                     <ContentPresenter Content="{TemplateBinding Header}"
                                                       ContentStringFormat="{TemplateBinding HeaderStringFormat}"
                                                       ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -68,14 +68,16 @@
                                               Visibility="Collapsed"/>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="ExpandDirection" Value="Down">
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Top" TargetName="PART_Separator"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Separator"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
@@ -84,13 +86,12 @@
                                     <RotateTransform Angle="90"/>
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Left" TargetName="PART_Separator"/>
                             <Setter Property="Orientation" Value="Vertical" TargetName="PART_Separator"/>
-                            <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Arrow"/>
                             <Setter Property="LayoutTransform" TargetName="PART_Arrow">
                                 <Setter.Value>
                                     <RotateTransform Angle="-90"/>
@@ -98,10 +99,10 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Header"/>
                             <Setter Property="DockPanel.Dock" Value="Bottom" TargetName="PART_Separator"/>
                             <Setter Property="Orientation" Value="Horizontal" TargetName="PART_Separator"/>
-                            <Setter Property="DockPanel.Dock" Value="Right" TargetName="PART_Arrow"/>
                             <Setter Property="LayoutTransform" TargetName="PART_Arrow">
                                 <Setter.Value>
                                     <RotateTransform Angle="180"/>

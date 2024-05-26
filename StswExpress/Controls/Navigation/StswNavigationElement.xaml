@@ -53,7 +53,7 @@
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Template="{DynamicResource StswNavigationToggleButtonTemplate}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow" DockPanel.Dock="Right" Focusable="False" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
+                                    <se:StswDropArrow x:Name="PART_Arrow" DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
                                     <se:StswHeader x:Name="PART_Header"
                                                    Content="{TemplateBinding Header}"
                                                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"

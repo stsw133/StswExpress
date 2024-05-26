@@ -8,7 +8,10 @@
         <Setter Property="Fill" Value="{DynamicResource StswText.Static.Foreground}"/>
         <Setter Property="Scale" Value="1.5"/>
 
+        <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
 
@@ -20,16 +23,16 @@
                         <DataTemplate x:Key="StswSpinnerCirclesTemplate">
                             <DataTemplate.Resources>
                                 <Style TargetType="{x:Type Path}" x:Key="BasePath">
-                                    <Setter Property="StrokeThickness" Value="0"/>
-                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
-                                    <Setter Property="Fill" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
                                     <Setter Property="Data" Value="M 12 6 a 3 3 0 1 1 0.01 0 z"/>
-                                    <Setter Property="StrokeDashCap" Value="Round"/>
-                                    <Setter Property="StrokeDashArray" Value="0"/>
-                                    <Setter Property="RenderTransformOrigin" Value=".5 .5"/>
-                                    <Setter Property="Width" Value="24"/>
-                                    <Setter Property="Height" Value="24"/>
+                                    <Setter Property="Fill" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
                                     <Setter Property="Opacity" Value="0"/>
+                                    <Setter Property="RenderTransformOrigin" Value=".5 .5"/>
+                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="StrokeDashArray" Value="0"/>
+                                    <Setter Property="StrokeDashCap" Value="Round"/>
+                                    <Setter Property="StrokeThickness" Value="0"/>
+                                    <Setter Property="Height" Value="24"/>
+                                    <Setter Property="Width" Value="24"/>
                                 </Style>
                             </DataTemplate.Resources>
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
@@ -307,9 +310,9 @@
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
                                 <UniformGrid Rows="1" Columns="3" HorizontalAlignment="Center" Height="24" Width="72">
                                     <Ellipse x:Name="PART_Dot1"
-                                             Width="20"
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Width="20">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
@@ -357,16 +360,16 @@
                                         </Ellipse.Style>
                                     </Ellipse>
                                     <Ellipse x:Name="PART_Dot2"
-                                             Width="20"
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Width="20">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
                                                     <EventTrigger RoutedEvent="Loaded">
                                                         <BeginStoryboard>
                                                             <Storyboard Duration="0:0:0.9" RepeatBehavior="Forever" BeginTime="0:0:0.2">
-                                                                <!-- Opacity dot 1-->
+                                                                <!-- Opacity dot 1 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="0.3" KeyTime="0:0:0"/>
@@ -382,7 +385,7 @@
                                                                         </EasingDoubleKeyFrame>
                                                                     </DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                 </DoubleAnimationUsingKeyFrames>
-                                                                <!-- Size dot 1-->
+                                                                <!-- Size dot 1 -->
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
                                                                     <DoubleAnimationUsingKeyFrames.KeyFrames>
                                                                         <DiscreteDoubleKeyFrame Value="5" KeyTime="0:0:0"/>
@@ -406,9 +409,9 @@
                                         </Ellipse.Style>
                                     </Ellipse>
                                     <Ellipse x:Name="PART_Dot3"
-                                             Width="20"
+                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"
                                              Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                             Fill="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
+                                             Width="20">
                                         <Ellipse.Style>
                                             <Style TargetType="{x:Type Ellipse}">
                                                 <Style.Triggers>
@@ -461,16 +464,16 @@
                         <DataTemplate x:Key="StswSpinnerLinesTemplate">
                             <DataTemplate.Resources>
                                 <Style TargetType="{x:Type Path}" x:Key="BasePath">
-                                    <Setter Property="StrokeThickness" Value="2"/>
-                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
-                                    <Setter Property="Fill" Value="Transparent"/>
                                     <Setter Property="Data" Value="M 12 6 L 12 0"/>
-                                    <Setter Property="StrokeDashCap" Value="Round"/>
-                                    <Setter Property="StrokeDashArray" Value="0"/>
-                                    <Setter Property="RenderTransformOrigin" Value=".5 .5"/>
-                                    <Setter Property="Width" Value="24"/>
-                                    <Setter Property="Height" Value="24"/>
+                                    <Setter Property="Fill" Value="Transparent"/>
                                     <Setter Property="Opacity" Value="0"/>
+                                    <Setter Property="RenderTransformOrigin" Value=".5 .5"/>
+                                    <Setter Property="Stroke" Value="{Binding Fill, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}"/>
+                                    <Setter Property="StrokeDashArray" Value="0"/>
+                                    <Setter Property="StrokeDashCap" Value="Round"/>
+                                    <Setter Property="StrokeThickness" Value="2"/>
+                                    <Setter Property="Height" Value="24"/>
+                                    <Setter Property="Width" Value="24"/>
                                 </Style>
                             </DataTemplate.Resources>
                             <Viewbox Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswSpinner}}}">
@@ -721,7 +724,7 @@
                     </ControlTemplate.Resources>
                     
                     <!-- content -->
-                    <ContentControl x:Name="PART_ContentControl" Background="{TemplateBinding Background}"/>
+                    <ContentControl x:Name="PART_ContentControl" Background="{TemplateBinding Background}" Focusable="False"/>
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="Type" Value="Circles">

@@ -62,6 +62,7 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" Value="{DynamicResource StswExpander.Disabled.Background}" TargetName="PART_Header"/>

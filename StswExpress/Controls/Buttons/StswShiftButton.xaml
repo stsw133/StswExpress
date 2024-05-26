@@ -72,6 +72,7 @@
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="Visibility" Value="Hidden" TargetName="PART_Content"/>

@@ -51,7 +51,7 @@
                                                  HorizontalContentAlignment="Stretch"
                                                  VerticalContentAlignment="Stretch"
                                                  Template="{DynamicResource StswDropToggleButtonTemplate}">
-                                <se:StswDropArrow Focusable="False" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                                <se:StswDropArrow IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             </se:StswToggleButton>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"
@@ -102,6 +102,7 @@
                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswButton.MouseOver.Background}" TargetName="PART_MainBorder"/>
