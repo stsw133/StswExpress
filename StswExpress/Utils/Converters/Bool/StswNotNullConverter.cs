@@ -9,7 +9,7 @@ namespace StswExpress;
 /// <summary>
 /// Checks if value parameter is not null.<br/>
 /// <br/>
-/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
 public class StswNotNullConverter : MarkupExtension, IValueConverter

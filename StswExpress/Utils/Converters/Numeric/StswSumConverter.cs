@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Data;
 using System.Globalization;
+using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace StswExpress;
 
 /// <summary>
-/// Allows the user to sum up the values of a specified property of each item in a collection or a DataTable.
+/// Allows the user to sum up the values of a specified property of each item in a collection or a <see cref="DataTable"/>.
 /// </summary>
 public class StswSumConverter : MarkupExtension, IValueConverter
 {
@@ -24,17 +25,17 @@ public class StswSumConverter : MarkupExtension, IValueConverter
         /// result
         var result = 0d;
         
-        if (value is IEnumerable enumerable)
-            foreach (var item in enumerable)
-            {
-                if (item.GetType().GetProperty(pmr) is not null and System.Reflection.PropertyInfo prop)
-                    result += System.Convert.ToDouble(prop.GetValue(item), culture);
-            }
-        else if (value is DataTable dataTable)
+        if (value is DataTable dataTable)
             foreach (DataRow row in dataTable.Rows)
             {
                 if (double.TryParse(row?[pmr]?.ToString(), NumberStyles.Number, culture, out var val))
                     result += val;
+            }
+        else if (value is IEnumerable enumerable)
+            foreach (var item in enumerable)
+            {
+                if (item.GetType().GetProperty(pmr) is not null and PropertyInfo prop)
+                    result += System.Convert.ToDouble(prop.GetValue(item), culture);
             }
 
         return result;

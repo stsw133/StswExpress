@@ -72,28 +72,28 @@ public class GalleryContext : StswObservableObject
     /// IsLoopingEnabled
     public bool IsLoopingEnabled
     {
-        get => isLoopingEnabled;
-        set => SetProperty(ref isLoopingEnabled, value);
+        get => _isLoopingEnabled;
+        set => SetProperty(ref _isLoopingEnabled, value);
     }
-    private bool isLoopingEnabled;
+    private bool _isLoopingEnabled;
 
     /// SelectedDirectory
     public string? SelectedDirectory
     {
-        get => selectedDirectory;
+        get => _selectedDirectory;
         set
         {
-            SetProperty(ref selectedDirectory, value);
+            SetProperty(ref _selectedDirectory, value);
             LoadDirectory();
         }
     }
-    private string? selectedDirectory;
+    private string? _selectedDirectory;
 
     /// SelectedFile
     public string? SelectedFile
     {
-        get => selectedFile;
-        set => SetProperty(ref selectedFile, value);
+        get => _selectedFile;
+        set => SetProperty(ref _selectedFile, value);
     }
-    private string? selectedFile;
+    private string? _selectedFile;
 }

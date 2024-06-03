@@ -19,34 +19,34 @@ public class StswSubCheckContext : ControlsContext
     }
 
     /// IconScale
-    private GridLength iconScale;
     public GridLength IconScale
     {
-        get => iconScale;
-        set => SetProperty(ref iconScale, value);
+        get => _iconScale;
+        set => SetProperty(ref _iconScale, value);
     }
+    private GridLength _iconScale;
 
     /// IsBusy
-    private bool isBusy;
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
-
-    /// IsThreeState
-    private bool isThreeState;
-    public bool IsThreeState
-    {
-        get => isThreeState;
-        set => SetProperty(ref isThreeState, value);
-    }
+    private bool _isBusy;
 
     /// IsContentVisible
-    private bool isContentVisible;
     public bool IsContentVisible
     {
-        get => isContentVisible;
-        set => SetProperty(ref isContentVisible, value);
+        get => _isContentVisible;
+        set => SetProperty(ref _isContentVisible, value);
     }
+    private bool _isContentVisible;
+
+    /// IsThreeState
+    public bool IsThreeState
+    {
+        get => _isThreeState;
+        set => SetProperty(ref _isThreeState, value);
+    }
+    private bool _isThreeState;
 }

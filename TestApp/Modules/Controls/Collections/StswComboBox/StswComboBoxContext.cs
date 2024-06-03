@@ -28,59 +28,59 @@ public class StswComboBoxContext : ControlsContext
     }
 
     /// IsEditable
-    private bool isEditable;
     public bool IsEditable
     {
-        get => isEditable;
-        set => SetProperty(ref isEditable, value);
+        get => _isEditable;
+        set => SetProperty(ref _isEditable, value);
     }
+    private bool _isEditable;
 
     /// IsFilterEnabled
-    private bool isFilterEnabled;
     public bool IsFilterEnabled
     {
-        get => isFilterEnabled;
-        set => SetProperty(ref isFilterEnabled, value);
+        get => _isFilterEnabled;
+        set => SetProperty(ref _isFilterEnabled, value);
     }
+    private bool _isFilterEnabled;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// Items
-    private List<string> items = Enumerable.Range(1, 3000).Select(i => "Option " + i).ToList();
     public List<string> Items
     {
-        get => items;
-        set => SetProperty(ref items, value);
+        get => _items;
+        set => SetProperty(ref _items, value);
     }
+    private List<string> _items = Enumerable.Range(1, 3000).Select(i => "Option " + i).ToList();
 
     /// ItemsCollectionView
-    private ICollectionView? itemsCollectionView;
     public ICollectionView? ItemsCollectionView
     {
-        get => itemsCollectionView;
-        set => SetProperty(ref itemsCollectionView, value);
+        get => _itemsCollectionView;
+        set => SetProperty(ref _itemsCollectionView, value);
     }
+    private ICollectionView? _itemsCollectionView;
     private CollectionViewSource itemsCollectionViewSource;
 
     /// SelectedItem
-    private string? selectedItem;
     public string? SelectedItem
     {
-        get => selectedItem;
-        set => SetProperty(ref selectedItem, value);
+        get => _selectedItem;
+        set => SetProperty(ref _selectedItem, value);
     }
+    private string? _selectedItem;
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 }

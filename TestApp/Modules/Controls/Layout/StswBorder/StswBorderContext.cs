@@ -3,10 +3,10 @@
 public class StswBorderContext : ControlsContext
 {
     /// ShowExampleContent
-    private bool showExampleContent;
     public bool ShowExampleContent
     {
-        get => showExampleContent;
-        set => SetProperty(ref showExampleContent, value);
+        get => _showExampleContent;
+        set => SetProperty(ref _showExampleContent, value);
     }
+    private bool _showExampleContent;
 }

@@ -17,41 +17,42 @@ public class StswCheckBoxContext : ControlsContext
     }
 
     /// ClickOption
-    private int clickOption;
     public int ClickOption
     {
-        get => clickOption;
-        set => SetProperty(ref clickOption, value);
+        get => _clickOption;
+        set => SetProperty(ref _clickOption, value);
     }
+    private int _clickOption;
+
     /// SelectedOption
-    private ObservableCollection<bool?> selectedOption = new() { null, false, false, true, false };
     public ObservableCollection<bool?> SelectedOption
     {
-        get => selectedOption;
-        set => SetProperty(ref selectedOption, value);
+        get => _selectedOption;
+        set => SetProperty(ref _selectedOption, value);
     }
+    private ObservableCollection<bool?> _selectedOption = new() { null, false, false, true, false };
 
     /// HasContent
-    private bool hasContent = true;
     public bool HasContent
     {
-        get => hasContent;
-        set => SetProperty(ref hasContent, value);
+        get => _hasContent;
+        set => SetProperty(ref _hasContent, value);
     }
+    private bool _hasContent = true;
     
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// IsThreeState
-    private bool isThreeState;
     public bool IsThreeState
     {
-        get => isThreeState;
-        set => SetProperty(ref isThreeState, value);
+        get => _isThreeState;
+        set => SetProperty(ref _isThreeState, value);
     }
+    private bool _isThreeState;
 }

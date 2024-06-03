@@ -17,14 +17,14 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswAdaptiveBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswAdaptiveBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswAdaptiveBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
             <!-- Type -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswAdaptiveBox}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswAdaptiveType}}" Margin="0 0 0 3" SelectedValue="{Binding Type}">
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswAdaptiveBox}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAdaptiveType}" Margin="0 0 0 3" SelectedValue="{Binding Type}">
                 <se:StswComboBox.SubControls>
                     <se:StswSubButton Command="{Binding ClearTypeCommand}" IconData="{x:Static se:StswIcons.Close}"/>
                 </se:StswComboBox.SubControls>

@@ -17,11 +17,11 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsClosable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsClosable, Type={x:Type se:StswInfoBar}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsClosable, Type={x:Type se:StswInfoBar}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsClosable}"/>
             <!-- Type -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswInfoBar}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswInfoType}}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBar}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswInfoBar Description="{Binding Description}"

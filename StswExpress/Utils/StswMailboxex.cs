@@ -87,58 +87,58 @@ public class StswMailboxModel : StswObservableObject
     /// Name
     public string Name
     {
-        get => name;
-        set => SetProperty(ref name, value);
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
-    private string name = string.Empty;
+    private string _name = string.Empty;
 
     /// Host
     public string Host
     {
-        get => host;
-        set => SetProperty(ref host, value);
+        get => _host;
+        set => SetProperty(ref _host, value);
     }
-    private string host = string.Empty;
+    private string _host = string.Empty;
 
     /// Port
     public int Port
     {
-        get => port;
-        set => SetProperty(ref port, value);
+        get => _port;
+        set => SetProperty(ref _port, value);
     }
-    private int port = 0;
+    private int _port = 0;
 
     /// Address
     public string Address
     {
-        get => address;
-        set => SetProperty(ref address, value);
+        get => _address;
+        set => SetProperty(ref _address, value);
     }
-    private string address = string.Empty;
+    private string _address = string.Empty;
 
     /// Username
     public string Username
     {
-        get => username;
-        set => SetProperty(ref username, value);
+        get => _username;
+        set => SetProperty(ref _username, value);
     }
-    private string username = string.Empty;
+    private string _username = string.Empty;
 
     /// Password
     public string Password
     {
-        get => password;
-        set => SetProperty(ref password, value);
+        get => _password;
+        set => SetProperty(ref _password, value);
     }
-    private string password = string.Empty;
+    private string _password = string.Empty;
 
     /// EnableSSL
     public bool EnableSSL
     {
-        get => enableSSL;
-        set => SetProperty(ref enableSSL, value);
+        get => _enableSSL;
+        set => SetProperty(ref _enableSSL, value);
     }
-    private bool enableSSL = false;
+    private bool _enableSSL = false;
 
     /// <summary>
     /// Sends an email using the SMTP protocol.

@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswSplitButton}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswSplitButton}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -32,7 +32,7 @@
                             VerticalAlignment="{Binding VerticalAlignment}"
                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
             <se:StswSplitButton.Header>
-                <se:StswHeader Content="Here is a text for the header" IconData="{x:Static se:StswIcons.Dice6}"/>
+                <se:StswHeader Content="Option 6" IconData="{x:Static se:StswIcons.Dice6}"/>
             </se:StswSplitButton.Header>
 
             <se:StswButton BorderThickness="0" Command="{Binding OnClickCommand}" CommandParameter="1" CornerRadius="0">

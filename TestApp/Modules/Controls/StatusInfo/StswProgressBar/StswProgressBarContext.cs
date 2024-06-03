@@ -14,49 +14,50 @@ public class StswProgressBarContext : ControlsContext
     }
 
     /// IsIndeterminate
-    private bool isIndeterminate;
     public bool IsIndeterminate
     {
-        get => isIndeterminate;
-        set => SetProperty(ref isIndeterminate, value);
+        get => _isIndeterminate;
+        set => SetProperty(ref _isIndeterminate, value);
     }
+    private bool _isIndeterminate;
 
     /// Maximum
-    private double? maximum = 100;
     public double? Maximum
     {
-        get => maximum;
-        set => SetProperty(ref maximum, value);
+        get => _maximum;
+        set => SetProperty(ref _maximum, value);
     }
+    private double? _maximum = 100;
+
     /// Minimum
-    private double? minimum = 0;
     public double? Minimum
     {
-        get => minimum;
-        set => SetProperty(ref minimum, value);
+        get => _minimum;
+        set => SetProperty(ref _minimum, value);
     }
+    private double? _minimum = 0;
 
     /// SelectedValue
-    private double? selectedValue = 0;
     public double? SelectedValue
     {
-        get => selectedValue;
-        set => SetProperty(ref selectedValue, value);
+        get => _selectedValue;
+        set => SetProperty(ref _selectedValue, value);
     }
+    private double? _selectedValue = 0;
 
     /// State
-    private StswProgressState state;
     public StswProgressState State
     {
-        get => state;
-        set => SetProperty(ref state, value);
+        get => _state;
+        set => SetProperty(ref _state, value);
     }
+    private StswProgressState _state;
 
     /// TextMode
-    private StswProgressTextMode textMode;
     public StswProgressTextMode TextMode
     {
-        get => textMode;
-        set => SetProperty(ref textMode, value);
+        get => _textMode;
+        set => SetProperty(ref _textMode, value);
     }
+    private StswProgressTextMode _textMode;
 }

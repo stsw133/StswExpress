@@ -10,7 +10,7 @@
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="0"/>
-        
+
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
@@ -20,11 +20,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
-        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
@@ -37,21 +37,21 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollViewer x:Name="PART_ScrollViewer"
-                                             AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                             CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Focusable="False"
-                                             IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                             IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                             Padding="{TemplateBinding Padding}"
-                                             PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                             HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                             VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                        <se:StswScrollView x:Name="PART_ScrollViewer"
+                                           AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                           CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                           Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                           CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                           CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                           Focusable="False"
+                                           IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                           IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                           Padding="{TemplateBinding Padding}"
+                                           PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                           HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                           VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
                             <ItemsPresenter/>
-                        </se:StswScrollViewer>
+                        </se:StswScrollView>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -78,7 +78,10 @@
 
                     <Setter Property="BorderThickness" Value="{DynamicResource StswItem.Thickness.Border}"/>
                     <Setter Property="Padding" Value="4 2"/>
-                    
+
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswListBox}}}"/>
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -136,38 +139,5 @@
                 </Style>
             </Setter.Value>
         </Setter>
-
     </Style>
-
-
-
-    <!-- template for StswListBox in: "StswTimePicker" -->
-    <ControlTemplate x:Key="StswTimeListBoxTemplate" TargetType="{x:Type se:StswListBox}">
-        <se:StswBorder x:Name="PART_MainBorder"
-                       Background="{TemplateBinding Background}"
-                       BorderBrush="{TemplateBinding BorderBrush}"
-                       BorderThickness="{TemplateBinding BorderThickness}"
-                       CornerClipping="{TemplateBinding CornerClipping}"
-                       CornerRadius="{TemplateBinding CornerRadius}">
-            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" HorizontalScrollBarVisibility="Disabled"
-                                    Focusable="False"
-                                    Padding="{TemplateBinding Padding}">
-                <ItemsPresenter/>
-            </se:StswDirectionViewer>
-        </se:StswBorder>
-        <ControlTemplate.Triggers>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsGrouping" Value="True"/>
-                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
-                </MultiTrigger.Conditions>
-                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
-            </MultiTrigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource StswPanel.Disabled.Background}" TargetName="PART_MainBorder"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Disabled.Border}" TargetName="PART_MainBorder"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
 </ResourceDictionary>

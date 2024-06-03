@@ -5,10 +5,10 @@ public class StswRepeatButtonContext : ControlsContext
     public StswCommand OnClickCommand => new(() => ClickCounter++);
 
     /// ClickCounter
-    private int clickCounter;
     public int ClickCounter
     {
-        get => clickCounter;
-        set => SetProperty(ref clickCounter, value);
+        get => _clickCounter;
+        set => SetProperty(ref _clickCounter, value);
     }
+    private int _clickCounter;
 }

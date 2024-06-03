@@ -75,13 +75,13 @@ public class StswSpinner : Control
 
     #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
-
+    /*
     [Browsable(false)]
     [Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Background { get; private set; }
-
+    */
     [Browsable(false)]
     [Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -123,12 +123,6 @@ public class StswSpinner : Control
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new FontWeight FontWeight { get; private set; }
-
-    [Browsable(false)]
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    protected new Thickness Padding { get; private set; }
 
     [Browsable(false)]
     [Bindable(false)]

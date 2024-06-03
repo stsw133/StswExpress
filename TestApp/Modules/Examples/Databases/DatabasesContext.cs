@@ -72,8 +72,8 @@ public class DatabasesContext : StswObservableObject
     /// SelectedDatabase
     public StswDatabaseModel? SelectedDatabase
     {
-        get => selectedDatabase;
-        set => SetProperty(ref selectedDatabase, value);
+        get => _selectedDatabase;
+        set => SetProperty(ref _selectedDatabase, value);
     }
-    private StswDatabaseModel? selectedDatabase = StswDatabases.Current ?? new();
+    private StswDatabaseModel? _selectedDatabase = StswDatabases.Current ?? new();
 }

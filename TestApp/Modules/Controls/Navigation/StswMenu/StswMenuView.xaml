@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="TestApp.StswMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswMenuContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that extends the TabControl class with additional functionality.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        
+        <!-- content -->
+        <se:StswGrid AutoLayoutMode="IncrementColumns" ColumnWidths="{se:StswMakeList '*,auto'}">
+            <DockPanel Margin="5">
+                <se:StswHeader DockPanel.Dock="Top" Content="Bar menu:"/>
+                <se:StswMenu IsEnabled="{Binding IsEnabled}"
+                             HorizontalAlignment="{Binding HorizontalAlignment}"
+                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                             VerticalAlignment="{Binding VerticalAlignment}"
+                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
+                    <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
+                    <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
+                        <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
+                        <se:StswMenuItem Header="Option 2b" IconData="{x:Static se:StswIcons.AlphaBBox}"/>
+                        <se:StswMenuItem Header="Option 2c" IconData="{x:Static se:StswIcons.AlphaCBox}" InputGestureText="Alt + F4"/>
+                        <se:StswMenuItem Header="Option 2d" IconData="{x:Static se:StswIcons.AlphaDBox}" IsCheckable="True"/>
+                        <se:StswMenuItem Header="Option 2e" IconData="{x:Static se:StswIcons.AlphaEBox}" IsCheckable="True"/>
+                        <se:StswMenuItem Header="Option 2x"/>
+                    </se:StswMenuItem>
+                    <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}" InputGestureText="Alt + F4"/>
+                    <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True"/>
+                    <se:StswMenuItem Header="Option 5" IconData="{x:Static se:StswIcons.Dice5}" IsCheckable="True"/>
+                    <se:StswMenuItem Header="Option 6" IconData="{x:Static se:StswIcons.Dice6}" IsCheckable="True"/>
+                    <se:StswMenuItem Header="Option 7"/>
+                    <se:StswMenuItem Header="Option 8"/>
+                    <se:StswMenuItem Header="Option 9"/>
+                    <se:StswMenuItem Header="Option 10"/>
+                    <se:StswMenuItem Header="Option 11"/>
+                    <se:StswMenuItem Header="Option 12"/>
+                    <se:StswMenuItem Header="Option 13"/>
+                    <se:StswMenuItem Header="Option 14"/>
+                    <se:StswMenuItem Header="Option 15"/>
+                    <se:StswMenuItem Header="Option 16"/>
+                    <se:StswMenuItem Header="Option 17"/>
+                    <se:StswMenuItem Header="Option 18"/>
+                    <se:StswMenuItem Header="Option 19"/>
+                    <se:StswMenuItem Header="Option 20"/>
+                </se:StswMenu>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <se:StswHeader DockPanel.Dock="Top" Content="Context menu:"/>
+                <se:StswButton Command="{Binding OnClickCommand}"
+                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                               IsEnabled="{Binding IsEnabled}"
+                               VerticalAlignment="Top">
+                    <se:StswHeader Content="Sample button with context menu" IconData="{x:Static se:StswIcons.Menu}"/>
+                    <se:StswButton.ContextMenu>
+                        <ContextMenu Style="{DynamicResource StswContextMenuStyle}">
+                            <se:StswMenuItem Header="Option 1" IconData="{x:Static se:StswIcons.Dice1}"/>
+                            <se:StswMenuItem Header="Option 2" IconData="{x:Static se:StswIcons.Dice2}">
+                                <se:StswMenuItem Header="Option 2a" IconData="{x:Static se:StswIcons.AlphaABox}"/>
+                                <se:StswMenuItem Header="Option 2b" IconData="{x:Static se:StswIcons.AlphaBBox}"/>
+                                <se:StswMenuItem Header="Option 2c" IconData="{x:Static se:StswIcons.AlphaCBox}" InputGestureText="Alt + F4"/>
+                                <se:StswMenuItem Header="Option 2d" IconData="{x:Static se:StswIcons.AlphaDBox}" IsCheckable="True"/>
+                                <se:StswMenuItem Header="Option 2e" IconData="{x:Static se:StswIcons.AlphaEBox}" IsCheckable="True"/>
+                                <se:StswMenuItem Header="Option 2x"/>
+                            </se:StswMenuItem>
+                            <se:StswMenuItem Header="Option 3" IconData="{x:Static se:StswIcons.Dice3}" InputGestureText="Alt + F4"/>
+                            <se:StswMenuItem Header="Option 4" IconData="{x:Static se:StswIcons.Dice4}" IsCheckable="True"/>
+                            <se:StswMenuItem Header="Option 5" IconData="{x:Static se:StswIcons.Dice5}" IsCheckable="True"/>
+                            <se:StswMenuItem Header="Option 6" IconData="{x:Static se:StswIcons.Dice6}" IsCheckable="True"/>
+                            <se:StswMenuItem Header="Option 7"/>
+                            <se:StswMenuItem Header="Option 8"/>
+                            <se:StswMenuItem Header="Option 9"/>
+                            <se:StswMenuItem Header="Option 10"/>
+                            <se:StswMenuItem Header="Option 11"/>
+                            <se:StswMenuItem Header="Option 12"/>
+                            <se:StswMenuItem Header="Option 13"/>
+                            <se:StswMenuItem Header="Option 14"/>
+                            <se:StswMenuItem Header="Option 15"/>
+                            <se:StswMenuItem Header="Option 16"/>
+                            <se:StswMenuItem Header="Option 17"/>
+                            <se:StswMenuItem Header="Option 18"/>
+                            <se:StswMenuItem Header="Option 19"/>
+                            <se:StswMenuItem Header="Option 20"/>
+                        </ContextMenu>
+                    </se:StswButton.ContextMenu>
+                </se:StswButton>
+            </DockPanel>
+        </se:StswGrid>
+        <!-- status panel -->
+        
+    </local:ControlsBase>
+</UserControl>

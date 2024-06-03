@@ -10,7 +10,7 @@ namespace StswExpress;
 /// Compares value parameter to converter parameter.<br/>
 /// Use '<c>!</c>' at the beginning of converter parameter to invert output value.<br/>
 /// <br/>
-/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
 public class StswRadioConverter : MarkupExtension, IValueConverter
@@ -26,15 +26,15 @@ public class StswRadioConverter : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString() ?? string.Empty;
 
         /// parameters
-        bool isReversed = pmr.Contains('!');
-
-        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+        var isReversed = pmr.Contains('!');
+        if (isReversed)
+            pmr = pmr.Remove(pmr.IndexOf('!'), 1);
 
         /// result
         if (targetType == typeof(Visibility))
             return ((val == pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
         else
-            return ((val == pmr) ^ isReversed);
+            return (val == pmr) ^ isReversed;
     }
 
     /// ConvertBack

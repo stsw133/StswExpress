@@ -5,7 +5,13 @@ namespace TestApp;
 public class ContractorsContext : StswObservableObject
 {
     /// Tabs
-    private static ObservableCollection<StswTabItem> tabs = new()
+    public static ObservableCollection<StswTabItem> Tabs_ => _tabs;
+    public ObservableCollection<StswTabItem> Tabs
+    {
+        get => _tabs;
+        set => SetProperty(ref _tabs, value);
+    }
+    private static ObservableCollection<StswTabItem> _tabs = new()
     {
         new()
         {
@@ -17,10 +23,4 @@ public class ContractorsContext : StswObservableObject
             Content = new ContractorsListContext()
         }
     };
-    public ObservableCollection<StswTabItem> Tabs
-    {
-        get => tabs;
-        set => SetProperty(ref tabs, value);
-    }
-    public static ObservableCollection<StswTabItem> Tabs_ => tabs;
 }

@@ -14,34 +14,34 @@ public class StswInfoBarContext : ControlsContext
     }
 
     /// Description
-    private string description = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.";
     public string Description
     {
-        get => description;
-        set => SetProperty(ref description, value);
+        get => _description;
+        set => SetProperty(ref _description, value);
     }
+    private string _description = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.";
 
     /// IsClosable
-    private bool isClosable;
     public bool IsClosable
     {
-        get => isClosable;
-        set => SetProperty(ref isClosable, value);
+        get => _isClosable;
+        set => SetProperty(ref _isClosable, value);
     }
+    private bool _isClosable;
 
     /// Title
-    private string title = DateTime.Now.ToString();
     public string Title
     {
-        get => title;
-        set => SetProperty(ref title, value);
+        get => _title;
+        set => SetProperty(ref _title, value);
     }
+    private string _title = DateTime.Now.ToString();
 
     /// Type
-    private StswInfoType type;
     public StswInfoType Type
     {
-        get => type;
-        set => SetProperty(ref type, value);
+        get => _type;
+        set => SetProperty(ref _type, value);
     }
+    private StswInfoType _type;
 }

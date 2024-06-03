@@ -3,48 +3,50 @@
 public class StswSliderContext : ControlsContext
 {
     /// Maximum
-    private double? maximum = 100;
     public double? Maximum
     {
-        get => maximum;
-        set => SetProperty(ref maximum, value);
+        get => _maximum;
+        set => SetProperty(ref _maximum, value);
     }
+    private double? _maximum = 100;
+
     /// Minimum
-    private double? minimum = 0;
     public double? Minimum
     {
-        get => minimum;
-        set => SetProperty(ref minimum, value);
+        get => _minimum;
+        set => SetProperty(ref _minimum, value);
     }
+    private double? _minimum = 0;
 
     /// SelectedValue
-    private double? selectedValue = 0;
     public double? SelectedValue
     {
-        get => selectedValue;
-        set => SetProperty(ref selectedValue, value);
+        get => _selectedValue;
+        set => SetProperty(ref _selectedValue, value);
     }
+    private double? _selectedValue = 0;
 
     /// SelectionEnd
-    private double? selectionEnd = 40;
     public double? SelectionEnd
     {
-        get => selectionEnd;
-        set => SetProperty(ref selectionEnd, value);
+        get => _selectionEnd;
+        set => SetProperty(ref _selectionEnd, value);
     }
+    private double? _selectionEnd = 40;
+
     /// SelectionStart
-    private double? selectionStart = 20;
     public double? SelectionStart
     {
-        get => selectionStart;
-        set => SetProperty(ref selectionStart, value);
+        get => _selectionStart;
+        set => SetProperty(ref _selectionStart, value);
     }
+    private double? _selectionStart = 20;
 
     /// TickFrequency
-    private double tickFrequency = 5;
     public double TickFrequency
     {
-        get => tickFrequency;
-        set => SetProperty(ref tickFrequency, value);
+        get => _tickFrequency;
+        set => SetProperty(ref _tickFrequency, value);
     }
+    private double _tickFrequency = 5;
 }

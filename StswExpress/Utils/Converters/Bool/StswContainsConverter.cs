@@ -13,7 +13,7 @@ namespace StswExpress;
 /// Checks if value parameter contains converter parameter.<br/>
 /// Use '<c>!</c>' at the beginning of converter parameter to invert output value.<br/>
 /// <br/>
-/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <c>true</c>, otherwise <c>Collapsed</c>.<br/>
+/// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
 /// </summary>
 public class StswContainsConverter : MarkupExtension, IValueConverter
@@ -30,8 +30,8 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
 
         /// parameters
         bool isReversed = pmr.Contains('!');
-
-        if (isReversed) pmr = pmr.Remove(pmr.IndexOf('!'), 1);
+        if (isReversed)
+            pmr = pmr.Remove(pmr.IndexOf('!'), 1);
 
         /// result
         if (value is IEnumerable enumerable)

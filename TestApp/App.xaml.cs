@@ -13,6 +13,8 @@ namespace TestApp;
 /// </summary>
 public partial class App : StswApp
 {
+    public static ICommand HelpCommand { get; } = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -22,8 +24,7 @@ public partial class App : StswApp
         StswDatabases.ImportList();
         StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();
 
-        var commandBinding = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(commandBinding, (s, e) => OpenHelp()));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (s, e) => OpenHelp()));
 
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages.Remove("");

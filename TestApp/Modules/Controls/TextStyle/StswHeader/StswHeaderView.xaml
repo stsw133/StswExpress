@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IconScale, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswHeader}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -25,20 +25,17 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsBusy, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsContentVisible, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
             <!-- IsHighlighted -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsHighlighted, Type={x:Type se:StswHeader}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsHighlighted, Type={x:Type se:StswHeader}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsHighlighted}"/>
             <!-- Orientation -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswHeader}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
-            <!-- ShowDescription -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDescription"/>
-            <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDescription}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswHeader}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswHeader Content="Lorem ipsum dolor sit amet..." IconData="{x:Static se:StswIcons.Cake}"
@@ -52,8 +49,7 @@
                        HorizontalAlignment="{Binding HorizontalAlignment}"
                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                        VerticalAlignment="{Binding VerticalAlignment}"
-                       VerticalContentAlignment="{Binding VerticalContentAlignment}">
-        </se:StswHeader>
+                       VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
         <!-- status panel -->
 
     </local:ControlsBase>

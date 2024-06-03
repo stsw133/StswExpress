@@ -17,16 +17,16 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsEditable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsEditable, Type={x:Type se:StswComboBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsEditable, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEditable}"/>
             <!-- IsFilterEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsFilterEnabled, Type={x:Type se:StswComboBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsFilterEnabled, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsFilterEnabled}"/>
             <!-- IsReadOnly -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsReadOnly, Type={x:Type se:StswComboBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsReadOnly, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsReadOnly}"/>
             <!-- SubControls -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SubControls, Type={x:Type se:StswComboBox}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SubControls, Type={x:Type se:StswComboBox}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding SubControls}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

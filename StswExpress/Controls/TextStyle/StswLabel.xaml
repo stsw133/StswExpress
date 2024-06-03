@@ -3,10 +3,16 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswLabel}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="5"/>
+
+        <Setter Property="AutoTruncation" Value="False"/>
+        <Setter Property="IsContentTruncated" Value="False"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -14,8 +20,8 @@
 
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -26,58 +32,30 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <DockPanel>
-                            <!-- button -->
-                            <se:StswToggleButton x:Name="PART_TruncationButton" DockPanel.Dock="Right"
-                                                 se:StswControl.IsBorderless="True"
-                                                 ClickMode="Hover"
-                                                 Content="..."
-                                                 Focusable="False"
-                                                 IsTabStop="False"
-                                                 Margin="2 0"
-                                                 Padding="0"
-                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                 Visibility="Collapsed"/>
-                            <!-- popup -->
-                            <se:StswPopup x:Name="PART_Popup"
-                                          se:StswControl.IsBorderless="True"
-                                          IsOpen="{Binding IsChecked, ElementName=PART_TruncationButton}"
-                                          Placement="Relative"
-                                          PlacementTarget="{Binding ElementName=PART_Content}"
-                                          StaysOpen="False"
-                                          se:StswPopup.Background="{Binding (se:StswPopup.Background), RelativeSource={RelativeSource TemplatedParent}}"
-                                          se:StswPopup.BorderBrush="{Binding (se:StswPopup.BorderBrush), RelativeSource={RelativeSource TemplatedParent}}"
-                                          se:StswPopup.BorderThickness="{Binding (se:StswPopup.BorderThickness), RelativeSource={RelativeSource TemplatedParent}}"
-                                          se:StswPopup.CornerClipping="{Binding (se:StswPopup.CornerClipping), RelativeSource={RelativeSource TemplatedParent}}"
-                                          se:StswPopup.CornerRadius="{Binding (se:StswPopup.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                                          se:StswPopup.Padding="0">
-                                <ContentPresenter x:Name="PART_PopupContent"
-                                                  Focusable="False"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </se:StswPopup>
+                        <Grid Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <!-- content -->
-                            <ContentPresenter x:Name="PART_Content"
-                                              Focusable="False"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </DockPanel>
+                            <ContentPresenter x:Name="PART_Content" Focusable="False"/>
+                            <!-- truncation icon -->
+                            <se:StswIcon x:Name="PART_TruncationIcon"
+                                         Background="{DynamicResource StswWindow.Static.Background}"
+                                         Data="{x:Static se:StswIcons.DotsHorizontal}"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Bottom"
+                                         Visibility="Collapsed">
+                                <se:StswIcon.ToolTip>
+                                    <se:StswToolTip>
+                                        <ContentPresenter/>
+                                    </se:StswToolTip>
+                                </se:StswIcon.ToolTip>
+                            </se:StswIcon>
+                        </Grid>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsContentTruncated" Value="True"/>
-                                <Condition Property="IsTruncationAllowed" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_TruncationButton"/>
-                        </MultiTrigger>
-                        <Trigger Property="IsChecked" Value="True" SourceName="PART_TruncationButton">
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_Content"/>
-                            <Setter Property="Visibility" Value="Hidden" TargetName="PART_TruncationButton"/>
+                        <Trigger Property="IsContentTruncated" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_TruncationIcon"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswText.Disabled.Foreground}" TargetName="PART_Content"/>

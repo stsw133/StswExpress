@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -14,10 +15,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
 {
     public StswPopup()
     {
-        Child ??= new ContentControl()
-        {
-            ContentTemplate = (DataTemplate)FindResource("StswPopupChildTemplate")
-        };
+        OnScrollTypeChanged(this, new DependencyPropertyChangedEventArgs());
     }
     static StswPopup()
     {
@@ -26,7 +24,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the data used to generate the child elements of this control.
+    /// Gets or sets the data used to generate the child element of this control.
     /// </summary>
     public object? Content
     {
@@ -39,6 +37,36 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             typeof(object),
             typeof(StswPopup)
         );
+
+    /// <summary>
+    /// Gets or sets the type of scroll viewer used for child element of this control.
+    /// </summary>
+    public StswScrollType ScrollType
+    {
+        get => (StswScrollType)GetValue(ScrollTypeProperty);
+        set => SetValue(ScrollTypeProperty, value);
+    }
+    public static readonly DependencyProperty ScrollTypeProperty
+        = DependencyProperty.Register(
+            nameof(ScrollType),
+            typeof(StswScrollType),
+            typeof(StswPopup),
+            new FrameworkPropertyMetadata(StswScrollType.ScrollViewer,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnScrollTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
+        );
+    public static void OnScrollTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswPopup stsw)
+        {
+            var newChild = new ContentControl();
+            if (stsw.ScrollType == StswScrollType.DirectionViewer)
+                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupDirectionViewerTemplate");
+            else if (stsw.ScrollType == StswScrollType.ScrollViewer)
+                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupScrollViewerTemplate");
+            stsw.Child = newChild;
+        }
+    }
     #endregion
 
     #region Style properties

@@ -40,9 +40,9 @@
                                         SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
                                         SelectedValue="{TemplateBinding SelectedValue}"
                                         SelectedValuePath="{TemplateBinding SelectedValuePath}"
-                                        se:StswScrollViewer.CanContentScroll="True"
-                                        se:StswScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                        se:StswScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+                                        se:StswScrollView.CanContentScroll="True"
+                                        se:StswScrollView.HorizontalScrollBarVisibility="Hidden"
+                                        se:StswScrollView.VerticalScrollBarVisibility="Hidden"/>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -137,11 +137,13 @@
                        BorderThickness="{TemplateBinding BorderThickness}"
                        CornerClipping="{TemplateBinding CornerClipping}"
                        CornerRadius="{TemplateBinding CornerRadius}">
-            <se:StswDirectionViewer BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0" HorizontalScrollBarVisibility="Disabled"
+            <se:StswDirectionView BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                     Focusable="False"
-                                    Padding="{TemplateBinding Padding}">
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalScrollBarVisibility="Disabled"
+                                    VerticalScrollBarVisibility="Auto">
                 <ItemsPresenter/>
-            </se:StswDirectionViewer>
+            </se:StswDirectionView>
         </se:StswBorder>
         <ControlTemplate.Triggers>
             <MultiTrigger>

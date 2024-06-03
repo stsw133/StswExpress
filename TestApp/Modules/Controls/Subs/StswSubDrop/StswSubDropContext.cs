@@ -21,50 +21,50 @@ public class StswSubDropContext : ControlsContext
     }
 
     /// ClickOption
-    private int clickOption;
     public int ClickOption
     {
-        get => clickOption;
-        set => SetProperty(ref clickOption, value);
+        get => _clickOption;
+        set => SetProperty(ref _clickOption, value);
     }
+    private int _clickOption;
 
     /// IconScale
-    private GridLength iconScale;
     public GridLength IconScale
     {
-        get => iconScale;
-        set => SetProperty(ref iconScale, value);
+        get => _iconScale;
+        set => SetProperty(ref _iconScale, value);
     }
+    private GridLength _iconScale;
 
     /// IsBusy
-    private bool isBusy;
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
+    private bool _isBusy;
 
     /// IsContentVisible
-    private bool isContentVisible;
     public bool IsContentVisible
     {
-        get => isContentVisible;
-        set => SetProperty(ref isContentVisible, value);
+        get => _isContentVisible;
+        set => SetProperty(ref _isContentVisible, value);
     }
+    private bool _isContentVisible;
 
     /// IsDropDownOpen
-    private bool isDropDownOpen = false;
     public bool IsDropDownOpen
     {
-        get => isDropDownOpen;
-        set => SetProperty(ref isDropDownOpen, value);
+        get => _isDropDownOpen;
+        set => SetProperty(ref _isDropDownOpen, value);
     }
+    private bool _isDropDownOpen = false;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 }

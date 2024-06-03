@@ -13,7 +13,7 @@
     <DockPanel>
         <DockPanel>
             <!-- button panel -->
-            <se:StswDirectionViewer DockPanel.Dock="Top" CornerRadius="0" Padding="3" VerticalScrollBarVisibility="Hidden">
+            <se:StswDirectionView DockPanel.Dock="Top" CornerRadius="0" Padding="3" VerticalScrollBarVisibility="Hidden">
                 <StackPanel Orientation="Horizontal">
                     <se:StswSubButton Command="{Binding MoveUpCommand}"
                                       IconData="{x:Static se:StswIcons.ArrowUp}"
@@ -50,13 +50,13 @@
                                       IsBusy="{Binding ExportCommand.IsBusy}"
                                       ToolTip="Export list of databases"/>
                 </StackPanel>
-            </se:StswDirectionViewer>
+            </se:StswDirectionView>
             <!-- list -->
             <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Source={x:Static se:StswDatabases.List}}" SelectedItem="{Binding SelectedDatabase}"/>
         </DockPanel>
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
         <!-- selected database model -->
-        <se:StswScrollViewer IsDynamic="True">
+        <se:StswScrollView IsDynamic="True">
             <StackPanel DataContext="{Binding SelectedDatabase}">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type StackPanel}">
@@ -112,6 +112,6 @@
                     </se:StswPasswordBox>
                 </StackPanel>
             </StackPanel>
-        </se:StswScrollViewer>
+        </se:StswScrollView>
     </DockPanel>
 </UserControl>

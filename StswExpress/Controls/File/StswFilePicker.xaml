@@ -73,15 +73,18 @@
                                               Source="{TemplateBinding IconSource}"
                                               Height="{DynamicResource StswFilePicker.Size.Icon}"
                                               Width="{DynamicResource StswFilePicker.Size.Icon}"/>
-                                <se:StswLabel x:Name="PART_FileSize"
-                                              Content="{TemplateBinding FileSize}"
-                                              FontSize="9"
-                                              FontWeight="Bold"
-                                              Opacity="0.6"
-                                              Padding="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
-                                              HorizontalContentAlignment="Center"
-                                              VerticalContentAlignment="Center"
-                                              Width="36"/>
+                                <se:StswHeader x:Name="PART_FileSize"
+                                               Content="{TemplateBinding FileSize}"
+                                               FontWeight="Bold"
+                                               Opacity="0.6"
+                                               Padding="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                               HorizontalContentAlignment="Center"
+                                               VerticalContentAlignment="Center"
+                                               Width="48">
+                                    <se:StswHeader.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                    </se:StswHeader.LayoutTransform>
+                                </se:StswHeader>
                                 <se:StswSeparator x:Name="PART_IconSeparator"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
@@ -98,7 +101,7 @@
                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Visibility="Collapsed"/>
-                                    <se:StswScrollViewer x:Name="PART_ContentHost"
+                                    <se:StswScrollView x:Name="PART_ContentHost"
                                                          Focusable="False"
                                                          IsDynamic="True"
                                                          HorizontalScrollBarVisibility="Hidden"

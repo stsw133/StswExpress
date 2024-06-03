@@ -17,17 +17,17 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Direction -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Direction, Type={x:Type se:StswRatingControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type ExpandDirection}}" Margin="0 0 0 3" SelectedValue="{Binding Direction}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Direction, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList ExpandDirection}" Margin="0 0 0 3" SelectedValue="{Binding Direction}"/>
             <!-- IsResetEnabled -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsResetEnabled, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsResetEnabled, Type={x:Type se:StswRatingControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsResetEnabled}"/>
             <!-- ItemsNumber -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsNumber, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsNumber, Type={x:Type se:StswRatingControl}}"/>
             <se:StswNumericBox Margin="0 0 0 3" Value="{Binding ItemsNumber}"/>
             <!-- ItemsNumberVisibility -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ItemsNumberVisibility, Type={x:Type se:StswRatingControl}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Visibility}}" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ItemsNumberVisibility, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Visibility}" Margin="0 0 0 3" SelectedValue="{Binding ItemsNumberVisibility}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswRatingControl Direction="{Binding Direction}"

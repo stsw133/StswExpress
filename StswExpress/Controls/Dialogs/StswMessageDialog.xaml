@@ -34,14 +34,25 @@
                                      MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                      MinHeight="150"
                                      MinWidth="250"
-                                     Padding="0"
-                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                     Padding="0">
                         <se:StswGroupBox.Header>
-                            <se:StswHeader x:Name="PART_Header"
-                                           Content="{TemplateBinding Title}"
-                                           FontSize="{se:StswDynamicResource StswWindow.Font.Size, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=1.2}"
-                                           FontWeight="Medium"/>
+                            <DockPanel>
+                                <!-- copy button -->
+                                <se:StswSubButton x:Name="PART_ButtonCopyToClipboard" DockPanel.Dock="Right" Margin="3">
+                                    <se:StswTimedSwitch>
+                                        <se:StswIcon Data="{x:Static se:StswIcons.ContentCopy}" Fill="{Binding Foreground, ElementName=PART_Header}" Scale="1.25" ToolTip="{se:Tr StswMessageDialog.CopyToClipboard}"/>
+                                        <se:StswTimedSwitch.TimedContent>
+                                            <se:StswIcon Data="{x:Static se:StswIcons.Check}" Fill="{Binding Foreground, ElementName=PART_Header}" Scale="1.25" ToolTip="{se:Tr StswMessageDialog.Copied}"/>
+                                        </se:StswTimedSwitch.TimedContent>
+                                    </se:StswTimedSwitch>
+                                </se:StswSubButton>
+                                <!-- header -->
+                                <se:StswHeader x:Name="PART_Header" Content="{TemplateBinding Title}" FontWeight="Medium">
+                                    <se:StswHeader.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                    </se:StswHeader.LayoutTransform>
+                                </se:StswHeader>
+                            </DockPanel>
                         </se:StswGroupBox.Header>
                         <DockPanel Background="{DynamicResource StswPanel.Static.Background}">
                             <!-- buttons -->
@@ -85,8 +96,8 @@
                                             TextWrapping="Wrap"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Top"/>
+                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </se:StswGroupBox>
                     <ControlTemplate.Triggers>

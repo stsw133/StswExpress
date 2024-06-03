@@ -21,41 +21,42 @@ public class StswSubRadioContext : ControlsContext
     }
 
     /// ClickOption
-    private int clickOption;
     public int ClickOption
     {
-        get => clickOption;
-        set => SetProperty(ref clickOption, value);
+        get => _clickOption;
+        set => SetProperty(ref _clickOption, value);
     }
+    private int _clickOption;
+
     /// SelectedOption
-    private ObservableCollection<bool?> selectedOption = new() { null, false, false, true, false };
     public ObservableCollection<bool?> SelectedOption
     {
-        get => selectedOption;
-        set => SetProperty(ref selectedOption, value);
+        get => _selectedOption;
+        set => SetProperty(ref _selectedOption, value);
     }
+    private ObservableCollection<bool?> _selectedOption = new() { null, false, false, true, false };
 
     /// IconScale
-    private GridLength iconScale;
     public GridLength IconScale
     {
-        get => iconScale;
-        set => SetProperty(ref iconScale, value);
+        get => _iconScale;
+        set => SetProperty(ref _iconScale, value);
     }
+    private GridLength _iconScale;
 
     /// IsBusy
-    private bool isBusy;
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
+    private bool _isBusy;
 
     /// IsContentVisible
-    private bool isContentVisible;
     public bool IsContentVisible
     {
-        get => isContentVisible;
-        set => SetProperty(ref isContentVisible, value);
+        get => _isContentVisible;
+        set => SetProperty(ref _isContentVisible, value);
     }
+    private bool _isContentVisible;
 }

@@ -8,17 +8,18 @@ public class StswRadioButtonContext : ControlsContext
     public StswCommand<string?> OnClickCommand => new((x) => ClickOption = Convert.ToInt32(x));
 
     /// ClickOption
-    private int clickOption;
     public int ClickOption
     {
-        get => clickOption;
-        set => SetProperty(ref clickOption, value);
+        get => _clickOption;
+        set => SetProperty(ref _clickOption, value);
     }
+    private int _clickOption;
+
     /// SelectedOption
-    private ObservableCollection<bool?> selectedOption = new() { null, false, false, true, false };
     public ObservableCollection<bool?> SelectedOption
     {
-        get => selectedOption;
-        set => SetProperty(ref selectedOption, value);
+        get => _selectedOption;
+        set => SetProperty(ref _selectedOption, value);
     }
+    private ObservableCollection<bool?> _selectedOption = new() { null, false, false, true, false };
 }

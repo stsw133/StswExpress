@@ -14,20 +14,20 @@ public class StswTimedSwitchContext : ControlsContext
         IsChecked = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsChecked)))?.Value ?? default;
         SwitchTime = (TimeSpan?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(SwitchTime)))?.Value ?? default;
     }
-
+    
     /// IsChecked
-    private bool isChecked;
     public bool IsChecked
     {
-        get => isChecked;
-        set => SetProperty(ref isChecked, value);
+        get => _isChecked;
+        set => SetProperty(ref _isChecked, value);
     }
+    private bool _isChecked;
 
     /// SwitchTime
-    private TimeSpan switchTime;
     public TimeSpan SwitchTime
     {
-        get => switchTime;
-        set => SetProperty(ref switchTime, value);
+        get => _switchTime;
+        set => SetProperty(ref _switchTime, value);
     }
+    private TimeSpan _switchTime;
 }

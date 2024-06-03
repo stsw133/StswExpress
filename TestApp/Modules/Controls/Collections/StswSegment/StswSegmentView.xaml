@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="TestApp.StswSegmentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswSegmentContext/>
+    </d:UserControl.DataContext>
+
+    <local:ControlsBase ContentAlignmentVisibility="Visible">
+        <local:ControlsBase.Description>
+            Represents a control that displays a collection of items in a vertical list.
+        </local:ControlsBase.Description>
+        <!-- properties -->
+        <local:ControlsBase.Properties>
+            <!-- Orientation -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSegment}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <!-- SelectionMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionMode, Type={x:Type se:StswListBox}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList SelectionMode}" Margin="0 0 0 3" SelectedValue="{Binding SelectionMode}"/>
+        </local:ControlsBase.Properties>
+        <!-- content -->
+        <se:StswSegment DisplayMemberPath="Name"
+                        IsEnabled="{Binding IsEnabled}"
+                        ItemsSource="{Binding Items}"
+                        Margin="5"
+                        Orientation="{Binding Orientation}"
+                        SelectionMode="{Binding SelectionMode}"
+                        SelectedValuePath="Name"
+                        HorizontalAlignment="{Binding HorizontalAlignment}"
+                        HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
+                        VerticalAlignment="{Binding VerticalAlignment}"
+                        VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <!-- status panel -->
+        <local:ControlsBase.StatusPanel>
+            <se:StswText Margin="5" Padding="5">
+                <Run Text="{Binding SelectionCounter, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text=" option(s) are selected"/>
+            </se:StswText>
+        </local:ControlsBase.StatusPanel>
+    </local:ControlsBase>
+</UserControl>

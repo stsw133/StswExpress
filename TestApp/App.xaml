@@ -79,12 +79,6 @@
             <DataTemplate DataType="{x:Type local:StswComboBoxContext}">
                 <local:StswComboBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDataGridContext}">
-                <local:StswDataGridView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswDataPagerContext}">
-                <local:StswDataPagerView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswListBoxContext}">
                 <local:StswListBoxView/>
             </DataTemplate>
@@ -93,6 +87,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswPickerContext}">
                 <local:StswPickerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSegmentContext}">
+                <local:StswSegmentView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswSelectionBoxContext}">
                 <local:StswSelectionBoxView/>
@@ -112,6 +109,14 @@
                 <local:StswColorSelectorView/>
             </DataTemplate>
             
+            <!-- DataGrids -->
+            <DataTemplate DataType="{x:Type local:StswDataGridContext}">
+                <local:StswDataGridView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswDataPagerContext}">
+                <local:StswDataPagerView/>
+            </DataTemplate>
+
             <!-- DateTime -->
             <DataTemplate DataType="{x:Type local:StswCalendarContext}">
                 <local:StswCalendarView/>
@@ -136,7 +141,7 @@
                 <local:StswFilePickerView/>
             </DataTemplate>
 
-            <!-- Filtering -->
+            <!-- Filters -->
             <DataTemplate DataType="{x:Type local:StswFilterBoxContext}">
                 <local:StswFilterBoxView/>
             </DataTemplate>
@@ -199,6 +204,9 @@
             </DataTemplate>
             
             <!-- Navigation -->
+            <DataTemplate DataType="{x:Type local:StswMenuContext}">
+                <local:StswMenuView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswNavigationContext}">
                 <local:StswNavigationView/>
             </DataTemplate>
@@ -207,11 +215,11 @@
             </DataTemplate>
             
             <!-- Scrolling -->
-            <DataTemplate DataType="{x:Type local:StswDirectionViewerContext}">
-                <local:StswDirectionViewerView/>
+            <DataTemplate DataType="{x:Type local:StswDirectionViewContext}">
+                <local:StswDirectionViewView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswScrollViewerContext}">
-                <local:StswScrollViewerView/>
+            <DataTemplate DataType="{x:Type local:StswScrollViewContext}">
+                <local:StswScrollViewView/>
             </DataTemplate>
 
             <!-- StatusInfo -->

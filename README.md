@@ -4,17 +4,18 @@ WPF .NET 6.0 library containing:
   - **Buttons:** StswButton, StswDropButton, StswHyperlinkButton, StswRadioButton, StswRepeatButton, StswShiftButton, StswSplitButton, StswToggleButton
   - **Charts:** StswChartColumns, StswChartLegend, StswChartPie
   - **Checks:** StswCheckBox, StswRadioBox, StswTimedSwitch, StswToggleSwitch
-  - **Collections:** StswComboBox, StswDataGrid, StswDataPager, StswListBox, StswListView, StswSelectionBox, StswTreeView
+  - **Collections:** StswComboBox, StswListBox, StswListView, StswSegment, StswSelectionBox, StswTreeView
   - **Color:** StswColorBox, StswColorPicker, StswSelector
+  - **DataGrids:** StswDataGrid, StswDataPager
   - **DateTime:** StswCalendar, StswDatePicker, StswTimePicker
   - **Dialogs:** StswContentDialog, StswMessageDialog
   - **File:** StswFilePicker
-  - **Filtering:** StswFilterBox
+  - **Filters:** StswFilterBox
   - **Input:** StswAdaptiveBox, StswNumericBox, StswPasswordBox, StswRatingControl, StswSlider, StswTextBox, StswTextEditor
   - **Layout:** StswBorder, StswExpander, StswGrid, StswGroupBox, StswSeparator, StswSidePanel, StswZoomControl
   - **Media:** StswGallery, StswImage, StswMediaPlayer
-  - **Navigation:** StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
-  - **Scrolling:** StswDirectionViewer, StswScrollBar, StswScrollViewer
+  - **Navigation:** StswMenu, StswMenuItem, StswNavigation, StswNavigationElement, StswTabControl, StswTabItem
+  - **Scrolling:** StswDirectionView, StswScrollBar, StswScrollView
   - **StatusInfo:** StswInfoBadge, StswInfoBar, StswInfoPanel, StswProgressBar, StswProgressRing
   - **Subs:** StswSubButton, StswSubCheck, StswSubDrop, StswSubHeader, StswSubRadio, StswSubRepeater, StswSubSelector
   - **TextStyle:** StswDropArrow, StswHeader, StswIcon, StswLabel, StswOutlinedText, StswSpinner, StswText

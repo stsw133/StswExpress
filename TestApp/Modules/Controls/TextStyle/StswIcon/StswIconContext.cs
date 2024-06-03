@@ -27,26 +27,26 @@ public class StswIconContext : ControlsContext
     }
 
     /// Data
-    private Geometry? data = StswIcons.Abacus;
     public Geometry? Data
     {
-        get => data;
-        set => SetProperty(ref data, value);
+        get => _data;
+        set => SetProperty(ref _data, value);
     }
+    private Geometry? _data = StswIcons.Abacus;
 
     /// Icons
-    private List<StswComboItem> icons = new();
     public List<StswComboItem> Icons
     {
-        get => icons;
-        set => SetProperty(ref icons, value);
+        get => _icons;
+        set => SetProperty(ref _icons, value);
     }
+    private List<StswComboItem> _icons = new();
 
     /// Scale
-    private GridLength scale;
     public GridLength Scale
     {
-        get => scale;
-        set => SetProperty(ref scale, value);
+        get => _scale;
+        set => SetProperty(ref _scale, value);
     }
+    private GridLength _scale;
 }

@@ -17,12 +17,12 @@ public class StswSpinnerContext : ControlsContext
     }
 
     /// Scale
-    private GridLength scale;
     public GridLength Scale
     {
-        get => scale;
-        set => SetProperty(ref scale, value);
+        get => _scale;
+        set => SetProperty(ref _scale, value);
     }
+    private GridLength _scale;
 
     /// Type
     public StswSpinnerType Type

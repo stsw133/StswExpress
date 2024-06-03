@@ -15,7 +15,7 @@
         <Setter Property="IconFill" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IconScale" Value="1.5"/>
         <Setter Property="TabStripMode" Value="{Binding TabStripMode, RelativeSource={RelativeSource AncestorType={x:Type se:StswNavigation}}}"/>
-        <Setter Property="ItemsIndentation" Value="20"/>
+        <Setter Property="ItemsIndentation" Value="23"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -53,7 +53,7 @@
                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                  Template="{DynamicResource StswNavigationToggleButtonTemplate}">
                                 <DockPanel>
-                                    <se:StswDropArrow x:Name="PART_Arrow" DockPanel.Dock="Right" Focusable="False" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
+                                    <se:StswDropArrow x:Name="PART_Arrow" DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsChecked}" Width="24"/>
                                     <se:StswHeader x:Name="PART_Header"
                                                    Content="{TemplateBinding Header}"
                                                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"

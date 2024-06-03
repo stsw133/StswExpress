@@ -18,7 +18,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IconScale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IconScale, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswSubSelector}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -26,10 +26,10 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- IsBusy -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsBusy, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsBusy, Type={x:Type se:StswSubSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsBusy}"/>
             <!-- IsContentVisible -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsContentVisible, Type={x:Type se:StswSubSelector}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsContentVisible, Type={x:Type se:StswSubSelector}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsContentVisible}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -45,32 +45,32 @@
                             HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}"
                             VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaB}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaC}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaD}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaE}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaF}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaG}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaH}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaI}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaJ}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaK}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaL}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaM}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaN}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaO}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaP}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaQ}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaR}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaS}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaT}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaU}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaV}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaW}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaX}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaY}" IconScale="{Binding IconScale}"/>
-            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaZ}" IconScale="{Binding IconScale}"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaB}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaC}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaD}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaE}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaF}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaG}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaH}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaI}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaJ}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaK}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaL}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaM}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaN}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaO}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaP}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaQ}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaR}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaS}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaT}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaU}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaV}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaW}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaX}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaY}" IconScale="{Binding IconScale}" Padding="6 3"/>
+            <se:StswSubButton Command="{Binding OnClickCommand}" IconData="{x:Static se:StswIcons.AlphaZ}" IconScale="{Binding IconScale}" Padding="6 3"/>
         </se:StswSubSelector>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

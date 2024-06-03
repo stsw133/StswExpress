@@ -25,11 +25,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         
-        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="True"/>
-        <Setter Property="se:StswScrollViewer.IsDynamic" Value="False"/>
-        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="True"/>
+        <Setter Property="se:StswScrollView.IsDynamic" Value="False"/>
+        <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         
         <Setter Property="Template">
             <Setter.Value>
@@ -51,7 +51,11 @@
                                     <se:StswToggleButton x:Name="PART_TabStripModeButton" se:StswControl.IsBorderless="True">
                                         <se:StswHeader IconData="{x:Static se:StswIcons.Menu}"/>
                                     </se:StswToggleButton>
-                                    <se:StswDirectionViewer x:Name="PART_CustomComponents" BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0" VerticalScrollBarVisibility="Disabled">
+                                    <se:StswDirectionView x:Name="PART_CustomComponents"
+                                                            BBtnThickness="0 0 1 0" FBtnThickness="1 0 0 0"
+                                                            Focusable="False"
+                                                            HorizontalScrollBarVisibility="Auto"
+                                                            VerticalScrollBarVisibility="Disabled">
                                         <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding Components}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -59,7 +63,7 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
-                                    </se:StswDirectionViewer>
+                                    </se:StswDirectionView>
                                 </DockPanel>
                                 <!-- navigation pinned items -->
                                 <ItemsControl x:Name="PART_ItemsPinned" Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding ItemsPinned}">
@@ -89,23 +93,23 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <!-- navigation items -->
-                                <se:StswScrollViewer x:Name="PART_Items"
-                                                     AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     Focusable="False"
-                                                     IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                     VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                                    <se:StswScrollViewer.Resources>
+                                <se:StswScrollView x:Name="PART_Items"
+                                                   AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Focusable="False"
+                                                   IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                   VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                    <se:StswScrollView.Resources>
                                         <Style TargetType="{x:Type se:StswScrollBar}">
                                             <Setter Property="ExpandedWidth" Value="12"/>
                                         </Style>
-                                    </se:StswScrollViewer.Resources>
+                                    </se:StswScrollView.Resources>
                                     <ItemsControl Focusable="False" IsTabStop="False" ItemsSource="{TemplateBinding Items}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -132,7 +136,7 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                </se:StswScrollViewer>
+                                </se:StswScrollView>
                             </DockPanel>
                             <!-- separator -->
                             <se:StswSeparator x:Name="PART_Separator"
@@ -151,17 +155,17 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <!-- compact panel -->
-                                <se:StswDirectionViewer x:Name="PART_CompactPanel"
+                                <se:StswDirectionView x:Name="PART_CompactPanel"
                                                         Background="{TemplateBinding Background}"
-                                                        BBtnThickness="0 0 0 1"
-                                                        FBtnThickness="0 1 0 0"
+                                                        BBtnThickness="0 0 0 1" FBtnThickness="0 1 0 0"
                                                         HorizontalAlignment="Left"
                                                         HorizontalScrollBarVisibility="Disabled"
+                                                        VerticalScrollBarVisibility="Auto"
                                                         Visibility="Collapsed">
                                     <se:StswBorder BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="0 0 1 1">
                                         <ItemsControl ItemsSource="{TemplateBinding ItemsCompact}"/>
                                     </se:StswBorder>
-                                </se:StswDirectionViewer>
+                                </se:StswDirectionView>
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>

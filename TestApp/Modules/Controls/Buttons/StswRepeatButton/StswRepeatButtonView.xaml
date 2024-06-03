@@ -24,7 +24,7 @@
                              HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
                              VerticalAlignment="{Binding VerticalAlignment}"
                              VerticalContentAlignment="{Binding VerticalContentAlignment}">
-            <se:StswHeader IconData="{x:Static se:StswIcons.ButtonCursor}" Content="Here is a text for the header"/>
+            <se:StswHeader Content="Click me" IconData="{x:Static se:StswIcons.ButtonCursor}"/>
         </se:StswRepeatButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>

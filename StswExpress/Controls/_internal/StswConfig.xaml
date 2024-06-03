@@ -41,7 +41,7 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- options -->
-                            <se:StswScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <se:StswScrollView Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                 <DockPanel>
                                     <!-- isize -->
                                     <StackPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
@@ -94,7 +94,7 @@
                                         </se:StswComboBox>
                                     </StackPanel>
                                 </DockPanel>
-                            </se:StswScrollViewer>
+                            </se:StswScrollView>
                             <!-- buttons -->
                             <UniformGrid Grid.Row="1" Rows="1" Margin="{TemplateBinding Padding}">
                                 <se:StswButton x:Name="PART_ButtonConfirm" Margin="{TemplateBinding Padding}" Padding="{TemplateBinding Padding}">

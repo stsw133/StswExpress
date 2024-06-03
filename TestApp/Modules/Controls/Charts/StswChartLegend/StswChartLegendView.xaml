@@ -17,13 +17,13 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Columns -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Columns, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Columns, Type={x:Type se:StswChartLegend}}"/>
             <se:StswNumericBox Format="N0" Margin="0 0 0 3" Value="{Binding Columns}"/>
             <!-- Rows -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Rows, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Rows, Type={x:Type se:StswChartLegend}}"/>
             <se:StswNumericBox Format="N0" Margin="0 0 0 3" Value="{Binding Rows}"/>
             <!-- ShowDetails -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf ShowDetails, Type={x:Type se:StswChartLegend}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ShowDetails, Type={x:Type se:StswChartLegend}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding ShowDetails}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

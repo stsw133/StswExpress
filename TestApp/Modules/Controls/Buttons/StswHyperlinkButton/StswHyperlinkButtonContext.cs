@@ -5,10 +5,10 @@ namespace TestApp;
 public class StswHyperlinkButtonContext : ControlsContext
 {
     /// NavigateUri
-    private Uri navigateUri = new Uri("https://www.google.com/");
     public Uri NavigateUri
     {
-        get => navigateUri;
-        set => SetProperty(ref navigateUri, value);
+        get => _navigateUri;
+        set => SetProperty(ref _navigateUri, value);
     }
+    private Uri _navigateUri = new Uri("https://www.google.com/");
 }

@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- IsMoveable -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf IsMoveable, Type={x:Type se:StswToolTip}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsMoveable, Type={x:Type se:StswToolTip}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMoveable}"/>
             <!-- ShowDuration -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDuration"/>

@@ -27,18 +27,18 @@ public class StswContentDialogContext : ControlsContext
     #endregion
 
     /// ContentDialogResult
-    private string? contentDialogResult;
     public string? ContentDialogResult
     {
-        get => contentDialogResult;
-        set => SetProperty(ref contentDialogResult, value);
+        get => _contentDialogResult;
+        set => SetProperty(ref _contentDialogResult, value);
     }
+    private string? _contentDialogResult;
 
     /// IsOpen
-    private bool isOpen;
     public bool IsOpen
     {
-        get => isOpen;
-        set => SetProperty(ref isOpen, value);
+        get => _isOpen;
+        set => SetProperty(ref _isOpen, value);
     }
+    private bool _isOpen;
 }

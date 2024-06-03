@@ -17,42 +17,42 @@ public class StswRatingControlContext : ControlsContext
     }
 
     /// Direction
-    private ExpandDirection direction;
     public ExpandDirection Direction
     {
-        get => direction;
-        set => SetProperty(ref direction, value);
+        get => _direction;
+        set => SetProperty(ref _direction, value);
     }
+    private ExpandDirection _direction;
 
     /// ItemsNumber
-    private int itemsNumber;
     public int ItemsNumber
     {
-        get => itemsNumber;
-        set => SetProperty(ref itemsNumber, value);
+        get => _itemsNumber;
+        set => SetProperty(ref _itemsNumber, value);
     }
+    private int _itemsNumber;
 
     /// IsResetEnabled
-    private bool isResetEnabled;
     public bool IsResetEnabled
     {
-        get => isResetEnabled;
-        set => SetProperty(ref isResetEnabled, value);
+        get => _isResetEnabled;
+        set => SetProperty(ref _isResetEnabled, value);
     }
+    private bool _isResetEnabled;
 
     /// ItemsNumberVisibility
-    private Visibility itemsNumberVisibility;
     public Visibility ItemsNumberVisibility
     {
-        get => itemsNumberVisibility;
-        set => SetProperty(ref itemsNumberVisibility, value);
+        get => _itemsNumberVisibility;
+        set => SetProperty(ref _itemsNumberVisibility, value);
     }
+    private Visibility _itemsNumberVisibility;
 
     /// SelectedValue
-    private double? selectedValue = 0;
     public double? SelectedValue
     {
-        get => selectedValue;
-        set => SetProperty(ref selectedValue, value);
+        get => _selectedValue;
+        set => SetProperty(ref _selectedValue, value);
     }
+    private double? _selectedValue = 0;
 }

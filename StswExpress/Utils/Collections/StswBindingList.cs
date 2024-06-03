@@ -11,14 +11,19 @@ namespace StswExpress;
 /// </summary>
 public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T : IStswCollectionItem
 {
-    public StswBindingList() : base()
+    public StswBindingList() : base() => Initialize();
+    public StswBindingList(IEnumerable<T> items) : base(items.ToList()) => Initialize();
+    public StswBindingList(IList<T> items) : base(items) => Initialize();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Initialize()
     {
-    }
-    public StswBindingList(IEnumerable<T> items) : base(items.ToList())
-    {
-    }
-    public StswBindingList(IList<T> items) : base(items)
-    {
+        foreach (var item in this)
+            if (!ItemStates.ContainsKey(item))
+                ItemStates[item] = item.ItemState;
+        NotifyStateChanges();
     }
 
     /// <summary>
@@ -37,18 +42,21 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
             if (e.PropertyDescriptor?.Name?.In(IgnoredProperties) == true)
                 return;
 
-            if (e.ListChangedType == ListChangedType.ItemChanged)
-            {
-                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
-                OnPropertyChanged(nameof(CountModified));
-            }
-            else if (e.ListChangedType == ListChangedType.ItemAdded)
+            if (e.ListChangedType == ListChangedType.ItemAdded)
             {
                 ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Added;
-                OnPropertyChanged(nameof(CountAdded));
-                OnPropertyChanged(nameof(Count));
+            }
+            else if (e.ListChangedType == ListChangedType.ItemDeleted)
+            {
+                // Item is already removed from the list, so we can't access it via Items[e.NewIndex]
+                // Handle this case in RemoveItem
+            }
+            else if (e.ListChangedType == ListChangedType.ItemChanged)
+            {
+                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
             }
         }
+        NotifyStateChanges();
     }
 
     #region Base methods
@@ -92,50 +100,33 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     {
         Add(item);
         ItemStates[item] = item.ItemState = itemState;
-
         NotifyStateChanges();
-    }
-
-    /// <summary>
-    /// Adds multiple items to the collection.
-    /// </summary>
-    public void AddRange(IEnumerable<T> items)
-    {
-        foreach (var item in items)
-            Add(item);
     }
 
     /// <summary>
     /// Adds the item to the collection and sets its state to the specific one.
     /// </summary>
-    public void AddRange(IEnumerable<T> items, StswItemState itemState)
+    public void AddRange(IEnumerable<T> items, StswItemState? itemState = null)
     {
         foreach (var item in items)
         {
             Add(item);
-            ItemStates[item] = item.ItemState = itemState;
+            if (itemState != null)
+                ItemStates[item] = item.ItemState = itemState.Value;
         }
         NotifyStateChanges();
     }
 
     /// <summary>
-    /// Adds multiple items to the collection.
-    /// </summary>
-    public void AddRange(IList<T> items)
-    {
-        foreach (var item in items)
-            Add(item);
-    }
-
-    /// <summary>
     /// Adds the item to the collection and sets its state to the specific one.
     /// </summary>
-    public void AddRange(IList<T> items, StswItemState itemState)
+    public void AddRange(IList<T> items, StswItemState? itemState = null)
     {
         foreach (var item in items)
         {
             Add(item);
-            ItemStates[item] = item.ItemState = itemState;
+            if (itemState != null)
+                ItemStates[item] = item.ItemState = itemState.Value;
         }
         NotifyStateChanges();
     }
@@ -143,32 +134,30 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
 
     #region Item state management
     /// <summary>
+    /// 
+    /// </summary>
+    public Dictionary<T, StswItemState> ItemStates { get; private set; } = [];
+
+    /// <summary>
     /// Gets the state of a specific collection item.
     /// </summary>
-    public StswItemState GetStateOfItem(T item)
-    {
-        if (ItemStates.TryGetValue(item, out var state))
-            return state;
-
-        return StswItemState.Unchanged;
-    }
-    public Dictionary<T, StswItemState> ItemStates { get; private set; } = new();
+    public StswItemState GetStateOfItem(T item) => ItemStates.TryGetValue(item, out var state) ? state : StswItemState.Unchanged;
 
     /// <summary>
     /// Gets a list of collection items that match the specified DataRowState.
     /// </summary>
     public IEnumerable<T> GetItemsByState(StswItemState state) => ItemStates.Where(x => x.Value == state).Select(x => x.Key);
-    public int CountUnchanged => GetItemsByState(StswItemState.Unchanged).Count();
-    public int CountModified => GetItemsByState(StswItemState.Modified).Count();
-    public int CountAdded => GetItemsByState(StswItemState.Added).Count();
-    public int CountDeleted => GetItemsByState(StswItemState.Deleted).Count();
+
+    public int Unchanged => GetItemsByState(StswItemState.Unchanged).Count();
+    public int Modified => GetItemsByState(StswItemState.Modified).Count();
+    public int Added => GetItemsByState(StswItemState.Added).Count();
+    public int Deleted => GetItemsByState(StswItemState.Deleted).Count();
 
     /// <summary>
     /// Gets or sets a list of property names to be ignored during state tracking.
     /// </summary>
     public List<string> IgnoredProperties = new List<string>()
     {
-        nameof(IStswCollectionItem.ItemMessage),
         nameof(IStswCollectionItem.ItemState),
         nameof(IStswCollectionItem.ShowDetails),
         nameof(IStswSelectionItem.IsSelected)
@@ -183,10 +172,10 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// </summary>
     private void NotifyStateChanges()
     {
-        OnPropertyChanged(nameof(CountUnchanged));
-        OnPropertyChanged(nameof(CountAdded));
-        OnPropertyChanged(nameof(CountDeleted));
-        OnPropertyChanged(nameof(CountModified));
+        OnPropertyChanged(nameof(Unchanged));
+        OnPropertyChanged(nameof(Added));
+        OnPropertyChanged(nameof(Deleted));
+        OnPropertyChanged(nameof(Modified));
         OnPropertyChanged(nameof(Count));
     }
     #endregion

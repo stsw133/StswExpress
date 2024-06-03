@@ -26,11 +26,11 @@
 
         <Setter Property="se:StswPopup.Background" Value="{DynamicResource StswPopup.Static.Background}"/>
         <Setter Property="se:StswPopup.BorderBrush" Value="{DynamicResource StswPopup.Static.Border}"/>
-        <Setter Property="se:StswScrollViewer.CanContentScroll" Value="False"/>
-        <Setter Property="se:StswScrollViewer.IsDynamic" Value="True"/>
-        <Setter Property="se:StswScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="se:StswScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="se:StswScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.CanContentScroll" Value="False"/>
+        <Setter Property="se:StswScrollView.IsDynamic" Value="True"/>
+        <Setter Property="se:StswScrollView.PanningMode" Value="Both"/>
+        <Setter Property="se:StswScrollView.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="se:StswScrollView.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
 
@@ -53,7 +53,7 @@
                                          Template="{DynamicResource StswDropToggleButtonTemplate}">
                         <DockPanel>
                             <!-- arrow -->
-                            <se:StswDropArrow DockPanel.Dock="Right" Focusable="False" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                            <se:StswDropArrow DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
                             <!-- sub controls -->
                             <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                           IsTabStop="False"
@@ -91,16 +91,16 @@
                                                 SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                                 SelectionMode="Multiple"
                                                 VirtualizingPanel.ScrollUnit="{Binding (VirtualizingPanel.ScrollUnit), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.AutoScroll="{Binding (se:StswScrollViewer.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.CanContentScroll="{Binding (se:StswScrollViewer.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.Command="{Binding (se:StswScrollViewer.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.CommandParameter="{Binding (se:StswScrollViewer.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.CommandTarget="{Binding (se:StswScrollViewer.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.IsBusy="{Binding (se:StswScrollViewer.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.IsDynamic="{Binding (se:StswScrollViewer.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.PanningMode="{Binding (se:StswScrollViewer.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.HorizontalScrollBarVisibility="{Binding (se:StswScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                                se:StswScrollViewer.VerticalScrollBarVisibility="{Binding (se:StswScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                se:StswScrollView.AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                                se:StswScrollView.VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Popup>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Right"

@@ -13,7 +13,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!-- name and description -->
-                <se:StswScrollViewer IsDynamic="True">
+                <se:StswScrollView IsDynamic="True">
                     <StackPanel Margin="3">
                         <se:StswText Padding="5" TextAlignment="Justify" TextWrapping="Wrap">
                             <Run FontSize="16" FontWeight="Bold" Text="{Binding ThisControlName, Mode=OneWay}"/>
@@ -24,60 +24,40 @@
                             <se:StswText FontWeight="Medium" HorizontalAlignment="Center" Text="Properties:"/>
                             <!-- HorizontalAlignment -->
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Horizontal alignment"/>
-                            <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding HorizontalAlignmentSelector}" SelectedValue="{Binding HorizontalAlignment}">
-                                <se:StswListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </se:StswListBox.ItemsPanel>
-                                <se:StswListBox.ItemTemplate>
+                            <se:StswSegment BorderThickness="2 2 2 0" ItemsSource="{Binding HorizontalAlignmentSelector}" SelectedValue="{Binding HorizontalAlignment}">
+                                <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
                                     </DataTemplate>
-                                </se:StswListBox.ItemTemplate>
-                            </se:StswListBox>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
                             <se:StswSeparator BorderThickness="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
-                            <se:StswListBox BorderThickness="2 0 2 2" ItemsSource="{Binding HorizontalContentAlignmentSelector}" SelectedValue="{Binding HorizontalContentAlignment}"
+                            <se:StswSegment BorderThickness="2 0 2 2" ItemsSource="{Binding HorizontalContentAlignmentSelector}" SelectedValue="{Binding HorizontalContentAlignment}"
                                             Visibility="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                <se:StswListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </se:StswListBox.ItemsPanel>
-                                <se:StswListBox.ItemTemplate>
+                                <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
                                     </DataTemplate>
-                                </se:StswListBox.ItemTemplate>
-                            </se:StswListBox>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
                             <!-- VerticalAlignment -->
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="Vertical alignment"/>
-                            <se:StswListBox BorderThickness="2 2 2 0" ItemsSource="{Binding VerticalAlignmentSelector}" SelectedValue="{Binding VerticalAlignment}">
-                                <se:StswListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </se:StswListBox.ItemsPanel>
-                                <se:StswListBox.ItemTemplate>
+                            <se:StswSegment BorderThickness="2 2 2 0" ItemsSource="{Binding VerticalAlignmentSelector}" SelectedValue="{Binding VerticalAlignment}">
+                                <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
                                     </DataTemplate>
-                                </se:StswListBox.ItemTemplate>
-                            </se:StswListBox>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
                             <se:StswSeparator BorderThickness="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Visible~1~2}"/>
-                            <se:StswListBox BorderThickness="2 0 2 2" ItemsSource="{Binding VerticalContentAlignmentSelector}" SelectedValue="{Binding VerticalContentAlignment}"
+                            <se:StswSegment BorderThickness="2 0 2 2" ItemsSource="{Binding VerticalContentAlignmentSelector}" SelectedValue="{Binding VerticalContentAlignment}"
                                             Visibility="{Binding ContentAlignmentVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                <se:StswListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </se:StswListBox.ItemsPanel>
-                                <se:StswListBox.ItemTemplate>
+                                <se:StswSegment.ItemTemplate>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding Display}"/>
                                     </DataTemplate>
-                                </se:StswListBox.ItemTemplate>
-                            </se:StswListBox>
+                                </se:StswSegment.ItemTemplate>
+                            </se:StswSegment>
                             <!-- IsEnabled -->
                             <se:StswText FontSize="14" FontWeight="Medium" Padding="3" Text="IsEnabled"/>
                             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsEnabled}"/>
@@ -85,7 +65,7 @@
                             <ItemsControl Focusable="False" ItemsSource="{Binding Properties, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
                         </StackPanel>
                     </StackPanel>
-                </se:StswScrollViewer>
+                </se:StswScrollView>
                 <GridSplitter Background="{DynamicResource StswNavigation.Static.Border}"
                               Focusable="False"
                               Width="2"

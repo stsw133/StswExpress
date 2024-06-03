@@ -43,7 +43,7 @@
                             <se:StswSidePanel x:Name="PART_WindowBarPanel" Grid.Row="0" MinHeight="10" VerticalAlignment="Top">
                                 <se:StswWindowBar x:Name="PART_WindowBar" Components="{TemplateBinding Components}">
                                     <se:StswWindowBar.ContextMenu>
-                                        <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenu}">
+                                        <ContextMenu Placement="MousePoint" Style="{DynamicResource StswContextMenuStyle}">
                                             <ContextMenu.Resources>
                                                 <Style TargetType="{x:Type se:StswText}">
                                                     <Setter Property="FontWeight" Value="Heavy"/>
@@ -52,43 +52,34 @@
                                                 </Style>
                                             </ContextMenu.Resources>
                                             <!-- config -->
-                                            <MenuItem x:Name="PART_iConfig" Header="{se:Tr StswWindow.Config}">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="⚙"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                            <se:StswMenuItem x:Name="PART_iConfig"
+                                                             Header="{se:Tr StswWindow.Config}"
+                                                             IconData="{x:Static se:StswIcons.Cog}"/>
                                             <se:StswSeparator/>
                                             <!-- default -->
-                                            <MenuItem x:Name="PART_MenuDefault" Header="{se:Tr StswWindow.DefaultSize}">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="↕"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                            <se:StswMenuItem x:Name="PART_MenuDefault"
+                                                             Header="{se:Tr StswWindow.DefaultSize}"
+                                                             IconData="{x:Static se:StswIcons.Resize}"/>
                                             <!-- minimize -->
-                                            <MenuItem x:Name="PART_MenuMinimize" Header="{se:Tr StswWindow.Minimize}">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="🗕"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                            <se:StswMenuItem x:Name="PART_MenuMinimize"
+                                                             Header="{se:Tr StswWindow.Minimize}"
+                                                             IconData="{x:Static se:StswIcons.WindowMinimize}"/>
                                             <!-- restore -->
-                                            <MenuItem x:Name="PART_MenuRestore" Header="{se:Tr StswWindow.Maximize}">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="{TemplateBinding WindowState, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter=Maximized~🗗~🗖}"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                            <se:StswMenuItem x:Name="PART_MenuRestore"
+                                                             Header="{se:Tr StswWindow.Maximize}"
+                                                             IconData="{x:Static se:StswIcons.WindowMaximize}"/>
                                             <!-- fullscreen -->
-                                            <MenuItem x:Name="PART_MenuFullscreen" Header="{se:Tr StswWindow.Fullscreen}" InputGestureText="F11">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="⛶"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                            <se:StswSeparator/>
+                                            <se:StswMenuItem x:Name="PART_MenuFullscreen"
+                                                             Header="{se:Tr StswWindow.Fullscreen}"
+                                                             IconData="{x:Static se:StswIcons.Fullscreen}"
+                                                             InputGestureText="F11"/>
                                             <!-- close -->
-                                            <MenuItem x:Name="PART_MenuClose" Header="{se:Tr StswWindow.Close}" InputGestureText="Alt + F4">
-                                                <MenuItem.Icon>
-                                                    <se:StswText Text="🗙" Foreground="{DynamicResource StswColor.Negative}"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
+                                            <se:StswSeparator/>
+                                            <se:StswMenuItem x:Name="PART_MenuClose"
+                                                             Header="{se:Tr StswWindow.Close}"
+                                                             IconData="{x:Static se:StswIcons.WindowClose}"
+                                                             IconFill="{DynamicResource StswColor.Negative}"
+                                                             InputGestureText="Alt + F4"/>
                                         </ContextMenu>
                                     </se:StswWindowBar.ContextMenu>
                                 </se:StswWindowBar>
@@ -119,6 +110,7 @@
                             <Setter Property="BorderThickness" Value="0" TargetName="PART_MainBorder"/>
                             <Setter Property="CornerRadius" Value="0" TargetName="PART_MainBorder"/>
                             <Setter Property="Header" Value="{se:Tr StswWindow.Restore}" TargetName="PART_MenuRestore"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.WindowRestore}" TargetName="PART_MenuRestore"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

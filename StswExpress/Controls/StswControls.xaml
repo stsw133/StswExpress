@@ -26,10 +26,9 @@
         <ResourceDictionary Source="Checks/StswToggleSwitch.xaml"/>
 
         <ResourceDictionary Source="Collections/StswComboBox.xaml"/>
-        <ResourceDictionary Source="Collections/StswDataGrid.xaml"/>
-        <ResourceDictionary Source="Collections/StswDataPager.xaml"/>
         <ResourceDictionary Source="Collections/StswListBox.xaml"/>
         <ResourceDictionary Source="Collections/StswListView.xaml"/>
+        <ResourceDictionary Source="Collections/StswSegment.xaml"/>
         <ResourceDictionary Source="Collections/StswSelectionBox.xaml"/>
         <ResourceDictionary Source="Collections/StswPicker.xaml"/>
         <ResourceDictionary Source="Collections/StswTreeView.xaml"/>
@@ -38,6 +37,9 @@
         <ResourceDictionary Source="Color/StswColorPicker.xaml"/>
         <ResourceDictionary Source="Color/StswColorSelector.xaml"/>
 
+        <ResourceDictionary Source="DataGrids/StswDataGrid.xaml"/>
+        <ResourceDictionary Source="DataGrids/StswDataPager.xaml"/>
+        
         <ResourceDictionary Source="DateTime/StswCalendar.xaml"/>
         <ResourceDictionary Source="DateTime/StswDatePicker.xaml"/>
         <ResourceDictionary Source="DateTime/StswTimePicker.xaml"/>
@@ -47,8 +49,8 @@
 
         <ResourceDictionary Source="File/StswFilePicker.xaml"/>
         
-        <ResourceDictionary Source="Filtering/StswFilterBox.xaml"/>
-
+        <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
+        
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
         <ResourceDictionary Source="Input/StswNumericBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
@@ -69,15 +71,16 @@
         <ResourceDictionary Source="Media/StswMediaPlayer.xaml"/>
 
         <ResourceDictionary Source="Navigation/StswContextMenu.xaml"/>
+        <ResourceDictionary Source="Navigation/StswMenu.xaml"/>
         <ResourceDictionary Source="Navigation/StswMenuItem.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigation.xaml"/>
         <ResourceDictionary Source="Navigation/StswNavigationElement.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabControl.xaml"/>
         <ResourceDictionary Source="Navigation/StswTabItem.xaml"/>
 
-        <ResourceDictionary Source="Scrolling/StswDirectionViewer.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswDirectionView.xaml"/>
         <ResourceDictionary Source="Scrolling/StswScrollBar.xaml"/>
-        <ResourceDictionary Source="Scrolling/StswScrollViewer.xaml"/>
+        <ResourceDictionary Source="Scrolling/StswScrollView.xaml"/>
 
         <ResourceDictionary Source="StatusInfo/StswInfoBadge.xaml"/>
         <ResourceDictionary Source="StatusInfo/StswInfoBar.xaml"/>

@@ -5,10 +5,10 @@ namespace TestApp;
 public class StswColorSelectorContext : ControlsContext
 {
     /// SelectedColor
-    private Color selectedColor = Color.FromRgb(24, 240, 24);
     public Color SelectedColor
     {
-        get => selectedColor;
-        set => SetProperty(ref selectedColor, value);
+        get => _selectedColor;
+        set => SetProperty(ref _selectedColor, value);
     }
+    private Color _selectedColor = Color.FromRgb(24, 240, 24);
 }

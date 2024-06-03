@@ -13,18 +13,18 @@ public class StswColorPickerContext : ControlsContext
     }
 
     /// IsAlphaEnabled
-    private bool isAlphaEnabled;
     public bool IsAlphaEnabled
     {
-        get => isAlphaEnabled;
-        set => SetProperty(ref isAlphaEnabled, value);
+        get => _isAlphaEnabled;
+        set => SetProperty(ref _isAlphaEnabled, value);
     }
+    private bool _isAlphaEnabled;
 
     /// SelectedColor
-    private Color selectedColor = Color.FromRgb(24, 240, 24);
     public Color SelectedColor
     {
-        get => selectedColor;
-        set => SetProperty(ref selectedColor, value);
+        get => _selectedColor;
+        set => SetProperty(ref _selectedColor, value);
     }
+    private Color _selectedColor = Color.FromRgb(24, 240, 24);
 }

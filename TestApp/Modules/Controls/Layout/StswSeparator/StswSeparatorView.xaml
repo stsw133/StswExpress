@@ -17,8 +17,8 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Orientation -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Orientation, Type={x:Type se:StswSeparator}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Orientation}}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Orientation, Type={x:Type se:StswSeparator}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Orientation}" Margin="0 0 0 3" SelectedValue="{Binding Orientation}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSeparator IsEnabled="{Binding IsEnabled}"

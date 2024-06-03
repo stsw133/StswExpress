@@ -17,10 +17,10 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Minimum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Minimum, Type={x:Type se:StswCalendar}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswCalendar}}"/>
             <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Minimum}"/>
             <!-- Maximum -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Maximum, Type={x:Type se:StswCalendar}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswCalendar}}"/>
             <se:StswDatePicker Format="d" Margin="0 0 0 3" SelectedDate="{Binding Maximum}"/>
         </local:ControlsBase.Properties>
         <!-- content -->

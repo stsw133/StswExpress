@@ -16,26 +16,26 @@ public class StswPasswordBoxContext : ControlsContext
     }
 
     /// Password
-    private string? password;
     public string? Password
     {
-        get => password;
-        set => SetProperty(ref password, value);
+        get => _password;
+        set => SetProperty(ref _password, value);
     }
+    private string? _password;
 
     /// ShowPassword
-    private bool showPassword = false;
     public bool ShowPassword
     {
-        get => showPassword;
-        set => SetProperty(ref showPassword, value);
+        get => _showPassword;
+        set => SetProperty(ref _showPassword, value);
     }
+    private bool _showPassword = false;
 
     /// SubControls
-    private bool subControls = false;
     public bool SubControls
     {
-        get => subControls;
-        set => SetProperty(ref subControls, value);
+        get => _subControls;
+        set => SetProperty(ref _subControls, value);
     }
+    private bool _subControls = false;
 }

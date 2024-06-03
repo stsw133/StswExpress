@@ -9,7 +9,7 @@
         
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -45,6 +45,7 @@
                             </ContentPresenter.Resources>
                         </ContentPresenter>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="WasClicked" Value="True">
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource StswColor.Modify}"/>

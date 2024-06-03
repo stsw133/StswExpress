@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- Scale -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Scale, Type={x:Type se:StswSpinner}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Scale, Type={x:Type se:StswSpinner}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding Scale}">
                 <se:StswTextBox.SubControls>
                     <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
@@ -25,8 +25,8 @@
                 </se:StswTextBox.SubControls>
             </se:StswTextBox>
             <!-- Type -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Type, Type={x:Type se:StswSpinner}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswSpinnerType}}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswSpinner}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswSpinnerType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSpinner IsEnabled="{Binding IsEnabled}"

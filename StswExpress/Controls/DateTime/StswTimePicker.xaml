@@ -52,11 +52,11 @@
                                 </se:StswDropButton.Header>
                                 <Grid MaxHeight="500">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -65,39 +65,33 @@
                                     <!-- labels -->
                                     <se:StswBorder Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" BorderThickness="0 0 0 1">
                                         <UniformGrid Rows="1">
-                                            <se:StswLabel Content="Hours:"/>
-                                            <se:StswLabel Content="Minutes:"/>
-                                            <se:StswLabel Content="Seconds:"/>
+                                            <se:StswHeader Content="Hours:"/>
+                                            <se:StswHeader Content="Minutes:"/>
+                                            <se:StswHeader Content="Seconds:"/>
                                         </UniformGrid>
                                     </se:StswBorder>
                                     <!-- hours -->
-                                    <se:StswListBox Grid.Column="0" Grid.Row="1"
+                                    <se:StswSegment Grid.Column="0" Grid.Row="1"
                                                     se:StswControl.IsBorderless="True"
-                                                    HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=24}"
-                                                    ScrollViewer.CanContentScroll="False"
-                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                                    Orientation="Vertical"
+                                                    SelectedItem="{Binding SelectedTimeH, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     <!-- ... -->
                                     <se:StswSeparator Grid.Column="1" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- minutes -->
-                                    <se:StswListBox Grid.Column="2" Grid.Row="1"
+                                    <se:StswSegment Grid.Column="2" Grid.Row="1"
                                                     se:StswControl.IsBorderless="True"
-                                                    HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
-                                                    ScrollViewer.CanContentScroll="False"
-                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                                    Orientation="Vertical"
+                                                    SelectedItem="{Binding SelectedTimeM, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     <!-- ... -->
                                     <se:StswSeparator Grid.Column="3" Grid.Row="1" BorderThickness="1" Orientation="Vertical"/>
                                     <!-- seconds -->
-                                    <se:StswListBox Grid.Column="4" Grid.Row="1"
+                                    <se:StswSegment Grid.Column="4" Grid.Row="1"
                                                     se:StswControl.IsBorderless="True"
-                                                    HorizontalContentAlignment="Center"
                                                     ItemsSource="{Binding Mode=OneTime, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=60}"
-                                                    ScrollViewer.CanContentScroll="False"
-                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Template="{DynamicResource StswTimeListBoxTemplate}"/>
+                                                    Orientation="Vertical"
+                                                    SelectedItem="{Binding SelectedTimeS, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </Grid>
                             </se:StswDropButton>
                             <!-- separator -->
@@ -129,11 +123,11 @@
                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                              Visibility="Collapsed"/>
-                                <se:StswScrollViewer x:Name="PART_ContentHost"
-                                                     Focusable="False"
-                                                     IsDynamic="True"
-                                                     HorizontalScrollBarVisibility="Hidden"
-                                                     VerticalScrollBarVisibility="Hidden"/>
+                                <se:StswScrollView x:Name="PART_ContentHost"
+                                                   Focusable="False"
+                                                   IsDynamic="True"
+                                                   HorizontalScrollBarVisibility="Hidden"
+                                                   VerticalScrollBarVisibility="Hidden"/>
                             </Grid>
                         </DockPanel>
                     </se:StswBorder>

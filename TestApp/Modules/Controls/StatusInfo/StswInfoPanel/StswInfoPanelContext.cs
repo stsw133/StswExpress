@@ -32,18 +32,18 @@ public class StswInfoPanelContext : ControlsContext
     #endregion
 
     /// IsClosable
-    private bool isClosable;
     public bool IsClosable
     {
-        get => isClosable;
-        set => SetProperty(ref isClosable, value);
+        get => _isClosable;
+        set => SetProperty(ref _isClosable, value);
     }
+    private bool _isClosable;
 
     /// ItemsSource
-    private ObservableCollection<StswLogItem> itemsSource = new();
     public ObservableCollection<StswLogItem> ItemsSource
     {
-        get => itemsSource;
-        set => SetProperty(ref itemsSource, value);
+        get => _itemsSource;
+        set => SetProperty(ref _itemsSource, value);
     }
+    private ObservableCollection<StswLogItem> _itemsSource = new();
 }

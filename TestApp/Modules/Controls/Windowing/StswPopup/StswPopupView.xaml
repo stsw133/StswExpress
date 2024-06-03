@@ -15,13 +15,18 @@
             Represents a custom window control with additional functionality and customization options.
         </local:ControlsBase.Description>
         <!-- properties -->
-
+        <local:ControlsBase.Properties>
+            <!-- ScrollType -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf ScrollType, Type={x:Type se:StswPopup}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswScrollType}" Margin="0 0 0 3" SelectedValue="{Binding ScrollType}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
         <DockPanel>
             <se:StswPopup IsEnabled="{Binding IsEnabled}"
                           IsOpen="{Binding IsOpen}"
                           MaxHeight="180"
                           Placement="MousePoint"
+                          ScrollType="{Binding ScrollType}"
                           StaysOpen="False"
                           HorizontalAlignment="{Binding HorizontalAlignment}"
                           VerticalAlignment="{Binding VerticalAlignment}">

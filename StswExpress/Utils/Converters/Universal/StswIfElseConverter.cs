@@ -8,8 +8,8 @@ namespace StswExpress;
 /// <summary>
 /// Takes in an input value and a set of parameters in the form of a string separated by a tilde (~) character, which contains three parts:
 /// the first part is the condition to evaluate against the input value,
-/// the second part is the value to return if the condition is <c>true</c>,
-/// and the third part is the value to return if the condition is <c>false</c>.
+/// the second part is the value to return if the condition is <see langword="true"/>,
+/// and the third part is the value to return if the condition is <see langword="false"/>.
 /// </summary>
 public class StswIfElseConverter : MarkupExtension, IValueConverter
 {

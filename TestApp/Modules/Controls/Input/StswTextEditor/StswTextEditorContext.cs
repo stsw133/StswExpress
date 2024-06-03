@@ -13,18 +13,18 @@ public class StswTextEditorContext : ControlsContext
     }
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 
     /// Text
-    private FlowDocument text = new FlowDocument(new Paragraph(new Run("TEST")));
     public FlowDocument Text
     {
-        get => text;
-        set => SetProperty(ref text, value);
+        get => _text;
+        set => SetProperty(ref _text, value);
     }
+    private FlowDocument _text = new FlowDocument(new Paragraph(new Run("TEST")));
 }

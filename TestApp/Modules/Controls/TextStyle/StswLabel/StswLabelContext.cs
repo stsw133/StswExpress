@@ -8,14 +8,23 @@ public class StswLabelContext : ControlsContext
     {
         base.SetDefaults();
 
-        IsTruncationAllowed = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsTruncationAllowed)))?.Value ?? default;
+        AutoTruncation = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(AutoTruncation)))?.Value ?? default;
+        IsContentTruncated = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsContentTruncated)))?.Value ?? default;
     }
 
-    /// IsTruncationAllowed
-    private bool isTruncationAllowed;
-    public bool IsTruncationAllowed
+    /// AutoTruncation
+    public bool AutoTruncation
     {
-        get => isTruncationAllowed;
-        set => SetProperty(ref isTruncationAllowed, value);
+        get => _autoTruncation;
+        set => SetProperty(ref _autoTruncation, value);
     }
+    private bool _autoTruncation;
+
+    /// IsContentTruncated
+    public bool IsContentTruncated
+    {
+        get => _isContentTruncated;
+        set => SetProperty(ref _isContentTruncated, value);
+    }
+    private bool _isContentTruncated;
 }

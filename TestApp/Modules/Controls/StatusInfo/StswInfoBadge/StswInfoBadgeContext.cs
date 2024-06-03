@@ -14,34 +14,34 @@ public class StswInfoBadgeContext : ControlsContext
     }
 
     /// Format
-    private StswInfoFormat format;
     public StswInfoFormat Format
     {
-        get => format;
-        set => SetProperty(ref format, value);
+        get => _format;
+        set => SetProperty(ref _format, value);
     }
+    private StswInfoFormat _format;
 
     /// Limit
-    private int limit;
     public int Limit
     {
-        get => limit;
-        set => SetProperty(ref limit, value);
+        get => _limit;
+        set => SetProperty(ref _limit, value);
     }
+    private int _limit;
 
     /// SelectedValue
-    private int selectedValue = 0;
     public int SelectedValue
     {
-        get => selectedValue;
-        set => SetProperty(ref selectedValue, value);
+        get => _selectedValue;
+        set => SetProperty(ref _selectedValue, value);
     }
+    private int _selectedValue = 0;
 
     /// Type
-    private StswInfoType type;
     public StswInfoType Type
     {
-        get => type;
-        set => SetProperty(ref type, value);
+        get => _type;
+        set => SetProperty(ref _type, value);
     }
+    private StswInfoType _type;
 }

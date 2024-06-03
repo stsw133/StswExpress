@@ -17,18 +17,18 @@ public class StswDropArrowContext : ControlsContext
     }
 
     /// IsExpanded
-    private bool isExpanded;
     public bool IsExpanded
     {
-        get => isExpanded;
-        set => SetProperty(ref isExpanded, value);
+        get => _isExpanded;
+        set => SetProperty(ref _isExpanded, value);
     }
+    private bool _isExpanded;
 
     /// Scale
-    private GridLength scale;
     public GridLength Scale
     {
-        get => scale;
-        set => SetProperty(ref scale, value);
+        get => _scale;
+        set => SetProperty(ref _scale, value);
     }
+    private GridLength _scale;
 }

@@ -17,7 +17,7 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- SwitchTime -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf SwitchTime, Type={x:Type se:StswTimedSwitch}}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SwitchTime, Type={x:Type se:StswTimedSwitch}}"/>
             <se:StswTextBox Margin="0 0 0 3" Text="{Binding SwitchTime}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
@@ -28,11 +28,11 @@
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswButton Command="{Binding EnableTimerCommand}">
-                <se:StswHeader Content="Zapisz wszystkie zmiany" IconData="{x:Static se:StswIcons.ContentSaveAll}" IconFill="{DynamicResource StswColor.Modify}"/>
+                <se:StswHeader Content="Save all changes" IconData="{x:Static se:StswIcons.ContentSaveAll}" IconFill="{DynamicResource StswColor.Modify}"/>
             </se:StswButton>
             <se:StswTimedSwitch.TimedContent>
                 <se:StswButton>
-                    <se:StswHeader Content="Zapisano 0 zmian" IconData="{x:Static se:StswIcons.CheckAll}" IconFill="{DynamicResource StswColor.Modify}"/>
+                    <se:StswHeader Content="Saved 0 changes" IconData="{x:Static se:StswIcons.CheckAll}" IconFill="{DynamicResource StswColor.Modify}"/>
                 </se:StswButton>
             </se:StswTimedSwitch.TimedContent>
         </se:StswTimedSwitch>

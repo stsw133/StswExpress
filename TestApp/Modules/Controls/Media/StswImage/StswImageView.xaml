@@ -17,11 +17,11 @@
         <!-- properties -->
         <local:ControlsBase.Properties>
             <!-- MenuMode -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf MenuMode, Type={x:Type se:StswImage}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type se:StswMenuMode}}" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MenuMode, Type={x:Type se:StswImage}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswMenuMode}" Margin="0 0 0 3" SelectedValue="{Binding MenuMode}"/>
             <!-- Stretch -->
-            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:NameOf Stretch, Type={x:Type se:StswImage}}"/>
-            <se:StswComboBox ItemsSource="{Binding Converter={x:Static se:StswEnumToListConverter.Instance}, ConverterParameter={x:Type Stretch}}" Margin="0 0 0 3" SelectedValue="{Binding Stretch}"/>
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Stretch, Type={x:Type se:StswImage}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList Stretch}" Margin="0 0 0 3" SelectedValue="{Binding Stretch}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswImage IsEnabled="{Binding IsEnabled}"

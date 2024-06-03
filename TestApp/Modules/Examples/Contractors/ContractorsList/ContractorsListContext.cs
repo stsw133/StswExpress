@@ -262,54 +262,55 @@ public class ContractorsListContext : StswObservableObject
     #endregion
 
     /// Data collections
-    private StswBindingList<ContractorModel> listContractors = new();
     public StswBindingList<ContractorModel> ListContractors
     {
-        get => listContractors;
-        set => SetProperty(ref listContractors, value);
+        get => _listContractors;
+        set => SetProperty(ref _listContractors, value);
     }
+    private StswBindingList<ContractorModel> _listContractors = new();
 
     /// Filters data
-    private StswDataGridFiltersDataModel filtersContractors = new();
     public StswDataGridFiltersDataModel FiltersContractors
     {
-        get => filtersContractors;
-        set => SetProperty(ref filtersContractors, value);
+        get => _filtersContractors;
+        set => SetProperty(ref _filtersContractors, value);
     }
+    private StswDataGridFiltersDataModel _filtersContractors = new();
 
     /// Is drop down open
-    private bool isRefreshOpen = false;
     public bool IsRefreshOpen
     {
-        get => isRefreshOpen;
-        set => SetProperty(ref isRefreshOpen, value);
+        get => _isRefreshOpen;
+        set => SetProperty(ref _isRefreshOpen, value);
     }
+    private bool _isRefreshOpen = false;
 
     /// Loading
-    private int loadingActions = 0;
     public int LoadingActions
     {
-        get => loadingActions;
+        get => _loadingActions;
         set
         {
-            SetProperty(ref loadingActions, value);
+            SetProperty(ref _loadingActions, value);
 
             if (!LoadingState.In(StswProgressState.Paused, StswProgressState.Error))
                 LoadingState = LoadingActions > 0 ? StswProgressState.Running : StswProgressState.Ready;
         }
     }
-    private StswProgressState loadingState;
+    private int _loadingActions = 0;
+
     public StswProgressState LoadingState
     {
-        get => loadingState;
-        set => SetProperty(ref loadingState, value);
+        get => _loadingState;
+        set => SetProperty(ref _loadingState, value);
     }
+    private StswProgressState _loadingState;
 
     /// Selected items
-    private object? selectedContractor = new();
     public object? SelectedContractor
     {
-        get => selectedContractor;
-        set => SetProperty(ref selectedContractor, value);
+        get => _selectedContractor;
+        set => SetProperty(ref _selectedContractor, value);
     }
+    private object? _selectedContractor = new();
 }

@@ -15,9 +15,13 @@
             Represents a ...
         </local:ControlsBase.Description>
         <!-- properties -->
-        
+        <local:ControlsBase.Properties>
+            <!-- AutoLayoutMode -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf AutoLayoutMode, Type={x:Type se:StswGrid}}"/>
+            <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswAutoLayoutMode}" Margin="0 0 0 3" SelectedValue="{Binding AutoLayoutMode}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswGrid AutoDefinitions="True"
+        <se:StswGrid AutoLayoutMode="{Binding AutoLayoutMode}"
                      Margin="5"
                      HorizontalAlignment="{Binding HorizontalAlignment}"
                      VerticalAlignment="{Binding VerticalAlignment}">

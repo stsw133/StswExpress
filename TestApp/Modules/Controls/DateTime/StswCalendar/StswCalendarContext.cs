@@ -5,25 +5,26 @@ namespace TestApp;
 public class StswCalendarContext : ControlsContext
 {
     /// Maximum
-    private DateTime? maximum;
     public DateTime? Maximum
     {
-        get => maximum;
-        set => SetProperty(ref maximum, value);
+        get => _maximum;
+        set => SetProperty(ref _maximum, value);
     }
+    private DateTime? _maximum;
+
     /// Minimum
-    private DateTime? minimum;
     public DateTime? Minimum
     {
-        get => minimum;
-        set => SetProperty(ref minimum, value);
+        get => _minimum;
+        set => SetProperty(ref _minimum, value);
     }
+    private DateTime? _minimum;
 
     /// SelectedDate
-    private DateTime? selectedDate = DateTime.Now;
     public DateTime? SelectedDate
     {
-        get => selectedDate;
-        set => SetProperty(ref selectedDate, value);
+        get => _selectedDate;
+        set => SetProperty(ref _selectedDate, value);
     }
+    private DateTime? _selectedDate = DateTime.Now;
 }

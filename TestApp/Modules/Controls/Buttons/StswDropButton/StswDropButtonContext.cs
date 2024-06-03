@@ -15,18 +15,18 @@ public class StswDropButtonContext : ControlsContext
     }
 
     /// ClickOption
-    private int clickOption;
     public int ClickOption
     {
-        get => clickOption;
-        set => SetProperty(ref clickOption, value);
+        get => _clickOption;
+        set => SetProperty(ref _clickOption, value);
     }
+    private int _clickOption;
 
     /// IsReadOnly
-    private bool isReadOnly;
     public bool IsReadOnly
     {
-        get => isReadOnly;
-        set => SetProperty(ref isReadOnly, value);
+        get => _isReadOnly;
+        set => SetProperty(ref _isReadOnly, value);
     }
+    private bool _isReadOnly;
 }

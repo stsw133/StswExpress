@@ -66,13 +66,13 @@ public class StswDropArrow : Control
 
     #region Excluded properties
     /// The following properties are hidden from the designer and serialization:
-
+    /*
     [Browsable(false)]
     [Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     protected new Brush? Background { get; private set; }
-
+    */
     [Browsable(false)]
     [Bindable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
