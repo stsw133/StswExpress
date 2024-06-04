@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +13,14 @@ namespace StswExpress;
 /// <summary>
 /// Represents a custom window control with additional functionality and customization options.
 /// </summary>
-public class StswWindow : Window, IStswCornerControl, INotifyPropertyChanged
+public class StswWindow : Window, IStswCornerControl
 {
     public StswWindow()
     {
         SetValue(ComponentsProperty, new ObservableCollection<UIElement>());
 
         var commandBinding = new RoutedUICommand(nameof(Fullscreen), nameof(Fullscreen), GetType(), new InputGestureCollection() { new KeyGesture(Key.F11) });
-        CommandBindings.Add(new CommandBinding(commandBinding, (s, e) => Fullscreen = !Fullscreen));
+        CommandBindings.Add(new CommandBinding(commandBinding, (_, _) => Fullscreen = !Fullscreen));
     }
     static StswWindow()
     {
@@ -46,7 +45,7 @@ public class StswWindow : Window, IStswCornerControl, INotifyPropertyChanged
 
         /// Menu: config
         if (GetTemplateChild("PART_iConfig") is MenuItem mniConfig)
-            mniConfig.Click += (s, e) => StswConfig.Show(this);
+            mniConfig.Click += (_, _) => StswConfig.Show(this);
         /// Menu: default
         if (GetTemplateChild("PART_MenuDefault") is MenuItem mniDefault)
             mniDefault.Click += PART_MenuDefault_Click;
@@ -66,12 +65,12 @@ public class StswWindow : Window, IStswCornerControl, INotifyPropertyChanged
         /// Chrome change
         if (GetTemplateChild("PART_WindowBar") is StswWindowBar windowBar)
         {
-            windowBar.SizeChanged += (s, e) => UpdateChrome();
+            windowBar.SizeChanged += (_, _) => UpdateChrome();
             if (windowBar.Parent is StswSidePanel windowBarPanel)
                 windowBarPanel.IsAlwaysVisible = !Fullscreen;
             _windowBar = windowBar;
         }
-        StateChanged += (s, e) => UpdateChrome();
+        StateChanged += (_, _) => UpdateChrome();
 
         OnComponentsChanged(this, new DependencyPropertyChangedEventArgs());
     }
@@ -199,8 +198,6 @@ public class StswWindow : Window, IStswCornerControl, INotifyPropertyChanged
             }
         }
     }
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected virtual void NotifyPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     /// <summary>
     /// Gets or sets a value indicating whether the window is in fullscreen mode.

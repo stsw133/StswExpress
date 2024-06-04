@@ -23,6 +23,7 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Controls; Themes; Utils</PackageTags>
     <Copyright>© 2024 Karol Staszewski</Copyright>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

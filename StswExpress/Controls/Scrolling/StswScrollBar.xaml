@@ -46,6 +46,7 @@
                             <se:StswIcon x:Name="ArrowBottom" Data="{x:Static se:StswIcons.MenuDown}" Fill="{DynamicResource StswScroll.Static.Glyph}" Scale="1.25"/>
                         </RepeatButton>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -120,6 +121,7 @@
                                     <se:StswIcon x:Name="ArrowRight" Data="{x:Static se:StswIcons.MenuRight}" Fill="{DynamicResource StswScroll.Static.Glyph}" Scale="1.25"/>
                                 </RepeatButton>
                             </Grid>
+                            
                             <ControlTemplate.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -218,6 +220,7 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Background}" TargetName="border"/>
@@ -254,6 +257,7 @@
                             VerticalAlignment="Stretch"
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"/>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Thumb}" TargetName="PART_Border"/>
@@ -286,6 +290,7 @@
                             VerticalAlignment="Stretch"
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"/>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource StswScroll.MouseOver.Thumb}" TargetName="PART_Border"/>

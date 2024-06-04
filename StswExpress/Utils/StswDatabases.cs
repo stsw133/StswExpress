@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace StswExpress;
 
@@ -12,7 +15,7 @@ public static class StswDatabases
     /// <summary>
     /// The dictionary that contains all declared database connections for application.
     /// </summary>
-    public static ObservableCollection<StswDatabaseModel> List { get; set; } = new();
+    public static ObservableCollection<StswDatabaseModel> List { get; set; } = [];
 
     /// <summary>
     /// Default instance of database connection (that is currently in use by application). 
@@ -71,6 +74,37 @@ public static class StswDatabases
                     + "|" + StswSecurity.Encrypt(db.Login)
                     + "|" + StswSecurity.Encrypt(db.Password)
                 );
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    public static string LessSpaceQuery(string query)
+    {
+        var regex = new Regex(@"('([^']*)')|([^']+)");
+        var matches = regex.Matches(query);
+        List<(string Text, bool IsInApostrophes)> parts = [];
+
+        foreach (Match match in matches)
+        {
+            if (match.Groups[2].Success)
+                parts.Add((match.Groups[2].Value, true));
+            else
+                parts.Add((match.Groups[3].Value, false));
+        }
+
+        query = string.Empty;
+        foreach (var part in parts)
+        {
+            if (!part.IsInApostrophes)
+                query += StswFn.RemoveConsecutiveText(part.Text.Replace("\t", " "), " ");
+            else
+                query += $"'{part.Text}'";
+        }
+
+        return query;
     }
 }
 

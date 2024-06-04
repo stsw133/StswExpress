@@ -127,35 +127,27 @@ public static class StswExcelFn
 /// A class that is a attribute used for <see cref="StswExcelFn"/> function to control exporting behavior for specific properties.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class StswExportAttribute : Attribute
+public class StswExportAttribute(string? columnName = null, string? columnFormat = null, bool isColumnIgnored = false, int order = 0) : Attribute
 {
-    public StswExportAttribute(string? columnName = null, string? columnFormat = null, bool isColumnIgnored = false, int order = 0)
-    {
-        ColumnName = columnName;
-        ColumnFormat = columnFormat;
-        IsColumnIgnored = isColumnIgnored;
-        Order = order;
-    }
-
     /// <summary>
     /// Gets or sets the custom name to be used as the column header in the exported Excel file.
     /// </summary>
-    public string? ColumnName { get; set; }
+    public string? ColumnName { get; set; } = columnName;
 
     /// <summary>
     /// Gets or sets the custom format string to be used for formatting the property's value in the exported Excel file.
     /// </summary>
-    public string? ColumnFormat { get; set; }
+    public string? ColumnFormat { get; set; } = columnFormat;
 
     /// <summary>
     /// Gets or sets a flag indicating whether to ignore exporting the property as a column in the Excel file.
     /// </summary>
-    public bool IsColumnIgnored { get; set; }
+    public bool IsColumnIgnored { get; set; } = isColumnIgnored;
 
     /// <summary>
     /// Gets or sets the order in which the column should appear in the exported Excel file.
     /// </summary>
-    public int Order { get; set; }
+    public int Order { get; set; } = order;
 }
 
 /// <summary>

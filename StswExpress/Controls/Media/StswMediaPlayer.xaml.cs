@@ -36,22 +36,22 @@ public class StswMediaPlayer : ItemsControl
         //    btnShuffle.Click += ButtonShuffle_Click;
         /// Button: stop
         if (GetTemplateChild("PART_ButtonStop") is ButtonBase btnStop)
-            btnStop.Click += (s, e) => IsPlaying = null;
+            btnStop.Click += (_, _) => IsPlaying = null;
         /// Button: previous
         if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase btnPrevious)
-            btnPrevious.Click += (s, e) => ShiftBy(-1);
+            btnPrevious.Click += (_, _) => ShiftBy(-1);
         /// Button: play
         if (GetTemplateChild("PART_ButtonPlay") is CheckBox btnPlay)
-            btnPlay.Click += (s, e) => IsPlaying = IsPlaying != true;
+            btnPlay.Click += (_, _) => IsPlaying = IsPlaying != true;
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase btnNext)
-            btnNext.Click += (s, e) => ShiftBy(1);
+            btnNext.Click += (_, _) => ShiftBy(1);
         /// Button: repeat
         //if (GetTemplateChild("PART_ButtonRepeat") is CheckBox btnRepeat)
         //    btnRepeat.Click += BtnRepeat_Click;
         /// Button: mute
         if (GetTemplateChild("PART_ButtonMute") is CheckBox btnMute)
-            btnMute.Click += (s, e) => IsMuted = btnMute.IsChecked == true;
+            btnMute.Click += (_, _) => IsMuted = btnMute.IsChecked == true;
         /// Slider: timeline
         if (GetTemplateChild("PART_Timeline") is Slider timeline)
             timeline.PreviewMouseUp += PART_Timeline_PreviewMouseUp;
@@ -59,9 +59,9 @@ public class StswMediaPlayer : ItemsControl
         /// MediaElement
         if (GetTemplateChild("PART_MediaElement") is MediaElement mediaElement)
         {
-            mediaElement.MediaEnded += (s, e) => { if (CanShiftBy(1)) ShiftBy(1); else IsPlaying = null; };
-            mediaElement.MediaOpened += (s, e) => TimeMax = mediaElement.NaturalDuration.HasTimeSpan ? mediaElement.NaturalDuration.TimeSpan : new();
-            mediaElement.SourceUpdated += (s, e) => IsPlaying = true;
+            mediaElement.MediaEnded += (_, _) => { if (CanShiftBy(1)) ShiftBy(1); else IsPlaying = null; };
+            mediaElement.MediaOpened += (_, _) => TimeMax = mediaElement.NaturalDuration.HasTimeSpan ? mediaElement.NaturalDuration.TimeSpan : new();
+            mediaElement.SourceUpdated += (_, _) => IsPlaying = true;
             _mediaElement = mediaElement;
         }
 

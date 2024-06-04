@@ -20,11 +20,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type se:StswDirectionView}">
-                    <Border x:Name="PART_MainBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}">
+                    <se:StswBorder x:Name="PART_MainBorder"
+                                   Background="{TemplateBinding Background}"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerClipping="{TemplateBinding CornerClipping}"
+                                   CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -36,11 +37,6 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <!--
-                            <Grid.Resources>
-                                <SolidColorBrush x:Key="StswButton.Disabled.Background" Color="Transparent"/>
-                            </Grid.Resources>
-                            -->
                             <!-- content -->
                             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Column="1" Grid.Row="1"
                                                     CanContentScroll="{TemplateBinding CanContentScroll}"
@@ -78,7 +74,7 @@
                                 <se:StswIcon Data="{x:Static se:StswIcons.MenuUp}"/>
                             </se:StswRepeatButton>
                         </Grid>
-                    </Border>
+                    </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

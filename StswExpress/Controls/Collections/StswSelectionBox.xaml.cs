@@ -37,7 +37,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
-            listBox.SelectionChanged += (s, e) => SetText();
+            listBox.SelectionChanged += (_, _) => SetText();
 
         /// SetTextCommand
         SetTextCommand ??= new StswCommand(SetText);

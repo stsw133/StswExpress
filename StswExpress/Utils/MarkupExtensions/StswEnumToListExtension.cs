@@ -11,15 +11,9 @@ namespace StswExpress;
 /// This extension can be used in XAML to bind an enumeration to a UI element, providing a list of selection items
 /// where each item contains the display name and value of the enumeration.
 /// </remarks>
-public class StswEnumToListExtension : MarkupExtension
+public class StswEnumToListExtension(Type type) : MarkupExtension
 {
-    private readonly Type _type;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswEnumToListExtension"/> class.
-    /// </summary>
-    /// <param name="type">The type of the enum to instantiate.</param>
-    public StswEnumToListExtension(Type type) => _type = type ?? throw new ArgumentNullException(nameof(type));
+    private readonly Type _type = type ?? throw new ArgumentNullException(nameof(type));
 
     /// <summary>
     /// Provides the value for the XAML markup extension.
@@ -35,9 +29,9 @@ public class StswEnumToListExtension : MarkupExtension
                    .Select(name => new StswSelectionItem
                    {
                        Display = _type.GetField(name)?
-                                   .GetCustomAttributes(typeof(DescriptionAttribute), false)
-                                   .Cast<DescriptionAttribute>()
-                                   .FirstOrDefault()?.Description ?? name,
+                                      .GetCustomAttributes(typeof(DescriptionAttribute), false)
+                                      .Cast<DescriptionAttribute>()
+                                      .FirstOrDefault()?.Description ?? name,
                        Value = Enum.Parse(_type, name)
                    })
                    .ToList();

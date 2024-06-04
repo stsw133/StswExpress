@@ -71,16 +71,16 @@ public class StswToolTip : ToolTip, IStswCornerControl
                     stsw._parent = Window.GetWindow(stsw);
                 if (stsw._parent != null)
                 {
-                    stsw.Opened += (s, e) => stsw.SetOffset();
-                    stsw._parent.MouseMove += (s, e) => stsw.SetOffset();
+                    stsw.Opened += (_, _) => stsw.SetOffset();
+                    stsw._parent.MouseMove += (_, _) => stsw.SetOffset();
                 }
             }
             else if ((bool?)e.OldValue == true)
             {
                 if (stsw._parent != null)
                 {
-                    stsw.Opened -= (s, e) => stsw.SetOffset();
-                    stsw._parent.MouseMove -= (s, e) => stsw.SetOffset();
+                    stsw.Opened -= (_, _) => stsw.SetOffset();
+                    stsw._parent.MouseMove -= (_, _) => stsw.SetOffset();
                 }
 
                 stsw.Placement = PlacementMode.Mouse;

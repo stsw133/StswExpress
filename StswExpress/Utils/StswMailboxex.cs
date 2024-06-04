@@ -15,7 +15,7 @@ public static class StswMailboxex
     /// <summary>
     /// The dictionary that contains all declared email configurations for application.
     /// </summary>
-    public static ObservableCollection<StswMailboxModel> List { get; set; } = new();
+    public static ObservableCollection<StswMailboxModel> List { get; set; } = [];
 
     /// <summary>
     /// Default instance of email configuration (that is currently in use by application). 
@@ -55,7 +55,7 @@ public static class StswMailboxex
                     Address = StswSecurity.Decrypt(data[3]),
                     Username = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5]),
-                    EnableSSL = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) ? Convert.ToBoolean(s2) : false
+                    EnableSSL = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) && Convert.ToBoolean(s2)
                 });
             }
         }

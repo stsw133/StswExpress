@@ -22,7 +22,7 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                var query = @"
+                var query = StswDatabases.LessSpaceQuery(@"
                     if not exists (select 1 from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
 				        create table StswExpressTEST_Contractors
 				        (
@@ -37,7 +37,7 @@ internal static class SQL
                             IsArchival bit,
                             CreateDT datetime,
                             Pdf varbinary(max)
-				        )";
+				        )");
                 using (var sqlCmd = new SqlCommand(query, sqlConn))
                     sqlCmd.ExecuteNonQuery();
             }
@@ -59,7 +59,7 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                var query = $@"
+                var query = StswDatabases.LessSpaceQuery($@"
                     select
                         a.ID,
                         a.Type,
@@ -73,7 +73,7 @@ internal static class SQL
                         a.CreateDT
                     from dbo.StswExpressTEST_Contractors a with(nolock)
                     where {filter ?? "1=1"}
-                    order by a.Name";
+                    order by a.Name");
                 using (var sqlDA = new SqlDataAdapter(query, sqlConn))
                 {
                     if (parameters != null)
@@ -104,13 +104,13 @@ internal static class SQL
 
                 foreach (var item in list.GetItemsByState(StswItemState.Added))
                 {
-                    var query = $@"
+                    var query = StswDatabases.LessSpaceQuery($@"
                         insert into dbo.StswExpressTEST_Contractors
                             (Type, Icon, Name, Country, PostCode, City, Street,
                              IsArchival, CreateDT)
                         values
                             (@Type, @Icon, @Name, @Country, @PostCode, @City, @Street,
-                             @IsArchival, @CreateDT)";
+                             @IsArchival, @CreateDT)");
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@Type", (object?)item.Type ?? DBNull.Value);
@@ -127,12 +127,12 @@ internal static class SQL
                 }
                 foreach (var item in list.GetItemsByState(StswItemState.Modified))
                 {
-                    var query = $@"
+                    var query = StswDatabases.LessSpaceQuery($@"
                         update dbo.StswExpressTEST_Contractors
                         set Type=@Type, Icon=@Icon, Name=@Name,
                             Country=@Country, PostCode=@PostCode, City=@City, Street=@Street,
                             IsArchival=@IsArchival, CreateDT=@CreateDT
-                        where ID=@ID";
+                        where ID=@ID");
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
@@ -150,9 +150,9 @@ internal static class SQL
                 }
                 foreach (var item in list.GetItemsByState(StswItemState.Deleted))
                 {
-                    var query = $@"
+                    var query = StswDatabases.LessSpaceQuery($@"
                         delete from dbo.StswExpressTEST_Contractors
-                        where ID=@ID";
+                        where ID=@ID");
                     using (var sqlCmd = new SqlCommand(query, sqlConn))
                     {
                         sqlCmd.Parameters.AddWithValue("@ID", item.ID);
@@ -182,9 +182,9 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                var query = $@"
+                var query = StswDatabases.LessSpaceQuery($@"
                     delete from dbo.StswExpressTEST_Contractors
-                    where ID=@ID";
+                    where ID=@ID");
                 using (var sqlCmd = new SqlCommand(query, sqlConn))
                 {
                     sqlCmd.Parameters.AddWithValue("@ID", id);
@@ -213,10 +213,10 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                var query = $@"
+                var query = StswDatabases.LessSpaceQuery($@"
                     update dbo.StswExpressTEST_Contractors
                     set Pdf=@Pdf
-                    where ID=@ID";
+                    where ID=@ID");
                 using (var sqlCmd = new SqlCommand(query, sqlConn))
                 {
                     sqlCmd.Parameters.AddWithValue("@ID", id);
@@ -246,10 +246,10 @@ internal static class SQL
             {
                 sqlConn.Open();
 
-                var query = $@"
+                var query = StswDatabases.LessSpaceQuery($@"
                     select Pdf
                     from dbo.StswExpressTEST_Contractors with(nolock)
-                    where ID=@ID";
+                    where ID=@ID");
                 using (var sqlCmd = new SqlCommand(query, sqlConn))
                 {
                     sqlCmd.Parameters.AddWithValue("@ID", id);

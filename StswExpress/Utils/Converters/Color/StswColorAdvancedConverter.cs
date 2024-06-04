@@ -22,7 +22,7 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         Color color;
 
@@ -49,12 +49,12 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
             dictionary[key] = val;
         }
 
-        if (dictionary.ContainsKey('A'))
-            color = (Color)StswColorAlphaConverter.Instance.Convert(color, typeof(Color), dictionary['A'], culture);
-        if (dictionary.ContainsKey('B'))
-            color = (Color)StswColorBrightnessConverter.Instance.Convert(color, typeof(Color), dictionary['B'], culture);
-        if (dictionary.ContainsKey('S'))
-            color = (Color)StswColorSaturationConverter.Instance.Convert(color, typeof(Color), dictionary['S'], culture);
+        if (dictionary.TryGetValue('A', out var a))
+            color = (Color)StswColorAlphaConverter.Instance.Convert(color, typeof(Color), a, culture);
+        if (dictionary.TryGetValue('B', out var b))
+            color = (Color)StswColorBrightnessConverter.Instance.Convert(color, typeof(Color), b, culture);
+        if (dictionary.TryGetValue('S', out var s))
+            color = (Color)StswColorSaturationConverter.Instance.Convert(color, typeof(Color), s, culture);
 
         /// output
         if (targetType == typeof(Color))
@@ -68,5 +68,5 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
     }
 
     /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

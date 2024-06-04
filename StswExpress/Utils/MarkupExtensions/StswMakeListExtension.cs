@@ -11,15 +11,9 @@ namespace StswExpress;
 /// <remarks>
 /// 
 /// </remarks>
-public class StswMakeListExtension : MarkupExtension
+public class StswMakeListExtension(string values) : MarkupExtension
 {
-    private readonly string _values;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswMakeListExtension"/> class.
-    /// </summary>
-    /// <param name="type">The type of the class to instantiate.</param>
-    public StswMakeListExtension(string values) => _values = values ?? throw new ArgumentNullException(nameof(values));
+    private readonly string _values = values ?? throw new ArgumentNullException(nameof(values));
 
     /// <summary>
     /// Provides the value for the XAML markup extension.
@@ -35,7 +29,7 @@ public class StswMakeListExtension : MarkupExtension
         if (targetType == typeof(DependencyProperty))
             targetType = ((DependencyProperty)targetProvider.TargetProperty).PropertyType;
 
-        if (!targetType.IsListType(out var listType))
+        if (!targetType.IsListType(out var listType) || listType == null)
             throw new InvalidOperationException("The Values property must be list type.");
 
         if (string.IsNullOrEmpty(_values))

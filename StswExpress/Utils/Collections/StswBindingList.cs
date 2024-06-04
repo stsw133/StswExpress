@@ -156,12 +156,12 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// <summary>
     /// Gets or sets a list of property names to be ignored during state tracking.
     /// </summary>
-    public List<string> IgnoredProperties = new List<string>()
-    {
+    public List<string> IgnoredProperties =
+    [
         nameof(IStswCollectionItem.ItemState),
         nameof(IStswCollectionItem.ShowDetails),
         nameof(IStswSelectionItem.IsSelected)
-    };
+    ];
 
     /// Notify the view that the ItemStates property has changed
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -223,16 +223,10 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// Provides a custom comparer for sorting elements based on a specified property.
     /// </summary>
     /// <typeparam name="T2">The type of elements to compare.</typeparam>
-    private class PropertyComparer<T2> : IComparer<T2>
+    private class PropertyComparer<T2>(PropertyDescriptor property, ListSortDirection direction) : IComparer<T2>
     {
-        private readonly PropertyDescriptor _property;
-        private readonly ListSortDirection _direction;
-
-        public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
-        {
-            _property = property;
-            _direction = direction;
-        }
+        private readonly PropertyDescriptor _property = property;
+        private readonly ListSortDirection _direction = direction;
 
         /// <summary>
         /// Compares two elements based on the specified property and sort direction.

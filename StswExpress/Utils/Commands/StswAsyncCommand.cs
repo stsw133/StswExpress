@@ -10,7 +10,7 @@ namespace StswExpress;
 /// </summary>
 public class StswAsyncCommand : StswObservableObject, ICommand
 {
-    private Func<Task> _execute { get; }
+    private readonly Func<Task> _execute;
     private readonly Func<bool>? _canExecute;
 
     public event EventHandler? CanExecuteChanged;

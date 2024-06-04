@@ -22,9 +22,10 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val);
+        if (!double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val))
+            return value;
         var pmr = parameter?.ToString() ?? string.Empty;
         var result = false;
 
@@ -52,5 +53,5 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     }
 
     /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

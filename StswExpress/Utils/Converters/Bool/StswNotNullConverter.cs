@@ -19,7 +19,7 @@ public class StswNotNullConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         /// result
         if (targetType == typeof(Visibility))
@@ -29,5 +29,5 @@ public class StswNotNullConverter : MarkupExtension, IValueConverter
     }
 
     /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

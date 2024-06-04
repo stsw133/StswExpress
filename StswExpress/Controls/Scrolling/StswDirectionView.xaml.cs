@@ -8,7 +8,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that extends the <see cref="ScrollViewer"/> class with additional functionality.
 /// </summary>
-public class StswDirectionView : ScrollViewer
+public class StswDirectionView : ScrollViewer, IStswCornerControl
 {
     static StswDirectionView()
     {
@@ -28,25 +28,25 @@ public class StswDirectionView : ScrollViewer
         /// Button: down
         if (GetTemplateChild("PART_ButtonDown") is ButtonBase btnDown)
         {
-            btnDown.Click += (s, e) => ScrollInfo.MouseWheelDown();
+            btnDown.Click += (_, _) => ScrollInfo.MouseWheelDown();
             _btnDown = btnDown;
         }
         /// Button: left
         if (GetTemplateChild("PART_ButtonLeft") is ButtonBase btnLeft)
         {
-            btnLeft.Click += (s, e) => ScrollInfo.MouseWheelLeft();
+            btnLeft.Click += (_, _) => ScrollInfo.MouseWheelLeft();
             _btnLeft = btnLeft;
         }
         /// Button: right
         if (GetTemplateChild("PART_ButtonRight") is ButtonBase btnRight)
         {
-            btnRight.Click += (s, e) => ScrollInfo.MouseWheelRight();
+            btnRight.Click += (_, _) => ScrollInfo.MouseWheelRight();
             _btnRight = btnRight;
         }
         /// Button: up
         if (GetTemplateChild("PART_ButtonUp") is ButtonBase btnUp)
         {
-            btnUp.Click += (s, e) => ScrollInfo.MouseWheelUp();
+            btnUp.Click += (_, _) => ScrollInfo.MouseWheelUp();
             _btnUp = btnUp;
         }
 
@@ -184,7 +184,24 @@ public class StswDirectionView : ScrollViewer
             typeof(Thickness),
             typeof(StswDirectionView)
         );
-    
+
+    /// <summary>
+    /// Gets or sets a value indicating whether corner clipping is enabled for the control.
+    /// When set to <see langword="true"/>, content within the control's border area is clipped to match
+    /// the border's rounded corners, preventing elements from protruding beyond the border.
+    /// </summary>
+    public bool CornerClipping
+    {
+        get => (bool)GetValue(CornerClippingProperty);
+        set => SetValue(CornerClippingProperty, value);
+    }
+    public static readonly DependencyProperty CornerClippingProperty
+        = DependencyProperty.Register(
+            nameof(CornerClipping),
+            typeof(bool),
+            typeof(StswDirectionView)
+        );
+
     /// <summary>
     /// Gets or sets the degree to which the corners of the control's border are rounded by defining
     /// a radius value for each corner independently. This property allows users to control the roundness

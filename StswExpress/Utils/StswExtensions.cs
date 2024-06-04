@@ -178,6 +178,7 @@ public static class StswExtensions
     /// <summary>
     /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
     /// </summary>
+    [Obsolete($"You can use '{nameof(Copy)}' instead.")]
     public static IEnumerable Clone(this IEnumerable source)
     {
         foreach (var item in source)
@@ -198,8 +199,8 @@ public static class StswExtensions
     {
         var type = o.GetType();
         var target = Activator.CreateInstance(type);
-        var propInfo = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        foreach (var pi in propInfo)
+
+        foreach (var pi in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
         {
             if (!pi.CanWrite)
                 continue;
@@ -305,7 +306,9 @@ public static class StswExtensions
     public static IEnumerable<T> MapTo<T>(this DataTable dt) where T : class, new()
     {
         var objProps = typeof(T).GetProperties().ToList();
-        var mappings = dt.Columns.Cast<DataColumn>().Select(x => objProps.FindIndex(y => y.Name.ToLower() == x.ColumnName.ToLower())).ToArray();
+        var mappings = dt.Columns.Cast<DataColumn>()
+                                 .Select(x => objProps.FindIndex(y => y.Name.Equals(StswFn.NormalizeDiacritics(x.ColumnName.Remove(' ')), StringComparison.CurrentCultureIgnoreCase)))
+                                 .ToArray();
 
         foreach (var row in dt.AsEnumerable())
         {
@@ -487,7 +490,7 @@ public static class StswExtensions
     /// </summary>
     public static BitmapImage? ToBitmapImage(this byte[] value)
     {
-        if (!value.Any())
+        if (value.Length == 0)
             return null;
 
         var result = new BitmapImage();

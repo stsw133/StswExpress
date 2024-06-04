@@ -24,7 +24,7 @@ namespace StswExpress;
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
-public static class StswFn
+public static partial class StswFn
 {
     #region Assembly functions
     /// <summary>
@@ -79,33 +79,30 @@ public static class StswFn
         /// generate new color
         if (!string.IsNullOrEmpty(text))
         {
-            using (SHA256 sha256 = SHA256.Create())
+            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
+            int r = hashBytes[0];
+            int g = hashBytes[1];
+            int b = hashBytes[2];
+
+            if (seed >= 0)
             {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-                int r = hashBytes[0];
-                int g = hashBytes[1];
-                int b = hashBytes[2];
+                if (r > seed)
+                    r -= (r - seed) / 2;
+                else if (r < seed)
+                    r += (seed - r) / 2;
 
-                if (seed >= 0)
-                {
-                    if (r > seed)
-                        r -= (r - seed) / 2;
-                    else if (r < seed)
-                        r += (seed - r) / 2;
+                if (g > seed)
+                    g -= (g - seed) / 2;
+                else if (g < seed)
+                    g += (seed - g) / 2;
 
-                    if (g > seed)
-                        g -= (g - seed) / 2;
-                    else if (g < seed)
-                        g += (seed - g) / 2;
-
-                    if (b > seed)
-                        b -= (b - seed) / 2;
-                    else if (b < seed)
-                        b += (seed - b) / 2;
-                }
-
-                color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
+                if (b > seed)
+                    b -= (b - seed) / 2;
+                else if (b < seed)
+                    b += (seed - b) / 2;
             }
+
+            color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
         }
 
         return color;
@@ -313,7 +310,7 @@ public static class StswFn
             /// next ^
             while (expression[1..].Any(x => x.In('^')))
             {
-                var iSign = findFirstAndLastIndex(new char[] { '^' });
+                var iSign = findFirstAndLastIndex(['^']);
                 var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
                 var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
                 value = Convert.ToDecimal(Math.Pow(Convert.ToDouble(number1), Convert.ToDouble(number2)));
@@ -322,7 +319,7 @@ public static class StswFn
             /// next * /
             while (expression[1..].Any(x => x.In('*', '/')))
             {
-                var iSign = findFirstAndLastIndex(new char[] { '*', '/' });
+                var iSign = findFirstAndLastIndex(['*', '/']);
                 var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
                 var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
                 value = expression[iSign] == '*' ? number1 * number2 : number1 / number2;
@@ -331,7 +328,7 @@ public static class StswFn
             /// next + -
             while (expression[1..].Any(x => x.In('+', '-')))
             {
-                var iSign = findFirstAndLastIndex(new char[] { '+', '-' });
+                var iSign = findFirstAndLastIndex(['+', '-']);
                 var number1 = Convert.ToDecimal(expression[i1..iSign], culture);
                 var number2 = Convert.ToDecimal(expression[(iSign + 1)..i2], culture);
                 value = expression[iSign] == '+' ? number1 + number2 : number1 - number2;
@@ -388,7 +385,7 @@ public static class StswFn
             OpenProcessToken(process.Handle, 8, out processHandle);
             var wi = new WindowsIdentity(processHandle);
             var user = wi.Name;
-            return user.Contains('\\') ? user[(user.IndexOf("\\") + 1)..] : user;
+            return user.Contains('\\') ? user[(user.IndexOf('\\') + 1)..] : user;
         }
         catch
         {
@@ -401,13 +398,13 @@ public static class StswFn
         }
     }
 
-    [DllImport("advapi32.dll", SetLastError = true)]
-    private static extern bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
-
-    [DllImport("kernel32.dll", SetLastError = true)]
+    [LibraryImport("advapi32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
 
-    private static extern bool CloseHandle(IntPtr hObject);
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool CloseHandle(IntPtr hObject);
 
     /// <summary>
     /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
@@ -443,6 +440,26 @@ public static class StswFn
 
     #region Text functions
     /// <summary>
+    /// Converts diacritics in string to their ASCII substitutes.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public static string NormalizeDiacritics(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return text;
+
+        var normalizedString = text.Normalize(NormalizationForm.FormD);
+        var stringBuilder = new StringBuilder();
+
+        foreach (var c in normalizedString)
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                stringBuilder.Append(c);
+
+        return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+    }
+
+    /// <summary>
     /// Removes consecutive occurrences of a specified string in another string.
     /// </summary>
     public static string RemoveConsecutiveText(string originalText, string textToRemove)
@@ -466,7 +483,7 @@ public static class StswFn
             yield break;
         }
 
-        var lines = input.Split(new[] { '\n' }, StringSplitOptions.None);
+        var lines = input.Split(['\n'], StringSplitOptions.None);
         var index = 0;
 
         while (index < lines.Length)
@@ -530,7 +547,7 @@ public static class StswFn
     /// </summary>
     /// <param name="number"></param>
     /// <returns></returns>
-    public static bool IsValidPhoneNumber(string number) => new string(number.ToCharArray().Where(c => char.IsDigit(c)).ToArray()).Length.Between(9, 11);
+    public static bool IsValidPhoneNumber(string number) => new string(number.ToCharArray().Where(char.IsDigit).ToArray()).Length.Between(9, 11);
 
     /// <summary>
     /// 

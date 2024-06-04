@@ -18,7 +18,7 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var val = value?.ToString() ?? string.Empty;
         var pmr = parameter?.ToString()?.Split('~') ?? new string[3];
@@ -28,5 +28,5 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
     }
 
     /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

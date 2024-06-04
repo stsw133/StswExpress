@@ -24,7 +24,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     }
 
     #region Events & methods
-    private StswNavigation? stswNavigation;
+    private StswNavigation? _stswNavigation;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -35,7 +35,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
 
         /// StswNavigation
         if (StswFn.FindVisualAncestor<StswNavigation>(this) is StswNavigation stswNavigation)
-            this.stswNavigation = stswNavigation;
+            _stswNavigation = stswNavigation;
 
         OnIsCheckedChanged(this, new DependencyPropertyChangedEventArgs());
         //OnItemsIndentationChanged(this, new DependencyPropertyChangedEventArgs());
@@ -179,31 +179,31 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
     {
         if (obj is StswNavigationElement stsw)
         {
-            if (stsw.stswNavigation != null)
+            if (stsw._stswNavigation != null)
             {
                 /// when expanding expander in compact mode
                 if (stsw.HasItems && stsw.IsChecked && stsw.TabStripMode == StswCompactibility.Compact)
                 {
                     /// move compact panel items back to previous expander
-                    if (stsw.stswNavigation.CompactedExpander != null && stsw.stswNavigation.ItemsCompact.Count > 0)
+                    if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
                     {
-                        stsw.stswNavigation.CompactedExpander.Items.Clear();
-                        foreach (StswNavigationElement item in stsw.stswNavigation.ItemsCompact.Clone())
+                        stsw._stswNavigation.CompactedExpander.Items.Clear();
+                        foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.Clone())
                         {
                             item.IsInCompactPanel = false;
-                            stsw.stswNavigation.CompactedExpander.Items.Add(item);
+                            stsw._stswNavigation.CompactedExpander.Items.Add(item);
                         }
                     }
 
                     /// when clicking the same expander
-                    if (stsw.stswNavigation.CompactedExpander == stsw && stsw.stswNavigation.ItemsCompact.Count > 0)
-                        stsw.stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
+                    if (stsw._stswNavigation.CompactedExpander == stsw && stsw._stswNavigation.ItemsCompact.Count > 0)
+                        stsw._stswNavigation.ItemsCompact = new ObservableCollection<StswNavigationElement>();
                     else /// when clicking different expander
                     {
                         /// load new items to compact panel
-                        stsw.stswNavigation.CompactedExpander = stsw;
-                        stsw.stswNavigation.ItemsCompact = stsw.Items.Clone().Cast<StswNavigationElement>().ToObservableCollection();
-                        foreach (var item in stsw.stswNavigation.ItemsCompact)
+                        stsw._stswNavigation.CompactedExpander = stsw;
+                        stsw._stswNavigation.ItemsCompact = stsw.Items.Clone().Cast<StswNavigationElement>().ToObservableCollection();
+                        foreach (var item in stsw._stswNavigation.ItemsCompact)
                             item.IsInCompactPanel = true;
                     }
 
@@ -213,23 +213,23 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                 else if (!stsw.HasItems && stsw.IsChecked)
                 {
                     /// uncheck last button, check new button
-                    if (stsw.stswNavigation.LastSelectedItem != stsw)
-                        stsw.stswNavigation.LastSelectedItem = stsw;
+                    if (stsw._stswNavigation.LastSelectedItem != stsw)
+                        stsw._stswNavigation.LastSelectedItem = stsw;
 
                     /// hide compact panel
-                    if (stsw.stswNavigation.TabStripMode == StswCompactibility.Compact)
-                        stsw.stswNavigation.ItemsCompact.Clear();
+                    if (stsw._stswNavigation.TabStripMode == StswCompactibility.Compact)
+                        stsw._stswNavigation.ItemsCompact.Clear();
 
                     /// load context for content presenter
                     if (stsw.ContextNamespace != null)
                     {
                         stsw.IsBusy = true;
-                        stsw.stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
+                        stsw._stswNavigation.ChangeContext(stsw.ContextNamespace, stsw.CreateNewInstance);
                         stsw.IsBusy = false;
                     }
                 }
                 /// do not allow to uncheck checked button
-                else if (!stsw.HasItems && stsw.stswNavigation.LastSelectedItem == stsw)
+                else if (!stsw.HasItems && stsw._stswNavigation.LastSelectedItem == stsw)
                     stsw.IsChecked = true;
                 /// collapse expander so it is not needed to click it twice
                 //else if (stsw.HasItems && stsw.stswNavigation.CurrentlyExpandedElement == stsw && stsw.stswNavigation.TabStripMode == StswToolbarMode.Compact)

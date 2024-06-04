@@ -14,7 +14,7 @@ public static class StswLog
     /// <summary>
     /// Specifies the path to the directory where the log files will be saved.
     /// </summary>
-    public static string DirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+    public static readonly string DirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
 
     /// <summary>
     /// Writes a log entry to a file in the directory specified by <see cref="DirectoryPath"/>.
@@ -29,7 +29,7 @@ public static class StswLog
             return result;
 
         /// load all lines from log files
-        List<string> allLogs = new();
+        List<string> allLogs = [];
 
         for (DateTime i = dateF; i <= dateT; i = i.AddDays(1))
         {
@@ -58,8 +58,8 @@ public static class StswLog
         {
             var descBeginsAt = log.Length >= 24 && log[20] == '|' && log[24] == '|' ? 26 : 22;
             var type = (StswInfoType)Enum.Parse(typeof(StswInfoType), Enum.GetNames(typeof(StswInfoType)).First(x => x.StartsWith(descBeginsAt == 26 ? log[22..23] : "N")));
-            DateTime.TryParse(log[..19], out var date);
-            result.Add(new StswLogItem(type, log[descBeginsAt..]) { DateTime = date });
+            if (DateTime.TryParse(log[..19], out var date))
+                result.Add(new StswLogItem(type, log[descBeginsAt..]) { DateTime = date });
         }
 
         return result;
@@ -97,18 +97,12 @@ public static class StswLog
 /// <summary>
 /// 
 /// </summary>
-public class StswLogItem
+public class StswLogItem(StswInfoType type, string description)
 {
-    public StswLogItem(StswInfoType type, string description)
-    {
-        Type = type;
-        Description = description;
-    }
-
     /// <summary>
     /// 
     /// </summary>
-    public StswInfoType Type { get; set; }
+    public StswInfoType Type { get; set; } = type;
 
     /// <summary>
     /// 
@@ -118,5 +112,5 @@ public class StswLogItem
     /// <summary>
     /// 
     /// </summary>
-    public string? Description { get; set; }
+    public string? Description { get; set; } = description;
 }

@@ -15,7 +15,7 @@ public class StswLabel : Label, IStswCornerControl
 {
     public StswLabel()
     {
-        DependencyPropertyDescriptor.FromProperty(AutoTruncationProperty, typeof(StswLabel)).AddValueChanged(this, (s, e) => UpdateContentTruncation());
+        DependencyPropertyDescriptor.FromProperty(AutoTruncationProperty, typeof(StswLabel)).AddValueChanged(this, (_, _) => UpdateContentTruncation());
     }
     static StswLabel()
     {

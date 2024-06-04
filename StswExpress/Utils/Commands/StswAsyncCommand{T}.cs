@@ -11,7 +11,7 @@ namespace StswExpress;
 /// <typeparam name="T">Parameter's type.</typeparam>
 public class StswAsyncCommand<T> : StswObservableObject, ICommand
 {
-    private Func<object?, Task> _execute { get; }
+    private readonly Func<object?, Task> _execute;
     private readonly Func<bool>? _canExecute;
 
     public event EventHandler? CanExecuteChanged;

@@ -5,7 +5,7 @@ namespace TestApp;
 public class StswButtonContext : ControlsContext
 {
     public StswCommand OnClickCommand => new(() => ClickCounter++);
-
+    
     public override void SetDefaults()
     {
         base.SetDefaults();

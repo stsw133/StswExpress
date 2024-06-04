@@ -10,19 +10,10 @@ namespace StswExpress;
 /// <remarks>
 /// This extension allows for obtaining the name of a property or field in XAML, typically used for debugging purposes or when working with reflection.
 /// </remarks>
-public class StswNameOfExtension : MarkupExtension
+public class StswNameOfExtension(string? member) : MarkupExtension
 {
-    /// <summary>
-    /// Gets or sets the type containing the property or field.
-    /// </summary>
     public Type? Type { get; set; }
-    public string? Member { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswNameOfExtension"/> class.
-    /// </summary>
-    /// <param name="member">The name of the property or field.</param>
-    public StswNameOfExtension(string? member) => Member = member;
+    public string? Member { get; set; } = member;
 
     /// <summary>
     /// Provides the name of the specified property or field as a string.

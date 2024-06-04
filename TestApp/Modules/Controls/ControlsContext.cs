@@ -10,7 +10,7 @@ public class ControlsContext : StswObservableObject
 {
     public string ThisControlName => GetType().Name[..^7];
     public Style ThisControlStyle = new();
-    public List<Setter> ThisControlSetters = new();
+    public List<Setter> ThisControlSetters = [];
 
     public ControlsContext()
     {
@@ -49,15 +49,25 @@ public class ControlsContext : StswObservableObject
     }
     #endregion
 
-    #region Properties
-    /// HorizontalAlignment
-    public ObservableCollection<StswComboItem> HorizontalAlignmentSelector { get; set; } = new()
-    {
+    /// HorizontalAlignmentSource
+    public ObservableCollection<StswComboItem> HorizontalAlignmentSource { get; set; } =
+    [
         new() { Display = StswIcons.AlignHorizontalLeft, Value = HorizontalAlignment.Left },
         new() { Display = StswIcons.AlignHorizontalCenter, Value = HorizontalAlignment.Center },
         new() { Display = StswIcons.AlignHorizontalRight, Value = HorizontalAlignment.Right },
         new() { Display = StswIcons.AlignHorizontalDistribute, Value = HorizontalAlignment.Stretch },
-    };
+    ];
+
+    /// VerticalAlignmentSource
+    public ObservableCollection<StswComboItem> VerticalAlignmentSource { get; set; } =
+    [
+        new() { Display = StswIcons.AlignVerticalTop, Value = VerticalAlignment.Top },
+        new() { Display = StswIcons.AlignVerticalCenter, Value = VerticalAlignment.Center },
+        new() { Display = StswIcons.AlignVerticalBottom, Value = VerticalAlignment.Bottom },
+        new() { Display = StswIcons.AlignVerticalDistribute, Value = VerticalAlignment.Stretch },
+    ];
+
+    /// HorizontalAlignment
     public HorizontalAlignment HorizontalAlignment
     {
         get => _horizontalAlignment;
@@ -66,13 +76,6 @@ public class ControlsContext : StswObservableObject
     private HorizontalAlignment _horizontalAlignment;
 
     /// HorizontalContentAlignment
-    public ObservableCollection<StswComboItem> HorizontalContentAlignmentSelector { get; set; } = new()
-    {
-        new() { Display = StswIcons.AlignHorizontalLeft, Value = HorizontalAlignment.Left },
-        new() { Display = StswIcons.AlignHorizontalCenter, Value = HorizontalAlignment.Center },
-        new() { Display = StswIcons.AlignHorizontalRight, Value = HorizontalAlignment.Right },
-        new() { Display = StswIcons.AlignHorizontalDistribute, Value = HorizontalAlignment.Stretch },
-    };
     public HorizontalAlignment HorizontalContentAlignment
     {
         get => _horizontalContentAlignment;
@@ -81,13 +84,6 @@ public class ControlsContext : StswObservableObject
     private HorizontalAlignment _horizontalContentAlignment;
 
     /// VerticalAlignment
-    public ObservableCollection<StswComboItem> VerticalAlignmentSelector { get; set; } = new()
-    {
-        new() { Display = StswIcons.AlignVerticalTop, Value = VerticalAlignment.Top },
-        new() { Display = StswIcons.AlignVerticalCenter, Value = VerticalAlignment.Center },
-        new() { Display = StswIcons.AlignVerticalBottom, Value = VerticalAlignment.Bottom },
-        new() { Display = StswIcons.AlignVerticalDistribute, Value = VerticalAlignment.Stretch },
-    };
     public VerticalAlignment VerticalAlignment
     {
         get => _verticalAlignment;
@@ -96,13 +92,6 @@ public class ControlsContext : StswObservableObject
     private VerticalAlignment _verticalAlignment;
 
     /// VerticalContentAlignment
-    public ObservableCollection<StswComboItem> VerticalContentAlignmentSelector { get; set; } = new()
-    {
-        new() { Display = StswIcons.AlignVerticalTop, Value = VerticalAlignment.Top },
-        new() { Display = StswIcons.AlignVerticalCenter, Value = VerticalAlignment.Center },
-        new() { Display = StswIcons.AlignVerticalBottom, Value = VerticalAlignment.Bottom },
-        new() { Display = StswIcons.AlignVerticalDistribute, Value = VerticalAlignment.Stretch },
-    };
     public VerticalAlignment VerticalContentAlignment
     {
         get => _verticalContentAlignment;
@@ -117,5 +106,4 @@ public class ControlsContext : StswObservableObject
         set => SetProperty(ref _isEnabled, value);
     }
     private bool _isEnabled = true;
-    #endregion
 }

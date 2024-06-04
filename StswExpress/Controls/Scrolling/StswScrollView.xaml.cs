@@ -105,7 +105,7 @@ public class StswScrollView : ScrollViewer
     }
     public static readonly DependencyProperty CommandProperty
         = DependencyProperty.RegisterAttached(
-            nameof(ICommandSource.Command),
+            nameof(Command),
             typeof(ICommand),
             typeof(StswScrollView),
             new PropertyMetadata(default)
@@ -123,7 +123,7 @@ public class StswScrollView : ScrollViewer
     }
     public static readonly DependencyProperty CommandParameterProperty
         = DependencyProperty.RegisterAttached(
-            nameof(ICommandSource.CommandParameter),
+            nameof(CommandParameter),
             typeof(object),
             typeof(StswScrollView),
             new PropertyMetadata(default)
@@ -141,7 +141,7 @@ public class StswScrollView : ScrollViewer
     }
     public static readonly DependencyProperty CommandTargetProperty
         = DependencyProperty.RegisterAttached(
-            nameof(ICommandSource.CommandTarget),
+            nameof(CommandTarget),
             typeof(IInputElement),
             typeof(StswScrollView),
             new PropertyMetadata(default)
@@ -159,7 +159,7 @@ public class StswScrollView : ScrollViewer
     }
     public static readonly DependencyProperty IsBusyProperty
         = DependencyProperty.RegisterAttached(
-            nameof(StswHeader.IsBusy),
+            nameof(IsBusy),
             typeof(bool),
             typeof(StswScrollView),
             new PropertyMetadata(false)

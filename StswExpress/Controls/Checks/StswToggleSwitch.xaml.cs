@@ -17,7 +17,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     #region Events & methods
     private Border? _mainBorder, _checkedBorder, _switchBorder;
 
-    private bool loaded = false;
+    private bool _isLoaded = false;
     private double _width = 0;
     private double _height = 0;
     private double _switchSize = 0;
@@ -36,8 +36,8 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
         if (GetTemplateChild("PART_SwitchBorder") is Border switchBorder)
             _switchBorder = switchBorder;
 
-        Loaded += (s, e) => SetSwitch();
-        loaded = true;
+        Loaded += (_, _) => SetSwitch();
+        _isLoaded = true;
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class StswToggleSwitch : ToggleButton, IStswCornerControl
     {
         base.OnRenderSizeChanged(sizeInfo);
 
-        if (!loaded)
+        if (!_isLoaded)
             return;
 
         _width = _mainBorder!.RenderSize.Width;

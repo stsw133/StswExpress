@@ -24,7 +24,7 @@ public partial class App : StswApp
         StswDatabases.ImportList();
         StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();
 
-        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (s, e) => OpenHelp()));
+        CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));
 
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages.Remove("");

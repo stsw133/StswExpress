@@ -48,11 +48,11 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
             if (oldValue != null)
                 foreach (var item in oldValue)
                     if (item is ButtonBase btn)
-                        btn.Click -= (s, e) => IsDropDownOpen = false;
+                        btn.Click -= (_, _) => IsDropDownOpen = false;
             if (newValue != null)
                 foreach (var item in newValue)
                     if (item is ButtonBase btn)
-                        btn.Click += (s, e) => IsDropDownOpen = false;
+                        btn.Click += (_, _) => IsDropDownOpen = false;
         }
     }
     #endregion
@@ -83,9 +83,9 @@ public class StswDropButton : HeaderedItemsControl, IStswCornerControl, IStswDro
                 if (item is ButtonBase btn)
                 {
                     if (stsw.AutoClose)
-                        btn.Click += (s, e) => stsw.IsDropDownOpen = false;
+                        btn.Click += (_, _) => stsw.IsDropDownOpen = false;
                     else if ((bool?)e.OldValue == true && stsw.Items != null)
-                        btn.Click -= (s, e) => stsw.IsDropDownOpen = false;
+                        btn.Click -= (_, _) => stsw.IsDropDownOpen = false;
                 }
         }
     }

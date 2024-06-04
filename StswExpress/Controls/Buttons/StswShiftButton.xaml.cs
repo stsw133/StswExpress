@@ -12,6 +12,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows shifting through items using arrow buttons or keyboard input.
 /// </summary>
+[Obsolete(@$"This control is mid and will be deleted soon. {nameof(StswComboBox)} can do the same but better, and you can achieve similar functionality with a few buttons and text block.")]
 public class StswShiftButton : ComboBox, IStswCornerControl
 {
     public StswShiftButton()
@@ -38,14 +39,14 @@ public class StswShiftButton : ComboBox, IStswCornerControl
         if (GetTemplateChild("PART_ButtonPrevious") is ButtonBase buttonPrevious)
         {
             buttonPrevious.IsEnabled = CanShiftBy(-1) && !IsReadOnly;
-            buttonPrevious.Click += (s, e) => ShiftBy(-1);
+            buttonPrevious.Click += (_, _) => ShiftBy(-1);
             _buttonPrevious = buttonPrevious;
         }
         /// Button: next
         if (GetTemplateChild("PART_ButtonNext") is ButtonBase buttonNext)
         {
             buttonNext.IsEnabled = CanShiftBy(1) && !IsReadOnly;
-            buttonNext.Click += (s, e) => ShiftBy(1);
+            buttonNext.Click += (_, _) => ShiftBy(1);
             _buttonNext = buttonNext;
         }
     }

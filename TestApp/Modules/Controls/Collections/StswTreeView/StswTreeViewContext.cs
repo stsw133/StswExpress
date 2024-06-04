@@ -8,7 +8,7 @@ public class StswTreeViewContext : ControlsContext
 {
     public StswTreeViewContext()
     {
-        Items.ListChanged += (s, e) => NotifyPropertyChanged(nameof(SelectedItem));
+        Items.ListChanged += (_, _) => NotifyPropertyChanged(nameof(SelectedItem));
     }
 
     /// Items

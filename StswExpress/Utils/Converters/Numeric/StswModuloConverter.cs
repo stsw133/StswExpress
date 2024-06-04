@@ -17,14 +17,14 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
     /// Convert
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
 
         /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
         {
-            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split([' ', ',']), i => System.Convert.ToDouble(i, culture));
             if (value is CornerRadius val1)
             {
                 return pmrArray.Length switch
@@ -49,7 +49,7 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
         }
         else if (targetType.In(typeof(Thickness), typeof(Thickness?)))
         {
-            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split(new char[] { ' ', ',' }), i => System.Convert.ToDouble(i, culture));
+            var pmrArray = Array.ConvertAll((parameter?.ToString() ?? string.Empty).Split([' ', ',']), i => System.Convert.ToDouble(i, culture));
             if (value is Thickness val1)
             {
                 return pmrArray.Length switch
@@ -76,5 +76,5 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
     }
 
     /// ConvertBack
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

@@ -500,16 +500,6 @@
                                         </DockPanel>
                                         <!-- separator -->
                                         <se:StswSeparator BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}" BorderThickness="1" Orientation="Vertical"/>
-                                        <!-- sub controls -->
-                                        <DockPanel Margin="{TemplateBinding SubPadding}">
-                                            <ItemsControl IsTabStop="False" ItemsSource="{TemplateBinding SubControls}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <DockPanel DockPanel.Dock="Top"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
-                                        </DockPanel>
                                     </DockPanel>
                                 </se:StswDirectionView>
                             </Grid>
@@ -519,6 +509,16 @@
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                               BorderThickness="{TemplateBinding SeparatorThickness}"
                                               Orientation="Horizontal"/>
+                            <!-- sub controls -->
+                            <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                          IsTabStop="False"
+                                          ItemsSource="{TemplateBinding SubControls}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                             <!-- content -->
                             <se:StswScrollView x:Name="PART_ContentHost"
                                                AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"

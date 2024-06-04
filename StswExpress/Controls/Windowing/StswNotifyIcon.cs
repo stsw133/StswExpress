@@ -302,9 +302,9 @@ public class StswNotifyIcon : FrameworkElement
         if (_tray == null)
         {
             _tray = new();
-            _tray.Click += (s, e) => _tray.Visible = false;
-            _tray.MouseClick += (s, e) => _tray.Visible = false;
-            System.Windows.Application.Current.Exit += (s, e) => _tray?.Dispose();
+            _tray.Click += (_, _) => _tray.Visible = false;
+            _tray.MouseClick += (_, _) => _tray.Visible = false;
+            System.Windows.Application.Current.Exit += (_, _) => _tray?.Dispose();
         }
         _tray.Icon = icon ?? Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()!.ManifestModule.Name);
         _tray.Text = text ?? StswFn.AppName();

@@ -8,21 +8,11 @@ namespace StswExpress;
 /// <remarks>
 /// This extension simplifies the creation of instances of classes within XAML, providing a concise one-line syntax.
 /// </remarks>
-[Obsolete("This is not working and I don't know why yet.")]
-public class StswCreateInstanceExtension : MarkupExtension
+[Obsolete("This is not working and I don't know why yet. Please do not use this.", true)]
+public class StswCreateInstanceExtension(Type type, params object?[]? args) : MarkupExtension
 {
-    public Type Type { get; set; }
-    public object?[]? Args { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StswCreateInstanceExtension"/> class.
-    /// </summary>
-    /// <param name="type">The type of the class to instantiate.</param>
-    public StswCreateInstanceExtension(Type type, params object?[]? args)
-    {
-        Type = type ?? throw new ArgumentNullException(nameof(type));
-        Args = args;
-    }
+    public Type Type { get; set; } = type ?? throw new ArgumentNullException(nameof(type));
+    public object?[]? Args { get; set; } = args;
 
     /// <summary>
     /// Provides the value for the XAML markup extension.

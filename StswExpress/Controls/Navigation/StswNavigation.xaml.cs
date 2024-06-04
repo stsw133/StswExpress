@@ -53,23 +53,25 @@ public class StswNavigation : ContentControl, IStswCornerControl
 
         if (context is string name1)
         {
-            if (createNewInstance || !Contexts.ContainsKey(name1))
+            if (createNewInstance || !Contexts.TryGetValue(name1, out var value))
             {
                 if (Contexts.ContainsKey(name1))
                     Contexts.Remove(name1);
-                Contexts.Add(name1, Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
+                value = (Activator.CreateInstance(Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty, name1)?.Unwrap());
+                Contexts.Add(name1, value);
             }
-            return Content = Contexts[name1];
+            return Content = value;
         }
         else if (context.GetType().FullName is string name2 && !context.GetType().IsValueType)
         {
-            if (createNewInstance || !Contexts.ContainsKey(name2))
+            if (createNewInstance || !Contexts.TryGetValue(name2, out var value))
             {
                 if (Contexts.ContainsKey(name2))
                     Contexts.Remove(name2);
-                Contexts.Add(name2, context);
+                value = context;
+                Contexts.Add(name2, value);
             }
-            return Content = Contexts[name2];
+            return Content = value;
         }
         return Content = null;
     }

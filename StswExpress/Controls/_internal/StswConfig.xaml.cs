@@ -28,14 +28,14 @@ internal class StswConfig : Control, IStswCornerControl
 
         /// Button: confirm
         if (GetTemplateChild("PART_ButtonConfirm") is ButtonBase btnConfirm)
-            btnConfirm.Click += (s, e) => Close(true);
+            btnConfirm.Click += (_, _) => Close(true);
         /// Button: cancel
         if (GetTemplateChild("PART_ButtonCancel") is ButtonBase btnCancel)
-            btnCancel.Click += (s, e) => Close(false);
+            btnCancel.Click += (_, _) => Close(false);
 
         /// iSize
         if (GetTemplateChild("PART_iSize") is Slider iSize)
-            iSize.MouseLeave += (s, e) => StswSettings.Default.iSize = iSize.Value;
+            iSize.MouseLeave += (_, _) => StswSettings.Default.iSize = iSize.Value;
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ public class StswSidePanel : ContentControl
         base.OnApplyTemplate();
 
         if (GetTemplateChild("PART_ExpandBorder") is Border expandBorder)
-            expandBorder.MouseEnter += (s, e) =>
+            expandBorder.MouseEnter += (_, _) =>
             {
                 if (!IsAlwaysVisible && IsCollapsed)
                     IsCollapsed = false;

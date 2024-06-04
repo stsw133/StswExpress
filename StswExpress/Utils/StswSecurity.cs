@@ -23,23 +23,14 @@ public static class StswSecurity
     /// </summary>
     /// <param name="text">Text to hash.</param>
     /// <returns>Hashed text.</returns>
-    public static byte[] GetHash(string text)
-    {
-        using var sha256 = SHA256.Create();
-        return sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-    }
+    public static byte[] GetHash(string text) => SHA256.HashData(Encoding.UTF8.GetBytes(text));
 
     /// <summary>
     /// Gets hashed <see cref="string"/> using SHA256 algorithm.
     /// </summary>
     /// <param name="text">Text to hash.</param>
     /// <returns>Hashed text.</returns>
-    public static string GetHashString(string text)
-    {
-        using var sha256 = SHA256.Create();
-        byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-        return BitConverter.ToString(bytes).Replace("-", string.Empty);
-    }
+    public static string GetHashString(string text) => BitConverter.ToString(SHA256.HashData(Encoding.UTF8.GetBytes(text))).Replace("-", string.Empty);
 
     /// <summary>
     /// Encrypts <see cref="string"/> using AES.

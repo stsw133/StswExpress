@@ -27,7 +27,7 @@ public abstract class StswObservableObject : INotifyPropertyChanged
 
         field = value;
 
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        NotifyPropertyChanged(propertyName);
         return true;
     }
 }

@@ -54,8 +54,10 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     /// <param name="e">The event arguments</param>
     private void OnIsDropDownOpenChanged(object? sender, EventArgs e)
     {
-        if (IsDropDownOpen)
+        if (IsDropDownOpen && IsFilterEnabled)
             Keyboard.Focus(_filter);
+        else if (IsDropDownOpen && IsEditable)
+            Keyboard.Focus(this);
     }
     /*
     /// <summary>
