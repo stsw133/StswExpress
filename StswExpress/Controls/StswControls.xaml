@@ -14,6 +14,8 @@
         <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
         
+        <ResourceDictionary Source="Buttons/RgsButton.xaml"/>
+        
         <ResourceDictionary Source="Charts/StswChartColumns.xaml"/>
         <ResourceDictionary Source="Charts/StswChartLegend.xaml"/>
         <ResourceDictionary Source="Charts/StswChartPie.xaml"/>

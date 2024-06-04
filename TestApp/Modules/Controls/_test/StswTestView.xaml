@@ -20,6 +20,9 @@
         </local:ControlsBase.Properties> -->
         <!-- content -->
         <!-- *** here declare a control *** -->
+        <se:RgsButton Width="400" Height="400" Margin="50" BorderThickness="2" >
+            <se:StswText Text="TEST" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </se:RgsButton>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
             <se:StswText Margin="5" Padding="5">
