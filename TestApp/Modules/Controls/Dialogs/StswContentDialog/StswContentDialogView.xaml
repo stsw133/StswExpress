@@ -24,12 +24,12 @@
         </local:ControlsBase>
         <!-- content -->
         <se:StswContentDialog.DialogContent>
-            <se:StswGroupBox>
+            <se:StswGroupBox Margin="20">
                 <se:StswGroupBox.Header>
                     <se:StswHeader Content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit..." IconData="{x:Static se:StswIcons.Cake}"/>
                 </se:StswGroupBox.Header>
                 <DockPanel>
-                    <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center">
+                    <se:StswButton DockPanel.Dock="Bottom" Command="{Binding CloseContentDialogCommand}" HorizontalAlignment="Center" Margin="5">
                         <se:StswHeader Content="Close " IconData="{x:Static se:StswIcons.Close}" IconFill="{DynamicResource StswColor.Negative}"/>
                     </se:StswButton>
                     <se:StswText Margin="3" TextWrapping="Wrap">

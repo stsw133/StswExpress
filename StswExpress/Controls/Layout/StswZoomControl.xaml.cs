@@ -87,7 +87,7 @@ public class StswZoomControl : Border
             var st = GetScaleTransform(_child);
             var tt = GetTranslateTransform(_child);
 
-            if (e.Delta <= 0 && (st.ScaleX < 0.4 || st.ScaleY < 0.4))
+            if (e.Delta <= 0 && (st.ScaleX < MinScale || st.ScaleY < MinScale))
                 return;
 
             var relative = e.GetPosition(_child);
@@ -172,5 +172,21 @@ public class StswZoomControl : Border
             base.Child = value;
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public double MinScale
+    {
+        get => (double)GetValue(MinScaleProperty);
+        set => SetValue(MinScaleProperty, value);
+    }
+    public static readonly DependencyProperty MinScaleProperty
+        = DependencyProperty.Register(
+            nameof(MinScale),
+            typeof(double),
+            typeof(StswZoomControl),
+            new FrameworkPropertyMetadata(0.4d)
+        );
     #endregion
 }

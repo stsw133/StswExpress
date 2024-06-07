@@ -12,7 +12,7 @@ namespace StswExpress;
 /// <summary>
 /// Represents a control that allows shifting through items using arrow buttons or keyboard input.
 /// </summary>
-[Obsolete(@$"This control is mid and will be deleted soon. {nameof(StswComboBox)} can do the same but better, and you can achieve similar functionality with a few buttons and text block.")]
+[Obsolete(@$"This control will propably be deleted soon. {nameof(StswComboBox)} can do the same but better, and you can achieve similar functionality with a few buttons and text block.")]
 public class StswShiftButton : ComboBox, IStswCornerControl
 {
     public StswShiftButton()

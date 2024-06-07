@@ -33,7 +33,7 @@
                                      MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                      MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type se:StswContentDialog}}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.8}"
                                      MinHeight="150"
-                                     MinWidth="250"
+                                     MinWidth="300"
                                      Padding="0">
                         <se:StswGroupBox.Header>
                             <DockPanel>
@@ -63,25 +63,57 @@
                                 <se:StswButton x:Name="PART_ButtonYes"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="True"
-                                               Content="{se:Tr StswMessageDialog.Yes}"
                                                Margin="{TemplateBinding Padding}"
-                                               Padding="15 5"
-                                               Visibility="Collapsed"/>
+                                               Padding="10 3"
+                                               Visibility="Collapsed">
+                                    <se:StswHeader x:Name="PART_HeaderYes" Content="{se:Tr StswMessageDialog.Yes}"/>
+                                </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonNo"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="False"
-                                               Content="{se:Tr StswMessageDialog.No}"
                                                Margin="{TemplateBinding Padding}"
-                                               Padding="15 5"
-                                               Visibility="Collapsed"/>
+                                               Padding="10 3"
+                                               Visibility="Collapsed">
+                                    <se:StswHeader x:Name="PART_HeaderNo" Content="{se:Tr StswMessageDialog.No}"/>
+                                </se:StswButton>
                                 <se:StswButton x:Name="PART_ButtonCancel"
                                                Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                CommandParameter="{x:Null}"
-                                               Content="{se:Tr StswMessageDialog.Cancel}"
                                                Margin="{TemplateBinding Padding}"
-                                               Padding="15 5"
-                                               Visibility="Collapsed"/>
+                                               Padding="10 3"
+                                               Visibility="Collapsed">
+                                    <se:StswHeader x:Name="PART_HeaderCancel" Content="{se:Tr StswMessageDialog.Cancel}"/>
+                                </se:StswButton>
                             </UniformGrid>
+                            <!-- details -->
+                            <se:StswSeparator DockPanel.Dock="Bottom"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="1"
+                                              Orientation="Horizontal"/>
+                            <se:StswExpander x:Name="PART_Details" DockPanel.Dock="Bottom" se:StswControl.IsBorderless="True" Padding="0">
+                                <se:StswExpander.Header>
+                                    <se:StswHeader Content="Pokaż szczegóły" IconData="{x:Static se:StswIcons.DotsHorizontal}" Padding="6">
+                                        <se:StswHeader.LayoutTransform>
+                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                        </se:StswHeader.LayoutTransform>
+                                    </se:StswHeader>
+                                </se:StswExpander.Header>
+                                <se:StswTextBox se:StswControl.IsBorderless="True"
+                                                IsReadOnly="True"
+                                                MaxHeight="200"
+                                                Padding="{TemplateBinding Padding}"
+                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                Text="{TemplateBinding Details}"
+                                                TextWrapping="Wrap"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <se:StswTextBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                    </se:StswTextBox.LayoutTransform>
+                                </se:StswTextBox>
+                            </se:StswExpander>
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="Bottom"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
@@ -101,22 +133,37 @@
                         </DockPanel>
                     </se:StswGroupBox>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Details" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Details"/>
+                        </Trigger>
                         <Trigger Property="Buttons" Value="OK">
-                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_HeaderYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="OKCancel">
-                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_ButtonYes"/>
+                            <Setter Property="Content" Value="{se:Tr StswMessageDialog.OK}" TargetName="PART_HeaderYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="PART_HeaderCancel"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="PART_HeaderCancel"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="YesNo">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Check}" TargetName="PART_HeaderYes"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Positive}" TargetName="PART_HeaderYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Close}" TargetName="PART_HeaderNo"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="PART_HeaderNo"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
                         </Trigger>
                         <Trigger Property="Buttons" Value="YesNoCancel">
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Check}" TargetName="PART_HeaderYes"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Positive}" TargetName="PART_HeaderYes"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonYes"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Close}" TargetName="PART_HeaderNo"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="PART_HeaderNo"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonNo"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.Cancel}" TargetName="PART_HeaderCancel"/>
+                            <Setter Property="IconFill" Value="{DynamicResource StswColor.Negative}" TargetName="PART_HeaderCancel"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCancel"/>
                         </Trigger>
                         <Trigger Property="Image" Value="None">

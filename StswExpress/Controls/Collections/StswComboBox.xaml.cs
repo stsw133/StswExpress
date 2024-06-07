@@ -117,6 +117,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
         }
 
         /// ICollectionView filtering
+        if (IsFilterEnabled && newValue != null && newValue is not ICollectionView)
+            throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+
         if (oldValue is ICollectionView oldCollectionView)
             oldCollectionView.Filter -= CollectionViewFilter;
         if (newValue is ICollectionView newCollectionView && IsFilterEnabled)
@@ -250,6 +253,9 @@ public class StswComboBox : ComboBox, IStswBoxControl, IStswCornerControl, IStsw
     {
         if (obj is StswComboBox stsw)
         {
+            if (stsw.IsFilterEnabled && stsw.ItemsSource != null && stsw.ItemsSource is not ICollectionView)
+                throw new Exception($"{nameof(ItemsSource)} of {nameof(StswComboBox)} has to implement {nameof(ICollectionView)} interface if filter is enabled!");
+
             if (stsw.ItemsSource is ICollectionView collectionView)
             {
                 if (stsw.IsFilterEnabled)

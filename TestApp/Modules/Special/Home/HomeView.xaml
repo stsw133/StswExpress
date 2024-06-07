@@ -16,15 +16,24 @@
             <StackPanel Margin="0 10 0 40">
                 <DockPanel DockPanel.Dock="Top">
                     <se:StswHeader Content="Authors:" IconData="{x:Static se:StswIcons.AccountMultiple}" HorizontalContentAlignment="Right" Width="100"/>
-                    <se:StswLabel Content="{Binding Authors}" FontWeight="Medium"/>
+                    <se:StswHeader Content="{Binding Authors}" FontWeight="Medium"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
-                    <se:StswHeader Content="App name:" IconData="{x:Static se:StswIcons.ApplicationOutline}" HorizontalContentAlignment="Right" Width="100"/>
-                    <se:StswLabel Content="{Binding Name}" FontWeight="Medium"/>
+                    <se:StswHeader Content="Name:" IconData="{x:Static se:StswIcons.Library}" HorizontalContentAlignment="Right" Width="100"/>
+                    <se:StswHeader Content="{Binding Name}" FontWeight="Medium"/>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
                     <se:StswHeader Content="Version:" IconData="{x:Static se:StswIcons.Update}" HorizontalContentAlignment="Right" Width="100"/>
-                    <se:StswLabel Content="{Binding Version}" FontWeight="Medium"/>
+                    <se:StswHeader Content="{Binding Version}" FontWeight="Medium"/>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <se:StswHeader Content="Github:" IconData="{x:Static se:StswIcons.Github}" HorizontalContentAlignment="Right" Width="100"/>
+                    <se:StswHyperlinkButton NavigateUri="https://github.com/stsw133/StswExpress"/>
+                </DockPanel>
+                <se:StswHeader Content="Technical details:" Margin="0 20 0 0" FontWeight="Bold"/>
+                <DockPanel DockPanel.Dock="Top">
+                    <se:StswHeader Content="Version:" IconData="{x:Static se:StswIcons.DotNet}" HorizontalContentAlignment="Right" Width="100"/>
+                    <se:StswHeader Content="{Binding NetVersion}" FontWeight="Medium"/>
                 </DockPanel>
             </StackPanel>
         </DockPanel>

@@ -307,7 +307,7 @@ public static class StswExtensions
     {
         var objProps = typeof(T).GetProperties().ToList();
         var mappings = dt.Columns.Cast<DataColumn>()
-                                 .Select(x => objProps.FindIndex(y => y.Name.Equals(StswFn.NormalizeDiacritics(x.ColumnName.Remove(' ')), StringComparison.CurrentCultureIgnoreCase)))
+                                 .Select(x => objProps.FindIndex(y => y.Name.Equals(StswFn.NormalizeDiacritics(x.ColumnName.Replace(" ", "")), StringComparison.CurrentCultureIgnoreCase)))
                                  .ToArray();
 
         foreach (var row in dt.AsEnumerable())

@@ -15,10 +15,15 @@
             Represents a custom border control that applies clipping to its child element with rounded corners.
         </local:ControlsBase.Description>
         <!-- properties -->
-
+        <local:ControlsBase.Properties>
+            <!-- MinScale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf MinScale, Type={x:Type se:StswZoomControl}}"/>
+            <se:StswNumericBox Format="N2" Increment="0.1" Margin="0 0 0 3" Value="{Binding MinScale}"/>
+        </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswZoomControl IsEnabled="{Binding IsEnabled}"
                             Margin="5"
+                            MinScale="{Binding MinScale}"
                             HorizontalAlignment="{Binding HorizontalAlignment}"
                             VerticalAlignment="{Binding VerticalAlignment}">
             <se:StswImage Source="/Resources/icon.ico"/>

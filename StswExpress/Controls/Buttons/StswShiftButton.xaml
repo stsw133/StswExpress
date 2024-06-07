@@ -3,7 +3,7 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswShiftButton}">
-        <Setter Property="Background" Value="{DynamicResource StswButton.ReadOnly.Background}"/>
+        <Setter Property="Background" Value="{DynamicResource StswButton.Disabled.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswButton.Static.Border}"/>
         
         <Setter Property="BorderThickness" Value="2"/>

@@ -37,7 +37,7 @@
         </Grid>
         <!-- status panel -->
         <local:ControlsBase.StatusPanel>
-            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" HorizontalAlignment="Left" Margin="5" Padding="10 5"/>
+            <se:StswButton Command="{Binding AddValueCommand}" Content="Add +20 value to Option 9" Margin="5" Padding="10 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </local:ControlsBase.StatusPanel>
     </local:ControlsBase>
 </UserControl>

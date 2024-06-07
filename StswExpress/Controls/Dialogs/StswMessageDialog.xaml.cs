@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -46,7 +47,7 @@ public class StswMessageDialog : Control, IStswCornerControl
     /// <param name="e">The event arguments</param>
     private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
     {
-        Clipboard.SetText(Content);
+        Clipboard.SetText(Details == null ? Content : $"{Content} {Details}");
         if (_buttonCopyToClipboard?.Content is StswTimedSwitch stsw)
             stsw.IsChecked = true;
     }
@@ -61,6 +62,19 @@ public class StswMessageDialog : Control, IStswCornerControl
     /// </summary>
     /// <param name="result"></param>
     private void Close(string? result) => StswContentDialog.Close(Identifier, result != null ? bool.Parse(result) : null);
+    #endregion
+
+    #region Show methods
+    /// <summary>
+    /// Shows the message dialog asynchronously.
+    /// </summary>
+    /// <param name="ex">The exception to display content and details of the dialog.</param>
+    /// <param name="title">The title of the dialog.</param>
+    /// <param name="saveLog">Set if details or content should be saved to log file.</param>
+    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <returns>The result of the dialog.</returns>
+    public static async Task<bool?> Show(Exception ex, string? title = null, bool saveLog = false, object? identifier = null)
+        => await Show(ex.Message, title, ex.ToString(), StswDialogButtons.OK, StswDialogImage.Error, saveLog, identifier);
 
     /// <summary>
     /// Shows the message dialog asynchronously.
@@ -69,18 +83,40 @@ public class StswMessageDialog : Control, IStswCornerControl
     /// <param name="title">The title of the dialog.</param>
     /// <param name="buttons">The buttons to be displayed in the dialog.</param>
     /// <param name="image">The image to be displayed in the dialog.</param>
+    /// <param name="saveLog">Set if details or content should be saved to log file.</param>
     /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
     /// <returns>The result of the dialog.</returns>
-    public static async Task<bool?> Show(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, object? identifier = null)
+    public static async Task<bool?> Show(string content, string? title = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
+        => await Show(content, title, null, buttons, image, saveLog, identifier);
+
+    /// <summary>
+    /// Shows the message dialog asynchronously.
+    /// </summary>
+    /// <param name="content">The content of the dialog.</param>
+    /// <param name="title">The title of the dialog.</param>
+    /// <param name="details">The details of the dialog.</param>
+    /// <param name="buttons">The buttons to be displayed in the dialog.</param>
+    /// <param name="image">The image to be displayed in the dialog.</param>
+    /// <param name="saveLog">Set if details or content should be saved to log file.</param>
+    /// <param name="identifier">An identifier used to determine where a dialog should be shown.</param>
+    /// <returns>The result of the dialog.</returns>
+    public static async Task<bool?> Show(string content, string? title = null, string? details = null, StswDialogButtons buttons = StswDialogButtons.OK, StswDialogImage image = StswDialogImage.None, bool saveLog = false, object? identifier = null)
     {
         StswMessageDialog dialog = new()
         {
             Title = title,
             Content = content,
+            Details = details,
             Buttons = buttons,
             Image = image,
             Identifier = identifier ?? StswApp.StswWindow
         };
+        if (saveLog)
+        {
+            Enum.TryParse(image.ToString(), out StswInfoType infoType);
+            StswLog.Write(infoType, details ?? content);
+        }
+
         return (bool?)await StswContentDialog.Show(dialog, dialog.Identifier);
     }
     #endregion
@@ -112,6 +148,21 @@ public class StswMessageDialog : Control, IStswCornerControl
     public static readonly DependencyProperty ContentProperty
         = DependencyProperty.Register(
             nameof(Content),
+            typeof(string),
+            typeof(StswMessageDialog)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Details
+    {
+        get => (string?)GetValue(DetailsProperty);
+        set => SetValue(DetailsProperty, value);
+    }
+    public static readonly DependencyProperty DetailsProperty
+        = DependencyProperty.Register(
+            nameof(Details),
             typeof(string),
             typeof(StswMessageDialog)
         );
