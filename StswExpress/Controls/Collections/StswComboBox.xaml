@@ -61,8 +61,15 @@
                             <DockPanel>
                                 <!-- arrow -->
                                 <se:StswDropArrow DockPanel.Dock="Right" IsExpanded="{TemplateBinding IsDropDownOpen}" Width="24"/>
+                                <!-- separator -->
+                                <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Right"
+                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
+                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
+                                                  Orientation="Vertical"
+                                                  Visibility="{DynamicResource StswDropArrow.Visibility}"/>
                                 <!-- sub controls -->
-                                <ItemsControl DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
+                                <ItemsControl x:Name="PART_SubControls"
+                                              DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                               IsTabStop="False"
                                               ItemsSource="{TemplateBinding SubControls}">
                                     <ItemsControl.ItemsPanel>
@@ -73,12 +80,6 @@
                                 </ItemsControl>
                                 <!-- error -->
                                 <se:StswSubError x:Name="PART_Error" DockPanel.Dock="Right" Errors="{TemplateBinding Errors}" HasError="{TemplateBinding HasError}"/>
-                                <!-- separator -->
-                                <se:StswSeparator x:Name="PART_Separator" DockPanel.Dock="Right"
-                                                  BorderBrush="{Binding BorderBrush, ElementName=PART_MainButton}"
-                                                  BorderThickness="{TemplateBinding SeparatorThickness}"
-                                                  Orientation="Vertical"
-                                                  Visibility="{DynamicResource StswDropArrow.Visibility}"/>
                                 <!-- popup -->
                                 <Popup x:Name="PART_Popup" Grid.ColumnSpan="2"
                                        AllowsTransparency="True"
@@ -186,6 +187,8 @@
                             <Setter Property="IsTabStop" Value="False"/>
                             <Setter Property="Padding" Value="0" TargetName="PART_MainButton"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_EditableTextBox"/>
+                            <Setter Property="Background" Value="{Binding Background, ElementName=PART_EditableTextBox}" TargetName="PART_SubControls"/>
+                            <Setter Property="Background" Value="{Binding Background, ElementName=PART_EditableTextBox}" TargetName="PART_Error"/>
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Height" Value="95" TargetName="DropDownBorder"/>

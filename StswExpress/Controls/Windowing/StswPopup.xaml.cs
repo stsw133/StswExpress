@@ -51,7 +51,7 @@ public class StswPopup : Popup /*, IStswCornerControl*/
             nameof(ScrollType),
             typeof(StswScrollType),
             typeof(StswPopup),
-            new FrameworkPropertyMetadata(StswScrollType.ScrollViewer,
+            new FrameworkPropertyMetadata(StswScrollType.ScrollView,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnScrollTypeChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
@@ -60,10 +60,10 @@ public class StswPopup : Popup /*, IStswCornerControl*/
         if (obj is StswPopup stsw)
         {
             var newChild = new ContentControl();
-            if (stsw.ScrollType == StswScrollType.DirectionViewer)
-                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupDirectionViewerTemplate");
-            else if (stsw.ScrollType == StswScrollType.ScrollViewer)
-                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupScrollViewerTemplate");
+            if (stsw.ScrollType == StswScrollType.DirectionView)
+                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupDirectionViewTemplate");
+            else if (stsw.ScrollType == StswScrollType.ScrollView)
+                newChild.ContentTemplate = (DataTemplate)stsw.FindResource("StswPopupScrollViewTemplate");
             stsw.Child = newChild;
         }
     }

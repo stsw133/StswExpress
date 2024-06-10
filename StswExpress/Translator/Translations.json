@@ -172,8 +172,8 @@
     "pl": "Nie"
   },
   "StswMessageDialog.OK": {
-    "en": "OK",
-    "pl": "OK"
+    "en": " OK ",
+    "pl": " OK "
   },
   "StswMessageDialog.Yes": {
     "en": "Yes",

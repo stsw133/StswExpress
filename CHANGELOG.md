@@ -1,3 +1,35 @@
+# **0.8.0**  
+2024-06-10
+
+### New functionality:
+* Upgraded to **.NET 8**
+* New controls: **StswSegment**, **StswMenu**, **StswMenuItem**.
+* New converters: **StswEnumDescriptionConverter**.
+* New markup extensions: **StswEnumToListExtension** (it replaces **StswEnumToListConverter**), **StswMakeListExtension**.
+* **StswDatabases** has new experimental "LessSpaceQuery" method. This method allows to remove unnecessary spaces in query to make them more readable in loggers.
+
+### Changed functionality:
+* **StswScrollViewer** renamed to **StswScrollView**.  
+**StswDirectionViewer** renamed to **StswDirectionView**.
+* **StswPopup** can change the type of contained scroll inside it between **ScrollView** and **DirectionView** using "ScrollType" property.
+* **StswMapTo** extension removes spaces from column names and normalizes diacritics in them for mapping purposes.
+* **IStswCollectionItem** no longer implements "ItemMessage" property and **StswDataGrid** no longer uses it in its special column.
+* **StswMessageDialog** has new button to copy its content and new section to display details.
+* **StswCompareConverter** has been reworked to compare numeric value to a specified threshold nad determine if it is greater than, less than, greater than or equal to, or less than or equal to the threshold. It can also compare a value or check if value contains a flag.
+* **StswHyperlinkButton** by default has content equal to its "NavigateUri" property.
+* **StswGrid** has extended auto definition functionality - more options to make auto definitions and options to auto size its columns and rows.
+* **StswContextMenu** style uses **StswDirectionView** now.
+* **StswHeader** has changed margins in template to match other controls.
+* Stsw sub controls have bigger icon by default.
+* **NewExtension **renamed to **StswCreateInstanceExtension**.  
+**NameOfExtension **renamed to **StswNameOfExtension**.
+
+### Bugfixes:
+* **StswWindow** can properly pass "Components" to **StswWindowBar** now.
+* **StswComboBox** no longer keyboard focus when its filter is not enabled.
+* **StswTextEditor** has customizable scroll viewer control now.
+* **StswBindingList** properly counts initial items as "Unchanged".
+
 # **0.7.1**
 2024-04-29
 

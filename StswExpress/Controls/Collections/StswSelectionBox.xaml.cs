@@ -37,7 +37,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         /// ListBox
         if (GetTemplateChild("PART_ListBox") is StswListBox listBox)
-            listBox.SelectionChanged += (_, _) => SetText();
+            listBox.SelectionChanged += (_, _) => SetTextCommand.Execute(null);
 
         /// SetTextCommand
         SetTextCommand ??= new StswCommand(SetText);
@@ -67,7 +67,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         base.OnItemsSourceChanged(oldValue, newValue);
 
-        SetText();
+        SetTextCommand.Execute(null);
     }
 
     /// <summary>

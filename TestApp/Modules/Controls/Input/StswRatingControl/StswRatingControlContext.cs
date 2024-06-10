@@ -6,11 +6,15 @@ namespace TestApp;
 
 public class StswRatingControlContext : ControlsContext
 {
+    public StswCommand SetGridLengthAutoCommand => new(() => IconScale = GridLength.Auto);
+    public StswCommand SetGridLengthFillCommand => new(() => IconScale = new GridLength(1, GridUnitType.Star));
+
     public override void SetDefaults()
     {
         base.SetDefaults();
 
         Direction = (ExpandDirection?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Direction)))?.Value ?? default;
+        IconScale = (GridLength?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IconScale)))?.Value ?? default;
         IsResetEnabled = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsResetEnabled)))?.Value ?? default;
         ItemsNumber = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumber)))?.Value ?? default;
         ItemsNumberVisibility = (Visibility?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ItemsNumberVisibility)))?.Value ?? default;
@@ -24,13 +28,13 @@ public class StswRatingControlContext : ControlsContext
     }
     private ExpandDirection _direction;
 
-    /// ItemsNumber
-    public int ItemsNumber
+    /// IconScale
+    public GridLength IconScale
     {
-        get => _itemsNumber;
-        set => SetProperty(ref _itemsNumber, value);
+        get => _iconScale;
+        set => SetProperty(ref _iconScale, value);
     }
-    private int _itemsNumber;
+    private GridLength _iconScale;
 
     /// IsResetEnabled
     public bool IsResetEnabled
@@ -39,6 +43,14 @@ public class StswRatingControlContext : ControlsContext
         set => SetProperty(ref _isResetEnabled, value);
     }
     private bool _isResetEnabled;
+
+    /// ItemsNumber
+    public int ItemsNumber
+    {
+        get => _itemsNumber;
+        set => SetProperty(ref _itemsNumber, value);
+    }
+    private int _itemsNumber;
 
     /// ItemsNumberVisibility
     public Visibility ItemsNumberVisibility

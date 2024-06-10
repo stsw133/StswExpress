@@ -3,9 +3,8 @@
                     xmlns:se="clr-namespace:StswExpress">
 
     <Style TargetType="{x:Type se:StswWindowBar}">
-        <Setter Property="Background" Value="{DynamicResource StswWindow.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource StswWindow.Active.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource StswWindow.Active.Foreground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
 
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>

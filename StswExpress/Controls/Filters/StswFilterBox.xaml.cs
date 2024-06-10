@@ -459,8 +459,31 @@ public class StswFilterBox : Control, /*IStswBoxControl,*/ IStswCornerControl
         = DependencyProperty.Register(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(StswFilterBox)
+            typeof(StswFilterBox),
+            new FrameworkPropertyMetadata(default,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnItemsSourceChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
+    public static void OnItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is StswFilterBox stsw)
+        {
+            if (e.NewValue?.GetType()?.IsListType(out var innerType) == true)
+            {
+                if (innerType?.IsAssignableTo(typeof(IStswSelectionItem)) != true)
+                    throw new Exception($"{nameof(ItemsSource)} of {nameof(StswFilterBox)} has to implement {nameof(IStswSelectionItem)} interface!");
+
+                /// StswComboItem short usage
+                if (innerType?.IsAssignableTo(typeof(StswComboItem)) == true)
+                {
+                    if (string.IsNullOrEmpty(stsw.DisplayMemberPath))
+                        stsw.DisplayMemberPath = nameof(StswComboItem.Display);
+                    if (string.IsNullOrEmpty(stsw.SelectedValuePath))
+                        stsw.SelectedValuePath = nameof(StswComboItem.Value);
+                }
+            }
+        }
+    }
     internal IList? DefaultItemsSource { get; set; } = null;
 
     /// <summary>

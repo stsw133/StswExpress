@@ -221,8 +221,8 @@ public enum StswProgressTextMode
 /// </summary>
 public enum StswScrollType
 {
-    DirectionViewer,
-    ScrollViewer
+    DirectionView,
+    ScrollView
 }
 
 /// <summary>

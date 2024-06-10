@@ -19,6 +19,14 @@
             <!-- Direction -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Direction, Type={x:Type se:StswRatingControl}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList ExpandDirection}" Margin="0 0 0 3" SelectedValue="{Binding Direction}"/>
+            <!-- IconScale -->
+            <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IconScale, Type={x:Type se:StswRatingControl}}"/>
+            <se:StswTextBox Margin="0 0 0 3" Text="{Binding IconScale}">
+                <se:StswTextBox.SubControls>
+                    <se:StswSubButton Command="{Binding SetGridLengthFillCommand}" IconData="{x:Static se:StswIcons.Star}"/>
+                    <se:StswSubButton Command="{Binding SetGridLengthAutoCommand}" IconData="{x:Static se:StswIcons.AlphaA}" IconScale="2" Margin="-2"/>
+                </se:StswTextBox.SubControls>
+            </se:StswTextBox>
             <!-- IsResetEnabled -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf IsResetEnabled, Type={x:Type se:StswRatingControl}}"/>
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsResetEnabled}"/>
@@ -31,6 +39,7 @@
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswRatingControl Direction="{Binding Direction}"
+                              IconScale="{Binding IconScale}"
                               IsEnabled="{Binding IsEnabled}"
                               IsResetEnabled="{Binding IsResetEnabled}"
                               ItemsNumber="{Binding ItemsNumber}"
