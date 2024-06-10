@@ -24,9 +24,18 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// Convert
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (!double.TryParse(value?.ToString(), NumberStyles.Number, culture, out var val))
-            return value;
-        var pmr = parameter?.ToString() ?? string.Empty;
+        var input = value?.ToString();
+        var pmr = parameter?.ToString();
+
+        if (!double.TryParse(input, NumberStyles.Number, culture, out var val))
+        {
+            if (targetType == typeof(Visibility))
+                return input == pmr ? Visibility.Visible : Visibility.Collapsed;
+            else
+                return input == pmr;
+        }
+
+        pmr ??= string.Empty;
         var result = false;
 
         /// parameters
