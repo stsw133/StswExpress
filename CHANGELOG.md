@@ -1,3 +1,14 @@
+# **0.8.1**
+2024-06-12
+
+### Changed functionality:
+* **StswInfoBadge** can use value separated by thousands.
+* **StswCompareConverter** regained its old functionality alongside with the new one.
+
+### Bugfixes:
+* **StswMailbox**'s method for sending mail disposes SmtpClient at the end of it.
+* **StswFilePicker** has small bugfix for separating by thousands.
+
 # **0.8.0**  
 2024-06-10
 

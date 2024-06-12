@@ -37,6 +37,7 @@
     <None Remove="Resources\changelogs\changelog_0.6.2.rtf" />
     <None Remove="Resources\changelogs\changelog_0.7.0.rtf" />
     <None Remove="Resources\changelogs\changelog_0.8.0.rtf" />
+    <None Remove="Resources\changelogs\changelog_0.8.1.rtf" />
     <None Remove="Resources\changelog_en.rtf" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\logo.png" />
@@ -48,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\changelogs\changelog_0.8.1.rtf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\changelogs\changelog_0.8.0.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
