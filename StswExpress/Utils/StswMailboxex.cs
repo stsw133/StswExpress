@@ -165,12 +165,13 @@ public class StswMailboxModel : StswObservableObject
             foreach (var x in reply)
                 mail.ReplyToList.Add(x);
 
-        var smtp = new SmtpClient(Host, Port)
+        using (var smtp = new SmtpClient(Host, Port)
         {
             Credentials = new NetworkCredential(Username, Password),
             EnableSsl = EnableSSL
-        };
-
-        smtp.Send(mail);
+        })
+        {
+            smtp.Send(mail);
+        }
     }
 }

@@ -5,6 +5,7 @@
         <ResourceDictionary Source="_subcontrols/StswChartTip.xaml"/>
         <ResourceDictionary Source="_subcontrols/StswSubError.xaml"/>
 
+        <ResourceDictionary Source="Buttons/RgsButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswDropButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswHyperlinkButton.xaml"/>
@@ -13,9 +14,7 @@
         <ResourceDictionary Source="Buttons/StswShiftButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswSplitButton.xaml"/>
         <ResourceDictionary Source="Buttons/StswToggleButton.xaml"/>
-        
-        <ResourceDictionary Source="Buttons/RgsButton.xaml"/>
-        
+
         <ResourceDictionary Source="Charts/StswChartColumns.xaml"/>
         <ResourceDictionary Source="Charts/StswChartLegend.xaml"/>
         <ResourceDictionary Source="Charts/StswChartPie.xaml"/>

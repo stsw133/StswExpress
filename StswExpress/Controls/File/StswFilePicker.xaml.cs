@@ -141,15 +141,15 @@ public class StswFilePicker : StswBoxBase
     public static string DisplayFileSize(string filePath)
     {
         var length = new FileInfo(filePath).Length;
-        if (length.Between(0, 1000))
+        if (length.Between(0, 999))
             return $"{length} B";
 
         length /= 1000;
-        if (length.Between(0, 1000))
+        if (length.Between(0, 999))
             return $"{length} KB";
 
         length /= 1000;
-        if (length.Between(0, 1000))
+        if (length.Between(0, 999))
             return $"{length} MB";
 
         length /= 1000;

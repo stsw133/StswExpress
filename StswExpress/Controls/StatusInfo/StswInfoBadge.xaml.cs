@@ -24,6 +24,28 @@ public class StswInfoBadge : Control, IStswCornerControl
 
         OnValueChanged(this, new DependencyPropertyChangedEventArgs());
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static string SeparateByThousands(int number)
+    {
+        if (number.Between(0, 999))
+            return $"{number}";
+
+        number /= 1000;
+        if (number.Between(0, 999))
+            return $"{number}k";
+
+        number /= 1000;
+        if (number.Between(0, 999))
+            return $"{number}M";
+
+        number /= 1000;
+        return $"{number}B";
+    }
     #endregion
 
     #region Logic properties
@@ -78,17 +100,17 @@ public class StswInfoBadge : Control, IStswCornerControl
     /// If the assigned value surpasses this limit,
     /// the displayed value is truncated and appended with a '+'.
     /// </summary>
-    public int Limit
+    public int? Limit
     {
-        get => (int)GetValue(LimitProperty);
+        get => (int?)GetValue(LimitProperty);
         set => SetValue(LimitProperty, value);
     }
     public static readonly DependencyProperty LimitProperty
         = DependencyProperty.Register(
             nameof(Limit),
-            typeof(int),
+            typeof(int?),
             typeof(StswInfoBadge),
-            new FrameworkPropertyMetadata(default(int), OnValueChanged)
+            new FrameworkPropertyMetadata(default(int?), OnValueChanged)
         );
 
     /// <summary>
@@ -126,7 +148,10 @@ public class StswInfoBadge : Control, IStswCornerControl
     {
         if (obj is StswInfoBadge stsw)
         {
-            stsw.DisplayedValue = stsw.Value > stsw.Limit ? $"{stsw.Limit}+" : $"{stsw.Value}";
+            if (stsw.Limit == null)
+                stsw.DisplayedValue = SeparateByThousands(stsw.Value);
+            else
+                stsw.DisplayedValue = stsw.Value > stsw.Limit.Value ? $"{SeparateByThousands(stsw.Limit.Value)}+" : $"{SeparateByThousands(stsw.Value)}";
         }
     }
     #endregion

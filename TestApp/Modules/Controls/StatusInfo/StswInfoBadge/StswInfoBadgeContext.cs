@@ -22,12 +22,12 @@ public class StswInfoBadgeContext : ControlsContext
     private StswInfoFormat _format;
 
     /// Limit
-    public int Limit
+    public int? Limit
     {
         get => _limit;
         set => SetProperty(ref _limit, value);
     }
-    private int _limit;
+    private int? _limit;
 
     /// SelectedValue
     public int SelectedValue

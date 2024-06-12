@@ -24,35 +24,37 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
     /// Convert
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var input = value?.ToString();
-        var pmr = parameter?.ToString();
-
-        if (!double.TryParse(input, NumberStyles.Number, culture, out var val))
-        {
-            if (targetType == typeof(Visibility))
-                return input == pmr ? Visibility.Visible : Visibility.Collapsed;
-            else
-                return input == pmr;
-        }
-
-        pmr ??= string.Empty;
+        var input = value?.ToString() ?? string.Empty;
+        var pmr = parameter?.ToString() ?? string.Empty;
         var result = false;
 
         /// parameters
-        if (pmr.StartsWith(">=") && double.TryParse(pmr[2..], out var num))
-            result = val >= num;
-        else if (pmr.StartsWith("<=") && double.TryParse(pmr[2..], out num))
-            result = val <= num;
-        else if (pmr.StartsWith('>') && double.TryParse(pmr[1..], out num))
-            result = val > num;
-        else if (pmr.StartsWith('<') && double.TryParse(pmr[1..], out num))
-            result = val < num;
-        else if (pmr.StartsWith('?') && double.TryParse(pmr[1..], out num))
-            result = val == num;
-        else if (pmr.StartsWith('!') && double.TryParse(pmr[1..], out num))
-            result = val != num;
-        else if (pmr.StartsWith('&') && double.TryParse(pmr[1..], out num))
-            result = ((int)val & (int)num) > 0;
+        if (double.TryParse(input, NumberStyles.Number, culture, out var val))
+        {
+            if (pmr.StartsWith(">=") && double.TryParse(pmr[2..], out var num))
+                result = val >= num;
+            else if (pmr.StartsWith("<=") && double.TryParse(pmr[2..], out num))
+                result = val <= num;
+            else if (pmr.StartsWith('>') && double.TryParse(pmr[1..], out num))
+                result = val > num;
+            else if (pmr.StartsWith('<') && double.TryParse(pmr[1..], out num))
+                result = val < num;
+            else if (pmr.StartsWith('=') && double.TryParse(pmr[1..], out num))
+                result = val == num;
+            else if (pmr.StartsWith('!') && double.TryParse(pmr[1..], out num))
+                result = val != num;
+            else if (pmr.StartsWith('&') && double.TryParse(pmr[1..], out num))
+                result = ((int)val & (int)num) > 0;
+        }
+        else
+        {
+            if (pmr.StartsWith('@'))
+                result = input.Equals(pmr[1..], StringComparison.CurrentCultureIgnoreCase);
+            else if (pmr.StartsWith('='))
+                result = input.Equals(pmr[1..]);
+            else if (pmr.StartsWith('!'))
+                result = !input.Equals(pmr[1..]);
+        }
 
         /// result
         if (targetType == typeof(Visibility))
