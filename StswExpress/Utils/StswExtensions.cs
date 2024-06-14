@@ -364,6 +364,43 @@ public static class StswExtensions
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 
     /// <summary>
+    /// Converts <see cref="Type"/> to <see cref="SqlDbType}"/>.
+    /// </summary>
+    public static SqlDbType? ToSqlDbType(this Type type)
+    {
+        if (type.In(typeof(byte), typeof(sbyte), typeof(byte?), typeof(sbyte?)))
+            return SqlDbType.TinyInt;
+        else if (type.In(typeof(short), typeof(ushort), typeof(short?), typeof(ushort?)))
+            return SqlDbType.SmallInt;
+        else if (type.In(typeof(int), typeof(uint), typeof(int?), typeof(uint?)))
+            return SqlDbType.Int;
+        else if (type.In(typeof(long), typeof(ulong), typeof(long?), typeof(ulong?)))
+            return SqlDbType.BigInt;
+        else if (type.In(typeof(float), typeof(float?)))
+            return SqlDbType.Float;
+        else if (type.In(typeof(double), typeof(double?)))
+            return SqlDbType.Real;
+        else if (type.In(typeof(decimal), typeof(decimal?)))
+            return SqlDbType.Decimal;
+        else if (type.In(typeof(bool), typeof(bool?)))
+            return SqlDbType.Bit;
+        else if (type.In(typeof(string)))
+            return type.IsUnicodeClass ? SqlDbType.NVarChar : SqlDbType.VarChar;
+        else if (type.In(typeof(char), typeof(char?)))
+            return type.IsUnicodeClass ? SqlDbType.NChar : SqlDbType.Char;
+        else if (type.In(typeof(Guid), typeof(Guid?)))
+            return SqlDbType.UniqueIdentifier;
+        else if (type.In(typeof(DateTime), typeof(DateTime?)))
+            return SqlDbType.DateTime;
+        else if (type.In(typeof(DateTimeOffset), typeof(DateTimeOffset?)))
+            return SqlDbType.DateTimeOffset;
+        else if (type.In(typeof(byte[]), typeof(byte?[])))
+            return SqlDbType.Binary;
+        else
+            return null;
+    }
+
+    /// <summary>
     /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswBindingList{T}"/>.
     /// </summary>
     public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);

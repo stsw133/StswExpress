@@ -1,7 +1,6 @@
 ﻿global using StswExpress;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -20,9 +19,6 @@ public partial class App : StswApp
         base.OnStartup(e);
 
         //StswSecurity.Key = "myOwnStswHashKey";
-
-        StswDatabases.ImportList();
-        StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new();
 
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));
 

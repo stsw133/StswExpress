@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -132,7 +133,7 @@ public class StswDataGrid : DataGrid, IStswCornerControl
             default:
                 {
                     FiltersData.SqlFilter = string.Empty;
-                    FiltersData.SqlParameters = new();
+                    FiltersData.SqlParameters = [];
 
                     foreach (var stswSqlFilter in stswSqlFilters)
                         /// Header is StswColumnFilterData
@@ -140,9 +141,9 @@ public class StswDataGrid : DataGrid, IStswCornerControl
                         {
                             FiltersData.SqlFilter += " and " + stswSqlFilter.SqlString;
                             if (stswSqlFilter.Value1 != null && stswSqlFilter.SqlParam != null)
-                                FiltersData.SqlParameters.Add((stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "1", stswSqlFilter.Value1 ?? DBNull.Value));
+                                FiltersData.SqlParameters.Add(new(stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "1", stswSqlFilter.Value1 ?? DBNull.Value));
                             if (stswSqlFilter.Value2 != null && stswSqlFilter.SqlParam != null)
-                                FiltersData.SqlParameters.Add((stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "2", stswSqlFilter.Value2 ?? DBNull.Value));
+                                FiltersData.SqlParameters.Add(new(stswSqlFilter.SqlParam[..(stswSqlFilter.SqlParam.Length > 120 ? 120 : stswSqlFilter.SqlParam.Length)] + "2", stswSqlFilter.Value2 ?? DBNull.Value));
                         }
 
                     if (FiltersData.SqlFilter.StartsWith(" and "))
@@ -418,5 +419,5 @@ public class StswDataGridFiltersDataModel
     /// <summary>
     /// Gets or sets the list of SQL parameters.
     /// </summary>
-    public List<(string name, object val)>? SqlParameters { get; internal set; }
+    public IList<SqlParameter>? SqlParameters { get; internal set; }
 }

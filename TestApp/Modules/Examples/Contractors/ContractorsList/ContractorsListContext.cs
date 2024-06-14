@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ public class ContractorsListContext : StswObservableObject
 
     public ContractorsListContext()
     {
-        SQL.InitializeContractorsTables();
+        Task.Run(Init);
         ClearCommand = new StswAsyncCommand(Clear);
         RefreshCommand = new StswAsyncCommand(Refresh);
         SaveCommand = new StswAsyncCommand(Save);
@@ -33,6 +34,19 @@ public class ContractorsListContext : StswObservableObject
     }
 
     #region Commands & methods
+    /// Init
+    private async Task Init()
+    {
+        try
+        {
+            SQL.InitializeContractorsTables();
+        }
+        catch (Exception ex)
+        {
+            await StswMessageDialog.Show(ex, "Error");
+        }
+    }
+
     /// Clear
     private async Task Clear()
     {
@@ -50,7 +64,7 @@ public class ContractorsListContext : StswObservableObject
         LoadingActions++;
 
         FiltersContractors.Refresh?.Invoke();
-        await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter!, FiltersContractors.SqlParameters!));
+        await Task.Run(() => ListContractors = SQL.GetContractors(FiltersContractors.SqlFilter!, FiltersContractors.SqlParameters!).ToStswBindingList());
         
         LoadingActions--;
     }
@@ -60,13 +74,15 @@ public class ContractorsListContext : StswObservableObject
     {
         LoadingActions++;
 
-        var test = false;
-
-        await Task.Run(() => test = SQL.SetContractors(ListContractors));
-        if (test)
+        try
         {
+            await Task.Run(() => SQL.SetContractors(ListContractors));
             RefreshCommand.Execute(null);
             MessageBox.Show("Data saved successfully.");
+        }
+        catch (Exception ex)
+        {
+            await StswMessageDialog.Show(ex, "Error");
         }
 
         LoadingActions--;
@@ -241,19 +257,26 @@ public class ContractorsListContext : StswObservableObject
     {
         LoadingActions++;
 
-        if (SelectedContractor is ContractorModel m)
+        try
         {
-            if (m.ID == 0)
-                ListContractors.Remove(m);
-            else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (SelectedContractor is ContractorModel m)
             {
-                if (SQL.DeleteContractor(m.ID))
-                    ListContractors.Remove(m);
+                await Task.Run(() =>
+                {
+                    if (m.ID == 0)
+                        ListContractors.Remove(m);
+                    else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        if (SQL.DeleteContractor(m.ID))
+                            ListContractors.Remove(m);
+                    }
+                });
             }
         }
-        await Task.Run(() =>
+        catch (Exception ex)
         {
-        });
+            await StswMessageDialog.Show(ex, "Error");
+        }
 
         LoadingActions--;
     }
