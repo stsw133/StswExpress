@@ -24,7 +24,10 @@ public class StswIfElseConverter : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString()?.Split('~') ?? new string[3];
 
         /// result
-        return ((val == pmr?[0]) ? pmr?[1] : pmr?[2]) ?? string.Empty;
+        if (pmr?.Length >= 3)
+            return ((val == pmr?[0]) ? pmr?[1] : pmr?[2]) ?? string.Empty;
+        else
+            return null;
     }
 
     /// ConvertBack

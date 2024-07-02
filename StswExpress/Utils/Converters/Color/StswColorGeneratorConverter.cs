@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace StswExpress;
 
 /// <summary>
-/// Generate new color based on passed value and the provided seed as parameter.
+/// Generate new color based on passed value and the provided seed (brightness) as parameter.
 /// </summary>
 public class StswColorGeneratorConverter : MarkupExtension, IValueConverter
 {

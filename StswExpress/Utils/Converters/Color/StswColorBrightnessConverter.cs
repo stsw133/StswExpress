@@ -27,12 +27,11 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        //var val = value?.ToString() ?? string.Empty;
         Color color;
 
         /// parameters
-        bool isAuto = pmr.Contains('?'),
-             isPercent = pmr.Contains('%');
+        bool isAuto = pmr.StartsWith('?'),
+             isPercent = pmr.EndsWith('%');
 
         if (isAuto) pmr = pmr.Remove(pmr.IndexOf('?'), 1);
         if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
@@ -44,12 +43,17 @@ public class StswColorBrightnessConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else if (value?.ToString() != null)
-            color = (Color)ColorConverter.ConvertFromString(value.ToString());
+        else try
+            {
+                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
+            }
+            catch
+            {
+                return value;
+            }
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 0;
-
         if (isAuto)
             pmrVal = color.ToDrawingColor().GetBrightness() < 0.5 ? Math.Abs(pmrVal) : Math.Abs(pmrVal) * -1;
 

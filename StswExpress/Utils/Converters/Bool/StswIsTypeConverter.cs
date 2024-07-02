@@ -25,9 +25,9 @@ public class StswIsTypeConverter : MarkupExtension, IValueConverter
                 if (targetType == typeof(Visibility))
                     return val == type ? Visibility.Visible : Visibility.Collapsed;
                 else
-                    return val == type;
+                    return (val == type).ConvertTo(targetType);
             }
-            else return val;
+            else return val.ConvertTo(targetType);
         }
         else return Binding.DoNothing;
     }

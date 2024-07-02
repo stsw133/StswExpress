@@ -1,10 +1,5 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics.Metrics;
-using System.Drawing;
 using System.Linq;
 
 namespace TestApp;
@@ -16,13 +11,12 @@ internal static class SQL
         if (StswDatabases.Current == null)
         {
             StswDatabases.ImportList();
-            StswDatabases.Current = StswDatabases.List.FirstOrDefault();
+            StswDatabases.Current = StswDatabases.Collection.FirstOrDefault().Value;
         }
     }
 
     /// InitializeTables
-    internal static void InitializeContractorsTables()
-        => StswDatabases.Current?.Query(@"
+    internal static void InitializeContractorsTables() => new StswQuery(@"
             if not exists (select 1 from sysobjects where name='StswExpressTEST_Contractors' and xtype='U')
 		        create table StswExpressTEST_Contractors
 		        (
@@ -41,8 +35,7 @@ internal static class SQL
         .ExecuteNonQuery();
 
     /// GetContractors
-    internal static IEnumerable<ContractorModel>? GetContractors(string filter, IList<SqlParameter> parameters)
-        => StswDatabases.Current?.Query($@"
+    internal static IEnumerable<ContractorModel>? GetContractors(string filter, IList<SqlParameter> parameters) => new StswQuery($@"
             select
                 a.ID,
                 a.Type,
@@ -129,7 +122,7 @@ internal static class SQL
             }
         */
 
-        StswDatabases.Current?.Query("dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), new() {
+        new StswQuery("dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), new() {
                 { nameof(ContractorModel.IconSource), false }
             });
 
@@ -137,30 +130,21 @@ internal static class SQL
     }
 
     /// DeleteContractor
-    internal static bool DeleteContractor(int id)
-        => StswDatabases.Current?.Query("delete from dbo.StswExpressTEST_Contractors where ID=@ID")
-        .ExecuteNonQuery([
-                new("@ID", id)
-            ]) > 0;
+    internal static void DeleteContractor(int id) => new StswQuery(@"
+            delete from dbo.StswExpressTEST_Contractors where ID=@ID")
+        .ExecuteNonQuery([new("@ID", id)]);
 
     /// AddPdf
-    internal static bool AddPdf(int id, byte[] file)
-        => StswDatabases.Current?.Query(@"
+    internal static bool AddPdf(int id, byte[] file) => new StswQuery(@"
             update dbo.StswExpressTEST_Contractors
             set Pdf=@Pdf
             where ID=@ID")
-        .ExecuteNonQuery([
-                new("@ID", id),
-                new("@Pdf", file)
-            ]) > 0;
+        .ExecuteNonQuery([new("@ID",id), new("@Pdf",file)]) > 0;
 
     /// GetPdf
-    internal static byte[]? GetPdf(int id)
-        => StswDatabases.Current?.Query(@"
+    internal static byte[]? GetPdf(int id) => new StswQuery(@"
             select Pdf
             from dbo.StswExpressTEST_Contractors with(nolock)
             where ID=@ID")
-        .TryExecuteScalar<byte[]>([
-                new("@ID", id)
-            ]);
+        .TryExecuteScalar<byte[]>([new("@ID",id)]);
 }

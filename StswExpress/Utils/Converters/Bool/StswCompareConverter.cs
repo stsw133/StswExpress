@@ -7,10 +7,9 @@ using System.Windows.Markup;
 namespace StswExpress;
 
 /// <summary>
-/// A converter that compares a numeric value to a specified threshold and determines
-/// if it is greater than, less than, greater than or equal to, or less than or equal to
-/// the threshold.<br/>
-/// Use one of these: '<c>&gt;</c>', '<c>&gt;=</c>', '<c>&lt;</c>', '<c>&lt;=</c>' at the beginning of converter parameter and number after.<br/>
+/// A converter that compares a numeric value to a specified threshold and determines if it is
+/// greater than, less than, greater than or equal to, or less than or equal to the threshold.<br/>
+/// Use one of these: '<c>&gt;</c>', '<c>&gt;=</c>', '<c>&lt;</c>', '<c>&lt;=</c>', '<c>=</c>', '<c>!</c>', '<c>&amp;</c>', '<c>@</c>' at the beginning of converter parameter and number after.<br/>
 /// <br/>
 /// When targetType is <see cref="Visibility"/> then output is <c>Visible</c> when <see langword="true"/>, otherwise <c>Collapsed</c>.<br/>
 /// When targetType is anything else then returns <see cref="bool"/> with value depending on converter result.<br/>
@@ -60,7 +59,7 @@ public class StswCompareConverter : MarkupExtension, IValueConverter
         if (targetType == typeof(Visibility))
             return result ? Visibility.Visible : Visibility.Collapsed;
         else
-            return result;
+            return result.ConvertTo(targetType);
     }
 
     /// ConvertBack

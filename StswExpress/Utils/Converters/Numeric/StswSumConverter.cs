@@ -38,7 +38,7 @@ public class StswSumConverter : MarkupExtension, IValueConverter
                     result += System.Convert.ToDouble(prop.GetValue(item), culture);
             }
 
-        return result;
+        return result.ConvertTo(targetType);
     }
 
     /// ConvertBack

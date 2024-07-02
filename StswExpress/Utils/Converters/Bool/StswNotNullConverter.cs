@@ -25,7 +25,7 @@ public class StswNotNullConverter : MarkupExtension, IValueConverter
         if (targetType == typeof(Visibility))
             return value is not null ? Visibility.Visible : Visibility.Collapsed;
         else
-            return value is not null;
+            return (value is not null).ConvertTo(targetType);
     }
 
     /// ConvertBack

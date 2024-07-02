@@ -18,8 +18,8 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     public static bool AlwaysReturnIfNoDatabase { get; set; } = false;
 
     /// local properties
-    public bool MakeLessSpaceQuery { get; set; } = AlwaysMakeLessSpaceQuery;
-    public bool ReturnIfInDesignerMode { get; set; } = AlwaysReturnIfInDesignerMode;
+    //public bool MakeLessSpaceQuery { get; set; } = AlwaysMakeLessSpaceQuery;
+    //public bool ReturnIfInDesignerMode { get; set; } = AlwaysReturnIfInDesignerMode;
     public bool ReturnIfNoDatabase { get; set; } = AlwaysReturnIfNoDatabase;
 
     public StswDatabaseModel? Database { protected get; set; } = stswDb ?? StswDatabases.Current;
@@ -29,11 +29,11 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<T> Get<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null) where T : class, new()
+    public IEnumerable<T> Get<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : class, new()
     {
-        if (!PrepareConnection(sqlConnection))
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
             return default!;
-
+        
         using (_sqlConnection)
         {
             _sqlConnection?.Open();
@@ -51,9 +51,9 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public void Set<T>(StswBindingList<T> input, string idProp, Dictionary<string, bool>? properties = null, IList<SqlParameter>? sqlParameters = null, object? sqlConnection = null) where T : IStswCollectionItem, new()
+    public void Set<T>(StswBindingList<T> input, string idProp, Dictionary<string, bool>? properties = null, IList<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : IStswCollectionItem, new()
     {
-        if (!PrepareConnection(sqlConnection))
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
             return;
 
         /// prepare parameters
@@ -76,7 +76,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         {
             _sqlConnection?.Open();
 
-            using (var sqlTran = _sqlConnection?.BeginTransaction())
+            using (var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction())
             {
                 /// insert
                 var query = $"insert into {Query} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
@@ -107,7 +107,8 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                         sqlCmd.ExecuteNonQuery();
                     }
 
-                sqlTran?.Commit();
+                if (sqlTransaction == null)
+                    sqlTran?.Commit();
             }
         }
     }
@@ -116,14 +117,14 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public T ExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null)
+    public T ExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
-        if (!PrepareConnection(sqlConnection))
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
             return default!;
 
         using (_sqlConnection)
         {
-            using var sqlCmd = new SqlCommand(Query, _sqlConnection);
+            using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
             sqlCmd.Parameters.AddRange([.. sqlParameters]);
             return sqlCmd.ExecuteScalar().ConvertTo<T>()!;
         }
@@ -133,14 +134,14 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public T? TryExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null)
+    public T? TryExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
-        if (!PrepareConnection(sqlConnection))
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
             return default;
 
         using (_sqlConnection)
         {
-            using var sqlCmd = new SqlCommand(Query, _sqlConnection);
+            using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
             sqlCmd.Parameters.AddRange([.. sqlParameters]);
             using var sqlDR = sqlCmd.ExecuteReader();
             return sqlDR.Read() ? sqlDR[0].ConvertTo<T>() : default;
@@ -151,14 +152,14 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public int? ExecuteNonQuery(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null)
+    public int? ExecuteNonQuery(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
-        if (!PrepareConnection(sqlConnection))
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
             return default;
 
         using (_sqlConnection)
         {
-            using var sqlCmd = new SqlCommand(Query, _sqlConnection);
+            using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
             sqlCmd.Parameters.AddRange([.. sqlParameters]);
             return sqlCmd.ExecuteNonQuery();
         }
@@ -168,32 +169,62 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <param name="sqlConnection"></param>
+    /// <param name="sqlTransaction"></param>
     /// <returns></returns>
-    protected bool PrepareConnection(object? sqlConnection)
+    protected bool PrepareConnection(object? sqlConnection, SqlTransaction? sqlTransaction)
     {
-        //if (AlwaysReturnIfInDesignerMode && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
+        //if (ReturnIfInDesignerMode && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
         //    return false;
 
         /// connection
         SqlConnection? sqlConn = null;
-        if (sqlConnection is StswDatabaseModel sqlConnection1)
-            sqlConn = new SqlConnection(sqlConnection1.GetConnString());
-        else if (sqlConnection is SqlConnection sqlConnection2)
-            sqlConn = sqlConnection2;
-        else if (sqlConnection is string sqlConnection3)
-            sqlConn = new SqlConnection(sqlConnection3);
-        else if (Database != null)
-            sqlConn = new SqlConnection(Database.GetConnString());
-        else if (StswDatabases.Current != null)
-            sqlConn = new SqlConnection(StswDatabases.Current.GetConnString());
+        switch (sqlConnection)
+        {
+            case StswDatabaseModel stswDatabase:
+                if (stswDatabase.SqlTranaction != null)
+                {
+                    sqlTransaction ??= stswDatabase.SqlTranaction;
+                    sqlConn = stswDatabase.SqlTranaction.Connection;
+                }
+                else
+                    sqlConn = stswDatabase.OpenedConnection();
+                break;
+            case SqlConnection sqlConnection1:
+                sqlConn = sqlConnection1;
+                break;
+            case string sqlConnection2:
+                sqlConn = new SqlConnection(sqlConnection2);
+                break;
+            default:
+                if (Database != null)
+                    if (Database.SqlTranaction != null)
+                    {
+                        sqlTransaction ??= Database.SqlTranaction;
+                        sqlConn = Database.SqlTranaction.Connection;
+                    }
+                    else
+                        sqlConn = Database.OpenedConnection();
+                else if (StswDatabases.Current != null)
+                    if (StswDatabases.Current.SqlTranaction != null)
+                    {
+                        sqlTransaction ??= StswDatabases.Current.SqlTranaction;
+                        sqlConn = StswDatabases.Current.SqlTranaction.Connection;
+                    }
+                    else
+                        sqlConn = StswDatabases.Current.OpenedConnection();
+                break;
+        }
 
         _sqlConnection = sqlConn;
-        if (AlwaysReturnIfNoDatabase && _sqlConnection == null)
+        _sqlTransaction = sqlTransaction;
+        if (ReturnIfNoDatabase && _sqlConnection == null)
             return false;
 
+        _sqlConnection?.Open();
         return true;
     }
     private SqlConnection? _sqlConnection;
+    private SqlTransaction? _sqlTransaction;
 
     /// <summary>
     /// 

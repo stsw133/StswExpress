@@ -23,9 +23,11 @@ public class StswEnumDescriptionConverter : MarkupExtension, IValueConverter
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var enumValue = (Enum)value;
+        if (enumValue == null)
+            return null;
 
         if (enumValue.GetType().GetField(enumValue.ToString())?.GetCustomAttributes(false) is object[] atrArr && atrArr.Length > 0)
-            return (atrArr[0] as DescriptionAttribute)?.Description; 
+            return (atrArr[0] as DescriptionAttribute)?.Description;
         else
             return enumValue.ToString();
     }

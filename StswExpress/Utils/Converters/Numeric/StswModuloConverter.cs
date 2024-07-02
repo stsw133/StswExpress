@@ -20,6 +20,8 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         double.TryParse(parameter?.ToString(), NumberStyles.Number, culture, out var pmr);
+        if (pmr == 0)
+            return value;
 
         /// result
         if (targetType.In(typeof(CornerRadius), typeof(CornerRadius?)))
@@ -72,7 +74,8 @@ public class StswModuloConverter : MarkupExtension, IValueConverter
                 };
             }
         }
-        else return System.Convert.ToDouble(value, culture) % pmr;
+        else if (!double.TryParse(value?.ToString(), culture, out var val)) return value;
+        else return (val % pmr).ConvertTo(targetType);
     }
 
     /// ConvertBack

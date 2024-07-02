@@ -67,7 +67,7 @@ public class StswSelectionBox : ItemsControl, IStswBoxControl, IStswCornerContro
 
         base.OnItemsSourceChanged(oldValue, newValue);
 
-        SetTextCommand.Execute(null);
+        SetTextCommand?.Execute(null);
     }
 
     /// <summary>

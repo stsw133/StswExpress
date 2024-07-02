@@ -33,8 +33,14 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else
-            color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
+        else try
+            {
+                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
+            }
+            catch
+            {
+                return value;
+            }
 
         /// conversion
         var dictionary = new Dictionary<char, string>();
@@ -49,12 +55,12 @@ public class StswColorAdvancedConverter : MarkupExtension, IValueConverter
             dictionary[key] = val;
         }
 
-        if (dictionary.TryGetValue('A', out var a))
-            color = (Color)StswColorAlphaConverter.Instance.Convert(color, typeof(Color), a, culture);
-        if (dictionary.TryGetValue('B', out var b))
-            color = (Color)StswColorBrightnessConverter.Instance.Convert(color, typeof(Color), b, culture);
-        if (dictionary.TryGetValue('S', out var s))
-            color = (Color)StswColorSaturationConverter.Instance.Convert(color, typeof(Color), s, culture);
+        if (dictionary.TryGetValue('A', out var a) && StswColorAlphaConverter.Instance.Convert(color, typeof(Color), a, culture) is Color colorA)
+            color = colorA;
+        if (dictionary.TryGetValue('B', out var b) && StswColorBrightnessConverter.Instance.Convert(color, typeof(Color), b, culture) is Color colorB)
+            color = colorB;
+        if (dictionary.TryGetValue('S', out var s) && StswColorSaturationConverter.Instance.Convert(color, typeof(Color), s, culture) is Color colorS)
+            color = colorS;
 
         /// output
         if (targetType == typeof(Color))

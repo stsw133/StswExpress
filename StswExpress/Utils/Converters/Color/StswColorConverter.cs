@@ -27,8 +27,14 @@ public class StswColorConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else
-            color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? string.Empty);
+        else try
+            {
+                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
+            }
+            catch
+            {
+                return value;
+            }
 
         /// output
         if (targetType == typeof(Color))

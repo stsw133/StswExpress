@@ -303,6 +303,13 @@
             <DataTemplate DataType="{x:Type local:StswTestContext}">
                 <local:StswTestView/>
             </DataTemplate>
+            
+            
+            
+            <!-- Utils -->
+            <DataTemplate DataType="{x:Type local:StswConvertersContext}">
+                <local:StswConvertersView/>
+            </DataTemplate>
 
 
 

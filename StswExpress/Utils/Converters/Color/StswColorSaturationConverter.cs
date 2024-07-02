@@ -23,7 +23,6 @@ public class StswColorSaturationConverter : MarkupExtension, IValueConverter
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        //var val = value?.ToString() ?? string.Empty;
         Color color;
 
         /// parameters
@@ -36,11 +35,17 @@ public class StswColorSaturationConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else if (value?.ToString() != null)
-            color = (Color)ColorConverter.ConvertFromString(value.ToString());
+        else try
+            {
+                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
+            }
+            catch
+            {
+                return value;
+            }
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
-            pmrVal = 0;
+            pmrVal = 100;
         pmrVal = 100 - pmrVal;
 
         /// calculate new color

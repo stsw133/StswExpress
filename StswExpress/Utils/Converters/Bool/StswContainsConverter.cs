@@ -29,30 +29,29 @@ public class StswContainsConverter : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString() ?? string.Empty;
 
         /// parameters
-        bool isReversed = pmr.Contains('!');
+        bool isReversed = pmr.StartsWith('!');
         if (isReversed)
             pmr = pmr.Remove(pmr.IndexOf('!'), 1);
 
         /// result
-        if (value is IEnumerable enumerable)
+        if (value is IEnumerable enumerable and not string)
         {
             var stringValues = enumerable.Cast<object>().Select(x => x?.ToString() ?? string.Empty).ToList();
 
             if (targetType == typeof(Visibility))
                 return (stringValues.Contains(pmr) ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return (stringValues.Contains(pmr) ^ isReversed);
+                return (stringValues.Contains(pmr) ^ isReversed).ConvertTo(targetType);
         }
-        else if (value?.ToString() != null)
+        else if (value?.ToString() is string stringValue)
         {
-            var stringValue = value.ToString();
-
             if (targetType == typeof(Visibility))
                 return (stringValue?.Contains(pmr) == true ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
             else
-                return (stringValue?.Contains(pmr) == true ^ isReversed);
+                return (stringValue?.Contains(pmr) == true ^ isReversed).ConvertTo(targetType);
         }
-        return false;
+
+        return default;
     }
 
     /// ConvertBack

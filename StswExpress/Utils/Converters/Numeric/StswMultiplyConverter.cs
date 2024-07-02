@@ -72,7 +72,8 @@ public class StswMultiplyConverter : MarkupExtension, IValueConverter
                 };
             }
         }
-        else return System.Convert.ToDouble(value, culture) * pmr;
+        else if (!double.TryParse(value?.ToString(), culture, out var val)) return value;
+        else return (val * pmr).ConvertTo(targetType);
     }
 
     /// ConvertBack

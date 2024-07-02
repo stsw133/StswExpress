@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.IO;
 
 namespace StswExpress;
-
 /// <summary>
 /// Provides functionality for managing database connections and methods to import and export them.
 /// </summary>
@@ -12,7 +11,7 @@ public static class StswDatabases
     /// <summary>
     /// The dictionary that contains all declared database connections for application.
     /// </summary>
-    public static ObservableCollection<StswDatabaseModel> List { get; set; } = [];
+    public static StswDictionary<string, StswDatabaseModel> Collection { get; set; } = [];
 
     /// <summary>
     /// Default instance of database connection (that is currently in use by application). 
@@ -29,7 +28,7 @@ public static class StswDatabases
     /// </summary>
     public static void ImportList()
     {
-        List.Clear();
+        Collection.Clear();
 
         if (!File.Exists(FilePath))
         {
@@ -44,9 +43,8 @@ public static class StswDatabases
             if (line != null)
             {
                 var data = line.Split('|');
-                List.Add(new()
+                Collection.Add(StswSecurity.Decrypt(data[0]), new()
                 {
-                    Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
                     Port = StswSecurity.Decrypt(data[2]) is string s && !string.IsNullOrEmpty(s) ? Convert.ToInt32(s) : null,
                     Database = StswSecurity.Decrypt(data[3]),
@@ -63,13 +61,13 @@ public static class StswDatabases
     public static void ExportList()
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var db in List)
-            stream.WriteLine(StswSecurity.Encrypt(db.Name)
-                    + "|" + StswSecurity.Encrypt(db.Server)
-                    + "|" + StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(db.Database)
-                    + "|" + StswSecurity.Encrypt(db.Login)
-                    + "|" + StswSecurity.Encrypt(db.Password)
+        foreach (var db in Collection)
+            stream.WriteLine(StswSecurity.Encrypt(db.Key)
+                    + "|" + StswSecurity.Encrypt(db.Value.Server)
+                    + "|" + StswSecurity.Encrypt(db.Value.Port?.ToString() ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(db.Value.Database)
+                    + "|" + StswSecurity.Encrypt(db.Value.Login)
+                    + "|" + StswSecurity.Encrypt(db.Value.Password)
                 );
     }
 }
@@ -79,14 +77,6 @@ public static class StswDatabases
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
-    /// Name
-    public string Name
-    {
-        get => _name;
-        set => SetProperty(ref _name, value);
-    }
-    private string _name = string.Empty;
-
     /// Type
     public StswDatabaseType Type
     {
@@ -142,7 +132,10 @@ public class StswDatabaseModel : StswObservableObject
         set => SetProperty(ref _version, value);
     }
     private string _version = string.Empty;
-    
+
+    /// Transaction
+    internal SqlTransaction? SqlTranaction;
+
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.
     /// </summary>
@@ -153,6 +146,50 @@ public class StswDatabaseModel : StswObservableObject
         StswDatabaseType.PostgreSQL => $"Server={Server};Port={Port ?? 5432};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
         _ => throw new Exception("This type of database management system is not supported!")
     };
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SqlConnection OpenedConnection()
+    {
+        var sqlConn = new SqlConnection(GetConnString());
+        sqlConn.Open();
+        return sqlConn;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public SqlTransaction BeginTransaction()
+    {
+        if (SqlTranaction != null)
+            throw new Exception("SqlTransaction has been already started.");
+        SqlTranaction = OpenedConnection().BeginTransaction();
+        return SqlTranaction;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public void CommitTransaction()
+    {
+        if (SqlTranaction == null)
+            throw new Exception("SqlTransaction has already ended.");
+        SqlTranaction.Commit();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public void RollbackTransaction()
+    {
+        if (SqlTranaction == null)
+            throw new Exception("SqlTransaction has already ended.");
+        SqlTranaction.Rollback();
+    }
 
     /// <summary>
     /// Supporting method for creating <see cref="StswQuery"/>.

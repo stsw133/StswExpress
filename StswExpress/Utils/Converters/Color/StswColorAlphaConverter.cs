@@ -24,13 +24,12 @@ public class StswColorAlphaConverter : MarkupExtension, IValueConverter
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        //var val = value?.ToString() ?? string.Empty;
         Color color;
 
         /// parameters
-        bool isPercent = pmr.Contains('%');
-
-        if (isPercent) pmr = pmr.Remove(pmr.IndexOf('%'), 1);
+        bool isPercent = pmr.EndsWith('%');
+        if (isPercent)
+            pmr = pmr.Remove(pmr.IndexOf('%'), 1);
 
         /// value as color and parameter as number
         if (value is Color c)
@@ -39,11 +38,17 @@ public class StswColorAlphaConverter : MarkupExtension, IValueConverter
             color = Color.FromArgb(d.A, d.R, d.G, d.B);
         else if (value is SolidColorBrush br)
             color = br.ToColor();
-        else if (value?.ToString() != null)
-            color = (Color)ColorConverter.ConvertFromString(value.ToString());
+        else try
+            {
+                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
+            }
+            catch
+            {
+                return value;
+            }
 
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
-            pmrVal = 0;
+            pmrVal = isPercent ? 100 : 255;
 
         /// calculate new color
         double a = Math.Clamp(isPercent ? pmrVal * 255 / 100 : pmrVal, 0, 255);

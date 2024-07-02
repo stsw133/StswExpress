@@ -154,29 +154,11 @@
         </se:StswNavigationElement>
         <se:StswNavigationElement Header="Utils" IconData="{x:Static se:StswIcons.ToolboxOutline}" IsChecked="False">
             <se:StswNavigationElement Header="Bindings" IconData="{x:Static se:StswIcons.TransitConnectionHorizontal}" ContextNamespace="{x:Null}"/>
-            <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ViewListOutline}">
-                <se:StswNavigationElement Header="StswBindingList" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="StswDictionary" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="StswItems" ContextNamespace="{x:Null}"/>
-            </se:StswNavigationElement>
+            <se:StswNavigationElement Header="Collections" IconData="{x:Static se:StswIcons.ViewListOutline}" ContextNamespace="{x:Null}"/>
             <se:StswNavigationElement Header="Commands" IconData="{x:Static se:StswIcons.HandPointingRight}" ContextNamespace="{x:Null}"/>
-            <se:StswNavigationElement Header="Converters" IconData="{x:Static se:StswIcons.SwapHorizontal}">
-                <se:StswNavigationElement Header="Bool" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="Color" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="Format" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="List" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="Numeric" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="Special" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="Universal" ContextNamespace="{x:Null}"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Header="Data export" IconData="{x:Static se:StswIcons.Export}">
-                <se:StswNavigationElement Header="Excel" ContextNamespace="{x:Null}"/>
-            </se:StswNavigationElement>
-            <se:StswNavigationElement Header="Markup extensions" IconData="{x:Static se:StswIcons.Xml}">
-                <se:StswNavigationElement Header="List" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="NameOf" ContextNamespace="{x:Null}"/>
-                <se:StswNavigationElement Header="New" ContextNamespace="{x:Null}"/>
-            </se:StswNavigationElement>
+            <se:StswNavigationElement Header="Converters" IconData="{x:Static se:StswIcons.SwapHorizontal}" ContextNamespace="TestApp.StswConvertersContext"/>
+            <se:StswNavigationElement Header="Data export" IconData="{x:Static se:StswIcons.Export}" ContextNamespace="{x:Null}"/>
+            <se:StswNavigationElement Header="Markup extensions" IconData="{x:Static se:StswIcons.Xml}" ContextNamespace="{x:Null}"/>
             <se:StswNavigationElement Header="Database" IconData="{x:Static se:StswIcons.DatabaseOutline}" ContextNamespace="{x:Null}"/>
             <se:StswNavigationElement Header="Email" IconData="{x:Static se:StswIcons.EmailOutline}" ContextNamespace="{x:Null}"/>
             <se:StswNavigationElement Header="Extensions" IconData="{x:Static se:StswIcons.ToyBrickOutline}" ContextNamespace="{x:Null}"/>

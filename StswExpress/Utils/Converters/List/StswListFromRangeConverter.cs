@@ -14,7 +14,8 @@ namespace StswExpress;
 /// <remarks>
 /// This can be useful for populating collection controls such as ComboBox or ListBox.
 /// </remarks>
-internal class StswListFromRangeConverter : MarkupExtension, IValueConverter
+[Obsolete("Will be propably replaced with XAML MarkupExtension in the future.")]
+public class StswListFromRangeConverter : MarkupExtension, IValueConverter
 {
     private static StswListFromRangeConverter? instance;
     public static StswListFromRangeConverter Instance => instance ??= new StswListFromRangeConverter();
@@ -29,9 +30,12 @@ internal class StswListFromRangeConverter : MarkupExtension, IValueConverter
             {
                 var param1 = int.Parse(param[0]);
                 var param2 = int.Parse(param[1]);
-                return Enumerable.Range(param1, param2 - param1);
+                return Enumerable.Range(param1, param2 - param1 + 1);
             }
-            else return Enumerable.Range(0, int.Parse(param[0]));
+            else if (param.Length == 1 && int.TryParse(param[0], out var param1))
+                return Enumerable.Range(0, param1);
+            else
+                return null;
         }
         return null;
     }

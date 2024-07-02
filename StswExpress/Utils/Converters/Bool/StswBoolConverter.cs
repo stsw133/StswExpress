@@ -27,7 +27,7 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
         var pmr = parameter?.ToString() ?? string.Empty;
 
         /// parameters
-        var isReversed = pmr.Contains('!');
+        var isReversed = pmr.StartsWith('!');
         //if (isReversed)
         //    pmr = pmr.Remove(pmr.IndexOf('!'), 1);
 
@@ -35,7 +35,7 @@ public class StswBoolConverter : MarkupExtension, IValueConverter
         if (targetType == typeof(Visibility))
             return (val ^ isReversed) ? Visibility.Visible : Visibility.Collapsed;
         else
-            return val ^ isReversed;
+            return (val ^ isReversed).ConvertTo(targetType);
     }
 
     /// ConvertBack

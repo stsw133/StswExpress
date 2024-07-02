@@ -17,10 +17,13 @@ public class StswMultiCultureNumberConverter : MarkupExtension, IValueConverter
     /// Convert
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (!decimal.TryParse(value?.ToString(), culture, out var val))
+            return value;
+
         /// result
         var ci = (CultureInfo)CultureInfo.InvariantCulture.Clone();
         ci.NumberFormat.NumberDecimalSeparator = ",";
-        return ((decimal)value).ToString(ci);
+        return val.ToString(ci);
     }
 
     /// ConvertBack

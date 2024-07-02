@@ -267,8 +267,8 @@ public class ContractorsListContext : StswObservableObject
                         ListContractors.Remove(m);
                     else if (m.ID > 0 && MessageBox.Show("Are you sure you want to delete selected item?", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        if (SQL.DeleteContractor(m.ID))
-                            ListContractors.Remove(m);
+                        SQL.DeleteContractor(m.ID);
+                        ListContractors.Remove(m);
                     }
                 });
             }

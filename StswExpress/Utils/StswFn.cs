@@ -111,6 +111,27 @@ public static partial class StswFn
 
     #region File functions
     /// <summary>
+    /// Checks if file is in use.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static bool IsFileInUse(string path)
+    {
+        if (File.Exists(path))
+        {
+            try
+            {
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Moves a file to recycle bin.
     /// </summary>
     public static void MoveToRecycleBin(string filePath) => FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
