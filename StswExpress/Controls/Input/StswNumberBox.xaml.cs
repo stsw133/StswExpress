@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -11,12 +14,20 @@ namespace StswExpress;
 /// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
 /// </summary>
 [ContentProperty(nameof(Value))]
-public class StswNumericBox : StswBoxBase
+public abstract class StswNumberBoxBase<T> : StswBoxBase where T : struct, INumber<T>
 {
-    static StswNumericBox()
+    static StswNumberBoxBase()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumericBox), new FrameworkPropertyMetadata(typeof(StswNumericBox)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswNumberBoxBase<T>), new FrameworkPropertyMetadata(typeof(StswNumberBoxBase<T>)));
     }
+
+    #region Helpers
+    private static bool TryParse(string text, out T result) => T.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+    private static T Add(T a, T b) => a + b;
+    private static T Subtract(T a, T b) => a - b;
+    private static bool IsZero(T value) => value == T.Zero;
+    private static int Compare(T a, T b) => a.CompareTo(b);
+    #endregion
 
     #region Events & methods
     /// <summary>
@@ -48,9 +59,9 @@ public class StswNumericBox : StswBoxBase
     /// <param name="e">The event arguments</param>
     private void PART_ButtonUp_Click(object sender, RoutedEventArgs e)
     {
-        if (decimal.TryParse(Text, out var result))
+        if (TryParse(Text, out var result))
             Value = result;
-        Value = Value + Increment ?? 0;
+        Value = Add(Value.GetValueOrDefault(), Increment);
     }
 
     /// <summary>
@@ -60,9 +71,9 @@ public class StswNumericBox : StswBoxBase
     /// <param name="e">The event arguments</param>
     private void PART_ButtonDown_Click(object sender, RoutedEventArgs e)
     {
-        if (decimal.TryParse(Text, out var result))
+        if (TryParse(Text, out var result))
             Value = result;
-        Value = Value - Increment ?? 0;
+        Value = Subtract(Value.GetValueOrDefault(), Increment);
     }
 
     /// <summary>
@@ -73,22 +84,12 @@ public class StswNumericBox : StswBoxBase
     {
         base.OnMouseWheel(e);
 
-        if (IsKeyboardFocused && !IsReadOnly && Increment != 0 && decimal.TryParse(Text, out var result))
+        if (IsKeyboardFocused && !IsReadOnly && !IsZero(Increment) && TryParse(Text, out var result))
         {
             if (e.Delta > 0)
-            {
-                if (decimal.MaxValue - Increment >= result)
-                    result += Increment;
-                else
-                    result = decimal.MaxValue;
-            }
+                result = Add(result, Increment);
             else //if (e.Delta < 0)
-            {
-                if (decimal.MinValue + Increment <= result)
-                    result -= Increment;
-                else
-                    result = decimal.MinValue;
-            }
+                result = Subtract(result, Increment);
             Value = result;
 
             e.Handled = true;
@@ -98,15 +99,12 @@ public class StswNumericBox : StswBoxBase
     /// <summary>
     /// 
     /// </summary>
-    private decimal? MinMaxValidate(decimal? newValue)
+    private T MinMaxValidate(T newValue)
     {
-        if (newValue.HasValue)
-        {
-            if (Minimum.HasValue && newValue < Minimum)
-                newValue = Minimum;
-            if (Maximum.HasValue && newValue > Maximum)
-                newValue = Maximum;
-        }
+        if (Minimum.HasValue && Compare(newValue, Minimum.Value) < 0)
+            newValue = Minimum.Value;
+        if (Maximum.HasValue && Compare(newValue, Maximum.Value) > 0)
+            newValue = Maximum.Value;
         return newValue;
     }
 
@@ -120,14 +118,12 @@ public class StswNumericBox : StswBoxBase
 
         if (string.IsNullOrEmpty(Text))
             result = null;
-        else if (StswFn.TryCalculateString(Text, out var res))
-            result = res;
-        else if (decimal.TryParse(Text, out res))
+        else if (TryParse(Text, out var res))
             result = res;
 
-        if (result != Value || alwaysUpdate)
+        if (!EqualityComparer<T?>.Default.Equals(result, Value) || alwaysUpdate)
         {
-            Text = result?.ToString(Format);
+            Text = result?.ToString();
 
             var bindingExpression = GetBindingExpression(TextProperty);
             if (bindingExpression != null && bindingExpression.Status.In(BindingStatus.Active, BindingStatus.UpdateSourceError))
@@ -150,12 +146,12 @@ public class StswNumericBox : StswBoxBase
         = DependencyProperty.Register(
             nameof(Format),
             typeof(string),
-            typeof(StswNumericBox),
+            typeof(StswNumberBoxBase<T>),
             new PropertyMetadata(default(string?), OnFormatChanged)
         );
     public static void OnFormatChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
+        if (obj is StswNumberBoxBase<T> stsw)
         {
             if (stsw.GetBindingExpression(TextProperty)?.ParentBinding is Binding binding)
             {
@@ -169,77 +165,77 @@ public class StswNumericBox : StswBoxBase
     /// <summary>
     /// Gets or sets the increment value used when clicking the "Up" or "Down" button.
     /// </summary>
-    public decimal Increment
+    public T Increment
     {
-        get => (decimal)GetValue(IncrementProperty);
+        get => (T)GetValue(IncrementProperty);
         set => SetValue(IncrementProperty, value);
     }
     public static readonly DependencyProperty IncrementProperty
         = DependencyProperty.Register(
             nameof(Increment),
-            typeof(decimal),
-            typeof(StswNumericBox)
+            typeof(T),
+            typeof(StswNumberBoxBase<T>)
         );
 
     /// <summary>
     /// Gets or sets the maximum allowable value in the control.
     /// </summary>
-    public decimal? Maximum
+    public T? Maximum
     {
-        get => (decimal?)GetValue(MaximumProperty);
+        get => (T?)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
     public static readonly DependencyProperty MaximumProperty
         = DependencyProperty.Register(
             nameof(Maximum),
-            typeof(decimal?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(decimal?), OnMinMaxChanged)
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new PropertyMetadata(default(T?), OnMinMaxChanged)
         );
     public static void OnMinMaxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
+        if (obj is StswNumberBoxBase<T> stsw)
         {
-            stsw.Value = stsw.MinMaxValidate(stsw.Value);
+            stsw.Value = stsw.MinMaxValidate(stsw.Value.GetValueOrDefault());
         }
     }
 
     /// <summary>
     /// Gets or sets the minimum allowable value in the control.
     /// </summary>
-    public decimal? Minimum
+    public T? Minimum
     {
-        get => (decimal?)GetValue(MinimumProperty);
+        get => (T?)GetValue(MinimumProperty);
         set => SetValue(MinimumProperty, value);
     }
     public static readonly DependencyProperty MinimumProperty
         = DependencyProperty.Register(
             nameof(Minimum),
-            typeof(decimal?),
-            typeof(StswNumericBox),
-            new PropertyMetadata(default(decimal?), OnMinMaxChanged)
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new PropertyMetadata(default(T?), OnMinMaxChanged)
         );
 
     /// <summary>
     /// Gets or sets the numeric value of the control.
     /// </summary>
-    public decimal? Value
+    public T? Value
     {
-        get => (decimal?)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, MinMaxValidate(value));
+        get => (T?)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, MinMaxValidate(value.GetValueOrDefault()));
     }
     public static readonly DependencyProperty ValueProperty
         = DependencyProperty.Register(
             nameof(Value),
-            typeof(decimal?),
-            typeof(StswNumericBox),
-            new FrameworkPropertyMetadata(default(decimal?),
+            typeof(T?),
+            typeof(StswNumberBoxBase<T>),
+            new FrameworkPropertyMetadata(default(T?),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnValueChanged, null, false, UpdateSourceTrigger.PropertyChanged)
         );
     public static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-        if (obj is StswNumericBox stsw)
+        if (obj is StswNumberBoxBase<T> stsw)
         {
             stsw.ValueChanged?.Invoke(stsw, EventArgs.Empty);
         }
@@ -259,7 +255,41 @@ public class StswNumericBox : StswBoxBase
         = DependencyProperty.Register(
             nameof(SeparatorThickness),
             typeof(double),
-            typeof(StswNumericBox)
+            typeof(StswNumberBoxBase<T>)
         );
     #endregion
 }
+
+/// <summary>
+/// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+/// </summary>
+public class StswDecimalBox : StswNumberBoxBase<decimal>
+{
+    static StswDecimalBox()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDecimalBox), new FrameworkPropertyMetadata(typeof(StswDecimalBox)));
+    }
+}
+/*
+/// <summary>
+/// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+/// </summary>
+public class StswDoubleBox : StswNumberBoxBase<double>
+{
+    static StswDoubleBox()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswDoubleBox), new FrameworkPropertyMetadata(typeof(StswDoubleBox)));
+    }
+}
+
+/// <summary>
+/// Represents a control that allows users to provide value either by entering numeric value or using a "Up" and "Down" buttons.
+/// </summary>
+public class StswIntegerBox : StswNumberBoxBase<int>
+{
+    static StswIntegerBox()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StswIntegerBox), new FrameworkPropertyMetadata(typeof(StswIntegerBox)));
+    }
+}
+*/

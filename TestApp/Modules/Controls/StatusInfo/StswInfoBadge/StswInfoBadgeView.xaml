@@ -21,13 +21,13 @@
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoFormat}" Margin="0 0 0 3" SelectedValue="{Binding Format}"/>
             <!-- Limit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Limit, Type={x:Type se:StswInfoBadge}}"/>
-            <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
+            <se:StswDecimalBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBadge}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
             <!-- Value -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="Value"/>
-            <se:StswNumericBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>
+            <se:StswDecimalBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswInfoBadge Format="{Binding Format}"

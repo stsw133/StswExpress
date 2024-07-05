@@ -13,10 +13,10 @@
     <se:StswScrollView Padding="5">
         <StackPanel>
             <!-- bool converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Bool converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- Bool -->
                     <se:StswHeader Content="StswBoolConverter" FontSize="16" FontWeight="Bold"/>
@@ -118,12 +118,12 @@
                                          IsChecked="{se:StswBindableParameter Values[Radio], Mode=TwoWay, Converter={x:Static se:StswRadioConverter.Instance}, ConverterParameter={Binding Parameters[Radio]}}"/>
                     </se:StswGrid>
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
             <!-- color converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Color converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- ColorAdvanced -->
                     <se:StswHeader Content="StswColorAdvancedConverter" FontSize="16" FontWeight="Bold"/>
@@ -221,12 +221,12 @@
                                          SelectedColor="{se:StswBindableParameter Values[ColorSaturation], Mode=TwoWay, Converter={x:Static se:StswColorSaturationConverter.Instance}, ConverterParameter={Binding Parameters[ColorSaturation]}}"/>
                     </se:StswGrid>
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
             <!-- format converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Format converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- MultiCultureNumber -->
                     <se:StswHeader Content="StswMultiCultureNumberConverter" FontSize="16" FontWeight="Bold"/>
@@ -241,12 +241,12 @@
                                         Text="{Binding Values[MultiCultureNumber], Mode=TwoWay, Converter={x:Static se:StswMultiCultureNumberConverter.Instance}}"/>
                     </se:StswGrid>
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
             <!-- list converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="List converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- EnumDescription -->
                     <se:StswHeader Content="StswEnumDescriptionConverter" FontSize="16" FontWeight="Bold"/>
@@ -276,12 +276,12 @@
                                          ItemsSource="{se:StswBindableParameter Values[ListFromRange], Mode=TwoWay, Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter={Binding Parameters[ListFromRange]}}"/>
                     </se:StswGrid>
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
             <!-- numeric converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Numeric converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- Add -->
                     <se:StswHeader Content="StswAddConverter" FontSize="16" FontWeight="Bold"/>
@@ -290,12 +290,27 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Add]}"/>
+                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Add]}"/>
                         <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Add]}"/>
+                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Add]}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                            Value="{se:StswBindableParameter Values[Add], Mode=TwoWay, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter={Binding Parameters[Add]}}"/>
+                    </se:StswGrid>
+                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
+                    <!-- Calculate -->
+                    <se:StswHeader Content="StswCalculateConverter" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Calculates a numerical value based on another numerical value or a set of values and an operator sign."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Calculate]}"/>
+                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Text="{Binding Parameters[Calculate]}"/>
+                        <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
+                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                                           Value="{se:StswBindableParameter Values[Calculate], Mode=TwoWay, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter={Binding Parameters[Calculate]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     <!-- Modulo -->
@@ -305,11 +320,11 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Modulo]}"/>
+                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Modulo]}"/>
                         <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Modulo]}"/>
+                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Modulo]}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                            Value="{se:StswBindableParameter Values[Modulo], Mode=TwoWay, Converter={x:Static se:StswModuloConverter.Instance}, ConverterParameter={Binding Parameters[Modulo]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
@@ -320,11 +335,11 @@
                     </se:StswText>
                     <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
                         <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Multiply]}"/>
+                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Multiply]}"/>
                         <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Multiply]}"/>
+                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Multiply]}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                            Value="{se:StswBindableParameter Values[Multiply], Mode=TwoWay, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter={Binding Parameters[Multiply]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
@@ -338,17 +353,17 @@
                         <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
                         <se:StswComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Converter={x:Static se:StswListFromRangeConverter.Instance}, ConverterParameter=1-10}" Margin="5 0 5 5" SelectedValuePath="{Binding Parameters[Sum], Mode=OneWayToSource}"/>
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswNumericBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
+                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                            Value="{se:StswConverterBindableParameter Values[Sum], Mode=TwoWay, Converter={x:Static se:StswSumConverter.Instance}, ConverterParameter={Binding Parameters[Sum]}}"/>
                     </se:StswGrid>
                     -->
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
             <!-- universal converters -->
-            <se:StswGroupBox Margin="5">
-                <se:StswGroupBox.Header>
+            <se:StswExpander Margin="5">
+                <se:StswExpander.Header>
                     <se:StswHeader Content="Universal converters" FontSize="14" FontWeight="Bold"/>
-                </se:StswGroupBox.Header>
+                </se:StswExpander.Header>
                 <StackPanel>
                     <!-- IfElse -->
                     <se:StswHeader Content="StswIfElseConverter" FontSize="16" FontWeight="Bold"/>
@@ -368,7 +383,7 @@
                                         Text="{se:StswBindableParameter Values[IfElse], Mode=TwoWay, Converter={x:Static se:StswIfElseConverter.Instance}, ConverterParameter={Binding Parameters[IfElse]}}"/>
                     </se:StswGrid>
                 </StackPanel>
-            </se:StswGroupBox>
+            </se:StswExpander>
         </StackPanel>
     </se:StswScrollView>
 </UserControl>

@@ -40,8 +40,8 @@
                                        HorizontalAlignment="Left">
                             <Grid x:Name="PART_Grid"
                                   Margin="{TemplateBinding Padding}"
-                                  Height="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=12}"
-                                  Width="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=24}">
+                                  Height="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*12}"
+                                  Width="{Binding IconScale.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*24}">
                                 <Border x:Name="PART_CheckBorder"
                                         Background="{Binding Background, ElementName=PART_MainBorder}"
                                         BorderThickness="0"/>

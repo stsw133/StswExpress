@@ -68,7 +68,7 @@
                             <!-- content -->
                             <DockPanel>
                                 <se:StswImage x:Name="PART_Icon"
-                                              Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                              Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                               MenuMode="Disabled"
                                               Source="{TemplateBinding IconSource}"
                                               Height="{DynamicResource StswFilePicker.Size.Icon}"
@@ -77,7 +77,7 @@
                                                Content="{TemplateBinding FileSize}"
                                                FontWeight="Bold"
                                                Opacity="0.6"
-                                               Padding="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                               Padding="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                                HorizontalContentAlignment="Center"
                                                VerticalContentAlignment="Center"
                                                Width="48">
@@ -88,7 +88,7 @@
                                 <se:StswSeparator x:Name="PART_IconSeparator"
                                                   BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
                                                   BorderThickness="{TemplateBinding SeparatorThickness}"
-                                                  Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                                  Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                                   Orientation="Vertical"
                                                   Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                                 <Grid>

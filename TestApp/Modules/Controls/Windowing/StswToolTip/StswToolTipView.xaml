@@ -21,7 +21,7 @@
             <se:StswToggleSwitch HorizontalAlignment="Left" IsChecked="{Binding IsMoveable}"/>
             <!-- ShowDuration -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="ShowDuration"/>
-            <se:StswNumericBox Format="0" Margin="0 0 0 3" Value="{Binding ShowDuration}"/>
+            <se:StswDecimalBox Format="0" Margin="0 0 0 3" Value="{Binding ShowDuration}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswText HorizontalAlignment="Center" Text=". . ." ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="{Binding ShowDuration}">

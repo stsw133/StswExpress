@@ -6,19 +6,18 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="1"/>
-
+        <Setter Property="Padding" Value="4 2"/>
+        
         <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
         <Setter Property="Format" Value="Number"/>
-        <Setter Property="Limit" Value="99"/>
+        <Setter Property="Limit" Value="{x:Null}"/>
         <Setter Property="Type" Value="Information"/>
-
+        
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="False"/>
-
-        <!-- <Setter Property="Height" Value="13"/> -->
-        <!-- <Setter Property="Width" Value="21"/> -->
+        
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -33,11 +32,11 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <Viewbox Margin="{TemplateBinding Padding}"
-                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ContentControl x:Name="PART_ContentControl" Focusable="False"/>
-                        </Viewbox>
+                        <ContentControl x:Name="PART_ContentControl"
+                                        Focusable="False"
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Format" Value="Icon">
@@ -45,7 +44,7 @@
                                 <Setter.Value>
                                     <DataTemplate>
                                         <se:StswIcon Data="{Binding IconData, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}}"
-                                                     Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}}"/>
+                                                     Scale="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoBadge}}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.095}"/>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>

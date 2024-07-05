@@ -340,7 +340,7 @@
     <Compile Update="Modules\Controls\Input\StswTextBox\StswTextBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Modules\Controls\Input\StswNumericBox\StswNumericBoxView.xaml.cs">
+    <Compile Update="Modules\Controls\Input\StswDecimalBox\StswDecimalBoxView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Modules\Controls\StatusInfo\StswProgressBar\StswProgressBarView.xaml.cs">
@@ -358,9 +358,18 @@
     <Compile Update="Modules\Utils\Converters\StswConvertersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\Utils\Log\StswLogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\Utils\Security\StswSecurityView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\StswIntegerBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Modules\Controls\Buttons\StswHyperlinkButton\StswHyperlinkButtonView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -604,7 +613,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Modules\Controls\Input\StswNumericBox\StswNumericBoxView.xaml">
+    <Page Update="Modules\Controls\Input\StswDecimalBox\StswDecimalBoxView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -625,6 +634,13 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Modules\Utils\Converters\StswConvertersView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Modules\Utils\Log\StswLogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Modules\Utils\Security\StswSecurityView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

@@ -55,7 +55,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
 
     #region Events & methods
     private StswComboBox? _fontFamily;
-    private StswNumericBox? _fontSize;
+    private StswDecimalBox? _fontSize;
 
     /// <summary>
     /// Occurs when the template is applied to the control.
@@ -72,7 +72,7 @@ public class StswTextEditor : RichTextBox, /*IStswBoxControl,*/ IStswCornerContr
             _fontFamily = fontFamily;
         }
         /// Box: font size
-        if (GetTemplateChild("PART_FontSize") is StswNumericBox fontSize)
+        if (GetTemplateChild("PART_FontSize") is StswDecimalBox fontSize)
         {
             fontSize.ValueChanged += PART_FontSize_ValueChanged;
             _fontSize = fontSize;

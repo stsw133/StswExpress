@@ -29,94 +29,6 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// 
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<T> Get<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : class, new()
-    {
-        if (!PrepareConnection(sqlConnection, sqlTransaction))
-            return default!;
-        
-        using (_sqlConnection)
-        {
-            _sqlConnection?.Open();
-
-            using var sqlDA = new SqlDataAdapter(Query, _sqlConnection);
-            sqlDA.SelectCommand.Parameters.AddRange([.. sqlParameters]);
-
-            var dt = new DataTable();
-            sqlDA.Fill(dt);
-            return dt.MapTo<T>();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public void Set<T>(StswBindingList<T> input, string idProp, Dictionary<string, bool>? properties = null, IList<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : IStswCollectionItem, new()
-    {
-        if (!PrepareConnection(sqlConnection, sqlTransaction))
-            return;
-
-        /// prepare parameters
-        properties ??= [];
-        sqlParameters ??= [];
-
-        IEnumerable<PropertyInfo> objProps;
-        if (properties.Any(x => x.Value))
-            objProps = typeof(T).GetProperties().Where(x => x.Name.In(properties.Where(x => x.Value).Select(x => x.Key)));
-        else
-            objProps = typeof(T).GetProperties().Where(x => !x.Name.In(properties.Where(x => !x.Value).Select(x => x.Key).Union(input.IgnoredProperties)));
-
-        var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
-        foreach (var prop in objProps)
-            if (!sqlParameters.Any(x => x.ParameterName == $"@{prop.Name}"))
-                sqlParameters.Add(new($"@{prop.Name}", prop.PropertyType.ToSqlDbType()));
-
-        /// func
-        using (_sqlConnection)
-        {
-            _sqlConnection?.Open();
-
-            using (var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction())
-            {
-                /// insert
-                var query = $"insert into {Query} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
-                foreach (var item in input.GetItemsByState(StswItemState.Added))
-                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                    {
-                        sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        foreach (SqlParameter param in sqlCmd.Parameters)
-                            param.SqlValue = objPropsWithoutID.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
-                        sqlCmd.ExecuteNonQuery();
-                    }
-                /// update
-                query = $"update {Query} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
-                foreach (var item in input.GetItemsByState(StswItemState.Modified))
-                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                    {
-                        sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        foreach (SqlParameter param in sqlCmd.Parameters)
-                            param.SqlValue = objProps.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
-                        sqlCmd.ExecuteNonQuery();
-                    }
-                /// delete
-                query = $"delete from {Query} where {idProp}=@{idProp}";
-                foreach (var item in input.GetItemsByState(StswItemState.Deleted))
-                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
-                    {
-                        sqlCmd.Parameters.AddWithValue($"@{idProp}", objProps.First(x => x.Name == idProp).GetValue(item));
-                        sqlCmd.ExecuteNonQuery();
-                    }
-
-                if (sqlTransaction == null)
-                    sqlTran?.Commit();
-            }
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     public T ExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -162,6 +74,94 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
             sqlCmd.Parameters.AddRange([.. sqlParameters]);
             return sqlCmd.ExecuteNonQuery();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<T> Get<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : class, new()
+    {
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
+            return default!;
+
+        using (_sqlConnection)
+        {
+            _sqlConnection?.Open();
+
+            using var sqlDA = new SqlDataAdapter(Query, _sqlConnection);
+            sqlDA.SelectCommand.Parameters.AddRange([.. sqlParameters]);
+
+            var dt = new DataTable();
+            sqlDA.Fill(dt);
+            return dt.MapTo<T>();
+        }
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public void Set<T>(StswBindingList<T> input, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : IStswCollectionItem, new()
+    {
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
+            return;
+
+        /// prepare parameters
+        inclusionProps ??= [];
+        sqlParameters ??= [];
+
+        IEnumerable<PropertyInfo> objProps;
+        if (inclusionMode == StswInclusionMode.Include)
+            objProps = typeof(T).GetProperties().Where(x => x.Name.In(inclusionProps));
+        else
+            objProps = typeof(T).GetProperties().Where(x => !x.Name.In(inclusionProps.Union(input.IgnoredProperties)));
+
+        var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
+        foreach (var prop in objProps)
+            if (!sqlParameters.Any(x => x.ParameterName == $"@{prop.Name}"))
+                sqlParameters.Add(new($"@{prop.Name}", prop.PropertyType.ToSqlDbType()));
+
+        /// func
+        using (_sqlConnection)
+        {
+            _sqlConnection?.Open();
+
+            using (var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction())
+            {
+                /// insert
+                var query = $"insert into {Query} ({string.Join(", ", objPropsWithoutID.Select(x => x.Name))}) values ({string.Join(", ", objPropsWithoutID.Select(x => "@" + x.Name))})";
+                foreach (var item in input.GetItemsByState(StswItemState.Added))
+                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
+                    {
+                        sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                        foreach (SqlParameter param in sqlCmd.Parameters)
+                            param.SqlValue = objPropsWithoutID.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                /// update
+                query = $"update {Query} set {string.Join(", ", objPropsWithoutID.Select(x => $"{x.Name}=@{x.Name}"))} where {idProp}=@{idProp}";
+                foreach (var item in input.GetItemsByState(StswItemState.Modified))
+                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
+                    {
+                        sqlCmd.Parameters.AddRange([.. sqlParameters]);
+                        foreach (SqlParameter param in sqlCmd.Parameters)
+                            param.SqlValue = objProps.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                /// delete
+                query = $"delete from {Query} where {idProp}=@{idProp}";
+                foreach (var item in input.GetItemsByState(StswItemState.Deleted))
+                    using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
+                    {
+                        sqlCmd.Parameters.AddWithValue($"@{idProp}", objProps.First(x => x.Name == idProp).GetValue(item));
+                        sqlCmd.ExecuteNonQuery();
+                    }
+
+                if (_sqlTransaction == null)
+                    sqlTran?.Commit();
+            }
         }
     }
 

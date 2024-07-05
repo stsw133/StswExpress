@@ -28,8 +28,6 @@ public class StswTimedSwitch : CheckBox
         timer.Elapsed += Timer_Elapsed;
 
         OnSwitchTimeChanged(this, new DependencyPropertyChangedEventArgs());
-        if (IsChecked == true && SwitchTime.TotalMilliseconds > 0 && !timer.Enabled)
-            timer.Start();
     }
 
     /// <summary>

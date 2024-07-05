@@ -9,8 +9,7 @@ namespace TestApp;
 public class ControlsContext : StswObservableObject
 {
     public string ThisControlName => GetType().Name[..^7];
-    public Style ThisControlStyle = new();
-    public List<Setter> ThisControlSetters = [];
+    public IEnumerable<Setter> ThisControlSetters = [];
 
     public ControlsContext()
     {
@@ -23,14 +22,13 @@ public class ControlsContext : StswObservableObject
     {
         try
         {
-            ThisControlStyle = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
+            var style = (Style)Application.Current.TryFindResource(Type.GetType($"StswExpress.{ThisControlName}, StswExpress"));
+            ThisControlSetters = GetAllSetters(style).OfType<Setter>().ToList();
         }
         catch { }
 
-        if (ThisControlStyle != null)
+        if (ThisControlSetters != null)
         {
-            ThisControlSetters = ThisControlStyle.Setters.Select(x => (Setter)x).ToList();
-
             if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(HorizontalAlignment))) is Setter horizontalAlignment)
                 HorizontalAlignment = (HorizontalAlignment)horizontalAlignment.Value;
 
@@ -46,6 +44,18 @@ public class ControlsContext : StswObservableObject
             if (ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsEnabled))) is Setter isEnabled)
                 IsEnabled = (bool)isEnabled.Value;
         }
+    }
+
+    /// GetAllSetters
+    private IEnumerable<SetterBase> GetAllSetters(Style style)
+    {
+        var setters = new List<SetterBase>();
+        setters.AddRange(style.Setters);
+
+        if (style.BasedOn != null)
+            setters.AddRange(GetAllSetters(style.BasedOn));
+
+        return setters;
     }
     #endregion
 

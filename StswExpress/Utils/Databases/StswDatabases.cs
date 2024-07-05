@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.IO;
 
@@ -11,7 +12,7 @@ public static class StswDatabases
     /// <summary>
     /// The dictionary that contains all declared database connections for application.
     /// </summary>
-    public static StswDictionary<string, StswDatabaseModel> Collection { get; set; } = [];
+    public static ObservableCollection<StswDatabaseModel> Collection { get; set; } = [];
 
     /// <summary>
     /// Default instance of database connection (that is currently in use by application). 
@@ -43,8 +44,9 @@ public static class StswDatabases
             if (line != null)
             {
                 var data = line.Split('|');
-                Collection.Add(StswSecurity.Decrypt(data[0]), new()
+                Collection.Add(new()
                 {
+                    Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
                     Port = StswSecurity.Decrypt(data[2]) is string s && !string.IsNullOrEmpty(s) ? Convert.ToInt32(s) : null,
                     Database = StswSecurity.Decrypt(data[3]),
@@ -62,12 +64,12 @@ public static class StswDatabases
     {
         using var stream = new StreamWriter(FilePath);
         foreach (var db in Collection)
-            stream.WriteLine(StswSecurity.Encrypt(db.Key)
-                    + "|" + StswSecurity.Encrypt(db.Value.Server)
-                    + "|" + StswSecurity.Encrypt(db.Value.Port?.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(db.Value.Database)
-                    + "|" + StswSecurity.Encrypt(db.Value.Login)
-                    + "|" + StswSecurity.Encrypt(db.Value.Password)
+            stream.WriteLine(StswSecurity.Encrypt(db.Name)
+                    + "|" + StswSecurity.Encrypt(db.Server)
+                    + "|" + StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty)
+                    + "|" + StswSecurity.Encrypt(db.Database)
+                    + "|" + StswSecurity.Encrypt(db.Login)
+                    + "|" + StswSecurity.Encrypt(db.Password)
                 );
     }
 }
@@ -77,6 +79,14 @@ public static class StswDatabases
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
+    /// Name
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+    private string _name = string.Empty;
+
     /// Type
     public StswDatabaseType Type
     {

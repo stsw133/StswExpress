@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TestApp;
 
-public class StswNumericBoxContext : ControlsContext
+public class StswDecimalBoxContext : ControlsContext
 {
     public StswCommand ClearCommand => new(() => SelectedValue = default);
     public StswCommand RandomizeCommand => new(() => SelectedValue = new Random().Next(int.MinValue, int.MaxValue));
@@ -63,7 +63,7 @@ public class StswNumericBoxContext : ControlsContext
         set => SetProperty(ref _selectedValue, value);
     }
     private decimal? _selectedValue = 0;
-
+    
     /// SubControls
     public bool SubControls
     {

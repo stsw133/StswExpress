@@ -14,7 +14,7 @@ public static class StswLog
     /// <summary>
     /// Specifies the path to the directory where the log files will be saved.
     /// </summary>
-    public static readonly string DirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+    public static string DirectoryPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
 
     /// <summary>
     /// Writes a log entry to a file in the directory specified by <see cref="DirectoryPath"/>.

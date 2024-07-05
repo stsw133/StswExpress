@@ -251,7 +251,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border x:Name="PART_Border"
                             Background="{DynamicResource StswScroll.Static.Thumb}"
-                            CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"
+                            CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.5}"
                             SnapsToDevicePixels="True"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -284,7 +284,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border x:Name="PART_Border"
                             Background="{DynamicResource StswScroll.Static.Thumb}"
-                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter=0.5}"
+                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter=*0.5}"
                             SnapsToDevicePixels="True"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"

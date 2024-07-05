@@ -85,7 +85,7 @@
                             <!-- content -->
                             <DockPanel>
                                 <Ellipse Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static se:StswColorConverter.Instance}}"
-                                         Margin="{TemplateBinding Padding, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter='1 1 0 1'}"
+                                         Margin="{TemplateBinding Padding, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter='*1 1 0 1'}"
                                          Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="1"
                                          Height="{DynamicResource StswColorBox.Size.Icon}" Width="{DynamicResource StswColorBox.Size.Icon}"/>

@@ -18,19 +18,19 @@
         <local:ControlsBase.Properties>
             <!-- Minimum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Minimum, Type={x:Type se:StswSlider}}"/>
-            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Minimum}"/>
             <!-- Maximum -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Maximum, Type={x:Type se:StswSlider}}"/>
-            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding Maximum}"/>
             <!-- SelectionStart -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionStart, Type={x:Type se:StswSlider}}"/>
-            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionStart}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionStart}"/>
             <!-- SelectionEnd -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf SelectionEnd, Type={x:Type se:StswSlider}}"/>
-            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionEnd}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding SelectionEnd}"/>
             <!-- TickFrequency -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf TickFrequency, Type={x:Type se:StswSlider}}"/>
-            <se:StswNumericBox Format="N2" Margin="0 0 0 3" Value="{Binding TickFrequency}"/>
+            <se:StswDecimalBox Format="N2" Margin="0 0 0 3" Value="{Binding TickFrequency}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
         <se:StswSlider IsEnabled="{Binding IsEnabled}"

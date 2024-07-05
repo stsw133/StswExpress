@@ -51,7 +51,7 @@
         <ResourceDictionary Source="Filters/StswFilterBox.xaml"/>
         
         <ResourceDictionary Source="Input/StswAdaptiveBox.xaml"/>
-        <ResourceDictionary Source="Input/StswNumericBox.xaml"/>
+        <ResourceDictionary Source="Input/StswNumberBox.xaml"/>
         <ResourceDictionary Source="Input/StswPasswordBox.xaml"/>
         <ResourceDictionary Source="Input/StswRatingControl.xaml"/>
         <ResourceDictionary Source="Input/StswSlider.xaml"/>

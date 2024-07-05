@@ -52,16 +52,16 @@
                 </StackPanel>
             </se:StswDirectionView>
             <!-- list -->
-            <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Source={x:Static se:StswDatabases.List}}" SelectedItem="{Binding SelectedDatabase}"/>
+            <se:StswListBox BorderThickness="0 1 0 0" DisplayMemberPath="Name" ItemsSource="{Binding Source={x:Static se:StswDatabases.Collection}}" SelectedItem="{Binding SelectedDatabase}"/>
         </DockPanel>
         <se:StswSeparator BorderThickness="1" Orientation="Vertical"/>
         <!-- selected database model -->
-        <se:StswScrollView IsDynamic="True">
+        <se:StswScrollView IsDynamic="True" Padding="3">
             <StackPanel DataContext="{Binding SelectedDatabase}">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type StackPanel}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Count, Mode=OneWay, Source={x:Static se:StswDatabases.List}}" Value="0">
+                            <DataTrigger Binding="{Binding Count, Mode=OneWay, Source={x:Static se:StswDatabases.Collection}}" Value="0">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding}" Value="{x:Null}">
@@ -86,7 +86,7 @@
                 <!-- port -->
                 <StackPanel DockPanel.Dock="Top" Margin="3">
                     <Label Content="Port:"/>
-                    <se:StswNumericBox Value="{Binding Port}"/>
+                    <local:StswIntegerBox Value="{Binding Port}"/>
                 </StackPanel>
 
                 <!-- database -->

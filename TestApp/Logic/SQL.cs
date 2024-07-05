@@ -11,7 +11,7 @@ internal static class SQL
         if (StswDatabases.Current == null)
         {
             StswDatabases.ImportList();
-            StswDatabases.Current = StswDatabases.Collection.FirstOrDefault().Value;
+            StswDatabases.Current = StswDatabases.Collection.FirstOrDefault();
         }
     }
 
@@ -53,7 +53,7 @@ internal static class SQL
         .Get<ContractorModel>(parameters);
 
     /// SetContractors
-    internal static bool SetContractors(StswBindingList<ContractorModel> list)
+    internal static void SetContractors(StswBindingList<ContractorModel> list)
     {
         /*
             using (var sqlConn = new SqlConnection(StswDatabases.Current?.GetConnString()))
@@ -120,13 +120,11 @@ internal static class SQL
 
                 result = true;
             }
-        */
-
-        new StswQuery("dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), new() {
-                { nameof(ContractorModel.IconSource), false }
-            });
 
         return true;
+        */
+
+        new StswQuery("dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), StswInclusionMode.Exclude, [nameof(ContractorModel.IconSource)]);
     }
 
     /// DeleteContractor

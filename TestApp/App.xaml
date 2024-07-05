@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/StswExpress;component/StswResources.xaml"/>
+                <ResourceDictionary Source="/Controls/StswIntegerBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!--
             <Style TargetType="{x:Type se:StswWindowBar}">
@@ -150,8 +151,8 @@
             <DataTemplate DataType="{x:Type local:StswAdaptiveBoxContext}">
                 <local:StswAdaptiveBoxView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:StswNumericBoxContext}">
-                <local:StswNumericBoxView/>
+            <DataTemplate DataType="{x:Type local:StswDecimalBoxContext}">
+                <local:StswDecimalBoxView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type local:StswPasswordBoxContext}">
                 <local:StswPasswordBoxView/>
@@ -309,6 +310,12 @@
             <!-- Utils -->
             <DataTemplate DataType="{x:Type local:StswConvertersContext}">
                 <local:StswConvertersView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswLogContext}">
+                <local:StswLogView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:StswSecurityContext}">
+                <local:StswSecurityView/>
             </DataTemplate>
 
 

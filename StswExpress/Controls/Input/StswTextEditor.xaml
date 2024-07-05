@@ -221,7 +221,7 @@
                                         <DockPanel Margin="{TemplateBinding SubPadding}">
                                             <DockPanel DockPanel.Dock="Top">
                                                 <DockPanel DockPanel.Dock="Right">
-                                                    <se:StswNumericBox x:Name="PART_FontSize"
+                                                    <se:StswDecimalBox x:Name="PART_FontSize"
                                                                        BorderThickness="{TemplateBinding SubBorderThickness}"
                                                                        CornerRadius="{TemplateBinding SubCornerRadius}"
                                                                        Focusable="False"

@@ -3,7 +3,7 @@
                     xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                     xmlns:se="clr-namespace:StswExpress">
 
-    <Style TargetType="{x:Type se:StswNumericBox}">
+    <Style x:Key="StswNumberBoxStyle" TargetType="{x:Type se:StswBoxBase}">
         <Setter Property="Background" Value="{DynamicResource StswBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswBox.Static.Border}"/>
         
@@ -11,12 +11,12 @@
         <Setter Property="CornerClipping" Value="True"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="SeparatorThickness" Value="2"/>
+        <!-- <Setter Property="SeparatorThickness" Value="2"/> -->
 
         <Setter Property="Errors" Value="{Binding (Validation.Errors), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="HasError" Value="{Binding (Validation.HasError), RelativeSource={RelativeSource Self}}"/>
         
-        <Setter Property="Increment" Value="1"/>
+        <!-- <Setter Property="Increment" Value="1"/> -->
         <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
 
         <Setter Property="Focusable" Value="True"/>
@@ -30,7 +30,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type se:StswNumericBox}">
+                <ControlTemplate TargetType="{x:Type se:StswBoxBase}">
                     <se:StswBorder x:Name="PART_MainBorder"
                                    Background="{TemplateBinding Background}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -50,7 +50,7 @@
                             <!-- separator -->
                             <se:StswSeparator DockPanel.Dock="{Binding (se:StswControl.SubControlsDock), RelativeSource={RelativeSource TemplatedParent}}"
                                               BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
-                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              BorderThickness="{Binding SeparatorThickness, RelativeSource={RelativeSource AncestorType={x:Type se:StswBoxBase}}}"
                                               Orientation="Vertical"
                                               Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
                             <!-- sub controls -->
@@ -121,5 +121,23 @@
 
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
-    
+
+    <Style TargetType="{x:Type se:StswDecimalBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
+        <Setter Property="Increment" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
+        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+    </Style>
+<!--
+    <Style TargetType="{x:Type se:StswDoubleBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
+        <Setter Property="Increment" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
+        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+    </Style>
+
+    <Style TargetType="{x:Type se:StswIntegerBox}" BasedOn="{StaticResource StswNumberBoxStyle}">
+        <Setter Property="Increment" Value="1"/>
+        <Setter Property="SeparatorThickness" Value="2"/>
+        <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=LostFocus, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+    </Style>
+-->
 </ResourceDictionary>

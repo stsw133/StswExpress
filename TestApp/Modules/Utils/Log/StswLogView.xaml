@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="TestApp.StswLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswLogContext/>
+    </d:UserControl.DataContext>
+
+    <se:StswScrollView Padding="5">
+        <StackPanel>
+            <!-- log -->
+            <se:StswGroupBox Margin="5">
+                <se:StswGroupBox.Header>
+                    <se:StswHeader Content="Log" FontSize="14" FontWeight="Bold"/>
+                </se:StswGroupBox.Header>
+                <StackPanel>
+                    <!-- DirectoryPath -->
+                    <se:StswHeader Content="DirectoryPath" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Specifies the path to the directory where the log files will be saved."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswFilePicker Grid.Row="1" Margin="5 0 5 5" PathType="Directory" Text="{Binding DirectoryPath}"/>
+                    </se:StswGrid>
+                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
+                    
+                </StackPanel>
+            </se:StswGroupBox>
+        </StackPanel>
+    </se:StswScrollView>
+</UserControl>

@@ -27,22 +27,22 @@ public class DatabasesContext : StswObservableObject
     /// MoveUp
     private void MoveUp()
     {
-        if (StswDatabases.List.IndexOf(SelectedDatabase!) is int i and > 0)
-            StswDatabases.List.Move(i, i - 1);
+        if (StswDatabases.Collection.IndexOf(SelectedDatabase!) is int i and > 0)
+            StswDatabases.Collection.Move(i, i - 1);
     }
 
     /// MoveDown
     private void MoveDown()
     {
-        if (StswDatabases.List.IndexOf(SelectedDatabase!) is int i and >= 0 && i < StswDatabases.List.Count - 1)
-            StswDatabases.List.Move(i, i + 1);
+        if (StswDatabases.Collection.IndexOf(SelectedDatabase!) is int i and >= 0 && i < StswDatabases.Collection.Count - 1)
+            StswDatabases.Collection.Move(i, i + 1);
     }
 
     /// Add
     private void Add()
     {
         var newDatabase = new StswDatabaseModel();
-        StswDatabases.List.Add(newDatabase);
+        StswDatabases.Collection.Add(newDatabase);
         SelectedDatabase = newDatabase;
     }
 
@@ -50,7 +50,7 @@ public class DatabasesContext : StswObservableObject
     private void Remove()
     {
         if (SelectedDatabase != null)
-            StswDatabases.List.Remove(SelectedDatabase);
+            StswDatabases.Collection.Remove(SelectedDatabase);
         SelectedDatabase = null;
     }
 
@@ -58,7 +58,7 @@ public class DatabasesContext : StswObservableObject
     private async Task Import()
     {
         StswDatabases.ImportList();
-        await Task.Run(() => StswDatabases.Current = StswDatabases.List.FirstOrDefault() ?? new());
+        await Task.Run(() => StswDatabases.Current = StswDatabases.Collection.FirstOrDefault() ?? new());
         SelectedDatabase = StswDatabases.Current;
     }
 

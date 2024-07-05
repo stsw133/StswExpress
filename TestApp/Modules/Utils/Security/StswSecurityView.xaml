@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="TestApp.StswSecurityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:se="clr-namespace:StswExpress;assembly=StswExpress"
+             xmlns:local="clr-namespace:TestApp"
+             mc:Ignorable="d" d:Background="White" d:DesignHeight="450" d:DesignWidth="750">
+    <d:UserControl.DataContext>
+        <local:StswSecurityContext/>
+    </d:UserControl.DataContext>
+
+    <se:StswScrollView Padding="5">
+        <StackPanel>
+            <!-- security -->
+            <se:StswGroupBox Margin="5">
+                <se:StswGroupBox.Header>
+                    <se:StswHeader Content="Security" FontSize="14" FontWeight="Bold"/>
+                </se:StswGroupBox.Header>
+                <StackPanel>
+                    <!-- Key -->
+                    <se:StswHeader Content="Key" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Property to set the encryption key, which must be at least 16 characters long."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Row="1" Margin="5 0 5 5" Text="{Binding Key}"/>
+                    </se:StswGrid>
+                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
+                    <!-- GetHashString -->
+                    <se:StswHeader Content="GetHashString" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Gets hashed string using SHA256 algorithm."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Text="{Binding InputGetHashString}"/>
+                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True" Text="{Binding OutputGetHashString}"/>
+                    </se:StswGrid>
+                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
+                    <!-- Encrypt -->
+                    <se:StswHeader Content="Encrypt" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Encrypts string using AES."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Text="{Binding InputEncrypt}"/>
+                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True" Text="{Binding OutputEncrypt}"/>
+                    </se:StswGrid>
+                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
+                    <!-- Decrypt -->
+                    <se:StswHeader Content="Decrypt" FontSize="16" FontWeight="Bold"/>
+                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
+                        <Run Text="Decrypts string using AES."/>
+                    </se:StswText>
+                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
+                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Text="{Binding InputDecrypt}"/>
+                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
+                        <se:StswTextBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True" Text="{Binding OutputDecrypt}"/>
+                    </se:StswGrid>
+                </StackPanel>
+            </se:StswGroupBox>
+        </StackPanel>
+    </se:StswScrollView>
+</UserControl>
