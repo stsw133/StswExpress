@@ -55,7 +55,8 @@ public static class StswMailboxex
                     Address = StswSecurity.Decrypt(data[3]),
                     Username = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5]),
-                    EnableSSL = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) && Convert.ToBoolean(s2)
+                    Domain = StswSecurity.Decrypt(data[6]) is string s2 && !string.IsNullOrEmpty(s2) ? s2 : null,
+                    EnableSSL = StswSecurity.Decrypt(data[7]) is string s3 && !string.IsNullOrEmpty(s3) && Convert.ToBoolean(s3)
                 });
             }
         }
@@ -74,6 +75,7 @@ public static class StswMailboxex
                     + "|" + StswSecurity.Encrypt(mc.Address)
                     + "|" + StswSecurity.Encrypt(mc.Username)
                     + "|" + StswSecurity.Encrypt(mc.Password)
+                    + "|" + StswSecurity.Encrypt(mc.Domain ?? string.Empty)
                     + "|" + StswSecurity.Encrypt(mc.EnableSSL.ToString() ?? string.Empty)
                 );
     }
@@ -132,6 +134,14 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _password = string.Empty;
 
+    /// Domain
+    public string? Domain
+    {
+        get => _domain;
+        set => SetProperty(ref _domain, value);
+    }
+    private string? _domain;
+
     /// EnableSSL
     public bool EnableSSL
     {
@@ -167,7 +177,7 @@ public class StswMailboxModel : StswObservableObject
 
         using (var smtp = new SmtpClient(Host, Port)
         {
-            Credentials = new NetworkCredential(Username, Password),
+            Credentials = new NetworkCredential(Username, Password, Domain),
             EnableSsl = EnableSSL
         })
         {
