@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -81,11 +80,7 @@ public class GalleryContext : StswObservableObject
     public string? SelectedDirectory
     {
         get => _selectedDirectory;
-        set
-        {
-            SetProperty(ref _selectedDirectory, value);
-            LoadDirectory();
-        }
+        set => SetProperty(ref _selectedDirectory, value, LoadDirectory);
     }
     private string? _selectedDirectory;
 

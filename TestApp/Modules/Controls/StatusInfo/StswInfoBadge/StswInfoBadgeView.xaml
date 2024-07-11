@@ -21,7 +21,7 @@
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoFormat}" Margin="0 0 0 3" SelectedValue="{Binding Format}"/>
             <!-- Limit -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Limit, Type={x:Type se:StswInfoBadge}}"/>
-            <se:StswDecimalBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
+            <local:StswIntegerBox Margin="0 0 0 3" Format="0" Value="{Binding Limit}"/>
             <!-- Type -->
             <se:StswText FontSize="15" FontWeight="Medium" Padding="3" Text="{se:StswNameOf Type, Type={x:Type se:StswInfoBadge}}"/>
             <se:StswComboBox ItemsSource="{se:StswEnumToList se:StswInfoType}" Margin="0 0 0 3" SelectedValue="{Binding Type}"/>
@@ -30,17 +30,27 @@
             <se:StswDecimalBox Margin="0 0 0 3" Format="0" Value="{Binding SelectedValue}"/>
         </local:ControlsBase.Properties>
         <!-- content -->
-        <se:StswInfoBadge Format="{Binding Format}"
-                          IconData="{x:Static se:StswIcons.Cake}"
-                          IsEnabled="{Binding IsEnabled}"
-                          Limit="{Binding Limit}"
-                          Margin="5"
-                          Type="{Binding Type}"
-                          Value="{Binding SelectedValue}"
-                          HorizontalAlignment="{Binding HorizontalAlignment}"
-                          HorizontalContentAlignment="{Binding HorizontalContentAlignment}"
-                          VerticalAlignment="{Binding VerticalAlignment}"
-                          VerticalContentAlignment="{Binding VerticalContentAlignment}"/>
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="5" HorizontalAlignment="{Binding HorizontalAlignment}" VerticalAlignment="{Binding VerticalAlignment}">
+            <se:StswInfoBadge IconData="{x:Static se:StswIcons.Dice1}"/>
+            <se:StswInfoBadge IconData="{x:Static se:StswIcons.Dice2}"/>
+            <se:StswInfoBadge IconData="{x:Static se:StswIcons.Dice3}"/>
+            <se:StswInfoBadge IconData="{x:Static se:StswIcons.Dice4}"/>
+            <se:StswInfoBadge IconData="{x:Static se:StswIcons.Dice5}"/>
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type se:StswInfoBadge}">
+                    <Setter Property="Format" Value="{Binding Format}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <Setter Property="Limit" Value="{Binding Limit}"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
+                    <Setter Property="Type" Value="{Binding Type}"/>
+                    <Setter Property="Value" Value="{Binding SelectedValue}"/>
+                    <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment}"/>
+                    <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment}"/>
+                </Style>
+            </UniformGrid.Resources>
+        </UniformGrid>
         <!-- status panel -->
 
     </local:ControlsBase>

@@ -189,6 +189,12 @@
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_Header"/>
                             <Setter Property="IconData" Value="{x:Static se:StswIcons.CloseCircle}" TargetName="PART_Header"/>
                         </Trigger>
+                        <Trigger Property="Image" Value="Fatal">
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_Header"/>
+                            <Setter Property="IconData" Value="{x:Static se:StswIcons.AlertOctagram}" TargetName="PART_Header"/>
+                        </Trigger>
                         <Trigger Property="Image" Value="Information">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>

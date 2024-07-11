@@ -39,7 +39,7 @@ public class ChangelogContext : StswObservableObject
         get => _changelogs;
         set => SetProperty(ref _changelogs, value);
     }
-    private List<ChangelogModel> _changelogs = new();
+    private List<ChangelogModel> _changelogs = [];
     
     /// SelectedChangelog
     public ChangelogModel? SelectedChangelog

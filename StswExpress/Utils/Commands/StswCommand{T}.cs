@@ -7,21 +7,15 @@ namespace StswExpress;
 /// A command implementation (with parameter) that can be used to bind to UI controls in order to execute a given action when triggered.
 /// </summary>
 /// <typeparam name="T">Parameter's type.</typeparam>
-public sealed class StswCommand<T> : StswObservableObject, ICommand
+public sealed class StswCommand<T>(Action<T?> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
-    private readonly Action<T?> _execute;
-    private readonly Func<bool>? _canExecute;
+    private readonly Action<T?> _execute = execute;
+    private readonly Func<bool>? _canExecute = canExecute;
 
     public event EventHandler? CanExecuteChanged
     {
         add => CommandManager.RequerySuggested += value;
         remove => CommandManager.RequerySuggested -= value;
-    }
-
-    public StswCommand(Action<T?> execute, Func<bool>? canExecute = null)
-    {
-        _execute = execute;
-        _canExecute = canExecute;
     }
 
     /// <summary>

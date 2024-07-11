@@ -29,8 +29,8 @@ public class StswTabControlContext : ControlsContext
         get => _items;
         set => SetProperty(ref _items, value);
     }
-    private ObservableCollection<StswTabItem> _items = new()
-    {
+    private ObservableCollection<StswTabItem> _items =
+    [
         new()
         {
             Header = new StswHeader()
@@ -60,7 +60,7 @@ public class StswTabControlContext : ControlsContext
             Content = new StswGroupBoxContext(),
             IsClosable = true
         }
-    };
+    ];
 
     /// NewTabButtonVisibility
     public Visibility NewTabButtonVisibility

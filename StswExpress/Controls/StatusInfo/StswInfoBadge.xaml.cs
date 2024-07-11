@@ -26,10 +26,14 @@ public class StswInfoBadge : Control, IStswCornerControl
     }
 
     /// <summary>
-    /// 
+    /// Converts a given integer to a string representation, using 'k' for thousands, 'M' for millions,
+    /// and 'B' for billions if applicable.
     /// </summary>
-    /// <param name="number"></param>
-    /// <returns></returns>
+    /// <param name="number">The integer to be converted.</param>
+    /// <returns>
+    /// A string representing the number with 'k' for thousands, 'M' for millions,
+    /// and 'B' for billions, or the number itself if it is less than 1000.
+    /// </returns>
     public static string SeparateByThousands(int number)
     {
         if (number.Between(0, 999))

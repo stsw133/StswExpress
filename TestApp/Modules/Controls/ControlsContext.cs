@@ -47,7 +47,7 @@ public class ControlsContext : StswObservableObject
     }
 
     /// GetAllSetters
-    private IEnumerable<SetterBase> GetAllSetters(Style style)
+    private static List<SetterBase> GetAllSetters(Style style)
     {
         var setters = new List<SetterBase>();
         setters.AddRange(style.Setters);

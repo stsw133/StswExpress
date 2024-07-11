@@ -38,6 +38,7 @@
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </se:StswBorder>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="Format" Value="Icon">
                             <Setter Property="ContentTemplate" TargetName="PART_ContentControl">
@@ -73,6 +74,11 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Error.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Error.Foreground}" TargetName="PART_ContentControl"/>
                         </Trigger>
+                        <Trigger Property="Type" Value="Fatal">
+                            <Setter Property="Background" Value="{DynamicResource StswDialog.Fatal.Background}" TargetName="PART_MainBorder"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Fatal.Border}" TargetName="PART_MainBorder"/>
+                            <Setter Property="Foreground" Value="{DynamicResource StswDialog.Fatal.Foreground}" TargetName="PART_ContentControl"/>
+                        </Trigger>
                         <Trigger Property="Type" Value="Information">
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Information.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Information.Border}" TargetName="PART_MainBorder"/>
@@ -87,6 +93,9 @@
                             <Setter Property="Background" Value="{DynamicResource StswDialog.Warning.Background}" TargetName="PART_MainBorder"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource StswDialog.Warning.Border}" TargetName="PART_MainBorder"/>
                             <Setter Property="Foreground" Value="{DynamicResource StswDialog.Warning.Foreground}" TargetName="PART_ContentControl"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4" TargetName="PART_MainBorder"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,7 +15,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
 {
     /// static properties
     public static bool AlwaysMakeLessSpaceQuery { get; set; } = true;
-    public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
+    //public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
     public static bool AlwaysReturnIfNoDatabase { get; set; } = false;
 
     /// local properties
@@ -37,7 +38,8 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            if (sqlParameters != null)
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
             return sqlCmd.ExecuteScalar().ConvertTo<T>()!;
         }
     }
@@ -54,7 +56,8 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            if (sqlParameters != null)
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
             using var sqlDR = sqlCmd.ExecuteReader();
             return sqlDR.Read() ? sqlDR[0].ConvertTo<T>() : default;
         }
@@ -72,7 +75,8 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            if (sqlParameters != null)
+                sqlCmd.Parameters.AddRange([.. sqlParameters]);
             return sqlCmd.ExecuteNonQuery();
         }
     }
@@ -88,10 +92,9 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
 
         using (_sqlConnection)
         {
-            _sqlConnection?.Open();
-
             using var sqlDA = new SqlDataAdapter(Query, _sqlConnection);
-            sqlDA.SelectCommand.Parameters.AddRange([.. sqlParameters]);
+            if (sqlParameters != null)
+                sqlDA.SelectCommand.Parameters.AddRange([.. sqlParameters]);
 
             var dt = new DataTable();
             sqlDA.Fill(dt);
@@ -112,22 +115,14 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         inclusionProps ??= [];
         sqlParameters ??= [];
 
-        IEnumerable<PropertyInfo> objProps;
-        if (inclusionMode == StswInclusionMode.Include)
-            objProps = typeof(T).GetProperties().Where(x => x.Name.In(inclusionProps));
-        else
-            objProps = typeof(T).GetProperties().Where(x => !x.Name.In(inclusionProps.Union(input.IgnoredProperties)));
-
+        var objProps = inclusionMode == StswInclusionMode.Include
+            ? typeof(T).GetProperties().Where(x => x.Name.In(inclusionProps))
+            : typeof(T).GetProperties().Where(x => !x.Name.In(inclusionProps.Union(input.IgnoredProperties)));
         var objPropsWithoutID = objProps.Where(x => x.Name != idProp);
-        foreach (var prop in objProps)
-            if (!sqlParameters.Any(x => x.ParameterName == $"@{prop.Name}"))
-                sqlParameters.Add(new($"@{prop.Name}", prop.PropertyType.ToSqlDbType()));
 
         /// func
         using (_sqlConnection)
         {
-            _sqlConnection?.Open();
-
             using (var sqlTran = _sqlTransaction ?? _sqlConnection?.BeginTransaction())
             {
                 /// insert
@@ -136,8 +131,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                     using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
                     {
                         sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        foreach (SqlParameter param in sqlCmd.Parameters)
-                            param.SqlValue = objPropsWithoutID.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
+                        PrepareParameters(sqlCmd, objProps, item);
                         sqlCmd.ExecuteNonQuery();
                     }
                 /// update
@@ -146,8 +140,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                     using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
                     {
                         sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        foreach (SqlParameter param in sqlCmd.Parameters)
-                            param.SqlValue = objProps.First(x => x.Name == param.ParameterName[1..]).GetValue(item) ?? DBNull.Value;
+                        PrepareParameters(sqlCmd, objProps, item);
                         sqlCmd.ExecuteNonQuery();
                     }
                 /// delete
@@ -176,15 +169,14 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         //if (ReturnIfInDesignerMode && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
         //    return false;
 
-        /// connection
         SqlConnection? sqlConn = null;
         switch (sqlConnection)
         {
             case StswDatabaseModel stswDatabase:
-                if (stswDatabase.SqlTranaction != null)
+                if (stswDatabase.SqlTransaction != null)
                 {
-                    sqlTransaction ??= stswDatabase.SqlTranaction;
-                    sqlConn = stswDatabase.SqlTranaction.Connection;
+                    sqlTransaction ??= stswDatabase.SqlTransaction;
+                    sqlConn = stswDatabase.SqlTransaction.Connection;
                 }
                 else
                     sqlConn = stswDatabase.OpenedConnection();
@@ -197,21 +189,23 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                 break;
             default:
                 if (Database != null)
-                    if (Database.SqlTranaction != null)
+                    if (Database.SqlTransaction != null)
                     {
-                        sqlTransaction ??= Database.SqlTranaction;
-                        sqlConn = Database.SqlTranaction.Connection;
+                        sqlTransaction ??= Database.SqlTransaction;
+                        sqlConn = Database.SqlTransaction.Connection;
                     }
                     else
-                        sqlConn = Database.OpenedConnection();
+                        sqlConn = new SqlConnection(Database.GetConnString());
+                /*
                 else if (StswDatabases.Current != null)
-                    if (StswDatabases.Current.SqlTranaction != null)
+                    if (StswDatabases.Current.SqlTransaction != null)
                     {
-                        sqlTransaction ??= StswDatabases.Current.SqlTranaction;
-                        sqlConn = StswDatabases.Current.SqlTranaction.Connection;
+                        sqlTransaction ??= StswDatabases.Current.SqlTransaction;
+                        sqlConn = StswDatabases.Current.SqlTransaction.Connection;
                     }
                     else
-                        sqlConn = StswDatabases.Current.OpenedConnection();
+                        sqlConn = new SqlConnection(StswDatabases.Current.GetConnString());
+                */
                 break;
         }
 
@@ -220,11 +214,29 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         if (ReturnIfNoDatabase && _sqlConnection == null)
             return false;
 
-        _sqlConnection?.Open();
+        if (_sqlConnection?.State != ConnectionState.Open)
+            _sqlConnection?.Open();
         return true;
     }
     private SqlConnection? _sqlConnection;
     private SqlTransaction? _sqlTransaction;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sqlParameters"></param>
+    /// <param name="propertyInfos"></param>
+    protected void PrepareParameters<T>(SqlCommand sqlCommand, IEnumerable<PropertyInfo> propertyInfos, T? item)
+    {
+        foreach (var prop in propertyInfos)
+            if (!sqlCommand.Parameters.Contains($"@{prop.Name}"))
+            {
+                if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
+                    sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)prop.GetValue(item));
+                else
+                    sqlCommand.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(item) ?? DBNull.Value);
+            }
+    }
 
     /// <summary>
     /// 

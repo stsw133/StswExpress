@@ -5,11 +5,7 @@ public class StswSecurityContext : StswObservableObject
     public string Key
     {
         get => _key;
-        set
-        {
-            SetProperty(ref _key, value);
-            StswSecurity.Key = value;
-        }
+        set => SetProperty(ref _key, value, () => StswSecurity.Key = value);
     }
     private string _key = string.Empty;
 
@@ -17,11 +13,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputGetHashString
     {
         get => _inputGetHashString;
-        set
-        {
-            SetProperty(ref _inputGetHashString, value);
-            OutputGetHashString = StswSecurity.GetHashString(value);
-        }
+        set => SetProperty(ref _inputGetHashString, value, () => OutputGetHashString = StswSecurity.GetHashString(value));
     }
     private string? _inputGetHashString;
 
@@ -36,11 +28,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputEncrypt
     {
         get => _inputEncrypt;
-        set
-        {
-            SetProperty(ref _inputEncrypt, value);
-            OutputEncrypt = StswSecurity.Encrypt(value);
-        }
+        set => SetProperty(ref _inputEncrypt, value, () => OutputEncrypt = StswSecurity.Encrypt(value));
     }
     private string? _inputEncrypt;
 
@@ -55,11 +43,7 @@ public class StswSecurityContext : StswObservableObject
     public string? InputDecrypt
     {
         get => _inputDecrypt;
-        set
-        {
-            SetProperty(ref _inputDecrypt, value);
-            OutputDecrypt = StswSecurity.Decrypt(value);
-        }
+        set => SetProperty(ref _inputDecrypt, value, () => OutputDecrypt = StswSecurity.Decrypt(value));
     }
     private string? _inputDecrypt;
 

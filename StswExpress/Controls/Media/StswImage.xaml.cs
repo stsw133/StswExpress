@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -119,7 +120,7 @@ public class StswImage : Control, IStswCornerControl
         try
         {
             if (dialog.ShowDialog() == true)
-                Source = File.ReadAllBytes(dialog.FileName).ToBitmapImage();
+                Source = new BitmapImage(new Uri(dialog.FileName));
         }
         catch { }
     }

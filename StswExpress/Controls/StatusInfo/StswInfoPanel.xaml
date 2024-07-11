@@ -6,10 +6,15 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource StswPanel.Static.Border}"/>
         
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerClipping" Value="False"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="3"/>
+        <Setter Property="SeparatorThickness" Value="1"/>
+
+        <Setter Property="IsClosable" Value="True"/>
+        <Setter Property="IsMinimized" Value="False"/>
+        <Setter Property="ShowControlPanel" Value="True"/>
 
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -39,21 +44,86 @@
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerClipping="{TemplateBinding CornerClipping}"
                                    CornerRadius="{TemplateBinding CornerRadius}">
-                        <se:StswScrollView x:Name="PART_ScrollViewer"
-                                           AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
-                                           Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
-                                           CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
-                                           Focusable="False"
-                                           IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
-                                           IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
-                                           PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
-                                           HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
-                                           VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
-                            <ItemsPresenter Focusable="False" Margin="3"/>
-                        </se:StswScrollView>
+                        <DockPanel>
+                            <!-- control panel -->
+                            <StackPanel x:Name="PART_ControlPanel"
+                                        DockPanel.Dock="Top"
+                                        Margin="{TemplateBinding Padding}"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Top">
+                                <!-- filters -->
+                                <!--
+                                <se:StswDatePicker se:StswControl.IsBorderless="True"/>
+                                <se:StswDatePicker se:StswControl.IsBorderless="True"/>
+                                <se:StswTextBox se:StswControl.IsBorderless="True"/>
+                                -->
+                                <!-- export button -->
+                                <!--
+                                <se:StswSubButton x:Name="PART_ButtonExport"
+                                                  IconData="{x:Static se:StswIcons.Export}"
+                                                  Margin="3 0 0 0">
+                                    <se:StswSubButton.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.Export}"/>
+                                    </se:StswSubButton.ToolTip>
+                                </se:StswSubButton>
+                                -->
+                                <!-- minimize all button -->
+                                <se:StswSubCheck x:Name="PART_ButtonMinimizeAll"
+                                                 IconUnchecked="{x:Static se:StswIcons.ChevronUp}"
+                                                 IconChecked="{x:Static se:StswIcons.ChevronDown}"
+                                                 IsChecked="{Binding IsMinimized, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Margin="3 0 0 0">
+                                    <se:StswSubCheck.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.MinimizeAll}"/>
+                                    </se:StswSubCheck.ToolTip>
+                                </se:StswSubCheck>
+                                <!-- close all button -->
+                                <se:StswSubButton x:Name="PART_ButtonCloseAll"
+                                                  IconData="{x:Static se:StswIcons.Close}"
+                                                  Margin="3 0 0 0"
+                                                  Visibility="Collapsed">
+                                    <se:StswSubButton.ToolTip>
+                                        <se:StswToolTip Content="{se:Tr StswInfoPanel.CloseAll}"/>
+                                    </se:StswSubButton.ToolTip>
+                                </se:StswSubButton>
+                            </StackPanel>
+                            <!-- separator -->
+                            <se:StswSeparator x:Name="PART_Separator"
+                                              DockPanel.Dock="Top"
+                                              BorderBrush="{Binding BorderBrush, ElementName=PART_MainBorder}"
+                                              BorderThickness="{TemplateBinding SeparatorThickness}"
+                                              Orientation="Horizontal"
+                                              Template="{DynamicResource StswSeparatorEnabledTemplate}"/>
+                            <!-- items panel -->
+                            <se:StswScrollView x:Name="PART_ScrollViewer"
+                                               AutoScroll="{Binding (se:StswScrollView.AutoScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CanContentScroll="{Binding (se:StswScrollView.CanContentScroll), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Command="{Binding (se:StswScrollView.Command), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandParameter="{Binding (se:StswScrollView.CommandParameter), RelativeSource={RelativeSource TemplatedParent}}"
+                                               CommandTarget="{Binding (se:StswScrollView.CommandTarget), RelativeSource={RelativeSource TemplatedParent}}"
+                                               Focusable="False"
+                                               IsBusy="{Binding (se:StswScrollView.IsBusy), RelativeSource={RelativeSource TemplatedParent}}"
+                                               IsDynamic="{Binding (se:StswScrollView.IsDynamic), RelativeSource={RelativeSource TemplatedParent}}"
+                                               PanningMode="{Binding (se:StswScrollView.PanningMode), RelativeSource={RelativeSource TemplatedParent}}"
+                                               HorizontalScrollBarVisibility="{Binding (se:StswScrollView.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                                               VerticalScrollBarVisibility="{Binding (se:StswScrollView.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                                <ItemsPresenter Focusable="False" Margin="3"/>
+                            </se:StswScrollView>
+                        </DockPanel>
                     </se:StswBorder>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ShowControlPanel" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ControlPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_Separator"/>
+                        </Trigger>
+                        <Trigger Property="IsMinimized" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ButtonMinimizeAll"/>
+                        </Trigger>
+                        <Trigger Property="IsClosable" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ButtonCloseAll"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -64,9 +134,10 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <se:StswInfoBar Description="{Binding Description}"
-                                                IsClosable="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                <se:StswInfoBar IsClosable="{Binding IsClosable, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                                IsMinimized="{Binding IsMinimized, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
                                                 Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"
+                                                Text="{Binding Text}"
                                                 Title="{Binding DateTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
                                                 Type="{Binding Type}"
                                                 HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type se:StswInfoPanel}}}"

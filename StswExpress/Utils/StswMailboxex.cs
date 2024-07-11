@@ -15,7 +15,7 @@ public static class StswMailboxex
     /// <summary>
     /// The dictionary that contains all declared email configurations for application.
     /// </summary>
-    public static ObservableCollection<StswMailboxModel> List { get; set; } = [];
+    public static ObservableCollection<StswMailboxModel> Collection { get; set; } = [];
 
     /// <summary>
     /// Default instance of email configuration (that is currently in use by application). 
@@ -28,11 +28,11 @@ public static class StswMailboxex
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "mailboxes.stsw");
 
     /// <summary>
-    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in <see cref="List"/>.
+    /// Reads email configurations from a file specified by <see cref="FilePath"/> and saves them in <see cref="Collection"/>.
     /// </summary>
     public static void ImportList()
     {
-        List.Clear();
+        Collection.Clear();
 
         if (!File.Exists(FilePath))
         {
@@ -47,7 +47,7 @@ public static class StswMailboxex
             if (line != null)
             {
                 var data = line.Split('|');
-                List.Add(new StswMailboxModel()
+                Collection.Add(new StswMailboxModel()
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Host = StswSecurity.Decrypt(data[1]),
@@ -68,7 +68,7 @@ public static class StswMailboxex
     public static void ExportList()
     {
         using var stream = new StreamWriter(FilePath);
-        foreach (var mc in List)
+        foreach (var mc in Collection)
             stream.WriteLine(StswSecurity.Encrypt(mc.Name)
                     + "|" + StswSecurity.Encrypt(mc.Host)
                     + "|" + StswSecurity.Encrypt(mc.Port.ToString() ?? string.Empty)
@@ -149,6 +149,22 @@ public class StswMailboxModel : StswObservableObject
         set => SetProperty(ref _enableSSL, value);
     }
     private bool _enableSSL = false;
+    
+    /// BCC
+    public IEnumerable<string>? BCC
+    {
+        get => _bcc;
+        set => SetProperty(ref _bcc, value);
+    }
+    private IEnumerable<string>? _bcc;
+    
+    /// ReplyTo
+    public IEnumerable<string>? ReplyTo
+    {
+        get => _replyTo;
+        set => SetProperty(ref _replyTo, value);
+    }
+    private IEnumerable<string>? _replyTo;
 
     /// <summary>
     /// Sends an email using the SMTP protocol.
@@ -175,13 +191,28 @@ public class StswMailboxModel : StswObservableObject
             foreach (var x in reply)
                 mail.ReplyToList.Add(x);
 
-        using (var smtp = new SmtpClient(Host, Port)
+        using var smtp = new SmtpClient(Host, Port)
         {
             Credentials = new NetworkCredential(Username, Password, Domain),
             EnableSsl = EnableSSL
-        })
-        {
-            smtp.Send(mail);
-        }
+        };
+        smtp.Send(mail);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="to"></param>
+    /// <param name="subject"></param>
+    /// <param name="body"></param>
+    /// <param name="attachments"></param>
+    public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null) => Send(to, subject, body, attachments, BCC, ReplyTo);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="to"></param>
+    /// <param name="subject"></param>
+    /// <param name="body"></param>
+    public void Send(IEnumerable<string> to, string subject, string body) => Send(to, subject, body, null, BCC, ReplyTo);
 }

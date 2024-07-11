@@ -15,6 +15,10 @@ public class StswBindingProxy : Freezable
         Proxy = proxy;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     protected override Freezable CreateInstanceCore() => new StswBindingProxy();
 
     /// <summary>

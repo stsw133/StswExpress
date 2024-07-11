@@ -144,7 +144,7 @@ public class StswDatabaseModel : StswObservableObject
     private string _version = string.Empty;
 
     /// Transaction
-    internal SqlTransaction? SqlTranaction;
+    internal SqlTransaction? SqlTransaction;
 
     /// <summary>
     /// Puts together all the model's properties to create a database connection in the form of a string.
@@ -173,10 +173,10 @@ public class StswDatabaseModel : StswObservableObject
     /// <returns></returns>
     public SqlTransaction BeginTransaction()
     {
-        if (SqlTranaction != null)
+        if (SqlTransaction != null)
             throw new Exception("SqlTransaction has been already started.");
-        SqlTranaction = OpenedConnection().BeginTransaction();
-        return SqlTranaction;
+        SqlTransaction = OpenedConnection().BeginTransaction();
+        return SqlTransaction;
     }
 
     /// <summary>
@@ -185,9 +185,9 @@ public class StswDatabaseModel : StswObservableObject
     /// <returns></returns>
     public void CommitTransaction()
     {
-        if (SqlTranaction == null)
+        if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
-        SqlTranaction.Commit();
+        SqlTransaction.Commit();
     }
 
     /// <summary>
@@ -196,9 +196,9 @@ public class StswDatabaseModel : StswObservableObject
     /// <returns></returns>
     public void RollbackTransaction()
     {
-        if (SqlTranaction == null)
+        if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
-        SqlTranaction.Rollback();
+        SqlTransaction.Rollback();
     }
 
     /// <summary>

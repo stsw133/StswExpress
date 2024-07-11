@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Net;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -82,4 +84,11 @@ public static class StswSecurity
         using var srDecrypt = new StreamReader(csDecrypt);
         return srDecrypt.ReadToEnd();
     }
+
+    /// <summary>
+    /// Converts <see cref="string"/> to <see cref="SecureString"/>.
+    /// </summary>
+    /// <param name="text">Text to secure.</param>
+    /// <returns>Secured string.</returns>
+    public static SecureString GetSecureString(string text) => new NetworkCredential(string.Empty, text).SecurePassword;
 }

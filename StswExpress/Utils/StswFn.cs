@@ -67,6 +67,111 @@ public static partial class StswFn
 
     #region Color functions
     /// <summary>
+    /// Makes color from HSL values.
+    /// </summary>
+    /// <param name="alpha">Between 0 and 255.</param>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="lightness">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color ColorFromAhsl(byte alpha, double hue, double saturation, double lightness)
+    {
+        double h = hue / 360.0;
+        double c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
+        double x = c * (1 - Math.Abs((h * 6) % 2 - 1));
+        double m = lightness - c / 2;
+
+        if (h < 1.0 / 6)
+            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255));
+        else if (h < 2.0 / 6)
+            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255));
+        else if (h < 3.0 / 6)
+            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255));
+        else if (h < 4.0 / 6)
+            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255));
+        else if (h < 5.0 / 6)
+            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255));
+        else
+            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255));
+    }
+
+    /// <summary>
+    /// Makes color from HSL values.
+    /// </summary>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="lightness">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color ColorFromHsl(double hue, double saturation, double lightness) => ColorFromAhsl(255, hue, saturation, lightness);
+
+    /// <summary>
+    /// Gets HSL values from color.
+    /// </summary>
+    public static void ColorToHsl(Color color, out double hue, out double saturation, out double lightness)
+    {
+        var drawingColor = color.ToDrawingColor();
+
+        hue = drawingColor.GetHue();
+        saturation = drawingColor.GetSaturation();
+        lightness = drawingColor.GetBrightness();
+    }
+
+    /// <summary>
+    /// Makes color from HSV values.
+    /// </summary>
+    /// <param name="alpha">Between 0 and 255.</param>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="value">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color ColorFromAhsv(byte alpha, double hue, double saturation, double value)
+    {
+        int h = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+        double f = hue / 60 - Math.Floor(hue / 60);
+
+        value *= 255;
+        byte v = Convert.ToByte(value);
+        byte p = Convert.ToByte(value * (1 - saturation));
+        byte q = Convert.ToByte(value * (1 - f * saturation));
+        byte t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+
+        if (h == 0)
+            return Color.FromArgb(alpha, v, t, p);
+        else if (h == 1)
+            return Color.FromArgb(alpha, q, v, p);
+        else if (h == 2)
+            return Color.FromArgb(alpha, p, v, t);
+        else if (h == 3)
+            return Color.FromArgb(alpha, p, q, v);
+        else if (h == 4)
+            return Color.FromArgb(alpha, t, p, v);
+        else
+            return Color.FromArgb(alpha, v, p, q);
+    }
+
+    /// <summary>
+    /// Makes color from HSV values.
+    /// </summary>
+    /// <param name="hue">Between 0 and 360.</param>
+    /// <param name="saturation">Between 0 and 1.</param>
+    /// <param name="value">Between 0 and 1.</param>
+    /// <returns></returns>
+    public static Color ColorFromHsv(double hue, double saturation, double value) => ColorFromAhsv(255, hue, saturation, value);
+
+    /// <summary>
+    /// Gets HSV values from color.
+    /// </summary>
+    public static void ColorToHsv(Color color, out double hue, out double saturation, out double value)
+    {
+        int max = Math.Max(color.R, Math.Max(color.G, color.B));
+        int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+        hue = color.ToDrawingColor().GetHue();
+        saturation = (max == 0) ? 0 : 1d - (1d * min / max);
+        value = max / 255d;
+    }
+
+    /// <summary>
     /// Generate new color based on passed value and the provided seed as parameter.
     /// </summary>
     /// <param name="text">Text to change into color.</param>
@@ -106,6 +211,33 @@ public static partial class StswFn
         }
 
         return color;
+    }
+    #endregion
+
+    #region DateTime functions
+    /// <summary>
+    /// Generates a list of unique year and month tuples within a specified date range.
+    /// </summary>
+    /// <param name="startDate">The start date of the range.</param>
+    /// <param name="endDate">The end date of the range.</param>
+    /// <returns>A list of tuples, where each tuple contains the year and month within the specified date range.</returns>
+    /// <remarks>
+    /// This method iterates from the start date to the end date, month by month,
+    /// and collects each unique year and month combination into a list.
+    /// The day component of the dates is ignored.
+    /// </remarks>
+    public static List<(int Year, int Month)> GetUniqueMonthsFromRange(DateTime startDate, DateTime endDate)
+    {
+        var months = new List<(int Year, int Month)>();
+        var current = new DateTime(startDate.Year, startDate.Month, 1);
+
+        while (current <= endDate)
+        {
+            months.Add((current.Year, current.Month));
+            current = current.AddMonths(1);
+        }
+
+        return months;
     }
     #endregion
 
@@ -251,6 +383,13 @@ public static partial class StswFn
 
     #region Numeric functions
     /// <summary>
+    /// Evaluates a mathematical expression given as a string.
+    /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <returns>The result of the evaluated expression.</returns>
+    public static double Evaluate(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
+
+    /// <summary>
     /// Shifts the selected index by the specified step, considering looping and boundary conditions.
     /// </summary>
     /// <param name="currIndex"></param>
@@ -273,6 +412,7 @@ public static partial class StswFn
     /// Attempts to calculate a result from the provided mathematical expression using the order of operations and returns a bool indicating success or failure.
     /// The result of the calculation is stored in the result out parameter if successful.
     /// </summary>
+    [Obsolete($"Use \"{nameof(Evaluate)}\" instead!")]
     public static bool TryCalculateString(string expression, out decimal result, CultureInfo? culture = null)
     {
         try
@@ -519,6 +659,7 @@ public static partial class StswFn
     /// <summary>
     /// Opens the context menu of a <see cref="FrameworkElement"/> at its current position.
     /// </summary>
+    [Obsolete("This method will be removed in future versions.")]
     public static void OpenContextMenu(FrameworkElement f)
     {
         f.ContextMenu.PlacementTarget = f;

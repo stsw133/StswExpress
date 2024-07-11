@@ -155,6 +155,30 @@
     "en": "Save",
     "pl": "Zapisz"
   },
+  "StswInfoBar.Close": {
+    "en": "Close",
+    "pl": "Zamknij"
+  },
+  "StswInfoBar.Copied": {
+    "en": "Copied",
+    "pl": "Skopiowano"
+  },
+  "StswInfoBar.CopyToClipboard": {
+    "en": "Copy to clipboard",
+    "pl": "Kopiuj do schowka"
+  },
+  "StswInfoBar.Minimize": {
+    "en": "Minimize",
+    "pl": "Minimalizuj"
+  },
+  "StswInfoPanel.CloseAll": {
+    "en": "Close all",
+    "pl": "Zamknij wszystkie"
+  },
+  "StswInfoPanel.MinimizeAll": {
+    "en": "Minimize all",
+    "pl": "Minimalizuj wszystkie"
+  },
   "StswMessageDialog.Cancel": {
     "en": "Cancel",
     "pl": "Anuluj"

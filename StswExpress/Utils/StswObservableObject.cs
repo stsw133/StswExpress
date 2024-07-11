@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -29,5 +30,45 @@ public abstract class StswObservableObject : INotifyPropertyChanged
 
         NotifyPropertyChanged(propertyName);
         return true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="field"></param>
+    /// <param name="value"></param>
+    /// <param name="propertyNamesToNotify"></param>
+    /// <param name="propertyName"></param>
+    /// <returns></returns>
+    protected bool SetProperty<T>(ref T field, T value, IEnumerable<string> propertyNamesToNotify, [CallerMemberName] string propertyName = "")
+    {
+        if (SetProperty(ref field, value, propertyName))
+        {
+            foreach (var name in propertyNamesToNotify)
+                NotifyPropertyChanged(name);
+
+            return true;
+        }
+        else return false;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="field"></param>
+    /// <param name="value"></param>
+    /// <param name="doAfter"></param>
+    /// <param name="propertyName"></param>
+    /// <returns></returns>
+    protected bool SetProperty<T>(ref T field, T value, Action doAfter, [CallerMemberName] string propertyName = "")
+    {
+        if (SetProperty(ref field, value, propertyName))
+        {
+            doAfter.Invoke();
+            return true;
+        }
+        else return false;
     }
 }

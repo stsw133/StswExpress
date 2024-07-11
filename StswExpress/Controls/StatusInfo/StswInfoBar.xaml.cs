@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,6 +17,8 @@ public class StswInfoBar : Control, IStswCornerControl
     }
 
     #region Events & methods
+    private ButtonBase? _buttonCopyToClipboard;
+
     /// <summary>
     /// Occurs when the template is applied to the control.
     /// </summary>
@@ -23,8 +26,13 @@ public class StswInfoBar : Control, IStswCornerControl
     {
         base.OnApplyTemplate();
 
-        if (GetTemplateChild("PART_CloseBarButton") is ButtonBase closeBarButton)
-            closeBarButton.Click += PART_CloseBarButton_Click;
+        if (GetTemplateChild("PART_ButtonCopyToClipboard") is ButtonBase btnCopyToClipboard)
+        {
+            btnCopyToClipboard.Click += PART_ButtonCopyToClipboard_Click;
+            _buttonCopyToClipboard = btnCopyToClipboard;
+        }
+        if (GetTemplateChild("PART_ButtonClose") is ButtonBase btnClose)
+            btnClose.Click += PART_ButtonClose_Click;
     }
 
     /// <summary>
@@ -32,7 +40,17 @@ public class StswInfoBar : Control, IStswCornerControl
     /// </summary>
     /// <param name="sender">The sender object triggering the event</param>
     /// <param name="e">The event arguments</param>
-    private void PART_CloseBarButton_Click(object sender, RoutedEventArgs e)
+    private void PART_ButtonCopyToClipboard_Click(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText($"{Title}{Environment.NewLine}{Text}");
+    }
+
+    /// <summary>
+    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void PART_ButtonClose_Click(object sender, RoutedEventArgs e)
     {
         if (StswFn.FindVisualAncestor<StswInfoPanel>(this) is StswInfoPanel panel)
         {
@@ -48,21 +66,6 @@ public class StswInfoBar : Control, IStswCornerControl
 
     #region Logic properties
     /// <summary>
-    /// Gets or sets the description displayed within the control.
-    /// </summary>
-    public string? Description
-    {
-        get => (string?)GetValue(DescriptionProperty);
-        set => SetValue(DescriptionProperty, value);
-    }
-    public static readonly DependencyProperty DescriptionProperty
-        = DependencyProperty.Register(
-            nameof(Description),
-            typeof(string),
-            typeof(StswInfoBar)
-        );
-
-    /// <summary>
     /// Gets or sets a value indicating whether the bar is closable and has a close button.
     /// </summary>
     public bool IsClosable
@@ -74,6 +77,37 @@ public class StswInfoBar : Control, IStswCornerControl
         = DependencyProperty.Register(
             nameof(IsClosable),
             typeof(bool),
+            typeof(StswInfoBar)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bar is minimized (<see langword="true"/> or <see langword="false"/>)
+    /// and has a minimize button (not <see langword="null"/>).
+    /// </summary>
+    public bool? IsMinimized
+    {
+        get => (bool?)GetValue(IsMinimizedProperty);
+        set => SetValue(IsMinimizedProperty, value);
+    }
+    public static readonly DependencyProperty IsMinimizedProperty
+        = DependencyProperty.Register(
+            nameof(IsMinimized),
+            typeof(bool?),
+            typeof(StswInfoBar)
+        );
+
+    /// <summary>
+    /// Gets or sets the text displayed within the control.
+    /// </summary>
+    public string? Text
+    {
+        get => (string?)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+    public static readonly DependencyProperty TextProperty
+        = DependencyProperty.Register(
+            nameof(Text),
+            typeof(string),
             typeof(StswInfoBar)
         );
 

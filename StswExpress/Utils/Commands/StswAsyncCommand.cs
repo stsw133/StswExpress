@@ -8,19 +8,13 @@ namespace StswExpress;
 /// <summary>
 /// An async command implementation (without parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
 /// </summary>
-public class StswAsyncCommand : StswObservableObject, ICommand
+public class StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null) : StswObservableObject, ICommand
 {
-    private readonly Func<Task> _execute;
-    private readonly Func<bool>? _canExecute;
+    private readonly Func<Task> _execute = execute;
+    private readonly Func<bool>? _canExecute = canExecute;
 
     public event EventHandler? CanExecuteChanged;
     public void UpdateCanExecute() => Application.Current.Dispatcher.Invoke(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
-
-    public StswAsyncCommand(Func<Task> execute, Func<bool>? canExecute = null)
-    {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
 
     /// <summary>
     /// 

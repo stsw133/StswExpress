@@ -9,7 +9,7 @@ public class StswInfoBadgeContext : ControlsContext
         base.SetDefaults();
 
         Format = (StswInfoFormat?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Format)))?.Value ?? default;
-        Limit = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Limit)))?.Value ?? default;
+        Limit = (int?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Limit)))?.Value ?? default(int?);
         Type = (StswInfoType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
 

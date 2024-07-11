@@ -10,16 +10,9 @@ public class StswInfoBarContext : ControlsContext
         base.SetDefaults();
 
         IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
+        IsMinimized = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsMinimized)))?.Value ?? default(bool?);
         Type = (StswInfoType?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(Type)))?.Value ?? default;
     }
-
-    /// Description
-    public string Description
-    {
-        get => _description;
-        set => SetProperty(ref _description, value);
-    }
-    private string _description = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.";
 
     /// IsClosable
     public bool IsClosable
@@ -28,6 +21,22 @@ public class StswInfoBarContext : ControlsContext
         set => SetProperty(ref _isClosable, value);
     }
     private bool _isClosable;
+
+    /// IsMinimized
+    public bool? IsMinimized
+    {
+        get => _isMinimized;
+        set => SetProperty(ref _isMinimized, value);
+    }
+    private bool? _isMinimized;
+
+    /// Text
+    public string Text
+    {
+        get => _text;
+        set => SetProperty(ref _text, value);
+    }
+    private string _text = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.";
 
     /// Title
     public string Title

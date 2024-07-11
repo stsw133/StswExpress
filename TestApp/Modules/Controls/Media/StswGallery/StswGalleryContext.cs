@@ -35,9 +35,9 @@ public class StswGalleryContext : ControlsContext
             SetProperty(ref _directoryPath, value);
 
             if (value != null)
-                ItemsSource = Directory.GetFiles(value).ToList();
+                ItemsSource = [.. Directory.GetFiles(value)];
             else
-                ItemsSource = new();
+                ItemsSource = [];
         }
     }
     private string? _directoryPath;
@@ -48,7 +48,7 @@ public class StswGalleryContext : ControlsContext
         get => _itemsSource;
         set => SetProperty(ref _itemsSource, value);
     }
-    private List<string> _itemsSource = new();
+    private List<string> _itemsSource = [];
 
     /// Orientation
     public Orientation Orientation

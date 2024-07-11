@@ -15,6 +15,8 @@ public class StswInfoPanelContext : ControlsContext
         base.SetDefaults();
 
         IsClosable = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsClosable)))?.Value ?? default;
+        IsMinimized = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(IsMinimized)))?.Value ?? default(bool?);
+        ShowControlPanel = (bool?)ThisControlSetters.FirstOrDefault(x => x.Property.Name.Equals(nameof(ShowControlPanel)))?.Value ?? default;
     }
 
     #region Events & methods
@@ -28,7 +30,7 @@ public class StswInfoPanelContext : ControlsContext
     }
 
     /// Command: load from files
-    private Task LoadFromFiles() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now));
+    private Task LoadFromFiles() => Task.Run(() => ItemsSource = StswLog.Import(DateTime.Now.AddDays(-14), DateTime.Now).ToObservableCollection());
     #endregion
 
     /// IsClosable
@@ -38,12 +40,28 @@ public class StswInfoPanelContext : ControlsContext
         set => SetProperty(ref _isClosable, value);
     }
     private bool _isClosable;
+    
+    /// IsMinimized
+    public bool? IsMinimized
+    {
+        get => _isMinimized;
+        set => SetProperty(ref _isMinimized, value);
+    }
+    private bool? _isMinimized;
 
     /// ItemsSource
-    public ObservableCollection<StswLogItem> ItemsSource
+    public ObservableCollection<StswLogItem?> ItemsSource
     {
         get => _itemsSource;
         set => SetProperty(ref _itemsSource, value);
     }
-    private ObservableCollection<StswLogItem> _itemsSource = new();
+    private ObservableCollection<StswLogItem?> _itemsSource = [];
+
+    /// ShowControlPanel
+    public bool ShowControlPanel
+    {
+        get => _showControlPanel;
+        set => SetProperty(ref _showControlPanel, value);
+    }
+    private bool _showControlPanel;
 }

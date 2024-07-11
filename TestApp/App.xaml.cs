@@ -12,15 +12,16 @@ namespace TestApp;
 /// </summary>
 public partial class App : StswApp
 {
-    public static ICommand HelpCommand { get; } = new RoutedUICommand("Help", "Help", typeof(StswWindow), new InputGestureCollection() { new KeyGesture(Key.F1) });
+    public static ICommand HelpCommand { get; } = new RoutedUICommand("Help", "Help", typeof(StswWindow), [new KeyGesture(Key.F1)]);
 
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
-        //StswSecurity.Key = "myOwnStswHashKey";
-
         CommandManager.RegisterClassCommandBinding(typeof(StswWindow), new CommandBinding(HelpCommand, (_, _) => OpenHelp()));
+
+        /// example for overriding security key:
+        //StswSecurity.Key = "myOwnStswHashKey";
 
         /// example for removing language from config:
         //StswTranslator.AvailableLanguages.Remove("");
@@ -34,5 +35,5 @@ public partial class App : StswApp
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) => StswLog.Write(StswInfoType.Error, e.Exception.ToString());
 
-    private void OpenHelp() => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
+    private static void OpenHelp() => StswFn.OpenFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\manual_en.pdf"));
 }

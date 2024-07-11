@@ -53,7 +53,7 @@ public class ContractorsListContext : StswObservableObject
         IsRefreshOpen = false;
         LoadingActions++;
         
-        await Task.Run(() => ListContractors = new());
+        await Task.Run(() => ListContractors = []);
 
         LoadingActions--;
     }
@@ -280,7 +280,7 @@ public class ContractorsListContext : StswObservableObject
 
         LoadingActions--;
     }
-    private bool DeleteCondition() => SelectedContractor is ContractorModel m;
+    private bool DeleteCondition() => SelectedContractor is ContractorModel;
 
     #endregion
 
@@ -290,7 +290,7 @@ public class ContractorsListContext : StswObservableObject
         get => _listContractors;
         set => SetProperty(ref _listContractors, value);
     }
-    private StswBindingList<ContractorModel> _listContractors = new();
+    private StswBindingList<ContractorModel> _listContractors = [];
 
     /// Filters data
     public StswDataGridFiltersDataModel FiltersContractors

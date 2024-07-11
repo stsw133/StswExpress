@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,7 +17,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress;
@@ -25,24 +26,33 @@ namespace StswExpress;
 /// </summary>
 public static class StswExtensions
 {
+    #region Assembly extensions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="assembly"></param>
+    /// <returns></returns>
+    public static bool IsInDebug(this Assembly assembly) => assembly.GetCustomAttributes<DebuggableAttribute>().Any();
+    #endregion
+
     #region Bool extensions
     /// <summary>
-    /// Returns <c>true</c> if a value is between two other values (inclusive), <c>false</c> otherwise.
+    /// Returns <see langword="true"/> if a value is between two other values (inclusive), <see langword="false"/> otherwise.
     /// </summary>
     public static bool Between<T>(this T value, T start, T end) => Comparer<T>.Default.Compare(value, start) >= 0 && Comparer<T>.Default.Compare(value, end) <= 0;
 
     /// <summary>
-    /// Returns <c>true</c> if a value is contained in a collection, <c>false</c> otherwise.
+    /// Returns <see langword="true"/> if a value is contained in a collection, <see langword="false"/> otherwise.
     /// </summary>
     public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
 
     /// <summary>
-    /// Returns <c>true</c> if a value is contained in a collection, <c>false</c> otherwise.
+    /// Returns <see langword="true"/> if a value is contained in a collection, <see langword="false"/> otherwise.
     /// </summary>
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
 
     /// <summary>
-    /// Returns <c>true</c> if a <see cref="Type"/> is numeric, <c>false</c> otherwise.
+    /// Returns <see langword="true"/> if a <see cref="Type"/> is numeric, <see langword="false"/> otherwise.
     /// </summary>
     public static bool IsNumericType(this Type type)
     {
@@ -65,7 +75,7 @@ public static class StswExtensions
     /// <summary>
     /// Converts <see cref="ImageSource"/> to <see cref="byte"/>[].
     /// </summary>
-    public static byte[] ToBytes(this ImageSource value)
+    public static byte[] ToBytes(this System.Windows.Media.ImageSource value)
     {
         var encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(value as BitmapSource));
@@ -341,7 +351,7 @@ public static class StswExtensions
     /// <summary>
     /// Converts <see cref="System.Drawing.Bitmap"/> to <see cref="ImageSource"/>.
     /// </summary>
-    public static ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
+    public static System.Windows.Media.ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
     {
         var handle = bmp.GetHbitmap();
         try
@@ -395,7 +405,7 @@ public static class StswExtensions
         else if (type.In(typeof(DateTimeOffset), typeof(DateTimeOffset?)))
             return SqlDbType.DateTimeOffset;
         else if (type.In(typeof(byte[]), typeof(byte?[])))
-            return SqlDbType.Binary;
+            return SqlDbType.VarBinary;
         else
             return null;
     }
@@ -417,111 +427,6 @@ public static class StswExtensions
     #endregion
 
     #region Color extensions
-    /// <summary>
-    /// Makes color from HSL values.
-    /// </summary>
-    /// <param name="alpha">Between 0 and 255.</param>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="lightness">Between 0 and 1.</param>
-    /// <returns></returns>
-    public static Color FromAhsl(byte alpha, double hue, double saturation, double lightness)
-    {
-        double h = hue / 360.0;
-        double c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
-        double x = c * (1 - Math.Abs((h * 6) % 2 - 1));
-        double m = lightness - c / 2;
-
-        if (h < 1.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255));
-        else if (h < 2.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255));
-        else if (h < 3.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255));
-        else if (h < 4.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255));
-        else if (h < 5.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255));
-        else
-            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255));
-    }
-
-    /// <summary>
-    /// Makes color from HSL values.
-    /// </summary>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="lightness">Between 0 and 1.</param>
-    /// <returns></returns>
-    public static Color FromHsl(double hue, double saturation, double lightness) => FromAhsl(255, hue, saturation, lightness);
-
-    /// <summary>
-    /// Gets HSL values from color.
-    /// </summary>
-    public static void ToHsl(this Color color, out double hue, out double saturation, out double lightness)
-    {
-        var drawingColor = color.ToDrawingColor();
-
-        hue = drawingColor.GetHue();
-        saturation = drawingColor.GetSaturation();
-        lightness = drawingColor.GetBrightness();
-    }
-
-    /// <summary>
-    /// Makes color from HSV values.
-    /// </summary>
-    /// <param name="alpha">Between 0 and 255.</param>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="value">Between 0 and 1.</param>
-    /// <returns></returns>
-    public static Color FromAhsv(byte alpha, double hue, double saturation, double value)
-    {
-        int h = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-        double f = hue / 60 - Math.Floor(hue / 60);
-
-        value *= 255;
-        byte v = Convert.ToByte(value);
-        byte p = Convert.ToByte(value * (1 - saturation));
-        byte q = Convert.ToByte(value * (1 - f * saturation));
-        byte t = Convert.ToByte(value * (1 - (1 - f) * saturation));
-
-        if (h == 0)
-            return Color.FromArgb(alpha, v, t, p);
-        else if (h == 1)
-            return Color.FromArgb(alpha, q, v, p);
-        else if (h == 2)
-            return Color.FromArgb(alpha, p, v, t);
-        else if (h == 3)
-            return Color.FromArgb(alpha, p, q, v);
-        else if (h == 4)
-            return Color.FromArgb(alpha, t, p, v);
-        else
-            return Color.FromArgb(alpha, v, p, q);
-    }
-
-    /// <summary>
-    /// Makes color from HSV values.
-    /// </summary>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="value">Between 0 and 1.</param>
-    /// <returns></returns>
-    public static Color FromHsv(double hue, double saturation, double value) => FromAhsv(255, hue, saturation, value);
-
-    /// <summary>
-    /// Gets HSV values from color.
-    /// </summary>
-    public static void ToHsv(this Color color, out double hue, out double saturation, out double value)
-    {
-        int max = Math.Max(color.R, Math.Max(color.G, color.B));
-        int min = Math.Min(color.R, Math.Min(color.G, color.B));
-
-        hue = color.ToDrawingColor().GetHue();
-        saturation = (max == 0) ? 0 : 1d - (1d * min / max);
-        value = max / 255d;
-    }
-
     /// <summary>
     /// Converts <see cref="byte"/>[] to <see cref="BitmapImage"/>.
     /// </summary>
@@ -549,22 +454,22 @@ public static class StswExtensions
     /// <summary>
     /// Converts <see cref="SolidColorBrush"/> to <see cref="System.Drawing.Color"/>.
     /// </summary>
-    public static Color ToColor(this SolidColorBrush value) => Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
+    public static System.Windows.Media.Color ToColor(this System.Windows.Media.SolidColorBrush value) => System.Windows.Media.Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
 
     /// <summary>
-    /// Converts <see cref="Color"/> to <see cref="System.Drawing.Color"/>.
+    /// Converts <see cref="System.Windows.Media.Color"/> to <see cref="System.Drawing.Color"/>.
     /// </summary>
-    public static System.Drawing.Color ToDrawingColor(this Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
+    public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
-    /// Converts <see cref="System.Drawing.Color"/> to <see cref="Color"/>.
+    /// Converts <see cref="System.Drawing.Color"/> to <see cref="System.Windows.Media.Color"/>.
     /// </summary>
-    public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
+    public static System.Windows.Media.Color ToMediaColor(this System.Drawing.Color value) => System.Windows.Media.Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
     /// Converts <see cref="Color"/> to <see cref="string"/>.
     /// </summary>
-    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
+    public static string ToHtml(this System.Windows.Media.Color color) => new System.Windows.Media.ColorConverter().ConvertToString(color) ?? string.Empty;
     #endregion
 
     #region Enum extensions
@@ -641,6 +546,18 @@ public static class StswExtensions
 
     #region List extensions
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="item"></param>
+    public static void AddIfNotContains<T>(this IList<T> list, T item)
+    {
+        if (!list.Contains(item))
+            list.Add(item);
+    }
+    
+    /// <summary>
     /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="IList{T}"/>.</typeparam>
@@ -663,11 +580,33 @@ public static class StswExtensions
     }
     #endregion
 
+    #region Sql extensions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sqlCommand"></param>
+    /// <param name="parameterName"></param>
+    /// <param name="list"></param>
+    public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
+    {
+        if (list == null || list.Count == 0)
+        {
+            sqlCommand.CommandText = sqlCommand.CommandText.Replace(parameterName, "NULL");
+            return;
+        }
+
+        IList<SqlParameter> addParameters = [];
+        for (var i = 0; i < list?.Count; i++)
+            addParameters.Add(sqlCommand.Parameters.AddWithValue(parameterName + i, list[i]));
+        sqlCommand.CommandText = sqlCommand.CommandText.Replace(parameterName, string.Join(",", addParameters.Select(x => x.ParameterName)));
+    }
+    #endregion
+
     #region Text extensions
     /// <summary>
     /// Capitalizes the first letter of a string and makes the rest lowercase.
     /// </summary>
-    public static string Capitalize(this string text) => char.ToUpper(text.First()) + text[1..].ToLower();
+    public static string Capitalize(this string text) => char.ToUpper(text[0]) + text[1..].ToLower();
 
     /// <summary>
     /// Returns a new string of a specified length in which the beginning of the current string is padded with a specified text.
@@ -708,11 +647,6 @@ public static class StswExtensions
 
         return text[0..totalWidth];
     }
-
-    /// <summary>
-    /// Converts <see cref="string"/> to <see cref="SecureString"/>.
-    /// </summary>
-    public static SecureString ToSecureString(this string value) => new NetworkCredential(string.Empty, value).SecurePassword;
 
     /// <summary>
     /// Trims a string of a specified substring at the end.

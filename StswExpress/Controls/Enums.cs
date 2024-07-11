@@ -96,6 +96,7 @@ public enum StswDialogImage
     Blockade,
     Debug,
     Error,
+    Fatal,
     Information,
     Question,
     Success,
@@ -154,6 +155,7 @@ public enum StswInfoType
     None,
     Debug,
     Error,
+    Fatal,
     Information,
     Success,
     Warning

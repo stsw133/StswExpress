@@ -73,6 +73,7 @@
                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="State" Value="Ready">
                             <Setter Property="Stroke" Value="{DynamicResource StswProgressBar.Ready.Background}" TargetName="PART_Track"/>

@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StswExpress;
 
@@ -13,6 +16,34 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StswInfoPanel), new FrameworkPropertyMetadata(typeof(StswInfoPanel)));
     }
 
+    #region Events & methods
+    private ButtonBase? _buttonCopyToClipboard;
+
+    /// <summary>
+    /// Occurs when the template is applied to the control.
+    /// </summary>
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (GetTemplateChild("PART_ButtonCloseAll") is ButtonBase btnCloseAll)
+            btnCloseAll.Click += PART_ButtonCloseAll_Click;
+    }
+
+    /// <summary>
+    /// Handles the click event of the function button, used for closing the info bar if it's placed within an StswInfoPanel.
+    /// </summary>
+    /// <param name="sender">The sender object triggering the event</param>
+    /// <param name="e">The event arguments</param>
+    private void PART_ButtonCloseAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (ItemsSource is IList list)
+            list.Clear();
+        else
+            Items?.Clear();
+    }
+    #endregion
+
     #region Logic properties
     /// <summary>
     /// Gets or sets a value indicating whether the items are closable and has a close button.
@@ -25,6 +56,37 @@ public class StswInfoPanel : ListBox, IStswCornerControl
     public static readonly DependencyProperty IsClosableProperty
         = DependencyProperty.Register(
             nameof(IsClosable),
+            typeof(bool),
+            typeof(StswInfoPanel)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the items are minimized (<see langword="true"/> or <see langword="false"/>)
+    /// and has a minimize button (not <see langword="null"/>).
+    /// </summary>
+    public bool? IsMinimized
+    {
+        get => (bool?)GetValue(IsMinimizedProperty);
+        set => SetValue(IsMinimizedProperty, value);
+    }
+    public static readonly DependencyProperty IsMinimizedProperty
+        = DependencyProperty.Register(
+            nameof(IsMinimized),
+            typeof(bool?),
+            typeof(StswInfoPanel)
+        );
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control panel is visible or not.
+    /// </summary>
+    public bool ShowControlPanel
+    {
+        get => (bool)GetValue(ShowControlPanelProperty);
+        set => SetValue(ShowControlPanelProperty, value);
+    }
+    public static readonly DependencyProperty ShowControlPanelProperty
+        = DependencyProperty.Register(
+            nameof(ShowControlPanel),
             typeof(bool),
             typeof(StswInfoPanel)
         );
@@ -62,6 +124,21 @@ public class StswInfoPanel : ListBox, IStswCornerControl
         = DependencyProperty.Register(
             nameof(CornerRadius),
             typeof(CornerRadius),
+            typeof(StswInfoPanel)
+        );
+
+    /// <summary>
+    /// Gets or sets the thickness of the separator between panel and subs.
+    /// </summary>
+    public double SeparatorThickness
+    {
+        get => (double)GetValue(SeparatorThicknessProperty);
+        set => SetValue(SeparatorThicknessProperty, value);
+    }
+    public static readonly DependencyProperty SeparatorThicknessProperty
+        = DependencyProperty.Register(
+            nameof(SeparatorThickness),
+            typeof(double),
             typeof(StswInfoPanel)
         );
     #endregion

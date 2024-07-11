@@ -13,10 +13,9 @@ public class StswIconContext : ControlsContext
 
     public StswIconContext()
     {
-        Task.Run(() => Icons = typeof(StswIcons).GetProperties()
-                                                .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
-                                                .OrderBy(x => x.Display)
-                                                .ToList());
+        Task.Run(() => Icons = [.. typeof(StswIcons).GetProperties()
+                                                    .Select(x => new StswComboItem() { Display = x.Name, Value = x.GetValue(x) })
+                                                    .OrderBy(x => x.Display)]);
     }
 
     public override void SetDefaults()
@@ -40,7 +39,7 @@ public class StswIconContext : ControlsContext
         get => _icons;
         set => SetProperty(ref _icons, value);
     }
-    private List<StswComboItem> _icons = new();
+    private List<StswComboItem> _icons = [];
 
     /// Scale
     public GridLength Scale

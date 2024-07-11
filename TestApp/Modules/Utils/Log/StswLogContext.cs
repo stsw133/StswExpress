@@ -5,11 +5,7 @@ public class StswLogContext : StswObservableObject
     public string DirectoryPath
     {
         get => _directoryPath;
-        set
-        {
-            SetProperty(ref _directoryPath, value);
-            StswLog.DirectoryPath = value;
-        }
+        set => SetProperty(ref _directoryPath, value, () => StswLog.Config.LogDirectoryPath = value);
     }
-    private string _directoryPath = StswLog.DirectoryPath;
+    private string _directoryPath = StswLog.Config.LogDirectoryPath;
 }

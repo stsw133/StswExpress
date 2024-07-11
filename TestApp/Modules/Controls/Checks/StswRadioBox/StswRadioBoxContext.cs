@@ -30,7 +30,7 @@ public class StswRadioBoxContext : ControlsContext
         get => _selectedOption;
         set => SetProperty(ref _selectedOption, value);
     }
-    private ObservableCollection<bool?> _selectedOption = new() { null, false, false, true, false };
+    private ObservableCollection<bool?> _selectedOption = [null, false, false, true, false];
 
     /// HasContent
     public bool HasContent

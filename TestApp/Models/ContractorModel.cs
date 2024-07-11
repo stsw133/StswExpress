@@ -27,12 +27,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     public byte[]? Icon
     {
         get => _icon;
-        set
-        {
-            SetProperty(ref _icon, value);
-            if (value != null)
-                IconSource = value.ToBitmapImage();
-        }
+        set => SetProperty(ref _icon, value, () => IconSource ??= value?.ToBitmapImage());
     }
     private byte[]? _icon;
 
@@ -40,7 +35,7 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     public ImageSource? IconSource
     {
         get => _iconSource;
-        set => SetProperty(ref _iconSource, value);
+        set => SetProperty(ref _iconSource, value, () => Icon = value?.ToBytes());
     }
     private ImageSource? _iconSource;
 

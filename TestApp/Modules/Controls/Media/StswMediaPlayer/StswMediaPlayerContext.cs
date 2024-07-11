@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace TestApp;
 
@@ -13,7 +12,7 @@ public class StswMediaPlayerContext : ControlsContext
         get => _itemsSource;
         set => SetProperty(ref _itemsSource, value);
     }
-    private List<string> _itemsSource = new();
+    private List<string> _itemsSource = [];
 
     /// SelectedPath
     public string? SelectedPath
@@ -24,7 +23,7 @@ public class StswMediaPlayerContext : ControlsContext
             SetProperty(ref _selectedPath, value);
             if (value != null)
             {
-                ItemsSource = Directory.GetFiles(Directory.GetParent(value)!.FullName).ToList();
+                ItemsSource = [.. Directory.GetFiles(Directory.GetParent(value)!.FullName)];
                 Source = new Uri(value);
             }
         }
