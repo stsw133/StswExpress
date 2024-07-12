@@ -38,8 +38,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            if (sqlParameters != null)
-                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            PrepareParameters(sqlCmd, sqlParameters);
             return sqlCmd.ExecuteScalar().ConvertTo<T>()!;
         }
     }
@@ -56,8 +55,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            if (sqlParameters != null)
-                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            PrepareParameters(sqlCmd, sqlParameters);
             using var sqlDR = sqlCmd.ExecuteReader();
             return sqlDR.Read() ? sqlDR[0].ConvertTo<T>() : default;
         }
@@ -75,8 +73,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
-            if (sqlParameters != null)
-                sqlCmd.Parameters.AddRange([.. sqlParameters]);
+            PrepareParameters(sqlCmd, sqlParameters);
             return sqlCmd.ExecuteNonQuery();
         }
     }
@@ -93,8 +90,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         using (_sqlConnection)
         {
             using var sqlDA = new SqlDataAdapter(Query, _sqlConnection);
-            if (sqlParameters != null)
-                sqlDA.SelectCommand.Parameters.AddRange([.. sqlParameters]);
+            PrepareParameters(sqlDA.SelectCommand, sqlParameters);
 
             var dt = new DataTable();
             sqlDA.Fill(dt);
@@ -131,7 +127,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                     using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
                     {
                         sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        PrepareParameters(sqlCmd, objProps, item);
+                        PrepareParameters(sqlCmd, sqlParameters, objProps, item);
                         sqlCmd.ExecuteNonQuery();
                     }
                 /// update
@@ -140,7 +136,7 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                     using (var sqlCmd = new SqlCommand(query, _sqlConnection, sqlTran))
                     {
                         sqlCmd.Parameters.AddRange([.. sqlParameters]);
-                        PrepareParameters(sqlCmd, objProps, item);
+                        PrepareParameters(sqlCmd, sqlParameters, objProps, item);
                         sqlCmd.ExecuteNonQuery();
                     }
                 /// delete
@@ -156,6 +152,38 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
                     sqlTran?.Commit();
             }
         }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    public static string LessSpaceQuery(string query)
+    {
+        var regex = new Regex(@"('([^']*)')|([^']+)");
+        var matches = regex.Matches(query);
+        List<(string text, bool isInApostrophes)> parts = [];
+
+        foreach (Match match in matches)
+        {
+            if (match.Groups[2].Success)
+                parts.Add((match.Groups[2].Value, true));
+            else
+                parts.Add((match.Groups[3].Value, false));
+        }
+
+        query = string.Empty;
+        foreach (var (text, isInApostrophes) in parts)
+        {
+            if (!isInApostrophes)
+                query += StswFn.RemoveConsecutiveText(text.Replace("\t", " "), " ");
+            else
+                query += $"'{text}'";
+        }
+
+        return query;
     }
 
     /// <summary>
@@ -224,48 +252,45 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     /// <summary>
     /// 
     /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sqlCommand"></param>
     /// <param name="sqlParameters"></param>
-    /// <param name="propertyInfos"></param>
-    protected void PrepareParameters<T>(SqlCommand sqlCommand, IEnumerable<PropertyInfo> propertyInfos, T? item)
+    protected void PrepareParameters(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters)
     {
-        foreach (var prop in propertyInfos)
-            if (!sqlCommand.Parameters.Contains($"@{prop.Name}"))
+        if (sqlParameters != null)
+            foreach (var parameter in sqlParameters)
             {
-                if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
-                    sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)prop.GetValue(item));
+                if (parameter.Value.GetType().IsListType(out var type) && type?.IsValueType == true)
+                    sqlCommand.ParametersAddList(parameter.ParameterName, (IList?)parameter.Value);
                 else
-                    sqlCommand.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(item) ?? DBNull.Value);
+                    sqlCommand.Parameters.Add(parameter);
             }
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    public static string LessSpaceQuery(string query)
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sqlCommand"></param>
+    /// <param name="sqlParameters"></param>
+    /// <param name="propertyInfos"></param>
+    /// <param name="item"></param>
+    protected void PrepareParameters<T>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, T? item)
     {
-        var regex = new Regex(@"('([^']*)')|([^']+)");
-        var matches = regex.Matches(query);
-        List<(string text, bool isInApostrophes)> parts = [];
+        /// add parameters
+        PrepareParameters(sqlCommand, sqlParameters);
 
-        foreach (Match match in matches)
-        {
-            if (match.Groups[2].Success)
-                parts.Add((match.Groups[2].Value, true));
-            else
-                parts.Add((match.Groups[3].Value, false));
-        }
-
-        query = string.Empty;
-        foreach (var (text, isInApostrophes) in parts)
-        {
-            if (!isInApostrophes)
-                query += StswFn.RemoveConsecutiveText(text.Replace("\t", " "), " ");
-            else
-                query += $"'{text}'";
-        }
-
-        return query;
+        /// add properties as parameters
+        if (propertyInfos != null)
+            foreach (var prop in propertyInfos)
+            {
+                if (!sqlCommand.Parameters.Contains($"@{prop.Name}"))
+                {
+                    if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
+                        sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)prop.GetValue(item));
+                    else
+                        sqlCommand.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(item) ?? DBNull.Value);
+                }
+            }
     }
 }

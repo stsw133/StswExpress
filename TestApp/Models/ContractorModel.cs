@@ -48,41 +48,14 @@ public class ContractorModel : StswObservableObject, IStswCollectionItem
     }
     private string? _name;
 
-    /// Country
-    [StswExport(nameof(Country))]
-    public string? Country
+    /// Address
+    [StswExport(nameof(Address))]
+    public AddressModel? Address
     {
-        get => _country;
-        set => SetProperty(ref _country, value);
+        get => _address;
+        set => SetProperty(ref _address, value);
     }
-    private string? _country;
-
-    /// PostCode
-    [StswExport("Post code")]
-    public string? PostCode
-    {
-        get => _postCode;
-        set => SetProperty(ref _postCode, value);
-    }
-    private string? _postCode;
-
-    /// City
-    [StswExport(nameof(City))]
-    public string? City
-    {
-        get => _city;
-        set => SetProperty(ref _city, value);
-    }
-    private string? _city;
-
-    /// Street
-    [StswExport(nameof(Street))]
-    public string? Street
-    {
-        get => _street;
-        set => SetProperty(ref _street, value);
-    }
-    private string? _street;
+    private AddressModel? _address;
 
     /// IsArchival
     [StswExport("Is archival")]

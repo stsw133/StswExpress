@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Data;
@@ -50,6 +51,45 @@ public static class StswExtensions
     /// Returns <see langword="true"/> if a value is contained in a collection, <see langword="false"/> otherwise.
     /// </summary>
     public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
+
+    /// <summary>
+    /// Checks if the given value is null or the default value for its type.
+    /// </summary>
+    /// <typeparam name="T?">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check.</param>
+    /// <returns>True if the value is null or the default value for its type; otherwise, false.</returns>
+    public static bool IsNullOrDefault<T>(this T? value)
+    {
+        if (value == null)
+            return true;
+
+        var type = typeof(T);
+        if (type.IsValueType)
+        {
+            /// handle nullable types
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                /// get the underlying type of the nullable type
+                return Nullable.GetUnderlyingType(type) == typeof(bool)
+                    ? EqualityComparer<T>.Default.Equals(value, (T)(object)false)
+                    : EqualityComparer<T>.Default.Equals(value, default);
+            }
+
+            if (type == typeof(bool))
+                return EqualityComparer<T>.Default.Equals(value, (T)(object)false);
+            else if (type.IsPrimitive)
+                return EqualityComparer<T>.Default.Equals(value, default);
+        }
+        else
+        {
+            if (value is string str)
+                return string.IsNullOrEmpty(str);
+            else if (value is IEnumerable enumerable)
+                return !enumerable.GetEnumerator().MoveNext();
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Returns <see langword="true"/> if a <see cref="Type"/> is numeric, <see langword="false"/> otherwise.
@@ -582,23 +622,23 @@ public static class StswExtensions
 
     #region Sql extensions
     /// <summary>
-    /// 
+    /// Adds a list of parameters to the <see cref="SqlCommand"/>.
     /// </summary>
-    /// <param name="sqlCommand"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="list"></param>
+    /// <param name="sqlCommand">The SqlCommand object.</param>
+    /// <param name="parameterName">The parameter name to be replaced in the SQL query.</param>
+    /// <param name="list">The list of values to be added as parameters.</param>
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
         if (list == null || list.Count == 0)
         {
-            sqlCommand.CommandText = sqlCommand.CommandText.Replace(parameterName, "NULL");
+            sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", "NULL", RegexOptions.IgnoreCase);
             return;
         }
 
         IList<SqlParameter> addParameters = [];
         for (var i = 0; i < list?.Count; i++)
             addParameters.Add(sqlCommand.Parameters.AddWithValue(parameterName + i, list[i]));
-        sqlCommand.CommandText = sqlCommand.CommandText.Replace(parameterName, string.Join(",", addParameters.Select(x => x.ParameterName)));
+        sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", string.Join(",", addParameters.Select(x => x.ParameterName)), RegexOptions.IgnoreCase);
     }
     #endregion
 

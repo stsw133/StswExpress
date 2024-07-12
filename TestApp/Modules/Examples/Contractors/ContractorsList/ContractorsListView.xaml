@@ -108,28 +108,28 @@
                 </DataGridTextColumn>
 
                 <!-- Country -->
-                <DataGridTextColumn Binding="{Binding Country}">
+                <DataGridTextColumn Binding="{Binding Address.Country}">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="Country" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Country"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- PostCode -->
-                <DataGridTextColumn Binding="{Binding PostCode}">
+                <DataGridTextColumn Binding="{Binding Address.PostCode}">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="Post code" FilterType="Text" FilterMode="Contains" FilterValuePath="a.PostCode"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- City -->
-                <DataGridTextColumn Binding="{Binding City}">
+                <DataGridTextColumn Binding="{Binding Address.City}">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="City" FilterType="Text" FilterMode="Contains" FilterValuePath="a.City"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
 
                 <!-- Street -->
-                <DataGridTextColumn Binding="{Binding Street}">
+                <DataGridTextColumn Binding="{Binding Address.Street}">
                     <DataGridTextColumn.Header>
                         <se:StswFilterBox Header="Street" FilterType="Text" FilterMode="Contains" FilterValuePath="a.Street"/>
                     </DataGridTextColumn.Header>

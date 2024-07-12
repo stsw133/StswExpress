@@ -36,16 +36,16 @@ internal static class SQL
     /// GetContractors
     internal static IEnumerable<ContractorModel> GetContractors(string filter, IList<SqlParameter> parameters) => new StswQuery($@"
             select
-                a.ID,
-                a.Type,
-                a.Icon,
-                a.Name,
-                a.Country,
-                a.PostCode,
-                a.City,
-                a.Street,
-                a.IsArchival,
-                a.CreateDT
+                a.ID [{nameof(ContractorModel.ID)}],
+                a.Type [{nameof(ContractorModel.Type)}],
+                a.Icon [{nameof(ContractorModel.Icon)}],
+                a.Name [{nameof(ContractorModel.Name)}],
+                a.Country [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Country)}],
+                a.PostCode [{nameof(ContractorModel.Address)}/{nameof(AddressModel.PostCode)}],
+                a.City [{nameof(ContractorModel.Address)}/{nameof(AddressModel.City)}],
+                a.Street [{nameof(ContractorModel.Address)}/{nameof(AddressModel.Street)}],
+                a.IsArchival [{nameof(ContractorModel.IsArchival)}],
+                a.CreateDT [{nameof(ContractorModel.CreateDT)}]
             from dbo.StswExpressTEST_Contractors a with(nolock)
             where {filter ?? "1=1"}
             order by a.Name").Get<ContractorModel>(parameters);
@@ -61,11 +61,11 @@ internal static class SQL
     internal static bool AddPdf(int id, byte[] file) => new StswQuery(@"
             update dbo.StswExpressTEST_Contractors
             set Pdf=@Pdf
-            where ID=@ID").ExecuteNonQuery([new("@ID",id), new("@Pdf",file)]) > 0;
+            where ID=@ID").ExecuteNonQuery([new("@ID", id), new("@Pdf", file)]) > 0;
 
     /// GetPdf
     internal static byte[]? GetPdf(int id) => new StswQuery(@"
             select Pdf
             from dbo.StswExpressTEST_Contractors with(nolock)
-            where ID=@ID").TryExecuteScalar<byte[]>([new("@ID",id)]);
+            where ID=@ID").TryExecuteScalar<byte[]>([new("@ID", id)]);
 }
