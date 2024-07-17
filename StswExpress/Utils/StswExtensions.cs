@@ -18,6 +18,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace StswExpress;
@@ -29,52 +30,83 @@ public static class StswExtensions
 {
     #region Assembly extensions
     /// <summary>
-    /// 
+    /// Determines whether the specified assembly was built in debug mode.
     /// </summary>
-    /// <param name="assembly"></param>
-    /// <returns></returns>
-    public static bool IsInDebug(this Assembly assembly) => assembly.GetCustomAttributes<DebuggableAttribute>().Any();
+    /// <param name="assembly">The assembly to check.</param>
+    /// <returns><see langword="true"/> if the assembly was built in debug mode; otherwise, <see langword="false"/>.</returns>
+    public static bool IsInDebug(this Assembly assembly) => assembly == null
+            ? throw new ArgumentNullException(nameof(assembly))
+            : assembly.GetCustomAttributes<DebuggableAttribute>().Any();
     #endregion
 
     #region Bool extensions
     /// <summary>
-    /// Returns <see langword="true"/> if a value is between two other values (inclusive), <see langword="false"/> otherwise.
+    /// Determines whether a value is between two other values (inclusive).
     /// </summary>
-    public static bool Between<T>(this T value, T start, T end) => Comparer<T>.Default.Compare(value, start) >= 0 && Comparer<T>.Default.Compare(value, end) <= 0;
-
-    /// <summary>
-    /// Returns <see langword="true"/> if a value is contained in a collection, <see langword="false"/> otherwise.
-    /// </summary>
-    public static bool In<T>(this T value, IEnumerable<T> input) => input.Any(n => Equals(n, value));
-
-    /// <summary>
-    /// Returns <see langword="true"/> if a value is contained in a collection, <see langword="false"/> otherwise.
-    /// </summary>
-    public static bool In<T>(this T value, params T[] input) => input.Any(n => Equals(n, value));
-
-    /// <summary>
-    /// Checks if the given value is null or the default value for its type.
-    /// </summary>
-    /// <typeparam name="T?">The type of the value to check.</typeparam>
+    /// <typeparam name="T">The type of the value to compare.</typeparam>
     /// <param name="value">The value to check.</param>
-    /// <returns>True if the value is null or the default value for its type; otherwise, false.</returns>
-    public static bool IsNullOrDefault<T>(this T? value)
+    /// <param name="start">The start of the range.</param>
+    /// <param name="end">The end of the range.</param>
+    /// <returns><see langword="true"/> if the value is between the start and end values; otherwise, <see langword="false"/>.</returns>
+    public static bool Between<T>(this T value, T start, T end)
     {
-        if (value == null)
+        ArgumentNullException.ThrowIfNull(value);
+        ArgumentNullException.ThrowIfNull(start);
+        ArgumentNullException.ThrowIfNull(end);
+
+        var comparer = Comparer<T>.Default;
+        return comparer.Compare(value, start) >= 0 && comparer.Compare(value, end) <= 0;
+    }
+
+    /// <summary>
+    /// Determines whether a value is contained in a collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check for.</param>
+    /// <param name="collection">The collection to check in.</param>
+    /// <returns><see langword="true"/> if the value is contained in the collection; otherwise, <see langword="false"/>.</returns>
+    public static bool In<T>(this T value, IEnumerable<T> collection) => collection == null
+            ? throw new ArgumentNullException(nameof(collection))
+            : collection.Contains(value);
+
+    /// <summary>
+    /// Determines whether a value is contained in a parameters.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check for.</param>
+    /// <param name="parameters">The parameters to check in.</param>
+    /// <returns><see langword="true"/> if the value is contained in the parameters; otherwise, <see langword="false"/>.</returns>
+    public static bool In<T>(this T value, params T[] parameters) => parameters == null
+            ? throw new ArgumentNullException(nameof(parameters))
+            : parameters.Contains(value);
+
+    /// <summary>
+    /// Checks if the given value is null, the default value for its type, or an empty object.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to check.</typeparam>
+    /// <param name="value">The value to check.</param>
+    /// <param name="checkProperties">If true, checks if the properties of the object are null or default; otherwise, only checks if the object itself is null or default.</param>
+    /// <returns>True if the value is null, the default value for its type, or an empty object; otherwise, false.</returns>
+    public static bool IsNullOrDefault<T>(this T value, bool checkProperties = false)
+    {
+        if (value == null || Convert.IsDBNull(value))
             return true;
 
         var type = typeof(T);
+        if (Nullable.GetUnderlyingType(type) is Type underlyingType)
+        {
+            if (underlyingType.IsEnum)
+                return false;
+
+            var defaultValue = Activator.CreateInstance(underlyingType);
+            return EqualityComparer<T>.Default.Equals(value, (T?)defaultValue);
+        }
+
+        if (type.IsEnum)
+            return false;
+
         if (type.IsValueType)
         {
-            /// handle nullable types
-            if (Nullable.GetUnderlyingType(type) != null)
-            {
-                /// get the underlying type of the nullable type
-                return Nullable.GetUnderlyingType(type) == typeof(bool)
-                    ? EqualityComparer<T>.Default.Equals(value, (T)(object)false)
-                    : EqualityComparer<T>.Default.Equals(value, default);
-            }
-
             if (type == typeof(bool))
                 return EqualityComparer<T>.Default.Equals(value, (T)(object)false);
             else if (type.IsPrimitive)
@@ -84,153 +116,300 @@ public static class StswExtensions
         {
             if (value is string str)
                 return string.IsNullOrEmpty(str);
-            else if (value is IEnumerable enumerable)
+
+            if (value is IEnumerable enumerable)
                 return !enumerable.GetEnumerator().MoveNext();
+
+            if (value is object obj)
+                return obj.Equals(default);
+
+            if (checkProperties)
+            {
+                var properties = value.GetType().GetProperties();
+                if (properties.All(p => p.GetValue(value).IsNullOrDefault(true)))
+                    return true;
+            }
         }
 
         return false;
     }
 
     /// <summary>
-    /// Returns <see langword="true"/> if a <see cref="Type"/> is numeric, <see langword="false"/> otherwise.
+    /// Determines whether a type is a numeric type.
     /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns><see langword="true"/> if the type is numeric; otherwise, <see langword="false"/>.</returns>
     public static bool IsNumericType(this Type type)
     {
-        return type.In(typeof(sbyte), typeof(sbyte?),
-                       typeof(byte), typeof(byte?),
-                       typeof(short), typeof(short?),
-                       typeof(ushort), typeof(ushort?),
-                       typeof(int), typeof(int?),
-                       typeof(uint), typeof(uint?),
-                       typeof(long), typeof(long?),
-                       typeof(float), typeof(float?),
-                       typeof(double), typeof(double?),
-                       typeof(decimal), typeof(decimal?),
-                       typeof(nint), typeof(nint?),
-                       typeof(nuint), typeof(nuint?));
+        ArgumentNullException.ThrowIfNull(type);
+
+        var numericTypes = new HashSet<Type>
+        {
+            typeof(sbyte), typeof(byte),
+            typeof(short), typeof(ushort),
+            typeof(int), typeof(uint),
+            typeof(long), typeof(ulong),
+            typeof(float), typeof(double),
+            typeof(decimal), typeof(nint),
+            typeof(nuint)
+        };
+
+        return numericTypes.Contains(type) ||
+               (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && numericTypes.Contains(Nullable.GetUnderlyingType(type)!));
     }
     #endregion
 
     #region Byte[] extensions
     /// <summary>
-    /// Converts <see cref="ImageSource"/> to <see cref="byte"/>[].
+    /// Converts an <see cref="ImageSource"/> to a byte array.
     /// </summary>
-    public static byte[] ToBytes(this System.Windows.Media.ImageSource value)
+    /// <param name="value">The <see cref="ImageSource"/> to convert.</param>
+    /// <returns>A byte array representing the image.</returns>
+    public static byte[] ToBytes(this ImageSource value)
     {
+        ArgumentNullException.ThrowIfNull(value);
+
+        if (value is not BitmapSource bitmapSource)
+            throw new ArgumentException("Value must be a BitmapSource.", nameof(value));
+
         var encoder = new PngBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(value as BitmapSource));
-        using (var memoryStream = new MemoryStream())
-        {
-            encoder.Save(memoryStream);
-            return memoryStream.ToArray();
-        }
+        encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+        using var memoryStream = new MemoryStream();
+        encoder.Save(memoryStream);
+        return memoryStream.ToArray();
     }
 
     /// <summary>
-    /// Converts <see cref="SecureString"/> to <see cref="byte"/>[].
+    /// Converts a <see cref="SecureString"/> to a byte array.
     /// </summary>
-    public static byte[] ToBytes(this SecureString value) => Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, value).Password);
+    /// <param name="value">The <see cref="SecureString"/> to convert.</param>
+    /// <returns>A byte array representing the secure string.</returns>
+    public static byte[] ToBytes(this SecureString value) => value == null
+            ? throw new ArgumentNullException(nameof(value))
+            : Encoding.UTF8.GetBytes(new NetworkCredential(string.Empty, value).Password);
     #endregion
 
     #region Clone extensions
     /// <summary>
-    /// Clones <see cref="BindingBase"/>.
+    /// Clones a <see cref="BindingBase"/> object.
     /// </summary>
+    /// <param name="bindingBase">The <see cref="BindingBase"/> to clone.</param>
+    /// <returns>A cloned <see cref="BindingBase"/> object.</returns>
     public static BindingBase Clone(this BindingBase bindingBase)
     {
-        if (bindingBase is Binding binding)
+        ArgumentNullException.ThrowIfNull(bindingBase);
+
+        switch (bindingBase)
         {
-            var result = new Binding
-            {
-                AsyncState = binding.AsyncState,
-                BindingGroupName = binding.BindingGroupName,
-                BindsDirectlyToSource = binding.BindsDirectlyToSource,
-                Converter = binding.Converter,
-                ConverterCulture = binding.ConverterCulture,
-                ConverterParameter = binding.ConverterParameter,
-                FallbackValue = binding.FallbackValue,
-                IsAsync = binding.IsAsync,
-                Mode = binding.Mode,
-                NotifyOnSourceUpdated = binding.NotifyOnSourceUpdated,
-                NotifyOnTargetUpdated = binding.NotifyOnTargetUpdated,
-                NotifyOnValidationError = binding.NotifyOnValidationError,
-                Path = binding.Path,
-                StringFormat = binding.StringFormat,
-                TargetNullValue = binding.TargetNullValue,
-                UpdateSourceExceptionFilter = binding.UpdateSourceExceptionFilter,
-                UpdateSourceTrigger = binding.UpdateSourceTrigger,
-                ValidatesOnDataErrors = binding.ValidatesOnDataErrors,
-                ValidatesOnExceptions = binding.ValidatesOnExceptions,
-                XPath = binding.XPath,
-            };
-            if (binding.ElementName != null)
-                result.ElementName = binding.ElementName;
-            else if (binding.RelativeSource != null)
-                result.RelativeSource = binding.RelativeSource;
-            else if(binding.Source != null)
-                result.Source = binding.Source;
+            case Binding binding:
+                {
+                    var result = new Binding
+                    {
+                        AsyncState = binding.AsyncState,
+                        BindingGroupName = binding.BindingGroupName,
+                        BindsDirectlyToSource = binding.BindsDirectlyToSource,
+                        Converter = binding.Converter,
+                        ConverterCulture = binding.ConverterCulture,
+                        ConverterParameter = binding.ConverterParameter,
+                        FallbackValue = binding.FallbackValue,
+                        IsAsync = binding.IsAsync,
+                        Mode = binding.Mode,
+                        NotifyOnSourceUpdated = binding.NotifyOnSourceUpdated,
+                        NotifyOnTargetUpdated = binding.NotifyOnTargetUpdated,
+                        NotifyOnValidationError = binding.NotifyOnValidationError,
+                        Path = binding.Path,
+                        StringFormat = binding.StringFormat,
+                        TargetNullValue = binding.TargetNullValue,
+                        UpdateSourceExceptionFilter = binding.UpdateSourceExceptionFilter,
+                        UpdateSourceTrigger = binding.UpdateSourceTrigger,
+                        ValidatesOnDataErrors = binding.ValidatesOnDataErrors,
+                        ValidatesOnExceptions = binding.ValidatesOnExceptions,
+                        XPath = binding.XPath,
+                    };
 
-            foreach (var validationRule in binding.ValidationRules)
-                result.ValidationRules.Add(validationRule);
+                    if (binding.ElementName != null)
+                        result.ElementName = binding.ElementName;
+                    else if (binding.RelativeSource != null)
+                        result.RelativeSource = binding.RelativeSource;
+                    else if (binding.Source != null)
+                        result.Source = binding.Source;
 
-            return result;
+                    foreach (var validationRule in binding.ValidationRules)
+                        result.ValidationRules.Add(validationRule);
+
+                    return result;
+                }
+
+            case MultiBinding multiBinding:
+                {
+                    var result = new MultiBinding
+                    {
+                        BindingGroupName = multiBinding.BindingGroupName,
+                        Converter = multiBinding.Converter,
+                        ConverterCulture = multiBinding.ConverterCulture,
+                        ConverterParameter = multiBinding.ConverterParameter,
+                        FallbackValue = multiBinding.FallbackValue,
+                        Mode = multiBinding.Mode,
+                        NotifyOnSourceUpdated = multiBinding.NotifyOnSourceUpdated,
+                        NotifyOnTargetUpdated = multiBinding.NotifyOnTargetUpdated,
+                        NotifyOnValidationError = multiBinding.NotifyOnValidationError,
+                        StringFormat = multiBinding.StringFormat,
+                        TargetNullValue = multiBinding.TargetNullValue,
+                        UpdateSourceExceptionFilter = multiBinding.UpdateSourceExceptionFilter,
+                        UpdateSourceTrigger = multiBinding.UpdateSourceTrigger,
+                        ValidatesOnDataErrors = multiBinding.ValidatesOnDataErrors,
+                        ValidatesOnExceptions = multiBinding.ValidatesOnDataErrors,
+                    };
+
+                    foreach (var validationRule in multiBinding.ValidationRules)
+                        result.ValidationRules.Add(validationRule);
+
+                    foreach (var childBinding in multiBinding.Bindings)
+                        result.Bindings.Add(childBinding.Clone());
+
+                    return result;
+                }
+
+            case PriorityBinding priorityBinding:
+                {
+                    var result = new PriorityBinding
+                    {
+                        BindingGroupName = priorityBinding.BindingGroupName,
+                        FallbackValue = priorityBinding.FallbackValue,
+                        StringFormat = priorityBinding.StringFormat,
+                        TargetNullValue = priorityBinding.TargetNullValue,
+                    };
+
+                    foreach (var childBinding in priorityBinding.Bindings)
+                        result.Bindings.Add(childBinding.Clone());
+
+                    return result;
+                }
+
+            default:
+                throw new NotSupportedException("Failed to clone binding");
         }
+    }
+    /*
+    /// <summary>
+    /// Creates a deep copy of the specified object.
+    /// </summary>
+    /// <param name="o">The object to copy.</param>
+    /// <returns>A deep copy of the specified object.</returns>
+    public static T? Copy<T>(this T o)
+    {
+        if (o == null) return default;
 
-        if (bindingBase is MultiBinding multiBinding)
+        var type = o.GetType();
+
+        if (o is ICloneable cloneable)
         {
-            var result = new MultiBinding
-            {
-                BindingGroupName = multiBinding.BindingGroupName,
-                Converter = multiBinding.Converter,
-                ConverterCulture = multiBinding.ConverterCulture,
-                ConverterParameter = multiBinding.ConverterParameter,
-                FallbackValue = multiBinding.FallbackValue,
-                Mode = multiBinding.Mode,
-                NotifyOnSourceUpdated = multiBinding.NotifyOnSourceUpdated,
-                NotifyOnTargetUpdated = multiBinding.NotifyOnTargetUpdated,
-                NotifyOnValidationError = multiBinding.NotifyOnValidationError,
-                StringFormat = multiBinding.StringFormat,
-                TargetNullValue = multiBinding.TargetNullValue,
-                UpdateSourceExceptionFilter = multiBinding.UpdateSourceExceptionFilter,
-                UpdateSourceTrigger = multiBinding.UpdateSourceTrigger,
-                ValidatesOnDataErrors = multiBinding.ValidatesOnDataErrors,
-                ValidatesOnExceptions = multiBinding.ValidatesOnDataErrors,
-            };
-
-            foreach (var validationRule in multiBinding.ValidationRules)
-                result.ValidationRules.Add(validationRule);
-
-            foreach (var childBinding in multiBinding.Bindings)
-                result.Bindings.Add(childBinding.Clone());
-
-            return result;
+            return (T)cloneable.Clone();
         }
-
-        if (bindingBase is PriorityBinding priorityBinding)
+        else if (type == typeof(ItemCollection))
         {
-            var result = new PriorityBinding
-            {
-                BindingGroupName = priorityBinding.BindingGroupName,
-                FallbackValue = priorityBinding.FallbackValue,
-                StringFormat = priorityBinding.StringFormat,
-                TargetNullValue = priorityBinding.TargetNullValue,
-            };
-
-            foreach (var childBinding in priorityBinding.Bindings)
-                result.Bindings.Add(childBinding.Clone());
-
-            return result;
+            /// Handling specifically for ItemCollection
+            /// Note: This assumes the method caller handles the ItemCollection manually if needed,
+            /// as there's no good way to clone or directly instantiate a new ItemCollection.
+            return o;
         }
+        else
+        {
+            var target = Activator.CreateInstance<T>();
+            foreach (var pi in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (!pi.CanWrite || pi.GetIndexParameters().Length > 0)
+                    continue;
 
-        throw new NotSupportedException("Failed to clone binding");
+                var value = pi.GetValue(o);
+                if (IsListType(pi.PropertyType, out var innerType))
+                {
+                    var listType = typeof(List<>).MakeGenericType(innerType!);
+                    var list = (IList?)Activator.CreateInstance(listType);
+                    if (value is IList oldList)
+                        foreach (var item in oldList)
+                            list?.Add(item.Copy());
+                    pi.SetValue(target, list);
+                }
+                else if (pi.PropertyType.IsValueType || pi.PropertyType.IsEnum || pi.PropertyType == typeof(string))
+                {
+                    pi.SetValue(target, value); 
+                }
+                else
+                {
+                    pi.SetValue(target, value.Copy());
+                }
+            }
+
+            return target;
+        }
+    }
+    */
+    /// <summary>
+    /// Creates a deep copy of the specified object.
+    /// </summary>
+    /// <typeparam name="T">The type of the object being cloned.</typeparam>
+    /// <param name="original">The original object to clone.</param>
+    /// <returns>A deep copy of the original object. The returned object and any sub-objects are entirely independent of the original.</returns>
+    /// <remarks>
+    /// This method handles cloning of primitive types, complex object graphs, and collections. It uses reflection to dynamically create a copy
+    /// of the object, ensuring that all nested objects and collections are also deeply cloned. It does not handle circular references which can lead to stack overflow.
+    /// </remarks>
+    public static T? DeepClone<T>(this T original)
+    {
+        if (original == null)
+            return default;
+
+        var typeToReflect = original.GetType();
+        if (StswClone.IsPrimitive(typeToReflect))
+            return original;
+
+        var cloneObject = Activator.CreateInstance<T>();
+        StswClone.CopyProperties(original, cloneObject, typeToReflect);
+        StswClone.CopyFields(original, cloneObject, typeToReflect);
+
+        return cloneObject;
     }
 
     /// <summary>
-    /// Clones an <see cref="IEnumerable"/> into another <see cref="IEnumerable"/> while preserving the items in the new list.
+    /// Checks if a type is a list type and retrieves the inner type if it is.
     /// </summary>
-    [Obsolete($"You can use '{nameof(Copy)}' instead.")]
-    public static IEnumerable Clone(this IEnumerable source)
+    /// <param name="type">The type to check.</param>
+    /// <param name="innerType">The inner type if the type is a list type.</param>
+    /// <returns><see langword="true"/> if the type is a list type; otherwise, <see langword="false"/>.</returns>
+    internal static bool IsListType(this Type type, out Type? innerType)
     {
+        ArgumentNullException.ThrowIfNull(type);
+
+        innerType = null;
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>))
+        {
+            innerType = type.GetGenericArguments().Single();
+            return true;
+        }
+
+        foreach (var i in type.GetInterfaces())
+            if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>))
+            {
+                innerType = i.GetGenericArguments().Single();
+                return true;
+            }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Attempts to clone each item in an <see cref="IEnumerable"/> and returns a new IEnumerable with the cloned items.
+    /// </summary>
+    /// <param name="source">The source enumerable to clone.</param>
+    /// <returns>A new <see cref="IEnumerable"/> containing cloned items when possible; if an item does not implement <see cref="ICloneable"/>, the original item is returned. This method ensures that the original collection remains unmodified.</returns>
+    /// <remarks>
+    /// This method does not perform a deep clone of items unless they explicitly implement <see cref="ICloneable"/>. Items that are not cloneable are included directly in the new collection, which may affect mutability depending on the item's type.
+    /// </remarks>
+    public static IEnumerable TryClone(this IEnumerable source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
         foreach (var item in source)
         {
             if (item is ICloneable cloneableItem)
@@ -239,120 +418,87 @@ public static class StswExtensions
                 yield return item;
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="o"></param>
-    /// <returns></returns>
-    public static object? Copy(this object o)
-    {
-        var type = o.GetType();
-        var target = Activator.CreateInstance(type);
-
-        foreach (var pi in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-        {
-            if (!pi.CanWrite)
-                continue;
-
-            if (IsListType(pi.PropertyType, out var innerType))
-            {
-                var listType = typeof(List<>).MakeGenericType(innerType!);
-                var list = (IList?)Activator.CreateInstance(listType);
-                if (pi.GetValue(o, null) is IList oldList)
-                    foreach (var item in oldList)
-                        list?.Add(item.Copy());
-                pi.SetValue(target, list);
-            }
-            else if (pi.PropertyType.IsValueType || pi.PropertyType.IsEnum || pi.PropertyType == typeof(string))
-                pi.SetValue(target, pi.GetValue(o, null), null);
-            else
-            {
-                var propValue = pi.GetValue(o, null);
-                pi.SetValue(target, propValue == null ? null : Copy(propValue), null);
-            }
-        }
-
-        return target;
-    }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="innerType"></param>
-    /// <returns></returns>
-    internal static bool IsListType(this Type type, out Type? innerType)
-    {
-        var interfaceTest = new Func<Type, Type?>(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>) ? i.GetGenericArguments().Single() : null);
-
-        innerType = interfaceTest(type);
-        if (innerType != null)
-            return true;
-
-        foreach (var i in type.GetInterfaces())
-        {
-            innerType = interfaceTest(i);
-            if (innerType != null)
-                return true;
-        }
-
-        return false;
-    }
     #endregion
 
     #region Convert extensions
     /// <summary>
-    /// Converts <see cref="{T}"/> to different type.
+    /// Converts an <see cref="object"/> to a specified type.
     /// </summary>
-    /// <param name="o">Object to convert.</param>
-    /// <returns>Object of different type.</returns>
+    /// <typeparam name="T">The type to convert to.</typeparam>
+    /// <param name="o">The object to convert.</param>
+    /// <returns>The converted <see cref="object"/> of type <see cref="{T}"/>.</returns>
     public static T? ConvertTo<T>(this object o)
     {
         if (o == null || o == DBNull.Value)
-            return Nullable.GetUnderlyingType(typeof(T?)) == null ? default : (T?)(object?)null;
-        else if (typeof(T).IsEnum)
+            return default;
+
+        var targetType = typeof(T);
+        var underlyingType = Nullable.GetUnderlyingType(targetType);
+
+        if (targetType.IsEnum)
         {
-            if (Enum.GetUnderlyingType(typeof(T)) == o.GetType())
-                return (T)Enum.ToObject(typeof(T), o);
-            if (Enum.TryParse(typeof(T), o.ToString(), out object? result))
+            if (Enum.GetUnderlyingType(targetType) == o.GetType())
+                return (T)Enum.ToObject(targetType, o);
+
+            if (Enum.TryParse(targetType, o.ToString(), out object? result))
                 return (T?)result;
+
             return default;
         }
-        else
+
+        try
         {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
-            return underlyingType == null
-                ? (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture)
-                : (T)Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+            return (T)(underlyingType == null
+                ? Convert.ChangeType(o, targetType, CultureInfo.InvariantCulture)
+                : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture));
+        }
+        catch
+        {
+            return default;
         }
     }
 
     /// <summary>
-    /// Converts <see cref="object"/> to different type.
+    /// Converts an <see cref="object"/> to a specified type.
     /// </summary>
-    /// <param name="o">Object to convert.</param>
-    /// <param name="t">Type to convert to.</param>
-    /// <returns>Object of different type.</returns>
+    /// <param name="o">The object to convert.</param>
+    /// <param name="t">The type to convert to.</param>
+    /// <returns>The converted <see cref="object"/> of the specified type.</returns>
     public static object? ConvertTo(this object? o, Type t)
     {
         var underlyingType = Nullable.GetUnderlyingType(t);
 
         if (o == null || o == DBNull.Value)
             return underlyingType == null ? default : Convert.ChangeType(null, t);
-        else if (t.IsEnum || underlyingType?.IsEnum == true)
-            return underlyingType == null
-                ? (Enum.TryParse(t, o.ToString(), out var result1) ? result1 : null)
-                : (Enum.TryParse(underlyingType, o.ToString(), out var result2) ? result2 : null);
-        else
+
+        if (t.IsEnum || underlyingType?.IsEnum == true)
+        {
+            var enumType = underlyingType ?? t;
+
+            if (Enum.TryParse(enumType, o.ToString(), out var result))
+                return result;
+
+            return null;
+        }
+
+        try
+        {
             return underlyingType == null
                 ? Convert.ChangeType(o, t, CultureInfo.InvariantCulture)
                 : Convert.ChangeType(o, underlyingType, CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>
-    /// Converts <see cref="DataTable"/> to <see cref="IEnumerable{T}"/>.
+    /// Converts a <see cref="DataTable"/> to an <see cref="IEnumerable{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of objects to map to.</typeparam>
+    /// <param name="dt">The DataTable to map.</param>
+    /// <returns>An enumerable collection of objects mapped from the <see cref="DataTable"/>.</returns>
     public static IEnumerable<T> MapTo<T>(this DataTable dt) where T : class, new()
     {
         var objProps = typeof(T).GetProperties().ToList();
@@ -373,7 +519,7 @@ public static class StswExtensions
                 {
                     var propertyInfo = objProps[mappings[i]];
 
-                    if (propertyInfo?.PropertyType != typeof(object))
+                    if (propertyInfo != null && propertyInfo.PropertyType != typeof(object))
                         propertyInfo?.SetValue(obj, row[i].ConvertTo(propertyInfo.PropertyType), null);
                     else
                         propertyInfo?.SetValue(obj, row[i], null);
@@ -389,10 +535,16 @@ public static class StswExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="System.Drawing.Bitmap"/> to <see cref="ImageSource"/>.
+    /// Converts a <see cref="System.Drawing.Bitmap"/> to an <see cref="ImageSource"/>.
     /// </summary>
-    public static System.Windows.Media.ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
+    /// <param name="bmp">The bitmap to convert.</param>
+    /// <returns>The converted <see cref="ImageSource"/>.</returns>
+    public static ImageSource ToImageSource(this System.Drawing.Bitmap bmp)
     {
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool DeleteObject([In] IntPtr hObject);
+
         var handle = bmp.GetHbitmap();
         try
         {
@@ -404,72 +556,76 @@ public static class StswExtensions
         }
     }
 
-    [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool DeleteObject([In] IntPtr hObject);
-
     /// <summary>
-    /// Converts <see cref="IEnumerable{T}"/> to <see cref="ObservableCollection{T}"/>.
+    /// Converts an <see cref="IEnumerable{T}"/> to an <see cref="ObservableCollection{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of objects in the collection.</typeparam>
+    /// <param name="value">The enumerable to convert.</param>
+    /// <returns>The converted <see cref="ObservableCollection{T}"/>.</returns>
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> value) => new ObservableCollection<T>(value);
 
     /// <summary>
-    /// Converts <see cref="Type"/> to <see cref="SqlDbType}"/>.
+    /// Converts a <see cref="Type"/> to a <see cref="SqlDbType"/>.
     /// </summary>
-    public static SqlDbType? ToSqlDbType(this Type type)
+    /// <param name="type">The type to convert.</param>
+    /// <returns>The corresponding <see cref="SqlDbType"/>, or null if no matching type is found.</returns>
+    public static SqlDbType? InferSqlDbType(this Type type)
     {
-        if (type.In(typeof(byte), typeof(sbyte), typeof(byte?), typeof(sbyte?)))
-            return SqlDbType.TinyInt;
-        else if (type.In(typeof(short), typeof(ushort), typeof(short?), typeof(ushort?)))
-            return SqlDbType.SmallInt;
-        else if (type.In(typeof(int), typeof(uint), typeof(int?), typeof(uint?)))
-            return SqlDbType.Int;
-        else if (type.In(typeof(long), typeof(ulong), typeof(long?), typeof(ulong?)))
-            return SqlDbType.BigInt;
-        else if (type.In(typeof(float), typeof(float?)))
-            return SqlDbType.Float;
-        else if (type.In(typeof(double), typeof(double?)))
-            return SqlDbType.Real;
-        else if (type.In(typeof(decimal), typeof(decimal?)))
-            return SqlDbType.Decimal;
-        else if (type.In(typeof(bool), typeof(bool?)))
-            return SqlDbType.Bit;
-        else if (type.In(typeof(string)))
-            return type.IsUnicodeClass ? SqlDbType.NVarChar : SqlDbType.VarChar;
-        else if (type.In(typeof(char), typeof(char?)))
-            return type.IsUnicodeClass ? SqlDbType.NChar : SqlDbType.Char;
-        else if (type.In(typeof(Guid), typeof(Guid?)))
-            return SqlDbType.UniqueIdentifier;
-        else if (type.In(typeof(DateTime), typeof(DateTime?)))
-            return SqlDbType.DateTime;
-        else if (type.In(typeof(DateTimeOffset), typeof(DateTimeOffset?)))
-            return SqlDbType.DateTimeOffset;
-        else if (type.In(typeof(byte[]), typeof(byte?[])))
-            return SqlDbType.VarBinary;
-        else
-            return null;
+        ArgumentNullException.ThrowIfNull(type);
+
+        var underlyingType = Nullable.GetUnderlyingType(type) ?? type;
+        return underlyingType switch
+        {
+            { } t when t == typeof(byte) || t == typeof(sbyte) => SqlDbType.TinyInt,
+            { } t when t == typeof(short) || t == typeof(ushort) => SqlDbType.SmallInt,
+            { } t when t == typeof(int) || t == typeof(uint) => SqlDbType.Int,
+            { } t when t == typeof(long) || t == typeof(ulong) => SqlDbType.BigInt,
+            { } t when t == typeof(float) => SqlDbType.Real,
+            { } t when t == typeof(double) => SqlDbType.Float,
+            { } t when t == typeof(decimal) => SqlDbType.Decimal,
+            { } t when t == typeof(bool) => SqlDbType.Bit,
+            { } t when t == typeof(string) => SqlDbType.NVarChar,
+            { } t when t == typeof(char) => SqlDbType.NChar,
+            { } t when t == typeof(Guid) => SqlDbType.UniqueIdentifier,
+            { } t when t == typeof(DateTime) => SqlDbType.DateTime,
+            { } t when t == typeof(DateTimeOffset) => SqlDbType.DateTimeOffset,
+            { } t when t == typeof(byte[]) => SqlDbType.VarBinary,
+            _ => null
+        };
     }
 
     /// <summary>
-    /// Converts <see cref="IEnumerable{T}"/> to <see cref="StswBindingList{T}"/>.
+    /// Converts an <see cref="IEnumerable{T}"/> to a <see cref="StswBindingList{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of objects in the list.</typeparam>
+    /// <param name="value">The enumerable to convert.</param>
+    /// <returns>The converted <see cref="StswBindingList{T}"/>.</returns>
     public static StswBindingList<T> ToStswBindingList<T>(this IEnumerable<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
 
     /// <summary>
-    /// Converts <see cref="IList{T}"/> to <see cref="StswBindingList{T}"/>.
+    /// Converts an <see cref="IList{T}"/> to a <see cref="StswBindingList{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of objects in the list.</typeparam>
+    /// <param name="value">The list to convert.</param>
+    /// <returns>The converted <see cref="StswBindingList{T}"/>.</returns>
     public static StswBindingList<T> ToStswBindingList<T>(this IList<T> value) where T : IStswCollectionItem => new StswBindingList<T>(value);
 
     /// <summary>
-    /// Converts <see cref="IDictionary{TKey, TValue}"/> to <see cref="StswDictionary{TKey, TValue}"/>.
+    /// Converts an <see cref="IDictionary{TKey, TValue}"/> to a <see cref="StswDictionary{TKey, TValue}"/>.
     /// </summary>
+    /// <typeparam name="T1">The type of the dictionary keys.</typeparam>
+    /// <typeparam name="T2">The type of the dictionary values.</typeparam>
+    /// <param name="value">The dictionary to convert.</param>
+    /// <returns>The converted <see cref="StswDictionary{TKey, TValue}"/>.</returns>
     public static StswDictionary<T1, T2> ToStswDictionary<T1, T2>(this IDictionary<T1, T2> value) => new StswDictionary<T1, T2>(value);
     #endregion
 
     #region Color extensions
     /// <summary>
-    /// Converts <see cref="byte"/>[] to <see cref="BitmapImage"/>.
+    /// Converts a byte array to a <see cref="BitmapImage"/>.
     /// </summary>
+    /// <param name="value">The byte array to convert.</param>
+    /// <returns>The converted <see cref="BitmapImage"/>, or null if the byte array is empty.</returns>
     public static BitmapImage? ToBitmapImage(this byte[] value)
     {
         if (value.Length == 0)
@@ -492,48 +648,77 @@ public static class StswExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SolidColorBrush"/> to <see cref="System.Drawing.Color"/>.
+    /// Converts a <see cref="SolidColorBrush"/> to a <see cref="Color"/>.
     /// </summary>
-    public static System.Windows.Media.Color ToColor(this System.Windows.Media.SolidColorBrush value) => System.Windows.Media.Color.FromArgb(value.Color.A, value.Color.R, value.Color.G, value.Color.B);
+    /// <param name="value">The <see cref="SolidColorBrush"/> to convert.</param>
+    /// <returns>The converted <see cref="Color"/>.</returns>
+    public static Color ToColor(this SolidColorBrush value) => value.Color;
 
     /// <summary>
-    /// Converts <see cref="System.Windows.Media.Color"/> to <see cref="System.Drawing.Color"/>.
+    /// Converts a <see cref="Color"/> to a <see cref="System.Drawing.Color"/>.
     /// </summary>
-    public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
+    /// <param name="value">The <see cref="Color"/> to convert.</param>
+    /// <returns>The converted <see cref="System.Drawing.Color"/>.</returns>
+    public static System.Drawing.Color ToDrawingColor(this Color value) => System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
-    /// Converts <see cref="System.Drawing.Color"/> to <see cref="System.Windows.Media.Color"/>.
+    /// Converts a <see cref="System.Drawing.Color"/> to a <see cref="Color"/>.
     /// </summary>
-    public static System.Windows.Media.Color ToMediaColor(this System.Drawing.Color value) => System.Windows.Media.Color.FromArgb(value.A, value.R, value.G, value.B);
+    /// <param name="value">The <see cref="System.Drawing.Color"/> to convert.</param>
+    /// <returns>The converted <see cref="Color"/>.</returns>
+    public static Color ToMediaColor(this System.Drawing.Color value) => Color.FromArgb(value.A, value.R, value.G, value.B);
 
     /// <summary>
-    /// Converts <see cref="Color"/> to <see cref="string"/>.
+    /// Converts a <see cref="Color"/> to an HTML color string.
     /// </summary>
-    public static string ToHtml(this System.Windows.Media.Color color) => new System.Windows.Media.ColorConverter().ConvertToString(color) ?? string.Empty;
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The HTML color string representation of the color.</returns>
+    public static string ToHtml(this Color color) => new ColorConverter().ConvertToString(color) ?? string.Empty;
+    #endregion
+
+    #region DateTime extensions
+    /// <summary>
+    /// Converts a <see cref="DateTime"/> to a Unix timestamp.
+    /// </summary>
+    /// <param name="dateTime">The <see cref="DateTime"/> to convert.</param>
+    /// <returns>A long value representing the number of seconds since the Unix epoch (January 1, 1970).</returns>
+    public static long ToUnixTimeSeconds(this DateTime dateTime) => new DateTimeOffset(dateTime).ToUnixTimeSeconds();
     #endregion
 
     #region Enum extensions
     /// <summary>
-    /// Gets an attribute on an enum field value.
+    /// Gets an attribute of a specified type on an enum field value.
     /// </summary>
-    /// <typeparam name="T">The type of the attribute you want to retrieve.</typeparam>
+    /// <typeparam name="T">The type of the attribute to retrieve.</typeparam>
     /// <param name="enumVal">The enum value.</param>
-    /// <returns>The attribute of type T that exists on the enum value.</returns>
+    /// <returns>The attribute of type T that exists on the enum value, or null if no such attribute is found.</returns>
     public static T? GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
     {
-        var attributes = enumVal.GetType().GetMember(enumVal.ToString())[0].GetCustomAttributes(typeof(T), false);
-        return attributes?.Length > 0 ? (T)attributes[0] : null;
+        var memberInfo = enumVal.GetType().GetMember(enumVal.ToString()).FirstOrDefault();
+        if (memberInfo == null) return null;
+
+        return memberInfo.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
     }
 
     /// <summary>
-    /// Returns the next value in an enumeration, with wraparound if the end of the enumeration is reached.
+    /// Returns the next value in an enumeration, optionally with wraparound if the end of the enumeration is reached.
     /// </summary>
-    public static T GetNextValue<T>(this T value, int count = 1) where T : Enum
+    /// <typeparam name="T">The type of the enum.</typeparam>
+    /// <param name="value">The current enum value.</param>
+    /// <param name="count">The number of steps to move forward in the enumeration.</param>
+    /// <param name="wrapAround">Whether to wrap around to the first value when the end of the enumeration is reached.</param>
+    /// <returns>The next enum value. If wrapAround is <see langword="false"/> and the end is reached, returns the last enum value.</returns>
+    public static T GetNextValue<T>(this T value, int count = 1, bool wrapAround = true) where T : Enum
     {
         var values = (T[])Enum.GetValues(typeof(T));
-        var index = Array.IndexOf(values, value);
-        var valuesLength = values.Length;
-        var nextIndex = (index + count % valuesLength + valuesLength) % valuesLength;
+        int index = Array.IndexOf(values, value);
+        int nextIndex = index + count;
+
+        if (wrapAround)
+            nextIndex = (nextIndex + values.Length) % values.Length;
+        else
+            nextIndex = Math.Min(nextIndex, values.Length - 1);
+
         return values[nextIndex];
     }
     #endregion
@@ -542,6 +727,9 @@ public static class StswExtensions
     /// <summary>
     /// Tries to execute an action multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
     /// </summary>
+    /// <param name="action">The action to execute.</param>
+    /// <param name="maxTries">The maximum number of tries.</param>
+    /// <param name="msInterval">The interval between tries in milliseconds.</param>
     public static void TryMultipleTimes(this Action action, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)
@@ -553,9 +741,7 @@ public static class StswExtensions
             }
             catch
             {
-                if (--maxTries <= 0)
-                    throw;
-
+                if (--maxTries == 0) throw;
                 Thread.Sleep(msInterval);
             }
         }
@@ -564,6 +750,11 @@ public static class StswExtensions
     /// <summary>
     /// Tries to execute a function multiple times with a specified interval between each try, until it succeeds or reaches a maximum number of tries.
     /// </summary>
+    /// <typeparam name="T">The return type of the function.</typeparam>
+    /// <param name="func">The function to execute.</param>
+    /// <param name="maxTries">The maximum number of tries.</param>
+    /// <param name="msInterval">The interval between tries in milliseconds.</param>
+    /// <returns>The result of the function if successful, or the default value of T if all tries fail.</returns>
     public static T? TryMultipleTimes<T>(this Func<T> func, int maxTries = 5, int msInterval = 200)
     {
         while (maxTries > 0)
@@ -574,9 +765,7 @@ public static class StswExtensions
             }
             catch
             {
-                if (--maxTries <= 0)
-                    throw;
-
+                if (--maxTries == 0) throw;
                 Thread.Sleep(msInterval);
             }
         }
@@ -586,49 +775,93 @@ public static class StswExtensions
 
     #region List extensions
     /// <summary>
-    /// 
+    /// Adds an item to a list if the list does not already contain the item.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="list"></param>
-    /// <param name="item"></param>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list to add the item to.</param>
+    /// <param name="item">The item to add.</param>
     public static void AddIfNotContains<T>(this IList<T> list, T item)
     {
         if (!list.Contains(item))
             list.Add(item);
     }
-    
+
+    /// <summary>
+    /// Removes all occurrences of the specified elements from an <see cref="IEnumerable{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
+    /// <param name="collection">The collection to remove elements from.</param>
+    /// <param name="itemsToRemove">The collection containing the elements to remove.</param>
+    /// <returns>A new collection with the specified elements removed.</returns>
+    public static IEnumerable<T> Remove<T>(this IEnumerable<T> collection, IEnumerable<T> itemsToRemove) => collection.Where(item => !new HashSet<T>(itemsToRemove).Contains(item));
+
     /// <summary>
     /// Removes all occurrences of the specified elements from the <see cref="IList{T}"/>.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the <see cref="IList{T}"/>.</typeparam>
-    /// <param name="iList">The <see cref="IList{T}"/> to remove elements from.</param>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="iList">The list to remove elements from.</param>
     /// <param name="itemsToRemove">The collection containing the elements to remove.</param>
-    public static void RemoveBy<T>(this IList<T> iList, IEnumerable<T> itemsToRemove)
+    public static void Remove<T>(this IList<T> iList, IEnumerable<T> itemsToRemove)
     {
         var set = new HashSet<T>(itemsToRemove);
 
-        if (iList is not List<T> list)
-        {
-            int i = 0;
-            while (i < iList.Count)
-            {
-                if (set.Contains(iList[i])) iList.RemoveAt(i);
-                else i++;
-            }
-        }
-        else list.RemoveAll(set.Contains);
+        if (iList is List<T> list)
+            list.RemoveAll(set.Contains);
+        else
+            for (int i = iList.Count - 1; i >= 0; i--)
+                if (set.Contains(iList[i]))
+                    iList.RemoveAt(i);
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of a specified value in an <see cref="IEnumerable{T}"/> with another value.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
+    /// <param name="source">The source collection.</param>
+    /// <param name="oldValue">The value to replace.</param>
+    /// <param name="newValue">The value to replace with.</param>
+    /// <returns>A new collection with the specified value replaced.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
+    {
+        return source == null
+            ? throw new ArgumentNullException(nameof(source))
+            : source.Select(item => EqualityComparer<T>.Default.Equals(item, oldValue) ? newValue : item);
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of a specified value in an <see cref="IList{T}"/> with another value.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
+    /// <param name="source">The source collection.</param>
+    /// <param name="oldValue">The value to replace.</param>
+    /// <param name="newValue">The value to replace with.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the source collection is null.</exception>
+    public static void Replace<T>(this IList<T> source, T oldValue, T newValue)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        for (int i = 0; i < source.Count; i++)
+            if (EqualityComparer<T>.Default.Equals(source[i], oldValue))
+                source[i] = newValue;
     }
     #endregion
 
     #region Sql extensions
     /// <summary>
-    /// Adds a list of parameters to the <see cref="SqlCommand"/>.
+    /// Adds a list of parameters to the <see cref="SqlCommand"/> by replacing the specified parameter name in the SQL query with the list of values.
+    /// If the list is null or empty, replaces the parameter with NULL in the SQL query.
     /// </summary>
-    /// <param name="sqlCommand">The SqlCommand object.</param>
+    /// <param name="sqlCommand">The <see cref="SqlCommand"/> object.</param>
     /// <param name="parameterName">The parameter name to be replaced in the SQL query.</param>
     /// <param name="list">The list of values to be added as parameters.</param>
     public static void ParametersAddList(this SqlCommand sqlCommand, string parameterName, IList? list)
     {
+        ArgumentNullException.ThrowIfNull(sqlCommand);
+
+        if (string.IsNullOrEmpty(parameterName))
+            throw new ArgumentException("Parameter name cannot be null or empty.", nameof(parameterName));
+
         if (list == null || list.Count == 0)
         {
             sqlCommand.CommandText = Regex.Replace(sqlCommand.CommandText, $@"{Regex.Escape(parameterName)}(?!\w)", "NULL", RegexOptions.IgnoreCase);
@@ -644,13 +877,27 @@ public static class StswExtensions
 
     #region Text extensions
     /// <summary>
-    /// Capitalizes the first letter of a string and makes the rest lowercase.
+    /// Capitalizes the first letter of the string and converts the rest of the characters to lowercase.
     /// </summary>
-    public static string Capitalize(this string text) => char.ToUpper(text[0]) + text[1..].ToLower();
+    /// <param name="text">The string to capitalize.</param>
+    /// <returns>A string with the first letter capitalized and the rest in lowercase.</returns>
+    public static string Capitalize(this string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        return $"{char.ToUpper(text[0])}{text[1..].ToLower()}";
+    }
 
     /// <summary>
-    /// Returns a new string of a specified length in which the beginning of the current string is padded with a specified text.
+    /// Returns a new string that is right-aligned in a new string of a specified length by padding it on the left with a specified text string.
     /// </summary>
+    /// <param name="text">The string to pad.</param>
+    /// <param name="totalWidth">The number of characters in the resulting string, equal to the number of original characters plus any additional padding characters.</param>
+    /// <param name="paddingString">The string to pad with.</param>
+    /// <returns>A new string that is equivalent to the original string, but right-aligned and padded on the left with paddingString characters.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when paddingString is null or empty.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when totalWidth is less than zero.</exception>
     public static string? PadLeft(this string text, int totalWidth, string paddingString)
     {
         if (string.IsNullOrEmpty(paddingString))
@@ -662,15 +909,23 @@ public static class StswExtensions
         if (text == null || text.Length >= totalWidth)
             return text;
 
-        while (text.Length < totalWidth)
-            text = paddingString + text;
+        var sb = new StringBuilder(totalWidth);
+        while (sb.Length + text.Length < totalWidth)
+            sb.Append(paddingString);
+        sb.Append(text);
 
-        return text[..totalWidth];
+        return sb.ToString(0, totalWidth);
     }
 
     /// <summary>
-    /// Returns a new string of a specified length in which the end of the current string is padded with a specified text.
+    /// Returns a new string that is left-aligned in a new string of a specified length by padding it on the right with a specified text string.
     /// </summary>
+    /// <param name="text">The string to pad.</param>
+    /// <param name="totalWidth">The number of characters in the resulting string, equal to the number of original characters plus any additional padding characters.</param>
+    /// <param name="paddingString">The string to pad with.</param>
+    /// <returns>A new string that is equivalent to the original string, but left-aligned and padded on the right with paddingString characters.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when paddingString is null or empty.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when totalWidth is less than zero.</exception>
     public static string? PadRight(this string text, int totalWidth, string paddingString)
     {
         if (string.IsNullOrEmpty(paddingString))
@@ -682,20 +937,62 @@ public static class StswExtensions
         if (text == null || text.Length >= totalWidth)
             return text;
 
-        while (text.Length < totalWidth)
-            text += paddingString;
+        var sb = new StringBuilder(text);
+        while (sb.Length < totalWidth)
+            sb.Append(paddingString);
 
-        return text[0..totalWidth];
+        return sb.ToString(0, totalWidth);
     }
 
     /// <summary>
-    /// Trims a string of a specified substring at the end.
+    /// Removes the specified string from the end of the current string instance.
     /// </summary>
-    public static string TrimEnd(this string source, string value) => !source.EndsWith(value) ? source : source.Remove(source.LastIndexOf(value));
+    /// <param name="source">The string to trim.</param>
+    /// <param name="value">The string to remove from the end.</param>
+    /// <returns>A new string that is equivalent to the original string but without the specified value at the end.</returns>
+    public static string TrimEnd(this string source, string value)
+    {
+        if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
+            return source;
+
+        return source.EndsWith(value) ? source.Remove(source.LastIndexOf(value)) : source;
+    }
 
     /// <summary>
-    /// Trims a string of a specified substring at the start.
+    /// Removes the specified string from the start of the current string instance.
     /// </summary>
-    public static string TrimStart(this string source, string value) => !source.StartsWith(value) ? source : source[value.Length..];
+    /// <param name="source">The string to trim.</param>
+    /// <param name="value">The string to remove from the start.</param>
+    /// <returns>A new string that is equivalent to the original string but without the specified value at the start.</returns>
+    public static string TrimStart(this string source, string value)
+    {
+        if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value))
+            return source;
+
+        return source.StartsWith(value) ? source[value.Length..] : source;
+    }
+    #endregion
+
+    #region Universal extensions
+    /// <summary>
+    /// Gets the innermost exception of an exception.
+    /// </summary>
+    /// <param name="ex">The exception from which to get the innermost exception.</param>
+    /// <returns>The innermost <see cref="Exception"/>.</returns>
+    public static Exception GetInnermostException(this Exception ex)
+    {
+        while (ex.InnerException != null)
+            ex = ex.InnerException;
+
+        return ex;
+    }
+
+    /// <summary>
+    /// Gets the value of a property by name from an object.
+    /// </summary>
+    /// <param name="obj">The object from which to get the property value.</param>
+    /// <param name="propertyName">The name of the property whose value is to be retrieved.</param>
+    /// <returns>The value of the specified property, or null if the property is not found.</returns>
+    public static object? GetPropertyValue(this object obj, string propertyName) => obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
     #endregion
 }

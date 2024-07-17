@@ -235,13 +235,13 @@ public class StswNavigation : ContentControl, IStswCornerControl
                 if (stsw.TabStripMode == StswCompactibility.Full)
                 {
                     stsw.CompactedExpander.Items.Clear();
-                    foreach (StswNavigationElement item in stsw.ItemsCompact.Clone())
+                    foreach (StswNavigationElement item in stsw.ItemsCompact.TryClone())
                         stsw.CompactedExpander.Items.Add(item);
                 }
                 else if (stsw.TabStripMode == StswCompactibility.Compact)
                 {
                     stsw.ItemsCompact.Clear();
-                    foreach (StswNavigationElement item in stsw.CompactedExpander.Items.Clone())
+                    foreach (StswNavigationElement item in stsw.CompactedExpander.Items.TryClone())
                         stsw.ItemsCompact.Add(item);
                 }
             }

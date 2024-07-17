@@ -10,15 +10,16 @@ public class StswBindingProxy : Freezable
     public StswBindingProxy()
     {
     }
+
     public StswBindingProxy(object proxy)
     {
         Proxy = proxy;
     }
 
     /// <summary>
-    /// 
+    /// Creates a new instance of the <see cref="StswBindingProxy"/> class.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A new instance of the <see cref="StswBindingProxy"/> class.</returns>
     protected override Freezable CreateInstanceCore() => new StswBindingProxy();
 
     /// <summary>

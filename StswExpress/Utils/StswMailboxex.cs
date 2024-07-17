@@ -86,7 +86,9 @@ public static class StswMailboxex
 /// </summary>
 public class StswMailboxModel : StswObservableObject
 {
-    /// Name
+    /// <summary>
+    /// Gets or sets the name of the email account.
+    /// </summary>
     public string Name
     {
         get => _name;
@@ -94,7 +96,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _name = string.Empty;
 
-    /// Host
+    /// <summary>
+    /// Gets or sets the SMTP host for the email account.
+    /// </summary>
     public string Host
     {
         get => _host;
@@ -102,7 +106,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _host = string.Empty;
 
-    /// Port
+    /// <summary>
+    /// Gets or sets the port number for the SMTP host.
+    /// </summary>
     public int Port
     {
         get => _port;
@@ -110,7 +116,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private int _port = 0;
 
-    /// Address
+    /// <summary>
+    /// Gets or sets the email address associated with the email account.
+    /// </summary>
     public string Address
     {
         get => _address;
@@ -118,7 +126,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _address = string.Empty;
 
-    /// Username
+    /// <summary>
+    /// Gets or sets the username for the email account.
+    /// </summary>
     public string Username
     {
         get => _username;
@@ -126,7 +136,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _username = string.Empty;
 
-    /// Password
+    /// <summary>
+    /// Gets or sets the password for the email account.
+    /// </summary>
     public string Password
     {
         get => _password;
@@ -134,7 +146,9 @@ public class StswMailboxModel : StswObservableObject
     }
     private string _password = string.Empty;
 
-    /// Domain
+    /// <summary>
+    /// Gets or sets the domain for the email account.
+    /// </summary>
     public string? Domain
     {
         get => _domain;
@@ -142,23 +156,29 @@ public class StswMailboxModel : StswObservableObject
     }
     private string? _domain;
 
-    /// EnableSSL
+    /// <summary>
+    /// Gets or sets a value indicating whether SSL is enabled for the email account.
+    /// </summary>
     public bool EnableSSL
     {
         get => _enableSSL;
         set => SetProperty(ref _enableSSL, value);
     }
     private bool _enableSSL = false;
-    
-    /// BCC
+
+    /// <summary>
+    /// Gets or sets the collection of BCC recipients for the email account.
+    /// </summary>
     public IEnumerable<string>? BCC
     {
         get => _bcc;
         set => SetProperty(ref _bcc, value);
     }
     private IEnumerable<string>? _bcc;
-    
-    /// ReplyTo
+
+    /// <summary>
+    /// Gets or sets the collection of reply-to addresses for the email account.
+    /// </summary>
     public IEnumerable<string>? ReplyTo
     {
         get => _replyTo;
@@ -169,6 +189,12 @@ public class StswMailboxModel : StswObservableObject
     /// <summary>
     /// Sends an email using the SMTP protocol.
     /// </summary>
+    /// <param name="to">The collection of recipient email addresses.</param>
+    /// <param name="subject">The subject of the email.</param>
+    /// <param name="body">The body content of the email.</param>
+    /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
+    /// <param name="bcc">An optional collection of BCC recipients.</param>
+    /// <param name="reply">An optional collection of reply-to addresses.</param>
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null, IEnumerable<string>? bcc = null, IEnumerable<string>? reply = null)
     {
         using var mail = new MailMessage();
@@ -200,19 +226,19 @@ public class StswMailboxModel : StswObservableObject
     }
 
     /// <summary>
-    /// 
+    /// Sends an email using the SMTP protocol with optional attachments.
     /// </summary>
-    /// <param name="to"></param>
-    /// <param name="subject"></param>
-    /// <param name="body"></param>
-    /// <param name="attachments"></param>
+    /// <param name="to">The collection of recipient email addresses.</param>
+    /// <param name="subject">The subject of the email.</param>
+    /// <param name="body">The body content of the email.</param>
+    /// <param name="attachments">An optional collection of file paths to attach to the email.</param>
     public void Send(IEnumerable<string> to, string subject, string body, IEnumerable<string>? attachments = null) => Send(to, subject, body, attachments, BCC, ReplyTo);
 
     /// <summary>
-    /// 
+    /// Sends an email using the SMTP protocol without attachments.
     /// </summary>
-    /// <param name="to"></param>
-    /// <param name="subject"></param>
-    /// <param name="body"></param>
+    /// <param name="to">The collection of recipient email addresses.</param>
+    /// <param name="subject">The subject of the email.</param>
+    /// <param name="body">The body content of the email.</param>
     public void Send(IEnumerable<string> to, string subject, string body) => Send(to, subject, body, null, BCC, ReplyTo);
 }

@@ -188,7 +188,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                     if (stsw._stswNavigation.CompactedExpander != null && stsw._stswNavigation.ItemsCompact.Count > 0)
                     {
                         stsw._stswNavigation.CompactedExpander.Items.Clear();
-                        foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.Clone())
+                        foreach (StswNavigationElement item in stsw._stswNavigation.ItemsCompact.TryClone())
                         {
                             item.IsInCompactPanel = false;
                             stsw._stswNavigation.CompactedExpander.Items.Add(item);
@@ -202,7 +202,7 @@ public class StswNavigationElement : HeaderedItemsControl, IStswCornerControl, I
                     {
                         /// load new items to compact panel
                         stsw._stswNavigation.CompactedExpander = stsw;
-                        stsw._stswNavigation.ItemsCompact = stsw.Items.Clone().Cast<StswNavigationElement>().ToObservableCollection();
+                        stsw._stswNavigation.ItemsCompact = stsw.Items.TryClone().Cast<StswNavigationElement>().ToObservableCollection();
                         foreach (var item in stsw._stswNavigation.ItemsCompact)
                             item.IsInCompactPanel = true;
                     }

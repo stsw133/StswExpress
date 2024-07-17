@@ -19,22 +19,22 @@ public class StswBindingTrigger : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// 
+    /// Gets the binding that is created for the trigger.
     /// </summary>
     public Binding Binding { get; }
 
     /// <summary>
-    /// 
+    /// Occurs when a property value changes.
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
-    /// 
+    /// Refreshes the binding by raising the PropertyChanged event for the Value property.
     /// </summary>
     public void Refresh() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
 
     /// <summary>
-    /// 
+    /// Gets the value of the binding trigger.
     /// </summary>
     public object? Value { get; }
 }

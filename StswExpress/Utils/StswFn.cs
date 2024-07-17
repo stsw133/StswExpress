@@ -28,30 +28,37 @@ public static partial class StswFn
 {
     #region Assembly functions
     /// <summary>
-    /// Returns the name of the currently executing application.
+    /// Gets the name of the currently executing application.
     /// </summary>
+    /// <returns>The name of the currently executing application, or null if it cannot be determined.</returns>
     public static string? AppName() => Assembly.GetEntryAssembly()?.GetName().Name;
 
     /// <summary>
-    /// Returns the version number of the currently executing application.
+    /// Gets the version number of the currently executing application.
     /// </summary>
+    /// <returns>The version number of the currently executing application as a string, or null if it cannot be determined.</returns>
     public static string? AppVersion() => Assembly.GetEntryAssembly()?.GetName().Version?.ToString()?.TrimEnd('0', '.');
 
     /// <summary>
-    /// Returns the name and version number of the currently executing application.
+    /// Gets the name and version number of the currently executing application.
     /// </summary>
+    /// <returns>A string containing the name and version number of the currently executing application.</returns>
     public static string AppNameAndVersion => $"{AppName()} {(AppVersion() != "1" ? AppVersion() : string.Empty)}";
 
     /// <summary>
-    /// Returns the copyright information for the currently executing application.
+    /// Gets the copyright information for the currently executing application.
     /// </summary>
+    /// <returns>The copyright information, or null if it cannot be determined.</returns>
     public static string? AppCopyright => Assembly.GetEntryAssembly()?.Location is string location ? FileVersionInfo.GetVersionInfo(location).LegalCopyright : null;
     #endregion
 
     #region Bool functions
     /// <summary>
-    /// Checks if element is part of <see cref="Popup"/> control.
+    /// Determines whether the specified element is part of the specified <see cref="Popup"/> control.
     /// </summary>
+    /// <param name="popup">The Popup control to check against.</param>
+    /// <param name="element">The element to check.</param>
+    /// <returns>True if the element is part of the Popup control; otherwise, false.</returns>
     public static bool IsChildOfPopup(Popup popup, DependencyObject element)
     {
         var parent = VisualTreeHelper.GetParent(element);
@@ -67,46 +74,69 @@ public static partial class StswFn
 
     #region Color functions
     /// <summary>
-    /// Makes color from HSL values.
+    /// Creates a <see cref="Color"/> from the specified alpha, hue, saturation, and lightness (HSL) values.
     /// </summary>
-    /// <param name="alpha">Between 0 and 255.</param>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="lightness">Between 0 and 1.</param>
-    /// <returns></returns>
+    /// <param name="alpha">The alpha component (0-255).</param>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="lightness">The lightness component (0-1).</param>
+    /// <returns>A <see cref="Color"/> object representing the specified HSL values.</returns>
     public static Color ColorFromAhsl(byte alpha, double hue, double saturation, double lightness)
     {
-        double h = hue / 360.0;
-        double c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
-        double x = c * (1 - Math.Abs((h * 6) % 2 - 1));
-        double m = lightness - c / 2;
+        var h = hue / 360.0;
+        var c = (1 - Math.Abs(2 * lightness - 1)) * saturation;
+        var x = c * (1 - Math.Abs((h * 6) % 2 - 1));
+        var m = lightness - c / 2;
 
+        double r = 0, g = 0, b = 0;
         if (h < 1.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255));
+        {
+            r = c; g = x;
+        }
         else if (h < 2.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255));
+        {
+            r = x; g = c;
+        }
         else if (h < 3.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255), (byte)Math.Round((x + m) * 255));
+        {
+            g = c; b = x;
+        }
         else if (h < 4.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255), (byte)Math.Round((c + m) * 255));
+        {
+            g = x; b = c;
+        }
         else if (h < 5.0 / 6)
-            return Color.FromArgb(alpha, (byte)Math.Round((x + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((c + m) * 255));
+        {
+            r = x; b = c;
+        }
         else
-            return Color.FromArgb(alpha, (byte)Math.Round((c + m) * 255), (byte)Math.Round(m * 255), (byte)Math.Round((x + m) * 255));
+        {
+            r = c; b = x;
+        }
+
+        r = Math.Round((r + m) * 255);
+        g = Math.Round((g + m) * 255);
+        b = Math.Round((b + m) * 255);
+
+        return Color.FromArgb(alpha, (byte)r, (byte)g, (byte)b);
     }
 
     /// <summary>
-    /// Makes color from HSL values.
+    /// Creates a <see cref="Color"/> from the specified hue, saturation, and lightness (HSL) values with full opacity.
     /// </summary>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="lightness">Between 0 and 1.</param>
-    /// <returns></returns>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="lightness">The lightness component (0-1).</param>
+    /// <returns>A <see cref="Color"/> object representing the specified HSL values with full opacity.</returns>
     public static Color ColorFromHsl(double hue, double saturation, double lightness) => ColorFromAhsl(255, hue, saturation, lightness);
 
     /// <summary>
-    /// Gets HSL values from color.
+    /// Converts a <see cref="Color"/> to its hue, saturation, and lightness (HSL) components.
     /// </summary>
+    /// <param name="color">The color to convert.</param>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="lightness">The lightness component (0-1).</param>
     public static void ColorToHsl(Color color, out double hue, out double saturation, out double lightness)
     {
         var drawingColor = color.ToDrawingColor();
@@ -117,50 +147,51 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Makes color from HSV values.
+    /// Creates a <see cref="Color"/> from the specified alpha, hue, saturation, and value (HSV) values.
     /// </summary>
-    /// <param name="alpha">Between 0 and 255.</param>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="value">Between 0 and 1.</param>
-    /// <returns></returns>
+    /// <param name="alpha">The alpha component (0-255).</param>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="value">The value component (0-1).</param>
+    /// <returns>A <see cref="Color"/> object representing the specified HSV values.</returns>
     public static Color ColorFromAhsv(byte alpha, double hue, double saturation, double value)
     {
-        int h = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-        double f = hue / 60 - Math.Floor(hue / 60);
+        var h = (int)Math.Floor(hue / 60) % 6;
+        var f = hue / 60 - Math.Floor(hue / 60);
 
         value *= 255;
-        byte v = Convert.ToByte(value);
-        byte p = Convert.ToByte(value * (1 - saturation));
-        byte q = Convert.ToByte(value * (1 - f * saturation));
-        byte t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+        var v = (byte)value;
+        var p = (byte)(value * (1 - saturation));
+        var q = (byte)(value * (1 - f * saturation));
+        var t = (byte)(value * (1 - (1 - f) * saturation));
 
-        if (h == 0)
-            return Color.FromArgb(alpha, v, t, p);
-        else if (h == 1)
-            return Color.FromArgb(alpha, q, v, p);
-        else if (h == 2)
-            return Color.FromArgb(alpha, p, v, t);
-        else if (h == 3)
-            return Color.FromArgb(alpha, p, q, v);
-        else if (h == 4)
-            return Color.FromArgb(alpha, t, p, v);
-        else
-            return Color.FromArgb(alpha, v, p, q);
+        return h switch
+        {
+            0 => Color.FromArgb(alpha, v, t, p),
+            1 => Color.FromArgb(alpha, q, v, p),
+            2 => Color.FromArgb(alpha, p, v, t),
+            3 => Color.FromArgb(alpha, p, q, v),
+            4 => Color.FromArgb(alpha, t, p, v),
+            _ => Color.FromArgb(alpha, v, p, q)
+        };
     }
 
     /// <summary>
-    /// Makes color from HSV values.
+    /// Creates a <see cref="Color"/> from the specified hue, saturation, and value (HSV) values with full opacity.
     /// </summary>
-    /// <param name="hue">Between 0 and 360.</param>
-    /// <param name="saturation">Between 0 and 1.</param>
-    /// <param name="value">Between 0 and 1.</param>
-    /// <returns></returns>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="value">The value component (0-1).</param>
+    /// <returns>A <see cref="Color"/> object representing the specified HSV values with full opacity.</returns>
     public static Color ColorFromHsv(double hue, double saturation, double value) => ColorFromAhsv(255, hue, saturation, value);
 
     /// <summary>
-    /// Gets HSV values from color.
+    /// Converts a <see cref="Color"/> to its hue, saturation, and value (HSV) components.
     /// </summary>
+    /// <param name="color">The color to convert.</param>
+    /// <param name="hue">The hue component (0-360).</param>
+    /// <param name="saturation">The saturation component (0-1).</param>
+    /// <param name="value">The value component (0-1).</param>
     public static void ColorToHsv(Color color, out double hue, out double saturation, out double value)
     {
         int max = Math.Max(color.R, Math.Max(color.G, color.B));
@@ -172,16 +203,24 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Generate new color based on passed value and the provided seed as parameter.
+    /// Generates a new <see cref="Color"/> based on the specified text and seed for brightness adjustment.
     /// </summary>
-    /// <param name="text">Text to change into color.</param>
-    /// <param name="seed">Brightness threshold.</param>
-    /// <returns>Generated color.</returns>
+    /// <param name="text">The text to convert into a color.</param>
+    /// <param name="seed">The seed value used to adjust the brightness of the generated color.</param>
+    /// <returns>A <see cref="Color"/> object generated from the text and adjusted by the seed value.</returns>
     public static Color GenerateColor(string text, int seed)
     {
+        static int AdjustBrightness(int colorComponent, int seed)
+        {
+            if (colorComponent > seed)
+                return colorComponent - (colorComponent - seed) / 2;
+            else if (colorComponent < seed)
+                return colorComponent + (seed - colorComponent) / 2;
+            return colorComponent;
+        }
+
         var color = Colors.Transparent;
 
-        /// generate new color
         if (!string.IsNullOrEmpty(text))
         {
             byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(text));
@@ -191,20 +230,9 @@ public static partial class StswFn
 
             if (seed >= 0)
             {
-                if (r > seed)
-                    r -= (r - seed) / 2;
-                else if (r < seed)
-                    r += (seed - r) / 2;
-
-                if (g > seed)
-                    g -= (g - seed) / 2;
-                else if (g < seed)
-                    g += (seed - g) / 2;
-
-                if (b > seed)
-                    b -= (b - seed) / 2;
-                else if (b < seed)
-                    b += (seed - b) / 2;
+                r = AdjustBrightness(r, seed);
+                g = AdjustBrightness(g, seed);
+                b = AdjustBrightness(b, seed);
             }
 
             color = Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
@@ -243,10 +271,10 @@ public static partial class StswFn
 
     #region File functions
     /// <summary>
-    /// Checks if file is in use.
+    /// Checks if a file is currently in use.
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="path">The path to the file.</param>
+    /// <returns>True if the file is in use; otherwise, false.</returns>
     public static bool IsFileInUse(string path)
     {
         if (File.Exists(path))
@@ -264,13 +292,15 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Moves a file to recycle bin.
+    /// Moves a file to the recycle bin.
     /// </summary>
+    /// <param name="filePath">The path to the file to be moved to the recycle bin.</param>
     public static void MoveToRecycleBin(string filePath) => FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 
     /// <summary>
     /// Opens a file in its associated application.
     /// </summary>
+    /// <param name="path">The path to the file to be opened.</param>
     public static void OpenFile(string path)
     {
         var process = new Process();
@@ -285,26 +315,27 @@ public static partial class StswFn
     /// <summary>
     /// Finds the first visual ancestor of a specific type for the given control.
     /// </summary>
+    /// <typeparam name="T">The type of the ancestor to find.</typeparam>
+    /// <param name="obj">The control for which to find the visual ancestor.</param>
+    /// <returns>The first visual ancestor of the specified type, or null if no such ancestor exists.</returns>
     public static T? FindVisualAncestor<T>(DependencyObject obj) where T : DependencyObject
     {
-        if (obj != null)
+        var dependObj = obj;
+        while (dependObj != null)
         {
-            var dependObj = obj;
-            do
-            {
-                dependObj = GetParent(dependObj);
-                if (dependObj is T)
-                    return dependObj as T;
-            }
-            while (dependObj != null);
+            dependObj = GetParent(dependObj);
+            if (dependObj is T ancestor)
+                return ancestor;
         }
-
         return null;
     }
 
     /// <summary>
     /// Finds the first visual child of a specific type for the given control.
     /// </summary>
+    /// <typeparam name="T">The type of the child to find.</typeparam>
+    /// <param name="obj">The control for which to find the visual child.</param>
+    /// <returns>The first visual child of the specified type, or null if no such child exists.</returns>
     public static T? FindVisualChild<T>(DependencyObject obj) where T : Visual
     {
         if (obj == null)
@@ -315,12 +346,10 @@ public static partial class StswFn
             var child = VisualTreeHelper.GetChild(obj, i);
             if (child is T result)
                 return result;
-            else
-            {
-                var descendent = FindVisualChild<T>(child);
-                if (descendent != null)
-                    return descendent;
-            }
+
+            var descendent = FindVisualChild<T>(child);
+            if (descendent != null)
+                return descendent;
         }
 
         return null;
@@ -329,44 +358,54 @@ public static partial class StswFn
     /// <summary>
     /// Finds all visual children of a specific type for the given control.
     /// </summary>
+    /// <typeparam name="T">The type of the children to find.</typeparam>
+    /// <param name="obj">The control for which to find the visual children.</param>
+    /// <returns>An enumerable collection of visual children of the specified type.</returns>
     public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj) where T : DependencyObject
     {
-        if (obj != null)
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-                if (VisualTreeHelper.GetChild(obj, i) is DependencyObject child)
-                {
-                    if (child is T t)
-                        yield return t;
+        if (obj == null)
+            yield break;
 
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                        yield return childOfChild;
-                }
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        {
+            var child = VisualTreeHelper.GetChild(obj, i);
+            if (child is T t)
+                yield return t;
+
+            foreach (T childOfChild in FindVisualChildren<T>(child))
+                yield return childOfChild;
+        }
     }
 
     /// <summary>
     /// Gets the parent of the given control.
     /// </summary>
+    /// <param name="obj">The control for which to find the parent.</param>
+    /// <returns>The parent of the control, or null if no parent exists.</returns>
     public static DependencyObject? GetParent(DependencyObject obj)
     {
         if (obj == null)
             return null;
-        if (obj is ContentElement)
+
+        if (obj is ContentElement contentElement)
         {
-            var parent = ContentOperations.GetParent(obj as ContentElement);
+            var parent = ContentOperations.GetParent(contentElement);
             if (parent != null)
                 return parent;
-            if (obj is FrameworkContentElement)
-                return (obj as FrameworkContentElement)?.Parent;
-            return null;
-        }
 
-        return VisualTreeHelper.GetParent(obj);
+            if (obj is FrameworkContentElement frameworkContentElement)
+                return frameworkContentElement.Parent;
+        }
+        else return VisualTreeHelper.GetParent(obj);
+
+        return null;
     }
 
     /// <summary>
     /// Gets the parent popup of the given control.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="obj">The control for which to find the parent popup.</param>
+    /// <returns>The parent <see cref="Popup"/> control, or null if no parent popup exists.</returns>
     public static Popup? GetParentPopup(DependencyObject obj)
     {
         var popupRootFinder = VisualTreeHelper.GetParent(obj);
@@ -375,6 +414,7 @@ public static partial class StswFn
             var logicalRoot = LogicalTreeHelper.GetParent(popupRootFinder);
             if (logicalRoot is Popup popup)
                 return popup;
+
             popupRootFinder = VisualTreeHelper.GetParent(popupRootFinder);
         }
         return null;
@@ -386,32 +426,47 @@ public static partial class StswFn
     /// Evaluates a mathematical expression given as a string.
     /// </summary>
     /// <param name="expression">The mathematical expression to evaluate.</param>
-    /// <returns>The result of the evaluated expression.</returns>
+    /// <returns>The result of the evaluated expression as a double.</returns>
     public static double Evaluate(string expression) => StswCalculator.EvaluatePostfix(StswCalculator.ConvertToPostfix(expression));
 
     /// <summary>
     /// Shifts the selected index by the specified step, considering looping and boundary conditions.
     /// </summary>
-    /// <param name="currIndex"></param>
-    /// <param name="itemsCount"></param>
-    /// <param name="step">The step value for shifting through items</param>
-    /// <param name="isLoopingAllowed"></param>
+    /// <param name="currIndex">The current index.</param>
+    /// <param name="itemsCount">The total number of items.</param>
+    /// <param name="step">The step value for shifting through items.</param>
+    /// <param name="isLoopingAllowed">Specifies whether looping is allowed when shifting.</param>
+    /// <returns>The new shifted index.</returns>
     public static int ShiftIndexBy(int currIndex, int itemsCount, int step, bool isLoopingAllowed)
     {
         if (itemsCount <= 0)
             return -1;
-        else if (isLoopingAllowed || !(currIndex + step >= itemsCount || currIndex + step < 0))
-            return (currIndex + step % itemsCount + itemsCount) % itemsCount;
-        else if (step > 0)
-            return itemsCount - 1;
-        else
-            return 0;
-    }
 
+        int newIndex = (currIndex + step) % itemsCount;
+        if (newIndex < 0) newIndex += itemsCount;
+
+        if (isLoopingAllowed)
+            return newIndex;
+
+        if (newIndex >= itemsCount)
+            return itemsCount - 1;
+
+        if (newIndex < 0)
+            return 0;
+
+        return newIndex;
+    }
+    /*
     /// <summary>
-    /// Attempts to calculate a result from the provided mathematical expression using the order of operations and returns a bool indicating success or failure.
-    /// The result of the calculation is stored in the result out parameter if successful.
+    /// Attempts to calculate a result from the provided mathematical expression using the order of operations.
     /// </summary>
+    /// <param name="expression">The mathematical expression to evaluate.</param>
+    /// <param name="result">The result of the evaluated expression.</param>
+    /// <param name="culture">The culture info to use for parsing numbers (optional).</param>
+    /// <returns>True if the calculation was successful, otherwise false.</returns>
+    /// <remarks>
+    /// This method is obsolete. Use <see cref="Evaluate"/> instead.
+    /// </remarks>
     [Obsolete($"Use \"{nameof(Evaluate)}\" instead!")]
     public static bool TryCalculateString(string expression, out decimal result, CultureInfo? culture = null)
     {
@@ -505,26 +560,33 @@ public static partial class StswFn
             return false;
         }
     }
+    */
     #endregion
 
     #region Serialization functions
     /// <summary>
-    /// 
+    /// Serializes an object to a JSON string.
     /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="obj">The object to serialize.</param>
+    /// <returns>A JSON string representing the serialized object, or null if the object is null.</returns>
     public static string? SerializeToJson<T>(T obj)
     {
         if (obj == null)
             return null;
 
-        var serializer = new DataContractJsonSerializer(obj.GetType());
+        var serializer = new DataContractJsonSerializer(typeof(T));
         using var stream = new MemoryStream();
         serializer.WriteObject(stream, obj);
         return Encoding.UTF8.GetString(stream.ToArray());
     }
 
     /// <summary>
-    /// 
+    /// Deserializes a JSON string to an object of type <typeparamref name="T"/>.
     /// </summary>
+    /// <typeparam name="T">The type of the object to deserialize.</typeparam>
+    /// <param name="json">The JSON string to deserialize.</param>
+    /// <returns>An object of type <typeparamref name="T"/>.</returns>
     public static T? DeserializeFromJson<T>(string json)
     {
         var serializer = new DataContractJsonSerializer(typeof(T));
@@ -535,9 +597,10 @@ public static partial class StswFn
 
     #region Special functions
     /// <summary>
-    /// Determines the owner of the process.
+    /// Determines the user that owns the specified process.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="process">The process whose owner is to be determined.</param>
+    /// <returns>The username of the owner of the process, or null if it cannot be determined.</returns>
     public static string? GetProcessUser(Process process)
     {
         var processHandle = IntPtr.Zero;
@@ -570,6 +633,7 @@ public static partial class StswFn
     /// <summary>
     /// Determines the current Windows theme color (Light or Dark) by checking the "AppsUseLightTheme" registry value.
     /// </summary>
+    /// <returns>The current Windows theme as a <see cref="StswTheme"/> enumeration.</returns>
     public static StswTheme GetWindowsTheme()
     {
         var theme = StswTheme.Light;
@@ -580,31 +644,27 @@ public static partial class StswFn
             {
                 var registryValueObject = key?.GetValue("AppsUseLightTheme");
                 if (registryValueObject == null)
-                    return 0;
+                    return theme;
 
                 var registryValue = (int)registryValueObject;
-
-                //if (SystemParameters.HighContrast)
-                //    theme = 2;
-
-                theme = (StswTheme)(registryValue > 0 ? 0 : 1);
+                theme = registryValue > 0 ? StswTheme.Light : StswTheme.Dark;
             }
-
-            return theme;
         }
         catch
         {
-            return theme;
+            /// default to light theme in case of exception
         }
+
+        return theme;
     }
     #endregion
 
     #region Text functions
     /// <summary>
-    /// Converts diacritics in string to their ASCII substitutes.
+    /// Converts diacritics in a string to their ASCII substitutes.
     /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
+    /// <param name="text">The input string containing diacritics.</param>
+    /// <returns>The normalized string with diacritics replaced by ASCII substitutes.</returns>
     public static string NormalizeDiacritics(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -621,8 +681,11 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Removes consecutive occurrences of a specified string in another string.
+    /// Removes consecutive occurrences of a specified string from the original text.
     /// </summary>
+    /// <param name="originalText">The original text to process.</param>
+    /// <param name="textToRemove">The string to remove when consecutive occurrences are found.</param>
+    /// <returns>The processed string with consecutive occurrences removed.</returns>
     public static string RemoveConsecutiveText(string originalText, string textToRemove)
     {
         var result = originalText;
@@ -634,8 +697,11 @@ public static partial class StswFn
     }
 
     /// <summary>
-    /// Returns a new list of strings separated by a certain number of lines.
+    /// Splits a string into multiple parts, each containing a specified number of lines.
     /// </summary>
+    /// <param name="input">The input string to split.</param>
+    /// <param name="linesPerPart">The number of lines per part.</param>
+    /// <returns>An enumerable collection of strings, each containing the specified number of lines.</returns>
     public static IEnumerable<string> SplitStringByLines(string input, int linesPerPart)
     {
         if (string.IsNullOrEmpty(input) || linesPerPart <= 0)
@@ -649,7 +715,7 @@ public static partial class StswFn
 
         while (index < lines.Length)
         {
-            yield return string.Join(string.Empty, lines.Skip(index).Take(linesPerPart));
+            yield return string.Join("\n", lines.Skip(index).Take(linesPerPart));
             index += linesPerPart;
         }
     }
@@ -659,23 +725,24 @@ public static partial class StswFn
     /// <summary>
     /// Opens the context menu of a <see cref="FrameworkElement"/> at its current position.
     /// </summary>
+    /// <param name="element">The <see cref="FrameworkElement"/> whose context menu will be opened.</param>
     [Obsolete("This method will be removed in future versions.")]
-    public static void OpenContextMenu(FrameworkElement f)
+    public static void OpenContextMenu(FrameworkElement element)
     {
-        f.ContextMenu.PlacementTarget = f;
-        f.ContextMenu.IsOpen = true;
+        element.ContextMenu.PlacementTarget = element;
+        element.ContextMenu.IsOpen = true;
     }
 
     /// <summary>
-    /// 
+    /// Removes a <see cref="FrameworkElement"/> from its parent container.
     /// </summary>
-    /// <param name="f"></param>
-    public static void RemoveFromParent(FrameworkElement f)
+    /// <param name="element">The <see cref="FrameworkElement"/> to be removed from its parent.</param>
+    public static void RemoveFromParent(FrameworkElement element)
     {
-        if (f.Parent == null)
+        if (element.Parent == null)
             return;
 
-        switch (f.Parent)
+        switch (element.Parent)
         {
             case ContentControl contentControl:
                 contentControl.Content = null;
@@ -687,10 +754,10 @@ public static partial class StswFn
                 decorator.Child = null;
                 break;
             case ItemsControl itemsControl:
-                itemsControl.Items.Remove(f);
+                itemsControl.Items.Remove(element);
                 break;
             case Panel panel:
-                panel.Children.Remove(f);
+                panel.Children.Remove(element);
                 break;
         }
     }
@@ -698,24 +765,45 @@ public static partial class StswFn
 
     #region Validation functions
     /// <summary>
-    /// 
+    /// Validates whether the specified email address is in a valid format.
     /// </summary>
-    /// <param name="email"></param>
-    /// <returns></returns>
+    /// <param name="email">The email address to validate.</param>
+    /// <returns><see langword="true"/> if the email address is valid; otherwise, <see langword="false"/>.</returns>
     public static bool IsValidEmail(string email) => new EmailAddressAttribute().IsValid(email);
 
     /// <summary>
-    /// 
+    /// Validates whether the specified phone number is in a valid format.
     /// </summary>
-    /// <param name="number"></param>
-    /// <returns></returns>
-    public static bool IsValidPhoneNumber(string number) => new string(number.ToCharArray().Where(char.IsDigit).ToArray()).Length.Between(9, 11);
+    /// <param name="number">The phone number to validate.</param>
+    /// <returns><see langword="true"/> if the phone number contains between 7 and 15 digits; otherwise, <see langword="false"/>.</returns>
+    public static bool IsValidPhoneNumber(string number) => new string(number.Where(char.IsDigit).ToArray()).Length.Between(7, 15);
 
     /// <summary>
-    /// 
+    /// Validates whether the specified URL is in a valid format and uses HTTP or HTTPS.
     /// </summary>
-    /// <param name="url"></param>
-    /// <returns></returns>
-    public static bool IsValidUrl(string url) => Uri.TryCreate(url, UriKind.Absolute, out var result) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+    /// <param name="url">The URL to validate.</param>
+    /// <returns><see langword="true"/> if the URL is valid, uses HTTP or HTTPS, and has a valid domain; otherwise, <see langword="false"/>.</returns>
+    public static bool IsValidUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out var result))
+        {
+            if (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps)
+            {
+                try
+                {
+                    var host = result.Host;
+                    if (string.IsNullOrWhiteSpace(host))
+                        return false;
+
+                    return host.Contains('.') && !host.Any(char.IsWhiteSpace);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
     #endregion
 }
