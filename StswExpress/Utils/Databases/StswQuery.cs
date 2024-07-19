@@ -1,35 +1,79 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace StswExpress;
 /// <summary>
-/// 
+/// Represents a query to be executed against a SQL database.
 /// </summary>
-public class StswQuery(string query, StswDatabaseModel? stswDb = null)
+public class StswQuery
 {
-    /// static properties
+    /// <summary>
+    /// Gets or sets a value indicating whether to always make less space in the query.
+    /// </summary>
     public static bool AlwaysMakeLessSpaceQuery { get; set; } = true;
-    //public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
-    public static bool AlwaysReturnIfNoDatabase { get; set; } = false;
-
-    /// local properties
-    //public bool MakeLessSpaceQuery { get; set; } = AlwaysMakeLessSpaceQuery;
-    //public bool ReturnIfInDesignerMode { get; set; } = AlwaysReturnIfInDesignerMode;
-    public bool ReturnIfNoDatabase { get; set; } = AlwaysReturnIfNoDatabase;
-
-    public StswDatabaseModel? Database { protected get; set; } = stswDb ?? StswDatabases.Current;
-    public string Query { get; protected set; } = AlwaysMakeLessSpaceQuery ? LessSpaceQuery(query) : query;
 
     /// <summary>
-    /// 
+    /// Gets or sets a value indicating whether to always return if in designer mode.
     /// </summary>
-    /// <returns></returns>
+    public static bool AlwaysReturnIfInDesignerMode { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to always return if no database is available.
+    /// </summary>
+    public static bool AlwaysReturnIfNoDatabase { get; set; } = false;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StswQuery"/> class with the specified query and optional database model.
+    /// </summary>
+    /// <param name="query">The SQL query to execute.</param>
+    /// <param name="stswDb">The database model to use. If null, the current database model will be used.</param>
+    public StswQuery(string query, StswDatabaseModel? stswDb = null)
+    {
+        Database = stswDb ?? StswDatabases.Current;
+        Query = MakeLessSpaceQuery ? LessSpaceQuery(query) : query;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to make less space in the query.
+    /// </summary>
+    public bool MakeLessSpaceQuery { get; set; } = AlwaysMakeLessSpaceQuery;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to return if in designer mode.
+    /// </summary>
+    public bool ReturnIfInDesignerMode { get; set; } = AlwaysReturnIfInDesignerMode;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to return if no database is available.
+    /// </summary>
+    public bool ReturnIfNoDatabase { get; set; } = AlwaysReturnIfNoDatabase;
+
+    /// <summary>
+    /// Gets or sets the database model.
+    /// </summary>
+    public StswDatabaseModel? Database { protected get; set; }
+    
+    /// <summary>
+    /// Gets or sets the SQL query.
+    /// </summary>
+    public string Query { get; protected set; }
+
+    /// <summary>
+    /// Executes the query and returns a scalar value.
+    /// </summary>
+    /// <typeparam name="T">The type of the scalar value to return.</typeparam>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>The scalar value.</returns>
     public T ExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -44,9 +88,13 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     }
 
     /// <summary>
-    /// 
+    /// Executes the query and returns a scalar value or default if the query fails.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the scalar value to return.</typeparam>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>The scalar value or default.</returns>
     public T? TryExecuteScalar<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -62,9 +110,29 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     }
 
     /// <summary>
-    /// 
+    /// Executes the query and returns a <see cref="SqlDataReader"/> for advanced data handling.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>A <see cref="SqlDataReader"/>.</returns>
+    public SqlDataReader? ExecuteReader(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
+    {
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
+            return default;
+
+        var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction);
+        PrepareParameters(sqlCmd, sqlParameters);
+        return sqlCmd.ExecuteReader(CommandBehavior.CloseConnection);
+    }
+
+    /// <summary>
+    /// Executes the query and returns the number of rows affected.
+    /// </summary>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected.</returns>
     public int? ExecuteNonQuery(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -79,9 +147,13 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     }
 
     /// <summary>
-    /// 
+    /// Executes the query and returns a collection of results.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the results.</typeparam>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>A collection of results.</returns>
     public IEnumerable<T> Get<T>(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : class, new()
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -97,11 +169,18 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
             return dt.MapTo<T>();
         }
     }
-    
+
     /// <summary>
-    /// 
+    /// Executes the query and updates the database with the specified input collection.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the items in the input collection.</typeparam>
+    /// <param name="input">The input collection.</param>
+    /// <param name="idProp">The property name of the ID.</param>
+    /// <param name="inclusionMode">The inclusion mode.</param>
+    /// <param name="inclusionProps">The properties to include or exclude based on the inclusion mode.</param>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
     public void Set<T>(StswBindingList<T> input, string idProp, StswInclusionMode inclusionMode = StswInclusionMode.Include, IEnumerable<string>? inclusionProps = null, IList<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null) where T : IStswCollectionItem, new()
     {
         if (!PrepareConnection(sqlConnection, sqlTransaction))
@@ -154,17 +233,55 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
         }
     }
 
+    /// <summary>
+    /// Performs a bulk insert operation to improve performance when inserting large datasets.
+    /// </summary>
+    /// <typeparam name="T">The type of the items to insert.</typeparam>
+    /// <param name="items">The collection of items to insert.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    public void BulkInsert<T>(IEnumerable<T> items, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
+    {
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
+            return;
+
+        using (var bulkCopy = new SqlBulkCopy(_sqlConnection, SqlBulkCopyOptions.Default, _sqlTransaction))
+        {
+            bulkCopy.DestinationTableName = Query;
+            var dataTable = items.ToDataTable();
+            bulkCopy.WriteToServer(dataTable);
+        }
+    }
 
     /// <summary>
-    /// 
+    /// Executes a stored procedure with parameters.
     /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
+    /// <param name="sqlParameters">The SQL parameters to use.</param>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>The number of rows affected.</returns>
+    public int? ExecuteStoredProcedure(IEnumerable<SqlParameter>? sqlParameters = null, object? sqlConnection = null, SqlTransaction? sqlTransaction = null)
+    {
+        if (!PrepareConnection(sqlConnection, sqlTransaction))
+            return default;
+
+        using (var sqlCmd = new SqlCommand(Query, _sqlConnection, _sqlTransaction) { CommandType = CommandType.StoredProcedure })
+        {
+            PrepareParameters(sqlCmd, sqlParameters);
+            return sqlCmd.ExecuteNonQuery();
+        }
+    }
+
+    /// <summary>
+    /// Reduces the amount of space in the query by removing unnecessary whitespace.
+    /// </summary>
+    /// <param name="query">The SQL query to process.</param>
+    /// <returns>The processed SQL query.</returns>
     public static string LessSpaceQuery(string query)
     {
         var regex = new Regex(@"('([^']*)')|([^']+)");
         var matches = regex.Matches(query);
-        List<(string text, bool isInApostrophes)> parts = [];
+        var parts = new List<(string text, bool isInApostrophes)>();
 
         foreach (Match match in matches)
         {
@@ -187,15 +304,18 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     }
 
     /// <summary>
-    /// 
+    /// Prepares the SQL connection and transaction.
     /// </summary>
-    /// <param name="sqlConnection"></param>
-    /// <param name="sqlTransaction"></param>
-    /// <returns></returns>
+    /// <param name="sqlConnection">The SQL connection to use.</param>
+    /// <param name="sqlTransaction">The SQL transaction to use.</param>
+    /// <returns>true if the connection is successfully prepared; otherwise, false.</returns>
     protected bool PrepareConnection(object? sqlConnection, SqlTransaction? sqlTransaction)
     {
-        //if (ReturnIfInDesignerMode && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow))
-        //    return false;
+        var isInDesignMode = false;
+        if (ReturnIfInDesignerMode)
+            Application.Current.Dispatcher.Invoke(() => isInDesignMode = DesignerProperties.GetIsInDesignMode(new DependencyObject()));
+        if (isInDesignMode)
+            return false;
 
         SqlConnection? sqlConn = null;
         switch (sqlConnection)
@@ -239,8 +359,12 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
 
         _sqlConnection = sqlConn;
         _sqlTransaction = sqlTransaction;
-        if (ReturnIfNoDatabase && _sqlConnection == null)
-            return false;
+        if (_sqlConnection == null)
+        {
+            if (ReturnIfNoDatabase)
+                return false;
+            throw new InvalidOperationException("Connection could not be prepared.");
+        }
 
         if (_sqlConnection?.State != ConnectionState.Open)
             _sqlConnection?.Open();
@@ -250,11 +374,10 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     private SqlTransaction? _sqlTransaction;
 
     /// <summary>
-    /// 
+    /// Prepares the SQL command with the specified parameters.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="sqlCommand"></param>
-    /// <param name="sqlParameters"></param>
+    /// <param name="sqlCommand">The SQL command to prepare.</param>
+    /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
     protected void PrepareParameters(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters)
     {
         if (sqlParameters != null)
@@ -268,13 +391,13 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
     }
 
     /// <summary>
-    /// 
+    /// Prepares the SQL command with the specified parameters and properties.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="sqlCommand"></param>
-    /// <param name="sqlParameters"></param>
-    /// <param name="propertyInfos"></param>
-    /// <param name="item"></param>
+    /// <typeparam name="T">The type of the item containing the properties.</typeparam>
+    /// <param name="sqlCommand">The SQL command to prepare.</param>
+    /// <param name="sqlParameters">The SQL parameters to add to the command.</param>
+    /// <param name="propertyInfos">The properties to add as parameters.</param>
+    /// <param name="item">The item containing the properties.</param>
     protected void PrepareParameters<T>(SqlCommand sqlCommand, IEnumerable<SqlParameter>? sqlParameters, IEnumerable<PropertyInfo>? propertyInfos, T? item)
     {
         /// add parameters
@@ -286,10 +409,22 @@ public class StswQuery(string query, StswDatabaseModel? stswDb = null)
             {
                 if (!sqlCommand.Parameters.Contains($"@{prop.Name}"))
                 {
-                    if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
-                        sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)prop.GetValue(item));
+                    var value = prop.GetValue(item);
+                    if (value == null)
+                    {
+                        sqlCommand.Parameters.Add($"@{prop.Name}", prop.PropertyType.InferSqlDbType()!.Value).Value = DBNull.Value;
+                    }
+                    else if (prop.PropertyType.IsListType(out var type) && type?.IsValueType == true)
+                    {
+                        if (type == typeof(byte))
+                            sqlCommand.Parameters.AddWithValue($"@{prop.Name}", (byte[])value);
+                        else
+                            sqlCommand.ParametersAddList($"@{prop.Name}", (IList?)value);
+                    }
                     else
-                        sqlCommand.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(item) ?? DBNull.Value);
+                    {
+                        sqlCommand.Parameters.AddWithValue($"@{prop.Name}", value ?? DBNull.Value);
+                    }
                 }
             }
     }

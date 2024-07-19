@@ -10,9 +10,17 @@ namespace StswExpress;
 /// <remarks>
 /// This extension allows for obtaining the name of a property or field in XAML, typically used for debugging purposes or when working with reflection.
 /// </remarks>
+/// <param name="member">The name of the property or field.</param>
 public class StswNameOfExtension(string? member) : MarkupExtension
 {
+    /// <summary>
+    /// Gets or sets the type that contains the member.
+    /// </summary>
     public Type? Type { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the property or field.
+    /// </summary>
     public string? Member { get; set; } = member;
 
     /// <summary>
@@ -21,11 +29,13 @@ public class StswNameOfExtension(string? member) : MarkupExtension
     /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
     /// <returns>The name of the specified property or field as a string.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="serviceProvider"/> is null.</exception>
-    /// <exception cref="ArgumentException">Thrown when the type is not specified, the member name is empty or contains '.', or no property or field is found with the specified name in the type.</exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the type is not specified, the member name is empty or contains '.', 
+    /// or no property or field is found with the specified name in the type.
+    /// </exception>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        if (serviceProvider == null)
-            throw new ArgumentNullException(nameof(serviceProvider));
+        ArgumentNullException.ThrowIfNull(serviceProvider);
 
         if (Type == null || string.IsNullOrEmpty(Member) || Member.Contains('.'))
             throw new ArgumentException("Syntax for x:NameOf is Type={x:Type [className]} Member=[propertyName]");

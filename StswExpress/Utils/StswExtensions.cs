@@ -535,6 +535,31 @@ public static class StswExtensions
     }
 
     /// <summary>
+    /// Converts a collection of items to a <see cref="DataTable"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
+    /// <param name="data">The collection of items to convert.</param>
+    /// <returns>A <see cref="DataTable"/> containing the data from the collection.</returns>
+    public static DataTable ToDataTable<T>(this IEnumerable<T> data)
+    {
+        var dataTable = new DataTable(typeof(T).Name);
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (var property in properties)
+            dataTable.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
+
+        foreach (var item in data)
+        {
+            var values = new object[properties.Length];
+            for (int i = 0; i < properties.Length; i++)
+                values[i] = properties[i].GetValue(item) ?? DBNull.Value;
+            dataTable.Rows.Add(values);
+        }
+
+        return dataTable;
+    }
+
+    /// <summary>
     /// Converts a <see cref="System.Drawing.Bitmap"/> to an <see cref="ImageSource"/>.
     /// </summary>
     /// <param name="bmp">The bitmap to convert.</param>

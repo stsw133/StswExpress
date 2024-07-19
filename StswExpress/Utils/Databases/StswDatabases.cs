@@ -10,12 +10,12 @@ namespace StswExpress;
 public static class StswDatabases
 {
     /// <summary>
-    /// The dictionary that contains all declared database connections for application.
+    /// The collection that contains all declared database connections for the application.
     /// </summary>
     public static ObservableCollection<StswDatabaseModel> Collection { get; set; } = [];
 
     /// <summary>
-    /// Default instance of database connection (that is currently in use by application). 
+    /// Default instance of the database connection that is currently in use by the application. 
     /// </summary>
     public static StswDatabaseModel? Current { get; set; }
 
@@ -25,7 +25,7 @@ public static class StswDatabases
     public static string FilePath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "databases.stsw");
 
     /// <summary>
-    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="List"/>.
+    /// Reads database connections from a file specified by <see cref="FilePath"/> and saves them in <see cref="Collection"/>.
     /// </summary>
     public static void ImportList()
     {
@@ -48,7 +48,7 @@ public static class StswDatabases
                 {
                     Name = StswSecurity.Decrypt(data[0]),
                     Server = StswSecurity.Decrypt(data[1]),
-                    Port = StswSecurity.Decrypt(data[2]) is string s && !string.IsNullOrEmpty(s) ? Convert.ToInt32(s) : null,
+                    Port = int.TryParse(StswSecurity.Decrypt(data[2]), out var port) ? port : null,
                     Database = StswSecurity.Decrypt(data[3]),
                     Login = StswSecurity.Decrypt(data[4]),
                     Password = StswSecurity.Decrypt(data[5])
@@ -64,13 +64,14 @@ public static class StswDatabases
     {
         using var stream = new StreamWriter(FilePath);
         foreach (var db in Collection)
-            stream.WriteLine(StswSecurity.Encrypt(db.Name)
-                    + "|" + StswSecurity.Encrypt(db.Server)
-                    + "|" + StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty)
-                    + "|" + StswSecurity.Encrypt(db.Database)
-                    + "|" + StswSecurity.Encrypt(db.Login)
-                    + "|" + StswSecurity.Encrypt(db.Password)
-                );
+            stream.WriteLine(string.Join('|', 
+                    StswSecurity.Encrypt(db.Name),
+                    StswSecurity.Encrypt(db.Server),
+                    StswSecurity.Encrypt(db.Port?.ToString() ?? string.Empty),
+                    StswSecurity.Encrypt(db.Database),
+                    StswSecurity.Encrypt(db.Login),
+                    StswSecurity.Encrypt(db.Password)
+                ));
     }
 }
 
@@ -79,7 +80,11 @@ public static class StswDatabases
 /// </summary>
 public class StswDatabaseModel : StswObservableObject
 {
-    /// Name
+    internal SqlTransaction? SqlTransaction;
+
+    /// <summary>
+    /// Gets or sets the name of the database connection.
+    /// </summary>
     public string Name
     {
         get => _name;
@@ -87,7 +92,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _name = string.Empty;
 
-    /// Type
+    /// <summary>
+    /// Gets or sets the type of the database.
+    /// </summary>
     public StswDatabaseType Type
     {
         get => _type;
@@ -95,7 +102,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private StswDatabaseType _type = default;
 
-    /// Server
+    /// <summary>
+    /// Gets or sets the server address of the database.
+    /// </summary>
     public string Server
     {
         get => _server;
@@ -103,7 +112,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _server = string.Empty;
 
-    /// Port
+    /// <summary>
+    /// Gets or sets the port number of the database.
+    /// </summary>
     public int? Port
     {
         get => _port;
@@ -111,7 +122,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private int? _port;
 
-    /// Database
+    /// <summary>
+    /// Gets or sets the database name.
+    /// </summary>
     public string Database
     {
         get => _database;
@@ -119,7 +132,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _database = string.Empty;
 
-    /// Login
+    /// <summary>
+    /// Gets or sets the login name for the database.
+    /// </summary>
     public string Login
     {
         get => _login;
@@ -127,7 +142,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _login = string.Empty;
 
-    /// Password
+    /// <summary>
+    /// Gets or sets the password for the database.
+    /// </summary>
     public string Password
     {
         get => _password;
@@ -135,7 +152,9 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _password = string.Empty;
 
-    /// Version
+    /// <summary>
+    /// Gets or sets the version of the database.
+    /// </summary>
     public string Version
     {
         get => _version;
@@ -143,12 +162,10 @@ public class StswDatabaseModel : StswObservableObject
     }
     private string _version = string.Empty;
 
-    /// Transaction
-    internal SqlTransaction? SqlTransaction;
-
     /// <summary>
-    /// Puts together all the model's properties to create a database connection in the form of a string.
+    /// Constructs the connection string based on the model's properties.
     /// </summary>
+    /// <returns>The database connection string.</returns>
     public string GetConnString() => Type switch
     {
         StswDatabaseType.MSSQL => $"Server={Server}{(Port > 0 ? $",{Port}" : "")};Database={Database};User Id={Login};Password={Password};Application Name={StswFn.AppName()};",
@@ -158,8 +175,9 @@ public class StswDatabaseModel : StswObservableObject
     };
 
     /// <summary>
-    /// 
+    /// Opens a new SQL connection using the connection string.
     /// </summary>
+    /// <returns>An open <see cref="SqlConnection"/>.</returns>
     public SqlConnection OpenedConnection()
     {
         var sqlConn = new SqlConnection(GetConnString());
@@ -168,9 +186,9 @@ public class StswDatabaseModel : StswObservableObject
     }
 
     /// <summary>
-    /// 
+    /// Begins a new SQL transaction.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A <see cref="System.Data.SqlClient.SqlTransaction"/>.</returns>
     public SqlTransaction BeginTransaction()
     {
         if (SqlTransaction != null)
@@ -180,31 +198,31 @@ public class StswDatabaseModel : StswObservableObject
     }
 
     /// <summary>
-    /// 
+    /// Commits the current SQL transaction.
     /// </summary>
-    /// <returns></returns>
     public void CommitTransaction()
     {
         if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
         SqlTransaction.Commit();
+        SqlTransaction = null;
     }
 
     /// <summary>
-    /// 
+    /// Rolls back the current SQL transaction.
     /// </summary>
-    /// <returns></returns>
     public void RollbackTransaction()
     {
         if (SqlTransaction == null)
             throw new Exception("SqlTransaction has already ended.");
         SqlTransaction.Rollback();
+        SqlTransaction = null;
     }
 
     /// <summary>
-    /// Supporting method for creating <see cref="StswQuery"/>.
+    /// Creates a new <see cref="StswQuery"/> using the current database connection.
     /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
+    /// <param name="query">The SQL query string.</param>
+    /// <returns>A new <see cref="StswQuery"/> instance.</returns>
     public StswQuery Query(string query) => new StswQuery(query, this);
 }

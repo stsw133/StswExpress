@@ -51,7 +51,10 @@ internal static class SQL
             order by a.Name").Get<ContractorModel>(parameters);
 
     /// SetContractors
-    internal static void SetContractors(StswBindingList<ContractorModel> list) => new StswQuery("dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), StswInclusionMode.Exclude, [nameof(ContractorModel.IconSource)]);
+    internal static void SetContractors(StswBindingList<ContractorModel> list) => new StswQuery(@"
+            dbo.StswExpressTEST_Contractors").Set(list, nameof(ContractorModel.ID), StswInclusionMode.Exclude,
+            [nameof(ContractorModel.IconSource),
+            nameof(ContractorModel.Address)]);
 
     /// DeleteContractor
     internal static void DeleteContractor(int id) => new StswQuery(@"

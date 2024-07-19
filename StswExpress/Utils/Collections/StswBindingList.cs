@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 
 namespace StswExpress;
-
 /// <summary>
 /// An extension of <see cref="BindingList{T}"/> that adds tracking of changes to the collection items' states.
 /// </summary>
@@ -16,7 +15,7 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     public StswBindingList(IList<T> items) : base(items) => Initialize();
 
     /// <summary>
-    /// 
+    /// Initializes the list by setting up item states.
     /// </summary>
     private void Initialize()
     {
@@ -42,18 +41,18 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
             if (e.PropertyDescriptor?.Name?.In(IgnoredProperties) == true)
                 return;
 
-            if (e.ListChangedType == ListChangedType.ItemAdded)
+            switch (e.ListChangedType)
             {
-                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Added;
-            }
-            else if (e.ListChangedType == ListChangedType.ItemDeleted)
-            {
-                // Item is already removed from the list, so we can't access it via Items[e.NewIndex]
-                // Handle this case in RemoveItem
-            }
-            else if (e.ListChangedType == ListChangedType.ItemChanged)
-            {
-                ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
+                case ListChangedType.ItemAdded:
+                    ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Added;
+                    break;
+                case ListChangedType.ItemDeleted:
+                    // Item is already removed from the list, so we can't access it via Items[e.NewIndex]
+                    // Handle this case in RemoveItem
+                    break;
+                case ListChangedType.ItemChanged:
+                    ItemStates[Items[e.NewIndex]] = Items[e.NewIndex].ItemState = StswItemState.Modified;
+                    break;
             }
         }
         NotifyStateChanges();
@@ -76,10 +75,11 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         base.ClearItems();
         NotifyStateChanges();
     }
-    
+
     /// <summary>
     /// Removes the item at the specified index from the collection and marks it as "Deleted" if it was not previously "Added".
     /// </summary>
+    /// <param name="index">The zero-based index of the item to remove.</param>
     protected override void RemoveItem(int index)
     {
         var item = this[index];
@@ -96,6 +96,8 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// <summary>
     /// Adds the item to the collection and sets its state to the specific one.
     /// </summary>
+    /// <param name="item">The item to add.</param>
+    /// <param name="itemState">The state to set for the item.</param>
     public void Add(T item, StswItemState itemState)
     {
         Add(item);
@@ -104,8 +106,10 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     }
 
     /// <summary>
-    /// Adds the item to the collection and sets its state to the specific one.
+    /// Adds a range of items to the collection and sets their states to the specific one.
     /// </summary>
+    /// <param name="items">The items to add.</param>
+    /// <param name="itemState">The state to set for the items.</param>
     public void AddRange(IEnumerable<T> items, StswItemState? itemState = null)
     {
         foreach (var item in items)
@@ -118,39 +122,51 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     }
 
     /// <summary>
-    /// Adds the item to the collection and sets its state to the specific one.
+    /// Adds a range of items to the collection and sets their states to the specific one.
     /// </summary>
-    public void AddRange(IList<T> items, StswItemState? itemState = null)
-    {
-        foreach (var item in items)
-        {
-            Add(item);
-            if (itemState != null)
-                ItemStates[item] = item.ItemState = itemState.Value;
-        }
-        NotifyStateChanges();
-    }
+    /// <param name="items">The items to add.</param>
+    /// <param name="itemState">The state to set for the items.</param>
+    public void AddRange(IList<T> items, StswItemState? itemState = null) => AddRange(items.AsEnumerable(), itemState);
     #endregion
 
     #region Item state management
     /// <summary>
-    /// 
+    /// Gets or sets the dictionary that maps items to their states.
     /// </summary>
     public Dictionary<T, StswItemState> ItemStates { get; private set; } = [];
 
     /// <summary>
     /// Gets the state of a specific collection item.
     /// </summary>
+    /// <param name="item">The item to get the state of.</param>
+    /// <returns>The state of the item.</returns>
     public StswItemState GetStateOfItem(T item) => ItemStates.TryGetValue(item, out var state) ? state : StswItemState.Unchanged;
 
     /// <summary>
-    /// Gets a list of collection items that match the specified DataRowState.
+    /// Gets a list of collection items that match the specified item state.
     /// </summary>
+    /// <param name="state">The state to filter items by.</param>
+    /// <returns>A list of items that match the specified state.</returns>
     public IEnumerable<T> GetItemsByState(StswItemState state) => ItemStates.Where(x => x.Value == state).Select(x => x.Key);
 
+    /// <summary>
+    /// Gets the count of items in an unchanged state.
+    /// </summary>
     public int Unchanged => GetItemsByState(StswItemState.Unchanged).Count();
+
+    /// <summary>
+    /// Gets the count of items in a modified state.
+    /// </summary>
     public int Modified => GetItemsByState(StswItemState.Modified).Count();
+    
+    /// <summary>
+    /// Gets the count of items in an added state.
+    /// </summary>
     public int Added => GetItemsByState(StswItemState.Added).Count();
+    
+    /// <summary>
+    /// Gets the count of items in a deleted state.
+    /// </summary>
     public int Deleted => GetItemsByState(StswItemState.Deleted).Count();
 
     /// <summary>
@@ -163,12 +179,19 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
         nameof(IStswSelectionItem.IsSelected)
     ];
 
-    /// Notify the view that the ItemStates property has changed
+    /// <summary>
+    /// Occurs when a property value changes.
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
+    
+    /// <summary>
+    /// Raises the <see cref="PropertyChanged"/> event.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
     protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     /// <summary>
-    /// 
+    /// Notifies that the state of the items has changed.
     /// </summary>
     private void NotifyStateChanges()
     {
@@ -185,9 +208,24 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     private ListSortDirection _sortDirection = ListSortDirection.Ascending;
     private PropertyDescriptor? _sortProperty;
 
+    /// <summary>
+    /// Gets a value indicating whether the list supports sorting.
+    /// </summary>
     protected override bool SupportsSortingCore => true;
+    
+    /// <summary>
+    /// Gets a value indicating whether the list is currently sorted.
+    /// </summary>
     protected override bool IsSortedCore => _isSorted;
+    
+    /// <summary>
+    /// Gets the direction of the sort.
+    /// </summary>
     protected override ListSortDirection SortDirectionCore => _sortDirection;
+    
+    /// <summary>
+    /// Gets the property descriptor used for sorting.
+    /// </summary>
     protected override PropertyDescriptor? SortPropertyCore => _sortProperty;
 
     /// <summary>
@@ -223,6 +261,8 @@ public class StswBindingList<T> : BindingList<T>, INotifyPropertyChanged where T
     /// Provides a custom comparer for sorting elements based on a specified property.
     /// </summary>
     /// <typeparam name="T2">The type of elements to compare.</typeparam>
+    /// <param name="property">The property descriptor to sort by.</param>
+    /// <param name="direction">The direction of the sort.</param>
     private class PropertyComparer<T2>(PropertyDescriptor property, ListSortDirection direction) : IComparer<T2>
     {
         private readonly PropertyDescriptor _property = property;
