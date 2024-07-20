@@ -9,7 +9,6 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace StswExpress;
-
 /// <summary>
 /// Custom implementation of a dictionary that is designed to raise events when its contents are modified, allowing for better integration with data binding.
 /// </summary>

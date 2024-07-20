@@ -5,50 +5,71 @@ using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace StswExpress;
-
 /// <summary>
-/// Takes a color value as input and changes its saturation based on the provided parameters:<br/>
-/// <br/>
-/// Use nothing or '<c>%</c>' at the end of converter parameter to increase saturation of output color.<br/>
-/// Use value in parameter between 0% and 100% to set saturation of output color.<br/>
-/// EXAMPLES:  '8%'  '13%'  '18%'  '25%'
+/// Takes a color value as input and changes its saturation based on the provided parameters:
+/// Use nothing or '%' at the end of the converter parameter to increase the saturation of the output color.
+/// Use a value in the parameter between 0% and 100% to set the saturation of the output color.
+/// Examples: '8%', '13%', '18%', '25%'
 /// </summary>
 public class StswColorSaturationConverter : MarkupExtension, IValueConverter
 {
-    private static StswColorSaturationConverter? instance;
+    /// <summary>
+    /// Gets the singleton instance of the converter.
+    /// </summary>
     public static StswColorSaturationConverter Instance => instance ??= new StswColorSaturationConverter();
+    private static StswColorSaturationConverter? instance;
+
+    /// <summary>
+    /// Provides the singleton instance of the converter.
+    /// </summary>
+    /// <param name="serviceProvider">A service provider that can provide services for the markup extension.</param>
+    /// <returns>The singleton instance of the converter.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider) => Instance;
 
-    /// Convert
-    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    /// <summary>
+    /// Converts a color value to a color with adjusted saturation based on the converter parameter.
+    /// </summary>
+    /// <param name="value">The input color value.</param>
+    /// <param name="targetType">The type of the binding target property.</param>
+    /// <param name="parameter">The converter parameter to use for adjusting saturation.</param>
+    /// <param name="culture">The culture to use in the converter.</param>
+    /// <returns>The color with adjusted saturation.</returns>
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var pmr = parameter?.ToString() ?? string.Empty;
-        Color color;
+        var color = StswColorConverter.GetColorFromValue(value);
 
         /// parameters
         pmr = pmr.TrimEnd('%');
 
-        /// value as color and parameter as number
-        if (value is Color c)
-            color = c;
-        else if (value is System.Drawing.Color d)
-            color = Color.FromArgb(d.A, d.R, d.G, d.B);
-        else if (value is SolidColorBrush br)
-            color = br.ToColor();
-        else try
-            {
-                color = (Color)ColorConverter.ConvertFromString(value?.ToString() ?? "Transparent");
-            }
-            catch
-            {
-                return value;
-            }
-
+        /// func
         if (!double.TryParse(pmr, NumberStyles.Number, culture, out var pmrVal))
             pmrVal = 100;
         pmrVal = 100 - pmrVal;
 
-        /// calculate new color
+        color = AdjustSaturation(color, pmrVal);
+
+        return StswColorConverter.GetResultFromColor(color, targetType);
+    }
+
+    /// <summary>
+    /// This converter does not support converting back from target value to source value.
+    /// </summary>
+    /// <param name="value">The value produced by the binding target.</param>
+    /// <param name="targetType">The type to convert to.</param>
+    /// <param name="parameter">The converter parameter to use.</param>
+    /// <param name="culture">The culture to use in the converter.</param>
+    /// <returns><see cref="Binding.DoNothing"/> as the converter does not support converting back.</returns>
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+
+    /// <summary>
+    /// Adjusts the saturation of a <see cref="Color"/> based on the given parameter.
+    /// </summary>
+    /// <param name="color">The original color.</param>
+    /// <param name="pmrVal">The saturation adjustment value.</param>
+    /// <returns>The color with adjusted saturation.</returns>
+    private static Color AdjustSaturation(Color color, double pmrVal)
+    {
         double r = color.R, g = color.G, b = color.B;
         double avg = (r + g + b) / 3;
 
@@ -56,19 +77,6 @@ public class StswColorSaturationConverter : MarkupExtension, IValueConverter
         g = color.G - (color.G - avg) * pmrVal / 100;
         b = color.B - (color.B - avg) * pmrVal / 100;
 
-        color = Color.FromArgb(color.A, (byte)r, (byte)g, (byte)b);
-
-        /// result
-        if (targetType == typeof(Color))
-            return color;
-        else if (targetType == typeof(System.Drawing.Color))
-            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-        else if (targetType.In(typeof(Brush), typeof(SolidColorBrush)))
-            return new SolidColorBrush(color);
-        else
-            return color.ToHtml();
+        return Color.FromArgb(color.A, (byte)Math.Round(r), (byte)Math.Round(g), (byte)Math.Round(b));
     }
-
-    /// ConvertBack
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }

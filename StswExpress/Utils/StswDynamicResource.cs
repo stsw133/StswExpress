@@ -6,7 +6,6 @@ using System.Windows;
 using System.Threading;
 
 namespace StswExpress;
-
 /// <summary>
 /// Provides a way to dynamically bind to resources in XAML with support for value conversion and formatting.
 /// </summary>

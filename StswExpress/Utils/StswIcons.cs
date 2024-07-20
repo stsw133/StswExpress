@@ -1,7 +1,6 @@
 ﻿using System.Windows.Media;
 
 namespace StswExpress;
-
 /// <summary>
 /// Represents vector graphics icons. Each icon has a Geometry property that holds the vector path data for the icon.
 /// </summary>

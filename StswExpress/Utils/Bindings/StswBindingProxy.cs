@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 
 namespace StswExpress;
-
 /// <summary>
 /// Allows creating a proxy object for data binding purposes.
 /// </summary>

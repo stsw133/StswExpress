@@ -4,6 +4,9 @@ using System;
 using System.Collections;
 
 namespace StswExpress;
+/// <summary>
+/// Provides utility methods for deep cloning objects including copying properties and fields using reflection.
+/// </summary>
 internal static class StswClone
 {
     /// <summary>

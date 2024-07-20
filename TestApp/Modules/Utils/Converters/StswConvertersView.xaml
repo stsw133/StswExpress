@@ -283,21 +283,6 @@
                     <se:StswHeader Content="Numeric converters" FontSize="14" FontWeight="Bold"/>
                 </se:StswExpander.Header>
                 <StackPanel>
-                    <!-- Add -->
-                    <se:StswHeader Content="StswAddConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Adds a numerical value to another numerical value or a set of values."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Add]}"/>
-                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Add]}"/>
-                        <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                           Value="{se:StswBindableParameter Values[Add], Mode=TwoWay, Converter={x:Static se:StswAddConverter.Instance}, ConverterParameter={Binding Parameters[Add]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     <!-- Calculate -->
                     <se:StswHeader Content="StswCalculateConverter" FontSize="16" FontWeight="Bold"/>
                     <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
@@ -311,36 +296,6 @@
                         <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
                         <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
                                            Value="{se:StswBindableParameter Values[Calculate], Mode=TwoWay, Converter={x:Static se:StswCalculateConverter.Instance}, ConverterParameter={Binding Parameters[Calculate]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- Modulo -->
-                    <se:StswHeader Content="StswModuloConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Modulo a numerical value to another numerical value or a set of values."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Modulo]}"/>
-                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Modulo]}"/>
-                        <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                           Value="{se:StswBindableParameter Values[Modulo], Mode=TwoWay, Converter={x:Static se:StswModuloConverter.Instance}, ConverterParameter={Binding Parameters[Modulo]}}"/>
-                    </se:StswGrid>
-                    <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
-                    <!-- Multiply -->
-                    <se:StswHeader Content="StswMultiplyConverter" FontSize="16" FontWeight="Bold"/>
-                    <se:StswText FontSize="10" Margin="5 0 5 5" TextWrapping="Wrap">
-                        <Run Text="Multiplies a numerical value to another numerical value or a set of values."/>
-                    </se:StswText>
-                    <se:StswGrid AutoLayoutMode="AutoDefinitions" ColumnWidths="{se:StswMakeList *}">
-                        <se:StswHeader Grid.Column="0" Grid.Row="0" Content="Input value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="0" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Values[Multiply]}"/>
-                        <se:StswHeader Grid.Column="1" Grid.Row="0" Content="Input parameter:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="1" Grid.Row="1" Margin="5 0 5 5" Value="{Binding Parameters[Multiply]}"/>
-                        <se:StswHeader Grid.Column="3" Grid.Row="0" Content="Output value:" Margin="5 5 5 0"/>
-                        <se:StswDecimalBox Grid.Column="3" Grid.Row="1" Margin="5 0 5 5" IsReadOnly="True"
-                                           Value="{se:StswBindableParameter Values[Multiply], Mode=TwoWay, Converter={x:Static se:StswMultiplyConverter.Instance}, ConverterParameter={Binding Parameters[Multiply]}}"/>
                     </se:StswGrid>
                     <se:StswSeparator BorderThickness="1" Margin="-5 10"/>
                     <!-- Sum -->

@@ -20,7 +20,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace StswExpress;
-
 /// <summary>
 /// Utility class providing various helper functions for general use.
 /// </summary>
@@ -710,7 +709,7 @@ public static partial class StswFn
             yield break;
         }
 
-        var lines = input.Split(['\n'], StringSplitOptions.None);
+        var lines = input.Split(new[] { '\n' }, StringSplitOptions.None);
         var index = 0;
 
         while (index < lines.Length)

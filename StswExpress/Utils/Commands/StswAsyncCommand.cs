@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace StswExpress;
-
 /// <summary>
 /// An async command implementation (with parameter) that can be used to bind to UI controls asynchronously with Task in order to execute a given action when triggered.
 /// </summary>

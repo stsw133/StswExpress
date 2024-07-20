@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 
 namespace StswExpress;
-
 /// <summary>
 /// Provides a method for exporting data to various file formats.
 /// </summary>

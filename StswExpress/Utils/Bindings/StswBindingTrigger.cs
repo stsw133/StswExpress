@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Data;
 
 namespace StswExpress;
-
 /// <summary>
 /// Allows creating a trigger object for data binding purposes.
 /// </summary>

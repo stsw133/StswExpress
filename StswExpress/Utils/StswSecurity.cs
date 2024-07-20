@@ -7,7 +7,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace StswExpress;
-
 /// <summary>
 /// Provides methods for encryption and decryption of text as well as hashing and secure string conversions.
 /// </summary>
